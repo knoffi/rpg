@@ -60,8 +60,8 @@ export class NameScene extends React.Component<{}, TextState> {
     });
     return (
       <View>
-        <View style={fitButtonStyle.container}>{fitButtons}</View>
         <View style={textRerollStyle.container}>
+          {fitButtons}
           {this.renderTavernText(this.state.adjective, this.state.substantive)}
           {this.renderRerollButton()}
         </View>
@@ -123,6 +123,7 @@ export class NameScene extends React.Component<{}, TextState> {
     return (
       <FitButton
         title={fitName}
+        key={fitName}
         clickHandler={() => {
           this.updateFits(fitName);
         }}
