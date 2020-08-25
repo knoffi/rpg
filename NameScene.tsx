@@ -3,8 +3,9 @@ import React from "react";
 import { Button, StyleSheet, View } from "react-native";
 import "react-native-gesture-handler";
 import { association, getMisfitsOf } from "./Adjectives";
-import { adjectives, substantives } from "./descriptions";
+import { adjectives, substantives } from "./examples/nouns";
 import { FitButton } from "./FitButton";
+import { getFittingRandom } from "./getFittingRandom";
 import { TavernText } from "./TavernText";
 
 enum buttonStyle {
@@ -96,26 +97,22 @@ export class NameScene extends React.Component<{}, TextState> {
     this.setState({ substantive: this.getSubstantiveName() });
   }
   private getAdjectiveName() {
-    let test = adjectives[Math.floor(Math.random() * adjectives.length)];
-    while (
-      !test.isFit(this.state.fits, this.state.misfits, 0, 0) ||
-      test.name === this.state.previousPair.previousAdj ||
-      test.name === this.state.adjective
-    ) {
-      test = adjectives[Math.floor(Math.random() * adjectives.length)];
-    }
-    return test.name;
+    return getFittingRandom(
+      adjectives,
+      this.state.fits,
+      this.state.misfits,
+      this.state.adjective,
+      this.state.previousPair.previousAdj
+    ).name;
   }
   private getSubstantiveName() {
-    let test = substantives[Math.floor(Math.random() * substantives.length)];
-    while (
-      !test.isFit(this.state.fits, this.state.misfits, 0, 0) ||
-      test.name === this.state.previousPair.previousSub ||
-      test.name === this.state.substantive
-    ) {
-      test = substantives[Math.floor(Math.random() * substantives.length)];
-    }
-    return test.name;
+    return getFittingRandom(
+      substantives,
+      this.state.fits,
+      this.state.misfits,
+      this.state.substantive,
+      this.state.previousPair.previousSub
+    ).name;
   }
   private renderFitButton(fitName: association) {
     let index = this.findFitButtonIndex(fitName);
