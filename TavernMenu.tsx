@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Text, View } from "react-native";
 import { association } from "./Adjectives";
 import { drinkExamples } from "./drinks";
@@ -14,6 +14,8 @@ const drinkMenuCategories = [
   drinkCategory.spirit,
 ];
 
+//TODO Refactor: Offer is included in TavernProduct, thus Offer is not needed
+
 interface Offer {
   product: TavernProduct;
   price: number;
@@ -22,18 +24,33 @@ interface Offer {
 export const TavernMenuText = ({ navigation, route }: any) => {
   const { fits } = route.params;
   const { misfits } = route.params;
+  const [offers, setOffers] = useState(getDrinkOffers(fits, misfits));
 
-  const drinkMenu = getDrinkOffers(fits, misfits).map((offer) => {
-    <Text>
-      {offer.product.name}: {offer.price.toString()} copper.
-    </Text>;
+  const drinkMenu = offers.map((offer) => {
+    return (
+      //TODO Does this reroll work?
+      <Text>
+        <Button
+          title="REROLL"
+          onPress={() => {
+            setOffers(
+              offersWithOneReroll(offer.product.name, offers, fits, misfits)
+            );
+          }}
+        ></Button>
+        {offer.product.name}: {offer.price.toString()} copper.{"\n"}{" "}
+      </Text>
+    );
   });
 
   return (
     <View>
-      <Text>We serve the following drinks.</Text>
-
-      {drinkMenu}
+      <Text>
+        <Text>
+          We serve the following drinks. {"\n"} {"\n"}
+        </Text>
+        {drinkMenu}
+      </Text>
       <Button
         title="Tavern Name"
         onPress={() => {
@@ -47,13 +64,44 @@ export const TavernMenuText = ({ navigation, route }: any) => {
 const getDrinkOffers = (fits: association[], misfits: association[]) => {
   let drinkOffers = [] as Offer[];
   drinkMenuCategories.forEach((category) => {
-    const namesOnMenu = drinkOffers.map((offer) => {
-      return offer.product.name;
-    });
-    const newOffer = getRandomDrinkOffer(category, fits, misfits, namesOnMenu);
+    const newOffer = getRandomDrinkOffer(
+      category,
+      fits,
+      misfits,
+      offeredNames(drinkOffers)
+    );
     drinkOffers.push(newOffer);
   });
   return drinkOffers;
+};
+
+const offersWithOneReroll = (
+  name: string,
+  offers: Offer[],
+  fits: association[],
+  misfits: association[]
+) => {
+  //TODO: assuming that offer and drinkMenuCategories have corresponding entries
+  const category =
+    drinkMenuCategories[
+      offers.findIndex((offer) => {
+        return offer.product.name === name;
+      })
+    ];
+  const newOffers = offers.map((offer) => {
+    if (offer.product.name !== name) {
+      return offer;
+    } else {
+      return getRandomDrinkOffer(category, fits, misfits, offeredNames(offers));
+    }
+  });
+  return newOffers;
+};
+
+const offeredNames = (offers: Offer[]) => {
+  return offers.map((offer) => {
+    return offer.product.name;
+  });
 };
 
 const getRandomDrinkOffer = (
