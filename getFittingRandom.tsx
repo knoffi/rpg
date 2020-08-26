@@ -21,10 +21,12 @@ export const getFittingRandom = (
   ) {
     test = choices[Math.floor(Math.random() * choices.length)];
     infiniteLoopSave++;
-    if (infiniteLoopSave > 10 * choices.length) {
+    if (
+      infiniteLoopSave > 10 * choices.length &&
+      !excludedNames.includes(test.name)
+    ) {
       // console.log here for possible endless loop
-      console.log("Schwierig, etwas passend zu finden...");
-      console.log(10 * choices.length);
+
       return test;
     }
   }

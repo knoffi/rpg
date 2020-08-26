@@ -192,7 +192,7 @@ export const beers = [
     beerEnum
   ),
   new TavernProduct(
-    "Jurassical Marshmallow",
+    "Jurassic Marshmallow",
     14,
     [a.gnome, a.city, a.adventurer],
     beerEnum

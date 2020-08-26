@@ -29,9 +29,10 @@ export const TavernMenuText = ({ navigation, route }: any) => {
   const drinkMenu = offers.map((offer) => {
     return (
       //TODO Does this reroll work?
-      <Text>
+      <Text key={offer.product.name + "text"}>
         <Button
           title="REROLL"
+          key={offer.product.name}
           onPress={() => {
             setOffers(
               offersWithOneReroll(offer.product.name, offers, fits, misfits)
@@ -47,7 +48,7 @@ export const TavernMenuText = ({ navigation, route }: any) => {
     <View>
       <Text>
         <Text>
-          We serve the following drinks. {"\n"} {"\n"}
+          We serve the following drinks. {"\n"} {"\n"}{" "}
         </Text>
         {drinkMenu}
       </Text>
@@ -81,7 +82,7 @@ const offersWithOneReroll = (
   fits: association[],
   misfits: association[]
 ) => {
-  //TODO: assuming that offer and drinkMenuCategories have corresponding entries
+  //TODO: test whether offer and drinkMenuCategories have corresponding entries
   const category =
     drinkMenuCategories[
       offers.findIndex((offer) => {
