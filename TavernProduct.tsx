@@ -8,7 +8,7 @@ interface productDescription {
   effect: string;
 }
 
-export enum drink {
+export enum drinkCategory {
   water = "water",
   coffee = "coffee",
   tea = "tea",
@@ -22,7 +22,7 @@ export enum drink {
   cocktail = "cocktail",
 }
 // so that a tavern does not only
-export enum dish {
+export enum foodCategory {
   breakfast = "breakfast",
   appetizer = "appetizer",
   soup = "soup",
@@ -53,14 +53,14 @@ export class TavernProduct {
   //TODO: make prices also for DSA and other famous Pen&Paper
   public copperPrice!: number;
   private associations!: association[];
-  private productCategroy!: drink | dish;
+  private productCategroy!: drinkCategory | foodCategory;
   private description?: productDescription;
 
   constructor(
     name: string,
     price: number,
     associations: association[],
-    productCategory: drink | dish,
+    productCategory: drinkCategory | foodCategory,
     description?: productDescription
   ) {
     this.name = name;

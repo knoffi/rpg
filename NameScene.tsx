@@ -3,31 +3,17 @@ import React from "react";
 import { Button, StyleSheet, View } from "react-native";
 import "react-native-gesture-handler";
 import { association, getMisfitsOf } from "./Adjectives";
+import {
+  buttonStatus,
+  buttonStyle,
+  getStatuses,
+  toggleButtonStatusBG,
+} from "./buttonStatusCode";
 import { adjectives, substantives } from "./examples/nouns";
 import { FitButton } from "./FitButton";
 import { getFittingRandom } from "./getFittingRandom";
 import { TavernText } from "./TavernText";
 
-enum buttonStyle {
-  used = "#54cf3c",
-  notUsed = "#f24545",
-}
-
-const toggleButtonStatusBG = (buttonStatus: {
-  name: string;
-  background: buttonStyle;
-}) => {
-  if (buttonStatus.background === buttonStyle.used) {
-    buttonStatus.background = buttonStyle.notUsed;
-  } else {
-    buttonStatus.background = buttonStyle.used;
-  }
-};
-
-interface buttonStatus {
-  name: association;
-  background: buttonStyle;
-}
 interface TextState {
   fits: association[];
   misfits: association[];
@@ -36,11 +22,7 @@ interface TextState {
   buttonStatuses: buttonStatus[];
   previousPair: { previousAdj: string; previousSub: string };
 }
-const getStatuses = () => {
-  return Object.values(association).map((entry) => {
-    return { name: entry, background: buttonStyle.notUsed };
-  });
-};
+
 export class NameScene extends React.Component<{}, TextState> {
   constructor(props: any) {
     super(props);
@@ -52,7 +34,6 @@ export class NameScene extends React.Component<{}, TextState> {
       buttonStatuses: getStatuses(),
       previousPair: { previousAdj: "", previousSub: "" },
     };
-    console.log(this.state.buttonStatuses.length);
   }
 
   public render() {
@@ -67,7 +48,10 @@ export class NameScene extends React.Component<{}, TextState> {
           {this.renderRerollButton()}
         </View>
         <View>
-          <SceneButton></SceneButton>
+          <SceneButton
+            fits={this.state.fits}
+            misfits={this.state.misfits}
+          ></SceneButton>
         </View>
       </View>
     );
@@ -97,22 +81,16 @@ export class NameScene extends React.Component<{}, TextState> {
     this.setState({ substantive: this.getSubstantiveName() });
   }
   private getAdjectiveName() {
-    return getFittingRandom(
-      adjectives,
-      this.state.fits,
-      this.state.misfits,
+    return getFittingRandom(adjectives, this.state.fits, this.state.misfits, [
       this.state.adjective,
-      this.state.previousPair.previousAdj
-    ).name;
+      this.state.previousPair.previousAdj,
+    ]).name;
   }
   private getSubstantiveName() {
-    return getFittingRandom(
-      substantives,
-      this.state.fits,
-      this.state.misfits,
+    return getFittingRandom(substantives, this.state.fits, this.state.misfits, [
       this.state.substantive,
-      this.state.previousPair.previousSub
-    ).name;
+      this.state.previousPair.previousSub,
+    ]).name;
   }
   private renderFitButton(fitName: association) {
     let index = this.findFitButtonIndex(fitName);
@@ -137,9 +115,9 @@ export class NameScene extends React.Component<{}, TextState> {
         return entry;
       }
     });
-    Promise.all(newStatuses).then(() => {
-      this.setState({ buttonStatuses: newStatuses });
-    });
+
+    this.setState({ buttonStatuses: newStatuses });
+
     let newFits: association[];
     newFits = [];
     this.state.buttonStatuses.forEach((entry) => {
@@ -197,11 +175,18 @@ const textRerollStyle = StyleSheet.create({
 });
 const SceneButton = (props: any) => {
   const navigation = useNavigation();
+  console.log({
+    fits: props.fits,
+    misfits: props.misfits,
+  });
   return (
     <Button
       title="Tavern Menu"
       onPress={() => {
-        navigation.navigate("TavernMenu");
+        navigation.navigate("TavernMenu", {
+          fits: props.fits,
+          misfits: props.misfits,
+        });
       }}
     ></Button>
   );

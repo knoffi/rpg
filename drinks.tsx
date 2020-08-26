@@ -2,19 +2,19 @@ import { association } from "./Adjectives";
 import { beers } from "./examples/beer";
 import { spirits } from "./examples/spirits";
 import { wines } from "./examples/wines";
-import { drink, TavernProduct } from "./TavernProduct";
+import { drinkCategory, TavernProduct } from "./TavernProduct";
 
 const a = association;
 
 interface drinkExample {
-  category: drink;
+  category: drinkCategory;
   examples: TavernProduct[];
 }
 
 export let drinkExamples: drinkExample[];
 
 drinkExamples = [
-  { category: drink.beer, examples: beers },
-  { category: drink.wine, examples: wines },
-  { category: drink.spirit, examples: spirits },
+  { category: drinkCategory.beer, examples: beers },
+  { category: drinkCategory.wine, examples: wines },
+  { category: drinkCategory.spirit, examples: spirits },
 ];
