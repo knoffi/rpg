@@ -28,30 +28,34 @@ export const TavernMenuText = ({ navigation, route }: any) => {
 
   const drinkMenu = offers.map((offer) => {
     return (
-      //TODO Does this reroll work?
-      <Text key={offer.product.name + "text"}>
+      <View key={offer.product.name + "view"}>
+        <Text key={offer.product.name + "text"}>
+          {offer.product.name}: {offer.price.toString()} copper.{"\n"}
+        </Text>
         <Button
           title="REROLL"
           key={offer.product.name}
           onPress={() => {
-            setOffers(
-              offersWithOneReroll(offer.product.name, offers, fits, misfits)
+            const newOffer = offersWithOneReroll(
+              offer.product.name,
+              offers,
+              fits,
+              misfits
             );
+            setOffers(newOffer);
           }}
         ></Button>
-        {offer.product.name}: {offer.price.toString()} copper.{"\n"}{" "}
-      </Text>
+      </View>
     );
   });
 
   return (
     <View>
       <Text>
-        <Text>
-          We serve the following drinks. {"\n"} {"\n"}{" "}
-        </Text>
-        {drinkMenu}
+        We serve the following drinks.{"\n"}
+        {"\n"}{" "}
       </Text>
+      {drinkMenu}
       <Button
         title="Tavern Name"
         onPress={() => {
@@ -61,7 +65,7 @@ export const TavernMenuText = ({ navigation, route }: any) => {
     </View>
   );
 };
-
+//TODO: test whether offer and drinkMenuCategories have corresponding entries
 const getDrinkOffers = (fits: association[], misfits: association[]) => {
   let drinkOffers = [] as Offer[];
   drinkMenuCategories.forEach((category) => {
@@ -82,7 +86,6 @@ const offersWithOneReroll = (
   fits: association[],
   misfits: association[]
 ) => {
-  //TODO: test whether offer and drinkMenuCategories have corresponding entries
   const category =
     drinkMenuCategories[
       offers.findIndex((offer) => {
@@ -104,7 +107,7 @@ const offeredNames = (offers: Offer[]) => {
     return offer.product.name;
   });
 };
-
+//drinks have a wider range, therefore social misfits are more important than landscape misfits
 const getRandomDrinkOffer = (
   category: drinkCategory,
   fits: association[],
@@ -114,7 +117,6 @@ const getRandomDrinkOffer = (
   const examples = drinkExamples.find((example) => {
     return example.category === category;
   })!.examples;
-  //drinks have a wider range, therefore social misfits are more important than landscape misfits
   const drink = getFittingRandom(
     examples,
     fits,
