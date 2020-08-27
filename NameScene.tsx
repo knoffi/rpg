@@ -12,7 +12,7 @@ import {
 import { adjectives, substantives } from "./examples/nouns";
 import { FitButton } from "./FitButton";
 import { getFittingRandom } from "./getFittingRandom";
-import { TavernText } from "./TavernText";
+import { NameText } from "./NameText";
 
 interface TextState {
   fits: association[];
@@ -37,13 +37,24 @@ export class NameScene extends React.Component<{}, TextState> {
   }
 
   public render() {
-    const fitButtons = Object.values(association).map((associationName) => {
-      return this.renderFitButton(associationName);
+    const fitButtonNames = Object.values(association);
+    let fitButtonViews = [] as any[];
+    fitButtonNames.forEach((name) => {
+      const index = fitButtonNames.indexOf(name);
+      if ((1 + index) % 3 == 0) {
+        fitButtonViews.push(
+          <View style={styles.fitButtonContainer} key={name + "View"}>
+            {this.renderFitButton(fitButtonNames[index - 2])}
+            {this.renderFitButton(fitButtonNames[index - 1])}
+            {this.renderFitButton(fitButtonNames[index])}
+          </View>
+        );
+      }
     });
     return (
-      <View>
-        <View style={textRerollStyle.container}>
-          {fitButtons}
+      <View style={styles.backgroundContainer}>
+        {fitButtonViews}
+        <View>
           {this.renderTavernText(this.state.adjective, this.state.substantive)}
           {this.renderRerollButton()}
         </View>
@@ -96,14 +107,16 @@ export class NameScene extends React.Component<{}, TextState> {
     let index = this.findFitButtonIndex(fitName);
 
     return (
-      <FitButton
-        title={fitName}
-        key={fitName}
-        clickHandler={() => {
-          this.updateFits(fitName);
-        }}
-        color={this.state.buttonStatuses[index].background}
-      />
+      <View style={styles.button} key={fitName + "view"}>
+        <FitButton
+          title={fitName}
+          key={fitName}
+          clickHandler={() => {
+            this.updateFits(fitName);
+          }}
+          color={this.state.buttonStatuses[index].background}
+        />
+      </View>
     );
   }
   private updateFits(fitName: string) {
@@ -137,7 +150,7 @@ export class NameScene extends React.Component<{}, TextState> {
   }
 
   private renderTavernText(adjName: string, subName: string) {
-    return <TavernText adj={adjName} sub={subName} />;
+    return <NameText adj={adjName} sub={subName} />;
   }
 
   private findFitButtonIndex(fitName: string) {
@@ -153,24 +166,23 @@ export class NameScene extends React.Component<{}, TextState> {
   }
 }
 
-const fitButtonStyle = StyleSheet.create({
-  container: {
+const styles = StyleSheet.create({
+  backgroundContainer: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-    flexDirection: "row",
-    flexWrap: "wrap",
+    flexDirection: "column",
+    margin: 10,
+    justifyContent: "space-between",
   },
-});
-const textRerollStyle = StyleSheet.create({
-  container: {
+  fitButtonContainer: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
     flexDirection: "row",
-    flexWrap: "wrap",
+    margin: 10,
+    justifyContent: "space-between",
+  },
+  button: {
+    backgroundColor: "#fff",
+    width: "30%",
+    height: 40,
   },
 });
 const SceneButton = (props: any) => {

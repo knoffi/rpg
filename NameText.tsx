@@ -1,6 +1,6 @@
 import React from "react";
 import { Text } from "react-native";
-export const TavernText = (props: any) => {
+export const NameText = (props: any) => {
   return (
     <Text>
       Welcome to my tavern: The {props.adj} {props.sub}!

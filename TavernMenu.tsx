@@ -6,6 +6,7 @@ import { getFittingRandom } from "./getFittingRandom";
 import { drinkCategory, TavernProduct } from "./TavernProduct";
 
 const drinkMenuCategories = [
+  drinkCategory.lemonade,
   drinkCategory.beer,
   drinkCategory.beer,
   drinkCategory.beer,
@@ -123,18 +124,61 @@ const getRandomDrinkOffer = (
     misfits,
     excludedDrinkNames
   ) as TavernProduct;
-  const copperPrice = drink.getCopperPrice(tavernScalePrice.normalNormal);
+  const copperPrice = drink.getCopperPrice(
+    getTavernScalePrice(drink, fits, misfits)
+  );
   return { product: drink, price: copperPrice };
 };
 
 export enum tavernScalePrice {
-  cheapEasy = -5,
-  cheapNormal = -4,
-  cheapHard = -3,
+  cheapEasy = -4,
+  cheapNormal = -3,
+  cheapHard = -2,
   normalEasy = -1,
   normalNormal = 0,
   normalHard = 1,
-  expensiveEasy = 3,
-  expensiveNormal = 4,
-  expensivehard = 5,
+  expensiveEasy = 2,
+  expensiveNormal = 3,
+  expensiveHard = 4,
 }
+
+const getTavernScalePrice = (
+  drink: TavernProduct,
+  fits: association[],
+  misfits: association[]
+) => {
+  const fitsHit = drink.getNumberOfHits(fits);
+  const misfitsHit = drink.getNumberOfHits(misfits);
+  let overAllFit: number;
+  // [-1,1] -> [-1.49 , 1.49] -> [-0.99 , 1.99] -> {-1,0,1}
+  if (fitsHit + misfitsHit === 0) {
+    overAllFit = 0;
+  } else {
+    overAllFit = Math.floor(
+      (((fitsHit - misfitsHit) / (fitsHit + misfitsHit)) * 2.9) / 2 + 0.5
+    );
+  }
+  let overAllPriceClass: number;
+  //TODO make the conditions easier when in future poor && rich is impossible
+  if (
+    (fits.includes(association.poor) && fits.includes(association.rich)) ||
+    fits.includes(association.worker) ||
+    (!fits.includes(association.poor) &&
+      !fits.includes(association.rich) &&
+      !fits.includes(association.worker))
+  ) {
+    overAllPriceClass = 4;
+  } else {
+    if (fits.includes(association.rich)) {
+      overAllPriceClass = 7;
+    } else {
+      overAllPriceClass = 1;
+    }
+  }
+  const numbersOfScalePrices = Object.values(tavernScalePrice).filter(
+    (entry) => {
+      return typeof entry === "number";
+    }
+  );
+  return numbersOfScalePrices[overAllPriceClass - overAllFit];
+};

@@ -1,5 +1,4 @@
 import { association } from "./Adjectives";
-import { tavernScalePrice } from "./TavernMenu";
 
 interface productDescription {
   taste: string;
@@ -71,6 +70,12 @@ export class TavernProduct {
     }
   }
 
+  public getNumberOfHits(associationChecklist: association[]) {
+    return associationChecklist.filter((association) => {
+      return this.associations.includes(association);
+    }).length;
+  }
+
   public isFit(
     fits: association[],
     misfits: association[],
@@ -91,7 +96,7 @@ export class TavernProduct {
     });
     return countFits >= fitsBound && countMisfits <= misfitsBound;
   }
-  public getCopperPrice = (factor: tavernScalePrice) => {
-    return Math.fround(this.copperPrice * (1 + factor / 10));
+  public getCopperPrice = (factor: any) => {
+    return Math.round(this.copperPrice * (1 + factor / 10));
   };
 }

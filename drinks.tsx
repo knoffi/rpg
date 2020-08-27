@@ -1,10 +1,8 @@
-import { association } from "./Adjectives";
 import { beers } from "./examples/beer";
+import { lemonades } from "./examples/lemonades";
 import { spirits } from "./examples/spirits";
 import { wines } from "./examples/wines";
 import { drinkCategory, TavernProduct } from "./TavernProduct";
-
-const a = association;
 
 interface drinkExample {
   category: drinkCategory;
@@ -17,4 +15,5 @@ drinkExamples = [
   { category: drinkCategory.beer, examples: beers },
   { category: drinkCategory.wine, examples: wines },
   { category: drinkCategory.spirit, examples: spirits },
+  { category: drinkCategory.lemonade, examples: lemonades },
 ];
