@@ -1,4 +1,4 @@
-import { association } from "./Adjectives";
+import { association } from "../classes/Adjectives";
 export enum buttonStyle {
   used = "#54cf3c",
   notUsed = "#f24545",

@@ -2,17 +2,17 @@ import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { Button, StyleSheet, View } from "react-native";
 import "react-native-gesture-handler";
-import { association, getMisfitsOf } from "./Adjectives";
+import { association, getMisfitsOf } from "../classes/Adjectives";
+import { FitButton } from "../components/FitButton";
+import { NameText } from "../components/NameText";
+import { adjectives, substantives } from "../examples/nouns";
 import {
   buttonStatus,
   buttonStyle,
   getStatuses,
   toggleButtonStatusBG,
-} from "./buttonStatusCode";
-import { adjectives, substantives } from "./examples/nouns";
-import { FitButton } from "./FitButton";
-import { getFittingRandom } from "./getFittingRandom";
-import { NameText } from "./NameText";
+} from "../helpingFunctions/buttonStatusCode";
+import { getFittingRandom } from "../helpingFunctions/getFittingRandom";
 
 interface TextState {
   fits: association[];
@@ -43,7 +43,7 @@ export class NameScene extends React.Component<{}, TextState> {
       const index = fitButtonNames.indexOf(name);
       if ((1 + index) % 3 == 0) {
         fitButtonViews.push(
-          <View style={styles.fitButtonContainer} key={name + "View"}>
+          <View style={nameSceneStyles.fitButtonContainer} key={name + "View"}>
             {this.renderFitButton(fitButtonNames[index - 2])}
             {this.renderFitButton(fitButtonNames[index - 1])}
             {this.renderFitButton(fitButtonNames[index])}
@@ -52,7 +52,7 @@ export class NameScene extends React.Component<{}, TextState> {
       }
     });
     return (
-      <View style={styles.backgroundContainer}>
+      <View style={nameSceneStyles.backgroundContainer}>
         {fitButtonViews}
         <View>
           {this.renderTavernText(this.state.adjective, this.state.substantive)}
@@ -107,7 +107,7 @@ export class NameScene extends React.Component<{}, TextState> {
     let index = this.findFitButtonIndex(fitName);
 
     return (
-      <View style={styles.button} key={fitName + "view"}>
+      <View style={nameSceneStyles.button} key={fitName + "view"}>
         <FitButton
           title={fitName}
           key={fitName}
@@ -166,7 +166,7 @@ export class NameScene extends React.Component<{}, TextState> {
   }
 }
 
-const styles = StyleSheet.create({
+const nameSceneStyles = StyleSheet.create({
   backgroundContainer: {
     flex: 1,
     flexDirection: "column",
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: "#fff",
-    width: "30%",
+    width: "31%",
     height: 40,
   },
 });
@@ -195,7 +195,7 @@ const SceneButton = (props: any) => {
     <Button
       title="Tavern Menu"
       onPress={() => {
-        navigation.navigate("TavernMenu", {
+        navigation.navigate("MenuScene", {
           fits: props.fits,
           misfits: props.misfits,
         });
