@@ -2,8 +2,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
 import "react-native-gesture-handler";
-import { NameScene } from "./NameScene";
-import { TavernMenuText } from "./TavernMenu";
+import { MenuScene } from "./scenes/MenuScene";
+import { NameScene } from "./scenes/NameScene";
 
 const Stack = createStackNavigator();
 
@@ -12,7 +12,7 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="NameScene" component={NameScene} />
-        <Stack.Screen name="TavernMenu" component={TavernMenuText} />
+        <Stack.Screen name="MenuScene" component={MenuScene} />
       </Stack.Navigator>
     </NavigationContainer>
   );

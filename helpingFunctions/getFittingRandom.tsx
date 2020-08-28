@@ -1,6 +1,6 @@
-import { Adjective, association } from "./Adjectives";
-import { Substantive } from "./Substantive";
-import { TavernProduct } from "./TavernProduct";
+import { Adjective, association } from "../classes/Adjectives";
+import { Substantive } from "../classes/Substantive";
+import { TavernProduct } from "../classes/TavernProduct";
 
 const choiceParams = { fit: 1, misfit: 0 };
 

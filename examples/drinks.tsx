@@ -1,8 +1,8 @@
-import { beers } from "./examples/beer";
-import { lemonades } from "./examples/lemonades";
-import { spirits } from "./examples/spirits";
-import { wines } from "./examples/wines";
-import { drinkCategory, TavernProduct } from "./TavernProduct";
+import { drinkCategory, TavernProduct } from "../classes/TavernProduct";
+import { beers } from "./beer";
+import { lemonades } from "./lemonades";
+import { spirits } from "./spirits";
+import { wines } from "./wines";
 
 interface drinkExample {
   category: drinkCategory;
