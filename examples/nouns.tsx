@@ -1,5 +1,5 @@
-import { Adjective, association } from "./Adjectives";
-import { Substantive } from "./Substantive";
+import { Adjective, association } from "../Adjectives";
+import { Substantive } from "../Substantive";
 
 export const adjectives = [
   new Adjective("Golden", [association.bard, association.rich]),
