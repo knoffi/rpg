@@ -1,11 +1,25 @@
 import { association } from "./Adjectives";
+
+export enum substantiveCategory {
+  animal = "animal/monster",
+  plant = "plant",
+  job = "job",
+  solid = "solid object",
+  person = "person",
+}
 export class Substantive {
   associations: association[];
   name: string;
+  category: substantiveCategory;
   //optional: Übergeordnete Gruppe, (z.B. Tier, Gegenstand, Beruf etc.)
-  constructor(name: string, associations: association[]) {
+  constructor(
+    name: string,
+    associations: association[],
+    category: substantiveCategory
+  ) {
     this.associations = associations;
     this.name = name;
+    this.category = category;
   }
   public isFit(
     pros: string[],

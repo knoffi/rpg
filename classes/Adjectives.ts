@@ -1,3 +1,5 @@
+import { substantiveCategory } from "./Substantive";
+
 export enum association {
   rich = "rich",
   poor = "poor",
@@ -43,11 +45,17 @@ export const getMisfitsOf = (fit: association) => {
   return misfits;
 };
 export class Adjective {
+  public name: string;
+  public badWords: substantiveCategory[];
   associations: association[];
-  name: string;
-  constructor(name: string, associations: association[]) {
+  constructor(
+    name: string,
+    associations: association[],
+    badWords: substantiveCategory[]
+  ) {
     this.associations = associations;
     this.name = name;
+    this.badWords = badWords;
   }
   public isFit(
     pros: string[],
@@ -70,5 +78,9 @@ export class Adjective {
       return true;
     }
     return false;
+  }
+
+  public isPossibleNoun(category: substantiveCategory) {
+    return !this.badWords.includes(category);
   }
 }

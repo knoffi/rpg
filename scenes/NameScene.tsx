@@ -2,7 +2,8 @@ import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { Button, StyleSheet, View } from "react-native";
 import "react-native-gesture-handler";
-import { association, getMisfitsOf } from "../classes/Adjectives";
+import { Adjective, association, getMisfitsOf } from "../classes/Adjectives";
+import { Substantive, substantiveCategory } from "../classes/Substantive";
 import { FitButton } from "../components/FitButton";
 import { NameText } from "../components/NameText";
 import { adjectives, substantives } from "../examples/nouns";
@@ -18,6 +19,7 @@ interface TextState {
   fits: association[];
   misfits: association[];
   adjective: string;
+  invalidSubstantives: substantiveCategory[];
   substantive: string;
   buttonStatuses: buttonStatus[];
   previousPair: { previousAdj: string; previousSub: string };
@@ -30,6 +32,7 @@ export class NameScene extends React.Component<{}, TextState> {
       fits: [],
       misfits: [],
       adjective: "Golden",
+      invalidSubstantives: [],
       substantive: "Bear",
       buttonStatuses: getStatuses(),
       previousPair: { previousAdj: "", previousSub: "" },
@@ -86,22 +89,34 @@ export class NameScene extends React.Component<{}, TextState> {
     );
   }
   private rerollAdjective() {
-    this.setState({ adjective: this.getAdjectiveName() });
+    const newAdjective = this.getAdjective();
+    this.setState({ adjective: newAdjective.name });
+    this.setState({ invalidSubstantives: newAdjective.badWords });
   }
   private rerollSubstantive() {
-    this.setState({ substantive: this.getSubstantiveName() });
+    this.setState({
+      substantive: this.getSubstantiveName(this.state.invalidSubstantives),
+    });
   }
-  private getAdjectiveName() {
+  private getAdjective() {
     return getFittingRandom(adjectives, this.state.fits, this.state.misfits, [
       this.state.adjective,
       this.state.previousPair.previousAdj,
-    ]).name;
+    ]) as Adjective;
   }
-  private getSubstantiveName() {
-    return getFittingRandom(substantives, this.state.fits, this.state.misfits, [
-      this.state.substantive,
-      this.state.previousPair.previousSub,
-    ]).name;
+  private getSubstantiveName(invalids: substantiveCategory[]) {
+    let validSubstantives = [] as Substantive[];
+    substantives.forEach((chapter) => {
+      if (!invalids.includes(chapter.category)) {
+        validSubstantives = validSubstantives.concat(chapter.substantives);
+      }
+    });
+    return getFittingRandom(
+      validSubstantives,
+      this.state.fits,
+      this.state.misfits,
+      [this.state.substantive, this.state.previousPair.previousSub]
+    ).name;
   }
   private renderFitButton(fitName: association) {
     let index = this.findFitButtonIndex(fitName);
