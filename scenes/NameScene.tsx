@@ -80,22 +80,24 @@ export class NameScene extends React.Component<{}, TextState> {
             previousAdj: this.state.adjective,
             previousSub: this.state.substantive,
           };
-          this.rerollAdjective();
-          this.rerollSubstantive();
+          const invalids = this.rerollAdjectiveGetInvalids();
+          this.rerollSubstantive(invalids);
           this.setState({ previousPair: newPreviousPair });
         }}
         color="#a26832"
       />
     );
   }
-  private rerollAdjective() {
+  private rerollAdjectiveGetInvalids() {
     const newAdjective = this.getAdjective();
     this.setState({ adjective: newAdjective.name });
     this.setState({ invalidSubstantives: newAdjective.badWords });
+    console.log(newAdjective.badWords);
+    return newAdjective.badWords;
   }
-  private rerollSubstantive() {
+  private rerollSubstantive(invalids: substantiveCategory[]) {
     this.setState({
-      substantive: this.getSubstantiveName(this.state.invalidSubstantives),
+      substantive: this.getSubstantiveName(invalids),
     });
   }
   private getAdjective() {
@@ -105,18 +107,22 @@ export class NameScene extends React.Component<{}, TextState> {
     ]) as Adjective;
   }
   private getSubstantiveName(invalids: substantiveCategory[]) {
+    console.log(invalids);
     let validSubstantives = [] as Substantive[];
     substantives.forEach((chapter) => {
       if (!invalids.includes(chapter.category)) {
         validSubstantives = validSubstantives.concat(chapter.substantives);
       }
     });
-    return getFittingRandom(
+    const result = getFittingRandom(
       validSubstantives,
       this.state.fits,
       this.state.misfits,
       [this.state.substantive, this.state.previousPair.previousSub]
-    ).name;
+    ) as Substantive;
+    if (result.category === substantiveCategory.solid) {
+    }
+    return result.name;
   }
   private renderFitButton(fitName: association) {
     let index = this.findFitButtonIndex(fitName);
@@ -202,10 +208,6 @@ const nameSceneStyles = StyleSheet.create({
 });
 const SceneButton = (props: any) => {
   const navigation = useNavigation();
-  console.log({
-    fits: props.fits,
-    misfits: props.misfits,
-  });
   return (
     <Button
       title="Tavern Menu"

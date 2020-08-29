@@ -32,7 +32,7 @@ export const solidObjects = [
   new Substantive("Net", [a.haven, a.poor], s.solid),
   new Substantive("Cutlass", [a.haven, a.criminal], s.solid),
   new Substantive("Trident", [a.haven, a.sophisticated], s.solid),
-  new Substantive("Sextant", [a.haven, a.sophisticated], s.solid),
+  new Substantive("Sextant", [a.haven, a.sophisticated, a.adventurer], s.solid),
   new Substantive("Anker", [a.haven, a.worker], s.solid),
   new Substantive("Steering Wheel", [a.haven, a.worker], s.solid),
   new Substantive("Cannon", [a.haven], s.solid),

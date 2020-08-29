@@ -10,7 +10,7 @@ export enum substantiveCategory {
 export class Substantive {
   associations: association[];
   name: string;
-  category: substantiveCategory;
+  public category: substantiveCategory;
   //optional: Übergeordnete Gruppe, (z.B. Tier, Gegenstand, Beruf etc.)
   constructor(
     name: string,
