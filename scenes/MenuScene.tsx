@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
 import { drinkCategory, TavernProduct } from "../classes/TavernProduct";
+import { beers } from "../examples/beer";
+import { lemonades } from "../examples/lemonades";
+import { spirits } from "../examples/spirits";
+import { wines } from "../examples/wines";
+import { checkDataDistribution } from "../helpingFunctions/checkDataDistribution";
 import {
   getDrinkOffers,
   offersWithOneReroll,
@@ -39,6 +44,10 @@ const menuStyle = StyleSheet.create({
 });
 
 export const MenuScene = ({ navigation, route }: any) => {
+  checkDataDistribution(spirits, "spirits");
+  checkDataDistribution(beers, "beer");
+  checkDataDistribution(wines, "wine");
+  checkDataDistribution(lemonades, "lemonade");
   const { fits } = route.params;
   const { misfits } = route.params;
   const [offers, setOffers] = useState(getDrinkOffers(fits, misfits));

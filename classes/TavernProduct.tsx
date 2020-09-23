@@ -49,7 +49,7 @@ export class TavernProduct {
   //price in copper for easier translation into gold,silver, etc.
   //TODO: make prices also for DSA and other famous Pen&Paper
   public copperPrice!: number;
-  private associations!: association[];
+  public associations!: association[];
   private productCategroy!: drinkCategory | foodCategory;
   private description?: productDescription;
 

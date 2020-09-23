@@ -62,5 +62,22 @@ export const animals = [
     s.animal
   ),
   new Substantive("Centaur", [a.adventurer, a.wizard, a.barbarian], s.animal),
+  new Substantive("Fiend", [a.tiefling, a.evil], s.animal),
+  new Substantive("Devil", [a.tiefling, a.criminal, a.evil], s.animal),
+  new Substantive("Monkey", [a.druid, a.tropical], s.animal),
+  new Substantive(
+    "Beast",
+    [a.adventurer, a.wizard, a.barbarian, a.druid],
+    s.animal
+  ),
   new Substantive("Ogre", [a.adventurer, a.barbarian, a.village], s.animal),
+  new Substantive("Thigh", [a.prostitute], s.animal),
+  new Substantive("Legs", [a.prostitute], s.animal),
+  new Substantive("Bust", [a.prostitute], s.animal),
+  new Substantive("Hole", [a.prostitute], s.animal),
+  new Substantive("Wood", [a.prostitute], s.animal),
+  new Substantive("Shaft", [a.prostitute], s.animal),
+  new Substantive("Prick", [a.prostitute], s.animal),
+  new Substantive("Slit", [a.prostitute], s.animal),
+  new Substantive("Beaver", [a.prostitute], s.animal),
 ];

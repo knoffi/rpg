@@ -41,12 +41,12 @@ export const getTavernScalePrice = (
       overAllPriceClass = 1;
     }
   }
-  const numbersOfScalePrices = Object.values(tavernScalePrice).filter(
+  const valuesOfScalePrices = Object.values(tavernScalePrice).filter(
     (entry) => {
       return typeof entry === "number";
     }
   );
-  return numbersOfScalePrices[overAllPriceClass - overAllFit];
+  return valuesOfScalePrices[overAllPriceClass - overAllFit];
 };
 
 export const offersWithOneReroll = (

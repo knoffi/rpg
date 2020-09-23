@@ -4,7 +4,7 @@ import { TavernProduct } from "../classes/TavernProduct";
 
 const choiceParams = { fit: 1, misfit: 0 };
 
-type category = Adjective | Substantive | TavernProduct;
+export type category = Adjective | Substantive | TavernProduct;
 
 export const getFittingRandom = (
   choices: category[],

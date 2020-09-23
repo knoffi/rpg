@@ -36,6 +36,9 @@ export const adjectives = [
   new Adjective("Rotting", [a.criminal, a.poor], empty),
   new Adjective("Wooden", [a.criminal, a.poor, a.forest], empty),
   new Adjective("Not Trustworthy", [a.criminal, a.poor], empty),
+  new Adjective("Dubious", [a.criminal, a.poor], empty),
+  new Adjective("Frivolous", [a.criminal, a.poor], empty),
+  new Adjective("Backhanded", [a.criminal, a.poor], empty),
   new Adjective("Cockeyed", [a.criminal, a.poor], [s.solid]),
   new Adjective("Squint-eyed", [a.criminal, a.poor], [s.solid]),
   new Adjective("Happy", [], empty),
@@ -70,6 +73,84 @@ export const adjectives = [
   new Adjective("Seducing", [a.prostitute, a.worker], [s.solid]),
   new Adjective("Enticing", [a.prostitute, a.sophisticated], [s.solid]),
   new Adjective("Alluring", [a.prostitute, a.sophisticated, a.rich], [s.solid]),
+  new Adjective("Raging", [a.barbarian], [s.solid]),
+  new Adjective("Furious", [a.barbarian], [s.solid]),
+  new Adjective("Angry", [a.barbarian, a.poor], [s.solid]),
+  new Adjective("Savage", [a.barbarian], [s.solid]),
+  new Adjective("Infuriated", [a.barbarian], [s.solid]),
+  new Adjective("Irated", [a.barbarian], [s.solid]),
+  new Adjective("Ferocious", [a.barbarian], [s.solid]),
+  new Adjective("Enraged", [a.barbarian], [s.solid]),
+  new Adjective("Rabid", [a.barbarian], [s.solid]),
+  new Adjective("Vigorous", [a.barbarian], [s.solid]),
+  new Adjective("Fierce", [a.barbarian], [s.solid]),
+  new Adjective("Grim", [a.barbarian, a.tiefling, a.evil, a.drow], [s.solid]),
+  new Adjective("Wrathful", [a.barbarian, a.drow], [s.solid]),
+  new Adjective("Nonchalant", [a.sophisticated, a.city, a.bard], [s.solid]),
+  new Adjective("Dapper", [a.elf, a.sophisticated, a.rich, a.bard], [s.solid]),
+  new Adjective(
+    "Legendary",
+    [a.adventurer, a.wizard, a.cleric, a.bard],
+    [s.person]
+  ),
+  new Adjective(
+    "Mysterious",
+    [a.adventurer, a.wizard, a.cleric, a.bard],
+    [s.solid]
+  ),
+  new Adjective(
+    "Mythical",
+    [a.adventurer, a.wizard, a.cleric, a.bard],
+    [s.job, s.person, s.plant]
+  ),
+  new Adjective(
+    "Mystical",
+    [a.adventurer, a.wizard, a.cleric, a.bard],
+    [s.job, s.person]
+  ),
+  new Adjective(
+    "Secret",
+    [a.adventurer, a.drow, a.tiefling, a.evil, a.bard],
+    [s.job, s.person, s.plant]
+  ),
+  new Adjective(
+    "Breathtaking",
+    [a.adventurer, a.gnome, a.bard],
+    [s.job, s.person, s.plant, s.animal]
+  ),
+  new Adjective(
+    "Wondrous",
+    [a.adventurer, a.gnome, a.bard],
+    [s.job, s.person, s.animal]
+  ),
+  new Adjective(
+    "Miraculous",
+    [a.adventurer, a.gnome, a.bard],
+    [s.job, s.person, s.plant, s.animal]
+  ),
+  new Adjective(
+    "Fantastic",
+    [a.adventurer, a.gnome, a.bard],
+    [s.job, s.person, s.plant, s.animal]
+  ),
+  new Adjective("Bizarre", [a.adventurer, a.gnome, a.bard], []),
+  new Adjective("Cursed", [a.tiefling, a.evil], []),
+  new Adjective("Horned", [a.tiefling], [s.solid]),
+  new Adjective("Macabre", [a.tiefling, a.drow], [s.solid, s.plant]),
+  new Adjective("Morbid", [a.tiefling, a.drow, a.evil], [s.solid, s.plant]),
+  new Adjective("Infernal", [a.tiefling, a.evil], []),
+  new Adjective("Hellish", [a.tiefling, a.evil], []),
+  new Adjective("Fiery", [a.tiefling, a.evil], []),
+  new Adjective("Shady", [a.tiefling, a.evil, a.criminal, a.drow], []),
+  new Adjective("Shifty", [a.tiefling, a.evil, a.criminal, a.drow], []),
+  new Adjective("Unsavory", [a.tiefling, a.evil, a.criminal, a.drow], []),
+  new Adjective("Flaming", [a.tiefling, a.evil, a.barbarian], []),
+  new Adjective("Seedy", [a.tiefling, a.evil, a.criminal, a.drow], []),
+  new Adjective("Dark", [a.tiefling, a.evil, a.criminal, a.drow], []),
+  new Adjective("Sinister", [a.tiefling, a.evil, a.criminal, a.drow], []),
+  new Adjective("Gloomy", [a.tiefling, a.evil, a.criminal, a.drow], []),
+  new Adjective("Venomous", [a.tropical, a.criminal, a.drow], []),
+  new Adjective("Poisonous", [a.tropical, a.evil, a.criminal, a.drow], []),
 ];
 
 export const substantives = [

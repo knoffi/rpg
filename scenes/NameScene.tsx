@@ -6,13 +6,17 @@ import { Adjective, association, getMisfitsOf } from "../classes/Adjectives";
 import { Substantive, substantiveCategory } from "../classes/Substantive";
 import { FitButton } from "../components/FitButton";
 import { NameText } from "../components/NameText";
+import { animals } from "../examples/animals";
+import { jobs } from "../examples/jobs";
 import { adjectives, substantives } from "../examples/nouns";
+import { solidObjects } from "../examples/solidObjects";
 import {
   buttonStatus,
   buttonStyle,
   getStatuses,
   toggleButtonStatusBG,
 } from "../helpingFunctions/buttonStatusCode";
+import { checkDataDistribution } from "../helpingFunctions/checkDataDistribution";
 import { getFittingRandom } from "../helpingFunctions/getFittingRandom";
 
 interface TextState {
@@ -40,6 +44,10 @@ export class NameScene extends React.Component<{}, TextState> {
   }
 
   public render() {
+    checkDataDistribution(adjectives, "adjective");
+    checkDataDistribution(solidObjects, "solid Objects");
+    checkDataDistribution(animals, "animals&monsters");
+    checkDataDistribution(jobs, "jobs");
     const fitButtonNames = Object.values(association);
     let fitButtonViews = [] as any[];
     fitButtonNames.forEach((name) => {

@@ -19,7 +19,7 @@ export enum association {
   gnome = "gnome",
   tiefling = "tiefling",
   drow = "drow",
-  dragonborn = "mercenary",
+  dragonborn = "soldier",
   human = "human",
   underdark = "underdark",
   forest = "forest",
