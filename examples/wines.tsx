@@ -182,37 +182,37 @@ export const wines = [
     wineEnum
   ),
   new TavernProduct(
-    "1 Year old Cavaebleu",
+    "1 Year Old Cavaebleu",
     7,
     [a.poor, a.prostitute, a.criminal, a.city],
     wineEnum
   ),
   new TavernProduct(
-    "2 Year old Cavaebleu",
+    "2 Year Old Cavaebleu",
     9,
     [a.poor, a.prostitute, a.criminal, a.city],
     wineEnum
   ),
   new TavernProduct(
-    "4 Year old Cavaebleu",
+    "4 Year Old Cavaebleu",
     11,
     [a.poor, a.prostitute, a.criminal, a.city],
     wineEnum
   ),
   new TavernProduct(
-    "6 Year old Pugnavini",
+    "6 Year Old Pugnavini",
     21,
     [a.criminal, a.prostitute, a.haven, a.city],
     wineEnum
   ),
   new TavernProduct(
-    "10 Year old Pugnavini",
+    "10 Year Old Pugnavini",
     35,
     [a.criminal, a.prostitute, a.haven, a.city],
     wineEnum
   ),
   new TavernProduct(
-    "12 Year old Pugnavini",
+    "12 Year Old Pugnavini",
     40,
     [a.criminal, a.prostitute, a.haven, a.city],
     wineEnum

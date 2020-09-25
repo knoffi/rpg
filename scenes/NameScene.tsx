@@ -10,6 +10,7 @@ import { animals } from "../examples/animals";
 import { jobs } from "../examples/jobs";
 import { adjectives, substantives } from "../examples/nouns";
 import { solidObjects } from "../examples/solidObjects";
+import { specialTavernNames } from "../examples/specialTavernNames";
 import {
   buttonStatus,
   buttonStyle,
@@ -84,17 +85,46 @@ export class NameScene extends React.Component<{}, TextState> {
       <FitButton
         title={"Reroll"}
         clickHandler={() => {
-          const newPreviousPair = {
-            previousAdj: this.state.adjective,
-            previousSub: this.state.substantive,
-          };
-          const invalids = this.rerollAdjectiveGetInvalids();
-          this.rerollSubstantive(invalids);
-          this.setState({ previousPair: newPreviousPair });
+          const randomNumber = Math.random();
+          if (randomNumber < 0.9 || this.state.fits.length === 0) {
+            const newPreviousPair = {
+              previousAdj: this.state.adjective,
+              previousSub: this.state.substantive,
+            };
+            const invalids = this.rerollAdjectiveGetInvalids();
+            this.rerollSubstantive(invalids);
+            this.setState({ previousPair: newPreviousPair });
+          } else {
+            const specialName = this.getSpecialNames(this.state.fits);
+            this.setState({
+              adjective: this.getPairFromSpecialNames(specialName).adjective,
+            });
+            this.setState({
+              substantive: this.getPairFromSpecialNames(specialName)
+                .substantive,
+            });
+          }
         }}
         color="#a26832"
       />
     );
+  }
+  getSpecialNames(fits: association[]) {
+    if (fits.length === 0) {
+      return this.getAdjective().name.concat(
+        " ".concat(this.getSubstantiveName([]))
+      );
+    }
+    const randomFit = getRandomArrayEntry(this.state.fits);
+    const specialNames = specialTavernNames.filter((entry) => {
+      return entry.association === randomFit;
+    });
+    if (specialNames.length === 0) {
+      console.log(
+        "specialNames ist leer! Das sollte abr nicht passieren! this.sate.fits ist nämlich nicht leer!"
+      );
+    }
+    return getRandomArrayEntry(specialNames[0].names);
   }
   private rerollAdjectiveGetInvalids() {
     const newAdjective = this.getAdjective();
@@ -147,6 +177,12 @@ export class NameScene extends React.Component<{}, TextState> {
         />
       </View>
     );
+  }
+  private getPairFromSpecialNames(specialName: string) {
+    const breakIndex = specialName.indexOf(" ");
+    const adjective = specialName.slice(0, breakIndex);
+    const substantive = specialName.slice(breakIndex + 1);
+    return { substantive: substantive, adjective: adjective };
   }
   private updateFits(fitName: string) {
     const newStatuses = this.state.buttonStatuses.map((entry) => {
@@ -227,4 +263,11 @@ const SceneButton = (props: any) => {
       }}
     ></Button>
   );
+};
+const getRandomArrayEntry = (array: any[]) => {
+  const randomIndex = Math.floor(Math.random() * array.length);
+  if (randomIndex === array.length) {
+    return array[0];
+  }
+  return array[randomIndex];
 };
