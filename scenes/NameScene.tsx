@@ -2,7 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { Button, StyleSheet, View } from "react-native";
 import "react-native-gesture-handler";
-import { Adjective, association, getMisfitsOf } from "../classes/Adjectives";
+import { Adjective, association, getMisfits } from "../classes/Adjectives";
 import { Substantive, substantiveCategory } from "../classes/Substantive";
 import { FitButton } from "../components/FitButton";
 import { NameText } from "../components/NameText";
@@ -145,7 +145,6 @@ export class NameScene extends React.Component<{}, TextState> {
     ]) as Adjective;
   }
   private getSubstantiveName(invalids: substantiveCategory[]) {
-    console.log(invalids);
     let validSubstantives = [] as Substantive[];
     substantives.forEach((chapter) => {
       if (!invalids.includes(chapter.category)) {
@@ -205,12 +204,14 @@ export class NameScene extends React.Component<{}, TextState> {
     });
     this.setState({ fits: newFits });
     let newMisfits: association[];
-    newMisfits = [];
-    newFits.forEach((entry) => {
-      getMisfitsOf(entry).forEach((misfit) => {
-        newMisfits.push(misfit);
-      });
-    });
+    newMisfits = getMisfits(newFits);
+    console.log(newFits);
+    console.log(newMisfits);
+    //newFits.forEach((entry) => {
+    // getMisfitsOf(entry).forEach((misfit) => {
+    //  newMisfits.push(misfit);
+    //});
+    //});
     this.setState({ misfits: newMisfits });
   }
 

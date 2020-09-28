@@ -158,7 +158,7 @@ export const lemonades = [
   ),
   new TavernProduct(
     "Pinecone Beverage",
-    89,
+    15,
     [a.druid, a.forest, a.village],
     drinkCategory.lemonade
   ),
