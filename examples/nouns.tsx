@@ -8,6 +8,7 @@ const a = association;
 const s = substantiveCategory;
 
 const empty = [] as substantiveCategory[];
+
 export const adjectives = [
   new Adjective("Platinum", [a.dwarf, a.rich, a.nobel], empty),
   new Adjective("Ivory", [a.elf, a.rich, a.nobel], empty),
@@ -159,6 +160,7 @@ export const adjectives = [
   new Adjective("Venomous", [a.tropical, a.criminal, a.drow], []),
   new Adjective("Poisonous", [a.tropical, a.evil, a.criminal, a.drow], []),
 ];
+
 
 export const substantives = [
   { category: s.animal, substantives: animals },
