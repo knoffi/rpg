@@ -71,4 +71,13 @@ export class Adjective {
   public isPossibleNoun(category: substantiveCategory) {
     return !this.badWords.includes(category);
   }
+  public intersectingAssociation(associations: association[]) {
+    let count = 0;
+    associations.forEach((association) => {
+      if (this.associations.includes(association)) {
+        count += 1;
+      }
+    });
+    return count;
+  }
 }

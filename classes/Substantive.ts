@@ -43,4 +43,13 @@ export class Substantive {
     }
     return false;
   }
+  public intersectingAssociation(associations: association[]) {
+    let count = 0;
+    associations.forEach((association) => {
+      if (this.associations.includes(association)) {
+        count += 1;
+      }
+    });
+    return count;
+  }
 }

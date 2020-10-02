@@ -14,7 +14,10 @@ import {
   getStatuses,
   toggleButtonStatusBG,
 } from "../helpingFunctions/buttonStatusCode";
-import { getFittingRandom } from "../helpingFunctions/getFittingRandom";
+import {
+  getFittingRandom,
+  getRandomArrayEntry,
+} from "../helpingFunctions/getFittingRandom";
 import { misfitMode } from "../helpingFunctions/misfitMode";
 import { getMisfits } from "../helpingFunctions/misFitsHandlers";
 
@@ -292,11 +295,4 @@ const SceneButton = (props: any) => {
       }}
     ></Button>
   );
-};
-const getRandomArrayEntry = (array: any[]) => {
-  const randomIndex = Math.floor(Math.random() * array.length);
-  if (randomIndex === array.length) {
-    return array[0];
-  }
-  return array[randomIndex];
 };

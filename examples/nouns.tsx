@@ -2,6 +2,7 @@ import { Adjective, association } from "../classes/Adjectives";
 import { substantiveCategory } from "../classes/Substantive";
 import { animals } from "./animals";
 import { jobs } from "./jobs";
+import { plants } from "./plants";
 import { solidObjects } from "./solidObjects";
 
 const a = association;
@@ -103,17 +104,17 @@ export const adjectives = [
   ),
   new Adjective(
     "Mysterious",
-    [a.adventurer, a.wizard, a.cleric, a.bard],
+    [a.adventurer, a.wizard, a.cleric, a.bard, a.desert],
     [s.solid]
   ),
   new Adjective(
     "Mythical",
-    [a.adventurer, a.wizard, a.cleric, a.bard],
+    [a.adventurer, a.wizard, a.cleric, a.bard, a.desert],
     [s.job, s.person, s.plant]
   ),
   new Adjective(
     "Mystical",
-    [a.adventurer, a.wizard, a.cleric, a.bard],
+    [a.adventurer, a.wizard, a.cleric, a.bard, a.desert],
     [s.job, s.person]
   ),
   new Adjective(
@@ -142,7 +143,7 @@ export const adjectives = [
     [s.job, s.person, s.plant, s.animal]
   ),
   new Adjective("Bizarre", [a.adventurer, a.gnome, a.bard], []),
-  new Adjective("Cursed", [a.tiefling, a.evil], []),
+  new Adjective("Cursed", [a.tiefling, a.evil, a.desert], []),
   new Adjective("Horned", [a.tiefling], [s.solid]),
   new Adjective("Macabre", [a.tiefling, a.drow], [s.solid, s.plant]),
   new Adjective("Morbid", [a.tiefling, a.drow, a.evil], [s.solid, s.plant]),
@@ -159,11 +160,15 @@ export const adjectives = [
   new Adjective("Gloomy", [a.tiefling, a.evil, a.criminal, a.drow], []),
   new Adjective("Venomous", [a.tropical, a.criminal, a.drow], []),
   new Adjective("Poisonous", [a.tropical, a.evil, a.criminal, a.drow], []),
+  new Adjective("Sweaty", [a.desert, a.poor], [s.plant, s.solid]),
+  new Adjective("Cashmere", [a.desert, a.rich], [s.person, s.job, s.animal]),
+  new Adjective("Melting", [a.tropical, a.desert, a.rich], [s.plant, s.solid]),
+  new Adjective("Dried Out", [a.desert], [s.solid]),
 ];
-
 
 export const substantives = [
   { category: s.animal, substantives: animals },
   { category: s.solid, substantives: solidObjects },
   { category: s.job, substantives: jobs },
+  { category: s.plant, substantives: plants },
 ];

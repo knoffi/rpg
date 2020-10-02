@@ -80,4 +80,9 @@ export const animals = [
   new Substantive("Prick", [a.prostitute], s.animal),
   new Substantive("Slit", [a.prostitute], s.animal),
   new Substantive("Beaver", [a.prostitute], s.animal),
+  new Substantive("Camel", [a.prostitute, a.worker], s.animal),
+  new Substantive("Vulture", [a.prostitute], s.animal),
+  new Substantive("Gecko", [a.prostitute], s.animal),
+  new Substantive("Scorpion", [a.prostitute], s.animal),
+  new Substantive("Dromedary", [a.prostitute, a.sophisticated], s.animal),
 ];
