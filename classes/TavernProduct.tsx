@@ -49,7 +49,7 @@ export class TavernProduct {
   //price in copper for easier translation into gold,silver, etc.
   //TODO: make prices also for DSA and other famous Pen&Paper
   public copperPrice!: number;
-  private associations!: association[];
+  public associations!: association[];
   private productCategroy!: drinkCategory | foodCategory;
   private description?: productDescription;
 
@@ -97,4 +97,13 @@ export class TavernProduct {
   public getCopperPrice = (factor: any) => {
     return Math.round(this.copperPrice * (1 + factor / 10));
   };
+  public intersectingAssociation(associations: association[]) {
+    let count = 0;
+    associations.forEach((association) => {
+      if (this.associations.includes(association)) {
+        count += 1;
+      }
+    });
+    return count;
+  }
 }

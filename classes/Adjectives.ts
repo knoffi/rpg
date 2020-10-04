@@ -1,3 +1,5 @@
+import { substantiveCategory } from "./Substantive";
+
 export enum association {
   rich = "rich",
   poor = "poor",
@@ -17,7 +19,7 @@ export enum association {
   gnome = "gnome",
   tiefling = "tiefling",
   drow = "drow",
-  dragonborn = "mercenary",
+  dragonborn = "soldier",
   human = "human",
   underdark = "underdark",
   forest = "forest",
@@ -30,24 +32,18 @@ export enum association {
   sophisticated = "academic",
   evil = "evil",
 }
-
-export const getMisfitsOf = (fit: association) => {
-  let misfits: association[];
-  misfits = [];
-  if (fit === "poor") {
-    misfits.push(association.rich);
-  }
-  if (fit === "rich") {
-    misfits.push(association.poor);
-  }
-  return misfits;
-};
 export class Adjective {
+  public name: string;
+  public badWords: substantiveCategory[];
   associations: association[];
-  name: string;
-  constructor(name: string, associations: association[]) {
+  constructor(
+    name: string,
+    associations: association[],
+    badWords: substantiveCategory[]
+  ) {
     this.associations = associations;
     this.name = name;
+    this.badWords = badWords;
   }
   public isFit(
     pros: string[],
@@ -70,5 +66,18 @@ export class Adjective {
       return true;
     }
     return false;
+  }
+
+  public isPossibleNoun(category: substantiveCategory) {
+    return !this.badWords.includes(category);
+  }
+  public intersectingAssociation(associations: association[]) {
+    let count = 0;
+    associations.forEach((association) => {
+      if (this.associations.includes(association)) {
+        count += 1;
+      }
+    });
+    return count;
   }
 }

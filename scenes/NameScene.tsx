@@ -2,22 +2,31 @@ import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { Button, StyleSheet, View } from "react-native";
 import "react-native-gesture-handler";
-import { association, getMisfitsOf } from "../classes/Adjectives";
+import { Adjective, association } from "../classes/Adjectives";
+import { Substantive, substantiveCategory } from "../classes/Substantive";
 import { FitButton } from "../components/FitButton";
 import { NameText } from "../components/NameText";
 import { adjectives, substantives } from "../examples/nouns";
+import { specialTavernNames } from "../examples/specialTavernNames";
 import {
   buttonStatus,
   buttonStyle,
   getStatuses,
   toggleButtonStatusBG,
 } from "../helpingFunctions/buttonStatusCode";
-import { getFittingRandom } from "../helpingFunctions/getFittingRandom";
+import {
+  getFittingRandom,
+  getRandomArrayEntry,
+} from "../helpingFunctions/getFittingRandom";
+import { misfitMode } from "../helpingFunctions/misfitMode";
+import { getMisfits } from "../helpingFunctions/misFitsHandlers";
 
 interface TextState {
   fits: association[];
   misfits: association[];
+  misfitMode: misfitMode;
   adjective: string;
+  invalidSubstantives: substantiveCategory[];
   substantive: string;
   buttonStatuses: buttonStatus[];
   previousPair: { previousAdj: string; previousSub: string };
@@ -29,7 +38,9 @@ export class NameScene extends React.Component<{}, TextState> {
     this.state = {
       fits: [],
       misfits: [],
+      misfitMode: misfitMode.income,
       adjective: "Golden",
+      invalidSubstantives: [],
       substantive: "Bear",
       buttonStatuses: getStatuses(),
       previousPair: { previousAdj: "", previousSub: "" },
@@ -37,6 +48,10 @@ export class NameScene extends React.Component<{}, TextState> {
   }
 
   public render() {
+    //checkDataDistribution(adjectives, "adjective");
+    //checkDataDistribution(solidObjects, "solid Objects");
+    //checkDataDistribution(animals, "animals&monsters");
+    //checkDataDistribution(jobs, "jobs");
     const fitButtonNames = Object.values(association);
     let fitButtonViews = [] as any[];
     fitButtonNames.forEach((name) => {
@@ -51,10 +66,23 @@ export class NameScene extends React.Component<{}, TextState> {
         );
       }
     });
+    const selectionModes = Object.values(misfitMode);
+    let selectionModeButtons = selectionModes.map((modeName) => {
+      return this.renderMistfitModeButton(modeName);
+    });
     return (
       <View style={nameSceneStyles.backgroundContainer}>
         {fitButtonViews}
         <View>
+          {this.renderTavernText(this.state.adjective, this.state.substantive)}
+          {this.renderRerollButton()}
+        </View>
+        <View style={nameSceneStyles.fitButtonContainer}>
+          <SceneButton
+            fits={this.state.fits}
+            misfits={this.state.misfits}
+          ></SceneButton>
+          {selectionModeButtons}
           {this.renderTavernText(this.state.adjective, this.state.substantive)}
           {this.renderRerollButton()}
         </View>
@@ -68,40 +96,100 @@ export class NameScene extends React.Component<{}, TextState> {
     );
   }
 
+  renderMistfitModeButton(modeName: misfitMode) {
+    return (
+      <Button
+        title={modeName}
+        onPress={() => {
+          this.setState({ misfitMode: modeName });
+          console.log(modeName);
+        }}
+        key={modeName + "Mode"}
+      ></Button>
+    );
+  }
+
   renderRerollButton() {
     return (
       <FitButton
         title={"Reroll"}
         clickHandler={() => {
-          const newPreviousPair = {
-            previousAdj: this.state.adjective,
-            previousSub: this.state.substantive,
-          };
-          this.rerollAdjective();
-          this.rerollSubstantive();
-          this.setState({ previousPair: newPreviousPair });
+          const randomNumber = Math.random();
+          if (randomNumber < 0.9 || this.state.fits.length === 0) {
+            const newPreviousPair = {
+              previousAdj: this.state.adjective,
+              previousSub: this.state.substantive,
+            };
+            const invalids = this.rerollAdjectiveGetInvalids();
+            this.rerollSubstantive(invalids);
+            this.setState({ previousPair: newPreviousPair });
+          } else {
+            const specialName = this.getSpecialNames(this.state.fits);
+            this.setState({
+              adjective: this.getPairFromSpecialNames(specialName).adjective,
+            });
+            this.setState({
+              substantive: this.getPairFromSpecialNames(specialName)
+                .substantive,
+            });
+          }
         }}
         color="#a26832"
       />
     );
   }
-  private rerollAdjective() {
-    this.setState({ adjective: this.getAdjectiveName() });
+  getSpecialNames(fits: association[]) {
+    if (fits.length === 0) {
+      return this.getAdjective().name.concat(
+        " ".concat(this.getSubstantiveName([]))
+      );
+    }
+    const randomFit = getRandomArrayEntry(this.state.fits);
+    const specialNames = specialTavernNames.filter((entry) => {
+      return entry.association === randomFit;
+    });
+    if (specialNames.length === 0) {
+      console.log(
+        "specialNames ist leer! Das sollte abr nicht passieren! this.sate.fits ist nämlich nicht leer!"
+      );
+    }
+    return getRandomArrayEntry(specialNames[0].names);
   }
-  private rerollSubstantive() {
-    this.setState({ substantive: this.getSubstantiveName() });
+  private rerollAdjectiveGetInvalids() {
+    const newAdjective = this.getAdjective();
+    this.setState({ adjective: newAdjective.name });
+    this.setState({ invalidSubstantives: newAdjective.badWords });
+    return newAdjective.badWords;
   }
-  private getAdjectiveName() {
+  private rerollSubstantive(invalids: substantiveCategory[]) {
+    this.setState({
+      substantive: this.getSubstantiveName(invalids),
+    });
+  }
+  private getAdjective() {
+    console.log("here comes the fits");
+    console.log(this.state.fits);
     return getFittingRandom(adjectives, this.state.fits, this.state.misfits, [
       this.state.adjective,
       this.state.previousPair.previousAdj,
-    ]).name;
+    ]) as Adjective;
   }
-  private getSubstantiveName() {
-    return getFittingRandom(substantives, this.state.fits, this.state.misfits, [
-      this.state.substantive,
-      this.state.previousPair.previousSub,
-    ]).name;
+  private getSubstantiveName(invalids: substantiveCategory[]) {
+    let validSubstantives = [] as Substantive[];
+    substantives.forEach((chapter) => {
+      if (!invalids.includes(chapter.category)) {
+        validSubstantives = validSubstantives.concat(chapter.substantives);
+      }
+    });
+    const result = getFittingRandom(
+      validSubstantives,
+      this.state.fits,
+      this.state.misfits,
+      [this.state.substantive, this.state.previousPair.previousSub]
+    ) as Substantive;
+    if (result.category === substantiveCategory.solid) {
+    }
+    return result.name;
   }
   private renderFitButton(fitName: association) {
     let index = this.findFitButtonIndex(fitName);
@@ -119,6 +207,12 @@ export class NameScene extends React.Component<{}, TextState> {
       </View>
     );
   }
+  private getPairFromSpecialNames(specialName: string) {
+    const breakIndex = specialName.indexOf(" ");
+    const adjective = specialName.slice(0, breakIndex);
+    const substantive = specialName.slice(breakIndex + 1);
+    return { substantive: substantive, adjective: adjective };
+  }
   private updateFits(fitName: string) {
     const newStatuses = this.state.buttonStatuses.map((entry) => {
       if (entry.name != fitName) {
@@ -135,18 +229,21 @@ export class NameScene extends React.Component<{}, TextState> {
     newFits = [];
     this.state.buttonStatuses.forEach((entry) => {
       if (entry.background === buttonStyle.used) {
+        console.log("-");
+        console.log(entry.name);
+        console.log("-");
         newFits.push(entry.name);
       }
     });
+    console.log("hi");
+    console.log(newFits);
     this.setState({ fits: newFits });
     let newMisfits: association[];
-    newMisfits = [];
-    newFits.forEach((entry) => {
-      getMisfitsOf(entry).forEach((misfit) => {
-        newMisfits.push(misfit);
-      });
-    });
+    newMisfits = getMisfits(newFits, this.state.misfitMode);
     this.setState({ misfits: newMisfits });
+    console.log(newMisfits);
+    console.log("misfits von poor bei income mode");
+    console.log(getMisfits([association.poor], misfitMode.income));
   }
 
   private renderTavernText(adjName: string, subName: string) {
@@ -187,10 +284,6 @@ const nameSceneStyles = StyleSheet.create({
 });
 const SceneButton = (props: any) => {
   const navigation = useNavigation();
-  console.log({
-    fits: props.fits,
-    misfits: props.misfits,
-  });
   return (
     <Button
       title="Tavern Menu"

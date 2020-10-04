@@ -17,13 +17,13 @@ export const beers = [
     beerEnum
   ),
   new TavernProduct(
-    "Stoertebeckers Last Wish",
+    "Stoertebecker's Last Wish",
     10,
     [a.criminal, a.human, a.haven, a.worker],
     beerEnum
   ),
   new TavernProduct(
-    "The Krakens Ale",
+    "The Kraken's Ale",
     14,
     [a.adventurer, a.human, a.haven, a.poor],
     beerEnum
