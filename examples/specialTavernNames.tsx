@@ -201,7 +201,7 @@ export const specialTavernNames = [
     association: association.halfling,
     names: [
       "Smiling Sun",
-      "Farming Horse",
+      "Smirking Horse",
       "Buttered Bread",
       "Whiny Ogre",
       "Hungry Hazelnut",
@@ -273,7 +273,6 @@ export const specialTavernNames = [
       "Cheesy Sock",
       "Resting Servant",
       "Itchy Pillow",
-      "Peat Palast",
       "Wooden Coin",
     ],
   },
@@ -283,12 +282,14 @@ export const specialTavernNames = [
       "Humping Cowgirl",
       "Lustful Oyster",
       "Emptied Nuts",
-      "Succulent Berry",
       "Juicy Lips",
-      "Hard-Working Succubus",
+      "Busy Succubus",
       "Glowing Prick",
       "Slippery Nipple",
-      "Velvet Cheeks",
+      "Club 69",
+      "Caretaking Nurse",
+      "Hot Firefighter",
+      "Endless Tongue"
     ],
   },
   {
@@ -301,7 +302,7 @@ export const specialTavernNames = [
       "Cashmere Cat",
       "Lobster Palace",
       "Champagne & Caviar",
-      "Golden Oyster",
+      "Golden Lobster",
     ],
   },
   {

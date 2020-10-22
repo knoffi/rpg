@@ -38,7 +38,7 @@ const incomeMisfitMode = {
     ],
   },
 };
-const stricterMisfitMode = {
+export const stricterMisfitMode = {
   key: misfitMode.stricter,
   associationGroups: {
     income: [
@@ -47,7 +47,7 @@ const stricterMisfitMode = {
       association.worker,
       association.sophisticated,
     ],
-    environment: [
+    land: [
       association.tropical,
       association.underdark,
       association.mountain,
@@ -57,20 +57,17 @@ const stricterMisfitMode = {
       association.desert,
       association.haven,
     ],
-    customer: [
+    class: [
       association.barbarian,
       association.bard,
       association.nobel,
       association.cleric,
-      association.criminal,
       association.druid,
-      association.prostitute,
       association.wizard,
-      association.evil,
       association.adventurer,
       association.dragonborn,
     ],
-    fantasyRace: [
+    race: [
       association.drow,
       association.dwarf,
       association.elf,
@@ -79,6 +76,11 @@ const stricterMisfitMode = {
       association.human,
       association.tiefling,
     ],
+    special: [
+      association.prostitute,
+      association.criminal,
+      association.evil
+    ]
   },
 };
 export const misfitModeList = [

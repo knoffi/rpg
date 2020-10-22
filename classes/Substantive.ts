@@ -8,8 +8,8 @@ export enum substantiveCategory {
   person = "person",
 }
 export class Substantive {
-  associations: association[];
   name: string;
+  public associations: association[];
   public category: substantiveCategory;
   //optional: Übergeordnete Gruppe, (z.B. Tier, Gegenstand, Beruf etc.)
   constructor(
@@ -43,13 +43,7 @@ export class Substantive {
     }
     return false;
   }
-  public intersectingAssociation(associations: association[]) {
-    let count = 0;
-    associations.forEach((association) => {
-      if (this.associations.includes(association)) {
-        count += 1;
-      }
-    });
-    return count;
+  public getAssociationOverwrite(association: association) {
+    return new Substantive(this.name, [association], this.category);
   }
 }
