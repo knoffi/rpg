@@ -8,7 +8,6 @@ export const AssociationPick = (props: any) => {
         props.setPick();
       }}
       title={props.pick}
-      key={props.key}
     />
   );
 };

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
-import { drinkCategory, TavernProduct } from "../classes/TavernProduct";
 import { beers } from "../examples/beer";
 import { lemonades } from "../examples/lemonades";
 import { spirits } from "../examples/spirits";
@@ -8,39 +7,12 @@ import { wines } from "../examples/wines";
 import { checkDataDistribution } from "../helpingFunctions/checkDataDistribution";
 import {
   getDrinkOffers,
-  offersWithOneReroll,
+  offersWithOneReroll
 } from "../helpingFunctions/menuCode";
 
-export const drinkMenuCategories = [
-  drinkCategory.lemonade,
-  drinkCategory.beer,
-  drinkCategory.beer,
-  drinkCategory.beer,
-  drinkCategory.wine,
-  drinkCategory.wine,
-  drinkCategory.spirit,
-];
-
-//TODO Refactor: Offer is included in TavernProduct, thus Offer is not needed
-
-export interface Offer {
-  product: TavernProduct;
-  price: number;
-}
-export enum tavernScalePrice {
-  cheapEasy = -4,
-  cheapNormal = -3,
-  cheapHard = -2,
-  normalEasy = -1,
-  normalNormal = 0,
-  normalHard = 1,
-  expensiveEasy = 2,
-  expensiveNormal = 3,
-  expensiveHard = 4,
-}
 const menuStyle = StyleSheet.create({
-  menuRow: { flex: 1, justifyContent: "flex-start", flexDirection: "row" },
-  sceneButton: { flex: 1, justifyContent: "center", width: 150 },
+  menuRow: { justifyContent: "flex-start", flexDirection: "row" },
+  sceneButton: { justifyContent: "center"},
 });
 
 export const MenuScene = ({ navigation, route }: any) => {

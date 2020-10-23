@@ -1,12 +1,12 @@
 import { association } from "../classes/Adjectives";
 import { drinkCategory, TavernProduct } from "../classes/TavernProduct";
 import { drinkExamples } from "../examples/drinks";
+import { getFittingRandom } from "./getFittingRandom";
 import {
   drinkMenuCategories,
   Offer,
-  tavernScalePrice,
-} from "../scenes/MenuScene";
-import { getFittingRandom } from "./getFittingRandom";
+  tavernScalePrice
+} from "./menuCodeEnums";
 
 export const getTavernScalePrice = (
   drink: TavernProduct,

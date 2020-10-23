@@ -1,17 +1,16 @@
 import React, { useState } from "react"
 import { View } from "react-native"
 import { association } from "../classes/Adjectives"
-import { nameSceneStyles } from "../scenes/nameSceneStyles"
 import { AssociationPicker } from "./AssociationPicker"
 
 export const AssociationPickerBar = (props:{fits:association[],switchFits:(newFits:association[])=>void}) => {
     const [pickersOpen,setPickersOpen ] = useState(false);
-    return <View style={nameSceneStyles.pickersBar}>
-        <AssociationPicker isClickable = {!pickersOpen} pickAssociationList={landAssociations} key={"LAND"} startText={"LAND"} onPick={(oldAssociation:association,newAssociation:association)=>{props.switchFits( getNewFits(props.fits,newAssociation,oldAssociation))}} onPress={()=>{setPickersOpen(true)} } onDismissOrPick={()=>{setPickersOpen(false)}} color={colors.land}></AssociationPicker>
-        <AssociationPicker isClickable = {!pickersOpen} pickAssociationList={incomeAssociations} key={"INCOME"} startText={"INCOME"} onPick={(oldAssociation:association,newAssociation:association)=>{props.switchFits( getNewFits(props.fits,newAssociation,oldAssociation))}} onPress={()=>{setPickersOpen(true)} } onDismissOrPick={()=>{setPickersOpen(false)}} color={colors.income}></AssociationPicker>
-        <AssociationPicker isClickable = {!pickersOpen} pickAssociationList={classAssociations} key={"CLASS"} startText={"CLASS"} onPick={(oldAssociation:association,newAssociation:association)=>{props.switchFits( getNewFits(props.fits,newAssociation,oldAssociation))}} onPress={()=>{setPickersOpen(true)} } onDismissOrPick={()=>{setPickersOpen(false)}} color={colors.class}></AssociationPicker>
-        <AssociationPicker isClickable = {!pickersOpen} pickAssociationList={raceAssociations} key={"RACE"} startText={"RACE"} onPick={(oldAssociation:association,newAssociation:association)=>{props.switchFits( getNewFits(props.fits,newAssociation,oldAssociation))}} onPress={()=>{setPickersOpen(true)} } onDismissOrPick={()=>{setPickersOpen(false)}} color={colors.race}></AssociationPicker>
-        <AssociationPicker isClickable = {!pickersOpen} pickAssociationList={specialAssociations} key={"SPECIAL"} startText={"SPECIALS"} onPick={(oldAssociation:association,newAssociation:association)=>{props.switchFits( getNewFits(props.fits,newAssociation,oldAssociation))}} onPress={()=>{setPickersOpen(true)} } onDismissOrPick={()=>{setPickersOpen(false)}} color={colors.specials}></AssociationPicker>
+    return <View style={{flexDirection:"row"}}>
+        <AssociationPicker isClickable = {!pickersOpen} pickAssociationList={landAssociations} startText={"LAND"} onPick={(oldAssociation:association,newAssociation:association)=>{props.switchFits( getNewFits(props.fits,newAssociation,oldAssociation))}} onPress={()=>{setPickersOpen(true)} } onDismissOrPick={()=>{setPickersOpen(false)}} color={colors.land}></AssociationPicker>
+        <AssociationPicker isClickable = {!pickersOpen} pickAssociationList={incomeAssociations}  startText={"INCOME"} onPick={(oldAssociation:association,newAssociation:association)=>{props.switchFits( getNewFits(props.fits,newAssociation,oldAssociation))}} onPress={()=>{setPickersOpen(true)} } onDismissOrPick={()=>{setPickersOpen(false)}} color={colors.income}></AssociationPicker>
+        <AssociationPicker isClickable = {!pickersOpen} pickAssociationList={classAssociations} startText={"CLASS"} onPick={(oldAssociation:association,newAssociation:association)=>{props.switchFits( getNewFits(props.fits,newAssociation,oldAssociation))}} onPress={()=>{setPickersOpen(true)} } onDismissOrPick={()=>{setPickersOpen(false)}} color={colors.class}></AssociationPicker>
+        <AssociationPicker isClickable = {!pickersOpen} pickAssociationList={raceAssociations} startText={"RACE"} onPick={(oldAssociation:association,newAssociation:association)=>{props.switchFits( getNewFits(props.fits,newAssociation,oldAssociation))}} onPress={()=>{setPickersOpen(true)} } onDismissOrPick={()=>{setPickersOpen(false)}} color={colors.race}></AssociationPicker>
+        <AssociationPicker isClickable = {!pickersOpen} pickAssociationList={specialAssociations} startText={"SPECIALS"} onPick={(oldAssociation:association,newAssociation:association)=>{props.switchFits( getNewFits(props.fits,newAssociation,oldAssociation))}} onPress={()=>{setPickersOpen(true)} } onDismissOrPick={()=>{setPickersOpen(false)}} color={colors.specials}></AssociationPicker>
     </View>
     }
 

@@ -4,7 +4,7 @@ import { Button, Menu, Provider } from "react-native-paper";
 import { association, getAssociation } from "../classes/Adjectives";
 import { AssociationPick } from "./AssociationPick";
 
-export const AssociationPicker = (props: {isClickable:boolean,pickAssociationList:association[],key:string,startText:string,onPick:(oldAssociation:association,newAssociation:association)=> void ,onPress:()=>void,onDismissOrPick:()=>void,color:string}) => {
+export const AssociationPicker = (props: {isClickable:boolean,pickAssociationList:association[],startText:string,onPick:(oldAssociation:association,newAssociation:association)=> void ,onPress:()=>void,onDismissOrPick:()=>void,color:string}) => {
   const [visible, setVisible] = React.useState(false);
   const [text, setText] = React.useState(props.startText);
 
@@ -21,7 +21,7 @@ export const AssociationPicker = (props: {isClickable:boolean,pickAssociationLis
           props.onPick(getAssociation(text),association);
         }}
         pick={association}
-        key={association + props.key}
+        key={association + props.startText}
       />
     );
   });
@@ -33,7 +33,7 @@ export const AssociationPicker = (props: {isClickable:boolean,pickAssociationLis
       props.onPick(getAssociation(text),association.empty);
     }}
     pick={"DELETE"}
-    key={association.empty + props.key}
+    key={association.empty + props.startText}
   />)
 
   return (
@@ -53,7 +53,6 @@ export const AssociationPicker = (props: {isClickable:boolean,pickAssociationLis
               onPress={()=>{if(props.isClickable){props.onPress();openMenu();}}}
               compact={true}
               mode="contained"
-              key={props.key + "button"}
               color={props.color}
             >{text}
             </Button>

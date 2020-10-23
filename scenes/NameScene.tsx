@@ -2,10 +2,10 @@ import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { View } from "react-native";
 import "react-native-gesture-handler";
-import { Button, Divider } from "react-native-paper";
+import { Button } from "react-native-paper";
 import { Adjective, association } from "../classes/Adjectives";
 import { Substantive, substantiveCategory } from "../classes/Substantive";
-import { AssociationPickerBar } from "../components/AssociationPickerBar";
+import { AssociationDialogBar } from "../components/AssociationDialogBar";
 import { NameText } from "../components/NameText";
 import { adjectives, substantives } from "../examples/nouns";
 import { specialTavernNames } from "../examples/specialTavernNames";
@@ -44,16 +44,13 @@ export class NameScene extends React.Component<{}, TextState> {
   public render() {
     return (
       <View style={nameSceneStyles.backgroundContainer}>
-        <View style={{zIndex:1}}>
-        <AssociationPickerBar fits={this.state.fits} switchFits={(newFits:association[])=>{this.updateFitsAndMisfits(newFits)}}/>
-        <Divider />
-        </View>
+        <AssociationDialogBar fits={this.state.fits} switchFits={(newFits:association[])=>{this.updateFitsAndMisfits(newFits)}}/>
+        <View>{this.renderTavernText(this.state.adjective, this.state.substantive)}</View>
         <View style={nameSceneStyles.fitButtonContainer}>
           <SceneButton
             fits={this.state.fits}
             misfits={this.state.misfits}
           ></SceneButton>
-          {this.renderTavernText(this.state.adjective, this.state.substantive)}
           {this.renderRerollButton()}
         </View>
       </View>

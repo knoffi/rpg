@@ -31,7 +31,7 @@ export enum association {
   city = "city",
   village = "village",
   sophisticated = "academic",
-  evil = "assasine"
+  evil = "assasine" //smugglers, evil, murderer ?
 }
 
 export const getAssociation=(name:string)=>{
