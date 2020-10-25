@@ -66,7 +66,7 @@ const getDialogInput= (dialogActions:any[],dialogName:string)=>{
   dialogInput.push(<View style={{flexDirection:"row",justifyContent:"space-evenly"}} key={count.toString() + dialogName}>{dialogActions[count]}{dialogActions[count+1]}</View>)
   count=count+2
   }
-  if(length % 2 === 0){dialogInput.push(<View style={{flexDirection:"row",justifyContent:"space-evenly"}}>{dialogActions[count]}{dialogActions[count+1]}</View>)} else {dialogInput.push(<View style={{flexDirection:"row",justifyContent:"space-evenly"}}>{dialogActions[count]}</View>)}
+  if(length % 2 === 0){dialogInput.push(<View style={{flexDirection:"row",justifyContent:"space-evenly"}} key={count.toString() + dialogName}>{dialogActions[count]}{dialogActions[count+1]}</View>)} else {dialogInput.push(<View style={{flexDirection:"row",justifyContent:"space-evenly"}} key={count.toString() + dialogName}>{dialogActions[count]}</View>)}
   return dialogInput
 }
 
