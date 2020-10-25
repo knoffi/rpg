@@ -7,6 +7,7 @@ import { Adjective, association } from "../classes/Adjectives";
 import { Substantive, substantiveCategory } from "../classes/Substantive";
 import { AssociationDialogBar } from "../components/AssociationDialogBar";
 import { NameText } from "../components/NameText";
+import { TavernSign } from "../components/TavernSign";
 import { adjectives, substantives } from "../examples/nouns";
 import { specialTavernNames } from "../examples/specialTavernNames";
 import {
@@ -45,7 +46,7 @@ export class NameScene extends React.Component<{}, TextState> {
     return (
       <View style={nameSceneStyles.backgroundContainer}>
         <AssociationDialogBar fits={this.state.fits} switchFits={(newFits:association[])=>{this.updateFitsAndMisfits(newFits)}}/>
-        <View>{this.renderTavernText(this.state.adjective, this.state.substantive)}</View>
+        <View><TavernSign nameText={this.state.adjective + " " + this.state.substantive}></TavernSign></View>
         <View style={nameSceneStyles.fitButtonContainer}>
           <SceneButton
             fits={this.state.fits}
