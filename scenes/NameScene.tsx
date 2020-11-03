@@ -6,7 +6,6 @@ import { Button } from "react-native-paper";
 import { Adjective, association } from "../classes/Adjectives";
 import { Substantive, substantiveCategory } from "../classes/Substantive";
 import { AssociationDialogBar } from "../components/AssociationDialogBar";
-import { NameText } from "../components/NameText";
 import { TavernSign } from "../components/TavernSign";
 import { adjectives, substantives } from "../examples/nouns";
 import { specialTavernNames } from "../examples/specialTavernNames";
@@ -18,23 +17,25 @@ import { misfitMode } from "../helpingFunctions/misfitMode";
 import { getMisfits } from "../helpingFunctions/misFitsHandlers";
 import { nameSceneStyles } from "./nameSceneStyles";
 
-const PROBABILITY_SPECIAL_NAME = 0.1;
+const PROBABILITY_SPECIAL_NAME = 1.0;
 interface TextState {
-  // income, class, race, environment
-  fits : association[];
-  misfits: association[];
-  adjective: string;
+  adjective:string,
   invalidSubstantives: substantiveCategory[];
   substantive: string;
   previousPair: { previousAdj: string; previousSub: string };
 }
 
-export class NameScene extends React.Component<{}, TextState> {
+interface NameProps {
+  fitting:{fits : association[];
+    misfits: association[];};
+  onAssociationPick: (newFits:association[],newMisfits:association[])=>void;
+  }
+  
+
+export class NameScene extends React.Component<NameProps, TextState> {
   constructor(props: any) {
     super(props);
     this.state = {
-      fits: [],
-      misfits: [],
       adjective: "Nameless",
       invalidSubstantives: [],
       substantive: "Tavern",
@@ -45,12 +46,12 @@ export class NameScene extends React.Component<{}, TextState> {
   public render() {
     return (
       <View style={nameSceneStyles.backgroundContainer}>
-        <AssociationDialogBar fits={this.state.fits} switchFits={(newFits:association[])=>{this.updateFitsAndMisfits(newFits)}}/>
+        <AssociationDialogBar fits={this.props.fitting.fits} switchFits={(newFits:association[])=>{this.updateFitsAndMisfits(newFits)}}/>
         <View><TavernSign nameText={this.state.adjective + " " + this.state.substantive}></TavernSign></View>
         <View style={nameSceneStyles.fitButtonContainer}>
           <SceneButton
-            fits={this.state.fits}
-            misfits={this.state.misfits}
+            fits={this.props.fitting.fits}
+            misfits={this.props.fitting.misfits}
           ></SceneButton>
           {this.renderRerollButton()}
         </View>
@@ -60,7 +61,7 @@ export class NameScene extends React.Component<{}, TextState> {
 
   noFitsActive() {
     let noFitsActive=true;
-    this.state.fits.forEach(fit => {if(fit !== association.empty){noFitsActive=false}});
+    this.props.fitting.fits.forEach(fit => {if(fit !== association.empty){noFitsActive=false}});
     return noFitsActive
   }
 
@@ -69,6 +70,8 @@ export class NameScene extends React.Component<{}, TextState> {
       <Button
         mode={"contained"}
         onPress={() => {
+          console.log("fits for reroll")
+          console.log(this.props.fitting.fits)
           const randomNumber = Math.random();
           if (randomNumber > PROBABILITY_SPECIAL_NAME || this.noFitsActive()) {
             const newPreviousPair = {
@@ -95,15 +98,16 @@ export class NameScene extends React.Component<{}, TextState> {
     );
   }
   getSpecialNames() {
-    const randomFit = getRandomArrayEntry(this.state.fits);
+    const randomFit = getRandomArrayEntry(this.props.fitting.fits);
     const specialNames = specialTavernNames.filter((entry) => {
       return entry.association === randomFit;
     });
     if (specialNames.length === 0) {
       console.log(
-        "specialNames ist leer! Das sollte abr nicht passieren! this.state.fits ist nämlich nicht leer!"
+        "specialNames ist leer! Das sollte abr nicht passieren! this.props.fitting.fits ist nämlich nicht leer!"
       );
     }
+    if(!randomFit){return getRandomArrayEntry(specialTavernNames[0].names)}
     return getRandomArrayEntry(specialNames[0].names);
   }
   private rerollAdjectiveGetInvalids() {
@@ -118,7 +122,7 @@ export class NameScene extends React.Component<{}, TextState> {
     });
   }
   private getAdjective() {
-    return getFittingRandom(adjectives, this.state.fits, this.state.misfits, [
+    return getFittingRandom(adjectives, this.props.fitting.fits, this.props.fitting.misfits, [
       this.state.adjective,
       this.state.previousPair.previousAdj,
     ]) as Adjective;
@@ -132,8 +136,8 @@ export class NameScene extends React.Component<{}, TextState> {
     });
     const result = getFittingRandom(
       validSubstantives,
-      this.state.fits,
-      this.state.misfits,
+      this.props.fitting.fits,
+      this.props.fitting.misfits,
       [this.state.substantive, this.state.previousPair.previousSub]
     ) as Substantive;
     if (result.category === substantiveCategory.solid) {
@@ -151,12 +155,7 @@ export class NameScene extends React.Component<{}, TextState> {
     let newMisfits: association[];
     // Testen: Code wird in richtiger Reihenfolge ausgeführt, obwohl wir states setzen? Ja oder Nein?
     newMisfits = getMisfits(newFits, misfitMode.stricter);
-    this.setState({ misfits: newMisfits });
-    this.setState({fits:newFits})
-  }
-
-  private renderTavernText(adjName: string, subName: string) {
-    return <NameText adj={adjName} sub={subName} />;
+    this.props.onAssociationPick(newFits,newMisfits)
   }
 }
 
