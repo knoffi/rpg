@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
+import { association } from "../classes/Adjectives";
 import { beers } from "../examples/beer";
 import { lemonades } from "../examples/lemonades";
 import { spirits } from "../examples/spirits";
@@ -15,13 +16,15 @@ const menuStyle = StyleSheet.create({
   sceneButton: { justifyContent: "center"},
 });
 
-export const MenuScene = ({ navigation, route }: any) => {
+interface MenuProps{fitting:{fits:association[],misfits:association[]}}
+
+export const MenuScene = (props: MenuProps) => {
   checkDataDistribution(spirits, "spirits");
   checkDataDistribution(beers, "beer");
   checkDataDistribution(wines, "wine");
   checkDataDistribution(lemonades, "lemonade");
-  const { fits } = route.params;
-  const { misfits } = route.params;
+  const fits = props.fitting.fits
+  const misfits = props.fitting.misfits
   const [offers, setOffers] = useState(getDrinkOffers(fits, misfits));
   const drinkMenu = offers.map((offer) => {
     return (
@@ -54,14 +57,6 @@ export const MenuScene = ({ navigation, route }: any) => {
         {"\n"}{" "}
       </Text>
       {drinkMenu}
-      <View style={menuStyle.sceneButton}>
-        <Button
-          title="Tavern Name"
-          onPress={() => {
-            navigation.navigate("NameScene");
-          }}
-        ></Button>
-      </View>
     </View>
   );
 };
