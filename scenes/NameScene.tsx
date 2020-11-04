@@ -1,4 +1,3 @@
-import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { View } from "react-native";
 import "react-native-gesture-handler";
@@ -17,7 +16,7 @@ import { misfitMode } from "../helpingFunctions/misfitMode";
 import { getMisfits } from "../helpingFunctions/misFitsHandlers";
 import { nameSceneStyles } from "./nameSceneStyles";
 
-const PROBABILITY_SPECIAL_NAME = 1.0;
+const PROBABILITY_SPECIAL_NAME = 0.15;
 interface TextState {
   adjective:string,
   invalidSubstantives: substantiveCategory[];
@@ -49,10 +48,6 @@ export class NameScene extends React.Component<NameProps, TextState> {
         <AssociationDialogBar fits={this.props.fitting.fits} switchFits={(newFits:association[])=>{this.updateFitsAndMisfits(newFits)}}/>
         <View><TavernSign nameText={this.state.adjective + " " + this.state.substantive}></TavernSign></View>
         <View style={nameSceneStyles.fitButtonContainer}>
-          <SceneButton
-            fits={this.props.fitting.fits}
-            misfits={this.props.fitting.misfits}
-          ></SceneButton>
           {this.renderRerollButton()}
         </View>
       </View>
@@ -158,22 +153,3 @@ export class NameScene extends React.Component<NameProps, TextState> {
     this.props.onAssociationPick(newFits,newMisfits)
   }
 }
-
-const SceneButton = (props: any) => {
-  const navigation = useNavigation();
-  return (
-    <Button
-      mode={"contained"}
-      onPress={() => {
-        navigation.navigate("MenuScene", {
-          fits: props.fits,
-          misfits: props.misfits,
-        });
-      }}
-      style={{zIndex:0}}
-      compact={true}
-    >
-      Tavern Menu
-    </Button>
-  );
-};

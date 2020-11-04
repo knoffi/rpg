@@ -7,8 +7,12 @@ import React, { useState } from "react";
 import "react-native-gesture-handler";
 import { Provider as PaperProvider } from 'react-native-paper';
 import { association } from "./classes/Adjectives";
+import Icon from './components/icons';
+import { iconKeys } from "./components/icons/iconKeys";
+import { FoodScene } from "./scenes/FoodScene";
 import { MenuScene } from "./scenes/MenuScene";
 import { NameScene } from "./scenes/NameScene";
+import { QuestScene } from "./scenes/QuestScene";
 import { TitleScene } from "./scenes/TitleScene";
 
 const Stack = createStackNavigator();
@@ -21,12 +25,37 @@ const removeEmptyStrings=(newFits:association[],newMisfits:association[])=>{
 }
 
 
+
 function MyTabs() {
   const [fitting,updateFitting] = useState({fits:[] as association[],misfits:[] as association[]});
   return (
-    <Tab.Navigator>
-      <Tab.Screen name="NameScene" children={()=><NameScene fitting={fitting} onAssociationPick={(newFits:association[],newMisfits:association[])=>{updateFitting(removeEmptyStrings(newFits,newMisfits))}} ></NameScene>} />
-      <Tab.Screen name="MenuScene" children={()=><MenuScene  fitting={fitting} ></MenuScene>} />
+    <Tab.Navigator       tabBarOptions={{
+      inactiveBackgroundColor: '#857256', activeBackgroundColor:"#63481F", activeTintColor:"#FFFFFF", inactiveTintColor:"#F4EADB"
+    }} screenOptions={({ route }) => ({
+      tabBarIcon: ({ focused, color, size }) => {
+        let iconName;
+
+        switch(route.name){
+          case 'Name':{
+            iconName = iconKeys.sign
+            break;}
+          case 'Drink':{
+            iconName = iconKeys.beer
+            break;}
+          case 'Food':{
+            iconName = iconKeys.food
+            break;}
+          default:{
+            iconName= iconKeys.quest
+          break;}
+        }
+        return <Icon name={iconName} size={size} color={color} />;
+      },
+    })}>
+      <Tab.Screen name="Name" children={()=><NameScene fitting={fitting} onAssociationPick={(newFits:association[],newMisfits:association[])=>{updateFitting(removeEmptyStrings(newFits,newMisfits))}} ></NameScene>} />
+      <Tab.Screen name="Drink" children={()=><MenuScene  fitting={fitting} ></MenuScene>} />
+      <Tab.Screen name="Food" children={()=><FoodScene  fitting={fitting} ></FoodScene>} />
+      <Tab.Screen name="Quest" children={()=><QuestScene  fitting={fitting} ></QuestScene>} />
     </Tab.Navigator>
   );
 }
@@ -40,6 +69,7 @@ const App = () => {
     'deutschZier':require("./assets/fonts/deutschZier.ttf"),'fiddum':require("./assets/fonts/fiddum.ttf"),
     'metalMacabre':require("./assets/fonts/metalMacabre.ttf"),'pau':require("./assets/fonts/pau.ttf"),
     'rapscallion':require("./assets/fonts/rapscallion.ttf"),
+    "icons":require("./assets/fonts/icomoon.ttf")
   });
   if (!fontsLoaded) {
     return <AppLoading />;

@@ -1,0 +1,4 @@
+import React from "react"
+import { Text, View } from "react-native"
+
+export const QuestScene=(props:any)=>{return <View><Text>As you enter the tavern, you see an old, mysterious wizard sitting at the table in the darkest corner. Suddenly, a strange feeling of curiosity overcomes you and you feel the urge to talk with him. You walk towards his table as your heart is beating with excitement. And as you stand directly before him, he turns around and says: "M-M-Morty, we are in a Pen'n'Paper game. We have stats and everything! Look at my robe, I am a wizard, M-M-Morty! This is bad, because I hate wizards! I hate magic because I am a scientist, Morty! But we can not escape, an evil demon has stolen my portal gun. We have to get it back, Morty!" </Text></View>}
