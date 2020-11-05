@@ -1,11 +1,6 @@
 import React, { useState } from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
 import { association } from "../classes/Adjectives";
-import { beers } from "../examples/beer";
-import { lemonades } from "../examples/lemonades";
-import { spirits } from "../examples/spirits";
-import { wines } from "../examples/wines";
-import { checkDataDistribution } from "../helpingFunctions/checkDataDistribution";
 import {
   getDrinkOffers,
   offersWithOneReroll
@@ -19,10 +14,6 @@ const menuStyle = StyleSheet.create({
 interface MenuProps{fitting:{fits:association[],misfits:association[]}}
 
 export const MenuScene = (props: MenuProps) => {
-  checkDataDistribution(spirits, "spirits");
-  checkDataDistribution(beers, "beer");
-  checkDataDistribution(wines, "wine");
-  checkDataDistribution(lemonades, "lemonade");
   const fits = props.fitting.fits
   const misfits = props.fitting.misfits
   const [offers, setOffers] = useState(getDrinkOffers(fits, misfits));

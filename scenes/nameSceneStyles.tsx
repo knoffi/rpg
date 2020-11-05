@@ -19,4 +19,5 @@ export const nameSceneStyles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
   },
+  accordeonListTitle: {fontSize:22, fontWeight:"bold"}
 });

@@ -114,67 +114,7 @@ export const spirits = [
     20,
     [a.city, a.tropical, a.human, a.elf, a.wizard],
     spiritEnum
-  ),
-  new TavernProduct(
-    "Barclay's Single Malt Scotch Whiskey",
-    30,
-    [a.halfling, a.sophisticated, a.city, a.mountain, a.human],
-    spiritEnum
-  ),
-  new TavernProduct(
-    "Barclay's Single Grain Scotch Whiskey",
-    25,
-    [a.halfling, a.sophisticated, a.city, a.mountain, a.human],
-    spiritEnum
-  ),
-  new TavernProduct(
-    "Barclay's Blended Malt Scotch Whiskey",
-    20,
-    [a.halfling, a.sophisticated, a.city, a.mountain, a.human],
-    spiritEnum
-  ),
-  new TavernProduct(
-    "Barclay's Blended Grain Scotch Whiskey",
-    19,
-    [a.halfling, a.sophisticated, a.city, a.mountain, a.human],
-    spiritEnum
-  ),
-  new TavernProduct(
-    "Barclay's Blended Scotch Whiskey",
-    17,
-    [a.halfling, a.sophisticated, a.city, a.mountain, a.human],
-    spiritEnum
-  ),
-  new TavernProduct(
-    "MacMaster's Single Malt Scotch Whiskey",
-    105,
-    [a.nobel, a.rich, a.city, a.mountain, a.human],
-    spiritEnum
-  ),
-  new TavernProduct(
-    "MacMaster's Single Grain Scotch Whiskey",
-    100,
-    [a.nobel, a.rich, a.city, a.mountain, a.human],
-    spiritEnum
-  ),
-  new TavernProduct(
-    "MacMaster's Blended Malt Scotch Whiskey",
-    90,
-    [a.nobel, a.rich, a.city, a.mountain, a.human],
-    spiritEnum
-  ),
-  new TavernProduct(
-    "MacMaster's Blended Grain Scotch Whiskey",
-    85,
-    [a.nobel, a.rich, a.city, a.mountain, a.human],
-    spiritEnum
-  ),
-  new TavernProduct(
-    "MacMaster's Blended Scotch Whiskey",
-    75,
-    [a.nobel, a.rich, a.city, a.mountain, a.human],
-    spiritEnum
-  ),
+  )
 ].concat(
   scotchTemplate("Barclay", 30, [
     a.halfling,
