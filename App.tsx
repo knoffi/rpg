@@ -28,6 +28,7 @@ const removeEmptyStrings=(newFits:association[],newMisfits:association[])=>{
 
 function MyTabs() {
   const [fitting,updateFitting] = useState({fits:[] as association[],misfits:[] as association[]});
+  const [titleFontFamily,setFontFamily] = useState("pau");
   return (
     <Tab.Navigator       tabBarOptions={{
       inactiveBackgroundColor: '#857256', activeBackgroundColor:"#63481F", activeTintColor:"#FFFFFF", inactiveTintColor:"#F4EADB"
@@ -53,7 +54,7 @@ function MyTabs() {
       },
     })}>
       <Tab.Screen name="Name" children={()=><NameScene fitting={fitting} onAssociationPick={(newFits:association[],newMisfits:association[])=>{updateFitting(removeEmptyStrings(newFits,newMisfits))}} ></NameScene>} />
-      <Tab.Screen name="Drink" children={()=><MenuScene  fitting={fitting} ></MenuScene>} />
+      <Tab.Screen name="Drink" children={()=><MenuScene  fitting={fitting} fontFamilyForTitle={titleFontFamily} ></MenuScene>} />
       <Tab.Screen name="Food" children={()=><FoodScene  fitting={fitting} ></FoodScene>} />
       <Tab.Screen name="Quest" children={()=><QuestScene  fitting={fitting} ></QuestScene>} />
     </Tab.Navigator>

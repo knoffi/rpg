@@ -1,9 +1,8 @@
 import { association } from "../classes/Adjectives";
-import { drinkCategory, TavernProduct } from "../classes/TavernProduct";
+import { drinkCategory, foodCategory, TavernProduct } from "../classes/TavernProduct";
 import { drinkExamples } from "../examples/drinks";
 import { getFittingRandom } from "./getFittingRandom";
 import {
-  drinkMenuCategories,
   Offer,
   tavernScalePrice
 } from "./menuCodeEnums";
@@ -49,14 +48,22 @@ export const getTavernScalePrice = (
   return valuesOfScalePrices[overAllPriceClass - overAllFit];
 };
 
+const getUsedDrinkCategories=(offers:Offer[])=>{
+  let usedDrinkCategories=[] as drinkCategory[]
+  offers.forEach(offer =>{if(offer.product.isDrink()){usedDrinkCategories.push(offer.product.productCategory as drinkCategory)}})
+  return usedDrinkCategories
+}
+
 export const offersWithOneReroll = (
   name: string,
   offers: Offer[],
   fits: association[],
-  misfits: association[]
+  misfits: association[],
 ) => {
+
+  const usedDrinkCategories= getUsedDrinkCategories(offers)
   const category =
-    drinkMenuCategories[
+    usedDrinkCategories[
       offers.findIndex((offer) => {
         return offer.product.name === name;
       })
@@ -71,9 +78,18 @@ export const offersWithOneReroll = (
   return newOffers;
 };
 
-export const getDrinkOffers = (fits: association[], misfits: association[]) => {
+export const getNewRandomDrinkOffer = (fits: association[], misfits: association[],category:drinkCategory|foodCategory, oldOffers:Offer[])=>{
+  return getRandomDrinkOffer(
+    category,
+    fits,
+    misfits,
+    offeredNames(oldOffers)
+  );
+}
+
+export const getDrinkOffers = (fits: association[], misfits: association[], offerCategories:drinkCategory[]) => {
   let drinkOffers = [] as Offer[];
-  drinkMenuCategories.forEach((category) => {
+  offerCategories.forEach((category) => {
     const newOffer = getRandomDrinkOffer(
       category,
       fits,
@@ -92,14 +108,12 @@ const offeredNames = (offers: Offer[]) => {
 };
 //drinks have a wider range, therefore social misfits are more important than landscape misfits
 const getRandomDrinkOffer = (
-  category: drinkCategory,
+  category: drinkCategory|foodCategory,
   fits: association[],
   misfits: association[],
   excludedDrinkNames: string[]
 ): Offer => {
-  const examples = drinkExamples.find((example) => {
-    return example.category === category;
-  })!.examples;
+  const examples = drinkExamples.find((example) => {return example.category === category;})!.examples;
   const drink = getFittingRandom(
     examples,
     fits,
@@ -109,5 +123,6 @@ const getRandomDrinkOffer = (
   const copperPrice = drink.getCopperPrice(
     getTavernScalePrice(drink, fits, misfits)
   );
+  drink.resetCategory(category);
   return { product: drink, price: copperPrice };
 };

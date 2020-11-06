@@ -1,14 +1,7 @@
-import { drinkCategory, TavernProduct } from "../classes/TavernProduct";
+import { TavernProduct } from "../classes/TavernProduct";
 
 
-export const drinkMenuCategories = [
-  drinkCategory.lemonade,
-  drinkCategory.beer,
-  drinkCategory.beer,
-  drinkCategory.beer,
-  drinkCategory.wine,
-  drinkCategory.wine,
-  drinkCategory.spirit,
+export const startOfferCategories = [
 ];
 //TODO Refactor: Offer is included in TavernProduct, thus Offer is not needed
 

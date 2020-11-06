@@ -19,5 +19,7 @@ export const nameSceneStyles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
   },
-  accordeonListTitle: {fontSize:22, fontWeight:"bold"}
+  accordeonListTitle: {fontSize:30, fontWeight:"bold",textDecorationLine:"underline"},
+  drinkName: {fontSize:20,fontWeight:"bold"},
+  drinkPrice: {fontSize:15,fontStyle:"italic"},
 });

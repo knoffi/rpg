@@ -6,18 +6,12 @@ interface productDescription {
   region: string;
   effect: string;
 }
-
+//more ideas: water, coffee, tea, juice, liqueur, cocktail
 export enum drinkCategory {
-  water = "water",
-  coffee = "coffee",
-  tea = "tea",
-  juice = "juice",
-  lemonade = "lemonade",
-  beer = "beer",
-  wine = "wine",
-  liqueur = "liqueur",
-  spirit = "spirit",
-  cocktail = "cocktail",
+  lemonade = "Lemonade",
+  beer = "Beer",
+  wine = "Wine",
+  spirit = "Spirit",
 }
 // so that a tavern does not only
 export enum foodCategory {
@@ -50,7 +44,7 @@ export class TavernProduct {
   //TODO: make prices also for DSA and other famous Pen&Paper
   public copperPrice!: number;
   public associations!: association[];
-  private productCategroy!: drinkCategory | foodCategory;
+  public productCategory!: drinkCategory | foodCategory;
   private description?: productDescription;
 
   constructor(
@@ -103,8 +97,24 @@ export class TavernProduct {
       this.name,
       this.copperPrice,
       [association],
-      this.productCategroy,
+      this.productCategory,
       this.description
     );
+  }
+
+  public isDrink=()=>{
+    let isDrink=false
+    Object.values(drinkCategory).forEach(categoryName =>{if(categoryName=== this.productCategory){isDrink=true}});
+    return isDrink;
+  }
+
+  public isFood=()=>{
+    let isFood=false
+    Object.values(foodCategory).forEach(categoryName =>{if(categoryName=== this.productCategory){isFood=true}});
+    return isFood;
+  }
+
+  public resetCategory=(category:drinkCategory|foodCategory)=>{
+    this.productCategory = category;
   }
 }
