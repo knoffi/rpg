@@ -12,7 +12,7 @@ interface drinkExample {
 export let drinkExamples: drinkExample[];
 
 drinkExamples = [
-  { category: drinkCategory.beer, examples: beers },
+  { category: drinkCategory.beer, examples: [beers[0],beers[10]] },
   { category: drinkCategory.wine, examples: wines },
   { category: drinkCategory.spirit, examples: spirits },
   { category: drinkCategory.lemonade, examples: lemonades },

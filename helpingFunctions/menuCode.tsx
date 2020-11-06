@@ -3,6 +3,7 @@ import { drinkCategory, foodCategory, TavernProduct } from "../classes/TavernPro
 import { drinkExamples } from "../examples/drinks";
 import { getFittingRandom } from "./getFittingRandom";
 import {
+  NothingLeftOffer,
   Offer,
   tavernScalePrice
 } from "./menuCodeEnums";
@@ -120,6 +121,10 @@ const getRandomDrinkOffer = (
     misfits,
     excludedDrinkNames
   ) as TavernProduct;
+  //if drink is undefined, then there are no new drinks left
+  if(!drink){
+    return NothingLeftOffer
+  }
   const copperPrice = drink.getCopperPrice(
     getTavernScalePrice(drink, fits, misfits)
   );

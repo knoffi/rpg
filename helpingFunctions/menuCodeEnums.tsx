@@ -1,4 +1,4 @@
-import { TavernProduct } from "../classes/TavernProduct";
+import { drinkCategory, TavernProduct } from "../classes/TavernProduct";
 
 
 export const startOfferCategories = [
@@ -9,6 +9,9 @@ export interface Offer {
   product: TavernProduct;
   price: number;
 }
+
+export const NothingLeftOffer={product: new TavernProduct("Nothing",0,[],drinkCategory.spirit), price:0}
+
 export enum tavernScalePrice {
   cheapEasy = -4,
   cheapNormal = -3,
