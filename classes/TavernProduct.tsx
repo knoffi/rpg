@@ -15,16 +15,11 @@ export enum drinkCategory {
 }
 // so that a tavern does not only
 export enum foodCategory {
-  breakfast = "breakfast",
-  appetizer = "appetizer",
-  soup = "soup",
-  stew = "stew",
-  dessert = "dessert",
-  salad = "salad",
-  mainMeat = "main dish",
-  mainPoultry = "main dish",
-  mainSeafood = "main dish",
-  mainNoMeat = "main dish",
+  breakfast = "Breakfast",
+  appetizer = "Appetizer",
+  sideDish = "Side Dish",
+  dessert = "Dessert",
+  mainDish="Main Dish"
 }
 /* if someones decides: no pork because this tavern is in Arabia and Asian cuisine seems a bit misfitting
 export enum mainIngredient {
