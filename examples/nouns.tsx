@@ -2,7 +2,7 @@ import { Adjective, association } from "../classes/Adjectives";
 import { substantiveCategory } from "../classes/Substantive";
 import {
   getDividedProducts,
-  makeProductsFromNecessary,
+  makeProductsFromNecessary
 } from "../helpingFunctions/nounDivider";
 import { animals } from "./animals";
 import { jobs } from "./jobs";

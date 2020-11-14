@@ -6,6 +6,7 @@ interface productDescription {
   region: string;
   effect: string;
 }
+
 //more ideas: water, coffee, tea, juice, liqueur, cocktail
 export enum drinkCategory {
   lemonade = "Lemonade",
@@ -20,6 +21,14 @@ export enum foodCategory {
   sideDish = "Side Dish",
   dessert = "Dessert",
   mainDish="Main Dish"
+}
+
+export enum serviceCategory {
+  room = "Rooms",
+  pension = "Package Deal",
+  entertainment= "Entertainment",
+  gambling="Gambling",
+  prostitute="Adult Pleasures",
 }
 /* if someones decides: no pork because this tavern is in Arabia and Asian cuisine seems a bit misfitting
 export enum mainIngredient {

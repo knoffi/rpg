@@ -6,16 +6,21 @@ import { drinkCategory, foodCategory } from "../classes/TavernProduct";
 import { OfferList } from "../components/DrinkList";
 import { getRandomArrayEntry } from "../helpingFunctions/getFittingRandom";
 import {
-  getDrinkOffers,
   getNewRandomDrinkOffer,
-  offersWithOneReroll
+  offersWithOneReroll,
+  weServe
 } from "../helpingFunctions/menuCode";
-import { NothingLeftOffer, Offer, startOfferCategories } from "../helpingFunctions/menuCodeEnums";
+import { NothingLeftOffer, Offer } from "../helpingFunctions/menuCodeEnums";
 import { nameSceneStyles } from "./nameSceneStyles";
 
-const drinkCategoryForBannerMap=new Map([[drinkCategory.beer,"beer"],[drinkCategory.spirit,"spirit"],[drinkCategory.lemonade,"lemonade"],[drinkCategory.wine,"wine"]])
 
-const listOfBannerEndings=["Cheers to that!", "What a lovely collection!", "Such vast supply!", "A stock to be proud of!" , "Customers will have trouble deciding on a beverage!", "Every bartenders dream came true!", "Cheerio, my old chum!", "You know how to party!", "Nobody will have to leave your tavern thirsty!", "Wait a second, you even offer my favourite beverage. Could I make a reservation for next friday evening?"]
+const drinkBannerEndings=["Cheers to that!", "What a lovely collection!", "Such vast supply!", "A stock to be proud of!" , "Customers will have trouble deciding on a beverage!", "Every bartenders dream came true!", "Cheerio, my old chum!", "You know how to party!", "Nobody will have to leave your tavern thirsty!", "Wait a second, you even offer my favourite beverage. Could I make a reservation for next friday evening?"]
+
+const foodBannerEndings=["Dig in!", "Bon appetite!", "Such a skilful cook!","Such a gastronomic variety!", "A menu to be proud of!" , "Customers will have trouble deciding on a dish!", "Every gourmets dream came true!", "Have a nice meal!", "You know how to throw a banquette!", "Nobody will have to leave your tavern hungry!", "Wait a second, you even offer my favourite dish. Could I make a reservation for next friday?"]
+
+const serviceBannerEndings=["Wait a second, I could use one of those. Do you open on Saturdays?","Interesting services. Do your customers need to make a reservation? I am asking for a friend of mine..."]
+
+const mapOfBannerEndings=new Map([[weServe.drinks, drinkBannerEndings], [weServe.food,foodBannerEndings],[weServe.service,serviceBannerEndings]])
 
 
 const menuStyle = StyleSheet.create({
@@ -23,70 +28,68 @@ const menuStyle = StyleSheet.create({
   sceneButton: { justifyContent: "center"},
 });
 
-interface MenuProps{fitting:{fits:association[],misfits:association[]},fontFamilyForTitle:string}
+interface MenuProps{fitting:{fits:association[],misfits:association[]},isAbout:weServe,offers:Offer[], setOffers:(offers:Offer[])=>void,undoFAB:JSX.Element,offersLeft:Map<drinkCategory|foodCategory,boolean>,setOffersLeft:(offersLeft:Map<drinkCategory|foodCategory,boolean>)=>void}
 
 export const MenuScene = (props: MenuProps) => {
   const fits = props.fitting.fits;
   const misfits = props.fitting.misfits;
-  const [offers, setOffers] = useState(getDrinkOffers(fits, misfits,startOfferCategories));
+  const servedCategory = props.isAbout===weServe.drinks? drinkCategory :foodCategory;
+  //why?
   const [boughtOffers,setBoughtOffers] =useState([] as Offer[]);
   const [bannerIsVisible, setBannerVisibility]=useState(false);
   const [newestEmptyCategory, setNewestEmptyCategory]=useState(drinkCategory.lemonade as drinkCategory|foodCategory);
-  const [bannerEnding, setBannerEnding]=useState(getRandomArrayEntry(listOfBannerEndings));
-  const startOffersLeft=new Map([]) as Map<drinkCategory|foodCategory,boolean>
-  // assuming that every category has additional drinks to add from the start!
-  Object.values(drinkCategory).forEach(category=>{startOffersLeft.set(category,true)})
-  const [offersLeft,setOffersLeft] = useState(startOffersLeft)
+  const [bannerEnding, setBannerEnding]=useState(getRandomArrayEntry(mapOfBannerEndings.get(props.isAbout)!));
 
   const setIsOfferLeft=(changedCategory:drinkCategory|foodCategory, isLeft:boolean)=>{
     let newOffersLeft=new Map([]) as Map<drinkCategory|foodCategory,boolean>
     // assuming that structure of offersLeft is constant, i.e. can be derived from drinkCategory-enum
-    Object.values(drinkCategory)
+    Object.values(servedCategory)
       .forEach(
         category => {
           if(category===changedCategory){
-            newOffersLeft.set(category,isLeft)
+            newOffersLeft.set(category as drinkCategory|foodCategory,isLeft)
           }
           else {
-            newOffersLeft.set(category,offersLeft.get(category)!)
+            newOffersLeft.set(category as drinkCategory|foodCategory ,props.offersLeft.get(category as drinkCategory|foodCategory)!)
           }
         }
       )
-    setOffersLeft(newOffersLeft);
+    props.setOffersLeft(newOffersLeft);
   }
 
   const deleteOffer=(name:string)=>{
     let newOffers=[] as Offer[];
-    offers.forEach(offer=>{if(offer.product.name!==name){newOffers.push(offer)}else {setIsOfferLeft(offer.product.productCategory,true)}})
-    setOffers(newOffers)
+    props.offers.forEach(offer=>{if(offer.product.name!==name){newOffers.push(offer)}else {setIsOfferLeft(offer.product.productCategory,true)}})
+    props.setOffers(newOffers)
   }
   const rerollOffer=(name:string)=>{
     const newOffers = offersWithOneReroll(
       name,
-      offers,
+      props.offers,
       fits,
       misfits,
+      props.isAbout
   );
-    setOffers(newOffers);
+    props.setOffers(newOffers);
   }
 
   const buyOffer=(name:string)=>{
     let newBoughtOffers = boughtOffers.map(boughtOffer=>{return boughtOffer});
-    offers.forEach(offer=>{if(offer.product.name===name){newBoughtOffers.push(offer)}})
+    props.offers.forEach(offer=>{if(offer.product.name===name){newBoughtOffers.push(offer)}})
     setBoughtOffers(newBoughtOffers)
   }
   const addRandomOffer =(category:drinkCategory|foodCategory)=>{
     let newOffers= [] as Offer[];
-    offers.forEach(offer =>{newOffers.push(offer)});
-    newOffers.push(getNewRandomDrinkOffer(fits,misfits,category,offers));
-    const testOffer = getNewRandomDrinkOffer(fits,misfits,category,newOffers);
+    props.offers.forEach(offer =>{newOffers.push(offer)});
+    newOffers.push(getNewRandomDrinkOffer(fits,misfits,category,props.offers,props.isAbout));
+    const testOffer = getNewRandomDrinkOffer(fits,misfits,category,newOffers,props.isAbout);
     if(testOffer.product === NothingLeftOffer.product){
       setNewestEmptyCategory(category)
-      setBannerEnding(getRandomArrayEntry(listOfBannerEndings))
+      setBannerEnding(getRandomArrayEntry(mapOfBannerEndings.get(props.isAbout)!))
       setIsOfferLeft(category,false)
       setBannerVisibility(true)
     }
-    setOffers(newOffers);
+    props.setOffers(newOffers);
   }
 
   return (
@@ -101,9 +104,10 @@ export const MenuScene = (props: MenuProps) => {
           },
         },
       ]}>
-      {"Your tavern offers every fitting "+ drinkCategoryForBannerMap.get(newestEmptyCategory as drinkCategory) +"!\n\n"  + bannerEnding}
+      {"Your tavern offers every fitting "+ newestEmptyCategory.toLowerCase() +"!\n\n"  + bannerEnding}
     </Banner>
-      <OfferList offers={offers} isAboutDrinks={true} addingActions={{randomAdd: addRandomOffer,import:(category:drinkCategory|foodCategory)=>{}}} offerActions={{deleteOffer:deleteOffer,rerollOffer:rerollOffer,shopOffer:buyOffer}} fontFamiliyForTitle={props.fontFamilyForTitle} offersLeftMap={offersLeft}/>
+      <OfferList offers={props.offers} isAbout={props.isAbout} addingActions={{randomAdd: addRandomOffer,import:(category:drinkCategory|foodCategory)=>{}}} offerActions={{deleteOffer:deleteOffer,rerollOffer:rerollOffer,shopOffer:buyOffer}} offersLeftMap={props.offersLeft}/>
+      {props.undoFAB}
     </ScrollView>
   );
 };

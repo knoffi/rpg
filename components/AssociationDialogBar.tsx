@@ -1,11 +1,10 @@
 import React from "react"
-import { View } from "react-native"
-import { Divider } from "react-native-paper"
+import { StyleSheet, View } from "react-native"
 import { association } from "../classes/Adjectives"
 import { AssociationDialog } from "./AssociationDialog"
 
 export const AssociationDialogBar = (props:{fits:association[],switchFits:(newFits:association[])=>void}) => {
-    return <View><View style={{flexDirection:"row",justifyContent:"space-evenly"}}>
+    return <View style={{margin:10,padding:10,borderBottomColor:"#0c0c38",borderBottomWidth:StyleSheet.hairlineWidth,borderTopColor:"#0c0c38",borderTopWidth:StyleSheet.hairlineWidth}}><View style={{flexDirection:"row",justifyContent:"space-evenly"}}>
         <AssociationDialog pickAssociationList={landAssociations} startText={"LAND"} onPick={(oldAssociation:association,newAssociation:association)=>{props.switchFits( getNewFits(props.fits,newAssociation,oldAssociation))}}  color={colors.land}></AssociationDialog>
         <AssociationDialog pickAssociationList={incomeAssociations}  startText={"INCOME"} onPick={(oldAssociation:association,newAssociation:association)=>{props.switchFits( getNewFits(props.fits,newAssociation,oldAssociation))}}  color={colors.income}></AssociationDialog>
         <AssociationDialog pickAssociationList={classAssociations} startText={"CLASS"} onPick={(oldAssociation:association,newAssociation:association)=>{props.switchFits( getNewFits(props.fits,newAssociation,oldAssociation))}}  color={colors.class}></AssociationDialog>
@@ -14,7 +13,6 @@ export const AssociationDialogBar = (props:{fits:association[],switchFits:(newFi
         <AssociationDialog pickAssociationList={raceAssociations} startText={"RACE"} onPick={(oldAssociation:association,newAssociation:association)=>{props.switchFits( getNewFits(props.fits,newAssociation,oldAssociation))}}  color={colors.race}></AssociationDialog>
         <AssociationDialog pickAssociationList={specialAssociations} startText={"SPECIALS"} onPick={(oldAssociation:association,newAssociation:association)=>{props.switchFits( getNewFits(props.fits,newAssociation,oldAssociation))}}  color={colors.specials}></AssociationDialog>
     </View>
-    <Divider />
     </View>
     }
 

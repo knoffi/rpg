@@ -70,11 +70,12 @@ const getDialogInput= (dialogActions:any[],dialogName:string)=>{
   return dialogInput
 }
 
-const AssociationButton = (props: any) => {
+const AssociationButton = (props:any) => {
   return (
     <Button
       onPress={() => {
         props.setPick();
+        props
       }}>{props.pick}</Button>
     
   );

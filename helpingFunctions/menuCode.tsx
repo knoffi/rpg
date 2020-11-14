@@ -1,12 +1,18 @@
 import { association } from "../classes/Adjectives";
 import { drinkCategory, foodCategory, TavernProduct } from "../classes/TavernProduct";
-import { drinkExamples } from "../examples/drinks";
+import { drinkExamples, foodExamples } from "../examples/drinks";
 import { getFittingRandom } from "./getFittingRandom";
 import {
   NothingLeftOffer,
   Offer,
   tavernScalePrice
 } from "./menuCodeEnums";
+
+export enum weServe{
+  drinks="drinks",
+  food="food",
+  service="service"
+}
 
 export const getTavernScalePrice = (
   drink: TavernProduct,
@@ -48,11 +54,11 @@ export const getTavernScalePrice = (
   );
   return valuesOfScalePrices[overAllPriceClass - overAllFit];
 };
-
+//here
 const getUsedDrinkCategories=(offers:Offer[])=>{
   let usedDrinkCategories=[] as drinkCategory[]
   offers.forEach(offer =>{if(offer.product.isDrink()){usedDrinkCategories.push(offer.product.productCategory as drinkCategory)}})
-  return usedDrinkCategories
+  return offers.map(offer =>{ return offer.product.productCategory})
 }
 
 export const offersWithOneReroll = (
@@ -60,6 +66,7 @@ export const offersWithOneReroll = (
   offers: Offer[],
   fits: association[],
   misfits: association[],
+  isAbout:weServe
 ) => {
 
   const usedDrinkCategories= getUsedDrinkCategories(offers)
@@ -73,29 +80,31 @@ export const offersWithOneReroll = (
     if (offer.product.name !== name) {
       return offer;
     } else {
-      return getRandomDrinkOffer(category, fits, misfits, offeredNames(offers));
+      return getRandomDrinkOffer(category, fits, misfits, offeredNames(offers),isAbout);
     }
   });
   return newOffers;
 };
 
-export const getNewRandomDrinkOffer = (fits: association[], misfits: association[],category:drinkCategory|foodCategory, oldOffers:Offer[])=>{
+export const getNewRandomDrinkOffer = (fits: association[], misfits: association[],category:drinkCategory|foodCategory, oldOffers:Offer[],isAbout:weServe)=>{
   return getRandomDrinkOffer(
     category,
     fits,
     misfits,
-    offeredNames(oldOffers)
+    offeredNames(oldOffers),
+    isAbout
   );
 }
 
-export const getDrinkOffers = (fits: association[], misfits: association[], offerCategories:drinkCategory[]) => {
+export const getDrinkOffers = (fits: association[], misfits: association[], offerCategories:drinkCategory[],isAbout:weServe) => {
   let drinkOffers = [] as Offer[];
   offerCategories.forEach((category) => {
     const newOffer = getRandomDrinkOffer(
       category,
       fits,
       misfits,
-      offeredNames(drinkOffers)
+      offeredNames(drinkOffers),
+      isAbout
     );
     drinkOffers.push(newOffer);
   });
@@ -112,9 +121,17 @@ const getRandomDrinkOffer = (
   category: drinkCategory|foodCategory,
   fits: association[],
   misfits: association[],
-  excludedDrinkNames: string[]
+  excludedDrinkNames: string[],
+  isAbout:weServe
 ): Offer => {
-  const examples = drinkExamples.find((example) => {return example.category === category;})!.examples;
+  //here
+  let examples: TavernProduct[];
+  if(isAbout===weServe.drinks){
+    examples = drinkExamples.find((example) => {return example.category === category;})!.examples;
+  }
+  else {
+    examples = foodExamples.find((example) => {return example.category === category;})!.examples;
+  }
   const drink = getFittingRandom(
     examples,
     fits,

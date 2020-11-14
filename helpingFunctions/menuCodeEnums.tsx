@@ -1,10 +1,5 @@
 import { drinkCategory, TavernProduct } from "../classes/TavernProduct";
 
-
-export const startOfferCategories = [
-];
-//TODO Refactor: Offer is included in TavernProduct, thus Offer is not needed
-
 export interface Offer {
   product: TavernProduct;
   price: number;

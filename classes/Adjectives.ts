@@ -2,9 +2,9 @@ import { substantiveCategory } from "./Substantive";
 
 export enum association {
   empty = "",
-  rich = "rich",
+  rich = "vastly rich",
   poor = "poor",
-  worker = "artisan",
+  worker = "modest",
   nobel = "knight",
   criminal = "thief",
   adventurer = "traveler",
@@ -30,7 +30,7 @@ export enum association {
   mountain = "mountain",
   city = "city",
   village = "village",
-  sophisticated = "academic",
+  sophisticated = "wealthy",
   evil = "assasine" //smugglers, evil, murderer ?
 }
 

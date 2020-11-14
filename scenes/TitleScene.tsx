@@ -1,6 +1,6 @@
 import { SimpleLineIcons } from '@expo/vector-icons';
 import React from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { ImageBackground, ScrollView, StyleSheet, Text, View } from "react-native";
 import { Button, Divider, FAB, Paragraph, TextInput, Title } from "react-native-paper";
 import { SceneButton } from "../components/SceneButton";
 
@@ -12,6 +12,14 @@ const MyComponent = () => (
     onPress={() => console.log('Pressed')}
   />
 );
+
+const RectangleTest = () =>{
+  return <ImageBackground source={require("../assets/testRectangle590x210.png")} style={{ width: 330, height: 140, alignSelf: "center", flexDirection: "column", justifyContent: "center" }}>
+    <View>
+      <Text>Es war einmal</Text><Text>vor einer langen Zeit</Text><Text>in einer</Text><Text>weitentfernten Galaxie</Text>
+    </View>
+  </ImageBackground>
+}
 
 const styles = StyleSheet.create({
   bottom: {
@@ -47,7 +55,8 @@ export const TitleScene = ({ navigation }: any) => {
       />
       <Divider/>
       <TitleButtons/>
-      <SceneButton sceneName={"TavernScene"} navigation={navigation} />
+      <RectangleTest></RectangleTest>
+      <SceneButton sceneName={"EDIT TAVERN"} navigation={navigation} />
       </View>
       <View style={{marginTop:100}}>
       </View>
