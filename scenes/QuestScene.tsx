@@ -34,20 +34,19 @@ const CurrencySetDialog=(props:{currency:string,open:boolean,onDismiss:()=>void,
     </Portal>
 }
 
-const PriceSetDialog=(props:{startPrice:number,income:association,open:boolean,onDismiss:()=>void,setPrice:(newPrice:number,income:association)=>void})=>{
-    const [text, setText] = useState(props.startPrice.toString());
+const PriceSetDialog=(props:{priceText:string,lastPrice:number,setPriceText:(priceText:string)=>void,income:association,open:boolean,onDismiss:()=>void,setPrice:(newPrice:number,income:association)=>void})=>{
     const [textIsValid, setTextIsValid] = useState(true);
 
     const textIsNumber=(text:string)=>{
         return text.match(/^[0-9]+$/) != null;
     }
     return <Portal>
-        <Dialog visible={props.open} onDismiss={props.onDismiss}>
+        <Dialog visible={props.open} onDismiss={()=>{props.setPriceText(props.lastPrice.toString());props.onDismiss()}}>
             <Dialog.Content>
-                <TextInput mode="outlined" value={text} label="New price" placeholder={props.income.toUpperCase()} onChangeText={(text:string)=>{setText(text);if(textIsNumber(text)){setTextIsValid(true)}else{setTextIsValid(false)};}}>
+                <TextInput mode="outlined" value={props.priceText} label="New price" placeholder={props.income.toUpperCase()} onChangeText={(text:string)=>{props.setPriceText(text);if(textIsNumber(text)){setTextIsValid(true)}else{setTextIsValid(false)};}} >
                 </TextInput>
                 <HelperText type="error" visible={!textIsValid}>Only positive numbers, please.</HelperText>
-                <View><Button onPress={()=>{props.setPrice(parseInt(text),props.income);props.onDismiss()}} disabled={!textIsValid} mode="contained">Okay!</Button></View>
+                <View><Button onPress={()=>{props.setPrice(parseInt(props.priceText),props.income);props.onDismiss()}} disabled={!textIsValid} mode="contained">Okay!</Button></View>
             </Dialog.Content>
         </Dialog>
     </Portal>
@@ -66,7 +65,7 @@ return <Portal>
 
 export const QuestScene=(props:{fitting:{fits:association[],misfits:association[]},basePrice:BasePrice,setBasePrice:(newPrices:BasePrice)=>void})=>{
     const [descriptionDialogData,setDialogData] = useState({open:false,income:association.poor,jobExamples:"",currencyName:props.basePrice.currency,price:props.basePrice.poor})
-    const [priceSetterData,setPriceSetterData] = useState({open:false,income:association.poor, price:props.basePrice.poor})
+    const [priceSetterData,setPriceSetterData] = useState({open:false,income:association.poor, priceText:props.basePrice.poor.toString(),price:12})
     const [currencySetterData,setCurrencySetterData] = useState({open:false,currency:props.basePrice.currency})
 
     const onInfoPress=(income:association)=>{
@@ -88,30 +87,28 @@ export const QuestScene=(props:{fitting:{fits:association[],misfits:association[
         }
         setDialogData({open:true,income:income,jobExamples:incomeExampleMap.get(income)!,currencyName:props.basePrice.currency,price:price})
     }
-    const dummyMethod=(income:association,price:number)=>{
-        setPriceSetterData({open:false,income:income,price:price})
-        return true
-    }
     const onPriceSetPress=(income:association)=>{
         let price:number;
         switch (income) {
             case association.poor:
                 price=props.basePrice.poor
+                setPriceSetterData({open:false,income:income,price:price,priceText:price.toString()})
                 break;
             case association.worker:
                 price=props.basePrice.modest
+                setPriceSetterData({open:false,income:income,price:price,priceText:price.toString()})
                 break;
             case association.sophisticated:
                 price=props.basePrice.wealthy
+                setPriceSetterData({open:false,income:income,price:price,priceText:price.toString()})
                 break;
         
             default:
                 price = props.basePrice.rich
+                setPriceSetterData({open:false,income:income,price:price,priceText:price.toString()})
                 break;
         }
-        if(dummyMethod(income,price)){
-            setPriceSetterData({open:true,income:income,price:price}) 
-        }
+        setPriceSetterData({open:true,income:income,price:price,priceText:price.toString()})
     }
 
     const onCurrencySetPress=()=>{
@@ -152,16 +149,20 @@ export const QuestScene=(props:{fitting:{fits:association[],misfits:association[
             }
         }
     }
+
+    const setPriceText=(text:string)=>{
+        setPriceSetterData({open:priceSetterData.open,income:priceSetterData.income,priceText:text,price:priceSetterData.price})
+    }
     
     const onDialogDismiss=()=>{
         setDialogData({open:false, income:descriptionDialogData.income,price:descriptionDialogData.price,currencyName:descriptionDialogData.currencyName,jobExamples:descriptionDialogData.jobExamples})
-        setPriceSetterData({open:false, income:descriptionDialogData.income,price:descriptionDialogData.price,})
+        setPriceSetterData({open:false, income:priceSetterData.income,price:priceSetterData.price,priceText:priceSetterData.priceText})
         setCurrencySetterData({open:false, currency:props.basePrice.currency})
     }
     return <ScrollView>
         <PriceDescriptionDialog descriptionDialogData={descriptionDialogData} onDismiss={onDialogDismiss}/>
-        <PriceSetDialog open={priceSetterData.open} onDismiss={onDialogDismiss} income={priceSetterData.income} startPrice={priceSetterData.price}
-        setPrice={onPriceSet}></PriceSetDialog>
+        <PriceSetDialog open={priceSetterData.open} onDismiss={onDialogDismiss} income={priceSetterData.income} priceText={priceSetterData.priceText} lastPrice={priceSetterData.price}
+        setPrice={onPriceSet} setPriceText={setPriceText}></PriceSetDialog>
         <CurrencySetDialog open={currencySetterData.open}  currency={currencySetterData.currency} setCurrency={(newCurrency:string)=>{onPriceSet(undefined,undefined,newCurrency)}} onDismiss={onDialogDismiss}></CurrencySetDialog>
         <DetailsList fitting={props.fitting} basePrice={props.basePrice} onInfoPress={onInfoPress} onPriceSetPress={onPriceSetPress} onCurrencySetPress={onCurrencySetPress}></DetailsList>
         </ScrollView>}
