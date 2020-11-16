@@ -10,7 +10,7 @@ import {
   offersWithOneReroll,
   weServe
 } from "../helpingFunctions/menuCode";
-import { NothingLeftOffer, Offer } from "../helpingFunctions/menuCodeEnums";
+import { BasePrice, NothingLeftOffer, Offer } from "../helpingFunctions/menuCodeEnums";
 import { nameSceneStyles } from "./nameSceneStyles";
 
 
@@ -28,7 +28,7 @@ const menuStyle = StyleSheet.create({
   sceneButton: { justifyContent: "center"},
 });
 
-interface MenuProps{fitting:{fits:association[],misfits:association[]},isAbout:weServe,offers:Offer[], setOffers:(offers:Offer[])=>void,undoFAB:JSX.Element,offersLeft:Map<drinkCategory|foodCategory,boolean>,setOffersLeft:(offersLeft:Map<drinkCategory|foodCategory,boolean>)=>void}
+interface MenuProps{fitting:{fits:association[],misfits:association[]},isAbout:weServe,offers:Offer[], setOffers:(offers:Offer[])=>void,undoFAB:JSX.Element,offersLeft:Map<drinkCategory|foodCategory,boolean>,setOffersLeft:(offersLeft:Map<drinkCategory|foodCategory,boolean>)=>void,basePrice:BasePrice}
 
 export const MenuScene = (props: MenuProps) => {
   const fits = props.fitting.fits;
@@ -68,7 +68,8 @@ export const MenuScene = (props: MenuProps) => {
       props.offers,
       fits,
       misfits,
-      props.isAbout
+      props.isAbout,
+      props.basePrice
   );
     props.setOffers(newOffers);
   }
@@ -81,8 +82,8 @@ export const MenuScene = (props: MenuProps) => {
   const addRandomOffer =(category:drinkCategory|foodCategory)=>{
     let newOffers= [] as Offer[];
     props.offers.forEach(offer =>{newOffers.push(offer)});
-    newOffers.push(getNewRandomDrinkOffer(fits,misfits,category,props.offers,props.isAbout));
-    const testOffer = getNewRandomDrinkOffer(fits,misfits,category,newOffers,props.isAbout);
+    newOffers.push(getNewRandomDrinkOffer(fits,misfits,category,props.offers,props.isAbout,props.basePrice));
+    const testOffer = getNewRandomDrinkOffer(fits,misfits,category,newOffers,props.isAbout,props.basePrice);
     if(testOffer.product === NothingLeftOffer.product){
       setNewestEmptyCategory(category)
       setBannerEnding(getRandomArrayEntry(mapOfBannerEndings.get(props.isAbout)!))
@@ -106,7 +107,7 @@ export const MenuScene = (props: MenuProps) => {
       ]}>
       {"Your tavern offers every fitting "+ newestEmptyCategory.toLowerCase() +"!\n\n"  + bannerEnding}
     </Banner>
-      <OfferList offers={props.offers} isAbout={props.isAbout} addingActions={{randomAdd: addRandomOffer,import:(category:drinkCategory|foodCategory)=>{}}} offerActions={{deleteOffer:deleteOffer,rerollOffer:rerollOffer,shopOffer:buyOffer}} offersLeftMap={props.offersLeft}/>
+      <OfferList offers={props.offers} isAbout={props.isAbout} addingActions={{randomAdd: addRandomOffer,import:(category:drinkCategory|foodCategory)=>{}}} offerActions={{deleteOffer:deleteOffer,rerollOffer:rerollOffer,shopOffer:buyOffer}} offersLeftMap={props.offersLeft} currencyName={props.basePrice.currency}/>
       {props.undoFAB}
     </ScrollView>
   );

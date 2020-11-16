@@ -1,12 +1,10 @@
 import React from "react";
 import { Text, View } from "react-native";
 import "react-native-gesture-handler";
-import { BasePrice } from "../App";
 import { Adjective, association } from "../classes/Adjectives";
 import { Substantive, substantiveCategory } from "../classes/Substantive";
 import { AssociationDialogBar } from "../components/AssociationDialogBar";
-import { buttonEmphasis, ImportButton, InfoButton, RerollButton } from "../components/buttons/generalButtons";
-import { PriceHelperText } from "../components/PriceHelperText";
+import { buttonEmphasis, ImportButton, RerollButton } from "../components/buttons/generalButtons";
 import { TavernSign } from "../components/TavernSign";
 import { adjectives, substantives } from "../examples/nouns";
 import { specialTavernNames } from "../examples/specialTavernNames";
@@ -30,10 +28,8 @@ interface NameProps {
   fitting:{fits : association[];
     misfits: association[];};
   updateFitting: (newFits:association[],newMisfits:association[])=>void;
-  basePrice: BasePrice;
   name: string;
   updateName:(name:string)=> void;
-  updatePrice:(newBasePrice:BasePrice)=>void;
   undoFAB:JSX.Element;
   }
   
@@ -50,26 +46,15 @@ export class NameScene extends React.Component<NameProps, TextState> {
   public render() {
     return (
       <View style={nameSceneStyles.backgroundContainer}>
-        <Text style={nameSceneStyles.title}>Name&amp;Price</Text>
+        <Text style={nameSceneStyles.title}>Name</Text>
         <View>
         <AssociationDialogBar fits={this.props.fitting.fits} switchFits={(newFits:association[])=>{this.updateFitsAndMisfits(newFits)}}/>
         </View>
-        <View><TavernSign nameText={nameSplitter(this.props.name,CHARACTER_MAX_ON_LINE)}></TavernSign>
-        <View style={{flexDirection:"row",justifyContent:"space-evenly",paddingHorizontal:0}}>
-          {this.renderRerollButton()}
-          <ImportButton onPress={()=>{}} mode={buttonEmphasis.high} title={"IMPORT"}/>
-        </View>
-        <View style={{margin:40}}>
-          <View style={{flexDirection:"row",justifyContent:"flex-start"}}>
-          <Text style={{fontStyle:"italic",fontSize:20,color:"#0c0c38"}}>Choose average price:</Text><InfoButton onPress={()=>{}}></InfoButton>
-          </View>
-              <PriceHelperText></PriceHelperText>
-            <View style={{flexDirection:"row"}}>
-              <PriceHelperText></PriceHelperText>
-              <PriceHelperText></PriceHelperText>
-              <PriceHelperText></PriceHelperText>
-              <PriceHelperText></PriceHelperText>
-            </View>
+        <View>
+          <TavernSign nameText={nameSplitter(this.props.name,CHARACTER_MAX_ON_LINE)}></TavernSign>
+          <View style={{flexDirection:"row",justifyContent:"space-evenly",paddingHorizontal:0}}>
+            {this.renderRerollButton()}
+            <ImportButton onPress={()=>{}} mode={buttonEmphasis.high} title={"IMPORT"}/>
           </View>
         </View>
         {this.props.undoFAB}

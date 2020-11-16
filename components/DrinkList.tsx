@@ -37,17 +37,18 @@ const DrinkListTopItem = (props: { drinkName:string, infoAction:()=>void}) => {
   const infoAction = props.infoAction;
   return <List.Item title="" left={(props)=>{return <View style={{flexDirection:"row", justifyContent:"flex-start"}}><Text style={nameSceneStyles.drinkName}>{nameSplitter(thisDrinkName,CHARACTER_MAX_DRINK_NAME)}</Text><InfoButton onPress={infoAction} padding={0} margin={0}/></View>}}></List.Item>;
 };
-const DrinkListBottomItem = (props: { price:number, actions: productActions , noDrinkToAddLeft:boolean }) => {
+const DrinkListBottomItem = (props: { price:number, actions: productActions , noDrinkToAddLeft:boolean, currencyName:string }) => {
   const actions = props.actions;
   const thisPrice= props.price;
   const noDrinkToAddLeft=props.noDrinkToAddLeft
-  return <List.Item title={"   Price: "+ props.price.toString()+ " copper."} titleStyle={nameSceneStyles.drinkPrice} right={(props) => { return <DrinkListItemRight  actions={actions} noDrinkToAddLeft={noDrinkToAddLeft}/>; }}></List.Item>;
+  return <List.Item title={"   Price: "+ props.price.toString()+ " " + props.currencyName} titleStyle={nameSceneStyles.drinkPrice} right={(props) => { return <DrinkListItemRight  actions={actions} noDrinkToAddLeft={noDrinkToAddLeft}/>; }}></List.Item>;
 };
-const DrinkListAccordeon = (props: {drinkCategory: drinkCategory|foodCategory, listOfOffers: Offer[], offerActions:productActionsByName, addingActions: addingActions, noDrinkToAddLeft:boolean }) => {
+const DrinkListAccordeon = (props: {drinkCategory: drinkCategory|foodCategory, listOfOffers: Offer[], offerActions:productActionsByName, addingActions: addingActions, noDrinkToAddLeft:boolean, currencyName:string }) => {
   const onRandomAdd=props.addingActions.randomAdd;
   const onImport=props.addingActions.import;
-  const thisCategory=props.drinkCategory
-  const noDrinkToAddLeft=props.noDrinkToAddLeft
+  const thisCategory=props.drinkCategory;
+  const noDrinkToAddLeft=props.noDrinkToAddLeft;
+  const currencyName = props.currencyName;
   let offerItems = [] as JSX.Element[];
   props.listOfOffers.forEach(
     offerOfList => {
@@ -56,7 +57,8 @@ const DrinkListAccordeon = (props: {drinkCategory: drinkCategory|foodCategory, l
         <DrinkListTopItem drinkName={name} key={name + "-top"} infoAction={()=>{}} ></DrinkListTopItem>
       );
       offerItems.push(
-        <DrinkListBottomItem price={offerOfList.price} key={name + "-bottom"} actions={{onDelete: () => {props.offerActions.deleteOffer(name)}, onReroll:()=>{ props.offerActions.rerollOffer(name)}, onShop:()=>{props.offerActions.shopOffer(name)}}} noDrinkToAddLeft={noDrinkToAddLeft}></DrinkListBottomItem>
+        <DrinkListBottomItem price={offerOfList.price} key={name + "-bottom"} actions={{onDelete: () => {props.offerActions.deleteOffer(name)}, onReroll:()=>{ props.offerActions.rerollOffer(name)}, onShop:()=>{props.offerActions.shopOffer(name)}}} noDrinkToAddLeft={noDrinkToAddLeft}
+        currencyName={currencyName}></DrinkListBottomItem>
       )
     }
   );
@@ -66,7 +68,7 @@ const DrinkListAccordeon = (props: {drinkCategory: drinkCategory|foodCategory, l
   </List.Accordion>;
 
 };
-export const OfferList = (props:{offers:Offer[],isAbout:weServe,offerActions:productActionsByName,addingActions:addingActions, offersLeftMap:Map<drinkCategory|foodCategory,boolean>}) => {
+export const OfferList = (props:{offers:Offer[],isAbout:weServe,offerActions:productActionsByName,addingActions:addingActions, offersLeftMap:Map<drinkCategory|foodCategory,boolean>,currencyName:string}) => {
 
   const menu=[] as MenuChapter[];
   let categories = props.isAbout===weServe.drinks? drinkCategory:foodCategory;
@@ -87,7 +89,7 @@ export const OfferList = (props:{offers:Offer[],isAbout:weServe,offerActions:pro
 
   const chapterLists= menu.map(
     chapter=>{
-      return <DrinkListAccordeon key={chapter.category} drinkCategory={chapter.category} listOfOffers={chapter.offers} offerActions={props.offerActions} addingActions={{randomAdd:props.addingActions.randomAdd,import:props.addingActions.import}} noDrinkToAddLeft={!props.offersLeftMap.get(chapter.category)!}/>})
+      return <DrinkListAccordeon key={chapter.category} drinkCategory={chapter.category} listOfOffers={chapter.offers} offerActions={props.offerActions} addingActions={{randomAdd:props.addingActions.randomAdd,import:props.addingActions.import}} currencyName={props.currencyName} noDrinkToAddLeft={!props.offersLeftMap.get(chapter.category)!}/>})
 
 
   // to improve performance: use a unique state for every drink category. For example, removing a single beer would then be faster because wineList etc. can be skipped.

@@ -13,7 +13,7 @@ import Icon from './components/icons';
 import { iconKeys } from "./components/icons/iconKeys";
 import { standardBasePrice } from "./examples/priceClasses";
 import { weServe } from "./helpingFunctions/menuCode";
-import { Offer } from "./helpingFunctions/menuCodeEnums";
+import { BasePrice, Offer } from "./helpingFunctions/menuCodeEnums";
 import { MenuScene } from "./scenes/MenuScene";
 import { NameScene } from "./scenes/NameScene";
 import { QuestScene } from "./scenes/QuestScene";
@@ -36,13 +36,6 @@ const getStartMenuMaps=()=>{
   // assuming that every category has additional drinks to add from the start!
   Object.values(foodCategory).forEach(category=>{startDishesLeft.set(category as foodCategory,true)})
   return {drinkMap:startDrinksLeft,dishesMap:startDishesLeft}
-}
-export interface BasePrice {
-  poor:number,
-  modest:number,
-  wealthy:number,
-  rich:number,
-  currency:string
 }
 
 interface tavernData {
@@ -96,7 +89,7 @@ function MyTabs() {
   }
  
   const UndoFAB= <FAB icon={props => <SimpleLineIcons name="action-redo" size={24} color="black" />}
-  onPress={()=>{setTavernData(prevTavernData);setDrinksLeft(prevDrinksLeft);setDishesLeft(prevDishesLeft);setUndoIsLeft(false)}} disabled={!undoIsLeft}/>
+  onPress={()=>{setTavernData(prevTavernData);setDrinksLeft(prevDrinksLeft);setDishesLeft(prevDishesLeft);setUndoIsLeft(false)}} disabled={!undoIsLeft} small/>
 
   return (
     <Tab.Navigator       tabBarOptions={{
@@ -122,10 +115,10 @@ function MyTabs() {
         return <Icon name={iconName} size={size} color={color} />;
       },
     })}>
-      <Tab.Screen name="Name" children={()=><NameScene basePrice={tavernData.prices} name={tavernData.name} updateName={updateName} updatePrice={updatePrice} fitting={tavernData.fitting} updateFitting={(newFits:association[],newMisfits:association[])=>{updateFitting(removeEmptyStrings(newFits,newMisfits))}} undoFAB={UndoFAB}></NameScene>} />
-      <Tab.Screen name="Drink" children={()=><MenuScene undoFAB={UndoFAB} fitting={tavernData.fitting} isAbout={weServe.drinks} offers={tavernData.drinks} setOffers={updateDrinks} offersLeft={drinksLeft} setOffersLeft={(map:any)=>{setPrevDrinksLeft(drinksLeft);setDrinksLeft(map);}}></MenuScene>} />
-      <Tab.Screen name="Food" children={()=><MenuScene undoFAB={UndoFAB} fitting={tavernData.fitting} isAbout={weServe.food} offers={tavernData.dishes} setOffers={updateDishes} offersLeft={dishesLeft} setOffersLeft={(map:any)=>{setPrevDishesLeft(dishesLeft);setDishesLeft(map)}}></MenuScene>} />
-      <Tab.Screen name="Quest" children={()=><QuestScene  fitting={tavernData.fitting} ></QuestScene>} />
+      <Tab.Screen name="Name" children={()=><NameScene name={tavernData.name} updateName={updateName} fitting={tavernData.fitting} updateFitting={(newFits:association[],newMisfits:association[])=>{updateFitting(removeEmptyStrings(newFits,newMisfits))}} undoFAB={UndoFAB}></NameScene>} />
+      <Tab.Screen name="Drink" children={()=><MenuScene undoFAB={UndoFAB} fitting={tavernData.fitting} isAbout={weServe.drinks} offers={tavernData.drinks} setOffers={updateDrinks} offersLeft={drinksLeft} setOffersLeft={(map:any)=>{setPrevDrinksLeft(drinksLeft);setDrinksLeft(map);}} basePrice={tavernData.prices}></MenuScene>} />
+      <Tab.Screen name="Food" children={()=><MenuScene undoFAB={UndoFAB} fitting={tavernData.fitting} isAbout={weServe.food} offers={tavernData.dishes} setOffers={updateDishes} offersLeft={dishesLeft} setOffersLeft={(map:any)=>{setPrevDishesLeft(dishesLeft);setDishesLeft(map)}} basePrice={tavernData.prices}></MenuScene>} />
+      <Tab.Screen name="Quest" children={()=><QuestScene  fitting={tavernData.fitting} basePrice={tavernData.prices} setBasePrice={updatePrice} ></QuestScene>} />
     </Tab.Navigator>
   );
 }

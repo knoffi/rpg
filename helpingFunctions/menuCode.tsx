@@ -3,6 +3,8 @@ import { drinkCategory, foodCategory, TavernProduct } from "../classes/TavernPro
 import { drinkExamples, foodExamples } from "../examples/drinks";
 import { getFittingRandom } from "./getFittingRandom";
 import {
+  adjustOfferPrice,
+  BasePrice,
   NothingLeftOffer,
   Offer,
   tavernScalePrice
@@ -66,7 +68,8 @@ export const offersWithOneReroll = (
   offers: Offer[],
   fits: association[],
   misfits: association[],
-  isAbout:weServe
+  isAbout:weServe,
+  basePrice:BasePrice
 ) => {
 
   const usedDrinkCategories= getUsedDrinkCategories(offers)
@@ -80,20 +83,27 @@ export const offersWithOneReroll = (
     if (offer.product.name !== name) {
       return offer;
     } else {
-      return getRandomDrinkOffer(category, fits, misfits, offeredNames(offers),isAbout);
+      let newOffer= getRandomDrinkOffer(category, fits, misfits, offeredNames(offers),isAbout);
+      adjustOfferPrice(newOffer,fits,misfits,basePrice);
+      return newOffer;
+
     }
   });
   return newOffers;
 };
 
-export const getNewRandomDrinkOffer = (fits: association[], misfits: association[],category:drinkCategory|foodCategory, oldOffers:Offer[],isAbout:weServe)=>{
-  return getRandomDrinkOffer(
+export const getNewRandomDrinkOffer = (fits: association[], misfits: association[],category:drinkCategory|foodCategory, oldOffers:Offer[],isAbout:weServe,basePrice:BasePrice)=>{
+  let newRandomOffer = getRandomDrinkOffer(
     category,
     fits,
     misfits,
     offeredNames(oldOffers),
     isAbout
   );
+  if(newRandomOffer){
+    adjustOfferPrice(newRandomOffer,fits,misfits,basePrice);
+  }
+  return newRandomOffer
 }
 
 export const getDrinkOffers = (fits: association[], misfits: association[], offerCategories:drinkCategory[],isAbout:weServe) => {
@@ -142,9 +152,7 @@ const getRandomDrinkOffer = (
   if(!drink){
     return NothingLeftOffer
   }
-  const copperPrice = drink.getCopperPrice(
-    getTavernScalePrice(drink, fits, misfits)
-  );
+  const copperPrice = drink.copperPrice
   drink.resetCategory(category);
   return { product: drink, price: copperPrice };
 };
