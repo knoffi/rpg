@@ -17,7 +17,7 @@ export const mainDishes = [
     mainDishEnum
   ),
   new TavernProduct(
-    "Wild Pheasant With Mushrooms And Wine Sauce",
+    "Wild Pheasant In Wine Sauce With Mushrooms",
     90,
     [a.sophisticated],
     mainDishEnum
@@ -50,7 +50,7 @@ export const appetizers = [
 
 export const sideDishes = [
   new TavernProduct(
-    "Rucola Salad With Cherry Tomatoes",
+    "Arugula Salad With Cherry Tomatoes",
     10,
     [],
     foodCategory.sideDish

@@ -12,8 +12,8 @@ import { drinkCategory, foodCategory } from './classes/TavernProduct';
 import Icon from './components/icons';
 import { iconKeys } from "./components/icons/iconKeys";
 import { standardBasePrice } from "./examples/priceClasses";
-import { weServe } from "./helpingFunctions/menuCode";
-import { BasePrice, Offer } from "./helpingFunctions/menuCodeEnums";
+import { getNewRandomDrinkOffer, weServe } from "./helpingFunctions/menuCode";
+import { BasePrice, NothingLeftOffer, Offer } from "./helpingFunctions/menuCodeEnums";
 import { MenuScene } from "./scenes/MenuScene";
 import { NameScene } from "./scenes/NameScene";
 import { QuestScene } from "./scenes/QuestScene";
@@ -53,14 +53,19 @@ function MyTabs() {
   const [tavernData,setTavernData]= useState(startData)
   const [prevTavernData,setPrevTavernData]= useState(startData)
   const [undoIsLeft, setUndoIsLeft] = useState(false)
-  const [dishesLeft,setDishesLeft] = useState( getStartMenuMaps().dishesMap as Map<drinkCategory|foodCategory,boolean>)
-  const [prevDishesLeft,setPrevDishesLeft] = useState(getStartMenuMaps().dishesMap as Map<drinkCategory|foodCategory,boolean>)
-  const [drinksLeft,setDrinksLeft] = useState( getStartMenuMaps().drinkMap as Map<drinkCategory|foodCategory,boolean>)
-  const [prevDrinksLeft,setPrevDrinksLeft] = useState( getStartMenuMaps().drinkMap as Map<drinkCategory|foodCategory,boolean>)
 
   const updateFitting=(fitting:{fits:association[],misfits:association[]}) =>{
     setPrevTavernData(tavernData);
-    const newTavernData = {fitting:fitting,name:tavernData.name,drinks:tavernData.drinks,dishes:tavernData.dishes,prices:tavernData.prices,drinksLeft:tavernData.drinksLeft,dishesLeft:tavernData.dishesLeft}
+    const newDrinksLeft=new Map([]) as Map<drinkCategory|foodCategory,boolean>;
+    Object.values(drinkCategory).forEach(category=>{
+      const testDrinkOffer = getNewRandomDrinkOffer(fitting.fits,fitting.misfits,category,tavernData.drinks,weServe.drinks,tavernData.prices);
+      if(testDrinkOffer===undefined || testDrinkOffer===NothingLeftOffer){newDrinksLeft.set(category,false);
+      } else {newDrinksLeft.set(category,true)}})
+    const newDishesLeft=new Map([]) as Map<drinkCategory|foodCategory,boolean>;
+    Object.values(foodCategory).forEach(category=>{
+      const testFoodOffer = getNewRandomDrinkOffer(fitting.fits,fitting.misfits,category,tavernData.dishes,weServe.food,tavernData.prices);
+      if(testFoodOffer===undefined || testFoodOffer===NothingLeftOffer){newDishesLeft.set(category,false)} else {newDishesLeft.set(category,true)}})
+    const newTavernData = {fitting:fitting,name:tavernData.name,drinks:tavernData.drinks,dishes:tavernData.dishes,prices:tavernData.prices,drinksLeft:newDrinksLeft,dishesLeft:newDishesLeft}
     setTavernData(newTavernData);
   }
   const updateName=(name:string) =>{
@@ -71,13 +76,22 @@ function MyTabs() {
   }
   const updateDrinks=(drinks:Offer[]) =>{
     setPrevTavernData(tavernData);
-    const newTavernData = {fitting:tavernData.fitting,name:tavernData.name,drinks:drinks,dishes:tavernData.dishes,prices:tavernData.prices,drinksLeft:tavernData.drinksLeft,dishesLeft:tavernData.dishesLeft}
+    const newDrinksLeft=new Map([]) as Map<drinkCategory|foodCategory,boolean>;
+    Object.values(drinkCategory).forEach(category=>{
+      const testDrinkOffer = getNewRandomDrinkOffer(tavernData.fitting.fits,tavernData.fitting.misfits,category,drinks,weServe.drinks,tavernData.prices);
+      if(testDrinkOffer===undefined || testDrinkOffer===NothingLeftOffer){newDrinksLeft.set(category,false);
+      } else {newDrinksLeft.set(category,true)}})
+    const newTavernData = {fitting:tavernData.fitting,name:tavernData.name,drinks:drinks,dishes:tavernData.dishes,prices:tavernData.prices,drinksLeft:newDrinksLeft,dishesLeft:tavernData.dishesLeft}
     setTavernData(newTavernData)
     setUndoIsLeft(true)
   }
   const updateDishes=(dishes:Offer[]) =>{
     setPrevTavernData(tavernData);
-    const newTavernData = {fitting:tavernData.fitting,name:tavernData.name,drinks:tavernData.drinks,dishes:dishes,prices:tavernData.prices,drinksLeft:tavernData.drinksLeft,dishesLeft:tavernData.dishesLeft}
+    const newDishesLeft=new Map([]) as Map<drinkCategory|foodCategory,boolean>;
+    Object.values(foodCategory).forEach(category=>{
+      const testFoodOffer = getNewRandomDrinkOffer(tavernData.fitting.fits,tavernData.fitting.misfits,category,dishes,weServe.food,tavernData.prices);
+      if(testFoodOffer===undefined || testFoodOffer===NothingLeftOffer){newDishesLeft.set(category,false)} else {newDishesLeft.set(category,true)}})
+    const newTavernData = {fitting:tavernData.fitting,name:tavernData.name,drinks:tavernData.drinks,dishes:dishes,prices:tavernData.prices,drinksLeft:tavernData.drinksLeft,dishesLeft:newDishesLeft}
     setTavernData(newTavernData)
     setUndoIsLeft(true)
   }
@@ -89,7 +103,7 @@ function MyTabs() {
   }
  
   const UndoFAB= <FAB icon={props => <SimpleLineIcons name="action-redo" size={24} color="black" />}
-  onPress={()=>{setTavernData(prevTavernData);setDrinksLeft(prevDrinksLeft);setDishesLeft(prevDishesLeft);setUndoIsLeft(false)}} disabled={!undoIsLeft} small/>
+  onPress={()=>{setTavernData(prevTavernData);setUndoIsLeft(false)}} disabled={!undoIsLeft} small/>
 
   return (
     <Tab.Navigator       tabBarOptions={{
@@ -116,8 +130,8 @@ function MyTabs() {
       },
     })}>
       <Tab.Screen name="Name" children={()=><NameScene name={tavernData.name} updateName={updateName} fitting={tavernData.fitting} updateFitting={(newFits:association[],newMisfits:association[])=>{updateFitting(removeEmptyStrings(newFits,newMisfits))}} undoFAB={UndoFAB}></NameScene>} />
-      <Tab.Screen name="Drink" children={()=><MenuScene undoFAB={UndoFAB} fitting={tavernData.fitting} isAbout={weServe.drinks} offers={tavernData.drinks} setOffers={updateDrinks} offersLeft={drinksLeft} setOffersLeft={(map:any)=>{setPrevDrinksLeft(drinksLeft);setDrinksLeft(map);}} basePrice={tavernData.prices}></MenuScene>} />
-      <Tab.Screen name="Food" children={()=><MenuScene undoFAB={UndoFAB} fitting={tavernData.fitting} isAbout={weServe.food} offers={tavernData.dishes} setOffers={updateDishes} offersLeft={dishesLeft} setOffersLeft={(map:any)=>{setPrevDishesLeft(dishesLeft);setDishesLeft(map)}} basePrice={tavernData.prices}></MenuScene>} />
+      <Tab.Screen name="Drink" children={()=><MenuScene undoFAB={UndoFAB} fitting={tavernData.fitting} isAbout={weServe.drinks} offers={tavernData.drinks} setOffers={updateDrinks} offersLeft={tavernData.drinksLeft}  basePrice={tavernData.prices}></MenuScene>} />
+      <Tab.Screen name="Food" children={()=><MenuScene undoFAB={UndoFAB} fitting={tavernData.fitting} isAbout={weServe.food} offers={tavernData.dishes} setOffers={updateDishes} offersLeft={tavernData.dishesLeft}  basePrice={tavernData.prices}></MenuScene>} />
       <Tab.Screen name="Quest" children={()=><QuestScene  fitting={tavernData.fitting} basePrice={tavernData.prices} setBasePrice={updatePrice} ></QuestScene>} />
     </Tab.Navigator>
   );

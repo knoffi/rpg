@@ -33,15 +33,17 @@ export const TavernSign = (props: { nameText: string}) => {
   const [familyIndex, setFamilyIndex] = React.useState(0);
   const [colorIndex, setColorIndex] = React.useState(0);
 
+  const introText = props.nameText.length < 20? <Text style={{ alignContent: "center", textAlign: "center", fontSize: fontSizes[familyIndex] / 2, color: fontColors[colorIndex], fontFamily: fontFamilies[familyIndex], marginBottom:10 }}>
+  The
+</Text> : undefined 
+
   const bottomComponents = TRYOUT_FONTS ? < BottomColorControlButtons setColorIndex={setColorIndex} colorIndex={colorIndex} fontColors={fontColors}></BottomColorControlButtons> : undefined
   const topComponents = TRYOUT_COLORS ? <TopFontControllButtons setFamilyIndex={setFamilyIndex} familyIndex={familyIndex} fontFamilies={fontFamilies}></TopFontControllButtons> : undefined
 
   return <View>{topComponents}
     <ImageBackground source={require("../assets/tavernSign.png")} style={{ width: SIGN_WIDTH, height: SIGN_HEIGHT, alignSelf: "center", flexDirection: "column", justifyContent: "center" }}>
       <View style={{ alignSelf: "center", flexDirection: "column", justifyContent: "center", width: SIGN_WIDTH, height: SIGN_HEIGHT }}>
-        <Text style={{ alignContent: "center", textAlign: "center", fontSize: fontSizes[familyIndex] / 2, color: fontColors[colorIndex], fontFamily: fontFamilies[familyIndex], marginBottom:10 }}>
-          The
-    </Text>
+        {introText}
         <Text style={{ textAlign: "center", fontSize: fontSizes[familyIndex], color: fontColors[colorIndex], fontFamily: fontFamilies[familyIndex] }}>
           {props.nameText}
         </Text>

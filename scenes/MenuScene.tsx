@@ -28,38 +28,23 @@ const menuStyle = StyleSheet.create({
   sceneButton: { justifyContent: "center"},
 });
 
-interface MenuProps{fitting:{fits:association[],misfits:association[]},isAbout:weServe,offers:Offer[], setOffers:(offers:Offer[])=>void,undoFAB:JSX.Element,offersLeft:Map<drinkCategory|foodCategory,boolean>,setOffersLeft:(offersLeft:Map<drinkCategory|foodCategory,boolean>)=>void,basePrice:BasePrice}
+interface MenuProps{fitting:{fits:association[],misfits:association[]},isAbout:weServe,offers:Offer[], setOffers:(offers:Offer[])=>void,undoFAB:JSX.Element,offersLeft:Map<drinkCategory|foodCategory,boolean>,basePrice:BasePrice}
 
 export const MenuScene = (props: MenuProps) => {
   const fits = props.fitting.fits;
   const misfits = props.fitting.misfits;
-  const servedCategory = props.isAbout===weServe.drinks? drinkCategory :foodCategory;
+  let servedCategory = props.isAbout===weServe.drinks? drinkCategory :foodCategory;
   //why?
   const [boughtOffers,setBoughtOffers] =useState([] as Offer[]);
   const [bannerIsVisible, setBannerVisibility]=useState(false);
   const [newestEmptyCategory, setNewestEmptyCategory]=useState(drinkCategory.lemonade as drinkCategory|foodCategory);
   const [bannerEnding, setBannerEnding]=useState(getRandomArrayEntry(mapOfBannerEndings.get(props.isAbout)!));
 
-  const setIsOfferLeft=(changedCategory:drinkCategory|foodCategory, isLeft:boolean)=>{
-    let newOffersLeft=new Map([]) as Map<drinkCategory|foodCategory,boolean>
-    // assuming that structure of offersLeft is constant, i.e. can be derived from drinkCategory-enum
-    Object.values(servedCategory)
-      .forEach(
-        category => {
-          if(category===changedCategory){
-            newOffersLeft.set(category as drinkCategory|foodCategory,isLeft)
-          }
-          else {
-            newOffersLeft.set(category as drinkCategory|foodCategory ,props.offersLeft.get(category as drinkCategory|foodCategory)!)
-          }
-        }
-      )
-    props.setOffersLeft(newOffersLeft);
-  }
+  
 
   const deleteOffer=(name:string)=>{
     let newOffers=[] as Offer[];
-    props.offers.forEach(offer=>{if(offer.product.name!==name){newOffers.push(offer)}else {setIsOfferLeft(offer.product.productCategory,true)}})
+    props.offers.forEach(offer=>{if(offer.product.name!==name){newOffers.push(offer)}})
     props.setOffers(newOffers)
   }
   const rerollOffer=(name:string)=>{
@@ -87,7 +72,6 @@ export const MenuScene = (props: MenuProps) => {
     if(testOffer.product === NothingLeftOffer.product){
       setNewestEmptyCategory(category)
       setBannerEnding(getRandomArrayEntry(mapOfBannerEndings.get(props.isAbout)!))
-      setIsOfferLeft(category,false)
       setBannerVisibility(true)
     }
     props.setOffers(newOffers);
