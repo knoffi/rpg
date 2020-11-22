@@ -308,14 +308,15 @@ export const specialTavernNames = [
   {
     association: association.sophisticated,
     names: [
+      "Parlament Of Pints",
+      "Wine Castle",
       "Paisley Ascot",
-      "Slumbering Owl",
+      "Ruby Owl",
       "Philosopher's Beard",
       "Dreaming Philantropist",
       "Diligent Scholar",
       "Glimmering Candle",
-      "Books & Beverages",
-      "Creative Brewery",
+      "Culture & Cognac",
     ],
   },
   {
@@ -373,6 +374,7 @@ export const specialTavernNames = [
   {
     association: association.wizard,
     names: [
+      "Books & Beverages",
       "Magical Mug",
       "Crystall Bell",
       "Tricking Hat",

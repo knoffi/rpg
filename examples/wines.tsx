@@ -88,26 +88,26 @@ export const wines = [
     wineEnum
   ),
   new TavernProduct(
-    "5 Year Old Baiser Rouge",
-    45,
+    "10 Year Old Baiser Rouge",
+    55,
     [a.cleric, a.rich],
     wineEnum
   ),
   new TavernProduct(
     "15 Year Old Baiser Rouge",
-    56,
+    76,
     [a.cleric, a.rich],
     wineEnum
   ),
   new TavernProduct(
-    "25 Year Old Baiser Rouge",
-    70,
+    "20 Year Old Baiser Rouge",
+    90,
     [a.cleric, a.rich],
     wineEnum
   ),
   new TavernProduct(
-    "50 Year Old Baiser Rouge",
-    120,
+    "30 Year Old Baiser Rouge",
+    130,
     [a.cleric, a.rich],
     wineEnum
   ),
@@ -124,50 +124,50 @@ export const wines = [
     wineEnum
   ),
   new TavernProduct(
-    "11 Year Old Franzlbeisser",
+    "5 Year Old Franzlbeisser",
     22,
     [a.worker, a.adventurer],
     wineEnum
   ),
   new TavernProduct(
-    "20 Year Old Franzlbeisser",
-    35,
+    "10 Year Old Franzlbeisser",
+    38,
     [a.sophisticated, a.adventurer],
     wineEnum
   ),
   new TavernProduct(
-    "6 Year Old Luiselbacher",
-    16,
+    "8 Year Old Luiselbacher",
+    30,
+    [a.worker, a.village],
+    wineEnum
+  ),
+  new TavernProduct(
+    "9 Year Old Luiselbacher",
+    35,
     [a.worker, a.village],
     wineEnum
   ),
   new TavernProduct(
     "10 Year Old Luiselbacher",
-    25,
-    [a.worker, a.village],
-    wineEnum
-  ),
-  new TavernProduct(
-    "20 Year Old Luiselbacher",
-    39,
+    40,
     [a.sophisticated, a.village],
     wineEnum
   ),
   new TavernProduct(
-    "6 Year Old Cavalosso",
+    "4 Year Old Cavalosso",
     18,
     [a.worker],
     wineEnum
   ),
   new TavernProduct(
-    "12 Year Old Cavalosso",
-    28,
+    "5 Year Old Cavalosso",
+    22,
     [a.sophisticated],
     wineEnum
   ),
   new TavernProduct(
-    "18 Year Old Cavalosso",
-    32,
+    "6 Year Old Cavalosso",
+    29,
     [a.sophisticated],
     wineEnum
   ),
@@ -184,27 +184,27 @@ export const wines = [
     wineEnum
   ),
   new TavernProduct(
-    "4 Year Old Cavaebleu",
+    "3 Year Old Cavaebleu",
     11,
     [a.poor],
     wineEnum
   ),
   new TavernProduct(
-    "6 Year Old Pugnavini",
+    "4 Year Old Pugnavini",
     21,
-    [a.criminal],
+    [a.criminal,a.worker],
     wineEnum
   ),
   new TavernProduct(
-    "10 Year Old Pugnavini",
-    35,
-    [a.criminal],
-    wineEnum
-  ),
-  new TavernProduct(
-    "12 Year Old Pugnavini",
+    "8 Year Old Pugnavini",
     40,
-    [a.criminal],
+    [a.criminal,a.sophisticated],
+    wineEnum
+  ),
+  new TavernProduct(
+    "20 Year Old Pugnavini",
+    90,
+    [a.criminal,a.rich],
     wineEnum
   ),
   new TavernProduct(
@@ -221,7 +221,7 @@ export const wines = [
   ),
   new TavernProduct(
     "6 Year Old Volkerbacher",
-    23,
+    25,
     [a.worker],
     wineEnum
   ),
@@ -239,14 +239,14 @@ export const wines = [
   ),
   new TavernProduct(
     "1 Year Old Paoneaux",
-    10,
+    8,
     [a.poor, a.prostitute],
     wineEnum
   ),
   new TavernProduct(
     "15 Year Old Paoneaux",
-    60,
-    [a.poor, a.prostitute],
+    90,
+    [a.rich, a.prostitute],
     wineEnum
   ),
   new TavernProduct(

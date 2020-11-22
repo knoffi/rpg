@@ -56,7 +56,10 @@ const PriceDescriptionDialog=(props:{descriptionDialogData:descriptionDialogData
 return <Portal>
     <Dialog visible={props.descriptionDialogData.open} onDismiss={props.onDismiss}>
         <Dialog.Content>
-            <Text style={{fontSize:18}}>{props.descriptionDialogData.price.toString()+ " " + props.descriptionDialogData.currencyName + " stands for the average price which "+ props.descriptionDialogData.income + " customers pay for a drink.   \n\n We recommend this for:\n"+ props.descriptionDialogData.jobExamples}
+            <Text>
+                <Text style={{fontSize:18}}>{props.descriptionDialogData.price.toString()+ " " + props.descriptionDialogData.currencyName + " stands for the average price which "+ props.descriptionDialogData.income + " customers pay for a drink.\n\n"}</Text>
+                <Text style={{textDecorationLine:"underline"}}>{"We recommend this for:\n"}</Text>
+                <Text style={{fontStyle:"italic"}}>{props.descriptionDialogData.jobExamples}</Text>
             </Text>
         </Dialog.Content>
     </Dialog>

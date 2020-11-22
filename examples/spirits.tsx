@@ -77,6 +77,33 @@ const bourbonTemplate = (
     ),
   ];
 };
+const brandyTemplate = (
+  producerName: string,
+  singleMaltPrice: number,
+  fits: association[],
+  ingredient: string
+) => {
+  return [
+    new TavernProduct(
+      producerName + "'s " + ingredient+ " XO ",
+      singleMaltPrice,
+      fits,
+      spiritEnum
+    ),
+    new TavernProduct(
+      producerName + "'s " + ingredient+ " V.S.O.P. ",
+      reducedPrice(singleMaltPrice, 1),
+      fits,
+      spiritEnum
+    ),
+    new TavernProduct(
+      producerName + "'s " + ingredient+ " V.S. ",
+      reducedPrice(singleMaltPrice, 2),
+      fits,
+      spiritEnum
+    ),
+  ];
+};
 
 export const spirits = [
   new TavernProduct(
@@ -134,7 +161,7 @@ export const spirits = [
   scotchTemplate("Rosetto", 29, [
     a.prostitute,
   ]),
-  scotchTemplate("Belzebu", 29, [
+  scotchTemplate("Belezebu", 29, [
     a.tiefling,
   ]),
   bourbonTemplate("Gregory", 11, [
@@ -157,5 +184,9 @@ export const spirits = [
     a.drow,
     a.underdark,
     a.sophisticated
-  ])
+  ]),
+  brandyTemplate("Ezezel", 23, [a.tiefling,a.worker],"Fire Apple"),
+  brandyTemplate("Azzeril", 7, [a.tiefling,a.poor],"Ash Plum"),
+  brandyTemplate("Melzara", 40, [a.tiefling,a.sophisticated],"Hell Berry"),
+  brandyTemplate("Abaddon", 90, [a.tiefling,a.rich],"Infernal Grape"),
 );

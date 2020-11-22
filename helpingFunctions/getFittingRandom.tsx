@@ -2,12 +2,14 @@ import { Adjective, association } from "../classes/Adjectives";
 import { Substantive } from "../classes/Substantive";
 import { TavernProduct } from "../classes/TavernProduct";
 
-const choiceParams = { minDifference: 1 };
+const CHOICE_PARAMS = { minDifference: 1 };
+const  WEIGTH_OF_FITS = 2;
+const  WEIGTH_OF_MISFITS = 1;
 
 export type category = Adjective | Substantive | TavernProduct;
 
 const getDistributionValue = (fitHits: number, misfitHits: number) => {
-  return 1 + 5 * fitHits - misfitHits;
+  return 1 + WEIGTH_OF_FITS * fitHits - WEIGTH_OF_MISFITS * misfitHits;
 };
 
 export const getFittingRandomOlder = (
@@ -22,7 +24,7 @@ export const getFittingRandomOlder = (
     const misfitHits = countIntersections(choiceProduct, misfits);
     if (!excludedNames.includes(choiceProduct.name)) {
       if (
-        fitHits - misfitHits > choiceParams.minDifference ||
+        fitHits - misfitHits > CHOICE_PARAMS.minDifference ||
         misfitHits === 0
       ) {
         distribution.push({
@@ -73,6 +75,7 @@ const countIntersections = (
   });
   return count;
 };
+
 
 const calculateFitting = (
   product: category,

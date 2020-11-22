@@ -46,7 +46,7 @@ export const AssociationDialog = (props: {pickAssociationList:association[],star
               compact={true}
               mode="contained"
               color={props.color}
-            >{text}
+            >{props.startText}
             </Button>
     <Portal>
       <Dialog visible={visible} onDismiss={closeDialog}>

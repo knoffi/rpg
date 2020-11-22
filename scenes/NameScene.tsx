@@ -6,6 +6,7 @@ import { Adjective, association } from "../classes/Adjectives";
 import { Substantive, substantiveCategory } from "../classes/Substantive";
 import { AssociationDialogBar } from "../components/AssociationDialogBar";
 import { buttonEmphasis, PencilButton, RerollButton } from "../components/buttons/generalButtons";
+import { EditFABGroup } from "../components/EditFABGoup";
 import { TavernSign } from "../components/TavernSign";
 import { adjectives, substantives } from "../examples/nouns";
 import { specialTavernNames } from "../examples/specialTavernNames";
@@ -50,12 +51,14 @@ export class NameScene extends React.Component<NameProps, TextState> {
 
   public render() {
     return (
-      <View style={nameSceneStyles.backgroundContainer}>
-        <Text style={nameSceneStyles.title}>Name</Text>
+      
+    <View style={{backgroundColor:nameSceneStyles.backgroundContainer.backgroundColor,justifyContent:"space-between"}}>
+      <Text style={nameSceneStyles.title}>NAME</Text>
+      <View style={{flexDirection:"column", justifyContent:"space-evenly"}}>
         <View>
         <AssociationDialogBar fits={this.props.fitting.fits} switchFits={(newFits:association[])=>{this.updateFitsAndMisfits(newFits)}}/>
         </View>
-        <View>
+        <View style={{marginTop:70, marginBottom:50}}>
           <NameSetDialog tavernName={this.props.name} setTavernName={this.props.updateName} open={this.state.nameSetDialogOpen} startText={this.state.dialogText} setStartText={(text:string)=>{this.setState({dialogText:text})}} onDismiss={()=>{this.setState({nameSetDialogOpen:false})}}/>
           <TavernSign nameText={nameSplitter(this.props.name,CHARACTER_MAX_ON_LINE)}></TavernSign>
           <View style={{flexDirection:"row",justifyContent:"space-evenly",paddingHorizontal:0}}>
@@ -63,8 +66,10 @@ export class NameScene extends React.Component<NameProps, TextState> {
             <PencilButton onPress={()=>{this.setState({nameSetDialogOpen:true})}} mode={buttonEmphasis.high} title={"EDIT"}/>
           </View>
         </View>
-        {this.props.undoFAB}
+        <View style={{marginTop:170}}></View>
       </View>
+      <EditFABGroup/>
+    </View>
     );
   }
 

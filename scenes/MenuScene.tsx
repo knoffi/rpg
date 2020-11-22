@@ -28,7 +28,12 @@ const menuStyle = StyleSheet.create({
   sceneButton: { justifyContent: "center"},
 });
 
-interface MenuProps{fitting:{fits:association[],misfits:association[]},isAbout:weServe,offers:Offer[], setOffers:(offers:Offer[])=>void,undoFAB:JSX.Element,offersLeft:Map<drinkCategory|foodCategory,boolean>,basePrice:BasePrice}
+export interface BannerData {
+  emptyCategories: drinkCategory[]|foodCategory[],
+  isVisible:boolean
+}
+
+interface MenuProps{fitting:{fits:association[],misfits:association[]},isAbout:weServe,offers:Offer[], setOffers:(offers:Offer[],is:{add:foodCategory|drinkCategory|undefined,delete:foodCategory|drinkCategory|undefined})=>void,undoFAB:JSX.Element,offersLeft:Map<drinkCategory|foodCategory,boolean>,basePrice:BasePrice, bannerData:BannerData,onBannerButtonClick:(isVisible:boolean)=>void}
 
 export const MenuScene = (props: MenuProps) => {
   const fits = props.fitting.fits;
@@ -36,16 +41,16 @@ export const MenuScene = (props: MenuProps) => {
   let servedCategory = props.isAbout===weServe.drinks? drinkCategory :foodCategory;
   //why?
   const [boughtOffers,setBoughtOffers] =useState([] as Offer[]);
-  const [bannerIsVisible, setBannerVisibility]=useState(false);
-  const [newestEmptyCategory, setNewestEmptyCategory]=useState(drinkCategory.lemonade as drinkCategory|foodCategory);
   const [bannerEnding, setBannerEnding]=useState(getRandomArrayEntry(mapOfBannerEndings.get(props.isAbout)!));
 
   
 
   const deleteOffer=(name:string)=>{
     let newOffers=[] as Offer[];
-    props.offers.forEach(offer=>{if(offer.product.name!==name){newOffers.push(offer)}})
-    props.setOffers(newOffers)
+    //asuming that delete button is not clickable if props.offers is empty
+    let change={add:undefined,delete:props.offers[0].product.productCategory}
+    props.offers.forEach(offer=>{if(offer.product.name!==name){newOffers.push(offer)}else{change.delete=offer.product.productCategory}})
+    props.setOffers(newOffers,change)
   }
   const rerollOffer=(name:string)=>{
     const newOffers = offersWithOneReroll(
@@ -56,7 +61,7 @@ export const MenuScene = (props: MenuProps) => {
       props.isAbout,
       props.basePrice
   );
-    props.setOffers(newOffers);
+    props.setOffers(newOffers,{add:undefined,delete:undefined});
   }
 
   const buyOffer=(name:string)=>{
@@ -67,29 +72,42 @@ export const MenuScene = (props: MenuProps) => {
   const addRandomOffer =(category:drinkCategory|foodCategory)=>{
     let newOffers= [] as Offer[];
     props.offers.forEach(offer =>{newOffers.push(offer)});
-    newOffers.push(getNewRandomDrinkOffer(fits,misfits,category,props.offers,props.isAbout,props.basePrice));
+    const newOffer= getNewRandomDrinkOffer(fits,misfits,category,props.offers,props.isAbout,props.basePrice)
+    newOffers.push(newOffer);
     const testOffer = getNewRandomDrinkOffer(fits,misfits,category,newOffers,props.isAbout,props.basePrice);
     if(testOffer.product === NothingLeftOffer.product){
-      setNewestEmptyCategory(category)
       setBannerEnding(getRandomArrayEntry(mapOfBannerEndings.get(props.isAbout)!))
-      setBannerVisibility(true)
     }
-    props.setOffers(newOffers);
+    props.setOffers(newOffers,{add:newOffer.product.productCategory,delete:undefined});
+  }
+
+  const getEmptyCategoriesString=(names:drinkCategory[]|foodCategory[])=>{
+    let numerationString = "";
+    names.forEach((name:drinkCategory|foodCategory,index:number)=>{
+      if( index === 0){
+        numerationString=numerationString + name
+      } else {
+        if( index < names.length - 1){
+          numerationString=numerationString + ", " + name
+        } else {
+          numerationString=numerationString + " and " + name
+        }
+      } 
+    })
+    return numerationString.toLocaleLowerCase() ;
   }
 
   return (
     <ScrollView style={{backgroundColor:nameSceneStyles.backgroundContainer.backgroundColor}}>
       <Banner
-      visible={bannerIsVisible}
+      visible={props.bannerData.isVisible}
       actions={[
         {
           label: 'Got it',
-          onPress: () => {
-            setBannerVisibility(false);
-          },
+          onPress: ()=>props.onBannerButtonClick(false)
         },
       ]}>
-      {"Your tavern offers every fitting "+ newestEmptyCategory.toLowerCase() +"!\n\n"  + bannerEnding}
+      {"Your tavern offers every fitting "+ getEmptyCategoriesString(props.bannerData.emptyCategories) +"!\n\n"  + bannerEnding}
     </Banner>
       <OfferList offers={props.offers} isAbout={props.isAbout} addingActions={{randomAdd: addRandomOffer,import:(category:drinkCategory|foodCategory)=>{}}} offerActions={{deleteOffer:deleteOffer,rerollOffer:rerollOffer,shopOffer:buyOffer}} offersLeftMap={props.offersLeft} currencyName={props.basePrice.currency}/>
       {props.undoFAB}

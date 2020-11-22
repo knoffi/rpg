@@ -1,7 +1,8 @@
 import { SimpleLineIcons } from '@expo/vector-icons';
 import React from "react";
-import { ImageBackground, ScrollView, StyleSheet, Text, View } from "react-native";
+import { ImageBackground, StyleSheet, Text, View } from "react-native";
 import { Button, Divider, FAB, Paragraph, TextInput, Title } from "react-native-paper";
+import { EditFABGroup } from '../components/EditFABGoup';
 import { SceneButton } from "../components/SceneButton";
 
 const MyComponent = () => (
@@ -45,8 +46,8 @@ const TitleButtons=(props:any)=>{return <View><Button>Tavern Editor</Button>
 export const TitleScene = ({ navigation }: any) => {
   
   return (
-    <ScrollView>
-     <View ><Title>You All Meet In A Tavern</Title>
+    <View>
+     <View style={{zIndex:0}}><Title>You All Meet In A Tavern</Title>
       <Paragraph>Sir Aiven's Lemonade ... 3 copper</Paragraph>
       <TextInput
         style={{ marginTop: 15 }}
@@ -58,12 +59,9 @@ export const TitleScene = ({ navigation }: any) => {
       <RectangleTest></RectangleTest>
       <SceneButton sceneName={"EDIT TAVERN"} navigation={navigation} />
       </View>
-      <View style={{marginTop:100}}>
+      <View style={{marginTop:100}}></View>
+      <EditFABGroup/>
       </View>
-      <View><MyComponent/></View>
-
-      
-      </ScrollView>
   );
   }
 

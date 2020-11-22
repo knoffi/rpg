@@ -6,8 +6,6 @@ export const SceneButton = (props: any) => {
     <Button
       style={{ marginTop: 15 }}
       mode="contained"
-      icon=""
-      accessibilityState={{}}
       onPress={() => {
         props.navigation.navigate(props.sceneName);
       }}

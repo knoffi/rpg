@@ -7,7 +7,7 @@ export const nameSceneStyles = StyleSheet.create({
     flexDirection: "column",
     backgroundColor: "#E8D7B4",
     zIndex:0,
-    justifyContent:"flex-start"
+    justifyContent:"space-evenly"
   },
   button: {
     backgroundColor: "#fff",

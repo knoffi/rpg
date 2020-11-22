@@ -92,7 +92,7 @@ export const offersWithOneReroll = (
   return newOffers;
 };
 
-export const getNewRandomDrinkOffer = (fits: association[], misfits: association[],category:drinkCategory|foodCategory, oldOffers:Offer[],isAbout:weServe,basePrice:BasePrice)=>{
+export const getNewRandomDrinkOffer = (fits: association[], misfits: association[],category:drinkCategory|foodCategory, oldOffers:Offer[],isAbout:weServe,basePrice?:BasePrice)=>{
   let newRandomOffer = getRandomDrinkOffer(
     category,
     fits,
@@ -101,7 +101,12 @@ export const getNewRandomDrinkOffer = (fits: association[], misfits: association
     isAbout
   );
   if(newRandomOffer){
+    if(basePrice){
     adjustOfferPrice(newRandomOffer,fits,misfits,basePrice);
+    }
+    else{
+      newRandomOffer.price=-1;
+    }
   }
   return newRandomOffer
 }

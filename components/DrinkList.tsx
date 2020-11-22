@@ -8,7 +8,7 @@ import { nameSplitter } from "../helpingFunctions/nameSplitter";
 import { nameSceneStyles } from "../scenes/nameSceneStyles";
 import { AddButton, buttonEmphasis, DeleteButton, ImportButton, InfoButton, RerollButton, ShopButton } from "./buttons/generalButtons";
 
-const CHARACTER_MAX_DRINK_NAME= 34;
+const CHARACTER_MAX_DRINK_NAME= 33;
 interface MenuChapter{
   category: drinkCategory | foodCategory;
   offers: Offer[];
