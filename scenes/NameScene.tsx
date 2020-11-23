@@ -7,6 +7,7 @@ import { Substantive, substantiveCategory } from "../classes/Substantive";
 import { AssociationDialogBar } from "../components/AssociationDialogBar";
 import { buttonEmphasis, PencilButton, RerollButton } from "../components/buttons/generalButtons";
 import { EditFABGroup } from "../components/EditFABGoup";
+import { EditStartModal } from "../components/editStartModal";
 import { TavernSign } from "../components/TavernSign";
 import { adjectives, substantives } from "../examples/nouns";
 import { specialTavernNames } from "../examples/specialTavernNames";
@@ -54,7 +55,7 @@ export class NameScene extends React.Component<NameProps, TextState> {
       
     <View style={{backgroundColor:nameSceneStyles.backgroundContainer.backgroundColor,justifyContent:"space-between"}}>
       <Text style={nameSceneStyles.title}>NAME</Text>
-      <View style={{flexDirection:"column", justifyContent:"space-evenly"}}>
+      <View style={{flexDirection:"column", justifyContent:"space-evenly", zIndex:0}}>
         <View>
         <AssociationDialogBar fits={this.props.fitting.fits} switchFits={(newFits:association[])=>{this.updateFitsAndMisfits(newFits)}}/>
         </View>
@@ -69,6 +70,7 @@ export class NameScene extends React.Component<NameProps, TextState> {
         <View style={{marginTop:170}}></View>
       </View>
       <EditFABGroup/>
+      <EditStartModal/>
     </View>
     );
   }

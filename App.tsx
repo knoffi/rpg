@@ -65,7 +65,6 @@ const getProductsLeftAndBannerData=(fitting:{fits:association[],misfits:associat
     })
     return {drinkBannerData:{emptyCategories:emptyDrinkCategories,isVisible:drinkBannerVisible} as BannerData,foodBannerData:{emptyCategories:emptyFoodCategories,isVisible:foodBannerVisible} as BannerData,isDrinkLeftMap:isDrinkLeftMap,isFoodLeftMap:isFoodLeftMap}
 }
-
 interface TavernData {
   fitting:{fits:association[], misfits:association[]},
   name:string,
@@ -78,7 +77,7 @@ interface TavernData {
   foodBannerData:BannerData;
 }
 
-function MyTabs() {
+const MyTabs=(props:{startTavern:TavernData, setStartTavern:(tavern:TavernData)=>void}) => {
   const startMenuMaps = getStartMenuMaps()
   const startData = {fitting:{fits:[],misfits:[]},name:"Nameless Tavern",drinks:[],dishes:[],prices:standardBasePrice, drinksLeft:startMenuMaps.drinkMap, dishesLeft:startMenuMaps.dishesMap,drinkBannerData:{isVisible:false,emptyCategories:[]},foodBannerData:{isVisible:false,emptyCategories:[]}} as TavernData
   const [tavernDatas,setTavernDatas]= useState([startData]);
@@ -225,6 +224,7 @@ function MyTabs() {
 }
 
 const App = () => {
+  const [startTavern,setStartTavern]=useState({fits:[] as string[], misfits:[] as string[], drinks:[] as string[], dishes: [] as string[]})
   let [fontsLoaded] = useFonts({
     'primitive':require("./assets/fonts/primitive.ttf"),
     "icons":require("./assets/fonts/icomoon.ttf")
@@ -237,7 +237,7 @@ const App = () => {
         <NavigationContainer>
           <Stack.Navigator>
            <Stack.Screen name="YOU ALL MEET IN A TAVERN!" component={TitleScene} />
-           <Stack.Screen name="EDIT TAVERN" component= {MyTabs}/>
+           <Stack.Screen name="EDIT TAVERN" component= {MyTabs} initialParams={startTavern}/>
           </Stack.Navigator>
         </NavigationContainer>
      </PaperProvider>
