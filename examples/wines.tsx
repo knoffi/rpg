@@ -5,344 +5,370 @@ const wineEnum = drinkCategory.wine;
 export const wines = [
   new TavernProduct(
     "Zoltan's Red Wine of Fairytales",
-    25,
-    [a.city, a.mountain, a.bard, a.adventurer, a.dwarf, a.human, a.gnome],
+    20,
+    [a.bard,a.worker],
     wineEnum
   ),
   new TavernProduct(
     "Zoltan's White Wine of Romance",
-    25,
-    [a.city, a.mountain, a.forest, a.bard, a.dwarf, a.human, a.elf],
+    20,
+    [a.bard, a.worker],
     wineEnum
   ),
   new TavernProduct(
     "Zoltan's Federweisser of Music",
-    20,
-    [a.city, a.mountain, a.village, a.bard, a.elf, a.human, a.gnome],
+    17,
+    [a.bard,a.worker],
     wineEnum
   ),
   new TavernProduct(
     "Miro's Sake of Philosophy",
-    25,
-    [
-      a.city,
-      a.mountain,
-      a.sophisticated,
-      a.haven,
-      a.bard,
-      a.gnome,
-      a.human,
-      a.tiefling,
-      a.wizard,
-    ],
+    35,
+    [a.sophisticated, a.wizard],
     wineEnum
   ),
   new TavernProduct(
     "Zoltan's Champagne of Charade",
     40,
-    [a.city, a.nobel, a.rich, a.bard, a.elf, a.human, a.halfling],
+    [a.sophisticated, a.bard],
     wineEnum
   ),
   new TavernProduct(
-    "Ibsinixi's Apple Cider ",
-    27,
-    [a.halfling, a.forest, a.village, a.worker],
+    "Marigold's Apple Cider ",
+    17,
+    [a.worker,a.village],
     wineEnum
   ),
   new TavernProduct(
-    "Ibsinixi's Pear Cider ",
-    27,
-    [a.halfling, a.forest, a.village, a.worker],
+    "Marigold's Pear Cider ",
+    17,
+    [a.worker,a.village],
     wineEnum
   ),
   new TavernProduct(
-    "Ibsinixi's Berry Cider ",
-    27,
-    [a.halfling, a.forest, a.village, a.worker],
+    "Marigold's Berry Cider ",
+    17,
+    [a.worker,a.forest],
     wineEnum
   ),
   new TavernProduct(
-    "Ibsinixi's Ginger Cider ",
-    27,
-    [a.halfling, a.tropical, a.city, a.worker],
+    "Marigold's Ginger Cider ",
+    17,
+    [a.city, a.worker],
     wineEnum
   ),
   new TavernProduct(
-    "Ibsinixi's Mango Cider ",
-    27,
-    [a.halfling, a.tropical, a.haven],
+    "Marigold's Mango Cider ",
+    17,
+    [a.halfling, a.tropical, a.worker],
     wineEnum
   ),
   new TavernProduct(
-    "Ibsinixi's Peach Cider ",
-    27,
-    [a.halfling, a.city, a.tropical, a.worker],
+    "Marigold's Peach Cider ",
+    17,
+    [a.halfling, a.tropical, a.worker],
     wineEnum
   ),
   new TavernProduct(
-    "Ibsinixi's Lemon Cider ",
-    27,
-    [a.halfling, a.tropical, a.village, a.worker],
+    "Marigold's Lemon Cider ",
+    17,
+    [a.halfling, a.tropical, a.worker],
     wineEnum
   ),
   new TavernProduct(
     "Baron Fletchers's Red Wine",
-    27,
-    [a.halfling, a.forest, a.village, a.worker],
+    17,
+    [a.human, a.worker, a.worker],
     wineEnum
   ),
   new TavernProduct(
     "Baron Fletchers's White Wine ",
-    27,
-    [a.halfling, a.forest, a.village, a.worker],
+    17,
+    [a.human, a.worker],
     wineEnum
   ),
   new TavernProduct(
-    "5 Year Old Baiser Rouge",
-    45,
-    [a.cleric, a.elf, a.city, a.rich],
+    "10 Year Old Baiser Rouge",
+    55,
+    [a.cleric, a.rich],
     wineEnum
   ),
   new TavernProduct(
     "15 Year Old Baiser Rouge",
-    56,
-    [a.cleric, a.elf, a.city, a.rich],
+    76,
+    [a.cleric, a.rich],
     wineEnum
   ),
   new TavernProduct(
-    "25 Year Old Baiser Rouge",
-    70,
-    [a.cleric, a.elf, a.city, a.rich],
+    "20 Year Old Baiser Rouge",
+    90,
+    [a.cleric, a.rich],
     wineEnum
   ),
   new TavernProduct(
-    "50 Year Old Baiser Rouge",
-    120,
-    [a.cleric, a.elf, a.city, a.rich],
+    "30 Year Old Baiser Rouge",
+    130,
+    [a.cleric, a.rich],
     wineEnum
   ),
   new TavernProduct(
-    "Ibsinixi's Rhubarb Cider ",
-    27,
-    [a.halfling, a.forest, a.village, a.worker, a.cleric],
+    "Marigold's Rhubarb Cider ",
+    17,
+    [a.forest,a.worker],
     wineEnum
   ),
   new TavernProduct(
     "4 Year Old Franzlbeisser",
-    25,
-    [a.human, a.village, a.worker, a.mountain, a.adventurer],
+    18,
+    [a.worker, a.adventurer],
     wineEnum
   ),
   new TavernProduct(
-    "11 Year Old Franzlbeisser",
-    32,
-    [a.human, a.village, a.worker, a.mountain, a.adventurer],
+    "5 Year Old Franzlbeisser",
+    22,
+    [a.worker, a.adventurer],
     wineEnum
   ),
   new TavernProduct(
-    "20 Year Old Franzlbeisser",
-    45,
-    [a.human, a.village, a.worker, a.mountain, a.adventurer],
+    "10 Year Old Franzlbeisser",
+    38,
+    [a.sophisticated, a.adventurer],
     wineEnum
   ),
   new TavernProduct(
-    "6 Year Old Luiselbacher",
-    26,
-    [a.cleric, a.nobel, a.halfling],
+    "8 Year Old Luiselbacher",
+    30,
+    [a.worker, a.village],
+    wineEnum
+  ),
+  new TavernProduct(
+    "9 Year Old Luiselbacher",
+    35,
+    [a.worker, a.village],
     wineEnum
   ),
   new TavernProduct(
     "10 Year Old Luiselbacher",
-    31,
-    [a.cleric, a.nobel, a.halfling],
+    40,
+    [a.sophisticated, a.village],
     wineEnum
   ),
   new TavernProduct(
-    "20 Year Old Luiselbacher",
-    45,
-    [a.cleric, a.nobel, a.halfling],
+    "4 Year Old Cavalosso",
+    18,
+    [a.worker],
+    wineEnum
+  ),
+  new TavernProduct(
+    "5 Year Old Cavalosso",
+    22,
+    [a.sophisticated],
     wineEnum
   ),
   new TavernProduct(
     "6 Year Old Cavalosso",
-    35,
-    [a.elf, a.city, a.sophisticated, a.bard],
-    wineEnum
-  ),
-  new TavernProduct(
-    "12 Year Old Cavalosso",
-    46,
-    [a.elf, a.city, a.sophisticated, a.bard],
-    wineEnum
-  ),
-  new TavernProduct(
-    "18 Year Old Cavalosso",
-    51,
-    [a.elf, a.city, a.sophisticated, a.bard],
+    29,
+    [a.sophisticated],
     wineEnum
   ),
   new TavernProduct(
     "1 Year Old Cavaebleu",
     7,
-    [a.poor, a.prostitute, a.criminal, a.city],
+    [a.poor],
     wineEnum
   ),
   new TavernProduct(
     "2 Year Old Cavaebleu",
     9,
-    [a.poor, a.prostitute, a.criminal, a.city],
+    [a.poor],
     wineEnum
   ),
   new TavernProduct(
-    "4 Year Old Cavaebleu",
+    "3 Year Old Cavaebleu",
     11,
-    [a.poor, a.prostitute, a.criminal, a.city],
+    [a.poor],
     wineEnum
   ),
   new TavernProduct(
-    "6 Year Old Pugnavini",
+    "4 Year Old Pugnavini",
     21,
-    [a.criminal, a.prostitute, a.haven, a.city],
+    [a.criminal,a.worker],
     wineEnum
   ),
   new TavernProduct(
-    "10 Year Old Pugnavini",
-    35,
-    [a.criminal, a.prostitute, a.haven, a.city],
-    wineEnum
-  ),
-  new TavernProduct(
-    "12 Year Old Pugnavini",
+    "8 Year Old Pugnavini",
     40,
-    [a.criminal, a.prostitute, a.haven, a.city],
+    [a.criminal,a.sophisticated],
+    wineEnum
+  ),
+  new TavernProduct(
+    "20 Year Old Pugnavini",
+    90,
+    [a.criminal,a.rich],
+    wineEnum
+  ),
+  new TavernProduct(
+    "4 Year Old Volkerbacher",
+    18,
+    [a.worker],
+    wineEnum
+  ),
+  new TavernProduct(
+    "5 Year Old Volkerbacher",
+    21,
+    [a.worker],
     wineEnum
   ),
   new TavernProduct(
     "6 Year Old Volkerbacher",
-    18,
-    [a.village, a.worker, a.mountain, a.cleric],
-    wineEnum
-  ),
-  new TavernProduct(
-    "10 Year Old Volkerbacher",
-    21,
-    [a.village, a.worker, a.mountain, a.cleric],
-    wineEnum
-  ),
-  new TavernProduct(
-    "12 Year Old Volkerbacher",
-    23,
-    [a.village, a.worker, a.mountain, a.cleric],
+    25,
+    [a.worker],
     wineEnum
   ),
   new TavernProduct(
     "4 Year Old Paoneaux",
     20,
-    [a.city, a.sophisticated, a.prostitute],
+    [a.worker, a.prostitute],
     wineEnum
   ),
   new TavernProduct(
     "7 Year Old Paoneaux",
     32,
-    [a.city, a.sophisticated, a.prostitute],
+    [a.sophisticated, a.prostitute],
     wineEnum
   ),
   new TavernProduct(
-    "12 Year Old Paoneaux",
-    40,
-    [a.city, a.sophisticated, a.prostitute],
+    "1 Year Old Paoneaux",
+    8,
+    [a.poor, a.prostitute],
+    wineEnum
+  ),
+  new TavernProduct(
+    "15 Year Old Paoneaux",
+    90,
+    [a.rich, a.prostitute],
     wineEnum
   ),
   new TavernProduct(
     "Grizzly Mead",
     26,
-    [a.forest, a.mountain, a.barbarian],
+    [a.forest, a.barbarian,a.worker],
     wineEnum
   ),
   new TavernProduct(
     "Blackberry Mead",
     25,
-    [a.forest, a.village, a.mountain, a.barbarian],
+    [a.forest, a.village,a.worker],
     wineEnum
   ),
   new TavernProduct(
     "Currant Mead",
     23,
-    [a.forest, a.village, a.mountain],
+    [a.forest, a.village, a.worker],
     wineEnum
   ),
   new TavernProduct(
     "Elderberry Mead",
     24,
-    [a.forest, a.village, a.mountain],
+    [a.forest, a.village, a.worker],
+    wineEnum
+  ),
+  new TavernProduct(
+    "Goldberry Mead",
+    24,
+    [a.forest, a.village, a.rich],
     wineEnum
   ),
   new TavernProduct("Ginger Mead", 27, [a.city, a.sophisticated], wineEnum),
   new TavernProduct(
     "White Owl Mead",
     32,
-    [a.wizard, a.city, a.human, a.druid],
+    [a.wizard,a.sophisticated],
     wineEnum
   ),
   new TavernProduct(
-    "Kraken Mead",
-    28,
-    [a.haven, a.city, a.adventurer, a.human],
+    "Grey Owl Mead",
+    32,
+    [a.wizard,a.worker],
+    wineEnum
+  ),
+  new TavernProduct(
+    "Mighty Kraken Mead",
+    38,
+    [a.haven, a.sophisticated],
     wineEnum
   ),
   new TavernProduct(
     "Flounder Mead",
     22,
-    [a.haven, a.village, a.criminal, a.halfling],
+    [a.worker,a.haven],
     wineEnum
   ),
   new TavernProduct(
     "Gentian Mead",
-    25,
-    [a.village, a.mountain, a.forest, a.dwarf, a.gnome],
+    22,
+    [a.mountain,a.worker],
     wineEnum
   ),
   new TavernProduct(
     "Blueberry Mead",
-    25,
-    [a.village, a.mountain, a.forest, a.dwarf, a.gnome],
+    20,
+    [a.mountain, a.worker],
     wineEnum
   ),
   new TavernProduct(
-    "Black Mead",
-    26,
-    [a.underdark, a.tiefling, a.drow],
+    "Hellfire Mead",
+    21,
+    [a.tiefling, a.worker],
+    wineEnum
+  ),
+  new TavernProduct(
+    "Spitfire Mead",
+    8,
+    [a.tiefling, a.poor],
+    wineEnum
+  ),
+  new TavernProduct(
+    "Hellberry Mead",
+    32,
+    [a.tiefling, a.sophisticated],
+    wineEnum
+  ),
+  new TavernProduct(
+    "Blood Diamand Mead",
+    87,
+    [a.tiefling, a.rich],
     wineEnum
   ),
   new TavernProduct(
     "Sir Aiven's Mead",
-    26,
-    [a.cleric, a.nobel, a.city],
+    36,
+    [a.nobel, a.sophisticated],
     wineEnum
   ),
-  new TavernProduct("Rose Mead", 50, [a.rich, a.elf], wineEnum),
+  new TavernProduct("Golden Rose Mead", 70, [a.rich, a.elf], wineEnum),
   new TavernProduct(
     "Granite Mead",
     19,
-    [a.dwarf, a.barbarian, a.worker, a.dragonborn],
+    [a.dwarf, a.mountain, a.worker],
     wineEnum
   ),
   new TavernProduct(
     "Marble Mead",
-    56,
-    [a.dwarf, a.nobel, a.rich, a.mountain, a.underdark],
+    76,
+    [a.dwarf, a.nobel, a.rich],
     wineEnum
   ),
   new TavernProduct(
     "Quartz Mead",
     29,
-    [a.dwarf, a.mountain, a.sophisticated, a.underdark],
+    [a.dwarf, a.mountain, a.sophisticated],
     wineEnum
   ),
   new TavernProduct(
     "Coal Mead",
     10,
-    [a.dwarf, a.poor, a.criminal, a.underdark, a.underdark, a.mountain],
+    [a.dwarf, a.poor, a.mountain],
     wineEnum
   ),
 ];

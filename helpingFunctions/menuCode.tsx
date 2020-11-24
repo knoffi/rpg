@@ -1,12 +1,20 @@
 import { association } from "../classes/Adjectives";
-import { drinkCategory, TavernProduct } from "../classes/TavernProduct";
-import { drinkExamples } from "../examples/drinks";
-import {
-  drinkMenuCategories,
-  Offer,
-  tavernScalePrice,
-} from "../scenes/MenuScene";
+import { drinkCategory, foodCategory, TavernProduct } from "../classes/TavernProduct";
+import { drinkExamples, foodExamples } from "../examples/drinks";
 import { getFittingRandom } from "./getFittingRandom";
+import {
+  adjustOfferPrice,
+  BasePrice,
+  NothingLeftOffer,
+  Offer,
+  tavernScalePrice
+} from "./menuCodeEnums";
+
+export enum weServe{
+  drinks="drinks",
+  food="food",
+  service="service"
+}
 
 export const getTavernScalePrice = (
   drink: TavernProduct,
@@ -48,15 +56,25 @@ export const getTavernScalePrice = (
   );
   return valuesOfScalePrices[overAllPriceClass - overAllFit];
 };
+//here
+const getUsedDrinkCategories=(offers:Offer[])=>{
+  let usedDrinkCategories=[] as drinkCategory[]
+  offers.forEach(offer =>{if(offer.product.isDrink()){usedDrinkCategories.push(offer.product.productCategory as drinkCategory)}})
+  return offers.map(offer =>{ return offer.product.productCategory})
+}
 
 export const offersWithOneReroll = (
   name: string,
   offers: Offer[],
   fits: association[],
-  misfits: association[]
+  misfits: association[],
+  isAbout:weServe,
+  basePrice:BasePrice
 ) => {
+
+  const usedDrinkCategories= getUsedDrinkCategories(offers)
   const category =
-    drinkMenuCategories[
+    usedDrinkCategories[
       offers.findIndex((offer) => {
         return offer.product.name === name;
       })
@@ -65,20 +83,43 @@ export const offersWithOneReroll = (
     if (offer.product.name !== name) {
       return offer;
     } else {
-      return getRandomDrinkOffer(category, fits, misfits, offeredNames(offers));
+      let newOffer= getRandomDrinkOffer(category, fits, misfits, offeredNames(offers),isAbout);
+      adjustOfferPrice(newOffer,fits,misfits,basePrice);
+      return newOffer;
+
     }
   });
   return newOffers;
 };
 
-export const getDrinkOffers = (fits: association[], misfits: association[]) => {
+export const getNewRandomDrinkOffer = (fits: association[], misfits: association[],category:drinkCategory|foodCategory, oldOffers:Offer[],isAbout:weServe,basePrice?:BasePrice)=>{
+  let newRandomOffer = getRandomDrinkOffer(
+    category,
+    fits,
+    misfits,
+    offeredNames(oldOffers),
+    isAbout
+  );
+  if(newRandomOffer){
+    if(basePrice){
+    adjustOfferPrice(newRandomOffer,fits,misfits,basePrice);
+    }
+    else{
+      newRandomOffer.price=-1;
+    }
+  }
+  return newRandomOffer
+}
+
+export const getDrinkOffers = (fits: association[], misfits: association[], offerCategories:drinkCategory[],isAbout:weServe) => {
   let drinkOffers = [] as Offer[];
-  drinkMenuCategories.forEach((category) => {
+  offerCategories.forEach((category) => {
     const newOffer = getRandomDrinkOffer(
       category,
       fits,
       misfits,
-      offeredNames(drinkOffers)
+      offeredNames(drinkOffers),
+      isAbout
     );
     drinkOffers.push(newOffer);
   });
@@ -92,22 +133,31 @@ const offeredNames = (offers: Offer[]) => {
 };
 //drinks have a wider range, therefore social misfits are more important than landscape misfits
 const getRandomDrinkOffer = (
-  category: drinkCategory,
+  category: drinkCategory|foodCategory,
   fits: association[],
   misfits: association[],
-  excludedDrinkNames: string[]
+  excludedDrinkNames: string[],
+  isAbout:weServe
 ): Offer => {
-  const examples = drinkExamples.find((example) => {
-    return example.category === category;
-  })!.examples;
+  //here
+  let examples: TavernProduct[];
+  if(isAbout===weServe.drinks){
+    examples = drinkExamples.find((example) => {return example.category === category;})!.examples;
+  }
+  else {
+    examples = foodExamples.find((example) => {return example.category === category;})!.examples;
+  }
   const drink = getFittingRandom(
     examples,
     fits,
     misfits,
     excludedDrinkNames
   ) as TavernProduct;
-  const copperPrice = drink.getCopperPrice(
-    getTavernScalePrice(drink, fits, misfits)
-  );
+  //if drink is undefined, then there are no new drinks left
+  if(!drink){
+    return NothingLeftOffer
+  }
+  const copperPrice = drink.copperPrice
+  drink.resetCategory(category);
   return { product: drink, price: copperPrice };
 };

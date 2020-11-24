@@ -8,38 +8,38 @@ export const lemonades = [
   new TavernProduct(
     "Tropo Cola",
     10,
-    [a.city, a.tropical],
+    [a.worker, a.tropical],
     drinkCategory.lemonade
   ),
   new TavernProduct("Six Down", 5, [a.city, a.poor], drinkCategory.lemonade),
   new TavernProduct(
     "Fruit Mine",
     11,
-    [a.mountain, a.underdark, a.dwarf],
+    [a.mountain, a.dwarf,a.worker],
     drinkCategory.lemonade
   ),
   new TavernProduct(
     "The Lubricater",
-    26,
-    [a.prostitute],
+    22,
+    [a.prostitute,a.worker],
     drinkCategory.lemonade
   ),
   new TavernProduct(
     "The Hard Maker",
-    22,
-    [a.prostitute],
+    12,
+    [a.prostitute,a.poor],
     drinkCategory.lemonade
   ),
   new TavernProduct(
     "Applelino",
-    12,
-    [a.village, a.halfling],
+    8,
+    [a.village, a.halfling,a.poor],
     drinkCategory.lemonade
   ),
   new TavernProduct(
     "Tasty Shmasty",
-    14,
-    [a.gnome, a.underdark],
+    18,
+    [a.gnome, a.underdark,a.worker],
     drinkCategory.lemonade
   ),
   new TavernProduct(
@@ -50,7 +50,7 @@ export const lemonades = [
   ),
   new TavernProduct(
     "Gooseberry Fizz",
-    23,
+    33,
     [a.sophisticated, a.city, a.elf],
     drinkCategory.lemonade
   ),
@@ -63,7 +63,7 @@ export const lemonades = [
   new TavernProduct(
     "Apple Fizz",
     19,
-    [a.worker, a.village, a.halfling],
+    [a.worker, a.human],
     drinkCategory.lemonade
   ),
   new TavernProduct(
@@ -73,9 +73,15 @@ export const lemonades = [
     drinkCategory.lemonade
   ),
   new TavernProduct(
+    "Coconut Molderoy",
+    62,
+    [a.tropical, a.rich],
+    drinkCategory.lemonade
+  ),
+  new TavernProduct(
     "Orange Molderoy",
     60,
-    [a.tropical, a.rich],
+    [a.haven, a.rich],
     drinkCategory.lemonade
   ),
   new TavernProduct(
@@ -87,55 +93,55 @@ export const lemonades = [
   new TavernProduct(
     "Scurvy Fixxer",
     17,
-    [a.haven, a.tropical],
+    [a.haven, a.poor],
     drinkCategory.lemonade
   ),
   new TavernProduct(
     "Fruity Wave",
     17,
-    [a.haven, a.tropical],
+    [a.haven, a.worker],
     drinkCategory.lemonade
   ),
   new TavernProduct(
     "Tsunami Cola",
     28,
-    [a.haven, a.city, a.sophisticated],
+    [a.haven, a.sophisticated],
     drinkCategory.lemonade
   ),
   new TavernProduct(
-    "Aivens Apple Juice",
+    "Aiven's Apple Juice",
     18,
-    [a.nobel, a.village],
+    [a.nobel, a.village,a.worker],
     drinkCategory.lemonade
   ),
   new TavernProduct(
-    "Aivens Orange Juice",
+    "Aiven's Orange Juice",
     19,
-    [a.nobel, a.tropical],
+    [a.nobel, a.tropical,a.worker],
     drinkCategory.lemonade
   ),
   new TavernProduct(
-    "Aivens Testified Lemonade",
+    "Aiven's Testified Lemonade",
     25,
-    [a.nobel, a.cleric],
+    [a.nobel, a.cleric,a.worker],
     drinkCategory.lemonade
   ),
   new TavernProduct(
     "Flint's Fuzzy Drink",
-    12,
-    [a.criminal, a.haven],
+    18,
+    [a.criminal, a.haven,a.worker],
     drinkCategory.lemonade
   ),
   new TavernProduct(
     "McDagger's Tonic Water",
-    14,
-    [a.criminal, a.city],
+    5,
+    [a.criminal, a.city,a.poor],
     drinkCategory.lemonade
   ),
   new TavernProduct(
     "McDagger's Bitter Lemon",
-    15,
-    [a.criminal, a.city],
+    6,
+    [a.criminal, a.city,a.poor],
     drinkCategory.lemonade
   ),
   new TavernProduct(
@@ -159,68 +165,68 @@ export const lemonades = [
   new TavernProduct(
     "Pinecone Beverage",
     15,
-    [a.druid, a.forest, a.village],
+    [a.forest,a.worker,a.druid],
     drinkCategory.lemonade
   ),
   new TavernProduct(
     "Rowan Berry Soda",
     12,
-    [a.druid, a.forest, a.village],
+    [a.druid, a.forest, a.worker ],
     drinkCategory.lemonade
   ),
   new TavernProduct(
     "Black Berry Soda",
-    12,
-    [a.druid, a.forest, a.village],
+    32,
+    [a.druid, a.forest, a.sophisticated],
     drinkCategory.lemonade
   ),
   new TavernProduct(
     "Elder Berry Soda",
-    17,
-    [a.druid, a.desert, a.mountain, a.village],
+    35,
+    [a.druid, a.desert, a.mountain,a.worker],
     drinkCategory.lemonade
   ),
   new TavernProduct(
     "Gentian Soda",
     18,
-    [a.druid, a.mountain, a.village],
+    [a.druid, a.mountain, a.village,a.worker],
     drinkCategory.lemonade
   ),
 
   new TavernProduct(
     "Date Juice",
     22,
-    [a.druid, a.desert],
+    [a.druid, a.desert,a.worker],
     drinkCategory.lemonade
   ),
   new TavernProduct(
     "Fig Soda",
-    21,
-    [a.druid, a.desert],
+    3,
+    [a.druid, a.desert,a.poor],
     drinkCategory.lemonade
   ),
   new TavernProduct(
     "Cola Of Adventure",
     21,
-    [a.adventurer],
+    [a.adventurer,a.worker],
     drinkCategory.lemonade
   ),
   new TavernProduct(
     "Harry's Bitter Lemon",
-    22,
-    [a.wizard],
+    32,
+    [a.wizard,a.sophisticated],
     drinkCategory.lemonade
   ),
   new TavernProduct(
     "Harry's Tonic Water",
-    24,
-    [a.wizard],
+    34,
+    [a.wizard,a.sophisticated],
     drinkCategory.lemonade
   ),
   new TavernProduct(
     "Harry's Mola Cola",
-    23,
-    [a.wizard],
+    35,
+    [a.wizard,a.sophisticated],
     drinkCategory.lemonade
   ),
 ];

@@ -77,147 +77,116 @@ const bourbonTemplate = (
     ),
   ];
 };
+const brandyTemplate = (
+  producerName: string,
+  singleMaltPrice: number,
+  fits: association[],
+  ingredient: string
+) => {
+  return [
+    new TavernProduct(
+      producerName + "'s " + ingredient+ " XO ",
+      singleMaltPrice,
+      fits,
+      spiritEnum
+    ),
+    new TavernProduct(
+      producerName + "'s " + ingredient+ " V.S.O.P. ",
+      reducedPrice(singleMaltPrice, 1),
+      fits,
+      spiritEnum
+    ),
+    new TavernProduct(
+      producerName + "'s " + ingredient+ " V.S. ",
+      reducedPrice(singleMaltPrice, 2),
+      fits,
+      spiritEnum
+    ),
+  ];
+};
 
 export const spirits = [
   new TavernProduct(
     "Kane's Gin Of Fury",
-    20,
-    [a.city, a.mountain, a.haven, a.dragonborn, a.barbarian],
+    25,
+    [a.mountain, a.haven, a.barbarian,a.worker],
     spiritEnum
   ),
   new TavernProduct(
     "Ar'kenji's Shoshu of Wisdom",
-    20,
-    [a.city, a.desert, a.elf, a.human, a.adventurer],
+    35,
+    [a.desert, a.elf,a.cleric,a.sophisticated],
     spiritEnum
   ),
   new TavernProduct(
     "Salvatoria's Rum of Adventure",
-    20,
-    [a.haven, a.tropical, a.city, a.criminal, a.cleric, a.human],
+    10,
+    [a.haven, a.tropical, a.poor],
     spiritEnum
   ),
   new TavernProduct(
     "Dura Ex's Tequila of Charm",
     20,
-    [a.underdark, a.city, a.prostitute, a.criminal, a.human],
+    [a.underdark, a.prostitute, a.worker],
     spiritEnum
   ),
   new TavernProduct(
-    "Liechtenfels's Vodka of Conspiracy",
-    20,
-    [a.village, a.mountain, a.adventurer, a.halfling, a.human],
+    "Lichtenfels's Vodka of Conspiracy",
+    32,
+    [a.village, a.mountain, a.sophisticated],
     spiritEnum
   ),
   new TavernProduct(
     "Numentor's Cachaca of Dancing",
-    20,
-    [a.city, a.tropical, a.human, a.elf, a.wizard],
+    34,
+    [a.tropical, a.wizard,a.sophisticated],
     spiritEnum
-  ),
-  new TavernProduct(
-    "Barclay's Single Malt Scotch Whiskey",
-    30,
-    [a.halfling, a.sophisticated, a.city, a.mountain, a.human],
-    spiritEnum
-  ),
-  new TavernProduct(
-    "Barclay's Single Grain Scotch Whiskey",
-    25,
-    [a.halfling, a.sophisticated, a.city, a.mountain, a.human],
-    spiritEnum
-  ),
-  new TavernProduct(
-    "Barclay's Blended Malt Scotch Whiskey",
-    20,
-    [a.halfling, a.sophisticated, a.city, a.mountain, a.human],
-    spiritEnum
-  ),
-  new TavernProduct(
-    "Barclay's Blended Grain Scotch Whiskey",
-    19,
-    [a.halfling, a.sophisticated, a.city, a.mountain, a.human],
-    spiritEnum
-  ),
-  new TavernProduct(
-    "Barclay's Blended Scotch Whiskey",
-    17,
-    [a.halfling, a.sophisticated, a.city, a.mountain, a.human],
-    spiritEnum
-  ),
-  new TavernProduct(
-    "MacMaster's Single Malt Scotch Whiskey",
-    105,
-    [a.nobel, a.rich, a.city, a.mountain, a.human],
-    spiritEnum
-  ),
-  new TavernProduct(
-    "MacMaster's Single Grain Scotch Whiskey",
-    100,
-    [a.nobel, a.rich, a.city, a.mountain, a.human],
-    spiritEnum
-  ),
-  new TavernProduct(
-    "MacMaster's Blended Malt Scotch Whiskey",
-    90,
-    [a.nobel, a.rich, a.city, a.mountain, a.human],
-    spiritEnum
-  ),
-  new TavernProduct(
-    "MacMaster's Blended Grain Scotch Whiskey",
-    85,
-    [a.nobel, a.rich, a.city, a.mountain, a.human],
-    spiritEnum
-  ),
-  new TavernProduct(
-    "MacMaster's Blended Scotch Whiskey",
-    75,
-    [a.nobel, a.rich, a.city, a.mountain, a.human],
-    spiritEnum
-  ),
+  )
 ].concat(
-  scotchTemplate("Barclay", 30, [
-    a.halfling,
-    a.sophisticated,
-    a.village,
-    a.mountain,
+  scotchTemplate("Barclay", 22, [
+    a.worker,
+    a.city,
+    a.dragonborn
   ]),
   scotchTemplate("MacMaster", 105, [
-    a.nobel,
     a.rich,
-    a.city,
-    a.haven,
     a.dwarf,
     a.gnome,
   ]),
-  scotchTemplate("MacMulligan", 15, [
-    a.village,
-    a.city,
+  scotchTemplate("MacMulligan", 10, [
     a.poor,
-    a.prostitute,
     a.criminal,
-    a.barbarian,
+    a.dragonborn
   ]),
-  bourbonTemplate("Gregory", 16, [
-    a.village,
-    a.city,
-    a.poor,
+  scotchTemplate("Rosetto", 29, [
     a.prostitute,
-    a.criminal,
+  ]),
+  scotchTemplate("Belezebu", 29, [
+    a.tiefling,
+  ]),
+  bourbonTemplate("Gregory", 11, [
+    a.village,
+    a.poor,
     a.barbarian,
   ]),
   bourbonTemplate("Old Kennedy", 29, [
     a.halfling,
     a.sophisticated,
     a.village,
-    a.mountain,
   ]),
   bourbonTemplate("Mild Miller", 108, [
     a.nobel,
     a.rich,
-    a.city,
-    a.haven,
-    a.dwarf,
-    a.gnome,
-  ])
+    a.elf,
+    a.human
+  ]),
+  bourbonTemplate("Zesstra", 30, [
+    a.drow,
+    a.underdark,
+    a.sophisticated
+  ]),
+  brandyTemplate("Ezezel", 23, [a.tiefling,a.worker],"Fire Apple"),
+  brandyTemplate("Azzeril", 7, [a.tiefling,a.poor],"Ash Plum"),
+  brandyTemplate("Melzara", 40, [a.tiefling,a.sophisticated],"Hell Berry"),
+  brandyTemplate("Abaddon", 90, [a.tiefling,a.rich],"Infernal Grape"),
 );

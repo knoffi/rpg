@@ -1,15 +1,16 @@
 import { substantiveCategory } from "./Substantive";
 
 export enum association {
-  rich = "rich",
+  empty = "",
+  rich = "vastly rich",
   poor = "poor",
-  worker = "artisan",
+  worker = "modest",
   nobel = "knight",
-  criminal = "criminal",
+  criminal = "thief",
   adventurer = "traveler",
   wizard = "wizard",
   bard = "bard",
-  barbarian = "barbarian",
+  barbarian = "wildling",
   cleric = "cleric",
   druid = "druid",
   prostitute = "brothel",
@@ -29,13 +30,18 @@ export enum association {
   mountain = "mountain",
   city = "city",
   village = "village",
-  sophisticated = "academic",
-  evil = "evil",
+  sophisticated = "wealthy",
+  evil = "assasine" //smugglers, evil, murderer ?
+}
+
+export const getAssociation=(name:string)=>{
+  const possibleName = Object.values(association).find(associationName =>{return associationName===name});
+  return possibleName ? possibleName: association.empty;
 }
 export class Adjective {
   public name: string;
   public badWords: substantiveCategory[];
-  associations: association[];
+  public associations: association[];
   constructor(
     name: string,
     associations: association[],
@@ -71,13 +77,8 @@ export class Adjective {
   public isPossibleNoun(category: substantiveCategory) {
     return !this.badWords.includes(category);
   }
-  public intersectingAssociation(associations: association[]) {
-    let count = 0;
-    associations.forEach((association) => {
-      if (this.associations.includes(association)) {
-        count += 1;
-      }
-    });
-    return count;
+
+  public getAssociationOverwrite(association: association) {
+    return new Adjective(this.name, [association], this.badWords);
   }
 }

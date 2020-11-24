@@ -7,30 +7,28 @@ interface productDescription {
   effect: string;
 }
 
+//more ideas: water, coffee, tea, juice, liqueur, cocktail
 export enum drinkCategory {
-  water = "water",
-  coffee = "coffee",
-  tea = "tea",
-  juice = "juice",
-  lemonade = "lemonade",
-  beer = "beer",
-  wine = "wine",
-  liqueur = "liqueur",
-  spirit = "spirit",
-  cocktail = "cocktail",
+  lemonade = "Lemonade",
+  beer = "Beer",
+  wine = "Wine",
+  spirit = "Spirit",
 }
 // so that a tavern does not only
 export enum foodCategory {
-  breakfast = "breakfast",
-  appetizer = "appetizer",
-  soup = "soup",
-  stew = "stew",
-  dessert = "dessert",
-  salad = "salad",
-  mainMeat = "main dish",
-  mainPoultry = "main dish",
-  mainSeafood = "main dish",
-  mainNoMeat = "main dish",
+  breakfast = "Breakfast",
+  appetizer = "Appetizer",
+  sideDish = "Side Dish",
+  dessert = "Dessert",
+  mainDish="Main Dish"
+}
+
+export enum serviceCategory {
+  room = "Rooms",
+  pension = "Package Deal",
+  entertainment= "Entertainment",
+  gambling="Gambling",
+  prostitute="Adult Pleasures",
 }
 /* if someones decides: no pork because this tavern is in Arabia and Asian cuisine seems a bit misfitting
 export enum mainIngredient {
@@ -50,7 +48,7 @@ export class TavernProduct {
   //TODO: make prices also for DSA and other famous Pen&Paper
   public copperPrice!: number;
   public associations!: association[];
-  private productCategroy!: drinkCategory | foodCategory;
+  public productCategory!: drinkCategory | foodCategory;
   private description?: productDescription;
 
   constructor(
@@ -97,13 +95,30 @@ export class TavernProduct {
   public getCopperPrice = (factor: any) => {
     return Math.round(this.copperPrice * (1 + factor / 10));
   };
-  public intersectingAssociation(associations: association[]) {
-    let count = 0;
-    associations.forEach((association) => {
-      if (this.associations.includes(association)) {
-        count += 1;
-      }
-    });
-    return count;
+
+  public getAssociationOverwrite(association: association) {
+    return new TavernProduct(
+      this.name,
+      this.copperPrice,
+      [association],
+      this.productCategory,
+      this.description
+    );
+  }
+
+  public isDrink=()=>{
+    let isDrink=false
+    Object.values(drinkCategory).forEach(categoryName =>{if(categoryName=== this.productCategory){isDrink=true}});
+    return isDrink;
+  }
+
+  public isFood=()=>{
+    let isFood=false
+    Object.values(foodCategory).forEach(categoryName =>{if(categoryName=== this.productCategory){isFood=true}});
+    return isFood;
+  }
+
+  public resetCategory=(category:drinkCategory|foodCategory)=>{
+    this.productCategory = category;
   }
 }

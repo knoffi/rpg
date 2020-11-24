@@ -1,8 +1,9 @@
 import { association } from "../classes/Adjectives";
 import { Substantive, substantiveCategory } from "../classes/Substantive";
+import { getDividedProducts, makeProductsFromNecessary } from "../helpingFunctions/nounDivider";
 const a = association;
 const s = substantiveCategory;
-export const solidObjects = [
+const dividableSolidObjects = [
   new Substantive("Wheel", [a.adventurer, a.worker, a.city], s.solid),
 
   new Substantive("Axe", [a.barbarian, a.dwarf, a.dragonborn], s.solid),
@@ -80,8 +81,8 @@ export const solidObjects = [
   new Substantive("Chakram", [a.desert, a.elf, a.adventurer], s.solid),
   new Substantive("Scimitar", [a.desert, a.dragonborn, a.human], s.solid),
   new Substantive("Shamshir", [a.desert, a.nobel], s.solid),
-  new Substantive("Pyramid", [a.desert], s.solid),
-  new Substantive("Sphinx", [a.desert], s.solid),
+  new Substantive("Pyramid", [a.desert, a.rich], s.solid),
+  new Substantive("Sphinx", [a.desert, a.adventurer], s.solid),
   new Substantive("Palace", [a.desert, a.nobel, a.gnome], s.solid),
   new Substantive("Mummy", [a.desert, a.adventurer], s.solid),
   new Substantive("Tomb", [a.desert, a.adventurer], s.solid),
@@ -90,8 +91,43 @@ export const solidObjects = [
   new Substantive("Thawb", [a.desert, a.sophisticated], s.solid),
   new Substantive("Tagelmust", [a.desert, a.nobel], s.solid),
   new Substantive("Niqaab", [a.desert, a.cleric], s.solid),
-  new Substantive("Veil", [a.desert, a.prostitute], s.solid),
+  new Substantive("Veil", [a.desert], s.solid),
+  new Substantive("Forge", [a.dwarf, a.worker], s.solid),
+  new Substantive("Barrel", [a.dwarf, a.worker, a.village], s.solid),
+  new Substantive("Drum", [a.dwarf, a.bard, a.sophisticated], s.solid),
+  new Substantive("Crane", [a.dwarf, a.worker], s.solid),
+  new Substantive("Pickaxe", [a.dwarf, a.worker], s.solid),
+  new Substantive("Mine", [a.dwarf, a.underdark, a.mountain], s.solid),
+  new Substantive(
+    "Sapphire",
+    [a.dwarf, a.rich, a.underdark, a.mountain],
+    s.solid
+  ),
+  new Substantive("Ruby", [a.dwarf, a.rich, a.underdark, a.mountain], s.solid),
+  new Substantive(
+    "Tigers-Eye",
+    [a.dwarf, a.rich, a.underdark, a.mountain],
+    s.solid
+  ),
+  new Substantive(
+    "Obsidian",
+    [a.dwarf, a.rich, a.underdark, a.mountain],
+    s.solid
+  ),
+  new Substantive(
+    "Malachite",
+    [a.dwarf, a.rich, a.underdark, a.mountain],
+    s.solid
+  ),
+  new Substantive(
+    "Quartz",
+    [a.dwarf, a.rich, a.underdark, a.mountain],
+    s.solid
+  ),
 ];
+const prostituteSolidObjects={necessary:[a.prostitute], nested:[new Substantive("Veil", [a.desert], s.solid),]}
+
+export const solidObjects=getDividedProducts(dividableSolidObjects).concat(makeProductsFromNecessary(prostituteSolidObjects));
 
 // TODO: This should be a new category: "landscape"
 //new Substantive("Rock", [a.druid,a.mountain], s.solid),
