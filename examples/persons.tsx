@@ -1,5 +1,5 @@
-import { association } from "../classes/Adjectives";
-import { substantiveCategory } from "../classes/Substantive";
+import { association } from '../classes/Adjectives';
+import { substantiveCategory } from '../classes/Substantive';
 const a = association;
 const s = substantiveCategory;
 

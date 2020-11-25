@@ -11,10 +11,12 @@
                 "**/*.yml"
             ],
             "options": {
-                "tabWidth": 2
+                "tabWidth": 4
             }
         }
     ],
+    "semi": true,
     "trailingComma": "es5",
-    "endOfLine": "auto"
+    "endOfLine": "auto",
+    "singleQuote": true
 }
