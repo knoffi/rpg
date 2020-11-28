@@ -1,24 +1,21 @@
-import { Adjective, association } from '../classes/Adjectives';
-import { Substantive } from '../classes/Substantive';
-import { TavernProduct } from '../classes/TavernProduct';
+import { association } from '../classes/Adjectives';
+import { ITavernAsset } from './ITavernAsset';
 
 const CHOICE_PARAMS = { minDifference: 1 };
 const WEIGTH_OF_FITS = 2;
 const WEIGTH_OF_MISFITS = 1;
-
-export type category = Adjective | Substantive | TavernProduct;
 
 const getDistributionValue = (fitHits: number, misfitHits: number) => {
     return 1 + WEIGTH_OF_FITS * fitHits - WEIGTH_OF_MISFITS * misfitHits;
 };
 
 export const getFittingRandomOlder = (
-    choices: category[],
+    choices: ITavernAsset[],
     fits: association[],
     misfits: association[],
     excludedNames: string[]
-): category => {
-    let distribution = [] as { product: category; value: number }[];
+): ITavernAsset => {
+    let distribution = [] as { product: ITavernAsset; value: number }[];
     choices.forEach((choiceProduct) => {
         const fitHits = countIntersections(choiceProduct, fits);
         const misfitHits = countIntersections(choiceProduct, misfits);
@@ -38,10 +35,10 @@ export const getFittingRandomOlder = (
 };
 
 const randomFromDistribution = (
-    distribution: { product: category; value: number }[]
+    distribution: { product: ITavernAsset; value: number }[]
 ) => {
     let count = 0;
-    let arrayForRandomChoice = [] as category[];
+    let arrayForRandomChoice = [] as ITavernAsset[];
     distribution.forEach((element) => {
         while (count < element.value) {
             arrayForRandomChoice.push(element.product);
@@ -61,7 +58,7 @@ export const getRandomArrayEntry = (array: any[]) => {
 };
 
 const countIntersections = (
-    product: category,
+    product: ITavernAsset,
     intersectingAssociations: association[]
 ) => {
     let count = 0;
@@ -77,7 +74,7 @@ const countIntersections = (
 };
 
 const calculateFitting = (
-    product: category,
+    product: ITavernAsset,
     fits: association[],
     misfits: association[]
 ) => {
@@ -100,7 +97,7 @@ const calculateFitting = (
 };
 
 const filterByFitValue = (
-    choices: category[],
+    choices: ITavernAsset[],
     value: number,
     fits: association[],
     misfits: association[],
@@ -115,12 +112,12 @@ const filterByFitValue = (
 };
 
 export const getFittingRandom = (
-    choices: category[],
+    choices: ITavernAsset[],
     fits: association[],
     misfits: association[],
     excludedNames: string[]
-): category => {
-    let fittingChoices: category[];
+): ITavernAsset => {
+    let fittingChoices: ITavernAsset[];
     let randomCase = Math.random();
     if (randomCase > 0.55) {
         fittingChoices = filterByFitValue(

@@ -33,6 +33,7 @@ interface IconButtonProps {
     padding?: number;
     margin?: number;
     width?: number;
+    marginHorizontal?: number;
 }
 
 export const InfoIconButton = (props: IconButtonProps) => {
@@ -46,8 +47,9 @@ export const InfoIconButton = (props: IconButtonProps) => {
                 padding: props.padding,
                 margin: props.margin,
                 width: props.width,
+                marginHorizontal: props.marginHorizontal,
             }}
-            icon={(props: { size: number; color: string }) => (
+            icon={(props) => (
                 <Feather name="info" size={props.size} color={props.color} />
             )}
         ></IconButton>

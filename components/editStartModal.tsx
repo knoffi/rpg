@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { FlatList, SafeAreaView, Text, View } from 'react-native';
-import { Button, Modal, Portal, Provider } from 'react-native-paper';
-import { taverns } from '../examples/taverns';
+import { FlatList, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { Button, Modal, Paragraph, Portal, Provider } from 'react-native-paper';
+import { taverns } from '../templates/taverns';
 import { buttonEmphasis, InfoIconButton } from './buttons/generalButtons';
 
 export const EditStartModal = (props: {
@@ -13,8 +13,26 @@ export const EditStartModal = (props: {
     const [onTavernInfoView, setOnTavernInfoView] = React.useState(false);
     const [tavernInfoText, setTavernInfoText] = React.useState('');
     const [templateKey, setTempletKey] = React.useState('');
-    const hideModal = () => setVisible(false);
+    const hideModal = () => {
+        setVisible(false);
+        props.buildTavernTemplate('default');
+    };
     const containerStyle = { backgroundColor: 'white', padding: 20, zIndex: 3 };
+
+    const editStartStyles = StyleSheet.create({
+        button: {
+            marginHorizontal: 32,
+            marginVertical: 16,
+            padding: 16,
+        },
+        paragraph: {
+            fontWeight: 'bold',
+            fontSize: 30,
+            textDecorationLine: 'underline',
+            paddingTop: 30,
+            paddingBottom: 20,
+        },
+    });
 
     return (
         <Provider>
@@ -24,9 +42,12 @@ export const EditStartModal = (props: {
                     onDismiss={hideModal}
                     contentContainerStyle={containerStyle}
                 >
+                    <Paragraph style={editStartStyles.paragraph}>
+                        START OPTIONS
+                    </Paragraph>
                     {onButtonView ? (
                         <Button
-                            style={{ margin: 16, padding: 16 }}
+                            style={editStartStyles.button}
                             mode="contained"
                             onPress={() => {
                                 props.buildTavernTemplate('default');
@@ -38,7 +59,7 @@ export const EditStartModal = (props: {
                     ) : undefined}
                     {onButtonView ? (
                         <Button
-                            style={{ margin: 16, padding: 16 }}
+                            style={editStartStyles.button}
                             mode="contained"
                             onPress={() => {
                                 props.buildTavernTemplate('default');
@@ -50,7 +71,7 @@ export const EditStartModal = (props: {
                     ) : undefined}
                     {onButtonView ? (
                         <Button
-                            style={{ margin: 16, padding: 16 }}
+                            style={editStartStyles.button}
                             mode="contained"
                             onPress={() => {
                                 setOnButtonView(false);
@@ -62,7 +83,7 @@ export const EditStartModal = (props: {
                     ) : undefined}
                     {onButtonView ? (
                         <Button
-                            style={{ margin: 16, padding: 16 }}
+                            style={editStartStyles.button}
                             mode="contained"
                             onPress={() => {
                                 setOnButtonView(false);
@@ -114,13 +135,17 @@ const TavernInfo = (props: {
         <View>
             <Text>{props.note}</Text>
             <View
-                style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}
+                style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-evenly',
+                    paddingTop: 10,
+                }}
             >
                 <Button mode="contained" onPress={props.onBackButton}>
-                    BACK TO LIST
+                    BACK
                 </Button>
                 <Button mode="contained" onPress={props.onStartButton}>
-                    USE THIS TEMPLATE
+                    START TEMPLATE
                 </Button>
             </View>
         </View>

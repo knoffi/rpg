@@ -6,6 +6,9 @@ export const EditFABGroup = (props: {
     onRedo: () => void;
     onUndo: () => void;
     onSave: () => void;
+    disableRedo: boolean;
+    disableUndo: boolean;
+    disableSave: boolean;
 }) => {
     const [isGroupOpen, setGroupOpen] = React.useState(false);
     const [holdClosing, setHoldClosing] = React.useState(false);
@@ -38,38 +41,47 @@ export const EditFABGroup = (props: {
                             icon: (props) => (
                                 <FontAwesome
                                     name="mail-forward"
-                                    size={24}
-                                    color="black"
+                                    size={props.size}
+                                    color={props.color}
                                 />
                             ),
-                            onPress: props.onRedo,
+                            onPress: props.disableRedo
+                                ? () => {}
+                                : props.onRedo,
                             label: 'REDO',
+                            color: props.disableRedo ? 'grey' : 'blue',
                         },
                         {
                             icon: (props) => (
                                 <FontAwesome
                                     name="mail-reply"
-                                    size={24}
-                                    color="black"
+                                    size={props.size}
+                                    color={props.color}
                                 />
                             ),
-                            onPress: props.onUndo,
+                            onPress: props.disableUndo
+                                ? () => {}
+                                : props.onUndo,
                             label: 'UNDO',
+                            color: props.disableUndo ? 'grey' : 'blue',
                         },
                         {
                             icon: (props) => (
                                 <FontAwesome
                                     name="save"
-                                    size={24}
-                                    color="black"
+                                    size={props.size}
+                                    color={props.color}
                                 />
                             ),
-                            onPress: () => {
-                                setGroupOpen(false);
-                                setHoldClosing(false);
-                                props.onSave();
-                            },
+                            onPress: props.disableSave
+                                ? () => {}
+                                : () => {
+                                      setGroupOpen(false);
+                                      setHoldClosing(false);
+                                      props.onSave();
+                                  },
                             label: 'SAVE',
+                            color: props.disableSave ? 'grey' : 'green',
                         },
                     ]}
                     onStateChange={(state: { open: boolean }) => {

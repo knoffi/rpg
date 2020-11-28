@@ -2,10 +2,12 @@ import React from 'react';
 import { View } from 'react-native';
 import { List, Text } from 'react-native-paper';
 import { drinkCategory, foodCategory } from '../classes/TavernProduct';
-import { weServe } from '../helpingFunctions/menuCode';
-import { Offer } from '../helpingFunctions/menuCodeEnums';
-import { nameSplitter } from '../helpingFunctions/nameSplitter';
-import { nameSceneStyles } from '../scenes/nameSceneStyles';
+import { globalStyles } from '../scenes/globalStyles';
+import { Offer } from '../scenes/menuScene/menuEnums';
+import { weServe } from '../scenes/menuScene/menuFunctions';
+import { menuCategory } from '../scenes/menuScene/menuProduct';
+import { menuSceneStyles } from '../scenes/menuScene/menuStyles';
+import { nameSplitter } from '../scenes/nameScene/nameSplitter';
 import {
     AddButton,
     buttonEmphasis,
@@ -18,7 +20,7 @@ import {
 
 const CHARACTER_MAX_DRINK_NAME = 33;
 interface MenuChapter {
-    category: drinkCategory | foodCategory;
+    category: menuCategory;
     offers: Offer[];
 }
 
@@ -28,8 +30,8 @@ interface productActions {
     onShop: () => void;
 }
 interface addingActions {
-    randomAdd: (category: drinkCategory | foodCategory) => void;
-    import: (category: drinkCategory | foodCategory) => void;
+    randomAdd: (category: menuCategory) => void;
+    import: (category: menuCategory) => void;
 }
 interface productActionsByName {
     deleteOffer: (name: string) => void;
@@ -76,7 +78,7 @@ const DrinkListTopItem = (props: {
                             justifyContent: 'flex-start',
                         }}
                     >
-                        <Text style={nameSceneStyles.drinkName}>
+                        <Text style={menuSceneStyles.drinkName}>
                             {nameSplitter(
                                 thisDrinkName,
                                 CHARACTER_MAX_DRINK_NAME
@@ -103,7 +105,7 @@ const DrinkListBottomItem = (props: {
             title={
                 '   Price: ' + props.price.toString() + ' ' + props.currencyName
             }
-            titleStyle={nameSceneStyles.drinkPrice}
+            titleStyle={menuSceneStyles.drinkPrice}
             right={(props) => {
                 return (
                     <DrinkListItemRight
@@ -116,7 +118,7 @@ const DrinkListBottomItem = (props: {
     );
 };
 const DrinkListAccordeon = (props: {
-    drinkCategory: drinkCategory | foodCategory;
+    drinkCategory: menuCategory;
     listOfOffers: Offer[];
     offerActions: productActionsByName;
     addingActions: addingActions;
@@ -161,7 +163,7 @@ const DrinkListAccordeon = (props: {
     return (
         <List.Accordion
             title={props.drinkCategory}
-            titleStyle={nameSceneStyles.accordeonListTitle}
+            titleStyle={menuSceneStyles.accordeonListTitle}
         >
             {offerItems}
             <List.Item
@@ -174,14 +176,14 @@ const DrinkListAccordeon = (props: {
                                 onPress={() => {
                                     onRandomAdd(thisCategory);
                                 }}
-                                size={nameSceneStyles.drinkName.fontSize + 5}
+                                size={menuSceneStyles.drinkName.fontSize + 5}
                                 disabled={noDrinkToAddLeft}
                             />
                             <ImportButton
                                 onPress={() => {
                                     onImport(thisCategory);
                                 }}
-                                size={nameSceneStyles.drinkName.fontSize + 5}
+                                size={menuSceneStyles.drinkName.fontSize + 5}
                                 disabled={noDrinkToAddLeft}
                             />
                         </View>
@@ -196,7 +198,7 @@ export const OfferList = (props: {
     isAbout: weServe;
     offerActions: productActionsByName;
     addingActions: addingActions;
-    offersLeftMap: Map<drinkCategory | foodCategory, boolean>;
+    offersLeftMap: Map<menuCategory, boolean>;
     currencyName: string;
 }) => {
     const menu = [] as MenuChapter[];
@@ -205,16 +207,16 @@ export const OfferList = (props: {
 
     Object.values(categories).forEach((category) => {
         menu.push({
-            category: category as drinkCategory | foodCategory,
+            category: category as menuCategory,
             offers: [],
         });
     });
     // Now: menu=[ {"beer", [] }, {"wine", [] }, ... ]
 
-    // to improve perfomance: go to next offer, if old offer was already pushed into a menu chapter (since every offer appears in exactly one chapter)
+    // TODO: improve by continuing with next offer, if old offer was already pushed into a menu chapter
     props.offers.forEach((offer) =>
         menu.forEach((menuChapter) => {
-            if (menuChapter.category === offer.product.productCategory) {
+            if (menuChapter.category === offer.product.category) {
                 menuChapter.offers.push(offer);
             }
         })
@@ -237,13 +239,16 @@ export const OfferList = (props: {
         );
     });
 
-    // to improve performance: use a unique state for every drink category. For example, removing a single beer would then be faster because wineList etc. can be skipped.
-    // Moreover, we assume that drinks from different categories have different names for this to work and that nothingLeftOffer never gets pushed to offers
+    // TODO: use a unique state for every drink category. For example, removing a single beer would then be faster because wineList etc. can be skipped.
+    // TODO: Check, wether different drinks from different categories have different names
 
     return (
         <List.Section
             title={props.isAbout.toUpperCase()}
-            titleStyle={nameSceneStyles.title}
+            titleStyle={globalStyles.title}
+            style={{
+                paddingBottom: props.isAbout === weServe.drinks ? 265 : 188,
+            }}
         >
             {chapterLists}
         </List.Section>

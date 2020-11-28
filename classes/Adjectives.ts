@@ -1,3 +1,4 @@
+import { ITavernAsset } from '../helpingFunctions/ITavernAsset';
 import { substantiveCategory } from './Substantive';
 
 export enum association {
@@ -40,7 +41,7 @@ export const getAssociation = (name: string) => {
     });
     return possibleName ? possibleName : association.empty;
 };
-export class Adjective {
+export class Adjective implements ITavernAsset {
     public name: string;
     public badWords: substantiveCategory[];
     public associations: association[];

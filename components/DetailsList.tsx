@@ -2,8 +2,9 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import { List } from 'react-native-paper';
 import { association } from '../classes/Adjectives';
-import { BasePrice } from '../helpingFunctions/menuCodeEnums';
-import { nameSceneStyles } from '../scenes/nameSceneStyles';
+import { globalStyles } from '../scenes/globalStyles';
+import { BasePrice } from '../scenes/menuScene/basePrice';
+import { menuSceneStyles } from '../scenes/menuScene/menuStyles';
 import { InfoButton, PencilButton } from './buttons/generalButtons';
 
 const AveragePriceItem = (props: {
@@ -51,10 +52,10 @@ export const DetailsList = (props: {
     const currency = props.basePrice.currency;
     const onCurrencySetPress = props.onCurrencySetPress;
     return (
-        <List.Section title={'NOTES'} titleStyle={nameSceneStyles.title}>
+        <List.Section title={'NOTES'} titleStyle={globalStyles.title}>
             <List.Accordion
-                title="CURRENCY&amp;PRICES"
-                titleStyle={nameSceneStyles.accordeonListTitle}
+                title="Currency &amp; Prices"
+                titleStyle={menuSceneStyles.accordeonListTitle}
             >
                 <List.Item
                     title=""

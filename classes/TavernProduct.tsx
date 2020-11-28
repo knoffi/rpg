@@ -1,11 +1,5 @@
+import { ITavernAsset } from '../helpingFunctions/ITavernAsset';
 import { association } from './Adjectives';
-
-interface productDescription {
-    taste: string;
-    look: string;
-    region: string;
-    effect: string;
-}
 
 //more ideas: water, coffee, tea, juice, liqueur, cocktail
 export enum drinkCategory {
@@ -30,37 +24,29 @@ export enum serviceCategory {
     gambling = 'Gambling',
     prostitute = 'Adult Pleasures',
 }
-/* if someones decides: no pork because this tavern is in Arabia and Asian cuisine seems a bit misfitting
-export enum mainIngredient {
-  pork = "Pork",
-  beef = "Beef",
-  poultry = "Poultry",
-  riverFish = "River Fish",
-  seafood = "Seafood",
-  vegan= "Vegan",
-  vegetarian = "Vegetarian",
-}
-*/
 
-export class TavernProduct {
+export type menuCategory = foodCategory | drinkCategory;
+
+export class TavernProduct implements ITavernAsset {
     public name!: string;
     //price in copper for easier translation into gold,silver, etc.
     //TODO: make prices also for DSA and other famous Pen&Paper
     public copperPrice!: number;
     public associations!: association[];
-    public productCategory!: drinkCategory | foodCategory;
-    private description?: productDescription;
+    public category!: menuCategory;
+    private description?: string;
 
     constructor(
         name: string,
         price: number,
         associations: association[],
-        productCategory: drinkCategory | foodCategory,
-        description?: productDescription
+        category: menuCategory,
+        description?: string
     ) {
         this.name = name;
         this.copperPrice = price;
         this.associations = associations;
+        this.category = category;
         if (description) {
             this.description = description;
         }
@@ -101,7 +87,7 @@ export class TavernProduct {
             this.name,
             this.copperPrice,
             [association],
-            this.productCategory,
+            this.category,
             this.description
         );
     }
@@ -109,7 +95,7 @@ export class TavernProduct {
     public isDrink = () => {
         let isDrink = false;
         Object.values(drinkCategory).forEach((categoryName) => {
-            if (categoryName === this.productCategory) {
+            if (categoryName === this.category) {
                 isDrink = true;
             }
         });
@@ -119,14 +105,14 @@ export class TavernProduct {
     public isFood = () => {
         let isFood = false;
         Object.values(foodCategory).forEach((categoryName) => {
-            if (categoryName === this.productCategory) {
+            if (categoryName === this.category) {
                 isFood = true;
             }
         });
         return isFood;
     };
 
-    public resetCategory = (category: drinkCategory | foodCategory) => {
-        this.productCategory = category;
+    public resetCategory = (category: menuCategory) => {
+        this.category = category;
     };
 }

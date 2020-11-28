@@ -1,5 +1,5 @@
 import { association } from '../classes/Adjectives';
-import { misfitMode, misfitModeList } from './misfitMode';
+import { misfitMode, misfitModeList } from './misfitModes';
 export const getMisfits = (fits: association[], misfitModeName: misfitMode) => {
     const associationGroups = misfitModeList.find((misfitMode) => {
         return (misfitMode.key as misfitMode) === misfitModeName;
@@ -26,18 +26,6 @@ export const getMisfits = (fits: association[], misfitModeName: misfitMode) => {
         popListFits = popListFits.filter((fit) => {
             return !groupOfPopFit.includes(fit);
         });
-    }
-    return misfits;
-};
-
-export const getMisfitsOf = (fit: association) => {
-    let misfits: association[];
-    misfits = [];
-    if (fit === 'poor') {
-        misfits.push(association.rich);
-    }
-    if (fit === 'rich') {
-        misfits.push(association.poor);
     }
     return misfits;
 };

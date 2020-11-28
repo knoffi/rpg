@@ -1,3 +1,4 @@
+import { ITavernAsset } from '../helpingFunctions/ITavernAsset';
 import { association } from './Adjectives';
 
 export enum substantiveCategory {
@@ -7,11 +8,10 @@ export enum substantiveCategory {
     solid = 'solid object',
     person = 'person',
 }
-export class Substantive {
+export class Substantive implements ITavernAsset {
     name: string;
     public associations: association[];
     public category: substantiveCategory;
-    //optional: Übergeordnete Gruppe, (z.B. Tier, Gegenstand, Beruf etc.)
     constructor(
         name: string,
         associations: association[],
