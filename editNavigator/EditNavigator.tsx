@@ -53,7 +53,7 @@ export const EditNavigator = (props: {
                             iconName = iconKeys.sign;
                             break;
                         }
-                        case 'Drink': {
+                        case 'Drinks': {
                             iconName = iconKeys.beer;
                             break;
                         }
