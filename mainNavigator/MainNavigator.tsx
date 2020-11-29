@@ -20,6 +20,7 @@ import {
     weServe,
 } from '../scenes/menuScene/menuFunctions';
 import { BannerData } from '../scenes/menuScene/MenuScene';
+import { StartOptionsScene } from '../scenes/startOptionsScene/StartOptionsScene';
 import { TitleScene } from '../scenes/titleScene/TitleScene';
 import { taverns } from '../templates/taverns';
 import { ITavernData } from './ITavernData';
@@ -40,9 +41,6 @@ export const MainNavigator = () => {
     } as ITavernData;
     const [tavernHistory, setTavernHistory] = useState([startData]);
     const [historyIndex, setHistoryIndex] = useState(0);
-    const [bottomNavigationVisible, setBottomNavigationVisible] = useState(
-        false
-    );
 
     const onDataChange = (newTavernData: ITavernData) => {
         const pastTavernHistory = [] as ITavernData[];
@@ -109,7 +107,6 @@ export const MainNavigator = () => {
         });
         setHistoryIndex(0);
         setTavernHistory([tavernData]);
-        setBottomNavigationVisible(true);
     };
 
     const updateName = (name: string) => {
@@ -353,6 +350,39 @@ export const MainNavigator = () => {
                     component={TitleScene}
                 />
                 <Stack.Screen
+                    name="START OPTIONS"
+                    children={({ navigation }) => (
+                        <StartOptionsScene
+                            onTavernTemplate={onUpdate.forTavernTemplate}
+                            onNextScene={() => {
+                                navigation.navigate('EDIT TAVERN');
+                            }}
+                        ></StartOptionsScene>
+                    )}
+                    options={{
+                        header: ({ navigation }) => (
+                            <AppBar
+                                onRedo={() => {
+                                    setHistoryIndex(historyIndex + 1);
+                                }}
+                                onUndo={() => {
+                                    setHistoryIndex(historyIndex - 1);
+                                }}
+                                redoDisabled={
+                                    historyIndex === tavernHistory.length - 1
+                                }
+                                undoDisabled={historyIndex === 0}
+                                onBackNavigation={() => {
+                                    navigation.navigate(
+                                        'YOU ALL MEET IN A TAVERN!'
+                                    );
+                                }}
+                                sceneTitle="EDIT TAVERN"
+                            ></AppBar>
+                        ),
+                    }}
+                />
+                <Stack.Screen
                     name="EDIT TAVERN"
                     options={{
                         header: ({ navigation }) => (
@@ -380,7 +410,6 @@ export const MainNavigator = () => {
                         <EditNavigator
                             tavern={tavernHistory[historyIndex]}
                             onUpdate={onUpdate}
-                            isVisible={bottomNavigationVisible}
                         ></EditNavigator>
                     )}
                 />

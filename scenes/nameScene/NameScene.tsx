@@ -5,29 +5,30 @@ import {
     Button,
     Dialog,
     HelperText,
+    List,
     Portal,
     TextInput,
 } from 'react-native-paper';
 import { Adjective, association } from '../../classes/Adjectives';
 import { Substantive, substantiveCategory } from '../../classes/Substantive';
-import { AssociationDialogBar } from '../../components/AssociationDialogBar';
 import {
     buttonEmphasis,
     PencilButton,
     RerollButton,
 } from '../../components/buttons/generalButtons';
-import { EditStartModal } from '../../components/EditStartModal';
-import { TavernSign } from './TavernSign';
 import {
     getFittingRandom,
     getRandomArrayEntry,
 } from '../../helpingFunctions/getFittingRandom';
 import { misfitMode } from '../../helpingFunctions/misfitModes';
 import { getMisfits } from '../../helpingFunctions/misFitsHandlers';
+import { globalStyles } from '../globalStyles';
+import { AssociationDialogBar } from './associationBar/AssociationDialogBar';
 import { adjectives, substantives } from './names/nouns';
 import { specialTavernNames } from './names/specialTavernNames';
 import { nameSceneStyles } from './nameSceneStyles';
 import { nameSplitter } from './nameSplitter';
+import { TavernSign } from './TavernSign';
 
 const PROBABILITY_SPECIAL_NAME = 0.15;
 const CHARACTER_MAX_ON_LINE = 14;
@@ -63,21 +64,15 @@ export class NameScene extends React.Component<NameProps, TextState> {
 
     public render() {
         return (
-            <View
-                style={{
-                    backgroundColor:
-                        nameSceneStyles.backgroundContainer.backgroundColor,
-                    justifyContent: 'space-between',
-                }}
-            >
-                <View
-                    style={{
-                        flexDirection: 'column',
-                        justifyContent: 'space-evenly',
-                        zIndex: 0,
-                        marginTop: 50,
-                    }}
+            <View style={nameSceneStyles.backgroundView}>
+                <List.Section
+                    style={{ flex: 0.2 }}
+                    title="NAME"
+                    titleStyle={globalStyles.title}
                 >
+                    <List.Item title=""></List.Item>
+                </List.Section>
+                <View style={nameSceneStyles.associationView}>
                     <View>
                         <AssociationDialogBar
                             fits={this.props.fitting.fits}
@@ -86,7 +81,7 @@ export class NameScene extends React.Component<NameProps, TextState> {
                             }}
                         />
                     </View>
-                    <View style={{ marginTop: 70, marginBottom: 50 }}>
+                    <View style={nameSceneStyles.signView}>
                         <NameSetDialog
                             tavernName={this.props.name}
                             setTavernName={this.props.updateName}
@@ -122,22 +117,10 @@ export class NameScene extends React.Component<NameProps, TextState> {
                             />
                         </View>
                     </View>
-                    <View style={{ marginTop: 300 }}></View>
                 </View>
-                <EditStartModal
-                    buildTavernTemplate={(key: string) => {
-                        this.props.buildTavernTemplate(
-                            key,
-                            (fits: association[]) => {
-                                return getMisfits(fits, misfitMode.stricter);
-                            }
-                        );
-                    }}
-                />
             </View>
         );
     }
-    //{this.props.FABFamily.redoFAB}{this.props.FABFamily.undoFAB}{this.props.FABFamily.saveFAB}
     noFitsActive() {
         let noFitsActive = true;
         this.props.fitting.fits.forEach((fit) => {

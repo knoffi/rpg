@@ -1,10 +1,13 @@
 import * as React from 'react';
-import { FlatList, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { FlatList, SafeAreaView, Text, View } from 'react-native';
 import { Button, Modal, Paragraph, Portal, Provider } from 'react-native-paper';
-import { taverns } from '../templates/taverns';
-import { buttonEmphasis, InfoIconButton } from './buttons/generalButtons';
-
-export const EditStartModal = (props: {
+import {
+    buttonEmphasis,
+    InfoIconButton,
+} from '../../components/buttons/generalButtons';
+import { taverns } from '../../templates/taverns';
+import { editModalStyles } from './editModalStyles';
+export const EditModal = (props: {
     buildTavernTemplate: (name: string) => void;
 }) => {
     const [visible, setVisible] = React.useState(true);
@@ -17,22 +20,6 @@ export const EditStartModal = (props: {
         setVisible(false);
         props.buildTavernTemplate('default');
     };
-    const containerStyle = { backgroundColor: 'white', padding: 20, zIndex: 3 };
-
-    const editStartStyles = StyleSheet.create({
-        button: {
-            marginHorizontal: 32,
-            marginVertical: 16,
-            padding: 16,
-        },
-        paragraph: {
-            fontWeight: 'bold',
-            fontSize: 30,
-            textDecorationLine: 'underline',
-            paddingTop: 30,
-            paddingBottom: 20,
-        },
-    });
 
     return (
         <Provider>
@@ -40,14 +27,14 @@ export const EditStartModal = (props: {
                 <Modal
                     visible={visible}
                     onDismiss={hideModal}
-                    contentContainerStyle={containerStyle}
+                    contentContainerStyle={editModalStyles.containerStyle}
                 >
-                    <Paragraph style={editStartStyles.paragraph}>
+                    <Paragraph style={editModalStyles.paragraph}>
                         START OPTIONS
                     </Paragraph>
                     {onButtonView ? (
                         <Button
-                            style={editStartStyles.button}
+                            style={editModalStyles.button}
                             mode="contained"
                             onPress={() => {
                                 props.buildTavernTemplate('default');
@@ -59,7 +46,7 @@ export const EditStartModal = (props: {
                     ) : undefined}
                     {onButtonView ? (
                         <Button
-                            style={editStartStyles.button}
+                            style={editModalStyles.button}
                             mode="contained"
                             onPress={() => {
                                 props.buildTavernTemplate('default');
@@ -71,7 +58,7 @@ export const EditStartModal = (props: {
                     ) : undefined}
                     {onButtonView ? (
                         <Button
-                            style={editStartStyles.button}
+                            style={editModalStyles.button}
                             mode="contained"
                             onPress={() => {
                                 setOnButtonView(false);
@@ -83,7 +70,7 @@ export const EditStartModal = (props: {
                     ) : undefined}
                     {onButtonView ? (
                         <Button
-                            style={editStartStyles.button}
+                            style={editModalStyles.button}
                             mode="contained"
                             onPress={() => {
                                 setOnButtonView(false);

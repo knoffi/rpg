@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Text, View } from 'react-native';
 import { Button, Dialog, Portal } from 'react-native-paper';
-import { association, getAssociation } from '../classes/Adjectives';
+import { association, getAssociation } from '../../../classes/Adjectives';
 
 export const AssociationDialog = (props: {
     pickAssociationList: association[];

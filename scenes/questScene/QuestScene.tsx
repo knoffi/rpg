@@ -5,35 +5,10 @@ import { DetailsList } from '../../components/DetailsList';
 import { BasePrice } from '../menuScene/basePrice';
 import { nameSceneStyles } from '../nameScene/nameSceneStyles';
 import { CurrencySetDialog } from './CurrencySetDialog';
+import { incomeExampleMap } from './incomeExampleMap';
 import { PriceDescriptionDialog } from './PriceDescriptionDialog';
 import { PriceSetDialog } from './PriceSetDialog';
 
-export interface descriptionDialog {
-    open: boolean;
-    income: association;
-    jobExamples: string;
-    currencyName: string;
-    price: number;
-}
-
-const incomeExampleMap = new Map([
-    [
-        association.poor,
-        'day labourer, apprentice, farmhand, peasant maid, retired carpenter, busker',
-    ],
-    [
-        association.worker,
-        'cobbler, village priest, maid of a baroness, farmer, city guard',
-    ],
-    [
-        association.sophisticated,
-        'exceptional tailor, chancellor, trade merchant, famous adventurer, guild master',
-    ],
-    [
-        association.rich,
-        'world-known goldsmith, emperor, pirate queen, banking magnate, high priestess, legendary gladiator',
-    ],
-]);
 export const QuestScene = (props: {
     fitting: { fits: association[]; misfits: association[] };
     basePrice: BasePrice;
@@ -230,8 +205,7 @@ export const QuestScene = (props: {
     return (
         <ScrollView
             style={{
-                backgroundColor:
-                    nameSceneStyles.backgroundContainer.backgroundColor,
+                backgroundColor: nameSceneStyles.backgroundView.backgroundColor,
             }}
         >
             <PriceDescriptionDialog
@@ -256,7 +230,6 @@ export const QuestScene = (props: {
                 onDismiss={onDialogDismiss}
             ></CurrencySetDialog>
             <DetailsList
-                fitting={props.fitting}
                 basePrice={props.basePrice}
                 onInfoPress={onInfoPress}
                 onPriceSetPress={onPriceSetPress}

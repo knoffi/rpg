@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { association } from '../classes/Adjectives';
+import { association } from '../../../classes/Adjectives';
 import { AssociationDialog } from './AssociationDialog';
 
 const colors = {
@@ -53,6 +53,7 @@ export const AssociationDialogBar = (props: {
                 padding: 10,
                 borderBottomColor: '#0c0c38',
                 borderBottomWidth: StyleSheet.hairlineWidth,
+                borderTopWidth: StyleSheet.hairlineWidth,
             }}
         >
             <View

@@ -1,7 +1,15 @@
 import React from 'react';
 import { Text } from 'react-native';
 import { Dialog, Portal } from 'react-native-paper';
-import { descriptionDialog } from './QuestScene';
+import { association } from '../../classes/Adjectives';
+
+export interface descriptionDialog {
+    open: boolean;
+    income: association;
+    jobExamples: string;
+    currencyName: string;
+    price: number;
+}
 
 export const PriceDescriptionDialog = (props: {
     descriptionDialog: descriptionDialog;

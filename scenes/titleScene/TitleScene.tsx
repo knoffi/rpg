@@ -12,7 +12,7 @@ export const TitleScene = ({ navigation }: any) => {
             </Text>
             <TitleButtons
                 onEdit={() => {
-                    navigation.navigate('EDIT TAVERN');
+                    navigation.navigate('START OPTIONS');
                 }}
                 onCollection={() => {
                     navigation.navigate('test');

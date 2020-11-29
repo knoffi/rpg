@@ -8,39 +8,25 @@ import { updateFunctions } from '../mainNavigator/IUpdateFunctions';
 import { weServe } from '../scenes/menuScene/menuFunctions';
 import { MenuScene } from '../scenes/menuScene/MenuScene';
 import { NameScene } from '../scenes/nameScene/NameScene';
-import { nameSceneStyles } from '../scenes/nameScene/nameSceneStyles';
 import { QuestScene } from '../scenes/questScene/QuestScene';
 import { removeEmptyStrings } from './editNavigatorFunctions';
 
 const Tab = createBottomTabNavigator();
 
-//TODO: Find alternativ for hiding bottomNavigator, since using isVisible on bottomNavigator can cause glitches!
 export const EditNavigator = (props: {
     onUpdate: updateFunctions;
     tavern: ITavernData;
-    isVisible: boolean;
 }) => {
     const INACTIVE_BOTTOM_BG = '#857256';
     const ACTIVE_BOTTOM_BG = '#63481F';
     const ACTIVE_BOTTOM_ICON_TINT = '#FFFFFF';
     const INACTIVE_BOTTOM_ICON_TINT = '#F4EADB';
-    const tabBarOptions = props.isVisible
-        ? {
-              inactiveBackgroundColor: INACTIVE_BOTTOM_BG,
-              activeBackgroundColor: ACTIVE_BOTTOM_BG,
-              activeTintColor: ACTIVE_BOTTOM_ICON_TINT,
-              inactiveTintColor: INACTIVE_BOTTOM_ICON_TINT,
-          }
-        : {
-              inactiveBackgroundColor:
-                  nameSceneStyles.backgroundContainer.backgroundColor,
-              activeBackgroundColor:
-                  nameSceneStyles.backgroundContainer.backgroundColor,
-              activeTintColor:
-                  nameSceneStyles.backgroundContainer.backgroundColor,
-              inactiveTintColor:
-                  nameSceneStyles.backgroundContainer.backgroundColor,
-          };
+    const tabBarOptions = {
+        inactiveBackgroundColor: INACTIVE_BOTTOM_BG,
+        activeBackgroundColor: ACTIVE_BOTTOM_BG,
+        activeTintColor: ACTIVE_BOTTOM_ICON_TINT,
+        inactiveTintColor: INACTIVE_BOTTOM_ICON_TINT,
+    };
     return (
         <Tab.Navigator
             tabBarOptions={tabBarOptions}
@@ -68,7 +54,6 @@ export const EditNavigator = (props: {
                     }
                     return <Icon name={iconName} size={size} color={color} />;
                 },
-                tabBarVisible: props.isVisible,
             })}
         >
             <Tab.Screen

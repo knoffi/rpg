@@ -153,7 +153,7 @@ export const MenuScene = (props: MenuProps) => {
             <ScrollView
                 style={{
                     backgroundColor:
-                        nameSceneStyles.backgroundContainer.backgroundColor,
+                        nameSceneStyles.backgroundView.backgroundColor,
                 }}
             >
                 <Banner
