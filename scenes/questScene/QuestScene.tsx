@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ScrollView } from 'react-native';
 import { association } from '../../classes/Adjectives';
-import { DetailsList } from '../../components/DetailsList';
+import { DetailsList } from './DetailsList';
 import { BasePrice } from '../menuScene/basePrice';
 import { nameSceneStyles } from '../nameScene/nameSceneStyles';
 import { CurrencySetDialog } from './CurrencySetDialog';

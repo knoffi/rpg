@@ -348,6 +348,7 @@ export const MainNavigator = () => {
                 <Stack.Screen
                     name="YOU ALL MEET IN A TAVERN!"
                     component={TitleScene}
+                    options={{ title: 'IMPROVISE & FANTASIZE.' }}
                 />
                 <Stack.Screen
                     name="START OPTIONS"

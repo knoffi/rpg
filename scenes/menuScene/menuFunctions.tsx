@@ -6,7 +6,6 @@ import { drinkExamples } from './drinks/drinks';
 import { foodExamples } from './food/food';
 import { NothingLeftOffer, Offer } from './menuEnums';
 import { menuCategory } from './menuProduct';
-import { adjustOfferPrice } from './priceFunctions';
 
 export enum weServe {
     drinks = 'drinks',
@@ -52,7 +51,6 @@ export const offersWithOneReroll = (
                 offeredNames(offers),
                 isAbout
             );
-            adjustOfferPrice(newOffer, fits, misfits, basePrice);
             return newOffer;
         }
     });
@@ -76,7 +74,6 @@ export const getNewRandomDrinkOffer = (
     );
     if (newRandomOffer) {
         if (basePrice) {
-            adjustOfferPrice(newRandomOffer, fits, misfits, basePrice);
         } else {
             newRandomOffer.price = -1;
         }

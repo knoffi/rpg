@@ -14,7 +14,7 @@ export enum tavernScalePrice {
     expensiveHard = 4,
 }
 
-export const adjustOfferPrice = (
+export const getAdjustedPriceString = (
     offer: Offer,
     fits: association[],
     misfits: association[],
@@ -93,5 +93,6 @@ export const adjustOfferPrice = (
             basePriceFactor! *
             (1.0 + tavernPriceCount / 20.0)
     );
-    offer.price = newPrice > 0 ? newPrice : 1;
+    const priceNumberString = newPrice > 0 ? newPrice.toString() : '1';
+    return priceNumberString + ' ' + basePrice.currency;
 };

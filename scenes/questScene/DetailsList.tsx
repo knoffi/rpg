@@ -1,8 +1,8 @@
 import React from 'react';
 import { List } from 'react-native-paper';
-import { association } from '../classes/Adjectives';
-import { globalStyles } from '../scenes/globalStyles';
-import { BasePrice } from '../scenes/menuScene/basePrice';
+import { association } from '../../classes/Adjectives';
+import { globalStyles } from '../globalStyles';
+import { BasePrice } from '../menuScene/basePrice';
 import { PriceAccordion } from './PriceAccordion';
 
 export const DetailsList = (props: {

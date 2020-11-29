@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { Banner } from 'react-native-paper';
 import { association } from '../../classes/Adjectives';
-import { OfferList } from '../../components/DrinkList';
 import { getRandomArrayEntry } from '../../helpingFunctions/getFittingRandom';
 import { nameSceneStyles } from '../nameScene/nameSceneStyles';
 import {
@@ -11,6 +10,7 @@ import {
     serviceBannerEndings,
 } from './bannerEndings';
 import { BasePrice } from './basePrice';
+import { OfferList } from './DrinkList';
 import { NothingLeftOffer, Offer } from './menuEnums';
 import {
     getNewRandomDrinkOffer,
@@ -18,6 +18,7 @@ import {
     weServe,
 } from './menuFunctions';
 import { menuCategory } from './menuProduct';
+import { getAdjustedPriceString } from './priceFunctions';
 
 const mapOfBannerEndings = new Map([
     [weServe.drinks, drinkBannerEndings],
@@ -185,7 +186,14 @@ export const MenuScene = (props: MenuProps) => {
                         shopOffer: buyOffer,
                     }}
                     offersLeftMap={props.offersLeft}
-                    currencyName={props.basePrice.currency}
+                    getPriceString={(offer: Offer) => {
+                        return getAdjustedPriceString(
+                            offer,
+                            props.fitting.fits,
+                            props.fitting.misfits,
+                            props.basePrice
+                        );
+                    }}
                 />
             </ScrollView>
         </View>

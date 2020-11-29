@@ -1,13 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import { List, Text } from 'react-native-paper';
-import { drinkCategory, foodCategory } from '../classes/TavernProduct';
-import { globalStyles } from '../scenes/globalStyles';
-import { Offer } from '../scenes/menuScene/menuEnums';
-import { weServe } from '../scenes/menuScene/menuFunctions';
-import { menuCategory } from '../scenes/menuScene/menuProduct';
-import { menuSceneStyles } from '../scenes/menuScene/menuStyles';
-import { nameSplitter } from '../scenes/nameScene/nameSplitter';
+import { drinkCategory, foodCategory } from '../../classes/TavernProduct';
 import {
     AddButton,
     buttonEmphasis,
@@ -16,7 +10,13 @@ import {
     InfoIconButton,
     RerollButton,
     ShopButton,
-} from './buttons/generalButtons';
+} from '../../components/buttons/generalButtons';
+import { globalStyles } from '../globalStyles';
+import { nameSplitter } from '../nameScene/nameSplitter';
+import { Offer } from './menuEnums';
+import { weServe } from './menuFunctions';
+import { menuCategory } from './menuProduct';
+import { menuSceneStyles } from './menuStyles';
 
 const CHARACTER_MAX_DRINK_NAME = 33;
 interface MenuChapter {
@@ -92,19 +92,15 @@ const DrinkListTopItem = (props: {
     );
 };
 const DrinkListBottomItem = (props: {
-    price: number;
     actions: productActions;
     noDrinkToAddLeft: boolean;
-    currencyName: string;
+    priceString: string;
 }) => {
     const actions = props.actions;
-    const thisPrice = props.price;
     const noDrinkToAddLeft = props.noDrinkToAddLeft;
     return (
         <List.Item
-            title={
-                '   Price: ' + props.price.toString() + ' ' + props.currencyName
-            }
+            title={'   Price: ' + props.priceString}
             titleStyle={menuSceneStyles.drinkPrice}
             right={(props) => {
                 return (
@@ -123,13 +119,13 @@ const DrinkListAccordeon = (props: {
     offerActions: productActionsByName;
     addingActions: addingActions;
     noDrinkToAddLeft: boolean;
-    currencyName: string;
+    getPriceString: (offer: Offer) => string;
 }) => {
     const onRandomAdd = props.addingActions.randomAdd;
     const onImport = props.addingActions.import;
     const thisCategory = props.drinkCategory;
     const noDrinkToAddLeft = props.noDrinkToAddLeft;
-    const currencyName = props.currencyName;
+    const getPriceString = props.getPriceString;
     let offerItems = [] as JSX.Element[];
     props.listOfOffers.forEach((offerOfList) => {
         const name = offerOfList.product.name;
@@ -142,7 +138,7 @@ const DrinkListAccordeon = (props: {
         );
         offerItems.push(
             <DrinkListBottomItem
-                price={offerOfList.price}
+                priceString={getPriceString(offerOfList)}
                 key={name + '-bottom'}
                 actions={{
                     onDelete: () => {
@@ -156,7 +152,6 @@ const DrinkListAccordeon = (props: {
                     },
                 }}
                 noDrinkToAddLeft={noDrinkToAddLeft}
-                currencyName={currencyName}
             ></DrinkListBottomItem>
         );
     });
@@ -199,7 +194,7 @@ export const OfferList = (props: {
     offerActions: productActionsByName;
     addingActions: addingActions;
     offersLeftMap: Map<menuCategory, boolean>;
-    currencyName: string;
+    getPriceString: (offer: Offer) => string;
 }) => {
     const menu = [] as MenuChapter[];
     let categories =
@@ -233,8 +228,8 @@ export const OfferList = (props: {
                     randomAdd: props.addingActions.randomAdd,
                     import: props.addingActions.import,
                 }}
-                currencyName={props.currencyName}
                 noDrinkToAddLeft={!props.offersLeftMap.get(chapter.category)!}
+                getPriceString={props.getPriceString}
             />
         );
     });
