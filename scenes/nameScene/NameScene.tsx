@@ -17,7 +17,7 @@ import {
     RerollButton,
 } from '../../components/buttons/generalButtons';
 import { EditStartModal } from '../../components/EditStartModal';
-import { TavernSign } from '../../components/TavernSign';
+import { TavernSign } from './TavernSign';
 import {
     getFittingRandom,
     getRandomArrayEntry,

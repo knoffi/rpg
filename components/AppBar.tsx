@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native';
 import { Appbar } from 'react-native-paper';
 
 const APP_BAR_BG = '#63481F';
-const ACTIVE_BUTTON_COLOR = '#F4EADB';
+const ACTIVE_BUTTON_COLOR = 'white';
 const INACTIVE_BUTTON_COLOR = 'grey';
 
 const AppBar = (props: {

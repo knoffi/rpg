@@ -1,6 +1,6 @@
 import React from 'react';
 import { ImageBackground, Text, View } from 'react-native';
-import { nameSignStyles } from '../scenes/nameScene/nameSignStyles';
+import { nameSignStyles } from './nameSignStyles';
 
 const NO_ARTICAL_BOUNDARY = 20;
 
@@ -13,7 +13,7 @@ export const TavernSign = (props: { nameText: string }) => {
     return (
         <View>
             <ImageBackground
-                source={require('../assets/tavernSign.png')}
+                source={require('../../assets/tavernSign.png')}
                 style={{
                     alignSelf: 'center',
                     flexDirection: 'column',
