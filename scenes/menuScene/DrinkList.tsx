@@ -1,18 +1,18 @@
+import { Feather } from '@expo/vector-icons';
 import React from 'react';
 import { View } from 'react-native';
-import { List, Text } from 'react-native-paper';
+import { IconButton, List, Text } from 'react-native-paper';
 import { drinkCategory, foodCategory } from '../../classes/TavernProduct';
 import {
     AddButton,
     buttonEmphasis,
     DeleteButton,
     ImportButton,
-    InfoIconButton,
     RerollButton,
     ShopButton,
 } from '../../components/buttons/generalButtons';
+import { HEIGHT_FACTOR } from '../../dimensionConstants';
 import { globalStyles } from '../globalStyles';
-import { nameSplitter } from '../nameScene/nameSplitter';
 import { Offer } from './menuEnums';
 import { weServe } from './menuFunctions';
 import { menuCategory } from './menuProduct';
@@ -78,13 +78,20 @@ const DrinkListTopItem = (props: {
                             justifyContent: 'flex-start',
                         }}
                     >
-                        <Text style={menuSceneStyles.drinkName}>
-                            {nameSplitter(
-                                thisDrinkName,
-                                CHARACTER_MAX_DRINK_NAME
+                        <IconButton
+                            icon={(props) => (
+                                <Feather
+                                    name="info"
+                                    size={props.size}
+                                    color={props.color}
+                                />
                             )}
+                            onPress={infoAction}
+                            style={{ translateY: -10 * HEIGHT_FACTOR }}
+                        />
+                        <Text style={menuSceneStyles.drinkName}>
+                            {thisDrinkName}
                         </Text>
-                        <InfoIconButton onPress={infoAction} size={20} />
                     </View>
                 );
             }}
@@ -102,6 +109,7 @@ const DrinkListBottomItem = (props: {
         <List.Item
             title={'   Price: ' + props.priceString}
             titleStyle={menuSceneStyles.drinkPrice}
+            style={{ marginBottom: 30 * HEIGHT_FACTOR }}
             right={(props) => {
                 return (
                     <DrinkListItemRight

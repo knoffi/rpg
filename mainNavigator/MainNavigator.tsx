@@ -2,28 +2,18 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import React, { useState } from 'react';
 import { association } from '../classes/Adjectives';
-import {
-    drinkCategory,
-    foodCategory,
-    menuCategory,
-} from '../classes/TavernProduct';
 import AppBar from '../components/AppBar';
 import { EditNavigator } from '../editNavigator/EditNavigator';
 import {
     getProductsLeftAndBannerData,
     getStartMenuMaps,
 } from '../editNavigator/editNavigatorFunctions';
-import { BasePrice, standardBasePrice } from '../scenes/menuScene/basePrice';
-import { NothingLeftOffer, Offer } from '../scenes/menuScene/menuEnums';
-import {
-    getNewRandomDrinkOffer,
-    weServe,
-} from '../scenes/menuScene/menuFunctions';
-import { BannerData } from '../scenes/menuScene/MenuScene';
+import { standardBasePrice } from '../scenes/menuScene/basePrice';
+import { Offer } from '../scenes/menuScene/menuEnums';
 import { StartOptionsScene } from '../scenes/startOptionsScene/StartOptionsScene';
 import { TitleScene } from '../scenes/titleScene/TitleScene';
 import { taverns } from '../templates/taverns';
-import { ITavernData } from './ITavernData';
+import { TavernData } from './TavernData';
 
 const Stack = createStackNavigator();
 export const MainNavigator = () => {
@@ -38,13 +28,15 @@ export const MainNavigator = () => {
         dishesLeft: startMenuMaps.dishesMap,
         drinkBannerData: { isVisible: false, emptyCategories: [] },
         foodBannerData: { isVisible: false, emptyCategories: [] },
-    } as ITavernData;
+        boughtOffers: [] as Offer[],
+    } as TavernData;
     const [tavernHistory, setTavernHistory] = useState([startData]);
     const [historyIndex, setHistoryIndex] = useState(0);
 
-    const onDataChange = (newTavernData: ITavernData) => {
-        const pastTavernHistory = [] as ITavernData[];
-        tavernHistory.forEach((tavernData: ITavernData, index: number) => {
+    const onDataChange = (newData: Partial<TavernData>) => {
+        let newTavernData = { ...tavernHistory[historyIndex], ...newData };
+        const pastTavernHistory = [] as TavernData[];
+        tavernHistory.forEach((tavernData: TavernData, index: number) => {
             if (index <= historyIndex) {
                 pastTavernHistory.push(tavernData);
             }
@@ -53,29 +45,6 @@ export const MainNavigator = () => {
         setHistoryIndex(historyIndex + 1);
     };
 
-    const updateFitting = (fitting: {
-        fits: association[];
-        misfits: association[];
-    }) => {
-        const tavern = tavernHistory[historyIndex];
-        const newData = getProductsLeftAndBannerData(
-            tavern.fitting,
-            tavern.drinks,
-            tavern.dishes
-        );
-        const newTavernData = {
-            foodBannerData: newData.foodBannerData,
-            drinkBannerData: newData.drinkBannerData,
-            fitting: fitting,
-            name: tavern.name,
-            drinks: tavern.drinks,
-            dishes: tavern.dishes,
-            prices: tavern.prices,
-            drinksLeft: newData.isDrinkLeftMap,
-            dishesLeft: newData.isFoodLeftMap,
-        };
-        onDataChange(newTavernData);
-    };
     const buildTavernTemplate = (
         templateKey: string,
         getMisfits: (fits: association[]) => association[]
@@ -109,239 +78,6 @@ export const MainNavigator = () => {
         setTavernHistory([tavernData]);
     };
 
-    const updateName = (name: string) => {
-        const tavern = tavernHistory[historyIndex];
-        const newTavernData = {
-            foodBannerData: tavern.foodBannerData,
-            drinkBannerData: tavern.drinkBannerData,
-            fitting: tavern.fitting,
-            name: name,
-            drinks: tavern.drinks,
-            dishes: tavern.dishes,
-            prices: tavern.prices,
-            drinksLeft: tavern.drinksLeft,
-            dishesLeft: tavern.dishesLeft,
-        };
-        onDataChange(newTavernData);
-    };
-    const updateDrinks = (
-        drinks: Offer[],
-        is: {
-            add: menuCategory | undefined;
-            delete: menuCategory | undefined;
-        }
-    ) => {
-        const tavern = tavernHistory[historyIndex];
-        const newDrinksLeft = new Map([]) as Map<menuCategory, boolean>;
-        Object.values(drinkCategory).forEach((category) => {
-            const testDrinkOffer = getNewRandomDrinkOffer(
-                tavern.fitting.fits,
-                tavern.fitting.misfits,
-                category,
-                drinks,
-                weServe.drinks,
-                tavern.prices
-            );
-            if (
-                testDrinkOffer === undefined ||
-                testDrinkOffer === NothingLeftOffer
-            ) {
-                newDrinksLeft.set(category, false);
-            } else {
-                newDrinksLeft.set(category, true);
-            }
-        });
-        let newDrinkBannerData = tavern.drinkBannerData;
-        if (is.add) {
-            if (!newDrinksLeft.get(is.add)) {
-                const newEmptyCategories = newDrinkBannerData.emptyCategories.slice() as drinkCategory[];
-                newEmptyCategories.push(is.add as drinkCategory);
-                newDrinkBannerData = {
-                    emptyCategories: newEmptyCategories,
-                    isVisible: true,
-                };
-            }
-        }
-        if (
-            is.delete &&
-            (tavern.drinkBannerData
-                .emptyCategories as drinkCategory[]).includes(
-                is.delete as drinkCategory
-            )
-        ) {
-            const newEmptyCategories = [] as drinkCategory[];
-            (newDrinkBannerData.emptyCategories as drinkCategory[]).forEach(
-                (category) => {
-                    if (category !== is.delete) {
-                        newEmptyCategories.push(category);
-                    }
-                }
-            );
-            const newBannerVisible =
-                newEmptyCategories.length < 1
-                    ? false
-                    : tavern.drinkBannerData.isVisible;
-            newDrinkBannerData = {
-                emptyCategories: newEmptyCategories,
-                isVisible: newBannerVisible,
-            };
-        }
-
-        const newTavernData = {
-            foodBannerData: tavern.foodBannerData,
-            drinkBannerData: newDrinkBannerData as BannerData,
-            fitting: tavern.fitting,
-            name: tavern.name,
-            drinks: drinks,
-            dishes: tavern.dishes,
-            prices: tavern.prices,
-            drinksLeft: newDrinksLeft as Map<drinkCategory, boolean>,
-            dishesLeft: tavern.dishesLeft,
-        };
-        onDataChange(newTavernData);
-    };
-    //TODO: Comapre this with updateDrinks
-    const updateDishes = (
-        dishes: Offer[],
-        is: {
-            add: menuCategory | undefined;
-            delete: menuCategory | undefined;
-        }
-    ) => {
-        const tavern = tavernHistory[historyIndex];
-        const newDishesLeft = new Map([]) as Map<menuCategory, boolean>;
-        Object.values(foodCategory).forEach((category) => {
-            const testFoodOffer = getNewRandomDrinkOffer(
-                tavern.fitting.fits,
-                tavern.fitting.misfits,
-                category,
-                dishes,
-                weServe.food,
-                tavern.prices
-            );
-            if (
-                testFoodOffer === undefined ||
-                testFoodOffer === NothingLeftOffer
-            ) {
-                newDishesLeft.set(category, false);
-            } else {
-                newDishesLeft.set(category, true);
-            }
-        });
-        let newFoodBannerData = tavern.foodBannerData;
-        if (is.add) {
-            if (!newDishesLeft.get(is.add)) {
-                const newEmptyCategories = newFoodBannerData.emptyCategories.slice() as foodCategory[];
-                newEmptyCategories.push(is.add as foodCategory);
-                newFoodBannerData = {
-                    emptyCategories: newEmptyCategories,
-                    isVisible: true,
-                };
-            }
-        }
-        if (
-            is.delete &&
-            (tavern.foodBannerData.emptyCategories as foodCategory[]).includes(
-                is.delete as foodCategory
-            )
-        ) {
-            const newEmptyCategories = [] as foodCategory[];
-            (newFoodBannerData.emptyCategories as foodCategory[]).forEach(
-                (category) => {
-                    if (category !== is.delete) {
-                        newEmptyCategories.push(category);
-                    }
-                }
-            );
-            const newBannerVisible =
-                newEmptyCategories.length < 1
-                    ? false
-                    : tavern.foodBannerData.isVisible;
-
-            newFoodBannerData = {
-                emptyCategories: newEmptyCategories,
-                isVisible: newBannerVisible,
-            };
-        }
-        const newTavernData = {
-            foodBannerData: newFoodBannerData as BannerData,
-            drinkBannerData: tavern.drinkBannerData,
-            fitting: tavern.fitting,
-            name: tavern.name,
-            drinks: tavern.drinks,
-            dishes: dishes,
-            prices: tavern.prices,
-            drinksLeft: tavern.drinksLeft,
-            dishesLeft: newDishesLeft as Map<foodCategory, boolean>,
-        };
-        onDataChange(newTavernData);
-    };
-    const updatePrice = (basePrice: BasePrice) => {
-        const tavern = tavernHistory[historyIndex];
-        const newTavernData = {
-            foodBannerData: tavern.foodBannerData,
-            drinkBannerData: tavern.drinkBannerData,
-            fitting: tavern.fitting,
-            name: tavern.name,
-            drinks: tavern.drinks,
-            dishes: tavern.dishes,
-            prices: basePrice,
-            drinksLeft: tavern.drinksLeft,
-            dishesLeft: tavern.dishesLeft,
-        };
-        onDataChange(newTavernData);
-    };
-    // no setting of prevTavernData, since this is not supposed to change back when user clicks on undoButton
-    const setDrinkBannerVisible = (isVisible: boolean) => {
-        const tavern = tavernHistory[historyIndex];
-        const newDrinkBannerData = {
-            emptyCategories: tavern.drinkBannerData.emptyCategories,
-            isVisible: isVisible,
-        } as BannerData;
-        const newTavernData = {
-            foodBannerData: tavern.foodBannerData,
-            drinkBannerData: newDrinkBannerData,
-            fitting: tavern.fitting,
-            name: tavern.name,
-            drinks: tavern.drinks,
-            dishes: tavern.dishes,
-            prices: tavern.prices,
-            drinksLeft: tavern.drinksLeft,
-            dishesLeft: tavern.dishesLeft,
-        };
-        onDataChange(newTavernData);
-    };
-    // no setting of prevTavernData, since this is not supposed to change back when user clicks on undoButton
-    const setFoodBannerVisible = (isVisible: boolean) => {
-        const tavern = tavernHistory[historyIndex];
-        const newFoodBannerData = {
-            emptyCategories: tavern.foodBannerData.emptyCategories,
-            isVisible: isVisible,
-        } as BannerData;
-        const newTavernData = {
-            foodBannerData: newFoodBannerData,
-            drinkBannerData: tavern.drinkBannerData,
-            fitting: tavern.fitting,
-            name: tavern.name,
-            drinks: tavern.drinks,
-            dishes: tavern.dishes,
-            prices: tavern.prices,
-            drinksLeft: tavern.drinksLeft,
-            dishesLeft: tavern.dishesLeft,
-        };
-        onDataChange(newTavernData);
-    };
-
-    const onUpdate = {
-        forFitting: updateFitting,
-        forDrinks: updateDrinks,
-        forDishes: updateDishes,
-        forDrinkBannerVisible: setDrinkBannerVisible,
-        forFoodBannerVisible: setFoodBannerVisible,
-        forPrice: updatePrice,
-        forTavernTemplate: buildTavernTemplate,
-        forName: updateName,
-    };
     return (
         <NavigationContainer>
             <Stack.Navigator>
@@ -354,7 +90,7 @@ export const MainNavigator = () => {
                     name="START OPTIONS"
                     children={({ navigation }) => (
                         <StartOptionsScene
-                            onTavernTemplate={onUpdate.forTavernTemplate}
+                            onTavernTemplate={buildTavernTemplate}
                             onNextScene={() => {
                                 navigation.navigate('EDIT TAVERN');
                             }}
@@ -379,6 +115,10 @@ export const MainNavigator = () => {
                                     );
                                 }}
                                 sceneTitle="EDIT TAVERN"
+                                boughtOffers={[] as Offer[]}
+                                currencyName={
+                                    tavernHistory[historyIndex].prices.currency
+                                }
                             ></AppBar>
                         ),
                     }}
@@ -404,13 +144,19 @@ export const MainNavigator = () => {
                                     );
                                 }}
                                 sceneTitle="EDIT TAVERN"
+                                boughtOffers={
+                                    tavernHistory[historyIndex].boughtOffers
+                                }
+                                currencyName={
+                                    tavernHistory[historyIndex].prices.currency
+                                }
                             ></AppBar>
                         ),
                     }}
                     children={() => (
                         <EditNavigator
                             tavern={tavernHistory[historyIndex]}
-                            onUpdate={onUpdate}
+                            onDataChange={onDataChange}
                         ></EditNavigator>
                     )}
                 />

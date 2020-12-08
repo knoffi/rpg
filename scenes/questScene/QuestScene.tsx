@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { ScrollView } from 'react-native';
 import { association } from '../../classes/Adjectives';
-import { DetailsList } from './DetailsList';
+import { TavernData } from '../../mainNavigator/TavernData';
 import { BasePrice } from '../menuScene/basePrice';
 import { nameSceneStyles } from '../nameScene/nameSceneStyles';
 import { CurrencySetDialog } from './CurrencySetDialog';
+import { DetailsList } from './DetailsList';
 import { incomeExampleMap } from './incomeExampleMap';
 import { PriceDescriptionDialog } from './PriceDescriptionDialog';
 import { PriceSetDialog } from './PriceSetDialog';
@@ -12,7 +13,7 @@ import { PriceSetDialog } from './PriceSetDialog';
 export const QuestScene = (props: {
     fitting: { fits: association[]; misfits: association[] };
     basePrice: BasePrice;
-    setBasePrice: (newPrices: BasePrice) => void;
+    onDataChange: (newData: Partial<TavernData>) => void;
 }) => {
     const [descriptionDialog, setDialog] = useState({
         open: false,
@@ -119,54 +120,64 @@ export const QuestScene = (props: {
         newCurrency?: string
     ) => {
         if (newCurrency) {
-            props.setBasePrice({
-                currency: newCurrency,
-                poor: props.basePrice.poor,
-                modest: props.basePrice.modest,
-                wealthy: props.basePrice.wealthy,
-                rich: props.basePrice.rich,
+            props.onDataChange({
+                prices: {
+                    currency: newCurrency,
+                    poor: props.basePrice.poor,
+                    modest: props.basePrice.modest,
+                    wealthy: props.basePrice.wealthy,
+                    rich: props.basePrice.rich,
+                },
             });
         }
         if (income) {
             if (newPrice) {
                 switch (income) {
                     case association.poor:
-                        props.setBasePrice({
-                            currency: props.basePrice.currency,
-                            poor: newPrice,
-                            modest: props.basePrice.modest,
-                            wealthy: props.basePrice.wealthy,
-                            rich: props.basePrice.rich,
+                        props.onDataChange({
+                            prices: {
+                                currency: props.basePrice.currency,
+                                poor: newPrice,
+                                modest: props.basePrice.modest,
+                                wealthy: props.basePrice.wealthy,
+                                rich: props.basePrice.rich,
+                            },
                         });
                         break;
 
                     case association.worker:
-                        props.setBasePrice({
-                            currency: props.basePrice.currency,
-                            poor: props.basePrice.poor,
-                            modest: newPrice,
-                            wealthy: props.basePrice.wealthy,
-                            rich: props.basePrice.rich,
+                        props.onDataChange({
+                            prices: {
+                                currency: props.basePrice.currency,
+                                poor: props.basePrice.poor,
+                                modest: newPrice,
+                                wealthy: props.basePrice.wealthy,
+                                rich: props.basePrice.rich,
+                            },
                         });
                         break;
 
                     case association.sophisticated:
-                        props.setBasePrice({
-                            currency: props.basePrice.currency,
-                            poor: props.basePrice.poor,
-                            modest: props.basePrice.modest,
-                            wealthy: newPrice,
-                            rich: props.basePrice.rich,
+                        props.onDataChange({
+                            prices: {
+                                currency: props.basePrice.currency,
+                                poor: props.basePrice.poor,
+                                modest: props.basePrice.modest,
+                                wealthy: newPrice,
+                                rich: props.basePrice.rich,
+                            },
                         });
                         break;
 
                     default:
-                        props.setBasePrice({
-                            currency: props.basePrice.currency,
-                            poor: props.basePrice.poor,
-                            modest: props.basePrice.modest,
-                            wealthy: props.basePrice.wealthy,
-                            rich: newPrice,
+                        props.onDataChange({
+                            prices: {
+                                currency: props.basePrice.currency,
+                                poor: props.basePrice.poor,
+                                modest: props.basePrice.modest,
+                                wealthy: props.basePrice.wealthy,
+                                rich: newPrice,
+                            },
                         });
                         break;
                 }

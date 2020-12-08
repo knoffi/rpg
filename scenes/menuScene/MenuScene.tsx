@@ -3,6 +3,7 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 import { Banner } from 'react-native-paper';
 import { association } from '../../classes/Adjectives';
 import { getRandomArrayEntry } from '../../helpingFunctions/getFittingRandom';
+import { TavernData } from '../../mainNavigator/TavernData';
 import { nameSceneStyles } from '../nameScene/nameSceneStyles';
 import {
     drinkBannerEndings,
@@ -40,42 +41,47 @@ interface MenuProps {
     fitting: { fits: association[]; misfits: association[] };
     isAbout: weServe;
     offers: Offer[];
-    setOffers: (
-        offers: Offer[],
-        is: {
-            add: menuCategory | undefined;
-            delete: menuCategory | undefined;
-        }
-    ) => void;
+    onDataChange: (newData: Partial<TavernData>) => void;
     offersLeft: Map<menuCategory, boolean>;
+    offersBought: Offer[];
     basePrice: BasePrice;
     bannerData: BannerData;
-    onBannerButtonClick: (isVisible: boolean) => void;
+    getImpliedChanges: (
+        newDrinks?: Offer[],
+        newDishes?: Offer[]
+    ) => Partial<TavernData>;
+    buyOffer: (boughtOffer: Offer) => void;
 }
 
 export const MenuScene = (props: MenuProps) => {
     const fits = props.fitting.fits;
     const misfits = props.fitting.misfits;
-    const [boughtOffers, setBoughtOffers] = useState([] as Offer[]);
     const [bannerEnding, setBannerEnding] = useState(
         getRandomArrayEntry(mapOfBannerEndings.get(props.isAbout)!)
     );
 
     const deleteOffer = (name: string) => {
         let newOffers = [] as Offer[];
+        let deletedCategory: menuCategory;
         //asuming that delete button is not clickable if props.offers is empty
-        let change = {
-            add: undefined,
-            delete: props.offers[0].product.category,
-        };
         props.offers.forEach((offer) => {
             if (offer.product.name !== name) {
                 newOffers.push(offer);
             } else {
-                change.delete = offer.product.category;
+                deletedCategory = offer.product.category;
             }
         });
-        props.setOffers(newOffers, change);
+        if (props.isAbout === weServe.drinks) {
+            props.onDataChange({
+                drinks: newOffers,
+                ...props.getImpliedChanges(newOffers, undefined),
+            });
+        } else {
+            props.onDataChange({
+                dishes: newOffers,
+                ...props.getImpliedChanges(undefined, newOffers),
+            });
+        }
     };
     const rerollOffer = (name: string) => {
         const newOffers = offersWithOneReroll(
@@ -86,19 +92,20 @@ export const MenuScene = (props: MenuProps) => {
             props.isAbout,
             props.basePrice
         );
-        props.setOffers(newOffers, { add: undefined, delete: undefined });
+        if (props.isAbout === weServe.drinks) {
+            props.onDataChange({ drinks: newOffers });
+        } else {
+            props.onDataChange({ dishes: newOffers });
+        }
     };
 
     const buyOffer = (name: string) => {
-        let newBoughtOffers = boughtOffers.map((boughtOffer) => {
-            return boughtOffer;
-        });
+        //TODO: This only works as long as drinks can be distuingished by name
         props.offers.forEach((offer) => {
             if (offer.product.name === name) {
-                newBoughtOffers.push(offer);
+                props.buyOffer(offer);
             }
         });
-        setBoughtOffers(newBoughtOffers);
     };
     const addRandomOffer = (category: menuCategory) => {
         let newOffers = [] as Offer[];
@@ -127,10 +134,17 @@ export const MenuScene = (props: MenuProps) => {
                 getRandomArrayEntry(mapOfBannerEndings.get(props.isAbout)!)
             );
         }
-        props.setOffers(newOffers, {
-            add: newOffer.product.category,
-            delete: undefined,
-        });
+        if (props.isAbout === weServe.drinks) {
+            props.onDataChange({
+                drinks: newOffers,
+                ...props.getImpliedChanges(newOffers, undefined),
+            });
+        } else {
+            props.onDataChange({
+                dishes: newOffers,
+                ...props.getImpliedChanges(undefined, newOffers),
+            });
+        }
     };
 
     const getEmptyCategoriesString = (names: menuCategory[]) => {
@@ -162,7 +176,21 @@ export const MenuScene = (props: MenuProps) => {
                     actions={[
                         {
                             label: 'Got it',
-                            onPress: () => props.onBannerButtonClick(false),
+                            onPress: () => {
+                                const newBannerData = props.getImpliedChanges()
+                                    .drinkBannerData!;
+                                if (props.isAbout === weServe.drinks) {
+                                    newBannerData.isVisible = false;
+                                    props.onDataChange({
+                                        drinkBannerData: newBannerData,
+                                    });
+                                } else {
+                                    newBannerData.isVisible = false;
+                                    props.onDataChange({
+                                        foodBannerData: newBannerData,
+                                    });
+                                }
+                            },
                         },
                     ]}
                 >

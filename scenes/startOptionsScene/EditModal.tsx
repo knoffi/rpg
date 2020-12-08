@@ -27,6 +27,7 @@ export const EditModal = (props: {
                 <Modal
                     visible={visible}
                     onDismiss={hideModal}
+                    dismissable={false}
                     contentContainerStyle={editModalStyles.containerStyle}
                 >
                     <Paragraph style={editModalStyles.paragraph}>

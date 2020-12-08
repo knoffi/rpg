@@ -72,12 +72,6 @@ export const getNewRandomDrinkOffer = (
         offeredNames(oldOffers),
         isAbout
     );
-    if (newRandomOffer) {
-        if (basePrice) {
-        } else {
-            newRandomOffer.price = -1;
-        }
-    }
     return newRandomOffer;
 };
 
@@ -114,16 +108,25 @@ const getRandomDrinkOffer = (
     excludedDrinkNames: string[],
     isAbout: weServe
 ): Offer => {
-    //here
     let examples: TavernProduct[];
     if (isAbout === weServe.drinks) {
         examples = drinkExamples.find((example) => {
             return example.category === category;
         })!.examples;
     } else {
-        examples = foodExamples.find((example) => {
-            return example.category === category;
-        })!.examples;
+        examples = foodExamples
+            .find((example) => {
+                return example.category === category;
+            })!
+            .examples.filter((dish) => {
+                let isNotRedundant = true;
+                excludedDrinkNames.forEach((name) => {
+                    if (name.includes(dish.name.slice(0, 6))) {
+                        isNotRedundant = false;
+                    }
+                });
+                return isNotRedundant;
+            });
     }
     const drink = getFittingRandom(
         examples,
