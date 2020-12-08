@@ -11,7 +11,7 @@ import {
     RerollButton,
     ShopButton,
 } from '../../components/buttons/generalButtons';
-import { HEIGHT_FACTOR } from '../../dimensionConstants';
+import { HEIGHT_FACTOR, WIDTH_FACTOR } from '../../dimensionConstants';
 import { globalStyles } from '../globalStyles';
 import { Offer } from './menuEnums';
 import { weServe } from './menuFunctions';
@@ -84,10 +84,11 @@ const DrinkListTopItem = (props: {
                                     name="info"
                                     size={props.size}
                                     color={props.color}
+                                    style={{ marginHorizontal: 0 }}
                                 />
                             )}
                             onPress={infoAction}
-                            style={{ translateY: -10 * HEIGHT_FACTOR }}
+                            style={{ translateY: -10 }}
                         />
                         <Text style={menuSceneStyles.drinkName}>
                             {thisDrinkName}
@@ -179,14 +180,20 @@ const DrinkListAccordeon = (props: {
                                 onPress={() => {
                                     onRandomAdd(thisCategory);
                                 }}
-                                size={menuSceneStyles.drinkName.fontSize + 5}
+                                size={
+                                    (menuSceneStyles.drinkName.fontSize + 5) *
+                                    WIDTH_FACTOR
+                                }
                                 disabled={noDrinkToAddLeft}
                             />
                             <ImportButton
                                 onPress={() => {
                                     onImport(thisCategory);
                                 }}
-                                size={menuSceneStyles.drinkName.fontSize + 5}
+                                size={
+                                    (menuSceneStyles.drinkName.fontSize + 5) *
+                                    WIDTH_FACTOR
+                                }
                                 disabled={noDrinkToAddLeft}
                             />
                         </View>

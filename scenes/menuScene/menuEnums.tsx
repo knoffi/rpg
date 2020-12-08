@@ -6,6 +6,6 @@ export interface Offer {
 }
 
 export const NothingLeftOffer = {
-    product: new TavernProduct('Nothing', 0, [], drinkCategory.spirit),
+    product: new TavernProduct('NothingABCDEFGWinnie_The_PuH_SUcKs', 0, [], drinkCategory.spirit),
     price: 0,
 };

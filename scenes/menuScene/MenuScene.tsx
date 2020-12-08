@@ -129,7 +129,7 @@ export const MenuScene = (props: MenuProps) => {
             props.isAbout,
             props.basePrice
         );
-        if (testOffer.product === NothingLeftOffer.product) {
+        if (testOffer.product.name === NothingLeftOffer.product.name) {
             setBannerEnding(
                 getRandomArrayEntry(mapOfBannerEndings.get(props.isAbout)!)
             );

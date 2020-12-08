@@ -55,7 +55,7 @@ export const EditNavigator = (props: {
                     category,
                     newDrinks,
                     weServe.drinks
-                ) === NothingLeftOffer
+                ).product.name === NothingLeftOffer.product.name
             ) {
                 soldOutDrinkCategories.push(category);
                 drinkCategoriesLeft.set(category, false);
@@ -71,7 +71,7 @@ export const EditNavigator = (props: {
                     category,
                     newDishes,
                     weServe.food
-                ) === NothingLeftOffer
+                ).product.name === NothingLeftOffer.product.name
             ) {
                 soldOutFoodCategories.push(category);
                 foodCategoriesLeft.set(category, false);

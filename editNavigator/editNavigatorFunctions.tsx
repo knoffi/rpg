@@ -1,7 +1,10 @@
 import { association } from '../classes/Adjectives';
 import { drinkCategory, foodCategory } from '../classes/TavernProduct';
 import { NothingLeftOffer, Offer } from '../scenes/menuScene/menuEnums';
-import { getNewRandomDrinkOffer, weServe } from '../scenes/menuScene/menuFunctions';
+import {
+    getNewRandomDrinkOffer,
+    weServe,
+} from '../scenes/menuScene/menuFunctions';
 import { menuCategory } from '../scenes/menuScene/menuProduct';
 import { BannerData } from '../scenes/menuScene/MenuScene';
 
@@ -46,7 +49,10 @@ export const getProductsLeftAndBannerData = (
             foodOffers,
             weServe.food
         );
-        if (testFoodOffer === undefined || testFoodOffer === NothingLeftOffer) {
+        if (
+            testFoodOffer === undefined ||
+            testFoodOffer.product.name === NothingLeftOffer.product.name
+        ) {
             isFoodLeftMap.set(foodCategory, false);
             foodBannerVisible = true;
             emptyFoodCategories.push(foodCategory);
@@ -64,7 +70,7 @@ export const getProductsLeftAndBannerData = (
         );
         if (
             testDrinkOffer === undefined ||
-            testDrinkOffer === NothingLeftOffer
+            testDrinkOffer.product.name === NothingLeftOffer.product.name
         ) {
             isDrinkLeftMap.set(drinkCategory, false);
             drinkBannerVisible = true;

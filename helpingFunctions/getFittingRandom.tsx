@@ -64,6 +64,7 @@ const countIntersections = (
     let count = 0;
     intersectingAssociations.forEach((association) => {
         if (!product.associations) {
+            console.log("test this")
             console.log(product);
         }
         if (product.associations.includes(association)) {
@@ -98,15 +99,15 @@ const calculateFitting = (
 
 const filterByFitValue = (
     choices: ITavernAsset[],
-    value: number,
+    lowBound: number,
     fits: association[],
     misfits: association[],
-    excludedNames: string[]
+    excludedNames: string[],
 ) => {
     return choices.filter((choice) => {
         return (
             !excludedNames.includes(choice.name) &&
-            calculateFitting(choice, fits, misfits) === value
+            calculateFitting(choice, fits, misfits) >= lowBound
         );
     });
 };
@@ -117,6 +118,7 @@ export const getFittingRandom = (
     misfits: association[],
     excludedNames: string[]
 ): ITavernAsset => {
+    console.log("choices " + choices.length.toString()+choices[0].name)
     let fittingChoices: ITavernAsset[];
     let randomCase = Math.random();
     if (randomCase > 0.55) {
@@ -128,6 +130,7 @@ export const getFittingRandom = (
             excludedNames
         );
         if (fittingChoices.length > 0) {
+            console.log("1")
             return getRandomArrayEntry(fittingChoices);
         }
     }
@@ -140,6 +143,7 @@ export const getFittingRandom = (
             excludedNames
         );
         if (fittingChoices.length > 0) {
+            console.log("2")
             return getRandomArrayEntry(fittingChoices);
         }
     }
@@ -152,6 +156,7 @@ export const getFittingRandom = (
             excludedNames
         );
         if (fittingChoices.length > 0) {
+            console.log("3")
             return getRandomArrayEntry(fittingChoices);
         }
     }

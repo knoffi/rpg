@@ -148,9 +148,9 @@ export const spirits = [
     scotchTemplate('MacMaster', 105, [a.rich, a.dwarf, a.gnome]),
     scotchTemplate('MacMulligan', 10, [a.poor, a.criminal, a.dragonborn]),
     scotchTemplate('Rosetto', 29, [a.prostitute]),
-    scotchTemplate('Belezebu', 29, [a.tiefling]),
+    scotchTemplate('Belezebu', 35, [a.tiefling, a.sophisticated]),
     bourbonTemplate('Gregory', 11, [a.village, a.poor, a.barbarian]),
-    bourbonTemplate('Old Kennedy', 29, [
+    bourbonTemplate('Old Kennedy', 37, [
         a.halfling,
         a.sophisticated,
         a.village,
