@@ -16,6 +16,7 @@ import {
     Text,
 } from 'react-native-paper';
 import { WIDTH_FACTOR } from '../dimensionConstants';
+import { TavernData } from '../mainNavigator/TavernData';
 import { Offer } from '../scenes/menuScene/menuEnums';
 
 const APP_BAR_BG = '#63481F';
@@ -24,8 +25,9 @@ const INACTIVE_BUTTON_COLOR = 'grey';
 
 const BADGE_SIZE_DIVIDER = 2.3;
 const SHOPPING_ICON_SIZE = 32;
+const BADGE_POSITION = { top: -35, right: -4 };
 
-const AppBar = (props: {
+export const AppBar = (props: {
     onUndo: () => void;
     undoDisabled: boolean;
     onRedo: () => void;
@@ -34,6 +36,7 @@ const AppBar = (props: {
     sceneTitle: string;
     boughtOffers: Offer[];
     currencyName: string;
+    onDataChange: (newData: Partial<TavernData>) => void;
 }) => {
     const [modalVisible, setModalVisible] = React.useState(false);
     const numberOfBoughtItems = props.boughtOffers.length;
@@ -116,14 +119,25 @@ const AppBar = (props: {
                     <ShoppingList
                         boughtOffers={props.boughtOffers}
                         currencyName={props.currencyName}
+                        increaseOrder={(offerName: string) => {
+                            const reorderedOffer = props.boughtOffers.find(
+                                (order) => {
+                                    return order.product.name === offerName;
+                                }
+                            );
+                            props.onDataChange({
+                                boughtOffers: [
+                                    ...props.boughtOffers,
+                                    reorderedOffer!,
+                                ],
+                            });
+                        }}
                     ></ShoppingList>
                 </Modal>
             </Portal>
         </View>
     );
 };
-
-export default AppBar;
 
 const styles = StyleSheet.create({
     bottom: {
@@ -132,12 +146,13 @@ const styles = StyleSheet.create({
         right: 0,
         bottom: 0,
     },
-    badge: { top: -35, right: -4 },
+    badge: BADGE_POSITION,
 });
 
 const ShoppingList = (props: {
     boughtOffers: Offer[];
     currencyName: string;
+    increaseOrder: (name: string) => void;
 }) => {
     const boughtDrinks = [] as JSX.Element[];
     const boughtFood = [] as JSX.Element[];
@@ -160,11 +175,25 @@ const ShoppingList = (props: {
         }
     });
     drinkMap.forEach((orderValues, name) => {
-        boughtDrinks.push(getListItem(orderValues, name, props.currencyName));
+        boughtDrinks.push(
+            getListItem(
+                orderValues,
+                name,
+                props.currencyName,
+                props.increaseOrder
+            )
+        );
         priceSum += orderValues.price;
     });
     foodMap.forEach((orderValues, name) => {
-        boughtFood.push(getListItem(orderValues, name, props.currencyName));
+        boughtFood.push(
+            getListItem(
+                orderValues,
+                name,
+                props.currencyName,
+                props.increaseOrder
+            )
+        );
         priceSum += orderValues.price;
     });
 
@@ -220,7 +249,8 @@ const moneyColor = '#996515';
 function getListItem(
     orderValues: { price: number; count: number },
     name: string,
-    currencyName: string
+    currencyName: string,
+    increaseOrder: (offerName: string) => void
 ): JSX.Element {
     return (
         <List.Item
@@ -281,6 +311,9 @@ function getListItem(
                                     color={props.color}
                                 />
                             )}
+                            onPress={() => {
+                                increaseOrder(name);
+                            }}
                         />
                         <IconButton
                             icon={(props) => (

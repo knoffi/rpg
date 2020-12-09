@@ -2,7 +2,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import React, { useState } from 'react';
 import { association } from '../classes/Adjectives';
-import AppBar from '../components/AppBar';
+import { AppBar } from '../components/AppBar';
 import { EditNavigator } from '../editNavigator/EditNavigator';
 import {
     getProductsLeftAndBannerData,
@@ -119,6 +119,7 @@ export const MainNavigator = () => {
                                 currencyName={
                                     tavernHistory[historyIndex].prices.currency
                                 }
+                                onDataChange={onDataChange}
                             ></AppBar>
                         ),
                     }}
@@ -150,6 +151,7 @@ export const MainNavigator = () => {
                                 currencyName={
                                     tavernHistory[historyIndex].prices.currency
                                 }
+                                onDataChange={onDataChange}
                             ></AppBar>
                         ),
                     }}
