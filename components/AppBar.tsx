@@ -132,6 +132,30 @@ export const AppBar = (props: {
                                 ],
                             });
                         }}
+                        decreaseOrder={(offerName: string) => {
+                            const cancelledOffer = props.boughtOffers.find(
+                                (order) => {
+                                    return order.product.name === offerName;
+                                }
+                            );
+                            const cancelIndex = props.boughtOffers.lastIndexOf(
+                                cancelledOffer!
+                            );
+                            let newOrderList = props.boughtOffers.slice(
+                                0,
+                                cancelIndex
+                            );
+                            if (cancelIndex < props.boughtOffers.length - 1) {
+                                newOrderList = [
+                                    ...newOrderList,
+                                    ...props.boughtOffers.slice(
+                                        cancelIndex + 1,
+                                        props.boughtOffers.length
+                                    ),
+                                ];
+                            }
+                            props.onDataChange({ boughtOffers: newOrderList });
+                        }}
                     ></ShoppingList>
                 </Modal>
             </Portal>
@@ -153,6 +177,7 @@ const ShoppingList = (props: {
     boughtOffers: Offer[];
     currencyName: string;
     increaseOrder: (name: string) => void;
+    decreaseOrder: (name: string) => void;
 }) => {
     const boughtDrinks = [] as JSX.Element[];
     const boughtFood = [] as JSX.Element[];
@@ -165,7 +190,7 @@ const ShoppingList = (props: {
         const thisMap = offer.product.isFood() ? foodMap : drinkMap;
         const orderValues = thisMap.get(name);
         if (orderValues) {
-            thisMap.delete(name);
+            //thisMap.delete(name);
             thisMap.set(name, {
                 price: orderValues.price + offer.price,
                 count: orderValues.count + 1,
@@ -180,7 +205,8 @@ const ShoppingList = (props: {
                 orderValues,
                 name,
                 props.currencyName,
-                props.increaseOrder
+                props.increaseOrder,
+                props.decreaseOrder
             )
         );
         priceSum += orderValues.price;
@@ -191,7 +217,8 @@ const ShoppingList = (props: {
                 orderValues,
                 name,
                 props.currencyName,
-                props.increaseOrder
+                props.increaseOrder,
+                props.decreaseOrder
             )
         );
         priceSum += orderValues.price;
@@ -250,7 +277,8 @@ function getListItem(
     orderValues: { price: number; count: number },
     name: string,
     currencyName: string,
-    increaseOrder: (offerName: string) => void
+    increaseOrder: (offerName: string) => void,
+    decreaseOrder: (offerName: string) => void
 ): JSX.Element {
     return (
         <List.Item
@@ -321,6 +349,9 @@ function getListItem(
                                     name="minus-box-outline"
                                     size={props.size + 8 * WIDTH_FACTOR}
                                     color={props.color}
+                                    onPress={() => {
+                                        decreaseOrder(name);
+                                    }}
                                 />
                             )}
                         />
