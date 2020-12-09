@@ -177,14 +177,17 @@ export const MenuScene = (props: MenuProps) => {
                         {
                             label: 'Got it',
                             onPress: () => {
-                                const newBannerData = props.getImpliedChanges()
-                                    .drinkBannerData!;
                                 if (props.isAbout === weServe.drinks) {
+                                    const newBannerData = props.getImpliedChanges()
+                                        .drinkBannerData!;
+
                                     newBannerData.isVisible = false;
                                     props.onDataChange({
                                         drinkBannerData: newBannerData,
                                     });
                                 } else {
+                                    const newBannerData = props.getImpliedChanges()
+                                        .foodBannerData!;
                                     newBannerData.isVisible = false;
                                     props.onDataChange({
                                         foodBannerData: newBannerData,

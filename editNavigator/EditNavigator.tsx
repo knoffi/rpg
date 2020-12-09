@@ -79,15 +79,43 @@ export const EditNavigator = (props: {
                 foodCategoriesLeft.set(category, true);
             }
         });
+        let newDrinkBannerVisible = props.tavern.drinkBannerData.isVisible;
+        let newFoodBannerVisible = props.tavern.foodBannerData.isVisible;
+        soldOutDrinkCategories.forEach((soldOutCategory) => {
+            if (
+                !props.tavern.drinkBannerData.emptyCategories.includes(
+                    soldOutCategory
+                )
+            ) {
+                // new drinks are sold out!
+                newDrinkBannerVisible = true;
+            }
+        });
+        soldOutFoodCategories.forEach((soldOutCategory) => {
+            if (
+                !props.tavern.foodBannerData.emptyCategories.includes(
+                    soldOutCategory
+                )
+            ) {
+                // new dishes are sold out!
+                newFoodBannerVisible = true;
+            }
+        });
+        if (soldOutDrinkCategories.length === 0) {
+            newDrinkBannerVisible = false;
+        }
+        if (soldOutFoodCategories.length === 0) {
+            newFoodBannerVisible = false;
+        }
         return {
             drinkBannerData: {
-                isVisible: soldOutDrinkCategories.length > 0,
+                isVisible: newDrinkBannerVisible,
                 emptyCategories: soldOutDrinkCategories,
             } as BannerData,
             foodBannerData: {
-                isVisible: soldOutFoodCategories.length > 0,
+                isVisible: newFoodBannerVisible,
                 emptyCategories: soldOutFoodCategories,
-            },
+            } as BannerData,
             drinksLeft: drinkCategoriesLeft,
             dishesLeft: foodCategoriesLeft,
         } as Partial<TavernData>;
