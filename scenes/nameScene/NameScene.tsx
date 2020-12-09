@@ -16,12 +16,14 @@ import {
     PencilButton,
     RerollButton,
 } from '../../components/buttons/generalButtons';
+import { removeEmptyStrings } from '../../editNavigator/editNavigatorFunctions';
 import {
     getFittingRandom,
     getRandomArrayEntry,
 } from '../../helpingFunctions/getFittingRandom';
 import { misfitMode } from '../../helpingFunctions/misfitModes';
 import { getMisfits } from '../../helpingFunctions/misFitsHandlers';
+import { TavernData } from '../../mainNavigator/TavernData';
 import { globalStyles } from '../globalStyles';
 import { AssociationDialogBar } from './associationBar/AssociationDialogBar';
 import { adjectives, substantives } from './names/nouns';
@@ -41,13 +43,12 @@ interface TextState {
 
 interface NameProps {
     fitting: { fits: association[]; misfits: association[] };
-    updateFitting: (newFits: association[], newMisfits: association[]) => void;
     name: string;
-    updateName: (name: string) => void;
-    buildTavernTemplate: (
-        key: string,
-        getMisfits: (fits: association[]) => association[]
-    ) => void;
+    onDataChange: (newData: Partial<TavernData>) => void;
+    getImpliedChanges: (newFitting: {
+        fits: association[];
+        misfits: association[];
+    }) => Partial<TavernData>;
 }
 
 // Food Scene: Fehler bei Main Dish
@@ -84,7 +85,9 @@ export class NameScene extends React.Component<NameProps, TextState> {
                     <View style={nameSceneStyles.signView}>
                         <NameSetDialog
                             tavernName={this.props.name}
-                            setTavernName={this.props.updateName}
+                            setTavernName={(name: string) => {
+                                this.props.onDataChange({ name: name });
+                            }}
                             open={this.state.nameSetDialogOpen}
                             startText={this.state.dialogText}
                             setStartText={(text: string) => {
@@ -149,10 +152,10 @@ export class NameScene extends React.Component<NameProps, TextState> {
                 newAdjective.name +
                 ' ' +
                 this.getSubstantiveName(newAdjective.badWords);
-            this.props.updateName(newName);
+            this.props.onDataChange({ name: newName });
             this.setState({ isSpecialName: false });
         } else {
-            this.props.updateName(this.getSpecialNames());
+            this.props.onDataChange({ name: this.getSpecialNames() });
             this.setState({ isSpecialName: true });
         }
     }
@@ -214,7 +217,11 @@ export class NameScene extends React.Component<NameProps, TextState> {
         let newMisfits: association[];
         // Testen: Code wird in richtiger Reihenfolge ausgeführt, obwohl wir states setzen? Ja oder Nein?
         newMisfits = getMisfits(newFits, misfitMode.stricter);
-        this.props.updateFitting(newFits, newMisfits);
+        const newFitting = removeEmptyStrings(newFits, newMisfits);
+        this.props.onDataChange({
+            fitting: newFitting,
+            ...this.props.getImpliedChanges(newFitting),
+        });
     }
 }
 

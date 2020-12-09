@@ -64,7 +64,6 @@ const countIntersections = (
     let count = 0;
     intersectingAssociations.forEach((association) => {
         if (!product.associations) {
-            console.log(product);
         }
         if (product.associations.includes(association)) {
             count += 1;
@@ -98,7 +97,7 @@ const calculateFitting = (
 
 const filterByFitValue = (
     choices: ITavernAsset[],
-    value: number,
+    lowBound: number,
     fits: association[],
     misfits: association[],
     excludedNames: string[]
@@ -106,7 +105,7 @@ const filterByFitValue = (
     return choices.filter((choice) => {
         return (
             !excludedNames.includes(choice.name) &&
-            calculateFitting(choice, fits, misfits) === value
+            calculateFitting(choice, fits, misfits) >= lowBound
         );
     });
 };

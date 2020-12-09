@@ -4,7 +4,7 @@ import { BasePrice } from '../scenes/menuScene/basePrice';
 import { Offer } from '../scenes/menuScene/menuEnums';
 import { BannerData } from '../scenes/menuScene/MenuScene';
 
-export interface ITavernData {
+export type TavernData = {
     fitting: { fits: association[]; misfits: association[] };
     name: string;
     drinks: Offer[];
@@ -14,4 +14,5 @@ export interface ITavernData {
     dishesLeft: Map<foodCategory, boolean>;
     drinkBannerData: BannerData;
     foodBannerData: BannerData;
-}
+    boughtOffers: Offer[];
+};

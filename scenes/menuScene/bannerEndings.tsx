@@ -7,20 +7,20 @@ export const drinkBannerEndings = [
     'Every bartenders dream came true!',
     'Cheerio, my old chum!',
     'You know how to party!',
-    'Nobody will have to leave your tavern thirsty!',
+    'Nobody will leave your tavern thirsty!',
     'Wait a second, you even offer my favourite beverage. Could I make a reservation for next friday evening?',
 ];
 export const foodBannerEndings = [
     'Dig in!',
     'Bon appetite!',
-    'Such a skilful cook!',
+    'Such a skillful cook!',
     'Such a gastronomic variety!',
     'A menu to be proud of!',
     'Customers will have trouble deciding on a dish!',
     'Every gourmets dream came true!',
     'Have a nice meal!',
     'You know how to throw a banquette!',
-    'Nobody will have to leave your tavern hungry!',
+    'Nobody will leave your tavern hungry!',
     'Wait a second, you even offer my favourite dish. Could I make a reservation for next friday?',
 ];
 export const serviceBannerEndings = [

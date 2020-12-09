@@ -34,7 +34,7 @@ export const taverns: tavernMinData[] = [
     },
     {
         key: 'dwarf_rich',
-        name: 'The Molthorium Mine',
+        name: 'Molthorium Mine',
         fits: [
             association.dwarf,
             association.nobel,
@@ -49,7 +49,7 @@ export const taverns: tavernMinData[] = [
     },
     {
         key: 'haven_criminal_poor',
-        name: 'The Drowning Rat',
+        name: 'Drowning Rat',
         fits: [association.poor, association.criminal, association.haven],
         drinks: [],
         dishes: [],
@@ -59,7 +59,7 @@ export const taverns: tavernMinData[] = [
     },
     {
         key: 'brothel_city_rich',
-        name: 'The Foxy Gold Nymph',
+        name: 'Foxy Gold Nymph',
         fits: [association.rich, association.prostitute, association.city],
         drinks: [],
         dishes: [],
