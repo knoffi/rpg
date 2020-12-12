@@ -2,22 +2,25 @@ import { Feather } from '@expo/vector-icons';
 import React from 'react';
 import { View } from 'react-native';
 import { IconButton, List, Text } from 'react-native-paper';
-import { drinkCategory, foodCategory } from '../../classes/TavernProduct';
+import { drinkCategory, foodCategory } from '../../../classes/TavernProduct';
 import {
     AddButton,
     buttonEmphasis,
     DeleteButton,
+    FeatherButton,
     ImportButton,
     RerollButton,
     ShopButton,
-} from '../../components/buttons/generalButtons';
-import { HEIGHT_FACTOR, WIDTH_FACTOR } from '../../dimensionConstants';
-import { globalStyles } from '../globalStyles';
-import { Offer } from './menuEnums';
-import { weServe } from './menuFunctions';
-import { menuCategory } from './menuProduct';
-import { menuSceneStyles } from './menuStyles';
+} from '../../../components/buttons/generalButtons';
+import { HEIGHT_FACTOR, WIDTH_FACTOR } from '../../../dimensionConstants';
+import { globalStyles } from '../../globalStyles';
+import { Offer } from '../menuEnums';
+import { weServe } from '../menuFunctions';
+import { menuCategory } from '../menuProduct';
+import { menuSceneStyles } from '../menuStyles';
 
+const BOTTOM_PADDING_DRINKS = 265 * HEIGHT_FACTOR;
+const BOTTOM_PADDING_FOOD = 188 * HEIGHT_FACTOR;
 const CHARACTER_MAX_DRINK_NAME = 33;
 interface MenuChapter {
     category: menuCategory;
@@ -32,6 +35,7 @@ interface productActions {
 interface addingActions {
     randomAdd: (category: menuCategory) => void;
     import: (category: menuCategory) => void;
+    edit: (category: menuCategory) => void;
 }
 interface productActionsByName {
     deleteOffer: (name: string) => void;
@@ -39,7 +43,7 @@ interface productActionsByName {
     shopOffer: (name: string) => void;
 }
 
-const DrinkListItemRight = (props: {
+const OfferListItemRight = (props: {
     actions: productActions;
     noDrinkToAddLeft: boolean;
 }) => {
@@ -61,7 +65,7 @@ const DrinkListItemRight = (props: {
         </View>
     );
 };
-const DrinkListTopItem = (props: {
+const OfferListTopItem = (props: {
     drinkName: string;
     infoAction: () => void;
 }) => {
@@ -99,7 +103,8 @@ const DrinkListTopItem = (props: {
         ></List.Item>
     );
 };
-const DrinkListBottomItem = (props: {
+const BOTTOM_ITEM_MARGIN = 30 * HEIGHT_FACTOR;
+const OfferListBottomItem = (props: {
     actions: productActions;
     noDrinkToAddLeft: boolean;
     priceString: string;
@@ -110,10 +115,10 @@ const DrinkListBottomItem = (props: {
         <List.Item
             title={'   Price: ' + props.priceString}
             titleStyle={menuSceneStyles.drinkPrice}
-            style={{ marginBottom: 30 * HEIGHT_FACTOR }}
+            style={{ marginBottom: BOTTOM_ITEM_MARGIN }}
             right={(props) => {
                 return (
-                    <DrinkListItemRight
+                    <OfferListItemRight
                         actions={actions}
                         noDrinkToAddLeft={noDrinkToAddLeft}
                     />
@@ -122,7 +127,9 @@ const DrinkListBottomItem = (props: {
         ></List.Item>
     );
 };
-const DrinkListAccordeon = (props: {
+const LIST_END_BUTTON_SIZE =
+    (menuSceneStyles.drinkName.fontSize + 5) * WIDTH_FACTOR;
+const OfferListAccordeon = (props: {
     drinkCategory: menuCategory;
     listOfOffers: Offer[];
     offerActions: productActionsByName;
@@ -132,6 +139,7 @@ const DrinkListAccordeon = (props: {
 }) => {
     const onRandomAdd = props.addingActions.randomAdd;
     const onImport = props.addingActions.import;
+    const onEdit = props.addingActions.edit;
     const thisCategory = props.drinkCategory;
     const noDrinkToAddLeft = props.noDrinkToAddLeft;
     const getPriceString = props.getPriceString;
@@ -139,14 +147,14 @@ const DrinkListAccordeon = (props: {
     props.listOfOffers.forEach((offerOfList) => {
         const name = offerOfList.product.name;
         offerItems.push(
-            <DrinkListTopItem
+            <OfferListTopItem
                 drinkName={name}
                 key={name + '-top'}
                 infoAction={() => {}}
-            ></DrinkListTopItem>
+            ></OfferListTopItem>
         );
         offerItems.push(
-            <DrinkListBottomItem
+            <OfferListBottomItem
                 priceString={getPriceString(offerOfList)}
                 key={name + '-bottom'}
                 actions={{
@@ -161,7 +169,7 @@ const DrinkListAccordeon = (props: {
                     },
                 }}
                 noDrinkToAddLeft={noDrinkToAddLeft}
-            ></DrinkListBottomItem>
+            ></OfferListBottomItem>
         );
     });
     return (
@@ -180,21 +188,21 @@ const DrinkListAccordeon = (props: {
                                 onPress={() => {
                                     onRandomAdd(thisCategory);
                                 }}
-                                size={
-                                    (menuSceneStyles.drinkName.fontSize + 5) *
-                                    WIDTH_FACTOR
-                                }
+                                size={LIST_END_BUTTON_SIZE}
                                 disabled={noDrinkToAddLeft}
                             />
                             <ImportButton
                                 onPress={() => {
                                     onImport(thisCategory);
                                 }}
-                                size={
-                                    (menuSceneStyles.drinkName.fontSize + 5) *
-                                    WIDTH_FACTOR
-                                }
+                                size={LIST_END_BUTTON_SIZE}
                                 disabled={noDrinkToAddLeft}
+                            />
+                            <FeatherButton
+                                onPress={() => {
+                                    onEdit(thisCategory);
+                                }}
+                                size={LIST_END_BUTTON_SIZE}
                             />
                         </View>
                     );
@@ -234,7 +242,7 @@ export const OfferList = (props: {
 
     const chapterLists = menu.map((chapter) => {
         return (
-            <DrinkListAccordeon
+            <OfferListAccordeon
                 key={chapter.category}
                 drinkCategory={chapter.category}
                 listOfOffers={chapter.offers}
@@ -242,6 +250,7 @@ export const OfferList = (props: {
                 addingActions={{
                     randomAdd: props.addingActions.randomAdd,
                     import: props.addingActions.import,
+                    edit: props.addingActions.edit,
                 }}
                 noDrinkToAddLeft={!props.offersLeftMap.get(chapter.category)!}
                 getPriceString={props.getPriceString}
@@ -257,7 +266,10 @@ export const OfferList = (props: {
             title={props.isAbout.toUpperCase()}
             titleStyle={globalStyles.title}
             style={{
-                paddingBottom: props.isAbout === weServe.drinks ? 265 : 188,
+                paddingBottom:
+                    props.isAbout === weServe.drinks
+                        ? BOTTOM_PADDING_DRINKS
+                        : BOTTOM_PADDING_FOOD,
             }}
         >
             {chapterLists}

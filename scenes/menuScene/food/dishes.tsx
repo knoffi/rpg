@@ -152,6 +152,12 @@ export const breakfasts = [
         [],
         foodCategory.breakfast
     ),
+    new TavernProduct(
+        'Bread with jam and a boiled egg',
+        3,
+        [],
+        foodCategory.breakfast
+    ),
 ];
 
 export const appetizers = [

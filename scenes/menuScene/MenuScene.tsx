@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { Banner } from 'react-native-paper';
+import { Banner, Modal, Portal, Text, TextInput } from 'react-native-paper';
 import { association } from '../../classes/Adjectives';
+import { drinkCategory, TavernProduct } from '../../classes/TavernProduct';
+import {
+    buttonEmphasis,
+    OkayButton,
+    UploadButton,
+} from '../../components/buttons/generalButtons';
+import { HEIGHT_FACTOR, WIDTH_FACTOR } from '../../dimensionConstants';
 import { getRandomArrayEntry } from '../../helpingFunctions/getFittingRandom';
 import { TavernData } from '../../mainNavigator/TavernData';
 import { nameSceneStyles } from '../nameScene/nameSceneStyles';
@@ -11,7 +18,6 @@ import {
     serviceBannerEndings,
 } from './bannerEndings';
 import { BasePrice } from './basePrice';
-import { OfferList } from './DrinkList';
 import { NothingLeftOffer, Offer } from './menuEnums';
 import {
     getNewRandomDrinkOffer,
@@ -19,6 +25,7 @@ import {
     weServe,
 } from './menuFunctions';
 import { menuCategory } from './menuProduct';
+import { OfferList } from './offerList/OfferList';
 import { getAdjustedPriceString } from './priceFunctions';
 
 const mapOfBannerEndings = new Map([
@@ -59,6 +66,10 @@ export const MenuScene = (props: MenuProps) => {
     const [bannerEnding, setBannerEnding] = useState(
         getRandomArrayEntry(mapOfBannerEndings.get(props.isAbout)!)
     );
+    const [modalData, setModalData] = useState({
+        visible: false,
+        category: drinkCategory.lemonade as menuCategory,
+    });
 
     const deleteOffer = (name: string) => {
         let newOffers = [] as Offer[];
@@ -117,8 +128,7 @@ export const MenuScene = (props: MenuProps) => {
             misfits,
             category,
             props.offers,
-            props.isAbout,
-            props.basePrice
+            props.isAbout
         );
         newOffers.push(newOffer);
         const testOffer = getNewRandomDrinkOffer(
@@ -126,8 +136,7 @@ export const MenuScene = (props: MenuProps) => {
             misfits,
             category,
             newOffers,
-            props.isAbout,
-            props.basePrice
+            props.isAbout
         );
         if (testOffer.product.name === NothingLeftOffer.product.name) {
             setBannerEnding(
@@ -210,6 +219,12 @@ export const MenuScene = (props: MenuProps) => {
                     addingActions={{
                         randomAdd: addRandomOffer,
                         import: (category: menuCategory) => {},
+                        edit: (category: menuCategory) => {
+                            setModalData({
+                                visible: true,
+                                category: category,
+                            });
+                        },
                     }}
                     offerActions={{
                         deleteOffer: deleteOffer,
@@ -227,7 +242,161 @@ export const MenuScene = (props: MenuProps) => {
                     }}
                 />
             </ScrollView>
+            <Portal>
+                <Modal
+                    visible={modalData.visible}
+                    onDismiss={() => {
+                        setModalData({
+                            visible: false,
+                            category: modalData.category,
+                        });
+                    }}
+                >
+                    <EditProductView
+                        addTavernProduct={(
+                            name: string,
+                            price: number,
+                            description: string
+                        ) => {
+                            const newUserOffer = {
+                                product: new TavernProduct(
+                                    name,
+                                    price,
+                                    [] as association[],
+                                    modalData.category,
+                                    description
+                                ),
+                                price: price,
+                            };
+                            const newOffers = [...props.offers, newUserOffer];
+                            if (props.isAbout === weServe.drinks) {
+                                props.onDataChange({ drinks: newOffers });
+                            } else {
+                                props.onDataChange({ dishes: newOffers });
+                            }
+                        }}
+                    />
+                </Modal>
+            </Portal>
         </View>
+    );
+};
+
+const EditProductView = (props: {
+    addTavernProduct: (
+        name: string,
+        price: number,
+        description: string
+    ) => void;
+}) => {
+    const [name, setName] = useState('My Name');
+    const [price, setPrice] = useState(10);
+    const [description, setDescription] = useState('My Description');
+    return (
+        <ScrollView
+            style={{
+                backgroundColor: 'white',
+                marginTop: 80 * HEIGHT_FACTOR,
+            }}
+        >
+            <View
+                style={{
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                }}
+            >
+                <View
+                    style={{
+                        marginHorizontal: 10,
+                        width: 170 * WIDTH_FACTOR,
+                    }}
+                >
+                    <Text
+                        style={{
+                            fontWeight: 'bold',
+                            textDecorationLine: 'underline',
+                        }}
+                    >
+                        Hello
+                    </Text>
+                    <TextInput
+                        value={name}
+                        onChangeText={(name: string) => {
+                            setName(name);
+                        }}
+                    ></TextInput>
+                </View>
+                <View
+                    style={{
+                        marginHorizontal: 10,
+                        width: 170 * WIDTH_FACTOR,
+                    }}
+                >
+                    <Text
+                        style={{
+                            fontWeight: 'bold',
+                            textDecorationLine: 'underline',
+                        }}
+                    >
+                        Hello
+                    </Text>
+                    <TextInput
+                        value={price.toString()}
+                        onChangeText={(priceText: string) => {
+                            setPrice(parseInt(priceText));
+                        }}
+                    ></TextInput>
+                </View>
+            </View>
+            <View
+                style={{
+                    marginVertical: 20,
+                    marginHorizontal: 10,
+                    justifyContent: 'center',
+                }}
+            >
+                <Text
+                    style={{
+                        fontWeight: 'bold',
+                        textDecorationLine: 'underline',
+                    }}
+                >
+                    Hello
+                </Text>
+                <View>
+                    <TextInput
+                        onChangeText={(description: string) => {
+                            setDescription(description);
+                        }}
+                        multiline={true}
+                        style={{ width: 300 }}
+                    ></TextInput>
+                    <View
+                        style={{
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                        }}
+                    >
+                        <OkayButton
+                            mode={buttonEmphasis.high}
+                            onPress={() => {
+                                props.addTavernProduct(
+                                    name,
+                                    price,
+                                    description
+                                );
+                            }}
+                            title="TAVERN"
+                        />
+                        <UploadButton
+                            mode={buttonEmphasis.high}
+                            onPress={() => {}}
+                            title="LIBRARY"
+                        />
+                    </View>
+                </View>
+            </View>
+        </ScrollView>
     );
 };
 //TODO: test whether offer and drinkMenuCategories have corresponding entries

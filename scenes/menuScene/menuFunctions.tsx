@@ -62,8 +62,7 @@ export const getNewRandomDrinkOffer = (
     misfits: association[],
     category: menuCategory,
     oldOffers: Offer[],
-    isAbout: weServe,
-    basePrice?: BasePrice
+    isAbout: weServe
 ) => {
     let newRandomOffer = getRandomDrinkOffer(
         category,
