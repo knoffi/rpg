@@ -5,8 +5,8 @@ import {
     buttonEmphasis,
     OkayButton,
     UploadButton,
-} from '../../components/buttons/generalButtons';
-import { productEditorStyles } from './menuStyles';
+} from '../../../components/buttons/generalButtons';
+import { productEditorStyles } from './productEditorStyles';
 
 export const ProductEditor = (props: {
     addTavernProduct: (

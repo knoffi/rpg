@@ -5,12 +5,13 @@ import { drinkCategory, foodCategory } from '../classes/TavernProduct';
 import Icon from '../components/icons';
 import { iconKeys } from '../components/icons/iconKeys';
 import { TavernData } from '../mainNavigator/TavernData';
+import { BannerData } from '../scenes/menuScene/menuBanner/MenuBanner';
 import { NothingLeftOffer, Offer } from '../scenes/menuScene/menuEnums';
 import {
     getNewRandomDrinkOffer,
     weServe,
 } from '../scenes/menuScene/menuFunctions';
-import { BannerData, MenuScene } from '../scenes/menuScene/MenuScene';
+import { MenuScene } from '../scenes/menuScene/MenuScene';
 import { NameScene } from '../scenes/nameScene/NameScene';
 import { QuestScene } from '../scenes/questScene/QuestScene';
 

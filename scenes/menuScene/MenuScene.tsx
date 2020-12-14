@@ -1,17 +1,14 @@
 import React, { useState } from 'react';
 import { ScrollView, View } from 'react-native';
-import { Banner, Modal, Portal } from 'react-native-paper';
+import { Modal, Portal } from 'react-native-paper';
 import { association } from '../../classes/Adjectives';
 import { drinkCategory, TavernProduct } from '../../classes/TavernProduct';
 import { getRandomArrayEntry } from '../../helpingFunctions/getFittingRandom';
 import { TavernData } from '../../mainNavigator/TavernData';
 import { nameSceneStyles } from '../nameScene/nameSceneStyles';
-import {
-    drinkBannerEndings,
-    foodBannerEndings,
-    serviceBannerEndings,
-} from './bannerEndings';
+import { bannerEndings } from './menuBanner/bannerEndings';
 import { BasePrice } from './basePrice';
+import { BannerData, MenuBanner } from './menuBanner/MenuBanner';
 import { NothingLeftOffer, Offer } from './menuEnums';
 import {
     getNewRandomDrinkOffer,
@@ -21,18 +18,7 @@ import {
 import { menuCategory } from './menuProduct';
 import { OfferList } from './offerList/OfferList';
 import { getAdjustedPriceString } from './priceFunctions';
-import { ProductEditor } from './ProductEditor';
-
-const mapOfBannerEndings = new Map([
-    [weServe.drinks, drinkBannerEndings],
-    [weServe.food, foodBannerEndings],
-    [weServe.service, serviceBannerEndings],
-]);
-
-export interface BannerData {
-    emptyCategories: menuCategory[];
-    isVisible: boolean;
-}
+import { ProductEditor } from './productEditor/ProductEditor';
 
 interface MenuProps {
     fitting: { fits: association[]; misfits: association[] };
@@ -54,7 +40,7 @@ export const MenuScene = (props: MenuProps) => {
     const fits = props.fitting.fits;
     const misfits = props.fitting.misfits;
     const [bannerEnding, setBannerEnding] = useState(
-        getRandomArrayEntry(mapOfBannerEndings.get(props.isAbout)!)
+        getRandomArrayEntry(bannerEndings.get(props.isAbout)!)
     );
     const [modalData, setModalData] = useState({
         visible: false,
@@ -130,7 +116,7 @@ export const MenuScene = (props: MenuProps) => {
         );
         if (testOffer.product.name === NothingLeftOffer.product.name) {
             setBannerEnding(
-                getRandomArrayEntry(mapOfBannerEndings.get(props.isAbout)!)
+                getRandomArrayEntry(bannerEndings.get(props.isAbout)!)
             );
         }
         if (props.isAbout === weServe.drinks) {
@@ -146,22 +132,6 @@ export const MenuScene = (props: MenuProps) => {
         }
     };
 
-    const getEmptyCategoriesString = (names: menuCategory[]) => {
-        let numerationString = '';
-        names.forEach((name: menuCategory, index: number) => {
-            if (index === 0) {
-                numerationString = numerationString + name;
-            } else {
-                if (index < names.length - 1) {
-                    numerationString = numerationString + ', ' + name;
-                } else {
-                    numerationString = numerationString + ' and ' + name;
-                }
-            }
-        });
-        return numerationString.toLocaleLowerCase();
-    };
-
     return (
         <View>
             <ScrollView
@@ -170,39 +140,13 @@ export const MenuScene = (props: MenuProps) => {
                         nameSceneStyles.backgroundView.backgroundColor,
                 }}
             >
-                <Banner
-                    visible={props.bannerData.isVisible}
-                    actions={[
-                        {
-                            label: 'Got it',
-                            onPress: () => {
-                                if (props.isAbout === weServe.drinks) {
-                                    const newBannerData = props.getImpliedChanges()
-                                        .drinkBannerData!;
-
-                                    newBannerData.isVisible = false;
-                                    props.onDataChange({
-                                        drinkBannerData: newBannerData,
-                                    });
-                                } else {
-                                    const newBannerData = props.getImpliedChanges()
-                                        .foodBannerData!;
-                                    newBannerData.isVisible = false;
-                                    props.onDataChange({
-                                        foodBannerData: newBannerData,
-                                    });
-                                }
-                            },
-                        },
-                    ]}
-                >
-                    {'Your tavern offers every fitting ' +
-                        getEmptyCategoriesString(
-                            props.bannerData.emptyCategories
-                        ) +
-                        '!\n\n' +
-                        bannerEnding}
-                </Banner>
+                <MenuBanner
+                    bannerData={props.bannerData}
+                    onDataChange={props.onDataChange}
+                    getImpliedChanges={props.getImpliedChanges}
+                    bannerEnding={bannerEnding}
+                    isAbout={props.isAbout}
+                />
                 <OfferList
                     offers={props.offers}
                     isAbout={props.isAbout}

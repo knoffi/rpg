@@ -1,8 +1,8 @@
 import { association } from '../classes/Adjectives';
 import { drinkCategory, foodCategory } from '../classes/TavernProduct';
 import { BasePrice } from '../scenes/menuScene/basePrice';
+import { BannerData } from '../scenes/menuScene/menuBanner/MenuBanner';
 import { Offer } from '../scenes/menuScene/menuEnums';
-import { BannerData } from '../scenes/menuScene/MenuScene';
 
 export type TavernData = {
     fitting: { fits: association[]; misfits: association[] };
