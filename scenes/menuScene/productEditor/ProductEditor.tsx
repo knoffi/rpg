@@ -9,25 +9,34 @@ import {
 } from '../../../components/buttons/generalButtons';
 import { productEditorStyles } from './productEditorStyles';
 
-export const ProductEditor = (props: {
-    addTavernProduct: (
-        name: string,
-        price: number,
-        description: string
-    ) => void;
+export interface EditorStartTexts {
+    name: string;
+    priceText: string;
+    description: string;
     category: menuCategory;
+}
+
+export const ProductEditor = (props: {
+    addTavernProduct: (textData: EditorStartTexts) => void;
+    overwriteTavernProduct: (textData: EditorStartTexts) => void;
+    nameIsDuplicated: (name: string) => boolean;
+    startTexts: EditorStartTexts;
 }) => {
-    const [name, setName] = useState('My Name');
-    const [priceText, setPriceText] = useState('10');
-    const [description, setDescription] = useState('My Description');
+    const [name, setName] = useState(props.startTexts.name);
+    const [priceText, setPriceText] = useState(props.startTexts.priceText);
+    const [description, setDescription] = useState(
+        props.startTexts.description
+    );
+    const startTextIsValid = props.startTexts.name.length > 0 ? true : false;
     const [priceTextIsValid, setPriceTextIsValid] = useState(true);
+    const [nameTextIsValid, setNameTextIsValid] = useState(startTextIsValid);
     const textIsNumber = (text: string) => {
         return text.match(/^[0-9]+$/) != null && text !== '0';
     };
     return (
         <ScrollView style={productEditorStyles.scrollView}>
             <Text style={productEditorStyles.title}>
-                {'CREATE ' + props.category.toUpperCase()}
+                {'CREATE ' + props.startTexts.category.toUpperCase()}
             </Text>
             <View
                 style={{
@@ -41,10 +50,20 @@ export const ProductEditor = (props: {
                         value={name}
                         onChangeText={(name: string) => {
                             setName(name);
+                            if (
+                                name.length === 0 ||
+                                (props.nameIsDuplicated(name) &&
+                                    name !== props.startTexts.name)
+                            ) {
+                                setNameTextIsValid(false);
+                            } else {
+                                setNameTextIsValid(true);
+                            }
                         }}
                     ></TextInput>
-                    <HelperText type="error" visible={name.length === 0}>
-                        Please enter a name.
+
+                    <HelperText type="error" visible={!nameTextIsValid}>
+                        Please enter a name which does not exist on your menu!
                     </HelperText>
                 </View>
                 <View style={productEditorStyles.topTextFields}>
@@ -74,13 +93,21 @@ export const ProductEditor = (props: {
                     <View style={productEditorStyles.buttonView}>
                         <OkayButton
                             mode={buttonEmphasis.high}
-                            disabled={!priceTextIsValid || name.length === 0}
+                            disabled={!priceTextIsValid || !nameTextIsValid}
                             onPress={() => {
-                                props.addTavernProduct(
-                                    name,
-                                    parseInt(priceText),
-                                    description
-                                );
+                                const newProductData = {
+                                    name: name,
+                                    priceText: priceText,
+                                    description: description,
+                                    category: props.startTexts.category,
+                                };
+                                if (props.startTexts.name.length > 0) {
+                                    props.overwriteTavernProduct(
+                                        newProductData
+                                    );
+                                } else {
+                                    props.addTavernProduct(newProductData);
+                                }
                             }}
                             title=" TAVERN"
                         />

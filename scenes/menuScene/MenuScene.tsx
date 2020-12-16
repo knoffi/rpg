@@ -21,8 +21,13 @@ import {
 } from './menuFunctions';
 import { OfferList } from './offerList/OfferList';
 import { getAdjustedPriceString } from './priceFunctions';
-import { ProductEditor } from './productEditor/ProductEditor';
+import { EditorStartTexts, ProductEditor } from './productEditor/ProductEditor';
 
+const DEFAULT_MODAL_START_DATA = {
+    name: '',
+    priceText: '10',
+    description: '',
+};
 interface MenuProps {
     fitting: { fits: association[]; misfits: association[] };
     isAbout: weServe;
@@ -45,9 +50,12 @@ export const MenuScene = (props: MenuProps) => {
     const [bannerEnding, setBannerEnding] = useState(
         getRandomArrayEntry(bannerEndings.get(props.isAbout)!)
     );
-    const [modalData, setModalData] = useState({
+    const [editorData, setEditorData] = useState({
         visible: false,
-        category: drinkCategory.lemonade as menuCategory,
+        startData: {
+            ...DEFAULT_MODAL_START_DATA,
+            category: drinkCategory.lemonade as menuCategory,
+        } as EditorStartTexts,
     });
 
     const deleteOffer = (name: string) => {
@@ -73,15 +81,23 @@ export const MenuScene = (props: MenuProps) => {
             });
         }
     };
-    const rerollOffer = (name: string) => {
-        const newOffers = offersWithOneReroll(
-            name,
-            props.offers,
-            fits,
-            misfits,
-            props.isAbout,
-            props.basePrice
-        );
+    const changeOffer = (nameOfChangedOffer: string, newOffer?: Offer) => {
+        const newOffers = newOffer
+            ? props.offers.map((offer) => {
+                  if (offer.product.name !== nameOfChangedOffer) {
+                      return offer;
+                  } else {
+                      return newOffer;
+                  }
+              })
+            : offersWithOneReroll(
+                  nameOfChangedOffer,
+                  props.offers,
+                  fits,
+                  misfits,
+                  props.isAbout,
+                  props.basePrice
+              );
         if (props.isAbout === weServe.drinks) {
             props.onDataChange({ drinks: newOffers });
         } else {
@@ -134,6 +150,25 @@ export const MenuScene = (props: MenuProps) => {
             });
         }
     };
+    const openOfferEditor = (startData: EditorStartTexts) => {
+        setEditorData({
+            visible: true,
+            startData: startData,
+        });
+    };
+
+    const dismissEditorModal = () => {
+        setEditorData({
+            visible: false,
+            startData: editorData.startData,
+        });
+    };
+
+    const nameIsDuplicated = (name: string) => {
+        return props.offers.some((offer) => {
+            return offer.product.name === name;
+        });
+    };
 
     return (
         <View>
@@ -157,16 +192,20 @@ export const MenuScene = (props: MenuProps) => {
                         randomAdd: addRandomOffer,
                         import: (category: menuCategory) => {},
                         edit: (category: menuCategory) => {
-                            setModalData({
+                            setEditorData({
                                 visible: true,
-                                category: category,
+                                startData: {
+                                    ...DEFAULT_MODAL_START_DATA,
+                                    category: category,
+                                },
                             });
                         },
                     }}
                     offerActions={{
                         deleteOffer: deleteOffer,
-                        rerollOffer: rerollOffer,
+                        rerollOffer: changeOffer,
                         shopOffer: buyOffer,
+                        editUserOffer: openOfferEditor,
                     }}
                     offersLeftMap={props.offersLeft}
                     getPriceString={(offer: Offer) => {
@@ -181,31 +220,39 @@ export const MenuScene = (props: MenuProps) => {
             </ScrollView>
             <Portal>
                 <Modal
-                    visible={modalData.visible}
-                    onDismiss={() => {
-                        setModalData({
-                            visible: false,
-                            category: modalData.category,
-                        });
-                    }}
+                    visible={editorData.visible}
+                    onDismiss={dismissEditorModal}
                 >
                     <ProductEditor
-                        category={modalData.category}
-                        addTavernProduct={(
-                            name: string,
-                            price: number,
-                            description: string
+                        startTexts={editorData.startData}
+                        nameIsDuplicated={nameIsDuplicated}
+                        overwriteTavernProduct={(
+                            textData: EditorStartTexts
                         ) => {
-                            const offerPrice = price > 0 ? price : 1;
+                            changeOffer(editorData.startData.name, {
+                                product: new TavernProduct(
+                                    textData.name,
+                                    parseInt(textData.priceText),
+                                    [] as association[],
+                                    textData.category,
+                                    textData.description,
+                                    true
+                                ),
+                                price: parseInt(textData.priceText),
+                            });
+                            dismissEditorModal();
+                        }}
+                        addTavernProduct={(textData: EditorStartTexts) => {
                             const newUserOffer = {
                                 product: new TavernProduct(
-                                    name,
-                                    offerPrice,
+                                    textData.name,
+                                    parseInt(textData.priceText),
                                     [] as association[],
-                                    modalData.category,
-                                    description
+                                    textData.category,
+                                    textData.description,
+                                    true
                                 ),
-                                price: offerPrice,
+                                price: parseInt(textData.priceText),
                             };
                             const newOffers = [...props.offers, newUserOffer];
                             if (props.isAbout === weServe.drinks) {
@@ -213,10 +260,7 @@ export const MenuScene = (props: MenuProps) => {
                             } else {
                                 props.onDataChange({ dishes: newOffers });
                             }
-                            setModalData({
-                                visible: false,
-                                category: modalData.category,
-                            });
+                            dismissEditorModal();
                         }}
                     />
                 </Modal>

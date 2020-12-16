@@ -21,10 +21,14 @@ import { globalStyles } from '../../globalStyles';
 import { Offer } from '../menuEnums';
 import { weServe } from '../menuFunctions';
 import { menuSceneStyles } from '../menuStyles';
+import { EditorStartTexts } from '../productEditor/ProductEditor';
 
+const BOTTOM_ITEM_MARGIN = 30 * HEIGHT_FACTOR;
 const BOTTOM_PADDING_DRINKS = 265 * HEIGHT_FACTOR;
 const BOTTOM_PADDING_FOOD = 188 * HEIGHT_FACTOR;
 const CHARACTER_MAX_DRINK_NAME = 33;
+const LIST_END_BUTTON_SIZE =
+    (menuSceneStyles.drinkName.fontSize + 5) * WIDTH_FACTOR;
 interface MenuChapter {
     category: menuCategory;
     offers: Offer[];
@@ -34,29 +38,40 @@ interface productActions {
     onDelete: () => void;
     onReroll: () => void;
     onShop: () => void;
+    onEdit: () => void;
 }
 interface addingActions {
     randomAdd: (category: menuCategory) => void;
     import: (category: menuCategory) => void;
     edit: (category: menuCategory) => void;
 }
-interface productActionsByName {
+interface offerActions {
     deleteOffer: (name: string) => void;
     rerollOffer: (name: string) => void;
     shopOffer: (name: string) => void;
+    editUserOffer: (startData: EditorStartTexts) => void;
 }
 
 const OfferListItemRight = (props: {
     actions: productActions;
     noDrinkToAddLeft: boolean;
+    isUserMade?: boolean;
 }) => {
     return (
         <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
-            <RerollButton
-                mode={buttonEmphasis.medium}
-                onPress={props.actions.onReroll}
-                disabled={props.noDrinkToAddLeft}
-            />
+            {props.isUserMade ? (
+                <FeatherButton
+                    mode={buttonEmphasis.medium}
+                    onPress={props.actions.onEdit}
+                    disabled={props.noDrinkToAddLeft}
+                />
+            ) : (
+                <RerollButton
+                    mode={buttonEmphasis.medium}
+                    onPress={props.actions.onReroll}
+                    disabled={props.noDrinkToAddLeft}
+                />
+            )}
             <ShopButton
                 mode={buttonEmphasis.high}
                 onPress={props.actions.onShop}
@@ -91,7 +106,6 @@ const OfferListTopItem = (props: {
                                     name="info"
                                     size={props.size}
                                     color={props.color}
-                                    style={{ marginHorizontal: 0 }}
                                 />
                             )}
                             onPress={infoAction}
@@ -106,14 +120,15 @@ const OfferListTopItem = (props: {
         ></List.Item>
     );
 };
-const BOTTOM_ITEM_MARGIN = 30 * HEIGHT_FACTOR;
 const OfferListBottomItem = (props: {
     actions: productActions;
     noDrinkToAddLeft: boolean;
     priceString: string;
+    isUserMade?: boolean;
 }) => {
     const actions = props.actions;
     const noDrinkToAddLeft = props.noDrinkToAddLeft;
+    const isUserMade = props.isUserMade;
     return (
         <List.Item
             title={'   Price: ' + props.priceString}
@@ -124,18 +139,18 @@ const OfferListBottomItem = (props: {
                     <OfferListItemRight
                         actions={actions}
                         noDrinkToAddLeft={noDrinkToAddLeft}
+                        isUserMade={isUserMade}
                     />
                 );
             }}
         ></List.Item>
     );
 };
-const LIST_END_BUTTON_SIZE =
-    (menuSceneStyles.drinkName.fontSize + 5) * WIDTH_FACTOR;
+
 const OfferListAccordeon = (props: {
     drinkCategory: menuCategory;
     listOfOffers: Offer[];
-    offerActions: productActionsByName;
+    offerActions: offerActions;
     addingActions: addingActions;
     noDrinkToAddLeft: boolean;
     getPriceString: (offer: Offer) => string;
@@ -170,8 +185,18 @@ const OfferListAccordeon = (props: {
                     onShop: () => {
                         props.offerActions.shopOffer(name);
                     },
+                    onEdit: () => {
+                        const product = offerOfList.product;
+                        props.offerActions.editUserOffer({
+                            name: product.name,
+                            priceText: offerOfList.price.toString(),
+                            description: product.description || '',
+                            category: product.category,
+                        });
+                    },
                 }}
                 noDrinkToAddLeft={noDrinkToAddLeft}
+                isUserMade={offerOfList.product.isUserMade}
             ></OfferListBottomItem>
         );
     });
@@ -217,13 +242,13 @@ const OfferListAccordeon = (props: {
 export const OfferList = (props: {
     offers: Offer[];
     isAbout: weServe;
-    offerActions: productActionsByName;
+    offerActions: offerActions;
     addingActions: addingActions;
     offersLeftMap: Map<menuCategory, boolean>;
     getPriceString: (offer: Offer) => string;
 }) => {
     const menu = [] as MenuChapter[];
-    let categories =
+    const categories =
         props.isAbout === weServe.drinks ? drinkCategory : foodCategory;
 
     Object.values(categories).forEach((category) => {
@@ -262,7 +287,7 @@ export const OfferList = (props: {
     });
 
     // TODO: use a unique state for every drink category. For example, removing a single beer would then be faster because wineList etc. can be skipped.
-    // TODO: Check, wether different drinks from different categories have different names
+    // TODO: Check, whether different drinks from different categories have different names
 
     return (
         <List.Section
