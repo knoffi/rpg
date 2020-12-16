@@ -84,6 +84,7 @@ export const ProductEditor = (props: {
                 <View>
                     <TextInput
                         label="Description"
+                        value={description}
                         onChangeText={(description: string) => {
                             setDescription(description);
                         }}

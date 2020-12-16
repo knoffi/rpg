@@ -63,7 +63,6 @@ const OfferListItemRight = (props: {
                 <FeatherButton
                     mode={buttonEmphasis.medium}
                     onPress={props.actions.onEdit}
-                    disabled={props.noDrinkToAddLeft}
                 />
             ) : (
                 <RerollButton
@@ -187,10 +186,13 @@ const OfferListAccordeon = (props: {
                     },
                     onEdit: () => {
                         const product = offerOfList.product;
+                        const description = product.description
+                            ? product.description
+                            : '';
                         props.offerActions.editUserOffer({
                             name: product.name,
                             priceText: offerOfList.price.toString(),
-                            description: product.description || '',
+                            description: description,
                             category: product.category,
                         });
                     },
