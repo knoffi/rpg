@@ -2,12 +2,16 @@ import React, { useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import { Modal, Portal } from 'react-native-paper';
 import { association } from '../../classes/Adjectives';
-import { drinkCategory, TavernProduct } from '../../classes/TavernProduct';
+import {
+    drinkCategory,
+    menuCategory,
+    TavernProduct,
+} from '../../classes/TavernProduct';
 import { getRandomArrayEntry } from '../../helpingFunctions/getFittingRandom';
 import { TavernData } from '../../mainNavigator/TavernData';
 import { nameSceneStyles } from '../nameScene/nameSceneStyles';
-import { bannerEndings } from './menuBanner/bannerEndings';
 import { BasePrice } from './basePrice';
+import { bannerEndings } from './menuBanner/bannerEndings';
 import { BannerData, MenuBanner } from './menuBanner/MenuBanner';
 import { NothingLeftOffer, Offer } from './menuEnums';
 import {
@@ -15,7 +19,6 @@ import {
     offersWithOneReroll,
     weServe,
 } from './menuFunctions';
-import { menuCategory } from './menuProduct';
 import { OfferList } from './offerList/OfferList';
 import { getAdjustedPriceString } from './priceFunctions';
 import { ProductEditor } from './productEditor/ProductEditor';
@@ -187,20 +190,22 @@ export const MenuScene = (props: MenuProps) => {
                     }}
                 >
                     <ProductEditor
+                        category={modalData.category}
                         addTavernProduct={(
                             name: string,
                             price: number,
                             description: string
                         ) => {
+                            const offerPrice = price > 0 ? price : 1;
                             const newUserOffer = {
                                 product: new TavernProduct(
                                     name,
-                                    price,
+                                    offerPrice,
                                     [] as association[],
                                     modalData.category,
                                     description
                                 ),
-                                price: price,
+                                price: offerPrice,
                             };
                             const newOffers = [...props.offers, newUserOffer];
                             if (props.isAbout === weServe.drinks) {
@@ -208,6 +213,10 @@ export const MenuScene = (props: MenuProps) => {
                             } else {
                                 props.onDataChange({ dishes: newOffers });
                             }
+                            setModalData({
+                                visible: false,
+                                category: modalData.category,
+                            });
                         }}
                     />
                 </Modal>

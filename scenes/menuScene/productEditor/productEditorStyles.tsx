@@ -16,4 +16,15 @@ export const productEditorStyles = StyleSheet.create({
         justifyContent: 'center',
     },
     descriptionTextField: { width: 300 * WIDTH_FACTOR },
+    title: {
+        textAlign: 'center',
+        textDecorationLine: 'underline',
+        fontWeight: 'bold',
+        fontSize: 25,
+    },
+    buttonView: {
+        marginTop: 20 * HEIGHT_FACTOR,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
 });

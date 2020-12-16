@@ -1,12 +1,15 @@
 import { association } from '../classes/Adjectives';
-import { drinkCategory, foodCategory } from '../classes/TavernProduct';
+import {
+    drinkCategory,
+    foodCategory,
+    menuCategory,
+} from '../classes/TavernProduct';
 import { BannerData } from '../scenes/menuScene/menuBanner/MenuBanner';
 import { NothingLeftOffer, Offer } from '../scenes/menuScene/menuEnums';
 import {
     getNewRandomDrinkOffer,
     weServe,
 } from '../scenes/menuScene/menuFunctions';
-import { menuCategory } from '../scenes/menuScene/menuProduct';
 
 export const removeEmptyStrings = (
     newFits: association[],

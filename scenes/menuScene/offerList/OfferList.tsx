@@ -2,7 +2,11 @@ import { Feather } from '@expo/vector-icons';
 import React from 'react';
 import { View } from 'react-native';
 import { IconButton, List, Text } from 'react-native-paper';
-import { drinkCategory, foodCategory } from '../../../classes/TavernProduct';
+import {
+    drinkCategory,
+    foodCategory,
+    menuCategory,
+} from '../../../classes/TavernProduct';
 import {
     AddButton,
     buttonEmphasis,
@@ -16,7 +20,6 @@ import { HEIGHT_FACTOR, WIDTH_FACTOR } from '../../../dimensionConstants';
 import { globalStyles } from '../../globalStyles';
 import { Offer } from '../menuEnums';
 import { weServe } from '../menuFunctions';
-import { menuCategory } from '../menuProduct';
 import { menuSceneStyles } from '../menuStyles';
 
 const BOTTOM_PADDING_DRINKS = 265 * HEIGHT_FACTOR;
