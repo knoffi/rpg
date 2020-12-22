@@ -45,7 +45,7 @@ export const mainDishes = [
         mainDishEnum
     ),
     new TavernProduct(
-        'Leftover Stew with with Beans and Bread',
+        'Leftover Stew with Beans and Bread',
         5,
         [a.poor, a.city],
         mainDishEnum
