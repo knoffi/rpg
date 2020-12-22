@@ -1,9 +1,10 @@
 import { association } from '../../../classes/Adjectives';
 import { foodCategory, TavernProduct } from '../../../classes/TavernProduct';
+import { porridge } from './porridge';
 const a = association;
 const mainDishEnum = foodCategory.mainDish;
 
-const getFishAndChipsTemplate = (
+const fishAndChipsTemplate = (
     fishNames: string[],
     sidedishNames: string[],
     groupAssociation: association,
@@ -24,7 +25,6 @@ const getFishAndChipsTemplate = (
     });
     return dishVariants;
 };
-
 export const mainDishes = [
     new TavernProduct(
         'Leftover Stew with Chicken and Bread',
@@ -45,7 +45,7 @@ export const mainDishes = [
         mainDishEnum
     ),
     new TavernProduct(
-        'Leftover Stew with with Beans and Bread',
+        'Leftover Stew with Beans and Bread',
         5,
         [a.poor, a.city],
         mainDishEnum
@@ -123,7 +123,7 @@ export const mainDishes = [
         mainDishEnum
     ),
 ].concat(
-    getFishAndChipsTemplate(
+    fishAndChipsTemplate(
         [
             'Plaice',
             'Pollock',
@@ -137,7 +137,7 @@ export const mainDishes = [
         association.worker,
         22
     ),
-    getFishAndChipsTemplate(
+    fishAndChipsTemplate(
         ['Grey Makrele', 'Stink Cod', 'Dirt Cod', 'Sock Fish'],
         ['Peas', 'Gherkins', 'Baked Beans', 'Onions'],
         association.poor,
@@ -152,7 +152,13 @@ export const breakfasts = [
         [],
         foodCategory.breakfast
     ),
-];
+    new TavernProduct(
+        'Bread with jam and a boiled egg',
+        3,
+        [],
+        foodCategory.breakfast
+    ),
+].concat(porridge);
 
 export const appetizers = [
     new TavernProduct(

@@ -34,22 +34,23 @@ export class TavernProduct implements ITavernAsset {
     public copperPrice!: number;
     public associations!: association[];
     public category!: menuCategory;
-    private description?: string;
+    public isUserMade?: boolean;
+    public description?: string;
 
     constructor(
         name: string,
         price: number,
         associations: association[],
         category: menuCategory,
-        description?: string
+        description?: string,
+        isUserMade?: boolean
     ) {
         this.name = name;
         this.copperPrice = price;
         this.associations = associations;
         this.category = category;
-        if (description) {
-            this.description = description;
-        }
+        this.description = description;
+        this.isUserMade = isUserMade;
     }
 
     public getNumberOfHits(associationChecklist: association[]) {

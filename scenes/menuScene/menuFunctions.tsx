@@ -1,11 +1,14 @@
 import { association } from '../../classes/Adjectives';
-import { drinkCategory, TavernProduct } from '../../classes/TavernProduct';
+import {
+    drinkCategory,
+    menuCategory,
+    TavernProduct,
+} from '../../classes/TavernProduct';
 import { getFittingRandom } from '../../helpingFunctions/getFittingRandom';
 import { BasePrice } from './basePrice';
 import { drinkExamples } from './drinks/drinks';
 import { foodExamples } from './food/food';
 import { NothingLeftOffer, Offer } from './menuEnums';
-import { menuCategory } from './menuProduct';
 
 export enum weServe {
     drinks = 'drinks',
@@ -62,8 +65,7 @@ export const getNewRandomDrinkOffer = (
     misfits: association[],
     category: menuCategory,
     oldOffers: Offer[],
-    isAbout: weServe,
-    basePrice?: BasePrice
+    isAbout: weServe
 ) => {
     let newRandomOffer = getRandomDrinkOffer(
         category,

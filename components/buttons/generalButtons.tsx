@@ -128,7 +128,37 @@ export const ImportButton = (props: ButtonProps) => {
             onPress={props.onPress}
             disabled={props.disabled}
         >
+            <Feather name="download" size={props.size} color={props.color} />
+            {props.title}
+        </Button>
+    );
+};
+export const UploadButton = (props: ButtonProps) => {
+    return (
+        <Button
+            mode={props.mode}
+            onPress={props.onPress}
+            disabled={props.disabled}
+        >
             {<Feather name="download" size={props.size} color={props.color} />}
+            {props.title}
+        </Button>
+    );
+};
+export const OkayButton = (props: ButtonProps) => {
+    return (
+        <Button
+            mode={props.mode}
+            onPress={props.onPress}
+            disabled={props.disabled}
+        >
+            {
+                <AntDesign
+                    name="checkcircleo"
+                    size={props.size}
+                    color={props.color}
+                />
+            }
             {props.title}
         </Button>
     );

@@ -1,42 +1,33 @@
 import React, { useState } from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
-import { Banner } from 'react-native-paper';
+import { ScrollView, View } from 'react-native';
+import { Modal, Portal } from 'react-native-paper';
 import { association } from '../../classes/Adjectives';
+import {
+    drinkCategory,
+    menuCategory,
+    TavernProduct,
+} from '../../classes/TavernProduct';
 import { getRandomArrayEntry } from '../../helpingFunctions/getFittingRandom';
 import { TavernData } from '../../mainNavigator/TavernData';
 import { nameSceneStyles } from '../nameScene/nameSceneStyles';
-import {
-    drinkBannerEndings,
-    foodBannerEndings,
-    serviceBannerEndings,
-} from './bannerEndings';
 import { BasePrice } from './basePrice';
-import { OfferList } from './DrinkList';
+import { bannerEndings } from './menuBanner/bannerEndings';
+import { BannerData, MenuBanner } from './menuBanner/MenuBanner';
 import { NothingLeftOffer, Offer } from './menuEnums';
 import {
     getNewRandomDrinkOffer,
     offersWithOneReroll,
     weServe,
 } from './menuFunctions';
-import { menuCategory } from './menuProduct';
+import { OfferList } from './offerList/OfferList';
 import { getAdjustedPriceString } from './priceFunctions';
+import { EditorStartTexts, ProductEditor } from './productEditor/ProductEditor';
 
-const mapOfBannerEndings = new Map([
-    [weServe.drinks, drinkBannerEndings],
-    [weServe.food, foodBannerEndings],
-    [weServe.service, serviceBannerEndings],
-]);
-
-const menuStyle = StyleSheet.create({
-    menuRow: { justifyContent: 'flex-start', flexDirection: 'row' },
-    sceneButton: { justifyContent: 'center' },
-});
-
-export interface BannerData {
-    emptyCategories: menuCategory[];
-    isVisible: boolean;
-}
-
+const DEFAULT_MODAL_START_DATA = {
+    name: '',
+    priceText: '10',
+    description: '',
+};
 interface MenuProps {
     fitting: { fits: association[]; misfits: association[] };
     isAbout: weServe;
@@ -57,8 +48,15 @@ export const MenuScene = (props: MenuProps) => {
     const fits = props.fitting.fits;
     const misfits = props.fitting.misfits;
     const [bannerEnding, setBannerEnding] = useState(
-        getRandomArrayEntry(mapOfBannerEndings.get(props.isAbout)!)
+        getRandomArrayEntry(bannerEndings.get(props.isAbout)!)
     );
+    const [editorData, setEditorData] = useState({
+        visible: false,
+        startData: {
+            ...DEFAULT_MODAL_START_DATA,
+            category: drinkCategory.lemonade as menuCategory,
+        } as EditorStartTexts,
+    });
 
     const deleteOffer = (name: string) => {
         let newOffers = [] as Offer[];
@@ -83,15 +81,23 @@ export const MenuScene = (props: MenuProps) => {
             });
         }
     };
-    const rerollOffer = (name: string) => {
-        const newOffers = offersWithOneReroll(
-            name,
-            props.offers,
-            fits,
-            misfits,
-            props.isAbout,
-            props.basePrice
-        );
+    const changeOffer = (nameOfChangedOffer: string, newOffer?: Offer) => {
+        const newOffers = newOffer
+            ? props.offers.map((offer) => {
+                  if (offer.product.name !== nameOfChangedOffer) {
+                      return offer;
+                  } else {
+                      return newOffer;
+                  }
+              })
+            : offersWithOneReroll(
+                  nameOfChangedOffer,
+                  props.offers,
+                  fits,
+                  misfits,
+                  props.isAbout,
+                  props.basePrice
+              );
         if (props.isAbout === weServe.drinks) {
             props.onDataChange({ drinks: newOffers });
         } else {
@@ -117,8 +123,7 @@ export const MenuScene = (props: MenuProps) => {
             misfits,
             category,
             props.offers,
-            props.isAbout,
-            props.basePrice
+            props.isAbout
         );
         newOffers.push(newOffer);
         const testOffer = getNewRandomDrinkOffer(
@@ -126,12 +131,11 @@ export const MenuScene = (props: MenuProps) => {
             misfits,
             category,
             newOffers,
-            props.isAbout,
-            props.basePrice
+            props.isAbout
         );
         if (testOffer.product.name === NothingLeftOffer.product.name) {
             setBannerEnding(
-                getRandomArrayEntry(mapOfBannerEndings.get(props.isAbout)!)
+                getRandomArrayEntry(bannerEndings.get(props.isAbout)!)
             );
         }
         if (props.isAbout === weServe.drinks) {
@@ -146,21 +150,24 @@ export const MenuScene = (props: MenuProps) => {
             });
         }
     };
-
-    const getEmptyCategoriesString = (names: menuCategory[]) => {
-        let numerationString = '';
-        names.forEach((name: menuCategory, index: number) => {
-            if (index === 0) {
-                numerationString = numerationString + name;
-            } else {
-                if (index < names.length - 1) {
-                    numerationString = numerationString + ', ' + name;
-                } else {
-                    numerationString = numerationString + ' and ' + name;
-                }
-            }
+    const openOfferEditor = (startData: EditorStartTexts) => {
+        setEditorData({
+            visible: true,
+            startData: startData,
         });
-        return numerationString.toLocaleLowerCase();
+    };
+
+    const dismissEditorModal = () => {
+        setEditorData({
+            visible: false,
+            startData: editorData.startData,
+        });
+    };
+
+    const nameIsDuplicated = (name: string) => {
+        return props.offers.some((offer) => {
+            return offer.product.name === name;
+        });
     };
 
     return (
@@ -171,50 +178,34 @@ export const MenuScene = (props: MenuProps) => {
                         nameSceneStyles.backgroundView.backgroundColor,
                 }}
             >
-                <Banner
-                    visible={props.bannerData.isVisible}
-                    actions={[
-                        {
-                            label: 'Got it',
-                            onPress: () => {
-                                if (props.isAbout === weServe.drinks) {
-                                    const newBannerData = props.getImpliedChanges()
-                                        .drinkBannerData!;
-
-                                    newBannerData.isVisible = false;
-                                    props.onDataChange({
-                                        drinkBannerData: newBannerData,
-                                    });
-                                } else {
-                                    const newBannerData = props.getImpliedChanges()
-                                        .foodBannerData!;
-                                    newBannerData.isVisible = false;
-                                    props.onDataChange({
-                                        foodBannerData: newBannerData,
-                                    });
-                                }
-                            },
-                        },
-                    ]}
-                >
-                    {'Your tavern offers every fitting ' +
-                        getEmptyCategoriesString(
-                            props.bannerData.emptyCategories
-                        ) +
-                        '!\n\n' +
-                        bannerEnding}
-                </Banner>
+                <MenuBanner
+                    bannerData={props.bannerData}
+                    onDataChange={props.onDataChange}
+                    getImpliedChanges={props.getImpliedChanges}
+                    bannerEnding={bannerEnding}
+                    isAbout={props.isAbout}
+                />
                 <OfferList
                     offers={props.offers}
                     isAbout={props.isAbout}
                     addingActions={{
                         randomAdd: addRandomOffer,
                         import: (category: menuCategory) => {},
+                        edit: (category: menuCategory) => {
+                            setEditorData({
+                                visible: true,
+                                startData: {
+                                    ...DEFAULT_MODAL_START_DATA,
+                                    category: category,
+                                },
+                            });
+                        },
                     }}
                     offerActions={{
                         deleteOffer: deleteOffer,
-                        rerollOffer: rerollOffer,
+                        rerollOffer: changeOffer,
                         shopOffer: buyOffer,
+                        editUserOffer: openOfferEditor,
                     }}
                     offersLeftMap={props.offersLeft}
                     getPriceString={(offer: Offer) => {
@@ -227,7 +218,53 @@ export const MenuScene = (props: MenuProps) => {
                     }}
                 />
             </ScrollView>
+            <Portal>
+                <Modal
+                    visible={editorData.visible}
+                    onDismiss={dismissEditorModal}
+                >
+                    <ProductEditor
+                        startTexts={editorData.startData}
+                        nameIsDuplicated={nameIsDuplicated}
+                        overwriteTavernProduct={(
+                            textData: EditorStartTexts
+                        ) => {
+                            changeOffer(editorData.startData.name, {
+                                product: new TavernProduct(
+                                    textData.name,
+                                    parseInt(textData.priceText),
+                                    [] as association[],
+                                    textData.category,
+                                    textData.description,
+                                    true
+                                ),
+                                price: parseInt(textData.priceText),
+                            });
+                            dismissEditorModal();
+                        }}
+                        addTavernProduct={(textData: EditorStartTexts) => {
+                            const newUserOffer = {
+                                product: new TavernProduct(
+                                    textData.name,
+                                    parseInt(textData.priceText),
+                                    [] as association[],
+                                    textData.category,
+                                    textData.description,
+                                    true
+                                ),
+                                price: parseInt(textData.priceText),
+                            };
+                            const newOffers = [...props.offers, newUserOffer];
+                            if (props.isAbout === weServe.drinks) {
+                                props.onDataChange({ drinks: newOffers });
+                            } else {
+                                props.onDataChange({ dishes: newOffers });
+                            }
+                            dismissEditorModal();
+                        }}
+                    />
+                </Modal>
+            </Portal>
         </View>
     );
 };
-//TODO: test whether offer and drinkMenuCategories have corresponding entries

@@ -1,4 +1,6 @@
-export const drinkBannerEndings = [
+import { weServe } from '../menuFunctions';
+
+const drinkBannerEndings = [
     'Cheers to that!',
     'What a lovely collection!',
     'Such vast supply!',
@@ -10,7 +12,7 @@ export const drinkBannerEndings = [
     'Nobody will leave your tavern thirsty!',
     'Wait a second, you even offer my favourite beverage. Could I make a reservation for next friday evening?',
 ];
-export const foodBannerEndings = [
+const foodBannerEndings = [
     'Dig in!',
     'Bon appetite!',
     'Such a skillful cook!',
@@ -23,7 +25,13 @@ export const foodBannerEndings = [
     'Nobody will leave your tavern hungry!',
     'Wait a second, you even offer my favourite dish. Could I make a reservation for next friday?',
 ];
-export const serviceBannerEndings = [
+const serviceBannerEndings = [
     'Wait a second, I could use one of those. Do you open on Saturdays?',
     'Interesting services. Do your customers need to make a reservation? I am asking for a friend of mine...',
 ];
+
+export const bannerEndings = new Map([
+    [weServe.drinks, drinkBannerEndings],
+    [weServe.food, foodBannerEndings],
+    [weServe.service, serviceBannerEndings],
+]);

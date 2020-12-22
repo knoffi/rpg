@@ -23,6 +23,9 @@ export const getAdjustedPriceString = (
     let basePriceFactor: number;
     let tavernPriceCount = 0;
     let passedIncomeFit = false;
+    if (offer.product.isUserMade) {
+        return offer.price.toString() + ' ' + basePrice.currency;
+    }
     fits.forEach((fit) => {
         if (offer.product.associations.includes(fit)) {
             tavernPriceCount--;
