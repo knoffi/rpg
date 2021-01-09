@@ -1,8 +1,8 @@
-import { a } from './porridge';
+import { association } from '../../../../classes/Adjectives';
 
 export const wealthyAreaToppingsMap = new Map([
     [
-        a.village,
+        association.village,
         [
             'Cinnamon & Apples',
             'Raspberry & Peanuts',
@@ -13,7 +13,7 @@ export const wealthyAreaToppingsMap = new Map([
         ],
     ],
     [
-        a.city,
+        association.city,
         [
             'Cinnamon & Apples',
             'Raspberry & Peanuts',
@@ -24,7 +24,7 @@ export const wealthyAreaToppingsMap = new Map([
         ],
     ],
     [
-        a.forest,
+        association.forest,
         [
             'Cinnamon & Apples',
             'Raspberry & Peanuts',
@@ -35,7 +35,7 @@ export const wealthyAreaToppingsMap = new Map([
         ],
     ],
     [
-        a.haven,
+        association.haven,
         [
             'Cinnamon & Apples',
             'Raspberry & Peanuts',
@@ -45,9 +45,9 @@ export const wealthyAreaToppingsMap = new Map([
             'Strawberries & Cream',
         ],
     ],
-    [a.underdark, ['Caramelized Mule Filet']],
+    [association.underdark, ['Caramelized Mule Filet']],
     [
-        a.desert,
+        association.desert,
         [
             'Cinnamon & Dates',
             'Goat Cheese & Honey',
@@ -56,7 +56,7 @@ export const wealthyAreaToppingsMap = new Map([
         ],
     ],
     [
-        a.mountain,
+        association.mountain,
         [
             'Cinnamon & Dates',
             'Goat Cheese & Honey',
@@ -65,7 +65,7 @@ export const wealthyAreaToppingsMap = new Map([
         ],
     ],
     [
-        a.tropical,
+        association.tropical,
         [
             'Peaches & Maracuja',
             'Dragon Fruit & Oranges',
@@ -74,7 +74,7 @@ export const wealthyAreaToppingsMap = new Map([
         ],
     ],
     [
-        a.underdark,
+        association.underdark,
         [
             'Cinnamon & Dates',
             'Goat Cheese & Honey',

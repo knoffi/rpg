@@ -1,5 +1,7 @@
-import { a, allAreas } from './breakfastPlates';
+import { association } from '../../../../classes/Adjectives';
+import { allAreas } from './allAreas';
 
+const a = association;
 export const areaBreads = [
     { bread: 'Bread Rolls', areas: allAreas },
     {

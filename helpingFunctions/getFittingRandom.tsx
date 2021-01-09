@@ -15,7 +15,7 @@ export const getFittingRandomOlder = (
     misfits: association[],
     excludedNames: string[]
 ): ITavernAsset => {
-    let distribution = [] as { product: ITavernAsset; value: number }[];
+    const distribution = [] as { product: ITavernAsset; value: number }[];
     choices.forEach((choiceProduct) => {
         const fitHits = countIntersections(choiceProduct, fits);
         const misfitHits = countIntersections(choiceProduct, misfits);
@@ -38,7 +38,7 @@ const randomFromDistribution = (
     distribution: { product: ITavernAsset; value: number }[]
 ) => {
     let count = 0;
-    let arrayForRandomChoice = [] as ITavernAsset[];
+    const arrayForRandomChoice = [] as ITavernAsset[];
     distribution.forEach((element) => {
         while (count < element.value) {
             arrayForRandomChoice.push(element.product);
@@ -61,15 +61,9 @@ const countIntersections = (
     product: ITavernAsset,
     intersectingAssociations: association[]
 ) => {
-    let count = 0;
-    intersectingAssociations.forEach((association) => {
-        if (!product.associations) {
-        }
-        if (product.associations.includes(association)) {
-            count += 1;
-        }
-    });
-    return count;
+    return intersectingAssociations.filter((association) => {
+        return product.associations.includes(association);
+    }).length;
 };
 
 const calculateFitting = (
@@ -117,7 +111,7 @@ export const getFittingRandom = (
     excludedNames: string[]
 ): ITavernAsset => {
     let fittingChoices: ITavernAsset[];
-    let randomCase = Math.random();
+    const randomCase = Math.random();
     if (randomCase > 0.55) {
         fittingChoices = filterByFitValue(
             choices,

@@ -55,26 +55,15 @@ export class Adjective implements ITavernAsset {
         this.badWords = badWords;
     }
     public isFit(
-        pros: string[],
-        misfits: string[],
+        fits: association[],
+        misfits: association[],
         minPros: number,
         maxCons: number
     ) {
-        let proCount = 0;
-        let conCount = 0;
-        this.associations.forEach((association) => {
-            if (misfits.includes(association)) {
-                conCount++;
-            }
-            if (pros.includes(association)) {
-                proCount++;
-            }
-        });
+        const proCount = this.associations.filter(association=>{return fits.includes(association)}).length;
+        const conCount = this.associations.filter(association=>{return misfits.includes(association)}).length;
 
-        if (proCount >= minPros && conCount <= maxCons) {
-            return true;
-        }
-        return false;
+        return proCount >= minPros && conCount <= maxCons
     }
 
     public isPossibleNoun(category: substantiveCategory) {

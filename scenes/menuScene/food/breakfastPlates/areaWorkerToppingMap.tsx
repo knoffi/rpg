@@ -1,12 +1,12 @@
-import { a } from './breakfastPlates';
+import { association } from '../../../../classes/Adjectives';
 
 export const areaWorkerToppingMap = new Map([
     [
-        a.village,
+        association.village,
         ['Jam & Cheddar', 'Bacon & Goat Cheese', 'Cottage Cheese & Grapes'],
     ],
     [
-        a.haven,
+        association.haven,
         [
             'Pickled Mackarel & Onions',
             'Smoked Salmon & Horseradish cream',
@@ -14,7 +14,7 @@ export const areaWorkerToppingMap = new Map([
         ],
     ],
     [
-        a.city,
+        association.city,
         [
             'Cottage Cheese & Jam',
             'Sausage & Baked Beans',
@@ -22,7 +22,7 @@ export const areaWorkerToppingMap = new Map([
         ],
     ],
     [
-        a.forest,
+        association.forest,
         [
             'White Sausage & Pretzels',
             'Blackberry Jam & Butter',
@@ -30,7 +30,7 @@ export const areaWorkerToppingMap = new Map([
         ],
     ],
     [
-        a.desert,
+        association.desert,
         [
             'Red Beans & Hummus',
             'Dried Fruits & Goat Cheese',
@@ -40,7 +40,7 @@ export const areaWorkerToppingMap = new Map([
         ],
     ],
     [
-        a.mountain,
+        association.mountain,
         [
             'Sausage & Goat Cheese',
             'Smoked Trout & Goat Cheese',
@@ -48,7 +48,7 @@ export const areaWorkerToppingMap = new Map([
         ],
     ],
     [
-        a.underdark,
+        association.underdark,
         [
             'Blood Sausage & Dark Cheese',
             'Walnuts & Brown Honey',
@@ -56,7 +56,7 @@ export const areaWorkerToppingMap = new Map([
         ],
     ],
     [
-        a.tropical,
+        association.tropical,
         [
             'Papaya & Cream Cheese',
             'Cashew Nuts & Honey',

@@ -1,8 +1,8 @@
-import { a } from './porridge';
+import { association } from '../../../../classes/Adjectives';
 
 export const workerAreaToppingMap = new Map([
     [
-        a.village,
+        association.village,
         [
             'Apple',
             'Plum',
@@ -14,7 +14,7 @@ export const workerAreaToppingMap = new Map([
         ],
     ],
     [
-        a.city,
+        association.city,
         [
             'Applesauce',
             'Plum',
@@ -24,9 +24,9 @@ export const workerAreaToppingMap = new Map([
             'Pickled Cherries',
         ],
     ],
-    [a.forest, ['Honey', 'Raspberries', 'Blackberries', 'Apple']],
+    [association.forest, ['Honey', 'Raspberries', 'Blackberries', 'Apple']],
     [
-        a.mountain,
+        association.mountain,
         [
             'Honey',
             'Raspberries',
@@ -37,7 +37,7 @@ export const workerAreaToppingMap = new Map([
         ],
     ],
     [
-        a.haven,
+        association.haven,
         [
             'Pickled Cherries',
             'Banana',
@@ -46,7 +46,7 @@ export const workerAreaToppingMap = new Map([
             'Sugar',
         ],
     ],
-    [a.desert, ['Honey', 'Goat Cheese', 'dates', 'Cinnamon & Sugar']],
-    [a.tropical, ['Banana', 'Peach', 'Papaya', 'Mango', 'Pineapple']],
-    [a.underdark, ['Midnightberries', 'Earth Apple', 'Mule Bacon']],
+    [association.desert, ['Honey', 'Goat Cheese', 'dates', 'Cinnamon & Sugar']],
+    [association.tropical, ['Banana', 'Peach', 'Papaya', 'Mango', 'Pineapple']],
+    [association.underdark, ['Midnightberries', 'Earth Apple', 'Mule Bacon']],
 ]);

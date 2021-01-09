@@ -1,13 +1,16 @@
-import { a } from './breakfastPlates';
+import { association } from '../../../../classes/Adjectives';
 
 export const incomeEggTypeMap = new Map([
-    [a.poor, ['One Boiled Egg', 'One Scrambled Egg', 'One Fried Egg']],
     [
-        a.worker,
-        ['hree Boiled Eggs', 'Three Scrambled Eggs', 'Three Fried Eggs'],
+        association.poor,
+        ['One Boiled Egg', 'One Scrambled Egg', 'One Fried Egg'],
     ],
     [
-        a.sophisticated,
+        association.worker,
+        ['Three Boiled Eggs', 'Three Scrambled Eggs', 'Three Fried Eggs'],
+    ],
+    [
+        association.sophisticated,
         [
             'Boiled Egg (Owl Bear)',
             'Scrambled Egg (Owl Bear)',
@@ -20,7 +23,7 @@ export const incomeEggTypeMap = new Map([
         ],
     ],
     [
-        a.rich,
+        association.rich,
         [
             'Boiled Egg (Dragon)',
             'Scrambled Egg (Dragon)',

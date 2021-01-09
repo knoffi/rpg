@@ -6,18 +6,7 @@ import { areaRichToppingMap } from './areaRichToppingMap';
 import { areaWorkerToppingMap } from './areaWorkerToppingMap';
 import { incomeEggTypeMap } from './incomeEggTypeMap';
 
-export const a = association;
-
-export const allAreas = [
-    a.city,
-    a.village,
-    a.forest,
-    a.haven,
-    a.mountain,
-    a.tropical,
-    a.underdark,
-    a.desert,
-];
+const a = association;
 
 export const breakfastPlatesTemplate = (
     areaBreads: { bread: string; areas: association[] }[],
@@ -40,7 +29,7 @@ export const breakfastPlatesTemplate = (
                         'Breakfast Plate: ' +
                         egg +
                         garnishPhrase +
-                        bread +
+                        bread.bread +
                         ', ' +
                         topping;
                     breakfastPlates.push(
@@ -82,7 +71,6 @@ const richBreakfastPlates = breakfastPlatesTemplate(
     areaRichToppingMap,
     100
 );
-
 export const breakfastPlates = workerBreakfastPlates.concat(
     poorBreakfastPlates,
     wealthyBreakfastPlates,

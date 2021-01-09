@@ -27,7 +27,7 @@ export const AssociationDialogBar = (props: {
             );
         };
         let startText = group as string;
-        // assuming that every fitGroup has atmost one fit active and thatfitGroup contains only string values
+        // assuming that every fitGroup has atmost one fit active and that fitGroup contains only string values
         props.fits.forEach((fit) => {
             if (dialogData.fits.includes(fit)) {
                 startText = fit;

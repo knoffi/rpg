@@ -1,8 +1,19 @@
-import { a } from './porridge';
+import { association } from '../../../../classes/Adjectives';
 
 export const wealthyBases = [
-    { base: 'White Oat', areas: [a.city, a.haven, a.forest, a.village] },
-    { base: 'Night Oat', areas: [a.underdark] },
-    { base: 'Copper Millet', areas: [a.desert, a.mountain] },
-    { base: 'Moonshine Rice', areas: [a.tropical] },
+    {
+        base: 'White Oat',
+        areas: [
+            association.city,
+            association.haven,
+            association.forest,
+            association.village,
+        ],
+    },
+    { base: 'Night Oat', areas: [association.underdark] },
+    {
+        base: 'Copper Millet',
+        areas: [association.desert, association.mountain],
+    },
+    { base: 'Moonshine Rice', areas: [association.tropical] },
 ];

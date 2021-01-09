@@ -128,19 +128,15 @@ export const AppBar = (props: {
                             const cancelIndex = props.boughtOffers.lastIndexOf(
                                 cancelledOffer!
                             );
-                            let newOrderList = props.boughtOffers.slice(
-                                0,
-                                cancelIndex
-                            );
-                            if (cancelIndex < props.boughtOffers.length - 1) {
-                                newOrderList = [
-                                    ...newOrderList,
-                                    ...props.boughtOffers.slice(
-                                        cancelIndex + 1,
-                                        props.boughtOffers.length
-                                    ),
-                                ];
-                            }
+
+                            const newOrderList = [
+                                ...props.boughtOffers.slice(0, cancelIndex),
+                                ...props.boughtOffers.slice(
+                                    cancelIndex + 1,
+                                    props.boughtOffers.length
+                                ),
+                            ];
+
                             props.onDataChange({ boughtOffers: newOrderList });
                         }}
                     ></ShoppingList>

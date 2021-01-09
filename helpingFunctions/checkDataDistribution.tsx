@@ -1,7 +1,10 @@
 import { association } from '../classes/Adjectives';
-import { category } from './getFittingRandom';
+import { ITavernAsset } from './ITavernAsset';
 type associationNote = { name: association; occurence: number };
-export const checkDataDistribution = (data: category[], dataName: string) => {
+export const checkDataDistribution = (
+    data: ITavernAsset[],
+    dataName: string
+) => {
     const dataDistribution = [] as associationNote[];
     Object.values(association).filter((entry) => {
         if (typeof entry === 'string') {

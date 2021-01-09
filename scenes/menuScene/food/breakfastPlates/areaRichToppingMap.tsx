@@ -1,8 +1,8 @@
-import { a } from './breakfastPlates';
+import { association } from '../../../../classes/Adjectives';
 
 export const areaRichToppingMap = new Map([
     [
-        a.village,
+        association.village,
         [
             'Goldberry Jam & Cheddar',
             'Caramelized Bacon & Goat Cheese',
@@ -10,7 +10,7 @@ export const areaRichToppingMap = new Map([
         ],
     ],
     [
-        a.haven,
+        association.haven,
         [
             'Lobster & Silver Onions',
             'Smoked White Whale & Truffles',
@@ -18,7 +18,7 @@ export const areaRichToppingMap = new Map([
         ],
     ],
     [
-        a.city,
+        association.city,
         [
             'Caviar & Champagne Sauce',
             'Gryphon Sausage & Baked Beans',
@@ -26,7 +26,7 @@ export const areaRichToppingMap = new Map([
         ],
     ],
     [
-        a.forest,
+        association.forest,
         [
             'White Boar Sausage & Pretzels',
             'Goldberry Jam & Hollandaise Sauce',
@@ -34,7 +34,7 @@ export const areaRichToppingMap = new Map([
         ],
     ],
     [
-        a.desert,
+        association.desert,
         [
             'Ruby Beans & Gold-Plated Falafel',
             'Fried Sphinx & Sapphire Mushroom',
@@ -42,7 +42,7 @@ export const areaRichToppingMap = new Map([
         ],
     ],
     [
-        a.mountain,
+        association.mountain,
         [
             'Fried Asparagus & Emerald Berries',
             'Silver Trout & Truffles',
@@ -50,7 +50,7 @@ export const areaRichToppingMap = new Map([
         ],
     ],
     [
-        a.underdark,
+        association.underdark,
         [
             'Fried Beholder Tentacles & Caviar',
             'Pickled Beholder Eye & Crème Fraîche',
@@ -58,7 +58,7 @@ export const areaRichToppingMap = new Map([
         ],
     ],
     [
-        a.tropical,
+        association.tropical,
         [
             'Abalone Snails & Jade Mango',
             'Silver Oyster & Grated Horseradishes',
