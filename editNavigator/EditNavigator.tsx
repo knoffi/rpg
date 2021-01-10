@@ -1,7 +1,11 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
 import { association } from '../classes/Adjectives';
-import { drinkCategory, foodCategory } from '../classes/TavernProduct';
+import {
+    drinkCategory,
+    foodCategory,
+    menuCategory,
+} from '../classes/TavernProduct';
 import Icon from '../components/icons';
 import { iconKeys } from '../components/icons/iconKeys';
 import { TavernData } from '../mainNavigator/TavernData';
@@ -27,95 +31,125 @@ const tabBarOptions = {
     activeTintColor: ACTIVE_BOTTOM_ICON_TINT,
     inactiveTintColor: INACTIVE_BOTTOM_ICON_TINT,
 };
+
+const getFullOfferCategories = (
+    newFitting: { fits: association[]; misfits: association[] },
+    newOffers: Offer[],
+    isAbout: weServe
+) => {
+    const categories =
+        isAbout === weServe.drinks ? drinkCategory : foodCategory;
+    return (Object.values(categories) as menuCategory[]).filter(
+        (category) =>
+            getNewRandomDrinkOffer(
+                newFitting.fits,
+                newFitting.misfits,
+                category,
+                newOffers,
+                isAbout
+            ).product.name === NothingLeftOffer.product.name
+    );
+};
+
 export const EditNavigator = (props: {
     onDataChange: (newData: Partial<TavernData>) => void;
     tavern: TavernData;
 }) => {
+    const { onDataChange, tavern } = props;
+
     //TODO: can be improved/made efficient
     const buyOffer = (offer: Offer) => {
-        props.onDataChange({
-            boughtOffers: [...props.tavern.boughtOffers, offer],
+        onDataChange({
+            boughtOffers: [...tavern.boughtOffers, offer],
         });
     };
+
+    // GOAL: something similar to
+    // const getNewBannerDataAndOffersLeft = (....) => {
+    //     const drinkOffersLeft =getOffersLeft(..., DrinkEnum)
+    //     const foodOffersLeft =getOffersLeft(..., FoodEnum)
+    //     const drinkBanner = getDrinkBanner(drinkOffersLeft);
+    //     const foodBanner = getFoodBanner(drinkOffersLeft);
+    //     return {
+    //         drinkOffersLeft,
+    //         foodOffersLeft,
+    //         drinkBanner,
+    //         foodBanner
+    //     }
+    // }
 
     const getNewBannerDataAndOffersLeft = (
         newFitting: { fits: association[]; misfits: association[] } = props
             .tavern.fitting,
-        newDrinks: Offer[] = props.tavern.drinks,
-        newDishes: Offer[] = props.tavern.dishes
+        newDrinks: Offer[] = tavern.drinks,
+        newDishes: Offer[] = tavern.dishes
     ) => {
-        const soldOutDrinkCategories = [] as drinkCategory[];
-        const soldOutFoodCategories = [] as foodCategory[];
+        const fullOffersDrinkCategories = getFullOfferCategories(
+            newFitting,
+            newDrinks,
+            weServe.drinks
+        );
+
         const drinkCategoriesLeft = new Map<drinkCategory, boolean>([]);
+
+        // TODO generalize to allow food
+        const getDrinkBannerVisible = () => {
+            const newEmptyCategoryExists =
+                fullOffersDrinkCategories.filter(
+                    (fullOffersCategory) =>
+                        !tavern.drinkBannerData.emptyCategories.includes(
+                            fullOffersCategory
+                        )
+                ).length > 0;
+            const allCategoriesAddable = fullOffersDrinkCategories.length === 0;
+
+            if (newEmptyCategoryExists) return true;
+            if (allCategoriesAddable) return false;
+            return tavern.drinkBannerData.isVisible;
+        };
+        const newDrinkBannerVisible = getDrinkBannerVisible();
+
+        const fullOffersFoodCategories = getFullOfferCategories(
+            newFitting,
+            newDishes,
+            weServe.food
+        );
         const foodCategoriesLeft = new Map<foodCategory, boolean>([]);
         Object.values(drinkCategory).forEach((category) => {
-            if (
-                getNewRandomDrinkOffer(
-                    newFitting.fits,
-                    newFitting.misfits,
-                    category,
-                    newDrinks,
-                    weServe.drinks
-                ).product.name === NothingLeftOffer.product.name
-            ) {
-                soldOutDrinkCategories.push(category);
-                drinkCategoriesLeft.set(category, false);
-            } else {
-                drinkCategoriesLeft.set(category, true);
-            }
+            const newOfferExists = !fullOffersDrinkCategories.includes(
+                category
+            );
+            drinkCategoriesLeft.set(category, newOfferExists);
         });
         Object.values(foodCategory).forEach((category) => {
-            if (
-                getNewRandomDrinkOffer(
-                    newFitting.fits,
-                    newFitting.misfits,
-                    category,
-                    newDishes,
-                    weServe.food
-                ).product.name === NothingLeftOffer.product.name
-            ) {
-                soldOutFoodCategories.push(category);
-                foodCategoriesLeft.set(category, false);
-            } else {
-                foodCategoriesLeft.set(category, true);
-            }
+            const newOfferExists = !fullOffersFoodCategories.includes(category);
+            foodCategoriesLeft.set(category, newOfferExists);
         });
-        let newDrinkBannerVisible = props.tavern.drinkBannerData.isVisible;
-        let newFoodBannerVisible = props.tavern.foodBannerData.isVisible;
-        soldOutDrinkCategories.forEach((soldOutCategory) => {
+
+        // TODO do similar as drink banner
+        let newFoodBannerVisible = tavern.foodBannerData.isVisible;
+        fullOffersFoodCategories.forEach((fullOffersCategory) => {
             if (
-                !props.tavern.drinkBannerData.emptyCategories.includes(
-                    soldOutCategory
-                )
-            ) {
-                // new drinks are sold out!
-                newDrinkBannerVisible = true;
-            }
-        });
-        soldOutFoodCategories.forEach((soldOutCategory) => {
-            if (
-                !props.tavern.foodBannerData.emptyCategories.includes(
-                    soldOutCategory
+                !tavern.foodBannerData.emptyCategories.includes(
+                    fullOffersCategory
                 )
             ) {
                 // new dishes are sold out!
                 newFoodBannerVisible = true;
             }
         });
-        if (soldOutDrinkCategories.length === 0) {
-            newDrinkBannerVisible = false;
-        }
-        if (soldOutFoodCategories.length === 0) {
+        if (fullOffersFoodCategories.length === 0) {
             newFoodBannerVisible = false;
         }
+
         return {
             drinkBannerData: {
                 isVisible: newDrinkBannerVisible,
-                emptyCategories: soldOutDrinkCategories,
+                emptyCategories: fullOffersDrinkCategories,
             } as BannerData,
             foodBannerData: {
                 isVisible: newFoodBannerVisible,
-                emptyCategories: soldOutFoodCategories,
+                emptyCategories: fullOffersFoodCategories,
             } as BannerData,
             drinksLeft: drinkCategoriesLeft,
             dishesLeft: foodCategoriesLeft,
@@ -154,9 +188,9 @@ export const EditNavigator = (props: {
                 name="Name"
                 children={() => (
                     <NameScene
-                        name={props.tavern.name}
-                        onDataChange={props.onDataChange}
-                        fitting={props.tavern.fitting}
+                        name={tavern.name}
+                        onDataChange={onDataChange}
+                        fitting={tavern.fitting}
                         getImpliedChanges={getNewBannerDataAndOffersLeft}
                     ></NameScene>
                 )}
@@ -166,14 +200,14 @@ export const EditNavigator = (props: {
                 children={() => (
                     <MenuScene
                         buyOffer={buyOffer}
-                        offersBought={props.tavern.boughtOffers}
-                        fitting={props.tavern.fitting}
+                        offersBought={tavern.boughtOffers}
+                        fitting={tavern.fitting}
                         isAbout={weServe.drinks}
-                        offers={props.tavern.drinks}
-                        onDataChange={props.onDataChange}
-                        offersLeft={props.tavern.drinksLeft}
-                        basePrice={props.tavern.prices}
-                        bannerData={props.tavern.drinkBannerData}
+                        offers={tavern.drinks}
+                        onDataChange={onDataChange}
+                        offersLeft={tavern.drinksLeft}
+                        basePrice={tavern.prices}
+                        bannerData={tavern.drinkBannerData}
                         getImpliedChanges={(
                             newDrinks?: Offer[],
                             newDishes?: Offer[]
@@ -192,14 +226,14 @@ export const EditNavigator = (props: {
                 children={() => (
                     <MenuScene
                         buyOffer={buyOffer}
-                        offersBought={props.tavern.boughtOffers}
-                        fitting={props.tavern.fitting}
+                        offersBought={tavern.boughtOffers}
+                        fitting={tavern.fitting}
                         isAbout={weServe.food}
-                        offers={props.tavern.dishes}
-                        onDataChange={props.onDataChange}
-                        offersLeft={props.tavern.dishesLeft}
-                        basePrice={props.tavern.prices}
-                        bannerData={props.tavern.foodBannerData}
+                        offers={tavern.dishes}
+                        onDataChange={onDataChange}
+                        offersLeft={tavern.dishesLeft}
+                        basePrice={tavern.prices}
+                        bannerData={tavern.foodBannerData}
                         getImpliedChanges={(
                             newDrinks?: Offer[],
                             newDishes?: Offer[]
@@ -217,9 +251,9 @@ export const EditNavigator = (props: {
                 name="Notes"
                 children={() => (
                     <QuestScene
-                        fitting={props.tavern.fitting}
-                        basePrice={props.tavern.prices}
-                        onDataChange={props.onDataChange}
+                        fitting={tavern.fitting}
+                        basePrice={tavern.prices}
+                        onDataChange={onDataChange}
                     ></QuestScene>
                 )}
             />
