@@ -1,23 +1,15 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
 import { association } from '../classes/Adjectives';
-import {
-    drinkCategory,
-    foodCategory,
-    menuCategory,
-} from '../classes/TavernProduct';
 import Icon from '../components/icons';
 import { iconKeys } from '../components/icons/iconKeys';
 import { TavernData } from '../mainNavigator/TavernData';
-import { BannerData } from '../scenes/menuScene/menuBanner/MenuBanner';
-import { NothingLeftOffer, Offer } from '../scenes/menuScene/menuEnums';
-import {
-    getNewRandomDrinkOffer,
-    weServe,
-} from '../scenes/menuScene/menuFunctions';
+import { Offer } from '../scenes/menuScene/menuEnums';
+import { weServe } from '../scenes/menuScene/menuFunctions';
 import { MenuScene } from '../scenes/menuScene/MenuScene';
 import { NameScene } from '../scenes/nameScene/NameScene';
 import { QuestScene } from '../scenes/questScene/QuestScene';
+import { getNewBannerDataAndOffersLeft } from './getNewBannerDataAndOffersLeft';
 
 const Tab = createBottomTabNavigator();
 
@@ -47,60 +39,6 @@ const getIconKey = (routeName: string) => {
         }
     }
 };
-
-const getBannerVisibility = (
-    newFullOfferCategories: menuCategory[],
-    oldBannerData: BannerData
-) => {
-    const newFullOfferCategoryExists =
-        newFullOfferCategories.filter(
-            (category) => !oldBannerData.emptyCategories.includes(category)
-        ).length > 0;
-    if (newFullOfferCategoryExists) {
-        return true;
-    }
-    const noCategoryHasFullOffer = newFullOfferCategories.length === 0;
-    if (noCategoryHasFullOffer) {
-        return false;
-    }
-    return oldBannerData.isVisible;
-};
-const getFullOfferCategories = (
-    fitting: { fits: association[]; misfits: association[] },
-    newOffers: Offer[],
-    isAbout: weServe
-) => {
-    const categories =
-        isAbout === weServe.drinks ? drinkCategory : foodCategory;
-    const result = (Object.values(categories) as menuCategory[]).filter(
-        (category) => {
-            return (
-                getNewRandomDrinkOffer(
-                    fitting.fits,
-                    fitting.misfits,
-                    category,
-                    newOffers,
-                    isAbout
-                ).product.name === NothingLeftOffer.product.name
-            );
-        }
-    );
-    return result;
-};
-
-const getCategoryNotFullMap = (
-    fullOfferCategories: menuCategory[],
-    isAbout: weServe
-) => {
-    const categories =
-        isAbout === weServe.drinks ? drinkCategory : foodCategory;
-    return new Map(
-        Object.values(categories).map((category) => [
-            category,
-            !fullOfferCategories.includes(category),
-        ])
-    );
-};
 export const EditNavigator = (props: {
     onDataChange: (newData: Partial<TavernData>) => void;
     tavern: TavernData;
@@ -112,54 +50,11 @@ export const EditNavigator = (props: {
         });
     };
 
-    const getNewBannerDataAndOffersLeft = (
-        newFitting: { fits: association[]; misfits: association[] } = props
-            .tavern.fitting,
-        newDrinks: Offer[] = props.tavern.drinks,
-        newDishes: Offer[] = props.tavern.dishes
-    ) => {
-        const fullOfferDrinkCategories = getFullOfferCategories(
-            newFitting,
-            newDrinks,
-            weServe.drinks
-        );
-        const fullOfferFoodCategories = getFullOfferCategories(
-            newFitting,
-            newDishes,
-            weServe.food
-        );
-        console.log(fullOfferFoodCategories);
-        const drinkCategoriesLeft = getCategoryNotFullMap(
-            fullOfferDrinkCategories,
-            weServe.drinks
-        );
-        const foodCategoriesLeft = getCategoryNotFullMap(
-            fullOfferFoodCategories,
-            weServe.food
-        );
+    const oldDrinkBannerData = props.tavern.drinkBannerData;
+    const oldFoodBannerData = props.tavern.foodBannerData;
+    const oldDrinks = props.tavern.drinks;
+    const oldDishes = props.tavern.dishes;
 
-        const newDrinkBannerVisible = getBannerVisibility(
-            fullOfferDrinkCategories,
-            props.tavern.drinkBannerData
-        );
-        const newFoodBannerVisible = getBannerVisibility(
-            fullOfferFoodCategories,
-            props.tavern.foodBannerData
-        );
-
-        return {
-            drinkBannerData: {
-                isVisible: newDrinkBannerVisible,
-                emptyCategories: fullOfferDrinkCategories,
-            } as BannerData,
-            foodBannerData: {
-                isVisible: newFoodBannerVisible,
-                emptyCategories: fullOfferFoodCategories,
-            } as BannerData,
-            drinksLeft: drinkCategoriesLeft,
-            dishesLeft: foodCategoriesLeft,
-        } as Partial<TavernData>;
-    };
     return (
         <Tab.Navigator
             tabBarOptions={tabBarOptions}
@@ -177,7 +72,18 @@ export const EditNavigator = (props: {
                         name={props.tavern.name}
                         onDataChange={props.onDataChange}
                         fitting={props.tavern.fitting}
-                        getImpliedChanges={getNewBannerDataAndOffersLeft}
+                        getImpliedChanges={(newFitting: {
+                            fits: association[];
+                            misfits: association[];
+                        }) =>
+                            getNewBannerDataAndOffersLeft(
+                                newFitting,
+                                oldDrinks,
+                                oldDishes,
+                                oldDrinkBannerData,
+                                oldFoodBannerData
+                            )
+                        }
                     ></NameScene>
                 )}
             />
@@ -199,9 +105,11 @@ export const EditNavigator = (props: {
                             newDishes?: Offer[]
                         ) => {
                             return getNewBannerDataAndOffersLeft(
-                                undefined,
-                                newDrinks,
-                                newDishes
+                                props.tavern.fitting,
+                                newDrinks ? newDrinks : oldDrinks,
+                                newDishes ? newDishes : oldDishes,
+                                oldDrinkBannerData,
+                                oldFoodBannerData
                             );
                         }}
                     ></MenuScene>
@@ -224,10 +132,13 @@ export const EditNavigator = (props: {
                             newDrinks?: Offer[],
                             newDishes?: Offer[]
                         ) => {
+                            //change back
                             return getNewBannerDataAndOffersLeft(
-                                undefined,
-                                newDrinks,
-                                newDishes
+                                props.tavern.fitting,
+                                newDrinks ? newDrinks : oldDrinks,
+                                newDishes ? newDishes : oldDishes,
+                                oldDrinkBannerData,
+                                oldFoodBannerData
                             );
                         }}
                     ></MenuScene>

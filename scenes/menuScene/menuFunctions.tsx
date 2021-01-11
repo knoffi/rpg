@@ -85,7 +85,6 @@ const getFilteredTavernProducts = (
             })!.examples,
             excludedDrinkNames
         );
-        console.log(result);
         return result;
     }
 };

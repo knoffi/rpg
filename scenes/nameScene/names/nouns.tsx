@@ -15,10 +15,10 @@ const empty = [] as substantiveCategory[];
 const dividableAdjectives = [
     new Adjective('Platinum', [a.dwarf, a.rich, a.nobel], empty),
     new Adjective('Ivory', [a.elf, a.rich, a.sophisticated, a.nobel], empty),
-    new Adjective('Saphire', [a.elf, a.rich, a.nobel], empty),
+    new Adjective('Sapphire', [a.elf, a.rich, a.nobel], empty),
 
-    new Adjective('Saphire', [a.dwarf], empty),
-    new Adjective('Saphire', [a.gnome], empty),
+    new Adjective('Sapphire', [a.dwarf], empty),
+    new Adjective('Sapphire', [a.gnome], empty),
     new Adjective('Generous', [a.bard, a.worker], [s.solid]),
     new Adjective('Generous', [a.wizard, a.rich], [s.solid]),
     new Adjective('Elegant', [a.bard, a.sophisticated, a.elf], empty),
