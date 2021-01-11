@@ -16,7 +16,7 @@ const theme = {
 };
 
 const MyApp = () => {
-    let [fontsLoaded] = useFonts({
+    const [fontsLoaded] = useFonts({
         primitive: require('./assets/fonts/primitive.ttf'),
         icons: require('./assets/fonts/icomoon.ttf'),
     });
