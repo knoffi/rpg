@@ -95,8 +95,7 @@ export const MenuScene = (props: MenuProps) => {
                   props.offers,
                   fits,
                   misfits,
-                  props.isAbout,
-                  props.basePrice
+                  props.isAbout
               );
         if (props.isAbout === weServe.drinks) {
             props.onDataChange({ drinks: newOffers });

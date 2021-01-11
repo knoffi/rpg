@@ -1,11 +1,6 @@
 import { association } from '../../classes/Adjectives';
-import {
-    drinkCategory,
-    menuCategory,
-    TavernProduct,
-} from '../../classes/TavernProduct';
+import { menuCategory, TavernProduct } from '../../classes/TavernProduct';
 import { getFittingRandom } from '../../helpingFunctions/getFittingRandom';
-import { BasePrice } from './basePrice';
 import { drinkExamples } from './drinks/drinks';
 import { foodExamples } from './food/food';
 import { NothingLeftOffer, Offer } from './menuEnums';
@@ -16,45 +11,26 @@ export enum weServe {
     service = 'service',
 }
 
-const getUsedDrinkCategories = (offers: Offer[]) => {
-    let usedDrinkCategories = [] as drinkCategory[];
-    offers.forEach((offer) => {
-        if (offer.product.isDrink()) {
-            usedDrinkCategories.push(offer.product.category as drinkCategory);
-        }
-    });
-    return offers.map((offer) => {
-        return offer.product.category;
-    });
-};
-
 export const offersWithOneReroll = (
     name: string,
     offers: Offer[],
     fits: association[],
     misfits: association[],
-    isAbout: weServe,
-    basePrice: BasePrice
+    isAbout: weServe
 ) => {
-    const usedDrinkCategories = getUsedDrinkCategories(offers);
-    const category =
-        usedDrinkCategories[
-            offers.findIndex((offer) => {
-                return offer.product.name === name;
-            })
-        ];
+    const category = offers.find((offer) => offer.product.name === name)!
+        .product.category;
     const newOffers = offers.map((offer) => {
         if (offer.product.name !== name) {
             return offer;
         } else {
-            let newOffer = getRandomDrinkOffer(
+            return getRandomDrinkOffer(
                 category,
                 fits,
                 misfits,
                 offeredNames(offers),
                 isAbout
             );
-            return newOffer;
         }
     });
     return newOffers;
@@ -67,7 +43,7 @@ export const getNewRandomDrinkOffer = (
     oldOffers: Offer[],
     isAbout: weServe
 ) => {
-    let newRandomOffer = getRandomDrinkOffer(
+    const newRandomOffer = getRandomDrinkOffer(
         category,
         fits,
         misfits,
@@ -77,30 +53,38 @@ export const getNewRandomDrinkOffer = (
     return newRandomOffer;
 };
 
-export const getDrinkOffers = (
-    fits: association[],
-    misfits: association[],
-    offerCategories: drinkCategory[],
-    isAbout: weServe
-) => {
-    let drinkOffers = [] as Offer[];
-    offerCategories.forEach((category) => {
-        const newOffer = getRandomDrinkOffer(
-            category,
-            fits,
-            misfits,
-            offeredNames(drinkOffers),
-            isAbout
-        );
-        drinkOffers.push(newOffer);
-    });
-    return drinkOffers;
-};
-
 const offeredNames = (offers: Offer[]) => {
     return offers.map((offer) => {
         return offer.product.name;
     });
+};
+const filterFoodByPrefix = (
+    foodExamples: TavernProduct[],
+    excludedDrinkNames: string[]
+) => {
+    return foodExamples.filter((dish) => {
+        excludedDrinkNames.forEach((name) => {
+            return name.includes(dish.name.slice(0, 6)) ? false : true;
+        });
+    });
+};
+const getFilteredTavernProducts = (
+    category: menuCategory,
+    excludedDrinkNames: string[],
+    isAbout: weServe
+) => {
+    if (isAbout === weServe.drinks) {
+        return drinkExamples.find((example) => {
+            return example.category === category;
+        })!.examples;
+    } else {
+        return filterFoodByPrefix(
+            foodExamples.find((example) => {
+                return example.category === category;
+            })!.examples,
+            excludedDrinkNames
+        );
+    }
 };
 //drinks have a wider range, therefore social misfits are more important than landscape misfits
 const getRandomDrinkOffer = (
@@ -110,26 +94,11 @@ const getRandomDrinkOffer = (
     excludedDrinkNames: string[],
     isAbout: weServe
 ): Offer => {
-    let examples: TavernProduct[];
-    if (isAbout === weServe.drinks) {
-        examples = drinkExamples.find((example) => {
-            return example.category === category;
-        })!.examples;
-    } else {
-        examples = foodExamples
-            .find((example) => {
-                return example.category === category;
-            })!
-            .examples.filter((dish) => {
-                let isNotRedundant = true;
-                excludedDrinkNames.forEach((name) => {
-                    if (name.includes(dish.name.slice(0, 6))) {
-                        isNotRedundant = false;
-                    }
-                });
-                return isNotRedundant;
-            });
-    }
+    const examples = getFilteredTavernProducts(
+        category,
+        excludedDrinkNames,
+        isAbout
+    );
     const drink = getFittingRandom(
         examples,
         fits,

@@ -1,8 +1,8 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import React, { useState } from 'react';
-import { association } from '../classes/Adjectives';
 import { AppBar } from '../appBar/AppBar';
+import { association } from '../classes/Adjectives';
 import { EditNavigator } from '../editNavigator/EditNavigator';
 import {
     getProductsLeftAndBannerData,
@@ -34,7 +34,7 @@ export const MainNavigator = () => {
     const [historyIndex, setHistoryIndex] = useState(0);
 
     const onDataChange = (newData: Partial<TavernData>) => {
-        let newTavernData = { ...tavernHistory[historyIndex], ...newData };
+        const newTavernData = { ...tavernHistory[historyIndex], ...newData };
         const pastTavernHistory = [] as TavernData[];
         tavernHistory.forEach((tavernData: TavernData, index: number) => {
             if (index <= historyIndex) {
@@ -49,7 +49,7 @@ export const MainNavigator = () => {
         templateKey: string,
         getMisfits: (fits: association[]) => association[]
     ) => {
-        let tavernData = startData;
+        const tavernData = startData;
         taverns.forEach((tavern) => {
             if (templateKey === tavern.key) {
                 tavernData.name = tavern.name;
