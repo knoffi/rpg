@@ -160,48 +160,46 @@ const OfferListAccordeon = (props: {
     const thisCategory = props.drinkCategory;
     const noDrinkToAddLeft = props.noDrinkToAddLeft;
     const getPriceString = props.getPriceString;
-    let offerItems = [] as JSX.Element[];
-    props.listOfOffers.forEach((offerOfList) => {
+    const offerItems = props.listOfOffers.map((offerOfList) => {
         const name = offerOfList.product.name;
-        offerItems.push(
-            <OfferListTopItem
-                drinkName={name}
-                key={name + '-top'}
-                infoAction={() => {}}
-            ></OfferListTopItem>
-        );
-        offerItems.push(
-            <OfferListBottomItem
-                priceString={getPriceString(offerOfList)}
-                key={name + '-bottom'}
-                actions={{
-                    onDelete: () => {
-                        props.offerActions.deleteOffer(name);
-                    },
-                    onReroll: () => {
-                        props.offerActions.rerollOffer(name);
-                    },
-                    onShop: () => {
-                        props.offerActions.shopOffer(name);
-                    },
-                    onEdit: () => {
-                        const product = offerOfList.product;
-                        const description = product.description
-                            ? product.description
-                            : '';
-                        props.offerActions.editUserOffer({
-                            name: product.name,
-                            priceText: offerOfList.price.toString(),
-                            description: description,
-                            category: product.category,
-                        });
-                    },
-                }}
-                noDrinkToAddLeft={noDrinkToAddLeft}
-                isUserMade={offerOfList.product.isUserMade}
-            ></OfferListBottomItem>
+        return (
+            <View key={name}>
+                <OfferListTopItem
+                    drinkName={name}
+                    infoAction={() => {}}
+                ></OfferListTopItem>
+                <OfferListBottomItem
+                    priceString={getPriceString(offerOfList)}
+                    actions={{
+                        onDelete: () => {
+                            props.offerActions.deleteOffer(name);
+                        },
+                        onReroll: () => {
+                            props.offerActions.rerollOffer(name);
+                        },
+                        onShop: () => {
+                            props.offerActions.shopOffer(name);
+                        },
+                        onEdit: () => {
+                            const product = offerOfList.product;
+                            const description = product.description
+                                ? product.description
+                                : '';
+                            props.offerActions.editUserOffer({
+                                name: product.name,
+                                priceText: offerOfList.price.toString(),
+                                description: description,
+                                category: product.category,
+                            });
+                        },
+                    }}
+                    noDrinkToAddLeft={noDrinkToAddLeft}
+                    isUserMade={offerOfList.product.isUserMade}
+                ></OfferListBottomItem>
+            </View>
         );
     });
+
     return (
         <List.Accordion
             title={props.drinkCategory}
