@@ -59,16 +59,13 @@ export const MenuScene = (props: MenuProps) => {
     });
 
     const deleteOffer = (name: string) => {
-        let newOffers = [] as Offer[];
-        let deletedCategory: menuCategory;
-        //asuming that delete button is not clickable if props.offers is empty
-        props.offers.forEach((offer) => {
-            if (offer.product.name !== name) {
-                newOffers.push(offer);
-            } else {
-                deletedCategory = offer.product.category;
-            }
-        });
+        const newOffers = props.offers.filter(
+            (offer) => offer.product.name !== name
+        );
+        const deletedCategory = props.offers.find(
+            (offer) => offer.product.name === name
+        )!.product.category;
+        //assuming that delete button is not clickable if props.offers is empty
         if (props.isAbout === weServe.drinks) {
             props.onDataChange({
                 drinks: newOffers,
@@ -113,10 +110,6 @@ export const MenuScene = (props: MenuProps) => {
         });
     };
     const addRandomOffer = (category: menuCategory) => {
-        let newOffers = [] as Offer[];
-        props.offers.forEach((offer) => {
-            newOffers.push(offer);
-        });
         const newOffer = getNewRandomDrinkOffer(
             fits,
             misfits,
@@ -124,7 +117,7 @@ export const MenuScene = (props: MenuProps) => {
             props.offers,
             props.isAbout
         );
-        newOffers.push(newOffer);
+        const newOffers = [...props.offers.map((offer) => offer), newOffer];
         const testOffer = getNewRandomDrinkOffer(
             fits,
             misfits,
