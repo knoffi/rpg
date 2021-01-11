@@ -10,6 +10,22 @@ import { incomeExampleMap } from './incomeExampleMap';
 import { PriceDescriptionDialog } from './PriceDescriptionDialog';
 import { PriceSetDialog } from './PriceSetDialog';
 
+const getPriceFromIncome = (income: association, basePrice: BasePrice) => {
+    switch (income) {
+        case association.poor:
+            return basePrice.poor;
+
+        case association.worker:
+            return basePrice.modest;
+
+        case association.sophisticated:
+            return basePrice.wealthy;
+
+        default:
+            return basePrice.rich;
+    }
+};
+
 export const QuestScene = (props: {
     fitting: { fits: association[]; misfits: association[] };
     basePrice: BasePrice;
@@ -34,22 +50,7 @@ export const QuestScene = (props: {
     });
 
     const onInfoPress = (income: association) => {
-        let price: number;
-        switch (income) {
-            case association.poor:
-                price = props.basePrice.poor;
-                break;
-            case association.worker:
-                price = props.basePrice.modest;
-                break;
-            case association.sophisticated:
-                price = props.basePrice.wealthy;
-                break;
-
-            default:
-                price = props.basePrice.rich;
-                break;
-        }
+        const price = getPriceFromIncome(income, props.basePrice);
         setDialog({
             open: true,
             income: income,
@@ -59,46 +60,14 @@ export const QuestScene = (props: {
         });
     };
     const onPriceSetPress = (income: association) => {
-        let price: number;
-        switch (income) {
-            case association.poor:
-                price = props.basePrice.poor;
-                setPriceSetter({
-                    open: false,
-                    income: income,
-                    price: price,
-                    priceText: price.toString(),
-                });
-                break;
-            case association.worker:
-                price = props.basePrice.modest;
-                setPriceSetter({
-                    open: false,
-                    income: income,
-                    price: price,
-                    priceText: price.toString(),
-                });
-                break;
-            case association.sophisticated:
-                price = props.basePrice.wealthy;
-                setPriceSetter({
-                    open: false,
-                    income: income,
-                    price: price,
-                    priceText: price.toString(),
-                });
-                break;
+        const price = getPriceFromIncome(income, props.basePrice);
+        setPriceSetter({
+            open: false,
+            income: income,
+            price: price,
+            priceText: price.toString(),
+        });
 
-            default:
-                price = props.basePrice.rich;
-                setPriceSetter({
-                    open: false,
-                    income: income,
-                    price: price,
-                    priceText: price.toString(),
-                });
-                break;
-        }
         setPriceSetter({
             open: true,
             income: income,
