@@ -63,9 +63,10 @@ const filterFoodByPrefix = (
     excludedDrinkNames: string[]
 ) => {
     return foodExamples.filter((dish) => {
-        excludedDrinkNames.forEach((name) => {
-            return name.includes(dish.name.slice(0, 6)) ? false : true;
+        const dishPrefixIsForbidden = excludedDrinkNames.some((name) => {
+            return name.includes(dish.name.slice(0, 6)) ? true : false;
         });
+        return !dishPrefixIsForbidden;
     });
 };
 const getFilteredTavernProducts = (
@@ -78,12 +79,14 @@ const getFilteredTavernProducts = (
             return example.category === category;
         })!.examples;
     } else {
-        return filterFoodByPrefix(
+        const result = filterFoodByPrefix(
             foodExamples.find((example) => {
                 return example.category === category;
             })!.examples,
             excludedDrinkNames
         );
+        console.log(result);
+        return result;
     }
 };
 //drinks have a wider range, therefore social misfits are more important than landscape misfits

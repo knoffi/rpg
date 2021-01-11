@@ -1,7 +1,11 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
 import { association } from '../classes/Adjectives';
-import { drinkCategory, foodCategory } from '../classes/TavernProduct';
+import {
+    drinkCategory,
+    foodCategory,
+    menuCategory,
+} from '../classes/TavernProduct';
 import Icon from '../components/icons';
 import { iconKeys } from '../components/icons/iconKeys';
 import { TavernData } from '../mainNavigator/TavernData';
@@ -27,6 +31,76 @@ const tabBarOptions = {
     activeTintColor: ACTIVE_BOTTOM_ICON_TINT,
     inactiveTintColor: INACTIVE_BOTTOM_ICON_TINT,
 };
+const getIconKey = (routeName: string) => {
+    switch (routeName) {
+        case 'Name': {
+            return iconKeys.sign;
+        }
+        case 'Drinks': {
+            return iconKeys.beer;
+        }
+        case 'Food': {
+            return iconKeys.food;
+        }
+        default: {
+            return iconKeys.quest;
+        }
+    }
+};
+
+const getBannerVisibility = (
+    newFullOfferCategories: menuCategory[],
+    oldBannerData: BannerData
+) => {
+    const newFullOfferCategoryExists =
+        newFullOfferCategories.filter(
+            (category) => !oldBannerData.emptyCategories.includes(category)
+        ).length > 0;
+    if (newFullOfferCategoryExists) {
+        return true;
+    }
+    const noCategoryHasFullOffer = newFullOfferCategories.length === 0;
+    if (noCategoryHasFullOffer) {
+        return false;
+    }
+    return oldBannerData.isVisible;
+};
+const getFullOfferCategories = (
+    fitting: { fits: association[]; misfits: association[] },
+    newOffers: Offer[],
+    isAbout: weServe
+) => {
+    const categories =
+        isAbout === weServe.drinks ? drinkCategory : foodCategory;
+    const result = (Object.values(categories) as menuCategory[]).filter(
+        (category) => {
+            return (
+                getNewRandomDrinkOffer(
+                    fitting.fits,
+                    fitting.misfits,
+                    category,
+                    newOffers,
+                    isAbout
+                ).product.name === NothingLeftOffer.product.name
+            );
+        }
+    );
+    return result;
+};
+
+const getCategoryNotFullMap = (
+    fullOfferCategories: menuCategory[],
+    isAbout: weServe
+) => {
+    const categories =
+        isAbout === weServe.drinks ? drinkCategory : foodCategory;
+    return new Map(
+        Object.values(categories).map((category) => [
+            category,
+            !fullOfferCategories.includes(category),
+        ])
+    );
+};
 export const EditNavigator = (props: {
     onDataChange: (newData: Partial<TavernData>) => void;
     tavern: TavernData;
@@ -44,78 +118,43 @@ export const EditNavigator = (props: {
         newDrinks: Offer[] = props.tavern.drinks,
         newDishes: Offer[] = props.tavern.dishes
     ) => {
-        const soldOutDrinkCategories = [] as drinkCategory[];
-        const soldOutFoodCategories = [] as foodCategory[];
-        const drinkCategoriesLeft = new Map<drinkCategory, boolean>([]);
-        const foodCategoriesLeft = new Map<foodCategory, boolean>([]);
-        Object.values(drinkCategory).forEach((category) => {
-            if (
-                getNewRandomDrinkOffer(
-                    newFitting.fits,
-                    newFitting.misfits,
-                    category,
-                    newDrinks,
-                    weServe.drinks
-                ).product.name === NothingLeftOffer.product.name
-            ) {
-                soldOutDrinkCategories.push(category);
-                drinkCategoriesLeft.set(category, false);
-            } else {
-                drinkCategoriesLeft.set(category, true);
-            }
-        });
-        Object.values(foodCategory).forEach((category) => {
-            if (
-                getNewRandomDrinkOffer(
-                    newFitting.fits,
-                    newFitting.misfits,
-                    category,
-                    newDishes,
-                    weServe.food
-                ).product.name === NothingLeftOffer.product.name
-            ) {
-                soldOutFoodCategories.push(category);
-                foodCategoriesLeft.set(category, false);
-            } else {
-                foodCategoriesLeft.set(category, true);
-            }
-        });
-        let newDrinkBannerVisible = props.tavern.drinkBannerData.isVisible;
-        let newFoodBannerVisible = props.tavern.foodBannerData.isVisible;
-        soldOutDrinkCategories.forEach((soldOutCategory) => {
-            if (
-                !props.tavern.drinkBannerData.emptyCategories.includes(
-                    soldOutCategory
-                )
-            ) {
-                // new drinks are sold out!
-                newDrinkBannerVisible = true;
-            }
-        });
-        soldOutFoodCategories.forEach((soldOutCategory) => {
-            if (
-                !props.tavern.foodBannerData.emptyCategories.includes(
-                    soldOutCategory
-                )
-            ) {
-                // new dishes are sold out!
-                newFoodBannerVisible = true;
-            }
-        });
-        if (soldOutDrinkCategories.length === 0) {
-            newDrinkBannerVisible = false;
-        }
-        if (soldOutFoodCategories.length === 0) {
-            newFoodBannerVisible = false;
-        }
+        const fullOfferDrinkCategories = getFullOfferCategories(
+            newFitting,
+            newDrinks,
+            weServe.drinks
+        );
+        const fullOfferFoodCategories = getFullOfferCategories(
+            newFitting,
+            newDishes,
+            weServe.food
+        );
+        console.log(fullOfferFoodCategories);
+        const drinkCategoriesLeft = getCategoryNotFullMap(
+            fullOfferDrinkCategories,
+            weServe.drinks
+        );
+        const foodCategoriesLeft = getCategoryNotFullMap(
+            fullOfferFoodCategories,
+            weServe.food
+        );
+
+        const newDrinkBannerVisible = getBannerVisibility(
+            fullOfferDrinkCategories,
+            props.tavern.drinkBannerData
+        );
+        const newFoodBannerVisible = getBannerVisibility(
+            fullOfferFoodCategories,
+            props.tavern.foodBannerData
+        );
+
         return {
             drinkBannerData: {
                 isVisible: newDrinkBannerVisible,
-                emptyCategories: soldOutDrinkCategories,
+                emptyCategories: fullOfferDrinkCategories,
             } as BannerData,
             foodBannerData: {
                 isVisible: newFoodBannerVisible,
-                emptyCategories: soldOutFoodCategories,
+                emptyCategories: fullOfferFoodCategories,
             } as BannerData,
             drinksLeft: drinkCategoriesLeft,
             dishesLeft: foodCategoriesLeft,
@@ -126,26 +165,7 @@ export const EditNavigator = (props: {
             tabBarOptions={tabBarOptions}
             screenOptions={({ route }) => ({
                 tabBarIcon: ({ focused, color, size }) => {
-                    let iconName;
-
-                    switch (route.name) {
-                        case 'Name': {
-                            iconName = iconKeys.sign;
-                            break;
-                        }
-                        case 'Drinks': {
-                            iconName = iconKeys.beer;
-                            break;
-                        }
-                        case 'Food': {
-                            iconName = iconKeys.food;
-                            break;
-                        }
-                        default: {
-                            iconName = iconKeys.quest;
-                            break;
-                        }
-                    }
+                    const iconName = getIconKey(route.name);
                     return <Icon name={iconName} size={size} color={color} />;
                 },
             })}
