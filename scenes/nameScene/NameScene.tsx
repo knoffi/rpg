@@ -10,7 +10,7 @@ import {
     TextInput,
 } from 'react-native-paper';
 import { Adjective, association } from '../../classes/Adjectives';
-import { Substantive, substantiveCategory } from '../../classes/Substantive';
+import { substantiveCategory } from '../../classes/Substantive';
 import {
     buttonEmphasis,
     PencilButton,
@@ -125,13 +125,7 @@ export class NameScene extends React.Component<NameProps, TextState> {
         );
     }
     noFitsActive() {
-        let noFitsActive = true;
-        this.props.fitting.fits.forEach((fit) => {
-            if (fit !== association.empty) {
-                noFitsActive = false;
-            }
-        });
-        return noFitsActive;
+        return this.props.fitting.fits.some((fit) => fit !== association.empty);
     }
 
     renderRerollButton() {
@@ -186,14 +180,19 @@ export class NameScene extends React.Component<NameProps, TextState> {
     }
     private getSubstantiveName(invalids: substantiveCategory[]) {
         const prevSubstantive = this.getNameParts().substantive;
-        let validSubstantives = [] as Substantive[];
-        substantives.forEach((chapter) => {
-            if (!invalids.includes(chapter.category)) {
-                validSubstantives = validSubstantives.concat(
-                    chapter.substantives as Substantive[]
-                );
-            }
-        });
+        const validSubstantiveChapters = substantives.filter(
+            (chapter) => !invalids.includes(chapter.category)
+        );
+        const validSubstantiveOfChapters = validSubstantiveChapters.map(
+            (chapter) => chapter.substantives
+        );
+        const validSubstantives = validSubstantiveOfChapters.reduce(
+            (arrayOfValids, validSubstantives) => [
+                ...arrayOfValids,
+                ...validSubstantives,
+            ],
+            []
+        );
         return getFittingRandom(
             validSubstantives,
             this.props.fitting.fits,
@@ -214,9 +213,8 @@ export class NameScene extends React.Component<NameProps, TextState> {
         }
     }
     private updateFitsAndMisfits(newFits: association[]) {
-        let newMisfits: association[];
         // Testen: Code wird in richtiger Reihenfolge ausgeführt, obwohl wir states setzen? Ja oder Nein?
-        newMisfits = getMisfits(newFits, misfitMode.stricter);
+        const newMisfits = getMisfits(newFits, misfitMode.stricter);
         const newFitting = removeEmptyStrings(newFits, newMisfits);
         this.props.onDataChange({
             fitting: newFitting,
