@@ -4,33 +4,19 @@ import React, { useState } from 'react';
 import { AppBar } from '../appBar/AppBar';
 import { association } from '../classes/Adjectives';
 import { EditNavigator } from '../editNavigator/EditNavigator';
-import {
-    getProductsLeftAndBannerData,
-    getStartMenuMaps,
-} from '../editNavigator/editNavigatorFunctions';
-import { standardBasePrice } from '../scenes/menuScene/basePrice';
+import { getProductsLeftAndBannerData } from '../editNavigator/editNavigatorFunctions';
 import { Offer } from '../scenes/menuScene/menuEnums';
 import { StartOptionsScene } from '../scenes/startOptionsScene/StartOptionsScene';
 import { TitleScene } from '../scenes/titleScene/TitleScene';
 import { taverns } from '../templates/taverns';
+import { getTavernHistoryInitializer } from './mainNavigatorFunctions';
 import { TavernData } from './TavernData';
 
 const Stack = createStackNavigator();
 export const MainNavigator = () => {
-    const startMenuMaps = getStartMenuMaps();
-    const startData = {
-        fitting: { fits: [], misfits: [] },
-        name: 'Nameless Tavern',
-        drinks: [],
-        dishes: [],
-        prices: standardBasePrice,
-        drinksLeft: startMenuMaps.drinkMap,
-        dishesLeft: startMenuMaps.dishesMap,
-        drinkBannerData: { isVisible: false, emptyCategories: [] },
-        foodBannerData: { isVisible: false, emptyCategories: [] },
-        boughtOffers: [] as Offer[],
-    } as TavernData;
-    const [tavernHistory, setTavernHistory] = useState([startData]);
+    const [tavernHistory, setTavernHistory] = useState([
+        getTavernHistoryInitializer(),
+    ]);
     const [historyIndex, setHistoryIndex] = useState(0);
 
     const onDataChange = (newData: Partial<TavernData>) => {
@@ -49,7 +35,7 @@ export const MainNavigator = () => {
         templateKey: string,
         getMisfits: (fits: association[]) => association[]
     ) => {
-        const tavernData = startData;
+        const tavernData = getTavernHistoryInitializer();
         taverns.forEach((tavern) => {
             if (templateKey === tavern.key) {
                 tavernData.name = tavern.name;
@@ -67,10 +53,10 @@ export const MainNavigator = () => {
                     tavernData.drinks,
                     tavernData.dishes
                 );
-                tavernData.drinksLeft = bannerData.isDrinkLeftMap;
-                tavernData.dishesLeft = bannerData.isFoodLeftMap;
-                tavernData.drinkBannerData = bannerData.drinkBannerData;
-                tavernData.foodBannerData = bannerData.foodBannerData;
+                tavernData.drinksLeft = bannerData.drinksLeft!;
+                tavernData.dishesLeft = bannerData.dishesLeft!;
+                tavernData.drinkBannerData = bannerData.drinkBannerData!;
+                tavernData.foodBannerData = bannerData.foodBannerData!;
                 tavernData.prices = tavern.basePrice;
             }
         });
