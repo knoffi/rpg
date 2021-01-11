@@ -81,43 +81,24 @@ export const AssociationDialog = (props: {
     );
 };
 
-const getDialogInput = (dialogActions: any[], dialogName: string) => {
-    let dialogInput = [] as any[];
-    const length = dialogActions.length;
-    let count = 0;
-    while (count < length - 2) {
-        dialogInput.push(
+const getDialogInput = (dialogActions: JSX.Element[], dialogName: string) => {
+    return dialogActions.reduce((buttonPairs, buttonAction, index) => {
+        if (index % 2 !== 0) {
+            return buttonPairs;
+        }
+        const newbuttonPair = (
             <View
                 style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}
-                key={count.toString() + dialogName}
+                key={index.toString() + dialogName}
             >
-                {dialogActions[count]}
-                {dialogActions[count + 1]}
+                {dialogActions[index]}
+                {index + 1 < dialogActions.length
+                    ? dialogActions[index + 1]
+                    : undefined}
             </View>
         );
-        count = count + 2;
-    }
-    if (length % 2 === 0) {
-        dialogInput.push(
-            <View
-                style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}
-                key={count.toString() + dialogName}
-            >
-                {dialogActions[count]}
-                {dialogActions[count + 1]}
-            </View>
-        );
-    } else {
-        dialogInput.push(
-            <View
-                style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}
-                key={count.toString() + dialogName}
-            >
-                {dialogActions[count]}
-            </View>
-        );
-    }
-    return dialogInput;
+        return [...buttonPairs, newbuttonPair];
+    }, [] as JSX.Element[]);
 };
 
 const AssociationButton = (props: any) => {
