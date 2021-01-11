@@ -16,19 +16,16 @@ export const porridgeTemplate = (
     price: number
 ) => {
     const porridgeVariants = [] as TavernProduct[];
-    let garnishPhrase =
+    const garnishPhrase =
         income === association.poor || income === association.worker
             ? ' with '
             : ' garnished with ';
     areaBases.forEach((areaBase) => {
         areaBase.areas.forEach((area) => {
-            let toppings = areaToppingMap.get(area);
-            if (!toppings) {
-                toppings = [];
-            }
+            const toppings = areaToppingMap.get(area) || [];
             toppings.forEach((topping) => {
-                let productName = 'Porridge (' + areaBase.base + ')';
-                productName = productName + garnishPhrase + topping;
+                const porridgeName = 'Porridge (' + areaBase.base + ')';
+                const productName = porridgeName + garnishPhrase + topping;
                 porridgeVariants.push(
                     new TavernProduct(
                         productName,

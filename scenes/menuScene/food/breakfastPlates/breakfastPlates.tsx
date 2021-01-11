@@ -15,7 +15,7 @@ export const breakfastPlatesTemplate = (
     price: number
 ) => {
     const breakfastPlates = [] as TavernProduct[];
-    let garnishPhrase =
+    const garnishPhrase =
         income === association.poor || income === association.worker
             ? ' with '
             : ' served with ';
