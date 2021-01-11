@@ -1,6 +1,8 @@
 import { association } from '../../../classes/Adjectives';
 import { foodCategory, TavernProduct } from '../../../classes/TavernProduct';
-import { porridge } from './porridge';
+import { breakfastPlates } from './breakfastPlates/breakfastPlates';
+import { porridge } from './porridge/porridge';
+import { priceVariation } from './priceVariation';
 const a = association;
 const mainDishEnum = foodCategory.mainDish;
 
@@ -16,7 +18,7 @@ const fishAndChipsTemplate = (
             dishVariants.push(
                 new TavernProduct(
                     'Fish & Chips (' + fish + ') with ' + sidedish,
-                    Math.floor(price + ((Math.random() - 0.5) * price) / 3),
+                    priceVariation(price),
                     [a.haven, groupAssociation],
                     mainDishEnum
                 )
@@ -158,7 +160,7 @@ export const breakfasts = [
         [],
         foodCategory.breakfast
     ),
-].concat(porridge);
+].concat(porridge, breakfastPlates);
 
 export const appetizers = [
     new TavernProduct(

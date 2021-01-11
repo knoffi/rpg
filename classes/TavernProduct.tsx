@@ -65,19 +65,14 @@ export class TavernProduct implements ITavernAsset {
         fitsBound: number,
         misfitsBound: number
     ) {
-        let countFits = 0;
-        let countMisfits = 0;
-        fits.forEach((association) => {
-            if (this.associations.includes(association)) {
-                countFits++;
-            }
-        });
-        misfits.forEach((association) => {
-            if (this.associations.includes(association)) {
-                countMisfits++;
-            }
-        });
-        return countFits >= fitsBound && countMisfits <= misfitsBound;
+        const proCount = this.associations.filter((association) => {
+            return misfits.includes(association);
+        }).length;
+        const conCount = this.associations.filter((association) => {
+            return fits.includes(association);
+        }).length;
+
+        return proCount >= fitsBound && conCount <= misfitsBound;
     }
     public getCopperPrice = (factor: any) => {
         return Math.round(this.copperPrice * (1 + factor / 10));
@@ -94,23 +89,15 @@ export class TavernProduct implements ITavernAsset {
     }
 
     public isDrink = () => {
-        let isDrink = false;
-        Object.values(drinkCategory).forEach((categoryName) => {
-            if (categoryName === this.category) {
-                isDrink = true;
-            }
+        return Object.values(drinkCategory).some((categoryName) => {
+            return categoryName === this.category;
         });
-        return isDrink;
     };
 
     public isFood = () => {
-        let isFood = false;
-        Object.values(foodCategory).forEach((categoryName) => {
-            if (categoryName === this.category) {
-                isFood = true;
-            }
+        return Object.values(foodCategory).some((categoryName) => {
+            return categoryName === this.category;
         });
-        return isFood;
     };
 
     public resetCategory = (category: menuCategory) => {

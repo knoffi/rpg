@@ -22,26 +22,15 @@ export class Substantive implements ITavernAsset {
         this.category = category;
     }
     public isFit(
-        pros: string[],
-        misfits: string[],
+        fits: association[],
+        misfits: association[],
         minPros: number,
         maxCons: number
     ) {
-        let proCount = 0;
-        let conCount = 0;
-        this.associations.forEach((association) => {
-            if (misfits.includes(association)) {
-                conCount++;
-            }
-            if (pros.includes(association)) {
-                proCount++;
-            }
-        });
+        const proCount = this.associations.filter(association=>{return misfits.includes(association)}).length;
+        const conCount = this.associations.filter(association=>{return fits.includes(association)}).length;
 
-        if (proCount >= minPros && conCount <= maxCons) {
-            return true;
-        }
-        return false;
+        return proCount >= minPros && conCount <= maxCons
     }
     public getAssociationOverwrite(association: association) {
         return new Substantive(this.name, [association], this.category);

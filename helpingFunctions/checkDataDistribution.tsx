@@ -1,7 +1,10 @@
 import { association } from '../classes/Adjectives';
-import { category } from './getFittingRandom';
+import { ITavernAsset } from './ITavernAsset';
 type associationNote = { name: association; occurence: number };
-export const checkDataDistribution = (data: category[], dataName: string) => {
+export const checkDataDistribution = (
+    data: ITavernAsset[],
+    dataName: string
+) => {
     const dataDistribution = [] as associationNote[];
     Object.values(association).filter((entry) => {
         if (typeof entry === 'string') {
@@ -17,18 +20,17 @@ export const checkDataDistribution = (data: category[], dataName: string) => {
             });
         });
     });
-    let minNote = dataDistribution[0];
-    let maxNote = dataDistribution[0];
-    let average = 0;
-    dataDistribution.forEach((note) => {
-        if (note.occurence < minNote.occurence) {
-            minNote = note;
-        }
-        if (note.occurence > maxNote.occurence) {
-            maxNote = note;
-        }
-        average += note.occurence;
+    const minNote = dataDistribution.reduce((currMinNote, note) => {
+        return note.occurence < currMinNote.occurence ? note : currMinNote;
     });
+    const maxNote = dataDistribution.reduce((currMaxNote, note) => {
+        return note.occurence > currMaxNote.occurence ? note : currMaxNote;
+    });
+    const average =
+        dataDistribution
+            .map((note) => note.occurence)
+            .reduce((sum, occurence) => sum + occurence, 0) /
+        dataDistribution.length;
     console.log('Data for ' + dataName);
     console.log('minimal');
     console.log(minNote);

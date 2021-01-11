@@ -5,50 +5,6 @@ const CHOICE_PARAMS = { minDifference: 1 };
 const WEIGTH_OF_FITS = 2;
 const WEIGTH_OF_MISFITS = 1;
 
-const getDistributionValue = (fitHits: number, misfitHits: number) => {
-    return 1 + WEIGTH_OF_FITS * fitHits - WEIGTH_OF_MISFITS * misfitHits;
-};
-
-export const getFittingRandomOlder = (
-    choices: ITavernAsset[],
-    fits: association[],
-    misfits: association[],
-    excludedNames: string[]
-): ITavernAsset => {
-    let distribution = [] as { product: ITavernAsset; value: number }[];
-    choices.forEach((choiceProduct) => {
-        const fitHits = countIntersections(choiceProduct, fits);
-        const misfitHits = countIntersections(choiceProduct, misfits);
-        if (!excludedNames.includes(choiceProduct.name)) {
-            if (
-                fitHits - misfitHits > CHOICE_PARAMS.minDifference ||
-                misfitHits === 0
-            ) {
-                distribution.push({
-                    product: choiceProduct,
-                    value: getDistributionValue(fitHits, misfitHits),
-                });
-            }
-        }
-    });
-    return randomFromDistribution(distribution);
-};
-
-const randomFromDistribution = (
-    distribution: { product: ITavernAsset; value: number }[]
-) => {
-    let count = 0;
-    let arrayForRandomChoice = [] as ITavernAsset[];
-    distribution.forEach((element) => {
-        while (count < element.value) {
-            arrayForRandomChoice.push(element.product);
-            count += 1;
-        }
-        count = 0;
-    });
-    return getRandomArrayEntry(arrayForRandomChoice);
-};
-
 export const getRandomArrayEntry = (array: any[]) => {
     const randomIndex = Math.floor(Math.random() * array.length);
     if (randomIndex === array.length) {
@@ -61,15 +17,9 @@ const countIntersections = (
     product: ITavernAsset,
     intersectingAssociations: association[]
 ) => {
-    let count = 0;
-    intersectingAssociations.forEach((association) => {
-        if (!product.associations) {
-        }
-        if (product.associations.includes(association)) {
-            count += 1;
-        }
-    });
-    return count;
+    return intersectingAssociations.filter((association) => {
+        return product.associations.includes(association);
+    }).length;
 };
 
 const calculateFitting = (
@@ -116,10 +66,9 @@ export const getFittingRandom = (
     misfits: association[],
     excludedNames: string[]
 ): ITavernAsset => {
-    let fittingChoices: ITavernAsset[];
-    let randomCase = Math.random();
+    const randomCase = Math.random();
     if (randomCase > 0.55) {
-        fittingChoices = filterByFitValue(
+        const fittingChoices = filterByFitValue(
             choices,
             3,
             fits,
@@ -131,7 +80,7 @@ export const getFittingRandom = (
         }
     }
     if (randomCase > 0.2) {
-        fittingChoices = filterByFitValue(
+        const fittingChoices = filterByFitValue(
             choices,
             2,
             fits,
@@ -143,7 +92,7 @@ export const getFittingRandom = (
         }
     }
     if (randomCase > 0.05) {
-        fittingChoices = filterByFitValue(
+        const fittingChoices = filterByFitValue(
             choices,
             1,
             fits,

@@ -11,19 +11,25 @@ export interface BannerData {
 }
 
 const getEmptyCategoriesString = (names: menuCategory[]) => {
-    let numerationString = '';
-    names.forEach((name: menuCategory, index: number) => {
-        if (index === 0) {
-            numerationString = numerationString + name;
-        } else {
-            if (index < names.length - 1) {
-                numerationString = numerationString + ', ' + name;
+    const numerationStringPieces = names.map(
+        (name: menuCategory, index: number) => {
+            if (index === 0) {
+                return name;
             } else {
-                numerationString = numerationString + ' and ' + name;
+                if (index < names.length - 1) {
+                    return ', ' + name;
+                } else {
+                    return ' and ' + name;
+                }
             }
         }
-    });
-    return numerationString.toLocaleLowerCase();
+    );
+    return numerationStringPieces
+        .reduce(
+            (numerationString, stringPiece) => numerationString + stringPiece,
+            ''
+        )
+        .toLocaleLowerCase();
 };
 
 export const MenuBanner = (props: {

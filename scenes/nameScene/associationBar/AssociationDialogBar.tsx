@@ -15,8 +15,7 @@ export const AssociationDialogBar = (props: {
     fits: association[];
     switchFits: (newFits: association[]) => void;
 }) => {
-    let associationDialogs = [] as JSX.Element[];
-    Object.values(fitGroup).forEach((group) => {
+    const associationDialogs = Object.values(fitGroup).map((group) => {
         const dialogData = dialogMap.get(group)!;
         const onPick = (
             oldAssociation: association,
@@ -26,14 +25,12 @@ export const AssociationDialogBar = (props: {
                 getNewFits(props.fits, newAssociation, oldAssociation)
             );
         };
-        let startText = group as string;
-        // assuming that every fitGroup has atmost one fit active and thatfitGroup contains only string values
-        props.fits.forEach((fit) => {
-            if (dialogData.fits.includes(fit)) {
-                startText = fit;
-            }
+        const fitsOfThisGroup = props.fits.filter((fit) => {
+            return dialogData.fits.includes(fit);
         });
-        associationDialogs.push(
+        const startText =
+            fitsOfThisGroup.length > 0 ? fitsOfThisGroup[0] : group;
+        return (
             <AssociationDialog
                 pickAssociationList={dialogData.fits}
                 startText={startText}
@@ -43,6 +40,7 @@ export const AssociationDialogBar = (props: {
             ></AssociationDialog>
         );
     });
+
     const topDialogs = associationDialogs.slice(0, 3);
     const bottomDialogs = associationDialogs.slice(3, 5);
 

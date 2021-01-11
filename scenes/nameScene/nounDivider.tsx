@@ -1,34 +1,31 @@
 import { association } from '../../classes/Adjectives';
-import { category } from '../../helpingFunctions/getFittingRandom';
+import { ITavernAsset } from '../../helpingFunctions/ITavernAsset';
 
-export const getDividedProducts = (product: category[]) => {
-    let dividedProducts = [] as category[];
-    product.forEach((product) => {
-        if (product.associations.length <= 1) {
-            dividedProducts.push(product);
-        } else {
-            product.associations.forEach((association) =>
-                dividedProducts.push(
-                    product.getAssociationOverwrite(association)
-                )
-            );
-        }
-    });
-    return dividedProducts;
+export const getDividedProducts = (products: ITavernAsset[]) => {
+    const productDivisions = products.map((product) =>
+        product.associations.map((association) =>
+            product.getAssociationOverwrite(association)
+        )
+    );
+    const result = productDivisions.reduce(
+        (collectedProducts, productVariations) => [
+            ...collectedProducts,
+            ...productVariations,
+        ]
+    );
+    return result;
 };
 
 export const makeProductsFromNecessary = (nestedProducts: {
     necessary: association[];
-    nested: category[];
+    nested: ITavernAsset[];
 }) => {
-    let dividedNestedProducts = getDividedProducts(nestedProducts.nested);
-    let result = [] as category[];
+    const dividedNestedProducts = getDividedProducts(nestedProducts.nested);
     dividedNestedProducts.forEach((product) => {
-        nestedProducts.necessary.forEach((necessaryAssociation) => {
-            product.associations.push(necessaryAssociation);
-        });
-
-        result.push(product);
+        product.associations = [
+            ...product.associations,
+            ...nestedProducts.necessary,
+        ];
     });
-    return result;
+    return dividedNestedProducts;
 };
