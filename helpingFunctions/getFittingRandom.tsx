@@ -5,50 +5,6 @@ const CHOICE_PARAMS = { minDifference: 1 };
 const WEIGTH_OF_FITS = 2;
 const WEIGTH_OF_MISFITS = 1;
 
-const getDistributionValue = (fitHits: number, misfitHits: number) => {
-    return 1 + WEIGTH_OF_FITS * fitHits - WEIGTH_OF_MISFITS * misfitHits;
-};
-
-export const getFittingRandomOlder = (
-    choices: ITavernAsset[],
-    fits: association[],
-    misfits: association[],
-    excludedNames: string[]
-): ITavernAsset => {
-    const distribution = [] as { product: ITavernAsset; value: number }[];
-    choices.forEach((choiceProduct) => {
-        const fitHits = countIntersections(choiceProduct, fits);
-        const misfitHits = countIntersections(choiceProduct, misfits);
-        if (!excludedNames.includes(choiceProduct.name)) {
-            if (
-                fitHits - misfitHits > CHOICE_PARAMS.minDifference ||
-                misfitHits === 0
-            ) {
-                distribution.push({
-                    product: choiceProduct,
-                    value: getDistributionValue(fitHits, misfitHits),
-                });
-            }
-        }
-    });
-    return randomFromDistribution(distribution);
-};
-
-const randomFromDistribution = (
-    distribution: { product: ITavernAsset; value: number }[]
-) => {
-    let count = 0;
-    const arrayForRandomChoice = [] as ITavernAsset[];
-    distribution.forEach((element) => {
-        while (count < element.value) {
-            arrayForRandomChoice.push(element.product);
-            count += 1;
-        }
-        count = 0;
-    });
-    return getRandomArrayEntry(arrayForRandomChoice);
-};
-
 export const getRandomArrayEntry = (array: any[]) => {
     const randomIndex = Math.floor(Math.random() * array.length);
     if (randomIndex === array.length) {
@@ -110,10 +66,9 @@ export const getFittingRandom = (
     misfits: association[],
     excludedNames: string[]
 ): ITavernAsset => {
-    let fittingChoices: ITavernAsset[];
     const randomCase = Math.random();
     if (randomCase > 0.55) {
-        fittingChoices = filterByFitValue(
+        const fittingChoices = filterByFitValue(
             choices,
             3,
             fits,
@@ -125,7 +80,7 @@ export const getFittingRandom = (
         }
     }
     if (randomCase > 0.2) {
-        fittingChoices = filterByFitValue(
+        const fittingChoices = filterByFitValue(
             choices,
             2,
             fits,
@@ -137,7 +92,7 @@ export const getFittingRandom = (
         }
     }
     if (randomCase > 0.05) {
-        fittingChoices = filterByFitValue(
+        const fittingChoices = filterByFitValue(
             choices,
             1,
             fits,
