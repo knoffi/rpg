@@ -20,14 +20,12 @@ export const makeProductsFromNecessary = (nestedProducts: {
     necessary: association[];
     nested: ITavernAsset[];
 }) => {
-    let dividedNestedProducts = getDividedProducts(nestedProducts.nested);
-    let result = [] as ITavernAsset[];
+    const dividedNestedProducts = getDividedProducts(nestedProducts.nested);
     dividedNestedProducts.forEach((product) => {
-        nestedProducts.necessary.forEach((necessaryAssociation) => {
-            product.associations.push(necessaryAssociation);
-        });
-
-        result.push(product);
+        product.associations = [
+            ...product.associations,
+            ...nestedProducts.necessary,
+        ];
     });
-    return result;
+    return dividedNestedProducts;
 };
