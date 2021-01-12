@@ -184,9 +184,9 @@ export class NameScene extends React.Component<NameProps, TextState> {
         const validSubstantiveChapters = substantives.filter(
             (chapter) => !invalids.includes(chapter.category)
         );
-        const validSubstantives = validSubstantiveChapters
-            .map((chapter) => chapter.substantives)
-            .flat();
+        const validSubstantives = validSubstantiveChapters.flatMap(
+            (chapter) => chapter.substantives
+        );
         return getFittingRandom(
             validSubstantives,
             this.props.fitting.fits,

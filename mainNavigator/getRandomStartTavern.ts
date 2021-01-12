@@ -1,13 +1,15 @@
 import { Adjective, association } from "../classes/Adjectives";
 import { getProductsLeftAndBannerData } from "../editNavigator/editNavigatorFunctions";
-import { getFittingRandom } from "../helpingFunctions/getFittingRandom";
-import { misfitMode } from "../helpingFunctions/misfitModes";
+import { getFittingRandom, getRandomArrayEntry } from "../helpingFunctions/getFittingRandom";
+import { misfitMode, stricterMisfitMode } from "../helpingFunctions/misfitModes";
 import { getMisfits } from "../helpingFunctions/misFitsHandlers";
 import { BasePrice } from "../scenes/menuScene/basePrice";
 import { Offer } from "../scenes/menuScene/menuEnums";
 import { adjectives, substantives } from "../scenes/nameScene/names/nouns";
 import { getTavernHistoryInitializer } from "./mainNavigatorFunctions";
 
+const CHANCE_FOR_SPECIAL_FIT = 0.2;
+const CHANCE_FOR_ORDINARY_FIT = 0.625;
 export const getRandomStartTavern=()=>{
     const tavernData = getTavernHistoryInitializer();
    
@@ -40,7 +42,9 @@ export const getRandomStartTavern=()=>{
 }
 
 const getRandomFits=()=>{
-    return [association.adventurer]
+    const associationGroups = stricterMisfitMode.associationGroups;
+    const fitsWithEmptyFits=  Object.values(associationGroups).map(group=>{const chanceToAddFit = group ===stricterMisfitMode.associationGroups.special? CHANCE_FOR_SPECIAL_FIT : CHANCE_FOR_ORDINARY_FIT; return Math.random()<chanceToAddFit?getRandomArrayEntry(group):association.empty})
+    return fitsWithEmptyFits.filter(fit=>fit!==association.empty)
 }
 const getRandomBasePrice=()=>{
     return {wealthy:50,rich:150,modest:17,poor:6,currency:"Dragon Coins"} as BasePrice
@@ -58,9 +62,9 @@ const getRandomName=(fits:association[],misfits:association[])=>{
     const validSubstantiveChapters = substantives.filter(
             (chapter) => !adjective.badWords.includes(chapter.category)
         );
-        const validSubstantives= validSubstantiveChapters.map(
+        const validSubstantives= validSubstantiveChapters.flatMap(
             (chapter) => chapter.substantives
-        ).flat();
+        );
     const substantive =  getFittingRandom(
             validSubstantives,
             fits,
