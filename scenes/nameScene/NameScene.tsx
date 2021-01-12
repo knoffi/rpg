@@ -125,7 +125,7 @@ export class NameScene extends React.Component<NameProps, TextState> {
         );
     }
     noFitsActive() {
-        return this.props.fitting.fits.some((fit) => fit !== association.empty);
+        return this.props.fitting.fits.length === 0;
     }
 
     renderRerollButton() {
@@ -149,7 +149,8 @@ export class NameScene extends React.Component<NameProps, TextState> {
             this.props.onDataChange({ name: newName });
             this.setState({ isSpecialName: false });
         } else {
-            this.props.onDataChange({ name: this.getSpecialNames() });
+            const specialName = this.getSpecialNames();
+            this.props.onDataChange({ name: specialName });
             this.setState({ isSpecialName: true });
         }
     }
@@ -183,16 +184,9 @@ export class NameScene extends React.Component<NameProps, TextState> {
         const validSubstantiveChapters = substantives.filter(
             (chapter) => !invalids.includes(chapter.category)
         );
-        const validSubstantiveOfChapters = validSubstantiveChapters.map(
-            (chapter) => chapter.substantives
-        );
-        const validSubstantives = validSubstantiveOfChapters.reduce(
-            (arrayOfValids, validSubstantives) => [
-                ...arrayOfValids,
-                ...validSubstantives,
-            ],
-            []
-        );
+        const validSubstantives = validSubstantiveChapters
+            .map((chapter) => chapter.substantives)
+            .flat();
         return getFittingRandom(
             validSubstantives,
             this.props.fitting.fits,
