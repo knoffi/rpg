@@ -9,7 +9,7 @@ import {
     stricterMisfitMode,
 } from '../helpingFunctions/misfitModes';
 import { getMisfits } from '../helpingFunctions/misFitsHandlers';
-import { BasePrice } from '../scenes/menuScene/basePrice';
+import { BasePrice, standardBasePrice } from '../scenes/menuScene/basePrice';
 import { drinkExamples } from '../scenes/menuScene/drinks/drinks';
 import { foodExamples } from '../scenes/menuScene/food/food';
 import { NothingLeftOffer, Offer } from '../scenes/menuScene/menuEnums';
@@ -24,6 +24,7 @@ const CHANCE_FOR_SPECIAL_FIT = 0.2;
 const CHANCE_FOR_ORDINARY_FIT = 0.625;
 const NO_OFFER_PROBABILITY = 0.1;
 const MAX_OFFER = 4;
+const MAX_PRICE_DERIVATION = 0.3;
 export const getRandomStartTavern = () => {
     const tavernData = getTavernHistoryInitializer();
 
@@ -69,13 +70,13 @@ const getRandomFits = () => {
     return fitsWithEmptyFits.filter((fit) => fit !== association.empty);
 };
 const getRandomBasePrice = () => {
-    const poorPrice = Math.floor(Math.random() * 5) + 2;
+    const randomFactor = 1 + (2 * Math.random() - 1) * MAX_PRICE_DERIVATION;
     return {
-        wealthy: poorPrice * 9,
-        rich: poorPrice * 20,
-        modest: poorPrice * 3,
-        poor: poorPrice,
-        currency: 'Copper',
+        wealthy: Math.floor(randomFactor * standardBasePrice.wealthy),
+        rich: Math.floor(randomFactor * standardBasePrice.rich),
+        modest: Math.floor(randomFactor * standardBasePrice.modest),
+        poor: Math.floor(randomFactor * standardBasePrice.poor),
+        currency: 'copper',
     } as BasePrice;
 };
 
