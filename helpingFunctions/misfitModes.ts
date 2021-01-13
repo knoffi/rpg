@@ -2,11 +2,11 @@ import { association } from '../classes/Adjectives';
 
 export enum misfitMode {
     income = 'Income',
-    strict = 'Strict',
     stricter = 'Stricter',
+    dwarvesHateElves = 'dwarves hate elves',
 }
 const strictMisfitMode = {
-    key: misfitMode.strict,
+    key: misfitMode.dwarvesHateElves,
     associationGroups: {
         wealth: [association.poor, association.rich],
 

@@ -2,18 +2,6 @@ import { association } from '../../classes/Adjectives';
 import { BasePrice, standardBasePrice } from './basePrice';
 import { Offer } from './menuEnums';
 
-export enum tavernScalePrice {
-    cheapEasy = -4,
-    cheapNormal = -3,
-    cheapHard = -2,
-    normalEasy = -1,
-    normalNormal = 0,
-    normalHard = 1,
-    expensiveEasy = 2,
-    expensiveNormal = 3,
-    expensiveHard = 4,
-}
-
 export const getAdjustedPriceString = (
     offer: Offer,
     fits: association[],
@@ -23,6 +11,8 @@ export const getAdjustedPriceString = (
     if (offer.product.isUserMade) {
         return offer.price.toString() + ' ' + basePrice.currency;
     }
+    console.log(offer.product.name);
+    console.log(offer.price);
     const basePriceFactor = getPriceFactorFromBasePrice(
         basePrice,
         offer.product.associations
@@ -48,6 +38,7 @@ export const getAdjustedPriceString = (
             100.0
     );
     const priceNumberString = newPrice > 0 ? newPrice.toString() : '1';
+    console.log(priceNumberString);
     return priceNumberString + ' ' + basePrice.currency;
 };
 
@@ -58,23 +49,25 @@ const getPriceFactorFromBasePrice = (
     const defaultPriceFactor =
         ((basePrice.modest + basePrice.wealthy) * 1.0) /
         (standardBasePrice.modest + standardBasePrice.wealthy);
-    productAssociations.forEach((fit) => {
-        if (fit === association.rich) {
-            return (basePrice.rich * 1.0) / standardBasePrice.rich;
+    if (productAssociations.some((fit) => fit === association.rich)) {
+        return (basePrice.rich * 1.0) / standardBasePrice.rich;
+    } else {
+        if (
+            productAssociations.some((fit) => fit === association.sophisticated)
+        ) {
+            return (basePrice.wealthy * 1.0) / standardBasePrice.wealthy;
         } else {
-            if (fit === association.sophisticated) {
-                return (basePrice.wealthy * 1.0) / standardBasePrice.wealthy;
+            if (productAssociations.some((fit) => fit === association.worker)) {
+                return (basePrice.modest * 1.0) / standardBasePrice.modest;
             } else {
-                if (fit === association.worker) {
-                    return (basePrice.modest * 1.0) / standardBasePrice.modest;
-                } else {
-                    if (fit === association.poor) {
-                        return (basePrice.poor * 1.0) / standardBasePrice.poor;
-                    }
+                if (
+                    productAssociations.some((fit) => fit === association.poor)
+                ) {
+                    return (basePrice.poor * 1.0) / standardBasePrice.poor;
                 }
             }
         }
-    });
+    }
     return defaultPriceFactor;
 };
 
