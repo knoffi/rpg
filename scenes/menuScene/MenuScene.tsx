@@ -7,6 +7,8 @@ import {
     menuCategory,
     TavernProduct,
 } from '../../classes/TavernProduct';
+import { prefixMap } from '../../components/ListOfSaves/dataPrefixes';
+import { ListOfSaves } from '../../components/ListOfSaves/ListOfSaves';
 import { getRandomArrayEntry } from '../../helpingFunctions/getFittingRandom';
 import { TavernData } from '../../mainNavigator/TavernData';
 import { nameSceneStyles } from '../nameScene/nameSceneStyles';
@@ -22,6 +24,7 @@ import {
 import { OfferList } from './offerList/OfferList';
 import { getAdjustedPriceString } from './priceFunctions';
 import { EditorStartTexts, ProductEditor } from './productEditor/ProductEditor';
+import { createMinimalOffer } from './userOffer';
 
 const DEFAULT_MODAL_START_DATA = {
     name: '',
@@ -56,6 +59,10 @@ export const MenuScene = (props: MenuProps) => {
             ...DEFAULT_MODAL_START_DATA,
             category: drinkCategory.lemonade as menuCategory,
         } as EditorStartTexts,
+    });
+    const [savedListData, setSavedListData] = useState({
+        visible: false,
+        category: drinkCategory.spirit as menuCategory,
     });
 
     const deleteOffer = (name: string) => {
@@ -182,7 +189,12 @@ export const MenuScene = (props: MenuProps) => {
                     isAbout={props.isAbout}
                     addingActions={{
                         randomAdd: addRandomOffer,
-                        import: (category: menuCategory) => {},
+                        import: (category: menuCategory) => {
+                            setSavedListData({
+                                visible: true,
+                                category: category,
+                            });
+                        },
                         edit: (category: menuCategory) => {
                             setEditorData({
                                 visible: true,
@@ -235,17 +247,7 @@ export const MenuScene = (props: MenuProps) => {
                             dismissEditorModal();
                         }}
                         addTavernProduct={(textData: EditorStartTexts) => {
-                            const newUserOffer = {
-                                product: new TavernProduct(
-                                    textData.name,
-                                    parseInt(textData.priceText),
-                                    [] as association[],
-                                    textData.category,
-                                    textData.description,
-                                    true
-                                ),
-                                price: parseInt(textData.priceText),
-                            };
+                            const newUserOffer = createMinimalOffer(textData);
                             const newOffers = [...props.offers, newUserOffer];
                             if (props.isAbout === weServe.drinks) {
                                 props.onDataChange({ drinks: newOffers });
@@ -256,6 +258,17 @@ export const MenuScene = (props: MenuProps) => {
                         }}
                     />
                 </Modal>
+                <ListOfSaves
+                    mainKey={prefixMap.get(savedListData.category as string)!}
+                    category={savedListData.category}
+                    visible={savedListData.visible}
+                    onDismiss={() => {
+                        setSavedListData({
+                            visible: false,
+                            category: drinkCategory.spirit,
+                        });
+                    }}
+                />
             </Portal>
         </View>
     );

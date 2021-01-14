@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import { HelperText, Text, TextInput } from 'react-native-paper';
@@ -7,7 +8,9 @@ import {
     OkayButton,
     UploadButton,
 } from '../../../components/buttons/generalButtons';
+import { prefixMap } from '../../../components/ListOfSaves/dataPrefixes';
 import { productEditorStyles } from './productEditorStyles';
+import { TavernAssetSaver } from './TavernAssetSaver';
 
 export interface EditorStartTexts {
     name: string;
@@ -33,6 +36,20 @@ export const ProductEditor = (props: {
     const textIsNumber = (text: string) => {
         return text.match(/^[0-9]+$/) != null && text !== '0';
     };
+    const storeData = async (value: {
+        name: string;
+        description: string;
+        price: number;
+    }) => {
+        try {
+            const key = prefixMap.get(props.startTexts.category as string)!;
+            const jsonValue = JSON.stringify(value);
+            await AsyncStorage.setItem(key + value.name, jsonValue);
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
     return (
         <ScrollView style={productEditorStyles.scrollView}>
             <Text style={productEditorStyles.title}>
@@ -115,12 +132,19 @@ export const ProductEditor = (props: {
                         <UploadButton
                             mode={buttonEmphasis.high}
                             disabled={!priceTextIsValid || name.length === 0}
-                            onPress={() => {}}
+                            onPress={() => {
+                                storeData({
+                                    name: name,
+                                    description: description,
+                                    price: parseInt(priceText),
+                                });
+                            }}
                             title=" LIBRARY"
                         />
                     </View>
                 </View>
             </View>
+            <TavernAssetSaver name={name} />
         </ScrollView>
     );
 };
