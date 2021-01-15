@@ -2,28 +2,24 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import { HelperText, Text, TextInput } from 'react-native-paper';
-import { menuCategory } from '../../../classes/TavernProduct';
 import {
     buttonEmphasis,
     OkayButton,
     UploadButton,
 } from '../../../components/buttons/generalButtons';
-import { prefixMap } from '../../../components/ListOfSaves/dataPrefixes';
+import {
+    getKeyFromName,
+    getNumberOfNameDuplicates,
+} from '../../../components/ListOfSaves/keyHandlers';
+import { MinimalOfferData } from '../userOffer';
 import { productEditorStyles } from './productEditorStyles';
 import { TavernAssetSaver } from './TavernAssetSaver';
 
-export interface EditorStartTexts {
-    name: string;
-    priceText: string;
-    description: string;
-    category: menuCategory;
-}
-
 export const ProductEditor = (props: {
-    addTavernProduct: (textData: EditorStartTexts) => void;
-    overwriteTavernProduct: (textData: EditorStartTexts) => void;
+    addTavernProduct: (textData: MinimalOfferData) => void;
+    overwriteTavernProduct: (textData: MinimalOfferData) => void;
     nameIsDuplicated: (name: string) => boolean;
-    startTexts: EditorStartTexts;
+    startTexts: MinimalOfferData;
 }) => {
     const [name, setName] = useState(props.startTexts.name);
     const [priceText, setPriceText] = useState(props.startTexts.priceText);
@@ -36,15 +32,29 @@ export const ProductEditor = (props: {
     const textIsNumber = (text: string) => {
         return text.match(/^[0-9]+$/) != null && text !== '0';
     };
-    const storeData = async (value: {
-        name: string;
-        description: string;
-        price: number;
-    }) => {
+    const storeOffer = async () => {
         try {
-            const key = prefixMap.get(props.startTexts.category as string)!;
-            const jsonValue = JSON.stringify(value);
-            await AsyncStorage.setItem(key + value.name, jsonValue);
+            const occurenceOfName = await getNumberOfNameDuplicates(
+                name,
+                props.startTexts.category
+            );
+            console.log(occurenceOfName);
+            const nameForSaving =
+                occurenceOfName > 0
+                    ? name + ' (' + occurenceOfName.toString() + ')'
+                    : name;
+            const key = getKeyFromName(
+                nameForSaving,
+                props.startTexts.category
+            );
+            const minimalofferData: MinimalOfferData = {
+                name: nameForSaving,
+                priceText: priceText,
+                category: props.startTexts.category,
+                description: description,
+            };
+            const jsonValue = JSON.stringify(minimalofferData);
+            await AsyncStorage.setItem(key, jsonValue);
         } catch (e) {
             console.log(e);
         }
@@ -132,13 +142,7 @@ export const ProductEditor = (props: {
                         <UploadButton
                             mode={buttonEmphasis.high}
                             disabled={!priceTextIsValid || name.length === 0}
-                            onPress={() => {
-                                storeData({
-                                    name: name,
-                                    description: description,
-                                    price: parseInt(priceText),
-                                });
-                            }}
+                            onPress={storeOffer}
                             title=" LIBRARY"
                         />
                     </View>

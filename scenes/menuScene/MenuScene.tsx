@@ -7,7 +7,7 @@ import {
     menuCategory,
     TavernProduct,
 } from '../../classes/TavernProduct';
-import { prefixMap } from '../../components/ListOfSaves/dataPrefixes';
+import { prefixMap } from '../../components/ListOfSaves/keyHandlers';
 import { ListOfSaves } from '../../components/ListOfSaves/ListOfSaves';
 import { getRandomArrayEntry } from '../../helpingFunctions/getFittingRandom';
 import { TavernData } from '../../mainNavigator/TavernData';
@@ -23,8 +23,8 @@ import {
 } from './menuFunctions';
 import { OfferList } from './offerList/OfferList';
 import { getAdjustedPriceString } from './priceFunctions';
-import { EditorStartTexts, ProductEditor } from './productEditor/ProductEditor';
-import { createMinimalOffer } from './userOffer';
+import { ProductEditor } from './productEditor/ProductEditor';
+import { createMinimalOffer, MinimalOfferData } from './userOffer';
 
 const DEFAULT_MODAL_START_DATA = {
     name: '',
@@ -58,7 +58,7 @@ export const MenuScene = (props: MenuProps) => {
         startData: {
             ...DEFAULT_MODAL_START_DATA,
             category: drinkCategory.lemonade as menuCategory,
-        } as EditorStartTexts,
+        } as MinimalOfferData,
     });
     const [savedListData, setSavedListData] = useState({
         visible: false,
@@ -108,6 +108,17 @@ export const MenuScene = (props: MenuProps) => {
         }
     };
 
+    const addUserOffer = (textData: MinimalOfferData) => {
+        const newUserOffer = createMinimalOffer(textData);
+        const newOffers = [...props.offers, newUserOffer];
+        if (props.isAbout === weServe.drinks) {
+            props.onDataChange({ drinks: newOffers });
+        } else {
+            props.onDataChange({ dishes: newOffers });
+        }
+        dismissEditorModal();
+    };
+
     const buyOffer = (name: string) => {
         //TODO: This only works as long as drinks can be distuingished by name
         props.offers.forEach((offer) => {
@@ -149,7 +160,7 @@ export const MenuScene = (props: MenuProps) => {
             });
         }
     };
-    const openOfferEditor = (startData: EditorStartTexts) => {
+    const openOfferEditor = (startData: MinimalOfferData) => {
         setEditorData({
             visible: true,
             startData: startData,
@@ -231,7 +242,7 @@ export const MenuScene = (props: MenuProps) => {
                         startTexts={editorData.startData}
                         nameIsDuplicated={nameIsDuplicated}
                         overwriteTavernProduct={(
-                            textData: EditorStartTexts
+                            textData: MinimalOfferData
                         ) => {
                             changeOffer(editorData.startData.name, {
                                 product: new TavernProduct(
@@ -246,21 +257,16 @@ export const MenuScene = (props: MenuProps) => {
                             });
                             dismissEditorModal();
                         }}
-                        addTavernProduct={(textData: EditorStartTexts) => {
-                            const newUserOffer = createMinimalOffer(textData);
-                            const newOffers = [...props.offers, newUserOffer];
-                            if (props.isAbout === weServe.drinks) {
-                                props.onDataChange({ drinks: newOffers });
-                            } else {
-                                props.onDataChange({ dishes: newOffers });
-                            }
-                            dismissEditorModal();
-                        }}
+                        addTavernProduct={addUserOffer}
                     />
                 </Modal>
                 <ListOfSaves
                     mainKey={prefixMap.get(savedListData.category as string)!}
-                    category={savedListData.category}
+                    offerHandling={{
+                        category: savedListData.category,
+                        addUserOffer: addUserOffer,
+                        nameIsDuplicated: nameIsDuplicated,
+                    }}
                     visible={savedListData.visible}
                     onDismiss={() => {
                         setSavedListData({

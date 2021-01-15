@@ -1,14 +1,16 @@
 import { association } from '../../classes/Adjectives';
 import { menuCategory, TavernProduct } from '../../classes/TavernProduct';
 
-export interface minimalOfferData {
+export interface MinimalOfferData {
     name: string;
     priceText: string;
     description: string;
     category: menuCategory;
 }
 
-export const createMinimalOffer = (data: minimalOfferData) => {
+export const createMinimalOffer = (data: MinimalOfferData) => {
+    console.log(data.priceText);
+    console.log(parseInt(data.priceText));
     return {
         product: new TavernProduct(
             data.name,
