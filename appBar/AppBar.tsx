@@ -16,6 +16,7 @@ const SHOPPING_ICON_SIZE = 32;
 
 export const AppBar = (props: {
     onUndo: () => void;
+    onSave: () => void;
     undoDisabled: boolean;
     onRedo: () => void;
     redoDisabled: boolean;
@@ -33,6 +34,17 @@ export const AppBar = (props: {
             <Appbar.Header style={{ backgroundColor: APP_BAR_BG }}>
                 <Appbar.BackAction onPress={props.onBackNavigation} />
                 <Appbar.Content title={props.sceneTitle} />
+                <Appbar.Action
+                    color={ACTIVE_BUTTON_COLOR}
+                    icon={(props) => (
+                        <FontAwesome
+                            name="save"
+                            size={props.size}
+                            color={props.color}
+                        />
+                    )}
+                    onPress={props.onSave}
+                />
                 <Appbar.Action
                     color={
                         props.undoDisabled

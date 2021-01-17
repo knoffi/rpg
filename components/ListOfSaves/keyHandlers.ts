@@ -4,7 +4,7 @@ import {
     foodCategory,
     menuCategory,
 } from '../../classes/TavernProduct';
-const TAVERN_KEY_PREIMAGE = 'tavern';
+export const TAVERN_KEY_PREIMAGE = 'tavern';
 //TODO
 export const prefixMap: Map<string, string> = new Map([
     [foodCategory.appetizer as string, 'A_P_P_E_T_I_Z_E_R_'],
@@ -32,12 +32,15 @@ export const getNameFromKey = (key: string, category?: menuCategory) => {
 
 export const getNumberOfNameDuplicates = async (
     name: string,
-    category: menuCategory
+    category?: menuCategory
 ) => {
     const allKeys = await AsyncStorage.getAllKeys();
     const occurenceOfName = allKeys.filter((key) => {
         //BEWARE: If MyCola AND MyCola(2) are already saved, then a drink made by user with name "MyCola" should be stored as MyCola(3)
-        return getNameFromKey(key, category).slice(0, name.length);
-    }).length;
+        const extractedName = category
+            ? getNameFromKey(key, category).slice(0, name.length)
+            : getNameFromKey(key).slice(0, name.length);
+        return extractedName === name;
+    });
     return occurenceOfName;
 };

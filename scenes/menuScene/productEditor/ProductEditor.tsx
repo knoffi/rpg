@@ -38,7 +38,6 @@ export const ProductEditor = (props: {
                 name,
                 props.startTexts.category
             );
-            console.log(occurenceOfName);
             const nameForSaving =
                 occurenceOfName > 0
                     ? name + ' (' + occurenceOfName.toString() + ')'
@@ -55,9 +54,7 @@ export const ProductEditor = (props: {
             };
             const jsonValue = JSON.stringify(minimalofferData);
             await AsyncStorage.setItem(key, jsonValue);
-        } catch (e) {
-            console.log(e);
-        }
+        } catch (e) {}
     };
 
     return (

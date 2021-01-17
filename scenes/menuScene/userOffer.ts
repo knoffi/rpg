@@ -9,8 +9,6 @@ export interface MinimalOfferData {
 }
 
 export const createMinimalOffer = (data: MinimalOfferData) => {
-    console.log(data.priceText);
-    console.log(parseInt(data.priceText));
     return {
         product: new TavernProduct(
             data.name,

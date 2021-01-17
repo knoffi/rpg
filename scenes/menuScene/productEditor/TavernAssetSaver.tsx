@@ -26,22 +26,14 @@ export class TavernAssetSaver extends React.Component<
                 <Button onPress={() => this.storeData(this.props.name)}>
                     save name
                 </Button>
-                <Button
-                    onPress={() => {
-                        console.log(this.state);
-                    }}
-                >
-                    {this.state.saved}
-                </Button>
+                <Button onPress={() => {}}>{this.state.saved}</Button>
             </View>
         );
     };
     storeData = async (value: string) => {
         try {
             await AsyncStorage.setItem(TEST_KEY, value);
-        } catch (e) {
-            console.log(e);
-        }
+        } catch (e) {}
     };
 
     getData = async () => {
@@ -52,7 +44,6 @@ export class TavernAssetSaver extends React.Component<
             }
         } catch (e) {
             // error reading value
-            console.log(e);
         }
     };
 }

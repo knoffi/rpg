@@ -17,7 +17,7 @@ export type TavernData = {
     boughtOffers: Offer[];
 };
 
-export interface minimalTavernData {
+export interface MinimalTavernData {
     fitting: { fits: association[]; misfits: association[] };
     name: string;
     drinks: Offer[];

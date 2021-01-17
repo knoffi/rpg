@@ -1,13 +1,14 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React from 'react';
-import { Modal, View } from 'react-native';
+import { View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { Button, List } from 'react-native-paper';
+import { Button, List, Modal, Portal } from 'react-native-paper';
 import { menuCategory } from '../../classes/TavernProduct';
-import { minimalTavernData } from '../../mainNavigator/TavernData';
+import { MinimalTavernData } from '../../mainNavigator/TavernData';
 import { MinimalOfferData } from '../../scenes/menuScene/userOffer';
+import { editModalStyles } from '../../scenes/startOptionsScene/editModalStyles';
 import { getKeyFromName, getNameFromKey } from './keyHandlers';
-type savedData = minimalTavernData | MinimalOfferDataWithNumber;
+type SavedData = MinimalTavernData | MinimalOfferDataWithNumber;
 interface ListOfSavesProps {
     mainKey: string;
     offerHandling?: {
@@ -15,11 +16,14 @@ interface ListOfSavesProps {
         addUserOffer: (offerData: MinimalOfferData) => void;
         nameIsDuplicated: (name: string) => boolean;
     };
+    tavernHandling?: {
+        buildTavern: (minimalTavernData: MinimalTavernData) => void;
+    };
     visible: boolean;
     onDismiss: () => void;
 }
 interface ListOfSavesState {
-    loadedSaves: (minimalTavernData | MinimalOfferDataWithNumber)[];
+    loadedSaves: (MinimalTavernData | MinimalOfferDataWithNumber)[];
 }
 
 interface MinimalOfferDataWithNumber {
@@ -34,17 +38,20 @@ export class ListOfSaves extends React.Component<
     ListOfSavesState
 > {
     state = {
-        loadedSaves: [] as (minimalTavernData | MinimalOfferDataWithNumber)[],
+        loadedSaves: [] as (MinimalTavernData | MinimalOfferDataWithNumber)[],
     };
     constructor(props: any) {
         super(props);
-        this.getData();
+    }
+    componentDidMount() {
+        this.setSavedData();
     }
 
     public render() {
-        let listItems: JSX.Element[] = [];
-        this.getData();
-        listItems = this.state.loadedSaves.map((save, index) => {
+        if (this.props.visible) {
+            this.setSavedData();
+        }
+        const listItems = this.state.loadedSaves.map((save, index) => {
             return (
                 <List.Item
                     title={save.name}
@@ -73,13 +80,7 @@ export class ListOfSaves extends React.Component<
                                 style={{ marginHorizontal: 5 }}
                                 onPress={() => {
                                     if (this.props.offerHandling) {
-                                        console.log('I try to load');
-                                        console.log(save);
                                         const offerData = save as MinimalOfferDataWithNumber;
-                                        console.log(offerData);
-                                        console.log(offerData.priceText);
-                                        console.log('1');
-                                        console.log(1);
                                         this.props.offerHandling.addUserOffer({
                                             name: offerData.name,
                                             category: this.props.offerHandling
@@ -88,12 +89,18 @@ export class ListOfSaves extends React.Component<
                                             description: offerData.description,
                                         });
                                     }
+                                    if (this.props.tavernHandling) {
+                                        const offerData = save as MinimalTavernData;
+                                        this.props.tavernHandling.buildTavern(
+                                            offerData
+                                        );
+                                    }
                                 }}
                                 disabled={this.props.offerHandling?.nameIsDuplicated(
                                     save.name
                                 )}
                             >
-                                ADD
+                                {'ADD'}
                             </Button>
 
                             <Button
@@ -109,23 +116,36 @@ export class ListOfSaves extends React.Component<
         });
 
         return (
-            <Modal
-                visible={this.props.visible}
-                onDismiss={this.props.onDismiss}
-            >
-                <ScrollView>
-                    <Button onPress={this.props.onDismiss}>Back</Button>
-                    {
-                        <List.Section title={this.props.mainKey}>
-                            {listItems!}
-                        </List.Section>
-                    }
-                </ScrollView>
-            </Modal>
+            <Portal>
+                <Modal
+                    visible={this.props.visible}
+                    onDismiss={() => {
+                        this.dismissScene();
+                    }}
+                    contentContainerStyle={editModalStyles.containerStyle}
+                >
+                    <ScrollView>
+                        <Button
+                            onPress={() => {
+                                this.dismissScene();
+                            }}
+                        >
+                            Back
+                        </Button>
+                        {
+                            <List.Section title={this.props.mainKey}>
+                                {listItems!}
+                            </List.Section>
+                        }
+                    </ScrollView>
+                </Modal>
+            </Portal>
         );
     }
-
-    getData = async () => {
+    dismissScene() {
+        this.props.onDismiss();
+    }
+    setSavedData = async () => {
         try {
             const allKeys = await AsyncStorage.getAllKeys();
             const relevantKeys = allKeys.filter((key) => {
@@ -143,7 +163,8 @@ export class ListOfSaves extends React.Component<
                     });
                     const cleanStoredData = storedData.filter(
                         (value) => value !== undefined
-                    ) as savedData[];
+                    ) as SavedData[];
+
                     this.setState({ loadedSaves: cleanStoredData });
                 } catch (error2) {}
             }
