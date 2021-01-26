@@ -7,16 +7,16 @@ import {
 export const TAVERN_KEY_PREIMAGE = 'tavern';
 //TODO
 export const prefixMap: Map<string, string> = new Map([
-    [foodCategory.appetizer as string, 'A_P_P_E_T_I_Z_E_R_'],
-    [foodCategory.breakfast as string, 'B_R_E_A_K_F_A_S_T_'],
-    [foodCategory.dessert as string, 'D_E_S_S_E_R_T_'],
-    [foodCategory.mainDish as string, 'M_A_I_N_D_I_S_H_'],
-    [foodCategory.sideDish as string, 'S_I_D_E_D_I_S_H_'],
-    [drinkCategory.beer as string, 'B_E_E_R_'],
-    [drinkCategory.lemonade as string, 'L_E_M_O_N_A_D_E_'],
-    [drinkCategory.spirit as string, 'S_P_I_R_I_T_'],
-    [drinkCategory.wine as string, 'W_I_N_E_'],
-    [TAVERN_KEY_PREIMAGE, 'T_A_V_E_R_N_'],
+    [foodCategory.appetizer as string, 'Appetizers'],
+    [foodCategory.breakfast as string, 'Breakfasts'],
+    [foodCategory.dessert as string, 'Desserts'],
+    [foodCategory.mainDish as string, 'Main Dishes'],
+    [foodCategory.sideDish as string, 'Side Dishes'],
+    [drinkCategory.beer as string, 'Beers'],
+    [drinkCategory.lemonade as string, 'Lemonades'],
+    [drinkCategory.spirit as string, 'Spirits'],
+    [drinkCategory.wine as string, 'Wines'],
+    [TAVERN_KEY_PREIMAGE, 'Taverns'],
 ]);
 
 export const getKeyFromName = (name: string, category?: menuCategory) => {
