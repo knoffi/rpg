@@ -1,14 +1,9 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import React, { useState } from 'react';
 import { AppBar } from '../appBar/AppBar';
 import { association } from '../classes/Adjectives';
-import {
-    getNumberOfNameDuplicates,
-    prefixMap,
-    TAVERN_KEY_PREIMAGE,
-} from '../components/ListOfSaves/keyHandlers';
+import { SavedDataHandler, weSave } from '../classes/Database';
 import { EditNavigator } from '../editNavigator/EditNavigator';
 import { getProductsLeftAndBannerData } from '../editNavigator/editNavigatorFunctions';
 import { Offer } from '../scenes/menuScene/menuEnums';
@@ -76,29 +71,16 @@ export const MainNavigator = () => {
 
     const saveMinimalTavernData = async () => {
         const tavern = tavernHistory[historyIndex];
-        const occurenceOfName = await getNumberOfNameDuplicates(tavern.name);
-        console.log(occurenceOfName);
-        const nameForSaving =
-            tavern.name + '(' + occurenceOfName.toString() + ')';
         const minimalData: MinimalTavernData = {
-            name: nameForSaving,
+            name: tavern.name,
             fitting: tavern.fitting,
             drinks: tavern.drinks,
             dishes: tavern.dishes,
             prices: tavern.prices,
             boughtOffers: tavern.boughtOffers,
         };
-        const jsonMinimalData = JSON.stringify(minimalData);
-        console.log('I am saving');
-        console.log(prefixMap.get(TAVERN_KEY_PREIMAGE) + nameForSaving);
-        try {
-            await AsyncStorage.setItem(
-                prefixMap.get(TAVERN_KEY_PREIMAGE) + nameForSaving,
-                jsonMinimalData
-            );
-        } catch (e) {
-            console.log(e);
-        }
+        const dataHandler = new SavedDataHandler(weSave.taverns);
+        dataHandler.saveData(minimalData);
     };
 
     const buildMinimalTavernData = (minimalData: MinimalTavernData) => {

@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import { Modal, Portal } from 'react-native-paper';
 import { association } from '../../classes/Adjectives';
+import { SavedDataHandler, weSave } from '../../classes/Database';
 import {
     drinkCategory,
     menuCategory,
     TavernProduct,
 } from '../../classes/TavernProduct';
-import { prefixMap } from '../../components/ListOfSaves/keyHandlers';
 import { ListOfSaves } from '../../components/ListOfSaves/ListOfSaves';
 import { getRandomArrayEntry } from '../../helpingFunctions/getFittingRandom';
 import { TavernData } from '../../mainNavigator/TavernData';
@@ -107,7 +107,7 @@ export const MenuScene = (props: MenuProps) => {
             props.onDataChange({ dishes: newOffers });
         }
     };
-
+    // TODO: change this to getUserOfferAdding (category:menuCategory)=> function
     const addUserOffer = (textData: MinimalOfferData) => {
         const newUserOffer = createMinimalOffer(textData);
         const newOffers = [...props.offers, newUserOffer];
@@ -261,10 +261,26 @@ export const MenuScene = (props: MenuProps) => {
                     />
                 </Modal>
                 <ListOfSaves
-                    mainKey={prefixMap.get(savedListData.category as string)!}
+                    title={savedListData.category.toUpperCase()}
+                    dataHandler={
+                        new SavedDataHandler(
+                            weSave.menu,
+                            savedListData.category
+                        )
+                    }
                     offerHandling={{
-                        category: savedListData.category,
-                        addUserOffer: addUserOffer,
+                        addUserOffer: (
+                            name: string,
+                            priceText: string,
+                            description: string
+                        ) => {
+                            addUserOffer({
+                                name: name,
+                                priceText: priceText,
+                                description: description,
+                                category: savedListData.category,
+                            });
+                        },
                         nameIsDuplicated: nameIsDuplicated,
                     }}
                     visible={savedListData.visible}

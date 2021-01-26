@@ -1,16 +1,13 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import { HelperText, Text, TextInput } from 'react-native-paper';
+import { SavedDataHandler, weSave } from '../../../classes/Database';
 import {
     buttonEmphasis,
     OkayButton,
     UploadButton,
 } from '../../../components/buttons/generalButtons';
-import {
-    getKeyFromName,
-    getNumberOfNameDuplicates,
-} from '../../../components/ListOfSaves/keyHandlers';
+import { MinimalOfferDataWithNumber } from '../../../components/ListOfSaves/ListOfSaves';
 import { MinimalOfferData } from '../userOffer';
 import { productEditorStyles } from './productEditorStyles';
 import { TavernAssetSaver } from './TavernAssetSaver';
@@ -33,28 +30,16 @@ export const ProductEditor = (props: {
         return text.match(/^[0-9]+$/) != null && text !== '0';
     };
     const storeOffer = async () => {
-        try {
-            const occurenceOfName = await getNumberOfNameDuplicates(
-                name,
-                props.startTexts.category
-            );
-            const nameForSaving =
-                occurenceOfName > 0
-                    ? name + ' (' + occurenceOfName.toString() + ')'
-                    : name;
-            const key = getKeyFromName(
-                nameForSaving,
-                props.startTexts.category
-            );
-            const minimalofferData: MinimalOfferData = {
-                name: nameForSaving,
-                priceText: priceText,
-                category: props.startTexts.category,
-                description: description,
-            };
-            const jsonValue = JSON.stringify(minimalofferData);
-            await AsyncStorage.setItem(key, jsonValue);
-        } catch (e) {}
+        // TODO: this is not a nice piece of code
+        const minimalOfferDataWithNumber = {
+            priceText: parseInt(priceText),
+            description: description,
+            name: name,
+            category: props.startTexts.category,
+        } as MinimalOfferDataWithNumber;
+        new SavedDataHandler(weSave.menu, props.startTexts.category).saveData(
+            minimalOfferDataWithNumber
+        );
     };
 
     return (
