@@ -9,6 +9,7 @@ import { taverns } from '../../templates/taverns';
 import { editModalStyles } from './editModalStyles';
 export const EditModal = (props: {
     buildTavernTemplate: (name: string) => void;
+    buildRandomTavern: () => void;
 }) => {
     const [visible, setVisible] = React.useState(true);
     const [onButtonView, setOnButtonView] = React.useState(true);
@@ -50,7 +51,7 @@ export const EditModal = (props: {
                             style={editModalStyles.button}
                             mode="contained"
                             onPress={() => {
-                                props.buildTavernTemplate('default');
+                                props.buildRandomTavern();
                                 setVisible(false);
                             }}
                         >

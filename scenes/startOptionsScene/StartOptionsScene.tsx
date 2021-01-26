@@ -11,6 +11,7 @@ export const StartOptionsScene = (props: {
         key: string,
         getMisfits: (fits: association[]) => association[]
     ) => void;
+    onRandomGenerator: () => void;
     onNextScene: () => void;
 }) => {
     return (
@@ -20,6 +21,10 @@ export const StartOptionsScene = (props: {
                     props.onTavernTemplate(key, (fits: association[]) => {
                         return getMisfits(fits, misfitMode.stricter);
                     });
+                    props.onNextScene();
+                }}
+                buildRandomTavern={() => {
+                    props.onRandomGenerator();
                     props.onNextScene();
                 }}
             />

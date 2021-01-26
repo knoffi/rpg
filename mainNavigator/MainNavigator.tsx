@@ -11,6 +11,7 @@ import { StartOptionsScene } from '../scenes/startOptionsScene/StartOptionsScene
 import { TavernCollectionScene } from '../scenes/tavernCollectionScene/TavernCollectionScene';
 import { TitleScene } from '../scenes/titleScene/TitleScene';
 import { taverns } from '../templates/taverns';
+import { getRandomStartTavern } from './getRandomStartTavern';
 import {
     getTavernFromMinimalData,
     getTavernHistoryInitializer,
@@ -35,7 +36,11 @@ export const MainNavigator = () => {
         setTavernHistory([...pastTavernHistory, newTavernData]);
         setHistoryIndex(historyIndex + 1);
     };
-
+    const buildRandomTavern = () => {
+        const randomStartTavern = getRandomStartTavern();
+        setHistoryIndex(0);
+        setTavernHistory([randomStartTavern]);
+    };
     const buildTavernTemplate = (
         templateKey: string,
         getMisfits: (fits: association[]) => association[]
@@ -101,6 +106,7 @@ export const MainNavigator = () => {
                     name="START OPTIONS"
                     children={({ navigation }) => (
                         <StartOptionsScene
+                            onRandomGenerator={buildRandomTavern}
                             onTavernTemplate={buildTavernTemplate}
                             onNextScene={() => {
                                 navigation.navigate('EDIT TAVERN');
