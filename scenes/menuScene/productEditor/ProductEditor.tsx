@@ -1,26 +1,22 @@
 import React, { useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import { HelperText, Text, TextInput } from 'react-native-paper';
-import { menuCategory } from '../../../classes/TavernProduct';
+import { SavedDataHandler, weSave } from '../../../classes/Database';
 import {
     buttonEmphasis,
     OkayButton,
     UploadButton,
 } from '../../../components/buttons/generalButtons';
+import { MinimalOfferDataWithNumber } from '../../../components/ListOfSaves/ListOfSaves';
+import { MinimalOfferData } from '../userOffer';
 import { productEditorStyles } from './productEditorStyles';
-
-export interface EditorStartTexts {
-    name: string;
-    priceText: string;
-    description: string;
-    category: menuCategory;
-}
+import { TavernAssetSaver } from './TavernAssetSaver';
 
 export const ProductEditor = (props: {
-    addTavernProduct: (textData: EditorStartTexts) => void;
-    overwriteTavernProduct: (textData: EditorStartTexts) => void;
+    addTavernProduct: (textData: MinimalOfferData) => void;
+    overwriteTavernProduct: (textData: MinimalOfferData) => void;
     nameIsDuplicated: (name: string) => boolean;
-    startTexts: EditorStartTexts;
+    startTexts: MinimalOfferData;
 }) => {
     const [name, setName] = useState(props.startTexts.name);
     const [priceText, setPriceText] = useState(props.startTexts.priceText);
@@ -33,6 +29,19 @@ export const ProductEditor = (props: {
     const textIsNumber = (text: string) => {
         return text.match(/^[0-9]+$/) != null && text !== '0';
     };
+    const storeOffer = async () => {
+        // TODO: this is not a nice piece of code
+        const minimalOfferDataWithNumber = {
+            priceText: parseInt(priceText),
+            description: description,
+            name: name,
+            category: props.startTexts.category,
+        } as MinimalOfferDataWithNumber;
+        new SavedDataHandler(weSave.menu, props.startTexts.category).saveData(
+            minimalOfferDataWithNumber
+        );
+    };
+
     return (
         <ScrollView style={productEditorStyles.scrollView}>
             <Text style={productEditorStyles.title}>
@@ -115,12 +124,13 @@ export const ProductEditor = (props: {
                         <UploadButton
                             mode={buttonEmphasis.high}
                             disabled={!priceTextIsValid || name.length === 0}
-                            onPress={() => {}}
+                            onPress={storeOffer}
                             title=" LIBRARY"
                         />
                     </View>
                 </View>
             </View>
+            <TavernAssetSaver name={name} />
         </ScrollView>
     );
 };

@@ -2,10 +2,12 @@ import {
     drinkCategory,
     foodCategory,
     menuCategory,
+    TavernProduct,
 } from '../classes/TavernProduct';
+import { getNewBannerDataAndOffersLeft } from '../editNavigator/getNewBannerDataAndOffersLeft';
 import { standardBasePrice } from '../scenes/menuScene/basePrice';
 import { Offer } from '../scenes/menuScene/menuEnums';
-import { TavernData } from './TavernData';
+import { MinimalTavernData, TavernData } from './TavernData';
 
 export const getTavernHistoryInitializer = () => {
     const startMenuMaps = getStartMenuMaps();
@@ -20,6 +22,49 @@ export const getTavernHistoryInitializer = () => {
         drinkBannerData: { isVisible: false, emptyCategories: [] },
         foodBannerData: { isVisible: false, emptyCategories: [] },
         boughtOffers: [] as Offer[],
+    } as TavernData;
+};
+
+const rebuildOffers = (offers: Offer[]) => {
+    return offers.map((offer) => {
+        return {
+            price: offer.price,
+            product: new TavernProduct(
+                offer.product.name,
+                offer.product.copperPrice,
+                offer.product.associations,
+                offer.product.category,
+                offer.product.description,
+                offer.product.isUserMade
+            ),
+        } as Offer;
+    });
+};
+
+export const getTavernFromMinimalData = (minimalData: MinimalTavernData) => {
+    const rebuildDrinkOffers = rebuildOffers(minimalData.drinks);
+    const rebuildFoodOffers = rebuildOffers(minimalData.dishes);
+    const rebuildBoughtOffers = rebuildOffers(minimalData.boughtOffers);
+
+    const oldBannerData = { isVisible: false, emptyCategories: [] };
+    const BannerData = getNewBannerDataAndOffersLeft(
+        minimalData.fitting,
+        minimalData.drinks,
+        minimalData.dishes,
+        oldBannerData,
+        oldBannerData
+    );
+    return {
+        name: minimalData.name,
+        boughtOffers: rebuildBoughtOffers,
+        fitting: minimalData.fitting,
+        drinks: rebuildDrinkOffers,
+        dishes: rebuildFoodOffers,
+        prices: minimalData.prices,
+        drinkBannerData: BannerData.drinkBannerData,
+        foodBannerData: BannerData.foodBannerData,
+        dishesLeft: BannerData.dishesLeft,
+        drinksLeft: BannerData.drinksLeft,
     } as TavernData;
 };
 

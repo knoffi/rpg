@@ -3,15 +3,20 @@ import { createStackNavigator } from '@react-navigation/stack';
 import React, { useState } from 'react';
 import { AppBar } from '../appBar/AppBar';
 import { association } from '../classes/Adjectives';
+import { SavedDataHandler, weSave } from '../classes/Database';
 import { EditNavigator } from '../editNavigator/EditNavigator';
 import { getProductsLeftAndBannerData } from '../editNavigator/editNavigatorFunctions';
 import { Offer } from '../scenes/menuScene/menuEnums';
 import { StartOptionsScene } from '../scenes/startOptionsScene/StartOptionsScene';
+import { TavernCollectionScene } from '../scenes/tavernCollectionScene/TavernCollectionScene';
 import { TitleScene } from '../scenes/titleScene/TitleScene';
 import { taverns } from '../templates/taverns';
 import { getRandomStartTavern } from './getRandomStartTavern';
-import { getTavernHistoryInitializer } from './mainNavigatorFunctions';
-import { TavernData } from './TavernData';
+import {
+    getTavernFromMinimalData,
+    getTavernHistoryInitializer,
+} from './mainNavigatorFunctions';
+import { MinimalTavernData, TavernData } from './TavernData';
 
 const Stack = createStackNavigator();
 export const MainNavigator = () => {
@@ -69,9 +74,29 @@ export const MainNavigator = () => {
         setTavernHistory([tavernData]);
     };
 
+    const saveMinimalTavernData = async () => {
+        const tavern = tavernHistory[historyIndex];
+        const minimalData: MinimalTavernData = {
+            name: tavern.name,
+            fitting: tavern.fitting,
+            drinks: tavern.drinks,
+            dishes: tavern.dishes,
+            prices: tavern.prices,
+            boughtOffers: tavern.boughtOffers,
+        };
+        const dataHandler = new SavedDataHandler(weSave.taverns);
+        dataHandler.saveData(minimalData);
+    };
+
+    const buildMinimalTavernData = (minimalData: MinimalTavernData) => {
+        const buildTavern = getTavernFromMinimalData(minimalData);
+        setHistoryIndex(0);
+        setTavernHistory([buildTavern]);
+    };
+
     return (
         <NavigationContainer>
-            <Stack.Navigator>
+            <Stack.Navigator initialRouteName={'YOU ALL MEET IN A TAVERN!'}>
                 <Stack.Screen
                     name="YOU ALL MEET IN A TAVERN!"
                     component={TitleScene}
@@ -91,6 +116,7 @@ export const MainNavigator = () => {
                     options={{
                         header: ({ navigation }) => (
                             <AppBar
+                                onSave={saveMinimalTavernData}
                                 onRedo={() => {
                                     setHistoryIndex(historyIndex + 1);
                                 }}
@@ -121,6 +147,7 @@ export const MainNavigator = () => {
                     options={{
                         header: ({ navigation }) => (
                             <AppBar
+                                onSave={saveMinimalTavernData}
                                 onRedo={() => {
                                     setHistoryIndex(historyIndex + 1);
                                 }}
@@ -152,6 +179,17 @@ export const MainNavigator = () => {
                             tavern={tavernHistory[historyIndex]}
                             onDataChange={onDataChange}
                         ></EditNavigator>
+                    )}
+                />
+                <Stack.Screen
+                    name="TAVERN COLLECTION"
+                    children={({ navigation }) => (
+                        <TavernCollectionScene
+                            buildTavern={(minimalData: MinimalTavernData) => {
+                                buildMinimalTavernData(minimalData);
+                                navigation.navigate('EDIT TAVERN');
+                            }}
+                        ></TavernCollectionScene>
                     )}
                 />
             </Stack.Navigator>

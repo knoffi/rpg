@@ -21,7 +21,7 @@ import { globalStyles } from '../../globalStyles';
 import { Offer } from '../menuEnums';
 import { weServe } from '../menuFunctions';
 import { menuSceneStyles } from '../menuStyles';
-import { EditorStartTexts } from '../productEditor/ProductEditor';
+import { MinimalOfferData } from '../userOffer';
 
 const BOTTOM_ITEM_MARGIN = 30 * HEIGHT_FACTOR;
 const BOTTOM_PADDING_DRINKS = 265 * HEIGHT_FACTOR;
@@ -49,7 +49,7 @@ interface offerActions {
     deleteOffer: (name: string) => void;
     rerollOffer: (name: string) => void;
     shopOffer: (name: string) => void;
-    editUserOffer: (startData: EditorStartTexts) => void;
+    editUserOffer: (startData: MinimalOfferData) => void;
 }
 
 const OfferListItemRight = (props: {

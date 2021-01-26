@@ -16,3 +16,12 @@ export type TavernData = {
     foodBannerData: BannerData;
     boughtOffers: Offer[];
 };
+
+export interface MinimalTavernData {
+    fitting: { fits: association[]; misfits: association[] };
+    name: string;
+    drinks: Offer[];
+    dishes: Offer[];
+    prices: BasePrice;
+    boughtOffers: Offer[];
+}

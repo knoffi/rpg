@@ -14,7 +14,9 @@ export const TitleScene = ({ navigation }: any) => {
                 onEdit={() => {
                     navigation.navigate('START OPTIONS');
                 }}
-                onCollection={() => {}}
+                onCollection={() => {
+                    navigation.navigate('TAVERN COLLECTION');
+                }}
                 onAssets={() => {}}
                 onAcknowledgments={() => {}}
                 paddingTop={titleSceneStyle.buttonBlock.paddingTop}
