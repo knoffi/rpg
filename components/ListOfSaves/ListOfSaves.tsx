@@ -65,14 +65,14 @@ export class ListOfSaves extends React.Component<
                         >
                             <Button
                                 style={{ marginHorizontal: 5 }}
-                                onPress={() =>
+                                onPress={() => {
                                     this.deleteSavedItem(
                                         getKeyFromName(
                                             save.name,
                                             this.props.offerHandling?.category
                                         )
-                                    )
-                                }
+                                    );
+                                }}
                             >
                                 DELETE
                             </Button>
@@ -168,7 +168,9 @@ export class ListOfSaves extends React.Component<
                     this.setState({ loadedSaves: cleanStoredData });
                 } catch (error2) {}
             }
-        } catch (error1) {}
+        } catch (e) {
+            console.log(e);
+        }
     };
 
     private keyFitsToListOfSaves(key: string) {
@@ -181,6 +183,9 @@ export class ListOfSaves extends React.Component<
 
     private deleteSavedItem = async (key: string) => {
         try {
+            const allKeys = await await AsyncStorage.getAllKeys();
+            /*const allKeys = await AsyncStorage.getAllKeys();
+            await AsyncStorage.multiRemove(allKeys);*/
             await AsyncStorage.removeItem(key, () =>
                 this.removeItemFromList(key)
             );

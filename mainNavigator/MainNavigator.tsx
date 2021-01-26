@@ -77,10 +77,11 @@ export const MainNavigator = () => {
     const saveMinimalTavernData = async () => {
         const tavern = tavernHistory[historyIndex];
         const occurenceOfName = await getNumberOfNameDuplicates(tavern.name);
+        console.log(occurenceOfName);
         const nameForSaving =
             tavern.name + '(' + occurenceOfName.toString() + ')';
         const minimalData: MinimalTavernData = {
-            name: tavern.name,
+            name: nameForSaving,
             fitting: tavern.fitting,
             drinks: tavern.drinks,
             dishes: tavern.dishes,
@@ -88,6 +89,8 @@ export const MainNavigator = () => {
             boughtOffers: tavern.boughtOffers,
         };
         const jsonMinimalData = JSON.stringify(minimalData);
+        console.log('I am saving');
+        console.log(prefixMap.get(TAVERN_KEY_PREIMAGE) + nameForSaving);
         try {
             await AsyncStorage.setItem(
                 prefixMap.get(TAVERN_KEY_PREIMAGE) + nameForSaving,

@@ -42,5 +42,5 @@ export const getNumberOfNameDuplicates = async (
             : getNameFromKey(key).slice(0, name.length);
         return extractedName === name;
     });
-    return occurenceOfName;
+    return occurenceOfName.length;
 };
