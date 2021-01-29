@@ -1,4 +1,5 @@
 import { Adjective, association } from '../classes/Adjectives';
+import { menuCategory } from '../classes/TavernProduct';
 import { getProductsLeftAndBannerData } from '../editNavigator/editNavigatorFunctions';
 import {
     getFittingRandom,
@@ -85,30 +86,15 @@ const getRandomOffers = (
     misfits: association[],
     isAbout: weServe
 ) => {
-    const exampleChapters =
-        isAbout === weServe.drinks ? drinkExamples : foodExamples;
-    return exampleChapters
+    const chapters = isAbout === weServe.drinks ? drinkExamples : foodExamples;
+    return chapters
         .map((chapter) => {
-            const maxNumberOfDishes = Math.floor(
-                Math.random() * MAX_OFFER + (1 - NO_OFFER_PROBABILITY)
+            return getExamplesForChapter(
+                fits,
+                misfits,
+                chapter.category,
+                isAbout
             );
-            const offers: Offer[] = new Array(maxNumberOfDishes).fill(
-                NothingLeftOffer
-            );
-            offers.map((entry, index) => {
-                const previousOffers = offers.filter(
-                    (entry, checkIndex) => checkIndex < index
-                );
-                const newOffer = getNewRandomDrinkOffer(
-                    fits,
-                    misfits,
-                    chapter.category,
-                    previousOffers,
-                    isAbout
-                );
-                offers[index] = newOffer;
-            });
-            return offers;
         })
         .flat();
 };
@@ -128,4 +114,41 @@ const getRandomName = (fits: association[], misfits: association[]) => {
     const substantive = getFittingRandom(validSubstantives, fits, misfits, []);
 
     return adjective.name + ' ' + substantive.name;
+};
+
+const getExamplesForChapter = (
+    fits: association[],
+    misfits: association[],
+    category: menuCategory,
+    isAbout: weServe
+) => {
+    const maxNumberOfProducts = Math.floor(
+        Math.random() * MAX_OFFER + (1 - NO_OFFER_PROBABILITY)
+    );
+    const emptyOffers = new Array<Offer>(maxNumberOfProducts).fill(
+        NothingLeftOffer
+    );
+    const fillUp = (alreadyFilled: Offer[]) => {
+        return getNewRandomDrinkOffer(
+            fits,
+            misfits,
+            category,
+            alreadyFilled,
+            isAbout
+        );
+    };
+    return fillMenuPart(emptyOffers, 0, fillUp);
+};
+
+const fillMenuPart = (
+    menuPart: Offer[],
+    fillStart = 0,
+    getFillUp: (alreadyFilled: Offer[]) => Offer
+): Offer[] => {
+    if (fillStart >= menuPart.length) {
+        return menuPart;
+    }
+    const alreadyFilled = menuPart.slice(0, fillStart);
+    const newOffer = getFillUp(alreadyFilled);
+    return fillMenuPart([...alreadyFilled, newOffer], fillStart + 1, getFillUp);
 };
