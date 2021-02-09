@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { List } from 'react-native-paper';
 import { association } from '../../classes/Adjectives';
-import { Impression } from '../../classes/Atmosphere';
+import { criteria, Impression } from '../../classes/Atmosphere';
 import { globalStyles } from '../globalStyles';
 import { BasePrice } from '../menuScene/basePrice';
 import { menuSceneStyles } from '../menuScene/menuStyles';
@@ -29,8 +29,16 @@ export const DetailsList = (props: {
 
 const ImpressionAccordion = (props: { fits: association[] }) => {
     const impression = new Impression(props.fits);
+    const chefOfBar = Math.random() > 0.5 ? 'Barmaid' : 'Bartender'
     const [bartenderText, setBartenderText] = useState(
-        '(Bartender) ' + impression.getBartenderText()
+        '(' + chefOfBar + ')' + impression.getBartenderText()
+    );
+    const [customerText, setPeopleText] = useState(
+        '(Most Customers) ' +
+            impression.getImpressionText(criteria.averageCustomer)
+    );
+    const [somePeopleText, setSomeText] = useState(
+        '(Intriguing) ' + impression.getImpressionText(criteria.someCustomers)
     );
     return (
         <List.Accordion
@@ -38,6 +46,8 @@ const ImpressionAccordion = (props: { fits: association[] }) => {
             titleStyle={menuSceneStyles.accordeonListTitle}
         >
             <List.Item title={bartenderText}></List.Item>
+            <List.Item title={customerText}></List.Item>
+            <List.Item title={somePeopleText}></List.Item>
         </List.Accordion>
     );
 };
