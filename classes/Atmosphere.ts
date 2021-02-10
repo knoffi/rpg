@@ -3,7 +3,7 @@ import { association } from './Adjectives';
 
 export enum criteria {
     bartender = 'bartender',
-    furniture = 'furniture',
+    interior = 'interior',
     extras = 'atmosphere',
     averageCustomer = 'averageCustomers',
     someCustomers = 'someCustomers',
@@ -42,6 +42,8 @@ export class Impression {
                 return this.getAverageCustomerText();
             case criteria.someCustomers:
                 return this.getSomeCustomerText();
+            case criteria.interior:
+                return this.getInteriorText();
             default:
                 return this.getBartenderText();
         }
@@ -54,6 +56,15 @@ export class Impression {
         ) as Description;
         const emotion = getRandomArrayEntry(fittingCharakter) as Description;
         return appearance.name + ' & ' + emotion.name;
+    }
+    getInteriorText() {
+        const fittingFurnitures = this.filterDescriptions(furnitures);
+        const fittingMoodSetters = this.filterDescriptions(moodSetting);
+        const furniture = getRandomArrayEntry(fittingFurnitures) as Description;
+        const moodSetter = getRandomArrayEntry(
+            fittingMoodSetters
+        ) as Description;
+        return furniture.name + ' & ' + moodSetter.name;
     }
     getAverageCustomerText() {
         const suitableCustomers = this.filterDescriptions(averageCustomer);
@@ -265,6 +276,12 @@ const somePeople = [
     { association: a.empty, name: 'Writing' },
     { association: a.empty, name: 'Singing' },
     { association: a.bard, name: 'Singing' },
+    { association: a.druid, name: 'Smoking a Pipe' },
+    { association: a.forest, name: 'Smoking a Pipe' },
+    { association: a.empty, name: 'Smoking a Pipe' },
+    { association: a.desert, name: 'Smoking a Shisa' },
+    { association: a.empty, name: 'Disgusted', unfitting: upperClass },
+    { association: a.empty, name: 'Searching' },
     { association: a.empty, name: 'Spying' },
     { association: a.evil, name: 'Spying' },
     { association: a.empty, name: 'Spying' },
@@ -284,6 +301,18 @@ const somePeople = [
 ];
 
 const individuals = [
+    { association: a.empty, name: 'A Soldier', unfitting: upperClass },
+    { association: a.human, name: 'A Soldier', unfitting: upperClass },
+    { association: a.dragonborn, name: 'A Soldier', unfitting: upperClass },
+    { association: a.empty, name: 'Some Soldiers', isPlural: true },
+    { association: a.human, name: 'Some Soldiers', isPlural: true },
+    { association: a.adventurer, name: 'Some Soldiers', isPlural: true },
+    { association: a.empty, name: 'An Archer', unfitting: upperClass },
+    { association: a.human, name: 'An Archer', unfitting: upperClass },
+    { association: a.dragonborn, name: 'An Archer', unfitting: upperClass },
+    { association: a.empty, name: 'Some Archers', isPlural: true },
+    { association: a.human, name: 'Some Archers', isPlural: true },
+    { association: a.adventurer, name: 'Some Archers', isPlural: true },
     { association: a.empty, name: 'A Soldier', unfitting: upperClass },
     { association: a.human, name: 'A Soldier', unfitting: upperClass },
     { association: a.dragonborn, name: 'A Soldier', unfitting: upperClass },
@@ -315,6 +344,9 @@ const individuals = [
     { association: a.village, name: 'A Cobbler', unfitting: upperClass },
     { association: a.halfling, name: 'A Cobbler', unfitting: upperClass },
     { association: a.empty, name: 'A Goldsmith', unfitting: lowClas },
+    { association: a.dwarf, name: 'A Goldsmith', unfitting: lowClas },
+    { association: a.mountain, name: 'A Goldsmith', unfitting: lowClas },
+    { association: a.rich, name: 'A Goldsmith', unfitting: lowClas },
     { association: a.empty, name: 'A Silk Tailor', unfitting: lowClas },
     { association: a.elf, name: 'A Silk Tailor', unfitting: lowClas },
     { association: a.city, name: 'A Silk Tailor', unfitting: lowClas },
@@ -461,6 +493,9 @@ const individuals = [
     { association: a.tropical, name: 'A Druid', unfitting: upperClass },
     { association: a.desert, name: 'A Druid', unfitting: upperClass },
     { association: a.mountain, name: 'A Druid', unfitting: upperClass },
+    { association: a.adventurer, name: 'A Bounty Hunter' },
+    { association: a.city, name: 'A Bounty Hunter' },
+    { association: a.haven, name: 'A Bounty Hunter' },
     {
         association: a.city,
         name: 'Some Guards',
@@ -567,7 +602,113 @@ const individuals = [
         name: 'A Lighthouse Keeper',
         unfitting: upperClass,
     },
+    { association: a.forest, name: 'A Shapeshifter' },
+];
+// hard coded descriptions are better because furniture can have diverse attributes: Silver Plates are okay, but Silver Tables may seem strange... Mahagony Walls seem okay, but a Mahagony carpet is just wrong...
+const furnitures = [
+    {
+        association: a.empty,
+        name: 'Crackling Fireplace',
+    },
+    {
+        association: a.poor,
+        name: 'Table may have Holes',
+        unfitting: upperClass,
+    },
+    { association: a.poor, name: 'Plates may be Dirty', unfitting: upperClass },
+    { association: a.poor, name: 'Wooden Plates', unfitting: upperClass },
+    { association: a.poor, name: 'Wooden Forks', unfitting: upperClass },
+    { association: a.poor, name: 'Wooden Spoons', unfitting: upperClass },
+    { association: a.poor, name: 'Dirty Carpet', unfitting: upperClass },
+    { association: a.poor, name: 'Toilet is Outside', unfitting: upperClass },
+    { association: a.poor, name: 'Cheap Carpet', unfitting: upperClass },
+    { association: a.poor, name: 'Small Tables', unfitting: upperClass },
+    {
+        association: a.poor,
+        name: 'Lots of different Chairs',
+        unfitting: upperClass,
+    },
+    { association: a.poor, name: 'Barrel as Table', unfitting: upperClass },
+    { association: a.poor, name: 'Barrel as Chair', unfitting: upperClass },
+    { association: a.poor, name: 'Uncomfortable Chair', unfitting: upperClass },
+    { association: a.poor, name: 'Squeaky Floorboard', unfitting: upperClass },
+    { association: a.poor, name: 'Squeaky Door', unfitting: upperClass },
+    { association: a.poor, name: 'Cracked Wall', unfitting: upperClass },
+    { association: a.poor, name: 'Cracked Table', unfitting: upperClass },
+    {
+        association: a.poor,
+        name: 'Knife Cuts on Tables',
+        unfitting: upperClass,
+    },
+    { association: a.poor, name: 'Dirty Windows', unfitting: upperClass },
+    { association: a.poor, name: 'Cracked Window', unfitting: upperClass },
+    {
+        association: a.poor,
+        name: 'Glass of Pickled Eggs',
+        unfitting: upperClass,
+    },
+    {
+        association: a.poor,
+        name: 'Glass of Pickled Eggs',
+        unfitting: upperClass,
+    },
+    { association: a.worker, name: 'Sturdy Tables', unfitting: upperClass },
+    { association: a.worker, name: 'Tin Plates', unfitting: upperClass },
+    { association: a.worker, name: 'Tin Plates', unfitting: upperClass },
+    { association: a.worker, name: 'Tin Forks', unfitting: upperClass },
+    { association: a.worker, name: 'Tin Spoons', unfitting: upperClass },
+    { association: a.worker, name: 'Blue Carpet', unfitting: upperClass },
+    { association: a.worker, name: 'Green Carpet', unfitting: upperClass },
+    { association: a.worker, name: 'Oaken Tables', unfitting: upperClass },
+    { association: a.worker, name: 'Oaken Chairs', unfitting: upperClass },
+    { association: a.worker, name: 'Maple Tables', unfitting: upperClass },
+    { association: a.worker, name: 'Maple Chairs', unfitting: upperClass },
+    { association: a.worker, name: 'Cedar Tables', unfitting: upperClass },
+    { association: a.worker, name: 'Cedar Chairs', unfitting: upperClass },
+    { association: a.worker, name: 'Heavy Chairs', unfitting: upperClass },
+    {
+        association: a.worker,
+        name: 'Squeaky Floorboard',
+        unfitting: upperClass,
+    },
+    { association: a.worker, name: 'Squeaky Door', unfitting: upperClass },
+    { association: a.worker, name: 'Stone Ground', unfitting: upperClass },
+    { association: a.worker, name: 'Bear Fur as Rug', unfitting: upperClass },
+    { association: a.worker, name: 'Wolf Fur as Rug', unfitting: upperClass },
+    { association: a.worker, name: 'Fogged Windows', unfitting: upperClass },
+    {
+        association: a.worker,
+        name: 'Smoked Ham On Walls',
+        unfitting: upperClass,
+    },
+    {
+        association: a.worker,
+        name: 'Smoked Fishes On Walls',
+        unfitting: upperClass,
+    },
+    {
+        association: a.worker,
+        name: 'Deer Trophy on Wall',
+        unfitting: upperClass,
+    },
+    {
+        association: a.worker,
+        name: 'Wolf Trophy on Wall',
+        unfitting: upperClass,
+    },
+    {
+        association: a.worker,
+        name: 'Bear Trophy on Wall',
+        unfitting: upperClass,
+    },
 ];
 
-const extras = [];
-const furniture = [];
+const moodSetting = [
+    { association: a.empty, name: 'Smell of Beer' },
+    { association: a.worker, name: 'Smell of Cheese', unfitting: upperClass },
+    { association: a.worker, name: 'Smell of Beer', unfitting: upperClass },
+    { association: a.worker, name: 'Smell of Wood', unfitting: upperClass },
+    { association: a.worker, name: 'Smell of Mead', unfitting: upperClass },
+    { association: a.poor, name: 'Smell of Fish', unfitting: upperClass },
+    { association: a.poor, name: 'Smell of Foul Eggs', unfitting: upperClass },
+];

@@ -29,9 +29,9 @@ export const DetailsList = (props: {
 
 const ImpressionAccordion = (props: { fits: association[] }) => {
     const impression = new Impression(props.fits);
-    const chefOfBar = Math.random() > 0.5 ? 'Barmaid' : 'Bartender'
+    const chefOfBar = Math.random() > 0.5 ? 'Barmaid' : 'Bartender';
     const [bartenderText, setBartenderText] = useState(
-        '(' + chefOfBar + ')' + impression.getBartenderText()
+        '(' + chefOfBar + ') ' + impression.getBartenderText()
     );
     const [customerText, setPeopleText] = useState(
         '(Most Customers) ' +
@@ -39,6 +39,9 @@ const ImpressionAccordion = (props: { fits: association[] }) => {
     );
     const [somePeopleText, setSomeText] = useState(
         '(Intriguing) ' + impression.getImpressionText(criteria.someCustomers)
+    );
+    const [interiorText, setInteriorText] = useState(
+        '(Interior) ' + impression.getImpressionText(criteria.interior)
     );
     return (
         <List.Accordion
@@ -48,6 +51,7 @@ const ImpressionAccordion = (props: { fits: association[] }) => {
             <List.Item title={bartenderText}></List.Item>
             <List.Item title={customerText}></List.Item>
             <List.Item title={somePeopleText}></List.Item>
+            <List.Item title={interiorText}></List.Item>
         </List.Accordion>
     );
 };
