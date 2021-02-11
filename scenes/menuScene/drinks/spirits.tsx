@@ -114,6 +114,12 @@ export const spirits = [
         spiritEnum
     ),
     new TavernProduct(
+        "Oscar's Absinth of Total Drunkeness",
+        25,
+        [a.mountain, a.haven, a.barbarian, a.worker],
+        spiritEnum
+    ),
+    new TavernProduct(
         "Ar'kenji's Shoshu of Wisdom",
         35,
         [a.desert, a.elf, a.cleric, a.sophisticated],
@@ -141,6 +147,12 @@ export const spirits = [
         "Numentor's Cachaca of Dancing",
         34,
         [a.tropical, a.wizard, a.sophisticated],
+        spiritEnum
+    ),
+    new TavernProduct(
+        "Salvator's Rum of the Waves",
+        10,
+        [a.poor, a.haven, a.adventurer],
         spiritEnum
     ),
 ].concat(

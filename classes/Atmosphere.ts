@@ -31,6 +31,7 @@ const lowClas = [
     association.barbarian,
 ];
 
+const CHANCE_FOR_SPECIAL_TEXT = 0.1;
 export class Impression {
     private fits: association[];
     constructor(fits: association[]) {
@@ -41,7 +42,7 @@ export class Impression {
             case criteria.averageCustomer:
                 return this.getAverageCustomerText();
             case criteria.someCustomers:
-                return this.getSomeCustomerText();
+                return this.getIntriguingText();
             case criteria.interior:
                 return this.getInteriorText();
             default:
@@ -76,7 +77,16 @@ export class Impression {
         );
         return customers.name + ' & ' + otherCustomers.name;
     }
-    getSomeCustomerText() {
+    getIntriguingText() {
+        if (Math.random() < CHANCE_FOR_SPECIAL_TEXT) {
+            const suitableIntriguings = this.filterDescriptions(
+                specialIntriguings
+            );
+            const intriguing = getRandomArrayEntry(
+                suitableIntriguings
+            ) as Description;
+            return intriguing.name;
+        }
         const suitableSingleDescriptions = this.filterDescriptions(somePeople);
         const suitableIndividuals = this.filterDescriptions(individuals);
         const customerDescription = getRandomArrayEntry(
@@ -604,6 +614,42 @@ const individuals = [
     },
     { association: a.forest, name: 'A Shapeshifter' },
 ];
+
+const specialIntriguings = [
+    { association: a.empty, name: 'Sealed Trapdoor under a Table' },
+    { association: a.empty, name: 'A Painting of your Face on Wall' },
+    { association: a.empty, name: 'A Wanted Poster with your Face on it' },
+    { association: a.evil, name: 'A Wanted Poster with your Face on it' },
+    { association: a.criminal, name: 'A Wanted Poster with your Face on it' },
+    { association: a.haven, name: 'Babbling Parrot on Bar Counter' },
+    { association: a.tropical, name: 'Babbling Parrot on Bar Counter' },
+    { association: a.empty, name: 'Sealed Trapdoor under a table' },
+    { association: a.forest, name: 'Stuffed Owlbear in Corner' },
+    { association: a.forest, name: 'Stuffed Dire Wolf in Corner' },
+    { association: a.village, name: 'Stuffed Bloodhound in Corner' },
+    { association: a.village, name: 'Stuffed Horse in Corner' },
+    { association: a.village, name: 'Stuffed Troll in Corner' },
+    { association: a.village, name: 'Stuffed Bulldog in Corner' },
+    { association: a.desert, name: 'Stuffed Lion in Corner' },
+    { association: a.desert, name: 'Stuffed Hyena in Corner' },
+    { association: a.mountain, name: 'Stuffed Manticore in Corner' },
+    { association: a.mountain, name: 'Stuffed Lion in Corner' },
+    { association: a.haven, name: 'Stuffed Shark in Corner' },
+    { association: a.haven, name: 'Stuffed Manticore in Corner' },
+    { association: a.tropical, name: 'Stuffed Shark in Corner' },
+    { association: a.tropical, name: 'Stuffed Monkey in Corner' },
+    { association: a.empty, name: 'Two-Way Mirror on Wall' },
+    { association: a.empty, name: 'Giant Mirror on Wall' },
+    { association: a.empty, name: 'Exclusive VIP-Lounge' },
+    { association: a.empty, name: 'One Wall was newly painted' },
+    { association: a.empty, name: 'A guest seems to recognize YOU!' },
+    { association: a.empty, name: 'Some guests look nervous' },
+    { association: a.city, name: 'Police monitors guests' },
+    { association: a.haven, name: 'Guards monitor guests' },
+    { association: a.village, name: 'Guards monitor guests' },
+    { association: a.empty, name: 'Guards in front of VIP-Lounge' },
+    { association: a.empty, name: 'Genie accompanies a Guest.' },
+];
 // hard coded descriptions are better because furniture can have diverse attributes: Silver Plates are okay, but Silver Tables may seem strange... Mahagony Walls seem okay, but a Mahagony carpet is just wrong...
 const furnitures = [
     {
@@ -642,11 +688,6 @@ const furnitures = [
     },
     { association: a.poor, name: 'Dirty Windows', unfitting: upperClass },
     { association: a.poor, name: 'Cracked Window', unfitting: upperClass },
-    {
-        association: a.poor,
-        name: 'Glass of Pickled Eggs',
-        unfitting: upperClass,
-    },
     {
         association: a.poor,
         name: 'Glass of Pickled Eggs',
@@ -709,6 +750,99 @@ const moodSetting = [
     { association: a.worker, name: 'Smell of Beer', unfitting: upperClass },
     { association: a.worker, name: 'Smell of Wood', unfitting: upperClass },
     { association: a.worker, name: 'Smell of Mead', unfitting: upperClass },
+    { association: a.poor, name: 'Smell of Old Pork', unfitting: upperClass },
+    { association: a.poor, name: 'Smell of Old Pork', unfitting: upperClass },
+    { association: a.poor, name: 'Smell of Old Beef', unfitting: upperClass },
     { association: a.poor, name: 'Smell of Fish', unfitting: upperClass },
     { association: a.poor, name: 'Smell of Foul Eggs', unfitting: upperClass },
+    {
+        association: a.poor,
+        name: 'Laughter & Fluet playing',
+        unfitting: upperClass,
+    },
+    {
+        association: a.poor,
+        name: 'Applause & Fluet playing',
+        unfitting: upperClass,
+    },
+    {
+        association: a.poor,
+        name: 'Singing & Fluet playing',
+        unfitting: upperClass,
+    },
+    {
+        association: a.poor,
+        name: 'Laughter & Bagpipe playing',
+        unfitting: upperClass,
+    },
+    {
+        association: a.poor,
+        name: 'Applause & Bagpipe playing',
+        unfitting: upperClass,
+    },
+    {
+        association: a.poor,
+        name: 'Singing & Bagpipe playing',
+        unfitting: upperClass,
+    },
+    {
+        association: a.poor,
+        name: 'Laughter & Lute playing',
+        unfitting: upperClass,
+    },
+    {
+        association: a.poor,
+        name: 'Applause & Lute playing',
+        unfitting: upperClass,
+    },
+    {
+        association: a.poor,
+        name: 'Singing & Lute playing',
+        unfitting: upperClass,
+    },
+    {
+        association: a.worker,
+        name: 'Laughter & Fluet playing',
+        unfitting: upperClass,
+    },
+    {
+        association: a.worker,
+        name: 'Applause & Fluet playing',
+        unfitting: upperClass,
+    },
+    {
+        association: a.worker,
+        name: 'Singing & Fluet playing',
+        unfitting: upperClass,
+    },
+    {
+        association: a.worker,
+        name: 'Laughter & Bagpipe playing',
+        unfitting: upperClass,
+    },
+    {
+        association: a.worker,
+        name: 'Applause & Bagpipe playing',
+        unfitting: upperClass,
+    },
+    {
+        association: a.worker,
+        name: 'Singing & Bagpipe playing',
+        unfitting: upperClass,
+    },
+    {
+        association: a.worker,
+        name: 'Laughter & Lute playing',
+        unfitting: upperClass,
+    },
+    {
+        association: a.worker,
+        name: 'Applause & Lute playing',
+        unfitting: upperClass,
+    },
+    {
+        association: a.worker,
+        name: 'Singing & Lute playing',
+        unfitting: upperClass,
+    },
 ];
