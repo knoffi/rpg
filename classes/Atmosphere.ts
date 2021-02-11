@@ -637,7 +637,7 @@ const specialIntriguings = [
     { association: a.haven, name: 'Stuffed Shark in Corner' },
     { association: a.haven, name: 'Stuffed Manticore in Corner' },
     { association: a.tropical, name: 'Stuffed Shark in Corner' },
-    { association: a.tropical, name: 'Stuffed Monkey in Corner' },
+    { association: a.tropical, name: 'Stuffed Gorilla in Corner' },
     { association: a.empty, name: 'Two-Way Mirror on Wall' },
     { association: a.empty, name: 'Giant Mirror on Wall' },
     { association: a.empty, name: 'Exclusive VIP-Lounge' },
@@ -648,7 +648,48 @@ const specialIntriguings = [
     { association: a.haven, name: 'Guards monitor guests' },
     { association: a.village, name: 'Guards monitor guests' },
     { association: a.empty, name: 'Guards in front of VIP-Lounge' },
-    { association: a.empty, name: 'Genie accompanies a Guest.' },
+    { association: a.city, name: 'Genie accompanies a Guest' },
+    { association: a.desert, name: 'Genie accompanies a Guest' },
+    {
+        association: a.haven,
+        name: 'Two Seamen have an argument',
+        unfitting: upperClass,
+    },
+    {
+        association: a.haven,
+        name: 'Ship Crew gets totally drunk',
+        unfitting: upperClass,
+    },
+    {
+        association: a.haven,
+        name: 'Some Pirates have an argument',
+        unfitting: upperClass,
+    },
+    {
+        association: a.haven,
+        name: 'A Captain searching for his Crew',
+        unfitting: upperClass,
+    },
+    {
+        association: a.haven,
+        name: 'A Crew Searching for its Captain',
+        unfitting: upperClass,
+    },
+    {
+        association: a.haven,
+        name: 'A Captain is hiring',
+        unfitting: upperClass,
+    },
+    {
+        association: a.haven,
+        name: 'A Woman with a Map Tattoo',
+        unfitting: upperClass,
+    },
+    {
+        association: a.haven,
+        name: 'A Female Pirate scares Crew away',
+        unfitting: upperClass,
+    },
 ];
 // hard coded descriptions are better because furniture can have diverse attributes: Silver Plates are okay, but Silver Tables may seem strange... Mahagony Walls seem okay, but a Mahagony carpet is just wrong...
 const furnitures = [
@@ -757,92 +798,77 @@ const moodSetting = [
     { association: a.poor, name: 'Smell of Foul Eggs', unfitting: upperClass },
     {
         association: a.poor,
-        name: 'Laughter & Fluet playing',
+        name: 'Fluet music',
         unfitting: upperClass,
     },
     {
         association: a.poor,
-        name: 'Applause & Fluet playing',
+        name: 'Laughter',
         unfitting: upperClass,
     },
     {
         association: a.poor,
-        name: 'Singing & Fluet playing',
+        name: 'Applause',
         unfitting: upperClass,
     },
     {
         association: a.poor,
-        name: 'Laughter & Bagpipe playing',
+        name: 'Singing',
         unfitting: upperClass,
     },
     {
         association: a.poor,
-        name: 'Applause & Bagpipe playing',
+        name: 'Bagpipe music',
         unfitting: upperClass,
     },
     {
         association: a.poor,
-        name: 'Singing & Bagpipe playing',
+        name: 'Guitar music',
         unfitting: upperClass,
     },
     {
         association: a.poor,
-        name: 'Laughter & Lute playing',
-        unfitting: upperClass,
-    },
-    {
-        association: a.poor,
-        name: 'Applause & Lute playing',
-        unfitting: upperClass,
-    },
-    {
-        association: a.poor,
-        name: 'Singing & Lute playing',
+        name: 'Lute music',
         unfitting: upperClass,
     },
     {
         association: a.worker,
-        name: 'Laughter & Fluet playing',
+        name: 'Fluet music',
         unfitting: upperClass,
     },
     {
         association: a.worker,
-        name: 'Applause & Fluet playing',
+        name: 'Laughter',
         unfitting: upperClass,
     },
     {
         association: a.worker,
-        name: 'Singing & Fluet playing',
+        name: 'Applause',
         unfitting: upperClass,
     },
     {
         association: a.worker,
-        name: 'Laughter & Bagpipe playing',
+        name: 'Singing',
         unfitting: upperClass,
     },
     {
         association: a.worker,
-        name: 'Applause & Bagpipe playing',
+        name: 'Bagpipe music',
         unfitting: upperClass,
     },
     {
         association: a.worker,
-        name: 'Singing & Bagpipe playing',
+        name: 'Guitar music',
         unfitting: upperClass,
     },
     {
         association: a.worker,
-        name: 'Laughter & Lute playing',
+        name: 'Lute music',
         unfitting: upperClass,
     },
     {
-        association: a.worker,
-        name: 'Applause & Lute playing',
-        unfitting: upperClass,
-    },
-    {
-        association: a.worker,
-        name: 'Singing & Lute playing',
+        association: a.haven,
+        name: 'Shanty Singing',
         unfitting: upperClass,
     },
 ];

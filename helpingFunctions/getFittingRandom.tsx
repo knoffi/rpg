@@ -60,16 +60,29 @@ const filterByFitValue = (
     });
 };
 
+const allNecessaritiesFulfilled = (
+    asset: ITavernAsset,
+    fits: association[]
+) => {
+    const notFulfilledNecessarities = asset
+        .getNecessarities()
+        .filter((necessarity) => !fits.includes(necessarity));
+    return notFulfilledNecessarities.length === 0;
+};
+
 export const getFittingRandom = (
     choices: ITavernAsset[],
     fits: association[],
     misfits: association[],
     excludedNames: string[]
 ): ITavernAsset => {
+    const filteredChoices = choices.filter((choice) =>
+        allNecessaritiesFulfilled(choice, fits)
+    );
     const randomCase = Math.random();
     if (randomCase > 0.55) {
         const fittingChoices = filterByFitValue(
-            choices,
+            filteredChoices,
             3,
             fits,
             misfits,
@@ -81,7 +94,7 @@ export const getFittingRandom = (
     }
     if (randomCase > 0.2) {
         const fittingChoices = filterByFitValue(
-            choices,
+            filteredChoices,
             2,
             fits,
             misfits,
@@ -93,7 +106,7 @@ export const getFittingRandom = (
     }
     if (randomCase > 0.05) {
         const fittingChoices = filterByFitValue(
-            choices,
+            filteredChoices,
             1,
             fits,
             misfits,
@@ -104,6 +117,6 @@ export const getFittingRandom = (
         }
     }
     return getRandomArrayEntry(
-        filterByFitValue(choices, 0, fits, misfits, excludedNames)
+        filterByFitValue(filteredChoices, 0, fits, misfits, excludedNames)
     );
 };

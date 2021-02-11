@@ -27,6 +27,12 @@ export enum serviceCategory {
 
 export type menuCategory = foodCategory | drinkCategory;
 
+const BINDING_EXTREME_INCOME_ASSOCIATIONS = [
+    association.prostitute,
+    association.rich,
+    association.poor,
+];
+
 export class TavernProduct implements ITavernAsset {
     public name!: string;
     //price in copper for easier translation into gold,silver, etc.
@@ -103,4 +109,12 @@ export class TavernProduct implements ITavernAsset {
     public resetCategory = (category: menuCategory) => {
         this.category = category;
     };
+
+    public getNecessarities() {
+        return this.associations
+            .slice()
+            .filter((association) =>
+                BINDING_EXTREME_INCOME_ASSOCIATIONS.includes(association)
+            );
+    }
 }

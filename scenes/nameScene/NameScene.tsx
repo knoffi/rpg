@@ -161,10 +161,11 @@ export class NameScene extends React.Component<NameProps, TextState> {
         });
         if (specialNames.length === 0) {
             console.log(
-                'specialNames ist leer! Das sollte abr nicht passieren! this.props.fitting.fits ist nämlich nicht leer!'
+                'specialNames are empty, but special Names are requested'
             );
         }
         if (!randomFit) {
+            console.log('fits are empty, but special name was requested');
             return getRandomArrayEntry(specialTavernNames[0].names);
         }
         return getRandomArrayEntry(specialNames[0].names);

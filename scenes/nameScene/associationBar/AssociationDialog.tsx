@@ -41,7 +41,7 @@ export const AssociationDialog = (props: {
                     closeDialog();
                     props.onPick(getAssociation(text), association.empty);
                 }}
-                pick={<Text style={{ color: 'red' }}>DELETE</Text>}
+                pick={<Text style={{ color: 'red' }}>CLEAR</Text>}
             />
         </Dialog.Actions>
     );

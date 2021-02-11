@@ -35,6 +35,12 @@ export enum association {
     evil = 'assasine', //smugglers, evil, murderer ?
 }
 
+const BINDING_SPECIAL_ASSOCIATIONS = [
+    association.criminal,
+    association.evil,
+    association.prostitute,
+];
+
 export const getAssociation = (name: string) => {
     const possibleName = Object.values(association).find((associationName) => {
         return associationName === name;
@@ -60,14 +66,26 @@ export class Adjective implements ITavernAsset {
         minPros: number,
         maxCons: number
     ) {
-        const proCount = this.associations.filter(association=>{return fits.includes(association)}).length;
-        const conCount = this.associations.filter(association=>{return misfits.includes(association)}).length;
+        const proCount = this.associations.filter((association) => {
+            return fits.includes(association);
+        }).length;
+        const conCount = this.associations.filter((association) => {
+            return misfits.includes(association);
+        }).length;
 
-        return proCount >= minPros && conCount <= maxCons
+        return proCount >= minPros && conCount <= maxCons;
     }
 
     public isPossibleNoun(category: substantiveCategory) {
         return !this.badWords.includes(category);
+    }
+
+    public getNecessarities() {
+        return this.associations
+            .slice()
+            .filter((association) =>
+                BINDING_SPECIAL_ASSOCIATIONS.includes(association)
+            );
     }
 
     public getAssociationOverwrite(association: association) {

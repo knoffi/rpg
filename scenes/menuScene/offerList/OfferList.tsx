@@ -130,7 +130,7 @@ const OfferListBottomItem = (props: {
     const isUserMade = props.isUserMade;
     return (
         <List.Item
-            title={'   Price: ' + props.priceString}
+            title={' ' + props.priceString}
             titleStyle={menuSceneStyles.drinkPrice}
             style={{ marginBottom: BOTTOM_ITEM_MARGIN }}
             right={(props) => {
