@@ -51,25 +51,25 @@ const workerBreakfastPlates = breakfastPlatesTemplate(
     areaBreads,
     a.worker,
     areaWorkerToppingMap,
-    10
+    25
 );
 const poorBreakfastPlates = breakfastPlatesTemplate(
     areaBreads,
-    a.worker,
+    a.poor,
     areaWorkerToppingMap,
-    22
+    10
 );
 const wealthyBreakfastPlates = breakfastPlatesTemplate(
     areaBreads,
     a.sophisticated,
     areaWorkerToppingMap,
-    40
+    50
 );
 const richBreakfastPlates = breakfastPlatesTemplate(
     areaBreads,
     a.rich,
     areaRichToppingMap,
-    100
+    110
 );
 export const breakfastPlates = workerBreakfastPlates.concat(
     poorBreakfastPlates,
