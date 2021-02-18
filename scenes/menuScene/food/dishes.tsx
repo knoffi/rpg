@@ -1,6 +1,7 @@
 import { association } from '../../../classes/Adjectives';
 import { foodCategory, TavernProduct } from '../../../classes/TavernProduct';
 import { breakfastPlates } from './breakfastPlates/breakfastPlates';
+import { mainDishesFromRecipes } from './porridge/mainDishes';
 import { porridge } from './porridge/porridge';
 import { priceVariation } from './priceVariation';
 const a = association;
@@ -144,7 +145,8 @@ export const mainDishes = [
         ['Peas', 'Gherkins', 'Baked Beans', 'Onions'],
         association.poor,
         10
-    )
+    ),
+    mainDishesFromRecipes
 );
 
 export const breakfasts = [
