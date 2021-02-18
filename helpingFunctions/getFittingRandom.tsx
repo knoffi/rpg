@@ -4,6 +4,10 @@ import { ITavernAsset } from './ITavernAsset';
 const CHOICE_PARAMS = { minDifference: 1 };
 const WEIGTH_OF_FITS = 2;
 const WEIGTH_OF_MISFITS = 1;
+const HIGH_FIT_CHANCE = 0.4;
+const MEDIUM_FIT_CHANCE = 0.3;
+const LOW_FIT_CHANCE = 0.2;
+const MINIMUM_FIT_CHANCE = 0.1;
 
 export const getRandomArrayEntry = (array: any[]) => {
     const randomIndex = Math.floor(Math.random() * array.length);
@@ -80,7 +84,7 @@ export const getFittingRandom = (
         allNecessaritiesFulfilled(choice, fits)
     );
     const randomCase = Math.random();
-    if (randomCase > 0.55) {
+    if (randomCase < HIGH_FIT_CHANCE) {
         const fittingChoices = filterByFitValue(
             filteredChoices,
             3,
@@ -92,7 +96,7 @@ export const getFittingRandom = (
             return getRandomArrayEntry(fittingChoices);
         }
     }
-    if (randomCase > 0.2) {
+    if (randomCase < MEDIUM_FIT_CHANCE + HIGH_FIT_CHANCE) {
         const fittingChoices = filterByFitValue(
             filteredChoices,
             2,
@@ -104,7 +108,7 @@ export const getFittingRandom = (
             return getRandomArrayEntry(fittingChoices);
         }
     }
-    if (randomCase > 0.05) {
+    if (randomCase < LOW_FIT_CHANCE + MEDIUM_FIT_CHANCE + HIGH_FIT_CHANCE) {
         const fittingChoices = filterByFitValue(
             filteredChoices,
             1,
