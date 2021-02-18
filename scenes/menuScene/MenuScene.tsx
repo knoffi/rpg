@@ -12,15 +12,15 @@ import { ListOfSaves } from '../../components/ListOfSaves/ListOfSaves';
 import { getRandomArrayEntry } from '../../helpingFunctions/getFittingRandom';
 import { TavernData } from '../../mainNavigator/TavernData';
 import { nameSceneStyles } from '../nameScene/nameSceneStyles';
-import { BasePrice } from './basePrice';
-import { bannerEndings } from './menuBanner/bannerEndings';
-import { BannerData, MenuBanner } from './menuBanner/MenuBanner';
-import { NothingLeftOffer, Offer } from './menuEnums';
 import {
     getNewRandomDrinkOffer,
     offersWithOneReroll,
     weServe,
-} from './menuFunctions';
+} from './addRandomDrink';
+import { BasePrice } from './basePrice';
+import { bannerEndings } from './menuBanner/bannerEndings';
+import { BannerData, MenuBanner } from './menuBanner/MenuBanner';
+import { NothingLeftOffer, Offer } from './menuEnums';
 import { OfferList } from './offerList/OfferList';
 import { getAdjustedPriceString } from './priceFunctions';
 import { ProductEditor } from './productEditor/ProductEditor';

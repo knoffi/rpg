@@ -18,8 +18,8 @@ import {
 } from '../../../components/buttons/generalButtons';
 import { HEIGHT_FACTOR, WIDTH_FACTOR } from '../../../dimensionConstants';
 import { globalStyles } from '../../globalStyles';
+import { weServe } from '../addRandomDrink';
 import { Offer } from '../menuEnums';
-import { weServe } from '../menuFunctions';
 import { menuSceneStyles } from '../menuStyles';
 import { MinimalOfferData } from '../userOffer';
 

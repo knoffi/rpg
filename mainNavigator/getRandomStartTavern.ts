@@ -10,14 +10,14 @@ import {
     stricterMisfitMode,
 } from '../helpingFunctions/misfitModes';
 import { getMisfits } from '../helpingFunctions/misFitsHandlers';
+import {
+    getNewRandomDrinkOffer,
+    weServe,
+} from '../scenes/menuScene/addRandomDrink';
 import { BasePrice, standardBasePrice } from '../scenes/menuScene/basePrice';
 import { drinkExamples } from '../scenes/menuScene/drinks/drinks';
 import { foodExamples } from '../scenes/menuScene/food/food';
 import { NothingLeftOffer, Offer } from '../scenes/menuScene/menuEnums';
-import {
-    getNewRandomDrinkOffer,
-    weServe,
-} from '../scenes/menuScene/menuFunctions';
 import { adjectives, substantives } from '../scenes/nameScene/names/nouns';
 import { getTavernHistoryInitializer } from './mainNavigatorFunctions';
 

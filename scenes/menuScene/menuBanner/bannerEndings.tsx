@@ -1,4 +1,4 @@
-import { weServe } from '../menuFunctions';
+import { weServe } from '../addRandomDrink';
 
 const drinkBannerEndings = [
     'Cheers to that!',
