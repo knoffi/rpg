@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { association } from '../../../classes/Adjectives';
+import { association } from '../../../classes/association';
 import { AssociationDialog } from './AssociationDialog';
 
 const colors = {

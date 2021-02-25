@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { List } from 'react-native-paper';
-import { association } from '../../classes/Adjectives';
+import { association } from '../../classes/association';
 import { criteria, Impression } from '../../classes/Atmosphere';
 import { globalStyles } from '../globalStyles';
 import { BasePrice } from '../menuScene/basePrice';

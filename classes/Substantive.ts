@@ -1,5 +1,5 @@
 import { ITavernAsset } from '../helpingFunctions/ITavernAsset';
-import { association } from './Adjectives';
+import { association } from './association';
 
 export enum substantiveCategory {
     animal = 'animal/monster',
@@ -9,7 +9,7 @@ export enum substantiveCategory {
     person = 'person',
 }
 
-const BINDING_SPECIAL_ASSOCIATIONS = [
+const WORD_NEEDS_THESE_EXTREMS = [
     association.criminal,
     association.evil,
     association.prostitute,
@@ -50,7 +50,7 @@ export class Substantive implements ITavernAsset {
         return this.associations
             .slice()
             .filter((association) =>
-                BINDING_SPECIAL_ASSOCIATIONS.includes(association)
+                WORD_NEEDS_THESE_EXTREMS.includes(association)
             );
     }
 }

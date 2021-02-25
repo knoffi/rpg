@@ -1,4 +1,5 @@
-import { Adjective, association } from '../classes/Adjectives';
+import { Adjective } from '../classes/Adjectives';
+import { association } from '../classes/association';
 import { menuCategory } from '../classes/TavernProduct';
 import { getProductsLeftAndBannerData } from '../editNavigator/editNavigatorFunctions';
 import {

@@ -1,5 +1,5 @@
 import { getRandomArrayEntry } from '../helpingFunctions/getFittingRandom';
-import { association } from './Adjectives';
+import { association } from './association';
 
 export enum criteria {
     bartender = 'bartender',

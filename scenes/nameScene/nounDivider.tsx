@@ -1,4 +1,4 @@
-import { association } from '../../classes/Adjectives';
+import { association } from '../../classes/association';
 import { ITavernAsset } from '../../helpingFunctions/ITavernAsset';
 
 export const getDividedProducts = (products: ITavernAsset[]) => {

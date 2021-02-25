@@ -1,6 +1,6 @@
 import { standardBasePrice } from '../scenes/menuScene/basePrice';
-import { association } from './Adjectives';
-import { IngredientList, IngredientStore } from './mainDishIngredientTypes';
+import { association } from './association';
+import { IngredientList, IngredientStore } from './mainDishSuperStructures';
 import { foodCategory, TavernProduct } from './TavernProduct';
 export class mainDishCookingBook {
     private ingredients: IngredientStore;
@@ -10,30 +10,50 @@ export class mainDishCookingBook {
     }
 
     public getModestDishes() {
-        const sideIngredients = this.ingredients.side.modest;
+        const greenIngredients = this.ingredients.greens.modest;
+        const carbIngredients = this.ingredients.carbs.modest;
+        const defaultSauces = [''];
         const modestMainDishes = this.ingredients.main.modest.flatMap(
             (mainIngredient) =>
-                mainIngredient.areas.flatMap((area) =>
-                    this.getFittingSideDishNames(
-                        area,
-                        sideIngredients
-                    ).map((sideIngredientName) =>
-                        this.getModestDishFromData(
-                            mainIngredient.name,
-                            sideIngredientName,
-                            area
+                (mainIngredient.sauces || defaultSauces).flatMap((sauce) =>
+                    mainIngredient.areas.flatMap((area) =>
+                        this.getFittingSideDishNames(
+                            area,
+                            greenIngredients
+                        ).flatMap((greenIngredientName) =>
+                            this.getFittingSideDishNames(
+                                area,
+                                carbIngredients
+                            ).map((carbIngredientName) =>
+                                this.getModestDishFromData(
+                                    mainIngredient.name,
+                                    carbIngredientName,
+                                    greenIngredientName,
+                                    area,
+                                    sauce
+                                )
+                            )
                         )
                     )
                 )
         );
-        return modestMainDishes;
+        return modestMainDishes.slice(0, 10090);
     }
     private getModestDishFromData(
         mainIngredient: string,
-        sideIngredients: string,
-        area: association
+        carbIngredient: string,
+        greenIngredient: string,
+        area: association,
+        sauce = ''
     ) {
-        const name = mainIngredient + sideIngredients;
+        const name =
+            mainIngredient +
+            ' ' +
+            sauce +
+            (sauce === '' ? '' : ' ') +
+            greenIngredient +
+            ' and ' +
+            carbIngredient;
         const realPrice =
             Math.floor(
                 standardBasePrice.modest * 2 * (0.95 + Math.random() * 0.1)

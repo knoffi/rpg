@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ScrollView } from 'react-native';
-import { association } from '../../classes/Adjectives';
+import { association } from '../../classes/association';
 import { TavernData } from '../../mainNavigator/TavernData';
 import { BasePrice } from '../menuScene/basePrice';
 import { nameSceneStyles } from '../nameScene/nameSceneStyles';

@@ -1,4 +1,4 @@
-import { association } from '../../../classes/Adjectives';
+import { association } from '../../../classes/association';
 import { Substantive, substantiveCategory } from '../../../classes/Substantive';
 import { getDividedProducts, makeProductsFromNecessary } from '../nounDivider';
 const a = association;

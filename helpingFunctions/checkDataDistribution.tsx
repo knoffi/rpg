@@ -1,4 +1,4 @@
-import { association } from '../classes/Adjectives';
+import { association } from '../classes/association';
 import { ITavernAsset } from './ITavernAsset';
 type associationNote = { name: association; occurence: number };
 export const checkDataDistribution = (

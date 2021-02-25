@@ -1,41 +1,8 @@
 import { ITavernAsset } from '../helpingFunctions/ITavernAsset';
+import { association } from './association';
 import { substantiveCategory } from './Substantive';
 
-export enum association {
-    empty = '',
-    rich = 'vastly rich',
-    poor = 'poor',
-    worker = 'modest',
-    nobel = 'knight',
-    criminal = 'thief',
-    adventurer = 'traveler',
-    wizard = 'wizard',
-    bard = 'bard',
-    barbarian = 'wildling',
-    cleric = 'cleric',
-    druid = 'druid',
-    prostitute = 'brothel',
-    dwarf = 'dwarf',
-    elf = 'elf',
-    halfling = 'halfling',
-    gnome = 'gnome',
-    tiefling = 'tiefling',
-    drow = 'drow',
-    dragonborn = 'soldier',
-    human = 'human',
-    underdark = 'underdark',
-    forest = 'forest',
-    desert = 'desert',
-    haven = 'haven',
-    tropical = 'tropical',
-    mountain = 'mountain',
-    city = 'city',
-    village = 'village',
-    sophisticated = 'wealthy',
-    evil = 'assasine', //smugglers, evil, murderer ?
-}
-
-const BINDING_SPECIAL_ASSOCIATIONS = [
+const WORD_NEEDS_THESE_EXTREMS = [
     association.criminal,
     association.evil,
     association.prostitute,
@@ -84,7 +51,7 @@ export class Adjective implements ITavernAsset {
         return this.associations
             .slice()
             .filter((association) =>
-                BINDING_SPECIAL_ASSOCIATIONS.includes(association)
+                WORD_NEEDS_THESE_EXTREMS.includes(association)
             );
     }
 

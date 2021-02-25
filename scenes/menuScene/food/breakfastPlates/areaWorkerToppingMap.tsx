@@ -1,4 +1,4 @@
-import { association } from '../../../../classes/Adjectives';
+import { association } from '../../../../classes/association';
 
 export const areaWorkerToppingMap = new Map([
     [
@@ -26,7 +26,8 @@ export const areaWorkerToppingMap = new Map([
         [
             'White Sausage & Pretzels',
             'Blackberry Jam & Butter',
-            'Blueberry Jam & ',
+            'Blueberry Jam & Cheese',
+            'Wild Honey & Yoghurt',
         ],
     ],
     [

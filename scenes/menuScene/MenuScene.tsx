@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import { Modal, Portal } from 'react-native-paper';
-import { association } from '../../classes/Adjectives';
+import { association } from '../../classes/association';
 import { SavedDataHandler, weSave } from '../../classes/Database';
 import {
     drinkCategory,

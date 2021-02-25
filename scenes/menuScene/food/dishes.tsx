@@ -1,7 +1,7 @@
-import { association } from '../../../classes/Adjectives';
+import { association } from '../../../classes/association';
 import { foodCategory, TavernProduct } from '../../../classes/TavernProduct';
 import { breakfastPlates } from './breakfastPlates/breakfastPlates';
-import { mainDishesFromRecipes } from './porridge/mainDishes';
+import { mainDishesFromRecipes } from './mainDishes/mainDishes';
 import { porridge } from './porridge/porridge';
 import { priceVariation } from './priceVariation';
 const a = association;
@@ -29,84 +29,6 @@ const fishAndChipsTemplate = (
     return dishVariants;
 };
 export const mainDishes = [
-    new TavernProduct(
-        'Leftover Stew with Chicken and Bread',
-        8,
-        [a.poor, a.village],
-        mainDishEnum
-    ),
-    new TavernProduct(
-        'Leftover Stew with Squid and Bread',
-        8,
-        [a.poor, a.village],
-        mainDishEnum
-    ),
-    new TavernProduct(
-        'Leftover Stew with Fish and Bread',
-        8,
-        [a.poor, a.village],
-        mainDishEnum
-    ),
-    new TavernProduct(
-        'Leftover Stew with Beans and Bread',
-        5,
-        [a.poor, a.city],
-        mainDishEnum
-    ),
-    new TavernProduct(
-        'Leftover Stew with Cabbage and Bread',
-        5,
-        [a.poor, a.city],
-        mainDishEnum
-    ),
-    new TavernProduct(
-        'Leftover Stew with Potatoes and Bread',
-        5,
-        [a.poor, a.city],
-        mainDishEnum
-    ),
-    new TavernProduct(
-        'Leftover Stew with Peas and Bread',
-        5,
-        [a.poor, a.halfling],
-        mainDishEnum
-    ),
-    new TavernProduct(
-        'Leftover Stew with Beef and Flatbread',
-        8,
-        [a.poor, a.desert],
-        mainDishEnum
-    ),
-    new TavernProduct(
-        'Leftover Stew with Leftover Stew with Chickpea and Flatbread',
-        5,
-        [a.poor, a.desert],
-        mainDishEnum
-    ),
-    new TavernProduct(
-        'Leftover Stew with Pig Feet and Bread',
-        8,
-        [a.poor, a.village],
-        mainDishEnum
-    ),
-    new TavernProduct(
-        'Leftover Stew with Boar Feet and Bread',
-        8,
-        [a.poor, a.forest],
-        mainDishEnum
-    ),
-    new TavernProduct(
-        'Leftover Stew with Earthworms and Bread',
-        5,
-        [a.poor, a.underdark],
-        mainDishEnum
-    ),
-    new TavernProduct(
-        'Leftover Stew with Mole and Bread',
-        8,
-        [a.poor, a.underdark],
-        mainDishEnum
-    ),
     new TavernProduct(
         'Chateaubriand with Gold Plated Duchesse Potatoes',
         500,

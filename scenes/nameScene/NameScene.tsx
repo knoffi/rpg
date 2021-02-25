@@ -9,7 +9,8 @@ import {
     Portal,
     TextInput,
 } from 'react-native-paper';
-import { Adjective, association } from '../../classes/Adjectives';
+import { Adjective } from '../../classes/Adjectives';
+import { association } from '../../classes/association';
 import { substantiveCategory } from '../../classes/Substantive';
 import {
     buttonEmphasis,

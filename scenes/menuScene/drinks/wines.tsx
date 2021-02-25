@@ -1,4 +1,4 @@
-import { association } from '../../../classes/Adjectives';
+import { association } from '../../../classes/association';
 import { drinkCategory, TavernProduct } from '../../../classes/TavernProduct';
 const a = association;
 const wineEnum = drinkCategory.wine;

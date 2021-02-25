@@ -1,4 +1,4 @@
-import { association } from '../classes/Adjectives';
+import { association } from '../classes/association';
 import { drinkCategory, foodCategory } from '../classes/TavernProduct';
 import { BasePrice } from '../scenes/menuScene/basePrice';
 import { BannerData } from '../scenes/menuScene/menuBanner/MenuBanner';
