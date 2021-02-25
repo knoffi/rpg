@@ -59,6 +59,32 @@ export const chickenRoasts = [
         adjustPriceSetter(foodPrices.mainDish, 1.7),
         foodCategory.mainDish
     ),
+    new DishIdea(
+        {
+            mainIng: {
+                name: 'Wild Pheasant',
+                fitRange: [a.village, a.city, a.forest, a.sophisticated],
+            },
+            firstSideDishes: [
+                {
+                    name: ' with Roasted Grapes and Shallots',
+                    fitRange: [a.village, a.city, a.forest, a.sophisticated],
+                },
+                {
+                    name: ' in Wine Sauce with Lobster Mushroom',
+                    fitRange: [a.village, a.city, a.forest, a.sophisticated],
+                },
+                {
+                    name: ' in Cranberry Sauce',
+                    fitRange: [a.village, a.city, a.forest, a.worker, a.poor],
+                },
+            ],
+            secondSideDishes: standardGreens,
+            thirdSideDishes: standardCarbs,
+        },
+        adjustPriceSetter(foodPrices.mainDish, 1.7),
+        foodCategory.mainDish
+    ),
 
     new DishIdea(
         {

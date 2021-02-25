@@ -18,7 +18,7 @@ export class DishIdea {
     }
 
     private ingredientCollectionFitsToTavern(
-        tavernFits: association[],
+        incomeAreaFits: association[],
         isExcludedByPrefix: (name: string) => boolean,
         ingredients?: { name: string; fitRange: association[] }[]
     ) {
@@ -27,7 +27,7 @@ export class DishIdea {
         } else {
             return ingredients.some((ingredient) =>
                 this.ingredientFitsToTavern(
-                    tavernFits,
+                    incomeAreaFits,
                     ingredient,
                     isExcludedByPrefix
                 )
@@ -36,12 +36,12 @@ export class DishIdea {
     }
 
     private ingredientFitsToTavern(
-        tavernFits: association[],
+        incomeAreaFits: association[],
         ingredient: { name: string; fitRange: association[] },
         isExcludedByPrefix: (name: string) => boolean
     ) {
         return (
-            tavernFits.filter(
+            incomeAreaFits.filter(
                 (fit) =>
                     !ingredient.fitRange.includes(fit) &&
                     fit !== association.empty
@@ -49,27 +49,27 @@ export class DishIdea {
         );
     }
 
-    public satisfiesTavernFits(
-        tavernFits: association[],
+    public satisfiesIncomeAreaFits(
+        incomeAreaFits: association[],
         isExcludedByPrefix: (name: string) => boolean
     ) {
         const mainIngredientFits = this.ingredientFitsToTavern(
-            tavernFits,
+            incomeAreaFits,
             this.ingredients.mainIng,
             isExcludedByPrefix
         );
         const firstSideIngredientFits = this.ingredientCollectionFitsToTavern(
-            tavernFits,
+            incomeAreaFits,
             isExcludedByPrefix,
             this.ingredients.firstSideDishes
         );
         const secondSideIngredientFits = this.ingredientCollectionFitsToTavern(
-            tavernFits,
+            incomeAreaFits,
             isExcludedByPrefix,
             this.ingredients.secondSideDishes
         );
         const thirdSideIngredientFits = this.ingredientCollectionFitsToTavern(
-            tavernFits,
+            incomeAreaFits,
             isExcludedByPrefix,
             this.ingredients.thirdSideDishes
         );
@@ -83,7 +83,7 @@ export class DishIdea {
     }
 
     private getFilteredSideIngredientNames(
-        tavernFits: association[],
+        incomeAreaFits: association[],
         isExcludedByPrefix: (name: string) => boolean,
         ingredients?: { name: string; fitRange: association[] }[]
     ) {
@@ -93,7 +93,7 @@ export class DishIdea {
         } else {
             const filteredIngredients = ingredients.filter((ingredient) =>
                 this.ingredientFitsToTavern(
-                    tavernFits,
+                    incomeAreaFits,
                     ingredient,
                     isExcludedByPrefix
                 )
@@ -106,22 +106,26 @@ export class DishIdea {
         return this.ingredients.mainIng.name;
     }
 
+    public getNameOfMainIngredient() {
+        return this.ingredients.mainIng.name;
+    }
+
     public getDishesForTavern(
-        tavernFits: association[],
+        incomeAreaFits: association[],
         isExcludedByPrefix: (name: string) => boolean
     ) {
         const firstSides = this.getFilteredSideIngredientNames(
-            tavernFits,
+            incomeAreaFits,
             isExcludedByPrefix,
             this.ingredients.firstSideDishes
         );
         const secondSides = this.getFilteredSideIngredientNames(
-            tavernFits,
+            incomeAreaFits,
             isExcludedByPrefix,
             this.ingredients.secondSideDishes
         );
         const thirdSides = this.getFilteredSideIngredientNames(
-            tavernFits,
+            incomeAreaFits,
             isExcludedByPrefix,
             this.ingredients.thirdSideDishes
         );
@@ -133,7 +137,7 @@ export class DishIdea {
                         firstSide,
                         secondSide,
                         thirdSide,
-                        tavernFits
+                        incomeAreaFits
                     )
                 )
             )
@@ -144,7 +148,7 @@ export class DishIdea {
         firstSideIngredient: string,
         secondSideIngredient: string,
         thirdSideIngredient: string,
-        tavernFits: association[]
+        incomeAreaFits: association[]
     ) {
         const name =
             mainIngredient +
@@ -152,11 +156,11 @@ export class DishIdea {
             secondSideIngredient +
             thirdSideIngredient;
         //only works as long as fits of tavern equal fits of build tavern product
-        const price = this.getPriceFromFits(tavernFits);
+        const price = this.getPriceFromFits(incomeAreaFits);
         const newMainDish = new TavernProduct(
             name,
             price,
-            tavernFits,
+            incomeAreaFits,
             this.category
         );
         return newMainDish;
@@ -169,7 +173,6 @@ export class DishIdea {
             const income = fits.find((fit) =>
                 Object.keys(this.averagePrice).includes(fit)
             );
-            console.log(income);
             if (income === association.poor) {
                 return this.getPriceFluctuation(this.averagePrice[income]);
             }
