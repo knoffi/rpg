@@ -44,7 +44,6 @@ export const getPriceByFactorFromBasePrice = (foodToDrinkFactor: number) => {
         ),
     };
 };
-console.log(getPriceByFactorFromBasePrice(MAIN_DISH_FACTOR));
 export const foodPrices = {
     mainDish: getPriceByFactorFromBasePrice(MAIN_DISH_FACTOR),
 };

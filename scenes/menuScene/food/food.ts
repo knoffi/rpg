@@ -8,7 +8,10 @@ import {
     mainDishes,
     sideDishes,
 } from './dishes';
-import { leftoverStew } from './simpleStews';
+import { beefRoasts } from './mainDishes/beefRoasts';
+import { chickenRoasts } from './mainDishes/chickenRoasts';
+import { porkRoasts } from './mainDishes/porkRoasts';
+import { leftoverStew } from './mainDishes/simpleStews';
 
 export const foodExamples = [
     { category: foodCategory.mainDish, examples: mainDishes },
@@ -20,12 +23,12 @@ export const foodExamples = [
 
 const mainDishChapters: MainDishChapters = {
     pasta: { weight: 0, dishIdeas: [] as DishIdea[] },
-    chickenRoast: { weight: 0, dishIdeas: [] as DishIdea[] },
-    porkRoast: { weight: 0, dishIdeas: [] as DishIdea[] },
-    beefRoast: { weight: 0, dishIdeas: [] as DishIdea[] },
+    stew: { weight: 1, dishIdeas: [leftoverStew] },
+    chickenRoast: { weight: 1, dishIdeas: chickenRoasts as DishIdea[] },
+    porkRoast: { weight: 1, dishIdeas: porkRoasts as DishIdea[] },
+    beefRoast: { weight: 1, dishIdeas: beefRoasts as DishIdea[] },
     sausage: { weight: 0, dishIdeas: [] as DishIdea[] },
     steak: { weight: 0, dishIdeas: [] as DishIdea[] },
-    stew: { weight: 1, dishIdeas: [leftoverStew] },
     fish: { weight: 0, dishIdeas: [] as DishIdea[] },
     vegetarian: { weight: 0, dishIdeas: [] as DishIdea[] },
 };
