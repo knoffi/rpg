@@ -56,7 +56,7 @@ export const chickenRoasts = [
             secondSideDishes: standardGreens,
             thirdSideDishes: standardCarbs,
         },
-        adjustPriceSetter(foodPrices.mainDish, 1.7),
+        adjustPriceSetter(foodPrices.mainDish, 1.6),
         foodCategory.mainDish
     ),
     new DishIdea(
@@ -75,14 +75,14 @@ export const chickenRoasts = [
                     fitRange: [a.village, a.city, a.forest, a.sophisticated],
                 },
                 {
-                    name: ' in Cranberry Sauce',
-                    fitRange: [a.village, a.city, a.forest, a.worker, a.poor],
+                    name: ' with Cranberries, Potatoe Dumplings & Red Cabbage',
+                    fitRange: [a.village, a.city, a.forest, a.sophisticated],
                 },
             ],
             secondSideDishes: standardGreens,
             thirdSideDishes: standardCarbs,
         },
-        adjustPriceSetter(foodPrices.mainDish, 1.7),
+        adjustPriceSetter(foodPrices.mainDish, 2),
         foodCategory.mainDish
     ),
 
@@ -137,7 +137,7 @@ export const chickenRoasts = [
             secondSideDishes: standardGreens,
             thirdSideDishes: standardCarbs,
         },
-        adjustPriceSetter(foodPrices.mainDish, 1.7),
+        adjustPriceSetter(foodPrices.mainDish, 1.3),
         foodCategory.mainDish
     ),
 ];
