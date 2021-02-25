@@ -1,5 +1,9 @@
 import { getRandomArrayEntry } from '../helpingFunctions/getFittingRandom';
-import { association } from './association';
+import {
+    association,
+    incomeAssociations,
+    landAssociations,
+} from './association';
 import { DishIdea } from './DishIdea';
 import { TavernProduct } from './TavernProduct';
 
@@ -44,11 +48,15 @@ export const predecideDishes = (
     fits: association[],
     isExcludedByPrefix: (name: string) => boolean
 ) => {
+    const incomeAreaFits = fits.filter(
+        (fit) =>
+            landAssociations.includes(fit) || incomeAssociations.includes(fit)
+    );
     // are we copying here every dish possibility? or just objects with references?
     const chapters = Object.values(bookChapters);
     const filteredChapters = chapters.filter((chapter) =>
         chapter.dishIdeas.some((dishIdea) =>
-            dishIdea.satisfiesTavernFits(fits, isExcludedByPrefix)
+            dishIdea.satisfiesIncomeAreaFits(fits, isExcludedByPrefix)
         )
     );
 
@@ -59,28 +67,29 @@ export const predecideDishes = (
             (chapter) => chapter.weight
         );
         const totalWeight = chapterWeights.reduce((sum, cur) => sum + cur, 0);
+
         const randomWeightedIndex = Math.floor(Math.random() * totalWeight);
         const negativPredecidedIndex = chapterWeights.reduce(
             (sumWeightIndex, currWeight, index) => {
-                const desiredIndexPassed =
-                    sumWeightIndex + currWeight >= randomWeightedIndex;
-                if (!desiredIndexPassed) {
+                const desiredIndexPassed = sumWeightIndex <= 0 && index > 0;
+                if (desiredIndexPassed) {
+                    return sumWeightIndex;
+                }
+                const nowAtDesiredIndex =
+                    sumWeightIndex + currWeight > randomWeightedIndex;
+                if (!nowAtDesiredIndex) {
                     return sumWeightIndex + currWeight;
                 } else {
-                    const justArrivedAtMaximum = sumWeightIndex >= 0;
-                    if (justArrivedAtMaximum) {
-                        return -index;
-                    } else {
-                        return sumWeightIndex;
-                    }
+                    return -index;
                 }
             },
             0
         );
         const predecidedChapter =
             filteredChapters[-negativPredecidedIndex].dishIdeas;
+        //FIX: Stews only come at last main dishes... why though?
         const fittingDishIdeas = predecidedChapter.filter((dishIdea) =>
-            dishIdea.satisfiesTavernFits(fits, isExcludedByPrefix)
+            dishIdea.satisfiesIncomeAreaFits(fits, isExcludedByPrefix)
         );
         if (!predecideDishes) {
             console.log('they can be undefined!');
@@ -91,7 +100,10 @@ export const predecideDishes = (
         const predecidedDishIdea = getRandomArrayEntry(
             fittingDishIdeas
         ) as DishIdea;
-        console.log(fits);
-        return predecidedDishIdea.getDishesForTavern(fits, isExcludedByPrefix);
+        const result = predecidedDishIdea.getDishesForTavern(
+            incomeAreaFits,
+            isExcludedByPrefix
+        );
+        return result;
     }
 };
