@@ -31,7 +31,7 @@ const lowerClass = [
     association.barbarian,
 ];
 
-const CHANCE_FOR_SPECIAL_TEXT = 0.1;
+const CHANCE_FOR_SPECIAL_TEXT = 0.2;
 export class Impression {
     private fits: association[];
     constructor(fits: association[]) {
@@ -149,21 +149,24 @@ const bartenderAppearances = [
     { association: a.empty, name: 'Grey-Haired' },
     { association: a.barbarian, name: 'Scared' },
     { association: a.criminal, name: 'Bruises' },
+    { association: a.criminal, name: 'Tattoed' },
     { association: a.adventurer, name: 'One-Eyed' },
     { association: a.haven, name: 'One-Eyed' },
     { association: a.dragonborn, name: 'One-Eared' },
     { association: a.haven, name: 'One-Legged' },
+    { association: a.haven, name: 'Parrot on Shoulder' },
     { association: a.haven, name: 'Mustache' },
     { association: a.nobel, name: 'One-Armed' },
     { association: a.cleric, name: 'Golden Hair' },
     { association: a.tropical, name: 'Extremly Cheerfull' },
-    { association: a.tropical, name: 'Monkey Pet' },
+    { association: a.tropical, name: 'Monkey on Shoulder' },
     { association: a.desert, name: 'Turban' },
     { association: a.desert, name: 'Black Talisman' },
     { association: a.desert, name: 'Sweaty' },
     { association: a.mountain, name: 'Thick Beard' },
     { association: a.mountain, name: 'Old-Fashioned' },
     { association: a.village, name: 'Old-Fashioned' },
+    { association: a.village, name: 'Is a Genie' },
     { association: a.rich, name: 'Dapper', unfitting: lowerClass },
     { association: a.rich, name: 'Fancy', unfitting: lowerClass },
     { association: a.sophisticated, name: 'Elegant', unfitting: lowerClass },
@@ -329,6 +332,8 @@ const individuals = [
         unfitting: lowerClass,
     },
     { association: a.sophisticated, name: 'A Baron', unfitting: lowerClass },
+    { association: a.sophisticated, name: 'A Judge', unfitting: lowerClass },
+    { association: a.sophisticated, name: 'A Doctor', unfitting: lowerClass },
     { association: a.sophisticated, name: 'A Baroness', unfitting: lowerClass },
     { association: a.rich, name: 'A Foreign Prince', unfitting: lowerClass },
     { association: a.rich, name: 'A Foreign Princess', unfitting: lowerClass },
@@ -445,7 +450,6 @@ const individuals = [
     { association: a.empty, name: 'A Judge', unfitting: lowerClass },
     { association: a.city, name: 'A Judge', unfitting: lowerClass },
     { association: a.human, name: 'A Judge', unfitting: lowerClass },
-    { association: a.sophisticated, name: 'A Judge', unfitting: lowerClass },
     { association: a.empty, name: 'A Bishop', unfitting: lowerClass },
     { association: a.sophisticated, name: 'A Bishop', unfitting: lowerClass },
     { association: a.cleric, name: 'A Bishop', unfitting: lowerClass },
@@ -670,6 +674,7 @@ const specialIntriguings = [
     { association: a.empty, name: 'Sealed Trapdoor under a Table' },
     { association: a.empty, name: 'A Painting of your Face on Wall' },
     { association: a.empty, name: 'A Wanted Poster with your Face on it' },
+    { association: a.empty, name: 'Three Bounty Hunters are Searching' },
     { association: a.evil, name: 'A Wanted Poster with your Face on it' },
     { association: a.criminal, name: 'A Wanted Poster with your Face on it' },
     { association: a.haven, name: 'Babbling Parrot on Bar Counter' },
@@ -692,8 +697,11 @@ const specialIntriguings = [
     { association: a.empty, name: 'Two-Way Mirror on Wall' },
     { association: a.empty, name: 'Giant Mirror on Wall' },
     { association: a.empty, name: 'Exclusive VIP-Lounge' },
+    { association: a.rich, name: 'Exclusive VIP-Lounge' },
+    { association: a.prostitute, name: 'Exclusive VIP-Lounge' },
     { association: a.empty, name: 'One Wall was newly painted' },
     { association: a.empty, name: 'A guest seems to recognize YOU!' },
+    { association: a.empty, name: 'A guest is pointing towards your table!' },
     { association: a.empty, name: 'Some guests look nervous' },
     { association: a.city, name: 'Police monitors guests' },
     { association: a.haven, name: 'Guards monitor guests' },
@@ -701,6 +709,10 @@ const specialIntriguings = [
     { association: a.empty, name: 'Guards in front of VIP-Lounge' },
     { association: a.city, name: 'Genie accompanies a Guest' },
     { association: a.desert, name: 'Genie accompanies a Guest' },
+    {
+        association: a.empty,
+        name: 'A Rich-Looking Person is Crying at the Bar',
+    },
     {
         association: a.haven,
         name: 'Two Seamen have an argument',
@@ -738,7 +750,22 @@ const specialIntriguings = [
     },
     {
         association: a.haven,
-        name: 'A Female Pirate scares Crew away',
+        name: 'A Female Pirate scares other Pirates away',
+        unfitting: upperClass,
+    },
+    {
+        association: a.empty,
+        name: 'A Rebel Group is hiring',
+        unfitting: upperClass,
+    },
+    {
+        association: a.rich,
+        name: 'Some very rich People play Poker',
+        unfitting: upperClass,
+    },
+    {
+        association: a.criminal,
+        name: 'A Street Gang is hiring',
         unfitting: upperClass,
     },
 ];

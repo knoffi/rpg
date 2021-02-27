@@ -56,7 +56,7 @@ export const predecideDishes = (
     const chapters = Object.values(bookChapters);
     const filteredChapters = chapters.filter((chapter) =>
         chapter.dishIdeas.some((dishIdea) =>
-            dishIdea.satisfiesIncomeAreaFits(fits, isExcludedByPrefix)
+            dishIdea.satisfiesIncomeAreaFits(incomeAreaFits, isExcludedByPrefix)
         )
     );
 
@@ -89,7 +89,7 @@ export const predecideDishes = (
             filteredChapters[-negativPredecidedIndex].dishIdeas;
         //FIX: Stews only come at last main dishes... why though?
         const fittingDishIdeas = predecidedChapter.filter((dishIdea) =>
-            dishIdea.satisfiesIncomeAreaFits(fits, isExcludedByPrefix)
+            dishIdea.satisfiesIncomeAreaFits(incomeAreaFits, isExcludedByPrefix)
         );
         if (!predecideDishes) {
             console.log('they can be undefined!');
