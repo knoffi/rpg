@@ -6,6 +6,11 @@ import { standardCarbs } from './standardCarbs';
 import { standardGreens } from './standardGreens';
 const a = association;
 
+const GOOSE_FACTOR = 1.7;
+const TURKEY_FACTOR = 1.6;
+const PHEASANT_FACTOR = 2;
+const CHICKEN_FACTOR = 1.3;
+const PIGEON_FACTOR = 1.0;
 export const chickenRoasts = [
     new DishIdea(
         {
@@ -30,7 +35,7 @@ export const chickenRoasts = [
             secondSideDishes: standardGreens,
             thirdSideDishes: standardCarbs,
         },
-        adjustPriceSetter(foodPrices.mainDish, 1.7),
+        adjustPriceSetter(foodPrices.mainDish, GOOSE_FACTOR),
         foodCategory.mainDish
     ),
     new DishIdea(
@@ -56,7 +61,7 @@ export const chickenRoasts = [
             secondSideDishes: standardGreens,
             thirdSideDishes: standardCarbs,
         },
-        adjustPriceSetter(foodPrices.mainDish, 1.6),
+        adjustPriceSetter(foodPrices.mainDish, TURKEY_FACTOR),
         foodCategory.mainDish
     ),
     new DishIdea(
@@ -82,7 +87,7 @@ export const chickenRoasts = [
             secondSideDishes: standardGreens,
             thirdSideDishes: standardCarbs,
         },
-        adjustPriceSetter(foodPrices.mainDish, 2),
+        adjustPriceSetter(foodPrices.mainDish, PHEASANT_FACTOR),
         foodCategory.mainDish
     ),
 
@@ -137,7 +142,42 @@ export const chickenRoasts = [
             secondSideDishes: standardGreens,
             thirdSideDishes: standardCarbs,
         },
-        adjustPriceSetter(foodPrices.mainDish, 1.3),
+        adjustPriceSetter(foodPrices.mainDish, CHICKEN_FACTOR),
+        foodCategory.mainDish
+    ),
+    new DishIdea(
+        {
+            mainIng: {
+                name: 'Roast Pigeon',
+                fitRange: [a.city, a.poor, a.rich],
+            },
+            firstSideDishes: [
+                {
+                    name: ' in Garlic Sauce',
+                    fitRange: [a.city, a.worker, a.poor],
+                },
+                {
+                    name: ' in Pepper Sauce',
+                    fitRange: [a.city, a.worker, a.poor],
+                },
+                {
+                    name: ' with Blueberries, Beetroot Purée',
+                    fitRange: [a.city, a.village, a.haven, a.rich],
+                },
+            ],
+            secondSideDishes: [
+                { name: ' with Potato Salad', fitRange: [a.city, a.poor] },
+                {
+                    name: ' with Potatoes and Salad',
+                    fitRange: [a.city, a.poor],
+                },
+                {
+                    name: ' and Duchess Potatoes',
+                    fitRange: [a.city, a.village, a.haven, a.rich],
+                },
+            ],
+        },
+        adjustPriceSetter(foodPrices.mainDish, PIGEON_FACTOR),
         foodCategory.mainDish
     ),
 ];

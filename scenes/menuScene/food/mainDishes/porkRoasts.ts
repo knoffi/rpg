@@ -6,6 +6,7 @@ import { standardCarbs } from './standardCarbs';
 import { standardGreens } from './standardGreens';
 
 const a = association;
+const ROAST_PORK_FACTOR = 1.3;
 export const porkRoasts = [
     new DishIdea(
         {
@@ -44,7 +45,7 @@ export const porkRoasts = [
             secondSideDishes: standardGreens,
             thirdSideDishes: standardCarbs,
         },
-        adjustPriceSetter(foodPrices.mainDish, 1.7),
+        adjustPriceSetter(foodPrices.mainDish, ROAST_PORK_FACTOR),
         foodCategory.mainDish
     ),
 ];

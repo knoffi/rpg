@@ -45,7 +45,7 @@ export const wealthyAreaToppingsMap = new Map([
             'Strawberries & Cream',
         ],
     ],
-    [association.underdark, ['Caramelized Mule Filet']],
+    [association.underdark, ['Caramelized Mole Filet']],
     [
         association.desert,
         [

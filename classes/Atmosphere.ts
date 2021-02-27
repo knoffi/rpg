@@ -1,7 +1,7 @@
 import { getRandomArrayEntry } from '../helpingFunctions/getFittingRandom';
 import { association } from './association';
 
-export enum criteria {
+export enum aspect {
     bartender = 'bartender',
     interior = 'interior',
     extras = 'atmosphere',
@@ -37,19 +37,19 @@ export class Impression {
     constructor(fits: association[]) {
         this.fits = fits;
     }
-    getImpressionText(criterium: criteria) {
+    public getText(criterium: aspect) {
         switch (criterium) {
-            case criteria.averageCustomer:
+            case aspect.averageCustomer:
                 return this.getAverageCustomerText();
-            case criteria.someCustomers:
+            case aspect.someCustomers:
                 return this.getIntriguingText();
-            case criteria.interior:
+            case aspect.interior:
                 return this.getInteriorText();
             default:
                 return this.getBartenderText();
         }
     }
-    getBartenderText() {
+    private getBartenderText() {
         const fittingApperances = this.filterDescriptions(bartenderAppearances);
         const fittingCharakter = this.filterDescriptions(bartenderCharacter);
         const appearance = getRandomArrayEntry(
@@ -58,7 +58,7 @@ export class Impression {
         const emotion = getRandomArrayEntry(fittingCharakter) as Description;
         return appearance.name + ' & ' + emotion.name;
     }
-    getInteriorText() {
+    private getInteriorText() {
         const fittingFurnitures = this.filterDescriptions(furnitures);
         const fittingMoodSetters = this.filterDescriptions(moodSetting);
         const furniture = getRandomArrayEntry(fittingFurnitures) as Description;
@@ -67,7 +67,7 @@ export class Impression {
         ) as Description;
         return furniture.name + ' & ' + moodSetter.name;
     }
-    getAverageCustomerText() {
+    private getAverageCustomerText() {
         const suitableCustomers = this.filterDescriptions(averageCustomer);
         const customers = getRandomArrayEntry(suitableCustomers) as Description;
         const otherCustomers = getRandomArrayEntry(
@@ -77,7 +77,7 @@ export class Impression {
         );
         return customers.name + ' & ' + otherCustomers.name;
     }
-    getIntriguingText() {
+    private getIntriguingText() {
         if (Math.random() < CHANCE_FOR_SPECIAL_TEXT) {
             const suitableIntriguings = this.filterDescriptions(
                 specialIntriguings
@@ -99,12 +99,12 @@ export class Impression {
         return customer.name + verb + customerDescription.name;
     }
 
-    filterDescriptions(descriptions: Description[]) {
+    private filterDescriptions(descriptions: Description[]) {
         const notUnfittingWords = this.filterNotUnfitting(descriptions);
         const fittingWords = this.filterFitting(notUnfittingWords);
         return fittingWords;
     }
-    filterNotUnfitting(descriptions: Description[]) {
+    private filterNotUnfitting(descriptions: Description[]) {
         return descriptions.filter(
             (description) =>
                 !this.fits.some((fit) =>
@@ -112,7 +112,7 @@ export class Impression {
                 )
         );
     }
-    filterFitting(notUnfittingWords: Description[]) {
+    private filterFitting(notUnfittingWords: Description[]) {
         return notUnfittingWords.filter(
             (notUnfittingWord) =>
                 notUnfittingWord.association === association.empty ||
@@ -122,7 +122,6 @@ export class Impression {
 }
 
 const a = association;
-const c = criteria;
 /* */
 const bartenderAppearances = [
     { association: a.empty, name: 'Beardy' },

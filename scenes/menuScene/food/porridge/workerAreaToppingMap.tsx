@@ -48,5 +48,5 @@ export const workerAreaToppingMap = new Map([
     ],
     [association.desert, ['Honey', 'Goat Cheese', 'dates', 'Cinnamon & Sugar']],
     [association.tropical, ['Banana', 'Peach', 'Papaya', 'Mango', 'Pineapple']],
-    [association.underdark, ['Midnightberries', 'Earth Apple', 'Mule Bacon']],
+    [association.underdark, ['Midnightberries', 'Earth Apple', 'Mole Bacon']],
 ]);
