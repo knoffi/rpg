@@ -1,11 +1,14 @@
 import {
     association,
+    classChosen,
     incomeChosen,
+    isClassAssociation,
     isIncomeAssociation,
     isLandAssociation,
+    isRaceAssociation,
     isSpecialAssociation,
     landChosen,
-    specialsChosen,
+    raceChosen,
 } from '../classes/association';
 import { menuCategory } from '../classes/TavernProduct';
 import { ITavernAsset } from './ITavernAsset';
@@ -79,18 +82,24 @@ const allNecessaritiesFulfilled = (
 ) => {
     const notFulfilledNecessarities = asset
         .getNecessarities()
-        .filter((necessarity) => {
-            const necessarityFails = !tavernFits.includes(necessarity);
-            if (isIncomeAssociation(necessarity)) {
-                return incomeChosen(tavernFits) && necessarityFails;
+        .filter((association) => {
+            const associationNotIncluded = !tavernFits.includes(association);
+            if (isIncomeAssociation(association)) {
+                return incomeChosen(tavernFits) && associationNotIncluded;
             }
-            if (isLandAssociation(necessarity)) {
-                return landChosen(tavernFits) && necessarityFails;
+            if (isClassAssociation(association)) {
+                return classChosen(tavernFits) && associationNotIncluded;
             }
-            if (isSpecialAssociation(necessarity)) {
-                return specialsChosen(tavernFits) && necessarityFails;
+            if (isRaceAssociation(association)) {
+                return raceChosen(tavernFits) && associationNotIncluded;
             }
-            !tavernFits.includes(necessarity);
+            if (isLandAssociation(association)) {
+                return landChosen(tavernFits) && associationNotIncluded;
+            }
+            if (isSpecialAssociation(association)) {
+                return associationNotIncluded;
+            }
+            return false;
         });
     return notFulfilledNecessarities.length === 0;
 };

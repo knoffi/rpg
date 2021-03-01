@@ -31,23 +31,55 @@ const lowerClass = [
     association.barbarian,
 ];
 
-const CHANCE_FOR_SPECIAL_TEXT = 0.2;
+const CHANCE_FOR_SPECIAL_TEXT = 0.34;
 export class Impression {
     private fits: association[];
+    private textHistory!: string[];
     constructor(fits: association[]) {
         this.fits = fits;
+        this.textHistory = [];
     }
     public getText(criterium: aspect) {
         switch (criterium) {
             case aspect.averageCustomer:
-                return this.getAverageCustomerText();
+                const averageCustomerText = this.getAverageCustomerText();
+                this.addToDescriptionHistory(averageCustomerText);
+                return averageCustomerText;
             case aspect.someCustomers:
-                return this.getIntriguingText();
+                const intriguingText = this.getIntriguingText();
+                this.addToDescriptionHistory(intriguingText);
+                return intriguingText;
             case aspect.interior:
-                return this.getInteriorText();
+                const interiorText = this.getInteriorText();
+                this.addToDescriptionHistory(interiorText);
+                return interiorText;
             default:
-                return this.getBartenderText();
+                const bartenderText = this.getBartenderText();
+                this.addToDescriptionHistory(bartenderText);
+                return bartenderText;
         }
+    }
+    private addToDescriptionHistory(description: string) {
+        if (this.textHistory.length >= 10) {
+            const descriptionHistory = this.textHistory.map((value, index) => {
+                return index < this.textHistory.length - 1
+                    ? this.textHistory[index + 1]
+                    : description;
+            });
+        } else {
+            this.textHistory.push(description);
+        }
+    }
+    private filterForPreviousDescriptions(descriptions: Description[]) {
+        const onlyNewDescriptions = descriptions.filter(
+            (description) =>
+                !this.textHistory.some((text) =>
+                    text.includes(description.name)
+                )
+        );
+        return onlyNewDescriptions.length > 0
+            ? onlyNewDescriptions
+            : descriptions;
     }
     private getBartenderText() {
         const fittingApperances = this.filterDescriptions(bartenderAppearances);
@@ -100,9 +132,14 @@ export class Impression {
     }
 
     private filterDescriptions(descriptions: Description[]) {
-        const notUnfittingWords = this.filterNotUnfitting(descriptions);
-        const fittingWords = this.filterFitting(notUnfittingWords);
-        return fittingWords;
+        const notUnfittingDescriptions = this.filterNotUnfitting(descriptions);
+        const fittingDescriptions = this.filterFitting(
+            notUnfittingDescriptions
+        );
+        const fittingNewDescriptions = this.filterForPreviousDescriptions(
+            fittingDescriptions
+        );
+        return fittingNewDescriptions;
     }
     private filterNotUnfitting(descriptions: Description[]) {
         return descriptions.filter(

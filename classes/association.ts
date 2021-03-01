@@ -42,6 +42,25 @@ export const landAssociations = [
     association.desert,
     association.tropical,
 ];
+export const classAssociations = [
+    association.cleric,
+    association.adventurer,
+    association.barbarian,
+    association.bard,
+    association.dragonborn,
+    association.druid,
+    association.nobel,
+    association.wizard,
+];
+export const raceAssociations = [
+    association.drow,
+    association.dwarf,
+    association.elf,
+    association.gnome,
+    association.halfling,
+    association.human,
+    association.tiefling,
+];
 export const incomeAssociations = [
     association.poor,
     association.worker,
@@ -59,6 +78,12 @@ export const isLandAssociation = (association: association) => {
 export const isIncomeAssociation = (association: association) => {
     return incomeAssociations.includes(association);
 };
+export const isClassAssociation = (association: association) => {
+    return classAssociations.includes(association);
+};
+export const isRaceAssociation = (association: association) => {
+    return raceAssociations.includes(association);
+};
 export const isSpecialAssociation = (association: association) => {
     return specialAssociations.includes(association);
 };
@@ -70,4 +95,10 @@ export const incomeChosen = (fits: association[]) => {
 };
 export const specialsChosen = (fits: association[]) => {
     return fits.some((fit) => specialAssociations.includes(fit));
+};
+export const classChosen = (fits: association[]) => {
+    return fits.some((fit) => classAssociations.includes(fit));
+};
+export const raceChosen = (fits: association[]) => {
+    return fits.some((fit) => raceAssociations.includes(fit));
 };
