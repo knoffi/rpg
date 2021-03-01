@@ -140,7 +140,7 @@ export const UploadButton = (props: ButtonProps) => {
             onPress={props.onPress}
             disabled={props.disabled}
         >
-            {<Feather name="download" size={props.size} color={props.color} />}
+            {<FontAwesome name="save" size={props.size} color={props.color} />}
             {props.title}
         </Button>
     );

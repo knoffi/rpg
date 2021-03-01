@@ -1,10 +1,13 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import { List } from 'react-native-paper';
-import { association } from '../../classes/Adjectives';
+import { association } from '../../classes/association';
+import {
+    InfoButton,
+    PencilButton,
+} from '../../components/buttons/generalButtons';
 import { BasePrice } from '../menuScene/basePrice';
 import { menuSceneStyles } from '../menuScene/menuStyles';
-import { InfoButton, PencilButton } from '../../components/buttons/generalButtons';
 
 export const PriceAccordion = (props: {
     basePrice: BasePrice;

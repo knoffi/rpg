@@ -2,7 +2,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import React, { useState } from 'react';
 import { AppBar } from '../appBar/AppBar';
-import { association } from '../classes/Adjectives';
+import { association } from '../classes/association';
 import { SavedDataHandler, weSave } from '../classes/Database';
 import { EditNavigator } from '../editNavigator/EditNavigator';
 import { getProductsLeftAndBannerData } from '../editNavigator/editNavigatorFunctions';

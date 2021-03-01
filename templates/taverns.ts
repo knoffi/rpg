@@ -1,5 +1,5 @@
-import { association } from '../classes/Adjectives';
-import { BasePrice, standardBasePrice } from "../scenes/menuScene/basePrice";
+import { association } from '../classes/association';
+import { BasePrice, standardBasePrice } from '../scenes/menuScene/basePrice';
 import { Offer } from '../scenes/menuScene/menuEnums';
 
 interface tavernMinData {

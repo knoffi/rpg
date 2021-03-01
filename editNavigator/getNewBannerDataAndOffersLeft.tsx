@@ -1,16 +1,16 @@
-import { association } from '../classes/Adjectives';
+import { association } from '../classes/association';
 import {
     drinkCategory,
     foodCategory,
     menuCategory,
 } from '../classes/TavernProduct';
 import { TavernData } from '../mainNavigator/TavernData';
-import { BannerData } from '../scenes/menuScene/menuBanner/MenuBanner';
-import { NothingLeftOffer, Offer } from '../scenes/menuScene/menuEnums';
 import {
     getNewRandomDrinkOffer,
     weServe,
-} from '../scenes/menuScene/menuFunctions';
+} from '../scenes/menuScene/addRandomDrink';
+import { BannerData } from '../scenes/menuScene/menuBanner/MenuBanner';
+import { NothingLeftOffer, Offer } from '../scenes/menuScene/menuEnums';
 
 export const getNewBannerDataAndOffersLeft = (
     newFitting: { fits: association[]; misfits: association[] },

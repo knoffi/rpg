@@ -1,4 +1,4 @@
-import { association } from '../classes/Adjectives';
+import { association } from '../classes/association';
 import { BannerData } from '../scenes/menuScene/menuBanner/MenuBanner';
 import { Offer } from '../scenes/menuScene/menuEnums';
 import { getNewBannerDataAndOffersLeft } from './getNewBannerDataAndOffersLeft';

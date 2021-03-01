@@ -1,10 +1,16 @@
-import { association } from '../../classes/Adjectives';
-import { menuCategory, TavernProduct } from '../../classes/TavernProduct';
+import { association } from '../../classes/association';
+import { predecideDishes } from '../../classes/mainDishSuperStructures';
+import {
+    foodCategory,
+    menuCategory,
+    TavernProduct,
+} from '../../classes/TavernProduct';
 import { getFittingRandom } from '../../helpingFunctions/getFittingRandom';
 import { drinkExamples } from './drinks/drinks';
-import { foodExamples } from './food/food';
+import { foodChapters, foodExamples } from './food/food';
 import { NothingLeftOffer, Offer } from './menuEnums';
 
+const PREFIX_FILTER_INDEX = 8;
 export enum weServe {
     drinks = 'drinks',
     food = 'food',
@@ -58,34 +64,45 @@ const offeredNames = (offers: Offer[]) => {
         return offer.product.name;
     });
 };
+const isExcludedByPrefix = (dishName: string, excludedDrinkNames: string[]) => {
+    return excludedDrinkNames.some((name) => {
+        return name.includes(dishName.slice(0, PREFIX_FILTER_INDEX + 1));
+    });
+};
 const filterFoodByPrefix = (
     foodExamples: TavernProduct[],
     excludedDrinkNames: string[]
 ) => {
-    return foodExamples.filter((dish) => {
-        const dishPrefixIsForbidden = excludedDrinkNames.some((name) => {
-            return name.includes(dish.name.slice(0, 6)) ? true : false;
-        });
-        return !dishPrefixIsForbidden;
-    });
+    return foodExamples.filter(
+        (dish) => !isExcludedByPrefix(dish.name, excludedDrinkNames)
+    );
 };
 const getFilteredTavernProducts = (
     category: menuCategory,
     excludedDrinkNames: string[],
-    isAbout: weServe
+    isAbout: weServe,
+    tavernFits: association[]
 ) => {
     if (isAbout === weServe.drinks) {
         return drinkExamples.find((example) => {
             return example.category === category;
         })!.examples;
     } else {
-        const result = filterFoodByPrefix(
-            foodExamples.find((example) => {
-                return example.category === category;
-            })!.examples,
-            excludedDrinkNames
-        );
-        return result;
+        if (category === foodCategory.mainDish) {
+            return predecideDishes(
+                foodChapters[0].chapters,
+                tavernFits,
+                (name: string) => isExcludedByPrefix(name, excludedDrinkNames)
+            );
+        } else {
+            const result = filterFoodByPrefix(
+                foodExamples.find((example) => {
+                    return example.category === category;
+                })!.examples,
+                excludedDrinkNames
+            );
+            return result;
+        }
     }
 };
 //drinks have a wider range, therefore social misfits are more important than landscape misfits
@@ -99,13 +116,15 @@ const getRandomDrinkOffer = (
     const examples = getFilteredTavernProducts(
         category,
         excludedDrinkNames,
-        isAbout
+        isAbout,
+        fits
     );
     const drink = getFittingRandom(
         examples,
         fits,
         misfits,
-        excludedDrinkNames
+        excludedDrinkNames,
+        category
     ) as TavernProduct;
     //if drink is undefined, then there are no new drinks left
     if (!drink) {

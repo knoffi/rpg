@@ -1,4 +1,4 @@
-import { association } from '../../classes/Adjectives';
+import { association } from '../../classes/association';
 import { menuCategory, TavernProduct } from '../../classes/TavernProduct';
 
 export interface MinimalOfferData {

@@ -2,8 +2,8 @@ import React from 'react';
 import { Banner } from 'react-native-paper';
 import { menuCategory } from '../../../classes/TavernProduct';
 import { TavernData } from '../../../mainNavigator/TavernData';
+import { weServe } from '../addRandomDrink';
 import { Offer } from '../menuEnums';
-import { weServe } from '../menuFunctions';
 
 export interface BannerData {
     emptyCategories: menuCategory[];

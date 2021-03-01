@@ -1,4 +1,4 @@
-import { association } from '../../../classes/Adjectives';
+import { association } from '../../../classes/association';
 import { drinkCategory, TavernProduct } from '../../../classes/TavernProduct';
 
 const a = association;
@@ -64,7 +64,7 @@ export const beers = [
         [a.rich, a.gnome],
         beerEnum
     ),
-    new TavernProduct('The Whacky Moist', 12, [a.poor, a.halfling], beerEnum),
+    new TavernProduct('The Whacky Moist', 9, [a.poor, a.halfling], beerEnum),
     new TavernProduct(
         'Cinnamon Beer',
         38,
@@ -257,6 +257,12 @@ export const beers = [
         'Molthorium Umber Ale',
         90,
         [a.dwarf, a.rich, a.underdark],
+        beerEnum
+    ),
+    new TavernProduct(
+        'Cerveza of the South',
+        5,
+        [a.poor, a.adventurer, a.haven],
         beerEnum
     ),
 ];

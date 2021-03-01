@@ -1,4 +1,4 @@
-import { association } from '../../../../classes/Adjectives';
+import { association } from '../../../../classes/association';
 
 export const wealthyAreaToppingsMap = new Map([
     [
@@ -45,7 +45,7 @@ export const wealthyAreaToppingsMap = new Map([
             'Strawberries & Cream',
         ],
     ],
-    [association.underdark, ['Caramelized Mule Filet']],
+    [association.underdark, ['Caramelized Mole Filet']],
     [
         association.desert,
         [

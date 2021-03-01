@@ -1,9 +1,25 @@
-import { association } from '../classes/Adjectives';
+import {
+    association,
+    classChosen,
+    incomeChosen,
+    isClassAssociation,
+    isIncomeAssociation,
+    isLandAssociation,
+    isRaceAssociation,
+    isSpecialAssociation,
+    landChosen,
+    raceChosen,
+} from '../classes/association';
+import { menuCategory } from '../classes/TavernProduct';
 import { ITavernAsset } from './ITavernAsset';
 
 const CHOICE_PARAMS = { minDifference: 1 };
 const WEIGTH_OF_FITS = 2;
 const WEIGTH_OF_MISFITS = 1;
+const HIGH_FIT_CHANCE = 0.4;
+const MEDIUM_FIT_CHANCE = 0.3;
+const LOW_FIT_CHANCE = 0.2;
+const MINIMUM_FIT_CHANCE = 0.1;
 
 export const getRandomArrayEntry = (array: any[]) => {
     const randomIndex = Math.floor(Math.random() * array.length);
@@ -60,16 +76,46 @@ const filterByFitValue = (
     });
 };
 
+const allNecessaritiesFulfilled = (
+    asset: ITavernAsset,
+    tavernFits: association[]
+) => {
+    const notFulfilledNecessarities = asset
+        .getNecessarities()
+        .filter((association) => {
+            const associationNotIncluded = !tavernFits.includes(association);
+            if (isIncomeAssociation(association)) {
+                return incomeChosen(tavernFits) && associationNotIncluded;
+            }
+            if (isClassAssociation(association)) {
+                return classChosen(tavernFits) && associationNotIncluded;
+            }
+            if (isRaceAssociation(association)) {
+                return raceChosen(tavernFits) && associationNotIncluded;
+            }
+            if (isLandAssociation(association)) {
+                return landChosen(tavernFits) && associationNotIncluded;
+            }
+            if (isSpecialAssociation(association)) {
+                return associationNotIncluded;
+            }
+            return false;
+        });
+    return notFulfilledNecessarities.length === 0;
+};
+
 export const getFittingRandom = (
     choices: ITavernAsset[],
     fits: association[],
     misfits: association[],
-    excludedNames: string[]
+    excludedNames: string[],
+    category?: menuCategory
 ): ITavernAsset => {
+    const filteredChoices = getFilterChoices(choices, fits);
     const randomCase = Math.random();
-    if (randomCase > 0.55) {
+    if (randomCase < HIGH_FIT_CHANCE) {
         const fittingChoices = filterByFitValue(
-            choices,
+            filteredChoices,
             3,
             fits,
             misfits,
@@ -79,9 +125,9 @@ export const getFittingRandom = (
             return getRandomArrayEntry(fittingChoices);
         }
     }
-    if (randomCase > 0.2) {
+    if (randomCase < MEDIUM_FIT_CHANCE + HIGH_FIT_CHANCE) {
         const fittingChoices = filterByFitValue(
-            choices,
+            filteredChoices,
             2,
             fits,
             misfits,
@@ -91,9 +137,9 @@ export const getFittingRandom = (
             return getRandomArrayEntry(fittingChoices);
         }
     }
-    if (randomCase > 0.05) {
+    if (randomCase < LOW_FIT_CHANCE + MEDIUM_FIT_CHANCE + HIGH_FIT_CHANCE) {
         const fittingChoices = filterByFitValue(
-            choices,
+            filteredChoices,
             1,
             fits,
             misfits,
@@ -104,6 +150,30 @@ export const getFittingRandom = (
         }
     }
     return getRandomArrayEntry(
-        filterByFitValue(choices, 0, fits, misfits, excludedNames)
+        filterByFitValue(filteredChoices, 0, fits, misfits, excludedNames)
     );
+};
+
+const getFilterChoices = (
+    choices: ITavernAsset[],
+    tavernFits: association[]
+) => {
+    const strictlyFilteredChoices = choices.filter((choice) =>
+        allNecessaritiesFulfilled(choice, tavernFits)
+    );
+    const tavernInHaven = tavernFits.includes(association.haven);
+    const tavernFitsWithCity = tavernFits.map((fit) => {
+        return fit === association.haven ? association.city : fit;
+    });
+    // tavern may also include city main dishes like roast beef, since havens are often trade posts
+    const filteredChoices =
+        strictlyFilteredChoices.length > 0
+            ? strictlyFilteredChoices
+            : choices.filter((choice) => {
+                  return (
+                      tavernInHaven &&
+                      allNecessaritiesFulfilled(choice, tavernFitsWithCity)
+                  );
+              });
+    return filteredChoices;
 };

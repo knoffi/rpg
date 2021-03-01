@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { Text, View } from 'react-native';
 import { Button, Dialog, Portal } from 'react-native-paper';
-import { association, getAssociation } from '../../../classes/Adjectives';
+import { getAssociation } from '../../../classes/Adjectives';
+import { association } from '../../../classes/association';
 
 export const AssociationDialog = (props: {
     pickAssociationList: association[];
@@ -41,7 +42,7 @@ export const AssociationDialog = (props: {
                     closeDialog();
                     props.onPick(getAssociation(text), association.empty);
                 }}
-                pick={<Text style={{ color: 'red' }}>DELETE</Text>}
+                pick={<Text style={{ color: 'red' }}>CLEAR</Text>}
             />
         </Dialog.Actions>
     );

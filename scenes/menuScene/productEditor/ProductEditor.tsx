@@ -10,7 +10,6 @@ import {
 import { MinimalOfferDataWithNumber } from '../../../components/ListOfSaves/ListOfSaves';
 import { MinimalOfferData } from '../userOffer';
 import { productEditorStyles } from './productEditorStyles';
-import { TavernAssetSaver } from './TavernAssetSaver';
 
 export const ProductEditor = (props: {
     addTavernProduct: (textData: MinimalOfferData) => void;
@@ -130,7 +129,6 @@ export const ProductEditor = (props: {
                     </View>
                 </View>
             </View>
-            <TavernAssetSaver name={name} />
         </ScrollView>
     );
 };

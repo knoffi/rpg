@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text } from 'react-native';
 import { Dialog, Portal } from 'react-native-paper';
-import { association } from '../../classes/Adjectives';
+import { association } from '../../classes/association';
 
 export interface descriptionDialog {
     open: boolean;

@@ -1,4 +1,4 @@
-import { association } from '../../classes/Adjectives';
+import { association } from '../../classes/association';
 import { BasePrice, standardBasePrice } from './basePrice';
 import { Offer } from './menuEnums';
 
@@ -11,8 +11,6 @@ export const getAdjustedPriceString = (
     if (offer.product.isUserMade) {
         return offer.price.toString() + ' ' + basePrice.currency;
     }
-    console.log(offer.product.name);
-    console.log(offer.price);
     const basePriceFactor = getPriceFactorFromBasePrice(
         basePrice,
         offer.product.associations
@@ -38,7 +36,6 @@ export const getAdjustedPriceString = (
             100.0
     );
     const priceNumberString = newPrice > 0 ? newPrice.toString() : '1';
-    console.log(priceNumberString);
     return priceNumberString + ' ' + basePrice.currency;
 };
 

@@ -1,5 +1,5 @@
 import { ITavernAsset } from '../helpingFunctions/ITavernAsset';
-import { association } from './Adjectives';
+import { association } from './association';
 
 //more ideas: water, coffee, tea, juice, liqueur, cocktail
 export enum drinkCategory {
@@ -27,10 +27,30 @@ export enum serviceCategory {
 
 export type menuCategory = foodCategory | drinkCategory;
 
+const DRINK_BINDINGS = [
+    association.prostitute,
+    association.rich,
+    association.poor,
+    association.evil,
+    association.criminal,
+];
+const FOOD_BINDINGS = [
+    association.prostitute,
+    association.rich,
+    association.poor,
+    association.city,
+    association.village,
+    association.forest,
+    association.mountain,
+    association.underdark,
+    association.haven,
+    association.desert,
+    association.tropical,
+];
+
 export class TavernProduct implements ITavernAsset {
     public name!: string;
     //price in copper for easier translation into gold,silver, etc.
-    //TODO: make prices also for DSA and other famous Pen&Paper
     public copperPrice!: number;
     public associations!: association[];
     public category!: menuCategory;
@@ -103,4 +123,14 @@ export class TavernProduct implements ITavernAsset {
     public resetCategory = (category: menuCategory) => {
         this.category = category;
     };
+
+    public getNecessarities() {
+        // needs to improved so that taverns with not association can be filled with food and drinks
+        const extremeAssociations = this.isDrink()
+            ? DRINK_BINDINGS
+            : FOOD_BINDINGS;
+        return this.associations
+            .slice()
+            .filter((association) => extremeAssociations.includes(association));
+    }
 }

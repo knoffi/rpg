@@ -1,6 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
-import { association } from '../../classes/Adjectives';
+import { association } from '../../classes/association';
 import { misfitMode } from '../../helpingFunctions/misfitModes';
 import { getMisfits } from '../../helpingFunctions/misFitsHandlers';
 import { nameSceneStyles } from '../nameScene/nameSceneStyles';

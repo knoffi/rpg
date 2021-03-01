@@ -1,11 +1,11 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
-import { association } from '../classes/Adjectives';
+import { association } from '../classes/association';
 import Icon from '../components/icons';
 import { iconKeys } from '../components/icons/iconKeys';
 import { TavernData } from '../mainNavigator/TavernData';
+import { weServe } from '../scenes/menuScene/addRandomDrink';
 import { Offer } from '../scenes/menuScene/menuEnums';
-import { weServe } from '../scenes/menuScene/menuFunctions';
 import { MenuScene } from '../scenes/menuScene/MenuScene';
 import { NameScene } from '../scenes/nameScene/NameScene';
 import { QuestScene } from '../scenes/questScene/QuestScene';

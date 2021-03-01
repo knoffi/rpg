@@ -98,7 +98,7 @@ export const AppBar = (props: {
                                 color={props.color}
                             ></AntDesign>
                             <Badge
-                                visible={true}
+                                visible={numberOfBoughtItems !== 0}
                                 style={appBarStyles.badge}
                                 size={props.size / BADGE_SIZE_DIVIDER}
                             >

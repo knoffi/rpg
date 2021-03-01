@@ -16,24 +16,20 @@ import {
     RerollButton,
     ShopButton,
 } from '../../../components/buttons/generalButtons';
-import { HEIGHT_FACTOR, WIDTH_FACTOR } from '../../../dimensionConstants';
+import { HEIGHT_FACTOR } from '../../../dimensionConstants';
 import { globalStyles } from '../../globalStyles';
+import { weServe } from '../addRandomDrink';
 import { Offer } from '../menuEnums';
-import { weServe } from '../menuFunctions';
 import { menuSceneStyles } from '../menuStyles';
 import { MinimalOfferData } from '../userOffer';
+import {
+    LIST_END_BUTTON_SIZE,
+    RIGHT_LIST_ITEM_BUTTON_SIZE,
+} from './LIST_END_BUTTON_SIZE';
 
 const BOTTOM_ITEM_MARGIN = 30 * HEIGHT_FACTOR;
 const BOTTOM_PADDING_DRINKS = 265 * HEIGHT_FACTOR;
 const BOTTOM_PADDING_FOOD = 188 * HEIGHT_FACTOR;
-const CHARACTER_MAX_DRINK_NAME = 33;
-const LIST_END_BUTTON_SIZE =
-    (menuSceneStyles.drinkName.fontSize + 5) * WIDTH_FACTOR;
-interface MenuChapter {
-    category: menuCategory;
-    offers: Offer[];
-}
-
 interface productActions {
     onDelete: () => void;
     onReroll: () => void;
@@ -59,30 +55,34 @@ const OfferListItemRight = (props: {
 }) => {
     return (
         <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
+            <ShopButton
+                size={RIGHT_LIST_ITEM_BUTTON_SIZE}
+                mode={buttonEmphasis.medium}
+                onPress={props.actions.onShop}
+            />
             {props.isUserMade ? (
                 <FeatherButton
-                    mode={buttonEmphasis.medium}
+                    size={RIGHT_LIST_ITEM_BUTTON_SIZE}
+                    mode={buttonEmphasis.high}
                     onPress={props.actions.onEdit}
                 />
             ) : (
                 <RerollButton
-                    mode={buttonEmphasis.medium}
+                    size={RIGHT_LIST_ITEM_BUTTON_SIZE}
+                    mode={buttonEmphasis.high}
                     onPress={props.actions.onReroll}
                     disabled={props.noDrinkToAddLeft}
                 />
             )}
-            <ShopButton
-                mode={buttonEmphasis.high}
-                onPress={props.actions.onShop}
-            />
             <DeleteButton
+                size={RIGHT_LIST_ITEM_BUTTON_SIZE}
                 mode={buttonEmphasis.medium}
                 onPress={props.actions.onDelete}
             />
         </View>
     );
 };
-const OfferListTopItem = (props: {
+export const OfferListTopItem = (props: {
     drinkName: string;
     infoAction: () => void;
 }) => {
@@ -130,7 +130,7 @@ const OfferListBottomItem = (props: {
     const isUserMade = props.isUserMade;
     return (
         <List.Item
-            title={'   Price: ' + props.priceString}
+            title={' ' + props.priceString}
             titleStyle={menuSceneStyles.drinkPrice}
             style={{ marginBottom: BOTTOM_ITEM_MARGIN }}
             right={(props) => {
@@ -247,26 +247,18 @@ export const OfferList = (props: {
     offersLeftMap: Map<menuCategory, boolean>;
     getPriceString: (offer: Offer) => string;
 }) => {
-    const menu = [] as MenuChapter[];
     const categories =
         props.isAbout === weServe.drinks ? drinkCategory : foodCategory;
-
-    Object.values(categories).forEach((category) => {
-        menu.push({
+    const menu = Object.values(categories).map((category) => {
+        const offersOfCategory = props.offers.filter(
+            (offer) => offer.product.category === category
+        );
+        return {
             category: category as menuCategory,
-            offers: [],
-        });
+            offers: offersOfCategory,
+        };
     });
-    // Now: menu=[ {"beer", [] }, {"wine", [] }, ... ]
-
-    // TODO: improve by continuing with next offer, if old offer was already pushed into a menu chapter
-    props.offers.forEach((offer) =>
-        menu.forEach((menuChapter) => {
-            if (menuChapter.category === offer.product.category) {
-                menuChapter.offers.push(offer);
-            }
-        })
-    );
+    // Now: menu=[ {"beer", [] }, {"wine", [] }, ...
 
     const chapterLists = menu.map((chapter) => {
         return (

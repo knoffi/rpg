@@ -1,4 +1,4 @@
-import { association } from '../../../../classes/Adjectives';
+import { association } from '../../../../classes/association';
 import { foodCategory, TavernProduct } from '../../../../classes/TavernProduct';
 import { priceVariation } from '../priceVariation';
 import { poorAreaToppingsMap } from './poorAreaToppingsMap';

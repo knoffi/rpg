@@ -1,4 +1,5 @@
-import { Adjective, association } from '../../../classes/Adjectives';
+import { Adjective } from '../../../classes/Adjectives';
+import { association } from '../../../classes/association';
 import { substantiveCategory } from '../../../classes/Substantive';
 import { getDividedProducts, makeProductsFromNecessary } from '../nounDivider';
 import { animals } from './animals';

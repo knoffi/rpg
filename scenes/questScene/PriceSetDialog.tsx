@@ -7,7 +7,7 @@ import {
     Portal,
     TextInput,
 } from 'react-native-paper';
-import { association } from '../../classes/Adjectives';
+import { association } from '../../classes/association';
 
 export const PriceSetDialog = (props: {
     priceText: string;

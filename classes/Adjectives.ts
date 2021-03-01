@@ -1,39 +1,12 @@
 import { ITavernAsset } from '../helpingFunctions/ITavernAsset';
+import { association } from './association';
 import { substantiveCategory } from './Substantive';
 
-export enum association {
-    empty = '',
-    rich = 'vastly rich',
-    poor = 'poor',
-    worker = 'modest',
-    nobel = 'knight',
-    criminal = 'thief',
-    adventurer = 'traveler',
-    wizard = 'wizard',
-    bard = 'bard',
-    barbarian = 'wildling',
-    cleric = 'cleric',
-    druid = 'druid',
-    prostitute = 'brothel',
-    dwarf = 'dwarf',
-    elf = 'elf',
-    halfling = 'halfling',
-    gnome = 'gnome',
-    tiefling = 'tiefling',
-    drow = 'drow',
-    dragonborn = 'soldier',
-    human = 'human',
-    underdark = 'underdark',
-    forest = 'forest',
-    desert = 'desert',
-    haven = 'haven',
-    tropical = 'tropical',
-    mountain = 'mountain',
-    city = 'city',
-    village = 'village',
-    sophisticated = 'wealthy',
-    evil = 'assasine', //smugglers, evil, murderer ?
-}
+const WORD_NEEDS_THESE_EXTREMS = [
+    association.criminal,
+    association.evil,
+    association.prostitute,
+];
 
 export const getAssociation = (name: string) => {
     const possibleName = Object.values(association).find((associationName) => {
@@ -60,14 +33,26 @@ export class Adjective implements ITavernAsset {
         minPros: number,
         maxCons: number
     ) {
-        const proCount = this.associations.filter(association=>{return fits.includes(association)}).length;
-        const conCount = this.associations.filter(association=>{return misfits.includes(association)}).length;
+        const proCount = this.associations.filter((association) => {
+            return fits.includes(association);
+        }).length;
+        const conCount = this.associations.filter((association) => {
+            return misfits.includes(association);
+        }).length;
 
-        return proCount >= minPros && conCount <= maxCons
+        return proCount >= minPros && conCount <= maxCons;
     }
 
     public isPossibleNoun(category: substantiveCategory) {
         return !this.badWords.includes(category);
+    }
+
+    public getNecessarities() {
+        return this.associations
+            .slice()
+            .filter((association) =>
+                WORD_NEEDS_THESE_EXTREMS.includes(association)
+            );
     }
 
     public getAssociationOverwrite(association: association) {

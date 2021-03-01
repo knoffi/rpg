@@ -1,4 +1,4 @@
-import { association } from '../../../classes/Adjectives';
+import { association } from '../../../classes/association';
 import { Substantive, substantiveCategory } from '../../../classes/Substantive';
 const a = association;
 const s = substantiveCategory;
