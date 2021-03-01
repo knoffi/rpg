@@ -3,6 +3,7 @@ import { DishIdea } from '../../../../classes/DishIdea';
 import { foodCategory } from '../../../../classes/TavernProduct';
 import { adjustPriceSetter, foodPrices } from '../foodPrices';
 const a = association;
+const FISH_AND_CHIPS_PRICE_FACTOR = 1.0;
 
 const fishAndChipsSideDishes = [
     { name: ' with Peas', fitRange: [a.haven, a.worker, a.poor] },
@@ -28,11 +29,11 @@ export const fishAndChips = new DishIdea(
     {
         mainIng: {
             name: 'Fish & Chips',
-            fitRange: [a.village, a.city, a.forest, a.sophisticated],
+            fitRange: [a.village, a.city, a.haven, a.worker, a.poor],
         },
         firstSideDishes: fishAndChipsFishes,
         secondSideDishes: fishAndChipsSideDishes,
     },
-    adjustPriceSetter(foodPrices.mainDish, 1.7),
+    adjustPriceSetter(foodPrices.mainDish, FISH_AND_CHIPS_PRICE_FACTOR),
     foodCategory.mainDish
 );
