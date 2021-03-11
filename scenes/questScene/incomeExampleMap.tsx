@@ -6,11 +6,11 @@ export const incomeExampleMap = new Map([
         'day labourer, apprentice, farmhand, peasant maid, retired carpenter, busker',
     ],
     [
-        association.worker,
+        association.modest,
         'cobbler, village priest, maid of a baroness, farmer, city guard',
     ],
     [
-        association.sophisticated,
+        association.wealthy,
         'exceptional tailor, chancellor, trade merchant, famous adventurer, guild master',
     ],
     [

@@ -15,10 +15,10 @@ const getPriceFromIncome = (income: association, basePrice: BasePrice) => {
         case association.poor:
             return basePrice.poor;
 
-        case association.worker:
+        case association.modest:
             return basePrice.modest;
 
-        case association.sophisticated:
+        case association.wealthy:
             return basePrice.wealthy;
 
         default:
@@ -114,7 +114,7 @@ export const QuestScene = (props: {
                         });
                         break;
 
-                    case association.worker:
+                    case association.modest:
                         props.onDataChange({
                             prices: {
                                 currency: props.basePrice.currency,
@@ -126,7 +126,7 @@ export const QuestScene = (props: {
                         });
                         break;
 
-                    case association.sophisticated:
+                    case association.wealthy:
                         props.onDataChange({
                             prices: {
                                 currency: props.basePrice.currency,

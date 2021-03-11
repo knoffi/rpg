@@ -16,20 +16,20 @@ export const chickenRoasts = [
         {
             mainIng: {
                 name: 'Roast Goose',
-                fitRange: [a.village, a.city, a.forest, a.sophisticated],
+                fitRange: [a.village, a.city, a.forest, a.wealthy],
             },
             firstSideDishes: [
                 {
                     name: ' in Redcurrant Sauce',
-                    fitRange: [...landAssociations, a.sophisticated],
+                    fitRange: [...landAssociations, a.wealthy],
                 },
                 {
                     name: ' in Port Wine Sauce',
-                    fitRange: [...landAssociations, a.sophisticated],
+                    fitRange: [...landAssociations, a.wealthy],
                 },
                 {
                     name: ' in Blackcurrant Sauce',
-                    fitRange: [...landAssociations, a.worker, a.poor],
+                    fitRange: [...landAssociations, a.modest, a.poor],
                 },
             ],
             secondSideDishes: standardGreens,
@@ -42,20 +42,20 @@ export const chickenRoasts = [
         {
             mainIng: {
                 name: 'Roast Turkey',
-                fitRange: [a.village, a.city, a.forest, a.sophisticated],
+                fitRange: [a.village, a.city, a.forest, a.wealthy],
             },
             firstSideDishes: [
                 {
                     name: ' in Redcurrant Sauce',
-                    fitRange: [...landAssociations, a.sophisticated],
+                    fitRange: [...landAssociations, a.wealthy],
                 },
                 {
                     name: ' in Port Wine Sauce',
-                    fitRange: [...landAssociations, a.sophisticated],
+                    fitRange: [...landAssociations, a.wealthy],
                 },
                 {
                     name: ' in Cranberry Sauce',
-                    fitRange: [...landAssociations, a.worker, a.poor],
+                    fitRange: [...landAssociations, a.modest, a.poor],
                 },
             ],
             secondSideDishes: standardGreens,
@@ -68,20 +68,20 @@ export const chickenRoasts = [
         {
             mainIng: {
                 name: 'Wild Pheasant',
-                fitRange: [a.village, a.city, a.forest, a.sophisticated],
+                fitRange: [a.village, a.city, a.forest, a.wealthy],
             },
             firstSideDishes: [
                 {
                     name: ' with Roasted Grapes and Shallots',
-                    fitRange: [a.village, a.city, a.forest, a.sophisticated],
+                    fitRange: [a.village, a.city, a.forest, a.wealthy],
                 },
                 {
                     name: ' in Wine Sauce with Lobster Mushroom',
-                    fitRange: [a.village, a.city, a.forest, a.sophisticated],
+                    fitRange: [a.village, a.city, a.forest, a.wealthy],
                 },
                 {
                     name: ' with Cranberries, Potatoe Dumplings & Red Cabbage',
-                    fitRange: [a.village, a.city, a.forest, a.sophisticated],
+                    fitRange: [a.village, a.city, a.forest, a.wealthy],
                 },
             ],
             secondSideDishes: standardGreens,
@@ -95,12 +95,7 @@ export const chickenRoasts = [
         {
             mainIng: {
                 name: 'Roast Chicken',
-                fitRange: [
-                    ...landAssociations,
-                    a.poor,
-                    a.worker,
-                    a.sophisticated,
-                ],
+                fitRange: [...landAssociations, a.poor, a.modest, a.wealthy],
             },
             firstSideDishes: [
                 {
@@ -109,8 +104,8 @@ export const chickenRoasts = [
                         a.city,
                         a.haven,
                         a.tropical,
-                        a.sophisticated,
-                        a.worker,
+                        a.wealthy,
+                        a.modest,
                     ],
                 },
                 {
@@ -122,21 +117,21 @@ export const chickenRoasts = [
                         a.underdark,
                         a.village,
                         a.forest,
-                        a.sophisticated,
-                        a.worker,
+                        a.wealthy,
+                        a.modest,
                     ],
                 },
                 {
                     name: ' in Honey-Mustard Sauce',
-                    fitRange: [...landAssociations, a.worker],
+                    fitRange: [...landAssociations, a.modest],
                 },
                 {
                     name: ' in Garlic Sauce',
-                    fitRange: [...landAssociations, a.worker, a.poor],
+                    fitRange: [...landAssociations, a.modest, a.poor],
                 },
                 {
                     name: ' in Pepper Sauce',
-                    fitRange: [...landAssociations, a.worker, a.poor],
+                    fitRange: [...landAssociations, a.modest, a.poor],
                 },
             ],
             secondSideDishes: standardGreens,
@@ -154,11 +149,11 @@ export const chickenRoasts = [
             firstSideDishes: [
                 {
                     name: ' in Garlic Sauce',
-                    fitRange: [a.city, a.worker, a.poor],
+                    fitRange: [a.city, a.modest, a.poor],
                 },
                 {
                     name: ' in Pepper Sauce',
-                    fitRange: [a.city, a.worker, a.poor],
+                    fitRange: [a.city, a.modest, a.poor],
                 },
                 {
                     name: ' with Blueberries, Beetroot Purée',

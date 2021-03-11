@@ -20,26 +20,26 @@ export const porkRoasts = [
                     a.haven,
                     a.underdark,
                     a.poor,
-                    a.worker,
-                    a.sophisticated,
+                    a.modest,
+                    a.wealthy,
                 ],
             },
             firstSideDishes: [
                 {
                     name: ' in Brown Sauce',
-                    fitRange: [...landAssociations, a.worker, a.poor],
+                    fitRange: [...landAssociations, a.modest, a.poor],
                 },
                 {
                     name: ' in Maple-Balsamic Sauce',
-                    fitRange: [...landAssociations, a.sophisticated],
+                    fitRange: [...landAssociations, a.wealthy],
                 },
                 {
                     name: ' in Mustard Sauce',
-                    fitRange: [...landAssociations, a.worker, a.poor],
+                    fitRange: [...landAssociations, a.modest, a.poor],
                 },
                 {
                     name: ' in Beer Sauce',
-                    fitRange: [...landAssociations, a.worker, a.poor],
+                    fitRange: [...landAssociations, a.modest, a.poor],
                 },
             ],
             secondSideDishes: standardGreens,

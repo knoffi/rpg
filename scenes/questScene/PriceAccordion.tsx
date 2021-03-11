@@ -47,22 +47,22 @@ export const PriceAccordion = (props: {
             ></AveragePriceItem>
             <AveragePriceItem
                 onPriceSetPress={() => {
-                    props.onPriceSetPress(association.worker);
+                    props.onPriceSetPress(association.modest);
                 }}
                 price={props.basePrice.modest}
-                income={association.worker}
+                income={association.modest}
                 onInfoPress={() => {
-                    props.onInfoPress(association.worker);
+                    props.onInfoPress(association.modest);
                 }}
             ></AveragePriceItem>
             <AveragePriceItem
                 onPriceSetPress={() => {
-                    props.onPriceSetPress(association.sophisticated);
+                    props.onPriceSetPress(association.wealthy);
                 }}
                 price={props.basePrice.wealthy}
-                income={association.sophisticated}
+                income={association.wealthy}
                 onInfoPress={() => {
-                    props.onInfoPress(association.sophisticated);
+                    props.onInfoPress(association.wealthy);
                 }}
             ></AveragePriceItem>
             <AveragePriceItem

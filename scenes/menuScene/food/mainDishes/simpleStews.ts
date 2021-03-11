@@ -11,47 +11,47 @@ export const leftoverStew =
         {
             mainIng: {
                 name: 'Leftover Stew',
-                fitRange: [...landAssociations, a.poor, a.worker],
+                fitRange: [...landAssociations, a.poor, a.modest],
             },
             firstSideDishes: [
                 {
                     name: ' with Chicken Legs',
-                    fitRange: [...landAssociations, a.worker, a.poor],
+                    fitRange: [...landAssociations, a.modest, a.poor],
                 },
                 {
                     name: ' with Beef Chunks',
-                    fitRange: [...landAssociations, a.worker, a.poor],
+                    fitRange: [...landAssociations, a.modest, a.poor],
                 },
                 {
                     name: ' with Pork Chunks',
-                    fitRange: [a.city, a.village, a.tropical, a.worker, a.poor],
+                    fitRange: [a.city, a.village, a.tropical, a.modest, a.poor],
                 },
                 {
                     name: ' with Boar Chunks',
-                    fitRange: [a.forest, a.mountain, a.worker, a.poor],
+                    fitRange: [a.forest, a.mountain, a.modest, a.poor],
                 },
                 {
                     name: ' with Chick Peas, Coriander',
-                    fitRange: [a.desert, a.worker, a.poor],
+                    fitRange: [a.desert, a.modest, a.poor],
                 },
                 {
                     name: ' with Lamb Chunks',
-                    fitRange: [a.desert, a.mountain, a.worker],
+                    fitRange: [a.desert, a.mountain, a.modest],
                 },
                 {
                     name: ' with Beans, Onions',
-                    fitRange: [...landAssociations, a.worker],
+                    fitRange: [...landAssociations, a.modest],
                 },
-                { name: ' with Dried Squid', fitRange: [a.haven, a.worker] },
+                { name: ' with Dried Squid', fitRange: [a.haven, a.modest] },
                 {
                     name: ' with Pumpkin Chunks',
-                    fitRange: [a.forest, a.village, a.worker],
+                    fitRange: [a.forest, a.village, a.modest],
                 },
-                { name: ' with Shrimps', fitRange: [a.haven, a.worker] },
+                { name: ' with Shrimps', fitRange: [a.haven, a.modest] },
                 { name: ' with Anchovies', fitRange: [a.haven, a.poor] },
                 {
                     name: ' with Smoked Salmon',
-                    fitRange: [a.haven, a.village, a.city, a.worker],
+                    fitRange: [a.haven, a.village, a.city, a.modest],
                 },
                 {
                     name: ' with Boar Feet',
@@ -63,7 +63,7 @@ export const leftoverStew =
                 },
                 {
                     name: ' with Pickled Mole',
-                    fitRange: [a.underdark, a.worker],
+                    fitRange: [a.underdark, a.modest],
                 },
                 { name: ' with Earth Worms', fitRange: [a.underdark, a.poor] },
             ],
@@ -71,12 +71,12 @@ export const leftoverStew =
                 { name: ' and Bread', fitRange: [a.city, a.village, a.poor] },
                 {
                     name: ' and Potatoes',
-                    fitRange: [...landAssociations, a.worker],
+                    fitRange: [...landAssociations, a.modest],
                 },
                 { name: ' and Cabbage', fitRange: [a.forest, a.poor] },
                 {
                     name: ' and Rice',
-                    fitRange: [a.tropical, a.desert, a.haven, a.worker],
+                    fitRange: [a.tropical, a.desert, a.haven, a.modest],
                 },
                 {
                     name: ' and Flat Bread',

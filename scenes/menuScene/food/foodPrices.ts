@@ -11,12 +11,12 @@ export const adjustPrice = (price: number, factor: number) => {
 export const adjustPriceSetter = (priceSetter: PriceSetter, factor: number) => {
     const adjustedPriceSetter = {
         [association.poor]: adjustPrice(priceSetter[association.poor], factor),
-        [association.worker]: adjustPrice(
-            priceSetter[association.worker],
+        [association.modest]: adjustPrice(
+            priceSetter[association.modest],
             factor
         ),
-        [association.sophisticated]: adjustPrice(
-            priceSetter[association.sophisticated],
+        [association.wealthy]: adjustPrice(
+            priceSetter[association.wealthy],
             factor
         ),
         [association.rich]: adjustPrice(priceSetter[association.rich], factor),
@@ -30,11 +30,11 @@ export const getPriceByFactorFromBasePrice = (foodToDrinkFactor: number) => {
             standardBasePrice.poor,
             foodToDrinkFactor
         ),
-        [association.worker]: adjustPrice(
+        [association.modest]: adjustPrice(
             standardBasePrice.modest,
             foodToDrinkFactor
         ),
-        [association.sophisticated]: adjustPrice(
+        [association.wealthy]: adjustPrice(
             standardBasePrice.wealthy,
             foodToDrinkFactor
         ),

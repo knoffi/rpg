@@ -16,7 +16,7 @@ export const breakfastPlatesTemplate = (
 ) => {
     const breakfastPlates = [] as TavernProduct[];
     const garnishPhrase =
-        income === association.poor || income === association.worker
+        income === association.poor || income === association.modest
             ? ' with '
             : ' served with ';
     areaBreads.forEach((bread) => {
@@ -49,7 +49,7 @@ export const breakfastPlatesTemplate = (
 
 const workerBreakfastPlates = breakfastPlatesTemplate(
     areaBreads,
-    a.worker,
+    a.modest,
     areaWorkerToppingMap,
     25
 );
@@ -61,7 +61,7 @@ const poorBreakfastPlates = breakfastPlatesTemplate(
 );
 const wealthyBreakfastPlates = breakfastPlatesTemplate(
     areaBreads,
-    a.sophisticated,
+    a.wealthy,
     areaWorkerToppingMap,
     50
 );

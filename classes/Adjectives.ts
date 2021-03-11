@@ -3,8 +3,8 @@ import { association } from './association';
 import { substantiveCategory } from './Substantive';
 
 const WORD_NEEDS_THESE_EXTREMS = [
-    association.criminal,
-    association.evil,
+    association.thief,
+    association.assasine,
     association.prostitute,
 ];
 

@@ -41,11 +41,11 @@ export class DishIdea {
         isExcludedByPrefix: (name: string) => boolean
     ) {
         return (
-            incomeAreaFits.filter(
+            incomeAreaFits.every(
                 (fit) =>
-                    !ingredient.fitRange.includes(fit) &&
-                    fit !== association.empty
-            ).length === 0 && !isExcludedByPrefix(ingredient.name)
+                    fit === association.empty ||
+                    ingredient.fitRange.includes(fit)
+            ) && !isExcludedByPrefix(ingredient.name)
         );
     }
 
@@ -176,10 +176,10 @@ export class DishIdea {
             if (income === association.poor) {
                 return this.getPriceFluctuation(this.averagePrice[income]);
             }
-            if (income === association.worker) {
+            if (income === association.modest) {
                 return this.getPriceFluctuation(this.averagePrice[income]);
             }
-            if (income === association.sophisticated) {
+            if (income === association.wealthy) {
                 return this.getPriceFluctuation(this.averagePrice[income]);
             }
             if (income === association.rich) {

@@ -17,7 +17,7 @@ export const porridgeTemplate = (
 ) => {
     const porridgeVariants = [] as TavernProduct[];
     const garnishPhrase =
-        income === association.poor || income === association.worker
+        income === association.poor || income === association.modest
             ? ' with '
             : ' garnished with ';
     areaBases.forEach((areaBase) => {
@@ -42,13 +42,13 @@ export const porridgeTemplate = (
 
 const workerPorridge = porridgeTemplate(
     workerBases,
-    a.worker,
+    a.modest,
     workerAreaToppingMap,
     12
 );
 const wealthyPorridge = porridgeTemplate(
     wealthyBases,
-    a.sophisticated,
+    a.wealthy,
     wealthyAreaToppingsMap,
     25
 );
