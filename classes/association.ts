@@ -61,6 +61,43 @@ export const raceAssociations = [
     association.human,
     association.tiefling,
 ];
+
+export const nonEuropeanEnvironment = [
+    association.underdark,
+    association.tropical,
+    association.desert,
+    association.haven,
+];
+
+export const europeanEnvironment = [
+    association.village,
+    association.city,
+    association.mountain,
+    association.forest,
+];
+
+export const upperClass = [
+    association.nobel,
+    association.rich,
+    association.sophisticated,
+];
+export const lowerClass = [
+    association.worker,
+    association.poor,
+    association.criminal,
+];
+export const shadyGroup = [
+    association.evil,
+    association.prostitute,
+    association.criminal,
+    association.drow,
+    association.tiefling,
+];
+export const criminalClass = [
+    association.criminal,
+    association.evil,
+    association.criminal,
+];
 export const incomeAssociations = [
     association.poor,
     association.worker,

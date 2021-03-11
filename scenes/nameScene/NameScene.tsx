@@ -9,8 +9,15 @@ import {
     Portal,
     TextInput,
 } from 'react-native-paper';
-import { Adjective } from '../../classes/Adjectives';
-import { association } from '../../classes/association';
+import {
+    association,
+    isClassAssociation,
+    isIncomeAssociation,
+    isLandAssociation,
+    isRaceAssociation,
+    isSpecialAssociation,
+} from '../../classes/association';
+import { NameIdea, StructuredTavernFits } from '../../classes/NameIdea';
 import { substantiveCategory } from '../../classes/Substantive';
 import {
     buttonEmphasis,
@@ -18,16 +25,13 @@ import {
     RerollButton,
 } from '../../components/buttons/generalButtons';
 import { removeEmptyStrings } from '../../editNavigator/editNavigatorFunctions';
-import {
-    getFittingRandom,
-    getRandomArrayEntry,
-} from '../../helpingFunctions/getFittingRandom';
+import { getRandomArrayEntry } from '../../helpingFunctions/getFittingRandom';
 import { misfitMode } from '../../helpingFunctions/misfitModes';
 import { getMisfits } from '../../helpingFunctions/misFitsHandlers';
 import { TavernData } from '../../mainNavigator/TavernData';
 import { globalStyles } from '../globalStyles';
 import { AssociationDialogBar } from './associationBar/AssociationDialogBar';
-import { adjectives, substantives } from './names/nouns';
+import { nameIdeas } from './names/nameIdeas';
 import { specialTavernNames } from './names/specialTavernNames';
 import { nameSceneStyles } from './nameSceneStyles';
 import { nameSplitter } from './nameSplitter';
@@ -120,16 +124,17 @@ export class NameScene extends React.Component<NameProps, TextState> {
                                 title={'EDIT'}
                             />
                         </View>
+                        {this.getFittingNamesSign()}
                     </View>
                 </View>
             </View>
         );
     }
-    noFitsActive() {
+    private noFitsActive() {
         return this.props.fitting.fits.length === 0;
     }
 
-    renderRerollButton() {
+    private renderRerollButton() {
         return (
             <RerollButton
                 mode={buttonEmphasis.high}
@@ -139,14 +144,17 @@ export class NameScene extends React.Component<NameProps, TextState> {
         );
     }
 
-    rerollName() {
+    private rerollName() {
         const randomNumber = Math.random();
+        const structuredFits = this.getStructuredFits();
         if (randomNumber > PROBABILITY_SPECIAL_NAME || this.noFitsActive()) {
-            const newAdjective = this.getAdjective();
-            const newName =
-                newAdjective.name +
-                ' ' +
-                this.getSubstantiveName(newAdjective.badWords);
+            const possibleNames = nameIdeas.filter((nameIdea) =>
+                nameIdea.fitsToTavern(structuredFits)
+            );
+            const newNameIdea = getRandomArrayEntry(possibleNames) as NameIdea;
+            const newName = newNameIdea
+                ? newNameIdea.getName(structuredFits)
+                : 'Nameless Tavern';
             this.props.onDataChange({ name: newName });
             this.setState({ isSpecialName: false });
         } else {
@@ -155,7 +163,33 @@ export class NameScene extends React.Component<NameProps, TextState> {
             this.setState({ isSpecialName: true });
         }
     }
-    getSpecialNames() {
+
+    private getStructuredFits() {
+        const income = this.props.fitting.fits.find((fit) =>
+            isIncomeAssociation(fit)
+        );
+        const special = this.props.fitting.fits.find((fit) =>
+            isSpecialAssociation(fit)
+        );
+        const land = this.props.fitting.fits.find((fit) =>
+            isLandAssociation(fit)
+        );
+        const profession = this.props.fitting.fits.find((fit) =>
+            isClassAssociation(fit)
+        );
+        const race = this.props.fitting.fits.find((fit) =>
+            isRaceAssociation(fit)
+        );
+        const structuredFits: StructuredTavernFits = {
+            income: income,
+            class: profession,
+            race: race,
+            land: land,
+            special: special,
+        };
+        return structuredFits;
+    }
+    private getSpecialNames() {
         const randomFit = getRandomArrayEntry(this.props.fitting.fits);
         const specialNames = specialTavernNames.filter((entry) => {
             return entry.association === randomFit;
@@ -172,42 +206,6 @@ export class NameScene extends React.Component<NameProps, TextState> {
         return getRandomArrayEntry(specialNames[0].names);
     }
 
-    private getAdjective() {
-        const prevAdjective = this.getNameParts().adjective;
-        return getFittingRandom(
-            adjectives,
-            this.props.fitting.fits,
-            this.props.fitting.misfits,
-            [prevAdjective]
-        ) as Adjective;
-    }
-    private getSubstantiveName(invalids: substantiveCategory[]) {
-        const prevSubstantive = this.getNameParts().substantive;
-        const validSubstantiveChapters = substantives.filter(
-            (chapter) => !invalids.includes(chapter.category)
-        );
-        const validSubstantives = validSubstantiveChapters.flatMap(
-            (chapter) => chapter.substantives
-        );
-        return getFittingRandom(
-            validSubstantives,
-            this.props.fitting.fits,
-            this.props.fitting.misfits,
-            [prevSubstantive]
-        ).name;
-    }
-
-    private getNameParts() {
-        const name = this.props.name;
-        if (this.state.isSpecialName) {
-            return { substantive: '', adjective: '' };
-        } else {
-            const breakIndex = name.indexOf(' ');
-            const adjective = name.slice(0, breakIndex);
-            const substantive = name.slice(breakIndex + 1);
-            return { substantive: substantive, adjective: adjective };
-        }
-    }
     private updateFitsAndMisfits(newFits: association[]) {
         // Testen: Code wird in richtiger Reihenfolge ausgeführt, obwohl wir states setzen? Ja oder Nein?
         const newMisfits = getMisfits(newFits, misfitMode.stricter);
@@ -216,6 +214,19 @@ export class NameScene extends React.Component<NameProps, TextState> {
             fitting: newFitting,
             ...this.props.getImpliedChanges(newFitting),
         });
+    }
+    private getFittingNamesSign() {
+        return (
+            <View style={{ flexDirection: 'row' }}>
+                <Button>{this.totalNumberOfPossibleNames()}</Button>
+            </View>
+        );
+    }
+    private totalNumberOfPossibleNames() {
+        const structuredFits = this.getStructuredFits();
+        return nameIdeas
+            .map((nameIdea) => nameIdea.calculatePossibleNames(structuredFits))
+            .reduce((sum, cur) => sum + cur, 0);
     }
 }
 

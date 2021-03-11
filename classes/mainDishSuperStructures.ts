@@ -7,23 +7,6 @@ import {
 import { DishIdea } from './DishIdea';
 import { TavernProduct } from './TavernProduct';
 
-export type IngredientList = {
-    name: string;
-    areas: association[];
-    sauces?: string[];
-}[];
-export type IngredientsFromIncome = {
-    poor: IngredientList;
-    modest: IngredientList;
-    wealthy: IngredientList;
-    rich: IngredientList;
-};
-export type IngredientStore = {
-    carbs: IngredientsFromIncome;
-    greens: IngredientsFromIncome;
-    main: IngredientsFromIncome;
-};
-
 export type IngredientsIdea = {
     mainIng: { name: string; fitRange: association[] };
     firstSideDishes?: { name: string; fitRange: association[] }[];
@@ -52,6 +35,7 @@ export const predecideDishes = (
         (fit) =>
             landAssociations.includes(fit) || incomeAssociations.includes(fit)
     );
+    console.log(incomeAreaFits);
     // are we copying here every dish possibility? or just objects with references?
     const chapters = Object.values(bookChapters);
     const filteredChapters = chapters.filter((chapter) =>

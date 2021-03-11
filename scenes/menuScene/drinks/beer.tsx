@@ -171,13 +171,13 @@ export const beers = [
     new TavernProduct(
         "Oscar's Sip of Honor",
         28,
-        [a.dragonborn, a.nobel, a.sophisticated],
+        [a.soldier, a.nobel, a.sophisticated],
         beerEnum
     ),
     new TavernProduct(
         "Oscar's Sip of Glory",
         29,
-        [a.dragonborn, a.sophisticated],
+        [a.soldier, a.sophisticated],
         beerEnum
     ),
     new TavernProduct(

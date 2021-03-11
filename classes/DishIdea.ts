@@ -41,11 +41,11 @@ export class DishIdea {
         isExcludedByPrefix: (name: string) => boolean
     ) {
         return (
-            incomeAreaFits.filter(
+            incomeAreaFits.every(
                 (fit) =>
-                    !ingredient.fitRange.includes(fit) &&
-                    fit !== association.empty
-            ).length === 0 && !isExcludedByPrefix(ingredient.name)
+                    fit === association.empty ||
+                    ingredient.fitRange.includes(fit)
+            ) && !isExcludedByPrefix(ingredient.name)
         );
     }
 
