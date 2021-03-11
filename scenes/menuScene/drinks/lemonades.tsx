@@ -11,6 +11,7 @@ export const lemonades = [
         [a.worker, a.tropical],
         drinkCategory.lemonade
     ),
+    
     new TavernProduct('Six Down', 5, [a.city, a.poor], drinkCategory.lemonade),
     new TavernProduct(
         'Fruit Mine',
