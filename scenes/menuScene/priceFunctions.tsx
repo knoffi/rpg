@@ -5,7 +5,8 @@ export const getAdjustedPrice = (
     offer: Offer,
     fits: association[],
     misfits: association[],
-    basePrice: BasePrice
+    basePrice: BasePrice,
+    unnecessaryParameter?: boolean
 ) => {
     if (offer.product.isUserMade) {
         return offer.price;
