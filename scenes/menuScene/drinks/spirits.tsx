@@ -110,19 +110,19 @@ export const spirits = [
     new TavernProduct(
         "Kane's Gin Of Fury",
         25,
-        [a.mountain, a.haven, a.barbarian, a.worker],
+        [a.mountain, a.haven, a.barbarian, a.modest],
         spiritEnum
     ),
     new TavernProduct(
         "Oscar's Absinth of Total Drunkeness",
         25,
-        [a.mountain, a.haven, a.barbarian, a.worker],
+        [a.mountain, a.haven, a.barbarian, a.modest],
         spiritEnum
     ),
     new TavernProduct(
         "Ar'kenji's Shoshu of Wisdom",
         35,
-        [a.desert, a.elf, a.cleric, a.sophisticated],
+        [a.desert, a.elf, a.cleric, a.wealthy],
         spiritEnum
     ),
     new TavernProduct(
@@ -134,19 +134,19 @@ export const spirits = [
     new TavernProduct(
         "Dura Ex's Tequila of Charm",
         20,
-        [a.underdark, a.prostitute, a.worker],
+        [a.underdark, a.prostitute, a.modest],
         spiritEnum
     ),
     new TavernProduct(
         "Lichtenfels's Vodka of Conspiracy",
         32,
-        [a.village, a.mountain, a.sophisticated],
+        [a.village, a.mountain, a.wealthy],
         spiritEnum
     ),
     new TavernProduct(
         "Numentor's Cachaca of Dancing",
         34,
-        [a.tropical, a.wizard, a.sophisticated],
+        [a.tropical, a.wizard, a.wealthy],
         spiritEnum
     ),
     new TavernProduct(
@@ -156,21 +156,17 @@ export const spirits = [
         spiritEnum
     ),
 ].concat(
-    scotchTemplate('Barclay', 22, [a.worker, a.city, a.dragonborn]),
+    scotchTemplate('Barclay', 22, [a.modest, a.city, a.soldier]),
     scotchTemplate('MacMaster', 105, [a.rich, a.dwarf, a.gnome]),
-    scotchTemplate('MacMulligan', 10, [a.poor, a.criminal, a.dragonborn]),
+    scotchTemplate('MacMulligan', 10, [a.poor, a.thief, a.soldier]),
     scotchTemplate('Rosetto', 29, [a.prostitute]),
-    scotchTemplate('Belezebu', 35, [a.tiefling, a.sophisticated]),
+    scotchTemplate('Belezebu', 35, [a.tiefling, a.wealthy]),
     bourbonTemplate('Gregory', 11, [a.village, a.poor, a.barbarian]),
-    bourbonTemplate('Old Kennedy', 37, [
-        a.halfling,
-        a.sophisticated,
-        a.village,
-    ]),
-    bourbonTemplate('Mild Miller', 108, [a.nobel, a.rich, a.elf, a.human]),
-    bourbonTemplate('Zesstra', 30, [a.drow, a.underdark, a.sophisticated]),
-    brandyTemplate('Ezezel', 23, [a.tiefling, a.worker], 'Fire Apple'),
+    bourbonTemplate('Old Kennedy', 37, [a.halfling, a.wealthy, a.village]),
+    bourbonTemplate('Mild Miller', 108, [a.knight, a.rich, a.elf, a.human]),
+    bourbonTemplate('Zesstra', 30, [a.drow, a.underdark, a.wealthy]),
+    brandyTemplate('Ezezel', 23, [a.tiefling, a.modest], 'Fire Apple'),
     brandyTemplate('Azzeril', 7, [a.tiefling, a.poor], 'Ash Plum'),
-    brandyTemplate('Melzara', 40, [a.tiefling, a.sophisticated], 'Hell Berry'),
+    brandyTemplate('Melzara', 40, [a.tiefling, a.wealthy], 'Hell Berry'),
     brandyTemplate('Abaddon', 90, [a.tiefling, a.rich], 'Infernal Grape')
 );

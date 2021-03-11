@@ -2,7 +2,7 @@ import { association, landAssociations } from '../../../../classes/association';
 import { DishIdea } from '../../../../classes/DishIdea';
 import { foodCategory } from '../../../../classes/TavernProduct';
 import { adjustPriceSetter, foodPrices } from '../foodPrices';
-
+const STEAK_FACTOR = 1.2;
 const a = association;
 export const steaks = [
     new DishIdea(
@@ -19,7 +19,7 @@ export const steaks = [
                 },
             ],
         },
-        adjustPriceSetter(foodPrices.mainDish, 1.2),
+        adjustPriceSetter(foodPrices.mainDish, STEAK_FACTOR),
         foodCategory.mainDish
     ),
 ];

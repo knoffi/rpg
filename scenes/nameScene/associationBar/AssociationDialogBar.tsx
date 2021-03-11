@@ -106,7 +106,7 @@ const dialogMap = new Map([
     ],
     [
         fitGroup.income,
-        { fits: [a.worker, a.poor, a.sophisticated, a.rich], color: '#B9770E' },
+        { fits: [a.modest, a.poor, a.wealthy, a.rich], color: '#B9770E' },
     ],
     [
         fitGroup.race,
@@ -130,10 +130,10 @@ const dialogMap = new Map([
                 a.adventurer,
                 a.barbarian,
                 a.bard,
-                a.dragonborn,
+                a.soldier,
                 a.cleric,
                 a.wizard,
-                a.nobel,
+                a.knight,
                 a.druid,
             ],
             color: '#717D7E',
@@ -141,6 +141,6 @@ const dialogMap = new Map([
     ],
     [
         fitGroup.special,
-        { fits: [a.criminal, a.prostitute, a.evil], color: '#B03A2E' },
+        { fits: [a.thief, a.prostitute, a.assasine], color: '#B03A2E' },
     ],
 ]) as Map<fitGroup, { fits: association[]; color: string }>;

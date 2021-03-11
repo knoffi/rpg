@@ -49,12 +49,10 @@ const getPriceFactorFromBasePrice = (
     if (productAssociations.some((fit) => fit === association.rich)) {
         return (basePrice.rich * 1.0) / standardBasePrice.rich;
     } else {
-        if (
-            productAssociations.some((fit) => fit === association.sophisticated)
-        ) {
+        if (productAssociations.some((fit) => fit === association.wealthy)) {
             return (basePrice.wealthy * 1.0) / standardBasePrice.wealthy;
         } else {
-            if (productAssociations.some((fit) => fit === association.worker)) {
+            if (productAssociations.some((fit) => fit === association.modest)) {
                 return (basePrice.modest * 1.0) / standardBasePrice.modest;
             } else {
                 if (
@@ -70,7 +68,7 @@ const getPriceFactorFromBasePrice = (
 
 const incomePriceLevelMap = new Map([
     [association.poor, -2],
-    [association.worker, -1],
-    [association.sophisticated, 1],
+    [association.modest, -1],
+    [association.wealthy, 1],
     [association.rich, 2],
 ]);

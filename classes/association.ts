@@ -2,9 +2,9 @@ export enum association {
     empty = '',
     rich = 'vastly rich',
     poor = 'poor',
-    worker = 'modest',
-    nobel = 'knight',
-    criminal = 'thief',
+    modest = 'modest',
+    knight = 'knight',
+    thief = 'thief',
     adventurer = 'traveler',
     wizard = 'wizard',
     bard = 'bard',
@@ -18,7 +18,7 @@ export enum association {
     gnome = 'gnome',
     tiefling = 'tiefling',
     drow = 'drow',
-    dragonborn = 'soldier',
+    soldier = 'soldier',
     human = 'human',
     underdark = 'underdark',
     forest = 'forest',
@@ -28,8 +28,8 @@ export enum association {
     mountain = 'mountain',
     city = 'city',
     village = 'village',
-    sophisticated = 'wealthy',
-    evil = 'assasine',
+    wealthy = 'wealthy',
+    assasine = 'assasine',
 }
 export const allAssociations = Object.values(association);
 export const landAssociations = [
@@ -47,9 +47,9 @@ export const classAssociations = [
     association.adventurer,
     association.barbarian,
     association.bard,
-    association.dragonborn,
+    association.soldier,
     association.druid,
-    association.nobel,
+    association.knight,
     association.wizard,
 ];
 export const raceAssociations = [
@@ -77,37 +77,37 @@ export const europeanEnvironment = [
 ];
 
 export const upperClass = [
-    association.nobel,
+    association.knight,
     association.rich,
-    association.sophisticated,
+    association.wealthy,
 ];
 export const lowerClass = [
-    association.worker,
+    association.modest,
     association.poor,
-    association.criminal,
+    association.thief,
 ];
 export const shadyGroup = [
-    association.evil,
+    association.assasine,
     association.prostitute,
-    association.criminal,
+    association.thief,
     association.drow,
     association.tiefling,
 ];
 export const criminalClass = [
-    association.criminal,
-    association.evil,
-    association.criminal,
+    association.thief,
+    association.assasine,
+    association.thief,
 ];
 export const incomeAssociations = [
     association.poor,
-    association.worker,
-    association.sophisticated,
+    association.modest,
+    association.wealthy,
     association.rich,
 ];
 export const specialAssociations = [
     association.prostitute,
-    association.evil,
-    association.criminal,
+    association.assasine,
+    association.thief,
 ];
 export const isLandAssociation = (association: association) => {
     return landAssociations.includes(association);

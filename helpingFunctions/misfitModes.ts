@@ -10,14 +10,10 @@ const strictMisfitMode = {
     associationGroups: {
         wealth: [association.poor, association.rich],
 
-        education: [association.worker, association.sophisticated],
-        honor: [
-            association.dragonborn,
-            association.nobel,
-            association.criminal,
-        ],
-        virtues: [association.criminal, association.cleric],
-        honesty: [association.nobel, association.criminal],
+        education: [association.modest, association.wealthy],
+        honor: [association.soldier, association.knight, association.thief],
+        virtues: [association.thief, association.cleric],
+        honesty: [association.knight, association.thief],
         prudeness: [association.cleric, association.prostitute],
         dwarvElf: [association.dwarf, association.elf],
         drowElf: [association.drow, association.elf],
@@ -37,8 +33,8 @@ const incomeMisfitMode = {
         income: [
             association.poor,
             association.rich,
-            association.worker,
-            association.sophisticated,
+            association.modest,
+            association.wealthy,
         ],
     },
 };
@@ -48,8 +44,8 @@ export const stricterMisfitMode = {
         income: [
             association.poor,
             association.rich,
-            association.worker,
-            association.sophisticated,
+            association.modest,
+            association.wealthy,
         ],
         land: [
             association.tropical,
@@ -64,12 +60,12 @@ export const stricterMisfitMode = {
         class: [
             association.barbarian,
             association.bard,
-            association.nobel,
+            association.knight,
             association.cleric,
             association.druid,
             association.wizard,
             association.adventurer,
-            association.dragonborn,
+            association.soldier,
         ],
         race: [
             association.drow,
@@ -82,8 +78,8 @@ export const stricterMisfitMode = {
         ],
         special: [
             association.prostitute,
-            association.criminal,
-            association.evil,
+            association.thief,
+            association.assasine,
         ],
     },
 };

@@ -153,9 +153,9 @@ export class NameIdea {
         switch (tavernFits.special) {
             case association.prostitute:
                 return noun.worksForBrothel ? nonSpecialCondition : false;
-            case association.criminal:
+            case association.thief:
                 return noun.worksForThiefs ? nonSpecialCondition : false;
-            case association.evil:
+            case association.assasine:
                 return noun.worksForAssasines ? nonSpecialCondition : false;
 
             default:

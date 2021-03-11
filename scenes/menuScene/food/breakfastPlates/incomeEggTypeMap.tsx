@@ -6,11 +6,11 @@ export const incomeEggTypeMap = new Map([
         ['One Boiled Egg', 'One Scrambled Egg', 'One Fried Egg'],
     ],
     [
-        association.worker,
+        association.modest,
         ['Three Boiled Eggs', 'Three Scrambled Eggs', 'Three Fried Eggs'],
     ],
     [
-        association.sophisticated,
+        association.wealthy,
         [
             'Boiled Egg (Owl Bear)',
             'Scrambled Egg (Owl Bear)',

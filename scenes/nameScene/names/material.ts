@@ -18,18 +18,18 @@ const SUBSTANTIVES_FOR_GOLD: NounIdea[] = [
     ...preyNormalAnimals,
     /*{ name: 'Temple', needsOne: [a.cleric] },
     { name: 'Mine', needsOne: [a.dwarf, a.underdark] },
-    { name: 'Sun', needsOne: [a.nobel, a.sophisticated, a.cleric, a.elf] },
-    { name: 'Cloud', needsOne: [a.sophisticated, a.cleric, a.elf] },
-    { name: 'Shield', needsOne: [a.nobel, a.cleric, a.dwarf] },
+    { name: 'Sun', needsOne: [a.knight, a.wealthy, a.cleric, a.elf] },
+    { name: 'Cloud', needsOne: [a.wealthy, a.cleric, a.elf] },
+    { name: 'Shield', needsOne: [a.knight, a.cleric, a.dwarf] },
     { name: 'Pyramid', needsOne: [a.desert, a.rich] },
     { name: 'Coconut', needs: [a.tropical] },
     { name: 'Monkey', needs: [a.tropical] },
     { name: 'Vulcano', needsOne: [a.tropical, a.tiefling] },
-    { name: 'Banana', needs: [a.tropical, a.worker] },
+    { name: 'Banana', needs: [a.tropical, a.modest] },
     { name: 'Parrot', needsOne: [a.haven, a.rich, a.tropical, a.wizard] },
     {
         name: 'Web',
-        needsOne: [a.drow, a.evil, a.prostitute],
+        needsOne: [a.drow, a.assasine, a.prostitute],
         worksForBrothel: true,
     },
     { name: 'Corn', needs: [a.village] },
@@ -45,7 +45,7 @@ const SUBSTANTIVES_FOR_GOLD: NounIdea[] = [
         needsOne: [a.tiefling, a.forest, a.bard],
         worksForBrothel: true,
     },*/
-    { name: 'Tooth', needs: [a.criminal] },
+    { name: 'Tooth', needs: [a.thief] },
     { name: 'Thighs', needs: [a.prostitute], worksForBrothel: true },
     { name: 'Beaver', needs: [a.prostitute], worksForBrothel: true },
     { name: 'Bust', needs: [a.prostitute], worksForBrothel: true },
@@ -83,6 +83,19 @@ export const materials: NameIdea[] = [
             worksForThiefs: true,
             worksForBrothel: true,
             worksForAssasines: true,
+            needs: [a.dwarf, a.mountain, a.gnome],
+        },
+        SUBSTANTIVES_FOR_GOLD
+    ),
+    new NameIdea(
+        {
+            name: 'Iridium',
+            misfits: [a.prostitute, a.poor],
+            worksForAssasines: true,
+            worksForThiefs: true,
+            landRange: [a.mountain],
+            incomeRange: [],
+            fitsTo: [a.modest, a.wizard],
         },
         SUBSTANTIVES_FOR_GOLD
     ),
@@ -99,7 +112,7 @@ export const materials: NameIdea[] = [
     new NameIdea(
         {
             name: 'Ivory',
-            needsOne: [a.rich, a.sophisticated, a.cleric, a.wizard, a.elf],
+            needsOne: [a.rich, a.wealthy, a.cleric, a.wizard, a.elf],
             worksForThiefs: true,
             worksForBrothel: true,
             worksForAssasines: true,
@@ -109,7 +122,7 @@ export const materials: NameIdea[] = [
     new NameIdea(
         {
             name: 'Copper',
-            misfits: [a.rich, a.sophisticated],
+            misfits: [a.rich, a.wealthy],
             worksForThiefs: true,
             worksForBrothel: true,
             worksForAssasines: true,
@@ -118,27 +131,27 @@ export const materials: NameIdea[] = [
     ),
     new NameIdea({ name: 'Brass', misfits: [a.rich] }, SUBSTANTIVES_FOR_GOLD),
     new NameIdea(
-        { name: 'Iron', misfits: [a.rich, a.sophisticated] },
+        { name: 'Iron', misfits: [a.rich, a.wealthy] },
         SUBSTANTIVES_FOR_GOLD
     ),
     new NameIdea(
         {
             name: 'Oaken',
-            misfits: [a.rich, a.sophisticated, a.nobel, a.cleric],
+            misfits: [a.rich, a.wealthy, a.knight, a.cleric],
         },
         SUBSTANTIVES_FOR_GOLD
     ),
     new NameIdea(
         {
             name: 'Red',
-            misfits: [a.rich, a.sophisticated, a.nobel, a.cleric],
+            misfits: [a.rich, a.wealthy, a.knight, a.cleric],
         },
         SUBSTANTIVES_FOR_GOLD
     ),
     new NameIdea(
         {
             name: 'Black',
-            misfits: [a.rich, a.sophisticated, a.nobel, a.cleric],
+            misfits: [a.rich, a.wealthy, a.knight, a.cleric],
             worksForThiefs: true,
             worksForAssasines: true,
         },

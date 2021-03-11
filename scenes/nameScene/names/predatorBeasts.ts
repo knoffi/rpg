@@ -3,15 +3,9 @@ import { NounIdea } from '../../../classes/NounIdea';
 const a = association;
 
 const BEAR_LAND = [a.forest, a.village, a.city, a.mountain];
-const BEAR_CLASSES = [
-    a.druid,
-    a.dragonborn,
-    a.nobel,
-    a.barbarian,
-    a.adventurer,
-];
+const BEAR_CLASSES = [a.druid, a.soldier, a.knight, a.barbarian, a.adventurer];
 const BEAR_ANTI_RACES = [a.drow, a.tiefling];
-const BEAR_INCOME = [a.worker, a.sophisticated];
+const BEAR_INCOME = [a.modest, a.wealthy];
 export const honorfulPredatorBeasts: NounIdea[] = [
     {
         name: 'Bear',
@@ -59,7 +53,7 @@ export const honorfulPredatorBeasts: NounIdea[] = [
     {
         name: 'Panther',
         landRange: [a.tropical, a.city],
-        classRange: [a.dragonborn, a.barbarian, a.druid, a.bard],
+        classRange: [a.soldier, a.barbarian, a.druid, a.bard],
         worksForAssasines: true,
         misfits: BEAR_ANTI_RACES,
     },
@@ -79,53 +73,53 @@ export const criminalPredatorBeasts: NounIdea[] = [
     { name: 'Lindworm', misfits: [a.rich, a.haven] },
     {
         name: 'Hyena',
-        needsOne: [a.desert, a.criminal],
-        misfits: [a.rich, a.nobel],
+        needsOne: [a.desert, a.thief],
+        misfits: [a.rich, a.knight],
         worksForThiefs: true,
     },
     {
         name: 'Snake',
-        classRange: [a.wizard, a.dragonborn, a.barbarian, a.bard],
-        needsOne: [a.evil, a.criminal],
+        classRange: [a.wizard, a.soldier, a.barbarian, a.bard],
+        needsOne: [a.assasine, a.thief],
         misfits: [a.haven, a.underdark],
         worksForThiefs: true,
         worksForAssasines: true,
     },
     {
         name: 'Spider',
-        needsOne: [a.evil, a.drow, a.criminal],
+        needsOne: [a.assasine, a.drow, a.thief],
         worksForAssasines: true,
     },
     {
         name: 'Tarantula',
-        needsOne: [a.evil, a.drow, a.criminal],
+        needsOne: [a.assasine, a.drow, a.thief],
         worksForAssasines: true,
     },
     {
         name: 'Cobra',
         landRange: [a.city, a.desert, a.tropical],
-        needsOne: [a.evil, a.rich, a.sophisticated],
+        needsOne: [a.assasine, a.rich, a.wealthy],
         worksForAssasines: true,
     },
     {
         name: 'Basilisk',
         landRange: [a.city, a.desert, a.tropical],
-        needsOne: [a.evil, a.rich, a.sophisticated],
+        needsOne: [a.assasine, a.rich, a.wealthy],
         worksForAssasines: true,
     },
     {
         name: 'Scorpion',
         landRange: [a.city, a.desert, a.tropical, a.mountain],
-        needsOne: [a.evil, a.criminal, a.tiefling],
+        needsOne: [a.assasine, a.thief, a.tiefling],
         worksForAssasines: true,
         worksForThiefs: true,
     },
     {
         name: 'Vulture',
         landRange: [a.desert, a.tropical, a.city],
-        classRange: [a.dragonborn, a.druid],
+        classRange: [a.soldier, a.druid],
         misfits: [a.rich],
-        needsOne: [a.evil, a.criminal],
+        needsOne: [a.assasine, a.thief],
         worksForAssasines: true,
         worksForThiefs: true,
     },

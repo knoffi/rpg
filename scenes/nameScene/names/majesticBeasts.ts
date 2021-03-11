@@ -4,20 +4,20 @@ const a = association;
 // beasts that lords would choose on their banner
 // NOTE: if you wanna combine them for humor effects (f.e. "The Whiny Dragon"), then "poor" should not be a misfit
 export const majesticBeasts: NounIdea[] = [
-    { name: 'Lion', needsOne: [a.nobel, a.rich, a.sophisticated] },
+    { name: 'Lion', needsOne: [a.knight, a.rich, a.wealthy] },
     {
         name: 'Gryphon',
-        needsOne: [a.nobel, a.rich, a.sophisticated, a.adventurer, a.wizard],
+        needsOne: [a.knight, a.rich, a.wealthy, a.adventurer, a.wizard],
     },
     {
         name: 'Swan',
-        needsOne: [a.nobel, a.rich, a.sophisticated, a.adventurer, a.wizard],
-        misfits: [a.barbarian, a.dragonborn],
+        needsOne: [a.knight, a.rich, a.wealthy, a.adventurer, a.wizard],
+        misfits: [a.barbarian, a.soldier],
     },
     {
         name: 'Sphinx',
         needsOne: [a.desert, a.adventurer, a.wizard],
-        misfits: [a.barbarian, a.dragonborn],
+        misfits: [a.barbarian, a.soldier],
     },
     {
         name: 'Beholder',
@@ -30,27 +30,27 @@ export const majesticBeasts: NounIdea[] = [
     {
         name: 'Kraken',
         needs: [a.haven],
-        needsOne: [a.nobel, a.rich, a.sophisticated, a.adventurer],
+        needsOne: [a.knight, a.rich, a.wealthy, a.adventurer],
     },
     {
         name: 'Whale',
         needs: [a.haven],
-        needsOne: [a.nobel, a.rich, a.sophisticated],
+        needsOne: [a.knight, a.rich, a.wealthy],
     },
     {
         name: 'Leviathan',
         needs: [a.haven],
-        needsOne: [a.nobel, a.sophisticated],
+        needsOne: [a.knight, a.wealthy],
     },
     {
         name: 'Octopus',
         needs: [a.haven],
-        needsOne: [a.sophisticated, a.worker, a.bard],
+        needsOne: [a.wealthy, a.modest, a.bard],
     },
     { name: 'Tiger', needsOne: [a.tropical, a.city] },
     {
         name: 'Pheasant',
-        needsOne: [a.forest, a.sophisticated, a.druid, a.bard],
+        needsOne: [a.forest, a.wealthy, a.druid, a.bard],
         misfits: [a.underdark, a.tropical, a.desert, a.haven],
     },
     {
@@ -59,14 +59,14 @@ export const majesticBeasts: NounIdea[] = [
     },
     {
         name: 'Hydra',
-        misfits: [a.underdark, a.village, a.worker],
+        misfits: [a.underdark, a.village, a.modest],
     },
     {
         name: 'Dragon',
     },
     {
         name: 'Falcon',
-        misfits: [a.underdark, a.haven, a.worker, a.forest],
+        misfits: [a.underdark, a.haven, a.modest, a.forest],
     },
     {
         name: 'Stallion',
@@ -88,21 +88,21 @@ export const majesticBeasts: NounIdea[] = [
 ];
 
 export const preyTinyAnimals: NounIdea[] = [
-    { name: 'Mouse', worksForThiefs: true, incomeRange: [a.poor, a.worker] },
-    { name: 'Rat', worksForThiefs: true, incomeRange: [a.poor, a.worker] },
+    { name: 'Mouse', worksForThiefs: true, incomeRange: [a.poor, a.modest] },
+    { name: 'Rat', worksForThiefs: true, incomeRange: [a.poor, a.modest] },
     {
         name: 'Squirrel',
-        incomeRange: [a.poor, a.worker],
+        incomeRange: [a.poor, a.modest],
         landRange: [a.forest, a.village],
     },
     {
         name: 'Butterfly',
-        incomeRange: [a.poor, a.worker],
+        incomeRange: [a.poor, a.modest],
         landRange: [a.forest, a.village],
     },
     {
         name: 'Rabbit',
-        incomeRange: [a.poor, a.worker],
+        incomeRange: [a.poor, a.modest],
         landRange: [a.forest, a.village],
     },
     {
@@ -114,33 +114,33 @@ export const preyTinyAnimals: NounIdea[] = [
 export const preyNormalAnimals: NounIdea[] = [
     {
         name: 'Moose',
-        incomeRange: [a.poor, a.worker],
+        incomeRange: [a.poor, a.modest],
         landRange: [a.mountain, a.forest, a.village],
     },
     {
         name: 'Beaver',
         worksForBrothel: true,
-        incomeRange: [a.poor, a.worker],
+        incomeRange: [a.poor, a.modest],
         landRange: [a.forest],
     },
     {
         name: 'Salmon',
-        incomeRange: [a.sophisticated, a.worker],
+        incomeRange: [a.wealthy, a.modest],
         landRange: [a.haven, a.village, a.city],
     },
     {
         name: 'Pony',
-        incomeRange: [a.poor, a.worker],
+        incomeRange: [a.poor, a.modest],
         landRange: [a.village, a.city],
     },
     {
         name: 'Lamb',
-        incomeRange: [a.poor, a.worker],
+        incomeRange: [a.poor, a.modest],
         landRange: [a.village, a.desert, a.mountain],
     },
     {
         name: 'Crow',
-        incomeRange: [a.poor, a.worker],
+        incomeRange: [a.poor, a.modest],
         landRange: [a.forest, a.village, a.city],
         worksForThiefs: true,
     },
@@ -148,22 +148,22 @@ export const preyNormalAnimals: NounIdea[] = [
         name: 'Raven',
         worksForAssasines: true,
         worksForThiefs: true,
-        incomeRange: [a.poor, a.worker],
+        incomeRange: [a.poor, a.modest],
         landRange: [a.forest, a.village, a.city],
     },
     {
         name: 'Sheep',
-        incomeRange: [a.poor, a.worker],
+        incomeRange: [a.poor, a.modest],
         landRange: [a.village, a.mountain],
     },
     {
         name: 'Monkey',
-        incomeRange: [a.poor, a.worker],
+        incomeRange: [a.poor, a.modest],
         needsOne: [a.tropical, a.desert],
     },
     {
         name: 'Parrot',
-        incomeRange: [a.poor, a.worker],
+        incomeRange: [a.poor, a.modest],
         needsOne: [a.tropical, a.haven],
     },
     {
@@ -172,20 +172,20 @@ export const preyNormalAnimals: NounIdea[] = [
     },
     {
         name: 'Shrimp',
-        needs: [a.haven, a.worker],
+        needs: [a.haven, a.modest],
     },
     {
         name: 'Lobster',
         needs: [a.haven],
-        needsOne: [a.sophisticated, a.rich],
+        needsOne: [a.wealthy, a.rich],
     },
     {
         name: 'Oyster',
         needs: [a.haven],
-        needsOne: [a.sophisticated, a.rich],
+        needsOne: [a.wealthy, a.rich],
     },
     {
         name: 'Mole',
-        needs: [a.underdark, a.worker],
+        needs: [a.underdark, a.modest],
     },
 ];

@@ -176,10 +176,10 @@ export class DishIdea {
             if (income === association.poor) {
                 return this.getPriceFluctuation(this.averagePrice[income]);
             }
-            if (income === association.worker) {
+            if (income === association.modest) {
                 return this.getPriceFluctuation(this.averagePrice[income]);
             }
-            if (income === association.sophisticated) {
+            if (income === association.wealthy) {
                 return this.getPriceFluctuation(this.averagePrice[income]);
             }
             if (income === association.rich) {

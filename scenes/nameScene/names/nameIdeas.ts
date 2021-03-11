@@ -2,10 +2,7 @@ import { association } from '../../../classes/association';
 import { NameIdea } from '../../../classes/NameIdea';
 import { majesticBeasts } from './majesticBeasts';
 import { materials } from './material';
-import {
-    criminalPredatorBeasts,
-    honorfulPredatorBeasts,
-} from './predatorBeasts';
+import { honorfulPredatorBeasts } from './predatorBeasts';
 
 const a = association;
 const characteristics = [
@@ -20,26 +17,26 @@ const characteristics = [
         },
         [
             ...honorfulPredatorBeasts,
-            ...criminalPredatorBeasts,
+            ...thiefPredatorBeasts,
             ...majesticBeasts,
             { name: 'Hat', needs: [a.wizard] },
             {
                 name: 'Wench',
                 needs: [a.prostitute],
-                misfits: [a.rich, a.sophisticated, a.drow],
+                misfits: [a.rich, a.wealthy, a.drow],
                 worksForBrothel: true,
             },
             {
                 name: 'Concubine',
                 needs: [a.prostitute],
-                incomeRange: [a.rich, a.sophisticated],
+                incomeRange: [a.rich, a.wealthy],
                 misfits: [a.drow],
                 worksForBrothel: true,
             },
             {
                 name: 'Lust Slave',
                 needs: [a.prostitute, a.drow],
-                incomeRange: [a.rich, a.sophisticated],
+                incomeRange: [a.rich, a.wealthy],
                 worksForBrothel: true,
             },
             {
@@ -60,32 +57,32 @@ const characteristics = [
     new NameIdea(
         {
             name: 'Benevolent',
-            incomeRange: [a.sophisticated, a.rich],
+            incomeRange: [a.wealthy, a.rich],
             misfits: [a.barbarian],
             worksForBrothel: true,
         },
         [
             ...honorfulPredatorBeasts,
-            ...criminalPredatorBeasts,
+            ...thiefPredatorBeasts,
             ...majesticBeasts,
             {
                 name: 'Emperor',
-                needs: [a.rich, a.sophisticated],
+                needs: [a.rich, a.wealthy],
                 misfits: [a.drow],
             },
-            { name: 'Empress', needs: [a.rich, a.sophisticated] },
+            { name: 'Empress', needs: [a.rich, a.wealthy] },
             {
                 name: 'King',
-                needs: [a.rich, a.sophisticated],
+                needs: [a.rich, a.wealthy],
                 misfits: [a.drow],
             },
-            { name: 'Queen', needs: [a.rich, a.sophisticated] },
+            { name: 'Queen', needs: [a.rich, a.wealthy] },
             {
                 name: 'Prince',
-                needs: [a.rich, a.sophisticated],
+                needs: [a.rich, a.wealthy],
                 misfits: [a.drow],
             },
-            { name: 'Princess', needs: [a.rich, a.sophisticated] },
+            { name: 'Princess', needs: [a.rich, a.wealthy] },
         ]
     ),
 ];

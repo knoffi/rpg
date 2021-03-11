@@ -31,8 +31,8 @@ const DRINK_BINDINGS = [
     association.prostitute,
     association.rich,
     association.poor,
-    association.evil,
-    association.criminal,
+    association.assasine,
+    association.thief,
 ];
 const FOOD_BINDINGS = [
     association.prostitute,

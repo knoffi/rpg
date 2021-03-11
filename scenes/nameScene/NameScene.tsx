@@ -215,6 +215,7 @@ export class NameScene extends React.Component<NameProps, TextState> {
             ...this.props.getImpliedChanges(newFitting),
         });
     }
+
     private getFittingNamesSign() {
         return (
             <View style={{ flexDirection: 'row' }}>

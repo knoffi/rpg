@@ -25,7 +25,7 @@ export const taverns: tavernMinData[] = [
     {
         key: 'barbar_worker',
         name: "Barbara's Barbaric Beer Bar",
-        fits: [association.barbarian, association.worker],
+        fits: [association.barbarian, association.modest],
         drinks: [],
         dishes: [],
         basePrice: standardBasePrice,
@@ -37,7 +37,7 @@ export const taverns: tavernMinData[] = [
         name: 'Molthorium Mine',
         fits: [
             association.dwarf,
-            association.nobel,
+            association.knight,
             association.rich,
             association.city,
         ],
@@ -50,7 +50,7 @@ export const taverns: tavernMinData[] = [
     {
         key: 'haven_criminal_poor',
         name: 'Drowning Rat',
-        fits: [association.poor, association.criminal, association.haven],
+        fits: [association.poor, association.thief, association.haven],
         drinks: [],
         dishes: [],
         basePrice: standardBasePrice,

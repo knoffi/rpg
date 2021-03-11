@@ -10,8 +10,8 @@ export enum substantiveCategory {
 }
 
 const WORD_NEEDS_THESE_EXTREMS = [
-    association.criminal,
-    association.evil,
+    association.thief,
+    association.assasine,
     association.prostitute,
 ];
 export class Substantive implements ITavernAsset {

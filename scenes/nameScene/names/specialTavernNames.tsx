@@ -67,7 +67,7 @@ export const specialTavernNames = [
         ],
     },
     {
-        association: association.criminal,
+        association: association.thief,
         names: [
             'Tight Lips',
             'Resting Crowbar',
@@ -95,7 +95,7 @@ export const specialTavernNames = [
         ],
     },
     {
-        association: association.dragonborn,
+        association: association.soldier,
         names: [
             'Dancing Blade',
             'Resting Chain Shirt',
@@ -164,7 +164,7 @@ export const specialTavernNames = [
         ],
     },
     {
-        association: association.evil,
+        association: association.assasine,
         names: [
             'Lurking Hunter',
             'Silent Lamb',
@@ -254,7 +254,7 @@ export const specialTavernNames = [
         ],
     },
     {
-        association: association.nobel,
+        association: association.knight,
         names: [
             'Polished Plate Armor',
             'Majestic Stallion',
@@ -309,7 +309,7 @@ export const specialTavernNames = [
         ],
     },
     {
-        association: association.sophisticated,
+        association: association.wealthy,
         names: [
             'Parlament Of Pints',
             'Wine Castle',
@@ -389,7 +389,7 @@ export const specialTavernNames = [
         ],
     },
     {
-        association: association.worker,
+        association: association.modest,
         names: [
             'Fellow Craftsman',
             'Sweaty Blacksmith',

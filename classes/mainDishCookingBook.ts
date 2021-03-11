@@ -61,7 +61,7 @@ export class mainDishCookingBook {
         const newMainDish = new TavernProduct(
             name,
             realPrice,
-            [association.worker, area],
+            [association.modest, area],
             foodCategory.mainDish
         );
         return newMainDish;
