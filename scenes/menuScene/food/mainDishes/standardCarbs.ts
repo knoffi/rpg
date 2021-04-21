@@ -1,6 +1,7 @@
 import { association } from '../../../../classes/association';
+import { DescriptionAsset } from '../../../../classes/DescriptionIdea';
 const a = association;
-export const standardCarbs = [
+export const standardCarbs: DescriptionAsset[] = [
     {
         name: ' & Mashed Potatoes',
         landRange: [a.village, a.mountain],
@@ -17,23 +18,13 @@ export const standardCarbs = [
         misfits: [a.rich],
     },
     {
-        name: ' & Deep Fried Potatoes',
-        landRange: [a.city, a.underdark],
-        misfits: [a.rich],
-    },
-    {
         name: ' & Sweet Potatoes',
-        landRange: [a.city, a.haven, a.poor, a.tropical, a.desert],
+        landRange: [a.haven, a.tropical, a.desert],
         incomeRange: [a.modest, a.wealthy],
     },
     {
-        name: ' & Potato Wedges',
-        landRange: [a.city, a.underdark],
-        misfits: [a.rich],
-    },
-    {
         name: ' & Potato Dumplings',
-        landRange: [a.village, a.forest],
+        landRange: [a.village, a.forest, a.city, a.mountain],
         misfits: [a.rich],
     },
 ];
