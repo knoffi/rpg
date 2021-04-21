@@ -1,4 +1,3 @@
-import { landAssociations } from '../../../../classes/association';
 import { DishIdea } from '../../../../classes/DishIdea';
 import { foodCategory } from '../../../../classes/TavernProduct';
 import { adjustPriceSetter, foodPrices } from '../foodPrices';
@@ -11,76 +10,118 @@ export const leftoverStew =
         {
             mainIng: {
                 name: 'Leftover Stew',
-                fitRange: [...landAssociations, a.poor, a.modest],
+                incomeRange: [a.poor, a.modest],
             },
             firstSideDishes: [
                 {
                     name: ' with Chicken Legs',
-                    fitRange: [...landAssociations, a.modest, a.poor],
                 },
                 {
                     name: ' with Beef Chunks',
-                    fitRange: [...landAssociations, a.modest, a.poor],
                 },
                 {
                     name: ' with Pork Chunks',
-                    fitRange: [a.city, a.village, a.tropical, a.modest, a.poor],
+                    landRange: [a.city, a.village, a.tropical],
                 },
                 {
                     name: ' with Boar Chunks',
-                    fitRange: [a.forest, a.mountain, a.modest, a.poor],
+                    landRange: [a.forest, a.mountain],
                 },
                 {
                     name: ' with Chick Peas, Coriander',
-                    fitRange: [a.desert, a.modest, a.poor],
+                    landRange: [a.desert],
                 },
                 {
                     name: ' with Lamb Chunks',
-                    fitRange: [a.desert, a.mountain, a.modest],
+                    landRange: [a.desert, a.mountain],
+                    misfits: [a.poor],
+                },
+                {
+                    name: ' with Camel Chunks',
+                    landRange: [a.desert],
+                    misfits: [a.poor],
                 },
                 {
                     name: ' with Beans, Onions',
-                    fitRange: [...landAssociations, a.modest],
                 },
-                { name: ' with Dried Squid', fitRange: [a.haven, a.modest] },
+                {
+                    name: ' with Dried Squid',
+                    needs: [a.haven],
+                    misfits: [a.poor],
+                },
                 {
                     name: ' with Pumpkin Chunks',
-                    fitRange: [a.forest, a.village, a.modest],
+                    landRange: [a.forest, a.village],
                 },
-                { name: ' with Shrimps', fitRange: [a.haven, a.modest] },
-                { name: ' with Anchovies', fitRange: [a.haven, a.poor] },
+                {
+                    name: ' with Shrimps',
+                    needs: [a.haven],
+                    incomeRange: [a.modest],
+                },
+                {
+                    name: ' with Anchovies',
+                    needs: [a.haven],
+                    incomeRange: [a.poor],
+                },
                 {
                     name: ' with Smoked Salmon',
-                    fitRange: [a.haven, a.village, a.city, a.modest],
+                    landRange: [a.haven, a.village, a.city, a.modest],
                 },
                 {
                     name: ' with Boar Feet',
-                    fitRange: [a.village, a.forest, a.mountain, a.poor],
+                    landRange: [a.village, a.forest, a.mountain],
+                    incomeRange: [a.poor],
                 },
                 {
                     name: ' with Pig Feet',
-                    fitRange: [a.village, a.city, a.forest, a.poor],
+                    landRange: [a.village, a.city, a.forest],
+                    incomeRange: [a.poor],
                 },
                 {
                     name: ' with Pickled Mole',
-                    fitRange: [a.underdark, a.modest],
+                    landRange: [a.underdark, a.modest],
+                    incomeRange: [a.modest],
                 },
-                { name: ' with Earth Worms', fitRange: [a.underdark, a.poor] },
+                {
+                    name: ' with Earth Worms',
+                    landRange: [a.underdark],
+                    incomeRange: [a.poor],
+                },
             ],
             secondSideDishes: [
-                { name: ' and Bread', fitRange: [a.city, a.village, a.poor] },
+                {
+                    name: ' and Bread',
+                    landRange: [a.city, a.village],
+                    incomeRange: [a.poor],
+                },
                 {
                     name: ' and Potatoes',
-                    fitRange: [...landAssociations, a.modest],
+                    incomeRange: [a.modest],
                 },
-                { name: ' and Cabbage', fitRange: [a.forest, a.poor] },
                 {
-                    name: ' and Rice',
-                    fitRange: [a.tropical, a.desert, a.haven, a.modest],
+                    name: ' and Cabbage',
+                    landRange: [a.forest],
+                    incomeRange: [a.poor],
+                },
+                {
+                    name: ' and Turmeric Rice',
+                    landRange: [a.desert, a.haven],
+                    incomeRange: [a.modest],
+                },
+                {
+                    name: ' and Coconut Rice',
+                    landRange: [a.tropical],
+                    incomeRange: [a.modest],
+                },
+                {
+                    name: ' and Brown Rice',
+                    landRange: [a.tropical, a.desert, a.haven],
+                    incomeRange: [a.modest],
                 },
                 {
                     name: ' and Flat Bread',
-                    fitRange: [a.tropical, a.mountain, a.desert, a.poor],
+                    landRange: [a.tropical, a.mountain, a.desert],
+                    incomeRange: [a.poor],
                 },
             ],
         },

@@ -89,11 +89,12 @@ const getFilteredTavernProducts = (
         })!.examples;
     } else {
         if (category === foodCategory.mainDish) {
-            return predecideDishes(
+            const chosenMainDish = predecideDishes(
                 foodChapters[0].chapters,
                 tavernFits,
                 (name: string) => isExcludedByPrefix(name, excludedDrinkNames)
             );
+            return [chosenMainDish];
         } else {
             const result = filterFoodByPrefix(
                 foodExamples.find((example) => {
@@ -123,8 +124,7 @@ const getRandomDrinkOffer = (
         examples,
         fits,
         misfits,
-        excludedDrinkNames,
-        category
+        excludedDrinkNames
     ) as TavernProduct;
     //if drink is undefined, then there are no new drinks left
     if (!drink) {

@@ -6,30 +6,31 @@ const a = association;
 const FISH_AND_CHIPS_PRICE_FACTOR = 1.0;
 
 const fishAndChipsSideDishes = [
-    { name: ' with Peas', fitRange: [a.haven, a.modest, a.poor] },
-    { name: ' with Baked Beans', fitRange: [a.haven, a.modest, a.poor] },
-    { name: ' with Onions', fitRange: [a.haven, a.modest, a.poor] },
-    { name: ' with Gherkins', fitRange: [a.haven, a.modest, a.poor] },
+    { name: ' with Peas', incomeRange: [a.modest, a.poor] },
+    { name: ' with Baked Beans', incomeRange: [a.modest, a.poor] },
+    { name: ' with Onions', incomeRange: [a.modest, a.poor] },
+    { name: ' with Gherkins', incomeRange: [a.modest, a.poor] },
 ];
 const fishAndChipsFishes = [
-    { name: ' (Plaice)', fitRange: [a.haven, a.modest] },
-    { name: ' (Pollock', fitRange: [a.haven, a.modest] },
-    { name: ' (Haddock)', fitRange: [a.haven, a.modest] },
-    { name: ' (Whiting)', fitRange: [a.haven, a.modest] },
-    { name: ' (Bluewater Cod)', fitRange: [a.haven, a.modest] },
-    { name: ' (Deepwater Cod)', fitRange: [a.haven, a.modest] },
-    { name: ' (Blackwater Cod)', fitRange: [a.haven, a.modest] },
-    { name: ' (Grey Mackerel)', fitRange: [a.haven, a.poor] },
-    { name: ' (Stink Cod)', fitRange: [a.haven, a.poor] },
-    { name: ' (Black Cod)', fitRange: [a.haven, a.poor] },
-    { name: ' (Sock Fish)', fitRange: [a.haven, a.poor] },
+    { name: ' (Plaice)', incomeRange: [a.modest] },
+    { name: ' (Pollock', incomeRange: [a.modest] },
+    { name: ' (Haddock)', incomeRange: [a.modest] },
+    { name: ' (Whiting)', incomeRange: [a.modest] },
+    { name: ' (Bluewater Cod)', incomeRange: [a.modest] },
+    { name: ' (Deepwater Cod)', incomeRange: [a.modest] },
+    { name: ' (Blackwater Cod)', incomeRange: [a.modest] },
+    { name: ' (Grey Mackerel)', incomeRange: [a.poor] },
+    { name: ' (Stink Cod)', incomeRange: [a.poor] },
+    { name: ' (Black Cod)', incomeRange: [a.poor] },
+    { name: ' (Sock Fish)', incomeRange: [a.poor] },
 ];
 
 export const fishAndChips = new DishIdea(
     {
         mainIng: {
             name: 'Fish & Chips',
-            fitRange: [a.village, a.city, a.haven, a.modest, a.poor],
+            landRange: [a.village, a.city, a.haven],
+            incomeRange: [a.modest, a.poor],
         },
         firstSideDishes: fishAndChipsFishes,
         secondSideDishes: fishAndChipsSideDishes,

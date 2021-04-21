@@ -1,4 +1,4 @@
-import { association, landAssociations } from '../../../../classes/association';
+import { association } from '../../../../classes/association';
 import { DishIdea } from '../../../../classes/DishIdea';
 import { foodCategory } from '../../../../classes/TavernProduct';
 import { adjustPriceSetter, foodPrices } from '../foodPrices';
@@ -15,29 +15,24 @@ export const beefRoasts =
             {
                 mainIng: {
                     name: 'Roast Beef',
-                    fitRange: [
-                        ...landAssociations,
-                        a.poor,
-                        a.modest,
-                        a.wealthy,
-                    ],
+                    incomeRange: [a.poor, a.modest, a.wealthy],
                 },
                 firstSideDishes: [
                     {
                         name: ' in Red Wine Sauce',
-                        fitRange: [...landAssociations, a.wealthy],
+                        incomeRange: [a.wealthy],
                     },
                     {
                         name: ' in Port Wine Sauce',
-                        fitRange: [...landAssociations, a.wealthy],
+                        incomeRange: [a.wealthy],
                     },
                     {
                         name: ' in Pepper Sauce',
-                        fitRange: [...landAssociations, a.modest, a.poor],
+                        incomeRange: [a.modest, a.poor],
                     },
                     {
                         name: ' in Brown Sauce',
-                        fitRange: [...landAssociations, a.modest, a.poor],
+                        incomeRange: [a.modest, a.poor],
                     },
                 ],
                 secondSideDishes: standardGreens,
@@ -51,31 +46,25 @@ export const beefRoasts =
             {
                 mainIng: {
                     name: 'Roast Lamb',
-                    fitRange: [
-                        a.village,
-                        a.city,
-                        a.mountain,
-                        a.poor,
-                        a.modest,
-                        a.wealthy,
-                    ],
+                    misfits: [a.rich],
+                    landRange: [a.village, a.city, a.mountain],
                 },
                 firstSideDishes: [
                     {
                         name: ' in Red Wine Sauce',
-                        fitRange: [...landAssociations, a.wealthy],
+                        incomeRange: [a.wealthy],
                     },
                     {
                         name: ' in Port Wine Sauce',
-                        fitRange: [...landAssociations, a.wealthy],
+                        incomeRange: [a.wealthy],
                     },
                     {
                         name: ' in Pepper Sauce',
-                        fitRange: [...landAssociations, a.modest, a.poor],
+                        incomeRange: [a.modest, a.poor],
                     },
                     {
                         name: ' in Brown Sauce',
-                        fitRange: [...landAssociations, a.modest, a.poor],
+                        incomeRange: [a.modest, a.poor],
                     },
                 ],
                 secondSideDishes: standardGreens,

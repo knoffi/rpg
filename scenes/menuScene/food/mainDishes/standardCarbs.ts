@@ -3,38 +3,37 @@ const a = association;
 export const standardCarbs = [
     {
         name: ' & Mashed Potatoes',
-        fitRange: [a.village, a.mountain, a.poor, a.modest, a.wealthy],
+        landRange: [a.village, a.mountain],
+        misfits: [a.rich],
     },
     {
         name: ' & Pan Fried Potatoes',
-        fitRange: [a.city, a.haven, a.poor, a.modest, a.wealthy],
+        landRange: [a.city, a.haven],
+        misfits: [a.rich],
     },
     {
         name: ' & Boiled Potatoes',
-        fitRange: [a.haven, a.village, a.poor, a.modest, a.wealthy],
+        landRange: [a.haven, a.village],
+        misfits: [a.rich],
     },
     {
         name: ' & Deep Fried Potatoes',
-        fitRange: [a.city, a.underdark, a.poor, a.modest, a.wealthy],
+        landRange: [a.city, a.underdark],
+        misfits: [a.rich],
     },
     {
         name: ' & Sweet Potatoes',
-        fitRange: [
-            a.city,
-            a.haven,
-            a.poor,
-            a.tropical,
-            a.desert,
-            a.modest,
-            a.wealthy,
-        ],
+        landRange: [a.city, a.haven, a.poor, a.tropical, a.desert],
+        incomeRange: [a.modest, a.wealthy],
     },
     {
         name: ' & Potato Wedges',
-        fitRange: [a.city, a.underdark, a.poor, a.modest, a.wealthy],
+        landRange: [a.city, a.underdark],
+        misfits: [a.rich],
     },
     {
         name: ' & Potato Dumplings',
-        fitRange: [a.village, a.forest, a.poor, a.modest, a.wealthy],
+        landRange: [a.village, a.forest],
+        misfits: [a.rich],
     },
 ];
