@@ -10,7 +10,6 @@ import {
     landChosen,
     raceChosen,
 } from '../classes/association';
-import { menuCategory } from '../classes/TavernProduct';
 import { ITavernAsset } from './ITavernAsset';
 
 const CHOICE_PARAMS = { minDifference: 1 };
@@ -21,13 +20,13 @@ const MEDIUM_FIT_CHANCE = 0.3;
 const LOW_FIT_CHANCE = 0.2;
 const MINIMUM_FIT_CHANCE = 0.1;
 
-export const getRandomArrayEntry = (array: any[]) => {
+export function getRandomArrayEntry<Type>(array: Type[]) {
     const randomIndex = Math.floor(Math.random() * array.length);
     if (randomIndex === array.length) {
         return array[0];
     }
     return array[randomIndex];
-};
+}
 
 const countIntersections = (
     product: ITavernAsset,
@@ -108,8 +107,7 @@ export const getFittingRandom = (
     choices: ITavernAsset[],
     fits: association[],
     misfits: association[],
-    excludedNames: string[],
-    category?: menuCategory
+    excludedNames: string[]
 ): ITavernAsset => {
     const filteredChoices = getFilterChoices(choices, fits);
     const randomCase = Math.random();

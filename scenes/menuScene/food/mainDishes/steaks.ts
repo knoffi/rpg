@@ -1,4 +1,4 @@
-import { association, landAssociations } from '../../../../classes/association';
+import { association } from '../../../../classes/association';
 import { DishIdea } from '../../../../classes/DishIdea';
 import { foodCategory } from '../../../../classes/TavernProduct';
 import { adjustPriceSetter, foodPrices } from '../foodPrices';
@@ -9,13 +9,11 @@ export const steaks = [
         {
             mainIng: {
                 name: 'Chateaubriand Steak',
-                fitRange: [...landAssociations, a.rich],
+                needs: [a.rich],
             },
             firstSideDishes: [
                 {
                     name: ' with Gold Plated Duchesse Potatoes',
-                    // maybe fitRange should be an optional parameter. If it is undefined, then this will be seen as [...landAssociations, ...incomeAssociations] when it comes to fitting and filtering
-                    fitRange: [...landAssociations, a.rich],
                 },
             ],
         },

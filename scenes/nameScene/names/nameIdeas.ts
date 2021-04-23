@@ -2,7 +2,10 @@ import { association } from '../../../classes/association';
 import { NameIdea } from '../../../classes/NameIdea';
 import { majesticBeasts } from './majesticBeasts';
 import { materials } from './material';
-import { honorfulPredatorBeasts } from './predatorBeasts';
+import {
+    criminalPredatorBeasts,
+    honorfulPredatorBeasts,
+} from './predatorBeasts';
 
 const a = association;
 const characteristics = [
@@ -17,7 +20,7 @@ const characteristics = [
         },
         [
             ...honorfulPredatorBeasts,
-            ...thiefPredatorBeasts,
+            ...criminalPredatorBeasts,
             ...majesticBeasts,
             { name: 'Hat', needs: [a.wizard] },
             {
@@ -63,7 +66,7 @@ const characteristics = [
         },
         [
             ...honorfulPredatorBeasts,
-            ...thiefPredatorBeasts,
+            ...criminalPredatorBeasts,
             ...majesticBeasts,
             {
                 name: 'Emperor',

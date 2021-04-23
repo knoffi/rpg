@@ -4,46 +4,57 @@ const a = association;
 export const standardGreens = [
     {
         name: ' with Broccoli, Peas',
-        fitRange: [a.city, a.forest, a.poor, a.modest, a.wealthy],
+        landRange: [a.city, a.forest],
+        misfits: [a.rich],
     },
     {
         name: ' with Cauliflower, Peas',
-        fitRange: [a.village, a.mountain, a.poor, a.modest, a.wealthy],
+        landRange: [a.village, a.mountain],
+        misfits: [a.rich],
     },
     {
         name: ' with Cabbage, Carrots',
-        fitRange: [a.village, a.forest, a.poor, a.modest, a.wealthy],
+        landRange: [a.village, a.forest],
+        misfits: [a.rich],
     },
     {
         name: ' with Pickled Cabbage, Mustard',
-        fitRange: [a.village, a.mountain, a.poor, a.modest, a.wealthy],
+        landRange: [a.village, a.mountain],
+        misfits: [a.rich],
     },
     {
         name: ' with Mushrooms',
-        fitRange: [a.forest, a.underdark, a.poor, a.modest, a.wealthy],
+        landRange: [a.forest, a.underdark],
+        misfits: [a.rich],
     },
     {
         name: ' with Red Beet',
-        fitRange: [a.mountain, a.underdark, a.poor, a.modest, a.wealthy],
+        landRange: [a.mountain, a.underdark],
+        misfits: [a.rich],
     },
     {
         name: ' with Onions, Apples',
-        fitRange: [a.forest, a.village, a.poor, a.modest, a.wealthy],
+        landRange: [a.forest, a.village],
+        misfits: [a.rich],
     },
     {
         name: ' with Carrots, Peas',
-        fitRange: [a.village, a.city, a.poor, a.modest, a.wealthy],
+        landRange: [a.village, a.city],
+        misfits: [a.rich],
     },
     {
         name: ' with Brussel Sprouts',
-        fitRange: [a.village, a.city, a.poor, a.modest, a.wealthy],
+        landRange: [a.village, a.city],
+        misfits: [a.rich],
     },
     {
         name: ' with Cole Slaw',
-        fitRange: [a.city, a.haven, a.poor, a.modest, a.wealthy],
+        landRange: [a.city, a.haven],
+        misfits: [a.rich],
     },
     {
         name: ' with Spinach',
-        fitRange: [a.haven, a.mountain, a.poor, a.modest, a.wealthy],
+        landRange: [a.haven, a.mountain],
+        misfits: [a.rich],
     },
 ];

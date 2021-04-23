@@ -1,4 +1,4 @@
-import { association, landAssociations } from '../../../../classes/association';
+import { association } from '../../../../classes/association';
 import { DishIdea } from '../../../../classes/DishIdea';
 import { foodCategory } from '../../../../classes/TavernProduct';
 import { adjustPriceSetter, foodPrices } from '../foodPrices';
@@ -12,34 +12,24 @@ export const porkRoasts = [
         {
             mainIng: {
                 name: 'Roast Pork',
-                fitRange: [
-                    a.village,
-                    a.city,
-                    a.forest,
-                    a.mountain,
-                    a.haven,
-                    a.underdark,
-                    a.poor,
-                    a.modest,
-                    a.wealthy,
-                ],
+                misfits: [a.rich, a.tropical, a.desert],
             },
             firstSideDishes: [
                 {
                     name: ' in Brown Sauce',
-                    fitRange: [...landAssociations, a.modest, a.poor],
+                    incomeRange: [a.modest, a.poor],
                 },
                 {
                     name: ' in Maple-Balsamic Sauce',
-                    fitRange: [...landAssociations, a.wealthy],
+                    incomeRange: [a.wealthy],
                 },
                 {
                     name: ' in Mustard Sauce',
-                    fitRange: [...landAssociations, a.modest, a.poor],
+                    incomeRange: [a.modest, a.poor],
                 },
                 {
                     name: ' in Beer Sauce',
-                    fitRange: [...landAssociations, a.modest, a.poor],
+                    incomeRange: [a.modest, a.poor],
                 },
             ],
             secondSideDishes: standardGreens,

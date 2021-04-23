@@ -84,24 +84,20 @@ export class Impression {
     private getBartenderText() {
         const fittingApperances = this.filterDescriptions(bartenderAppearances);
         const fittingCharakter = this.filterDescriptions(bartenderCharacter);
-        const appearance = getRandomArrayEntry(
-            fittingApperances
-        ) as Description;
-        const emotion = getRandomArrayEntry(fittingCharakter) as Description;
+        const appearance = getRandomArrayEntry(fittingApperances);
+        const emotion = getRandomArrayEntry(fittingCharakter);
         return appearance.name + ' & ' + emotion.name;
     }
     private getInteriorText() {
         const fittingFurnitures = this.filterDescriptions(furnitures);
         const fittingMoodSetters = this.filterDescriptions(moodSetting);
-        const furniture = getRandomArrayEntry(fittingFurnitures) as Description;
-        const moodSetter = getRandomArrayEntry(
-            fittingMoodSetters
-        ) as Description;
+        const furniture = getRandomArrayEntry(fittingFurnitures);
+        const moodSetter = getRandomArrayEntry(fittingMoodSetters);
         return furniture.name + ' & ' + moodSetter.name;
     }
     private getAverageCustomerText() {
         const suitableCustomers = this.filterDescriptions(averageCustomer);
-        const customers = getRandomArrayEntry(suitableCustomers) as Description;
+        const customers = getRandomArrayEntry(suitableCustomers);
         const otherCustomers = getRandomArrayEntry(
             suitableCustomers.filter(
                 (customer) => customer.name !== customers.name
@@ -114,19 +110,15 @@ export class Impression {
             const suitableIntriguings = this.filterDescriptions(
                 specialIntriguings
             );
-            const intriguing = getRandomArrayEntry(
-                suitableIntriguings
-            ) as Description;
+            const intriguing = getRandomArrayEntry(suitableIntriguings);
             return intriguing.name;
         }
         const suitableSingleDescriptions = this.filterDescriptions(somePeople);
         const suitableIndividuals = this.filterDescriptions(individuals);
         const customerDescription = getRandomArrayEntry(
             suitableSingleDescriptions
-        ) as Description;
-        const customer = getRandomArrayEntry(
-            suitableIndividuals
-        ) as Description;
+        );
+        const customer = getRandomArrayEntry(suitableIndividuals);
         const verb = customer.isPlural ? ' are ' : ' is ';
         return customer.name + verb + customerDescription.name;
     }

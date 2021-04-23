@@ -1,10 +1,6 @@
 import { association } from '../../classes/association';
 import { predecideDishes } from '../../classes/mainDishSuperStructures';
-import {
-    foodCategory,
-    menuCategory,
-    TavernProduct,
-} from '../../classes/TavernProduct';
+import { menuCategory, TavernProduct } from '../../classes/TavernProduct';
 import { getFittingRandom } from '../../helpingFunctions/getFittingRandom';
 import { drinkExamples } from './drinks/drinks';
 import { foodChapters, foodExamples } from './food/food';
@@ -88,12 +84,16 @@ const getFilteredTavernProducts = (
             return example.category === category;
         })!.examples;
     } else {
-        if (category === foodCategory.mainDish) {
-            return predecideDishes(
-                foodChapters[0].chapters,
+        const dishIdeaIndex = foodChapters.findIndex(
+            (chapter) => chapter.category === category
+        );
+        if (dishIdeaIndex >= 0) {
+            const chosenMainDish = predecideDishes(
+                foodChapters[dishIdeaIndex].chapters,
                 tavernFits,
                 (name: string) => isExcludedByPrefix(name, excludedDrinkNames)
             );
+            return [chosenMainDish];
         } else {
             const result = filterFoodByPrefix(
                 foodExamples.find((example) => {
@@ -123,8 +123,7 @@ const getRandomDrinkOffer = (
         examples,
         fits,
         misfits,
-        excludedDrinkNames,
-        category
+        excludedDrinkNames
     ) as TavernProduct;
     //if drink is undefined, then there are no new drinks left
     if (!drink) {
