@@ -1,4 +1,18 @@
 import { association } from '../../../classes/association';
+import { getRandomArrayEntry } from '../../../helpingFunctions/getFittingRandom';
+
+export const getSpecialTavernName = (shouldFitTo: association[]) => {
+    const focusedFit = getRandomArrayEntry(shouldFitTo);
+    const specialNames = specialTavernNames.find((entry) => {
+        return entry.association === focusedFit;
+    }) || { names: ['Nameless Tavern'] };
+    if (!specialNames) {
+        console.log(
+            'specialNames are undefined, but special Names were requested'
+        );
+    }
+    return getRandomArrayEntry(specialNames.names);
+};
 
 export const specialTavernNames = [
     {

@@ -1,23 +1,11 @@
 import { getRandomArrayEntry } from '../helpingFunctions/getFittingRandom';
 import { NothingLeftOffer } from '../scenes/menuScene/menuEnums';
 import { association } from './association';
-import { DishIdea } from './DishIdea';
+import { BreakfastChapters, MainDishChapters } from './FoodChapters';
 import { getStructuredFits } from './StructuredTavernFits';
 
-export type MainDishChapters = {
-    pasta: { weight: number; dishIdeas: DishIdea[] };
-    beefRoast: { weight: number; dishIdeas: DishIdea[] };
-    sausage: { weight: number; dishIdeas: DishIdea[] };
-    porkRoast: { weight: number; dishIdeas: DishIdea[] };
-    chickenRoast: { weight: number; dishIdeas: DishIdea[] };
-    vegetarian: { weight: number; dishIdeas: DishIdea[] };
-    fish: { weight: number; dishIdeas: DishIdea[] };
-    steak: { weight: number; dishIdeas: DishIdea[] };
-    stew: { weight: number; dishIdeas: DishIdea[] };
-};
-
 export const predecideDishes = (
-    bookChapters: MainDishChapters,
+    bookChapters: MainDishChapters | BreakfastChapters,
     fits: association[],
     isExcludedByPrefix: (name: string) => boolean
 ) => {

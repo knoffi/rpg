@@ -1,10 +1,6 @@
 import { association } from '../../classes/association';
 import { predecideDishes } from '../../classes/mainDishSuperStructures';
-import {
-    foodCategory,
-    menuCategory,
-    TavernProduct,
-} from '../../classes/TavernProduct';
+import { menuCategory, TavernProduct } from '../../classes/TavernProduct';
 import { getFittingRandom } from '../../helpingFunctions/getFittingRandom';
 import { drinkExamples } from './drinks/drinks';
 import { foodChapters, foodExamples } from './food/food';
@@ -88,9 +84,12 @@ const getFilteredTavernProducts = (
             return example.category === category;
         })!.examples;
     } else {
-        if (category === foodCategory.mainDish) {
+        const dishIdeaIndex = foodChapters.findIndex(
+            (chapter) => chapter.category === category
+        );
+        if (dishIdeaIndex >= 0) {
             const chosenMainDish = predecideDishes(
-                foodChapters[0].chapters,
+                foodChapters[dishIdeaIndex].chapters,
                 tavernFits,
                 (name: string) => isExcludedByPrefix(name, excludedDrinkNames)
             );

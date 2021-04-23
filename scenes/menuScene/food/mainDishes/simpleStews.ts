@@ -1,9 +1,10 @@
+import { association } from '../../../../classes/association';
 import { DishIdea } from '../../../../classes/DishIdea';
 import { foodCategory } from '../../../../classes/TavernProduct';
 import { adjustPriceSetter, foodPrices } from '../foodPrices';
-import { a } from '../porridge/porridge';
 
 const STEW_PRICE_FACTOR = 0.7;
+const a = association;
 export const leftoverStew =
     //TODO: an mainIngredient sollte schon erkannt werden können, ob es ein Produkt der Familie im Essen gibt. Beschleunigt alles ein wenig und reicht normalerWeise (wenn nicht, wird es später auch nicht so schlimm sein)
     new DishIdea(

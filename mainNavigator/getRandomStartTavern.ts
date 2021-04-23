@@ -1,11 +1,9 @@
-import { Adjective } from '../classes/Adjectives';
 import { association } from '../classes/association';
+import { NameIdea } from '../classes/NameIdea';
+import { getStructuredFits } from '../classes/StructuredTavernFits';
 import { menuCategory } from '../classes/TavernProduct';
 import { getProductsLeftAndBannerData } from '../editNavigator/editNavigatorFunctions';
-import {
-    getFittingRandom,
-    getRandomArrayEntry,
-} from '../helpingFunctions/getFittingRandom';
+import { getRandomArrayEntry } from '../helpingFunctions/getFittingRandom';
 import {
     misfitMode,
     stricterMisfitMode,
@@ -19,7 +17,8 @@ import { BasePrice, standardBasePrice } from '../scenes/menuScene/basePrice';
 import { drinkExamples } from '../scenes/menuScene/drinks/drinks';
 import { foodExamples } from '../scenes/menuScene/food/food';
 import { NothingLeftOffer, Offer } from '../scenes/menuScene/menuEnums';
-import { adjectives, substantives } from '../scenes/nameScene/names/nouns';
+import { nameIdeas } from '../scenes/nameScene/names/nameIdeas';
+import { getSpecialTavernName } from '../scenes/nameScene/names/specialTavernNames';
 import { getTavernHistoryInitializer } from './mainNavigatorFunctions';
 
 const CHANCE_FOR_SPECIAL_FIT = 0.2;
@@ -35,7 +34,7 @@ export const getRandomStartTavern = () => {
     const basePrice = getRandomBasePrice();
     const drinks = getRandomOffers(fits, misfits, weServe.drinks);
     const dishes = getRandomOffers(fits, misfits, weServe.food);
-    tavernData.name = getRandomName(fits, misfits);
+    tavernData.name = getRandomName(fits);
     tavernData.fitting = {
         fits: fits,
         misfits: misfits,
@@ -99,22 +98,45 @@ const getRandomOffers = (
         })
         .flat();
 };
-const getRandomName = (fits: association[], misfits: association[]) => {
-    const adjective = getFittingRandom(
-        adjectives,
-        fits,
-        misfits,
-        []
-    ) as Adjective;
-    const validSubstantiveChapters = substantives.filter(
-        (chapter) => !adjective.badWords.includes(chapter.category)
-    );
-    const validSubstantives = validSubstantiveChapters.flatMap(
-        (chapter) => chapter.substantives
-    );
-    const substantive = getFittingRandom(validSubstantives, fits, misfits, []);
-
-    return adjective.name + ' ' + substantive.name;
+/*{
+        const randomNumber = Math.random();
+        const structuredFits = getStructuredFits(fits);
+        if (randomNumber > PROBABILITY_SPECIAL_NAME || this.noFitsActive()) {
+            const possibleNames = nameIdeas.filter((nameIdea) =>
+                nameIdea.fitsToTavern(structuredFits)
+            );
+            const newNameIdea = getRandomArrayEntry(possibleNames) as NameIdea;
+            const newName = newNameIdea
+                ? newNameIdea.getConcreteName(structuredFits)
+                : 'Nameless Tavern';
+            this.props.onDataChange({ name: newName });
+            this.setState({ isSpecialName: false });
+        } else {
+            const specialName = this.getSpecialNames();
+            this.props.onDataChange({ name: specialName });
+            this.setState({ isSpecialName: true });
+        }
+    } */
+const getRandomName = (fits: association[]) => {
+    const randomNumber = Math.random();
+    const structuredFits = getStructuredFits(fits);
+    if (randomNumber > 0.4 || fits.length === 0) {
+        const possibleNames = nameIdeas.filter((nameIdea) =>
+            nameIdea.fitsToTavern(structuredFits)
+        );
+        const newNameIdea = getRandomArrayEntry(possibleNames) as NameIdea;
+        if (!newNameIdea) {
+            console.log(
+                'no name idea fitted to tavern, thus newNameIdea was undefined'
+            );
+        }
+        const newName = newNameIdea
+            ? newNameIdea.getConcreteName(structuredFits)
+            : 'Nameless Tavern';
+        return newName;
+    } else {
+        return getSpecialTavernName(fits);
+    }
 };
 
 const getExamplesForChapter = (

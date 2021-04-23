@@ -31,6 +31,12 @@ export enum association {
     wealthy = 'wealthy',
     assasine = 'assasine',
 }
+export const getAssociation = (name: string) => {
+    const possibleName = Object.values(association).find((associationName) => {
+        return associationName === name;
+    });
+    return possibleName ? possibleName : association.empty;
+};
 export const allAssociations = Object.values(association);
 export const landAssociations = [
     association.city,
