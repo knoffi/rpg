@@ -21,8 +21,24 @@ export class DishIdea extends Idea {
             ingredients.secondSideDishes || [EMPTY_SIDE_DISH],
             ingredients.thirdSideDishes || [EMPTY_SIDE_DISH],
         ];
+        const criminalEnabler: Partial<DescriptionAsset> = {
+            worksForAssasines: true,
+            worksForBrothel: true,
+            worksForThiefs: true,
+        };
+        const sideDishesEnabledForCriminals: DescriptionAsset[][] = additionalSideDishes.map(
+            (sideDishes) =>
+                sideDishes.map((sideDish) => {
+                    return { ...sideDish, ...criminalEnabler };
+                })
+        );
 
-        super(ingredients.mainIng, additionalSideDishes);
+        const mainEnabledForCriminals: DescriptionAsset = {
+            ...ingredients.mainIng,
+            ...criminalEnabler,
+        };
+
+        super(mainEnabledForCriminals, sideDishesEnabledForCriminals);
         this.averagePrice = averagePrice;
         this.category = category;
     }

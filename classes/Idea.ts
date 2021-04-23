@@ -59,7 +59,8 @@ export class Idea {
     protected getFittingAssetPart(
         tavernFits: StructuredTavernFits,
         additionChoices?: DescriptionAsset[],
-        isExcludedByPrefix?: (name: string) => boolean
+        isExcludedByPrefix?: (name: string) => boolean,
+        ignoreCriminalRestrictions?: boolean
     ) {
         if (additionChoices) {
             const fittingAssetParts = additionChoices.filter((addition) =>
