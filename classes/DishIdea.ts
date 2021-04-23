@@ -1,5 +1,8 @@
 import { association } from './association';
-import { DescriptionAsset } from './DescriptionIdea';
+import {
+    DescriptionAsset,
+    forCriminalsOverwrittenAsset,
+} from './DescriptionIdea';
 import { Idea } from './Idea';
 import { IngredientsIdea } from './IngredientsIdea';
 import { PriceSetter } from './PriceSetter';
@@ -7,6 +10,7 @@ import { StructuredTavernFits } from './StructuredTavernFits';
 import { menuCategory, TavernProduct } from './TavernProduct';
 
 const EMPTY_SIDE_DISH: DescriptionAsset = { name: '' };
+
 export class DishIdea extends Idea {
     private averagePrice: number | PriceSetter;
     private category: menuCategory;
@@ -21,22 +25,16 @@ export class DishIdea extends Idea {
             ingredients.secondSideDishes || [EMPTY_SIDE_DISH],
             ingredients.thirdSideDishes || [EMPTY_SIDE_DISH],
         ];
-        const criminalEnabler: Partial<DescriptionAsset> = {
-            worksForAssasines: true,
-            worksForBrothel: true,
-            worksForThiefs: true,
-        };
-        const sideDishesEnabledForCriminals: DescriptionAsset[][] = additionalSideDishes.map(
+        const sideDishesEnabledForCriminals = additionalSideDishes.map(
             (sideDishes) =>
-                sideDishes.map((sideDish) => {
-                    return { ...sideDish, ...criminalEnabler };
-                })
+                sideDishes.map((sideDish) =>
+                    forCriminalsOverwrittenAsset(sideDish)
+                )
         );
 
-        const mainEnabledForCriminals: DescriptionAsset = {
-            ...ingredients.mainIng,
-            ...criminalEnabler,
-        };
+        const mainEnabledForCriminals = forCriminalsOverwrittenAsset(
+            ingredients.mainIng
+        );
 
         super(mainEnabledForCriminals, sideDishesEnabledForCriminals);
         this.averagePrice = averagePrice;

@@ -15,3 +15,20 @@ export type DescriptionAsset = {
     worksForThiefs?: boolean;
     worksForAssasines?: boolean;
 };
+
+export const forCriminalsOverwrittenAsset = (asset: DescriptionAsset) => {
+    const criminalEnabler: Partial<DescriptionAsset> = {
+        worksForAssasines: true,
+        worksForBrothel: true,
+        worksForThiefs: true,
+    };
+    return { ...asset, ...criminalEnabler } as DescriptionAsset;
+};
+export const getAssetforUndecidedCriminals = (asset: DescriptionAsset) => {
+    const criminalEnabler: Partial<DescriptionAsset> = {
+        worksForAssasines: true,
+        worksForBrothel: true,
+        worksForThiefs: true,
+    };
+    return { ...criminalEnabler, ...asset } as DescriptionAsset;
+};
