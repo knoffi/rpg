@@ -56,11 +56,7 @@ export class DishIdea extends Idea {
             const result =
                 sideDishes[0].name === EMPTY_SIDE_DISH.name
                     ? EMPTY_SIDE_DISH
-                    : this.getFittingAssetPart(
-                          tavernFits,
-                          sideDishes,
-                          isExcludedByPrefix
-                      );
+                    : this.getFittingAssetPart(tavernFits, sideDishes);
             return result;
         });
         const sideDishSlotHasNoFitting = fittingSideDishMenu.some(
