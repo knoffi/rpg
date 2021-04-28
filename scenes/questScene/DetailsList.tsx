@@ -13,7 +13,7 @@ import { globalStyles } from '../globalStyles';
 import { BasePrice } from '../menuScene/basePrice';
 import { menuSceneStyles } from '../menuScene/menuStyles';
 import { LIST_END_BUTTON_SIZE } from '../menuScene/offerList/LIST_END_BUTTON_SIZE';
-import { OfferListTopItem } from '../menuScene/offerList/OfferList';
+import { OfferListTopItem } from '../menuScene/offerList/OfferListTopItem';
 import { PriceAccordion } from './PriceAccordion';
 
 export const DetailsList = (props: {
