@@ -1,14 +1,8 @@
 import React, { useState } from 'react';
-import { View } from 'react-native';
 import { List } from 'react-native-paper';
 import { association } from '../../classes/association';
 import { aspect, Impression } from '../../classes/Atmosphere';
-import {
-    AddButton,
-    buttonEmphasis,
-    DeleteButton,
-    RerollButton,
-} from '../../components/buttons/generalButtons';
+import { AddButton } from '../../components/buttons/generalButtons';
 import { globalStyles } from '../globalStyles';
 import { BasePrice } from '../menuScene/basePrice';
 import { menuSceneStyles } from '../menuScene/menuStyles';
@@ -143,36 +137,25 @@ const ImpressionListAccordion = (props: {
     onAdd: (aspect: aspect) => void;
     onReroll: (aspect: aspect, index: number) => void;
 }) => {
-    const descriptionItems = props.descriptions.map((text, index) => [
+    const descriptionItems = props.descriptions.map((text, index) => (
         <OfferListTopItem
             drinkName={text}
-            infoAction={() => {}}
             key={props.aspect + index.toString() + 'text'}
-        ></OfferListTopItem>,
-        <List.Item
-            title={''}
-            right={() => (
-                <View
-                    style={{ flexDirection: 'row', justifyContent: 'flex-end' }}
-                >
-                    <DeleteButton
-                        size={14}
-                        mode={buttonEmphasis.medium}
-                        onPress={() => {
-                            props.onDelete!(props.aspect, index);
-                        }}
-                    />
-
-                    <RerollButton
-                        mode={buttonEmphasis.high}
-                        size={12}
-                        onPress={() => props.onReroll(props.aspect, index)}
-                    />
-                </View>
-            )}
-            key={(props.aspect as String) + index.toString() + 'buttons'}
-        ></List.Item>,
-    ]);
+            priceString={''}
+            //TODO: make this adjustable, so that instad of reroll user can edit
+            //TODO: also, do use "NO DESCRIPTION LEFT" instead of "MENU FULL!"
+            isUserMade={false}
+            //TODO: check, if there is no description left
+            noDrinkToAddLeft={false}
+            actions={{
+                onReroll: () => props.onReroll(props.aspect, index),
+                onDelete: () => props.onReroll(props.aspect, index),
+                onEdit: () => {},
+                onShop: () => {},
+                onInfo: () => {},
+            }}
+        ></OfferListTopItem>
+    ));
     const addBar = (
         <List.Item
             title=""
@@ -193,7 +176,7 @@ const ImpressionListAccordion = (props: {
             titleStyle={menuSceneStyles.accordeonListTitle}
             key={props.title}
         >
-            {[...descriptionItems.flat(), addBar]}
+            {[...descriptionItems, addBar]}
         </List.Accordion>
     );
 };
