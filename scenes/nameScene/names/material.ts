@@ -124,6 +124,16 @@ export const materials: NameIdea[] = [
     ),
     new NameIdea(
         {
+            name: 'Marble',
+            needsOne: [a.rich, a.wealthy, a.cleric, a.wizard, a.dwarf],
+            worksForThiefs: true,
+            worksForBrothel: true,
+            worksForAssasines: true,
+        },
+        SUBSTANTIVES_FOR_GOLD
+    ),
+    new NameIdea(
+        {
             name: 'Copper',
             misfits: [a.rich, a.wealthy],
             worksForThiefs: true,
@@ -165,8 +175,16 @@ export const materials: NameIdea[] = [
             name: 'Rusty',
             misfits: moneyOrHonor,
             worksForThiefs: true,
+        },
+        SUBSTANTIVES_FOR_GOLD
+    ),
+    new NameIdea(
+        {
+            name: 'Tin',
+            misfits: moneyOrHonor,
+            worksForThiefs: true,
             worksForAssasines: true,
         },
-        [{ name: 'Sheep', worksForBrothel: true, worksForThiefs: true }]
+        SUBSTANTIVES_FOR_GOLD
     ),
 ];
