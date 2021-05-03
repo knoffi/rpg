@@ -4,6 +4,7 @@ import { Animated, View } from 'react-native';
 import { Swipeable } from 'react-native-gesture-handler';
 import { Divider, List, Text } from 'react-native-paper';
 import { menuSceneStyles } from '../menuStyles';
+import { getDishTexts } from './nameSplitter/getDishTexts';
 import { productActions } from './productActions';
 
 export const OfferListTopItem = (props: {
@@ -24,7 +25,7 @@ export const OfferListTopItem = (props: {
         text: string,
         inputRange: number[],
         outputRange: number[]
-    ) => (progress, dragX) => {
+    ) => (progress: any, dragX: any) => {
         const scale = dragX.interpolate({
             inputRange: inputRange,
             outputRange: outputRange,
@@ -35,7 +36,7 @@ export const OfferListTopItem = (props: {
                 <View style={{ flexDirection: 'row-reverse' }}>
                     <Animated.Text
                         style={[
-                            { fontWeight: 'bold', padding: 20 },
+                            menuSceneStyles.animatedText,
                             { transform: [{ scale }] },
                         ]}
                     >
@@ -97,12 +98,11 @@ export const OfferListTopItem = (props: {
                                 justifyContent: 'flex-start',
                             }}
                         >
-                            <DishTextForMenu
+                            <DishText
                                 drinkName={thisDrinkName}
                                 priceString={price}
-                            ></DishTextForMenu>
+                            ></DishText>
                             <Divider />
-                            {/* </GestureRecognizer> */}
                         </Animated.View>
                     </Swipeable>
                 );
@@ -111,20 +111,15 @@ export const OfferListTopItem = (props: {
     );
 };
 
-const DishTextForMenu = (props: { drinkName: string; priceString: string }) => {
-    const splittedDishText = props.drinkName.split(' ');
-    const firstText = splittedDishText[0] + ' ' + splittedDishText[1];
-    const secondText = splittedDishText.reduce(
-        (res, cur, index) => (index > 1 ? res + ' ' + cur : res),
-        ' '
-    );
+const DishText = (props: { drinkName: string; priceString: string }) => {
+    const { name, description } = getDishTexts(props.drinkName);
 
     return (
         <View>
-            <View style={{ flexDirection: 'column', marginBottom: 20 }}>
-                <Text style={menuSceneStyles.drinkName}>{firstText}</Text>
+            <View style={menuSceneStyles.listItemView}>
+                <Text style={menuSceneStyles.drinkName}>{name}</Text>
                 <Text style={menuSceneStyles.drinkDescription}>
-                    {secondText}
+                    {description}
                 </Text>
                 <Text style={menuSceneStyles.drinkPrice}>
                     {props.priceString}

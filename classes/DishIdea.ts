@@ -1,3 +1,4 @@
+import { splitMarker } from '../scenes/menuScene/offerList/nameSplitter/splitMarker';
 import { association } from './association';
 import {
     DescriptionAsset,
@@ -96,6 +97,7 @@ export class DishIdea extends Idea {
     ) {
         const name =
             mainIngredient +
+            splitMarker +
             firstSideIngredient +
             secondSideIngredient +
             thirdSideIngredient;
