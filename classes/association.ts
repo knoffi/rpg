@@ -29,7 +29,7 @@ export enum association {
     city = 'city',
     village = 'village',
     wealthy = 'wealthy',
-    assasine = 'assasine',
+    assasine = 'bounty hunter',
 }
 export const getAssociation = (name: string) => {
     const possibleName = Object.values(association).find((associationName) => {
@@ -87,10 +87,24 @@ export const upperClass = [
     association.rich,
     association.wealthy,
 ];
+export const sophisticatedGroup = [
+    association.elf,
+    association.wizard,
+    association.knight,
+    association.rich,
+    association.wealthy,
+];
 export const lowerClass = [
     association.modest,
     association.poor,
     association.thief,
+];
+export const rudeGroup = [
+    association.modest,
+    association.poor,
+    association.thief,
+    association.dwarf,
+    association.barbarian,
 ];
 export const shadyGroup = [
     association.assasine,
@@ -102,7 +116,7 @@ export const shadyGroup = [
 export const criminalClass = [
     association.thief,
     association.assasine,
-    association.thief,
+    association.prostitute,
 ];
 export const incomeAssociations = [
     association.poor,
