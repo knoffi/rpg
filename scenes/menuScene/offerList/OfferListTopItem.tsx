@@ -20,7 +20,6 @@ export const OfferListTopItem = (props: {
     const editPossible = props.isUserMade;
     const rerollPossible = !props.noDrinkToAddLeft && !props.isUserMade;
     const price = props.priceString;
-
     const actionText = (
         text: string,
         inputRange: number[],
@@ -46,6 +45,15 @@ export const OfferListTopItem = (props: {
             </View>
         );
     };
+    const swipeableRef = React.useRef(null);
+    // Is used for use in ImpressionAccordionList, otherwise Swipeable will not close on its own
+    //TODO: Find the reason for this. Impressions and Dishes do not seem to be updated in the same
+    const closeSwipeable = () => {
+        if (swipeableRef.current !== null) {
+            swipeableRef.current.close();
+        }
+    };
+
     return (
         <List.Item
             title=""
@@ -54,6 +62,7 @@ export const OfferListTopItem = (props: {
             left={(props) => {
                 return (
                     <Swipeable
+                        ref={swipeableRef}
                         renderLeftActions={actionText(
                             rerollPossible
                                 ? 'REROLL!'
@@ -83,10 +92,13 @@ export const OfferListTopItem = (props: {
                                 actions.onEdit();
                             }
                             if (rerollPossible) {
+                                console.log('I Reroll');
                                 actions.onReroll();
                             }
+                            closeSwipeable();
                         }}
                         onSwipeableRightWillOpen={() => {
+                            closeSwipeable();
                             actions.onDelete();
                         }}
                         leftThreshold={100}

@@ -5,7 +5,6 @@ import { AppBar } from '../appBar/AppBar';
 import { association } from '../classes/association';
 import { SavedDataHandler, weSave } from '../classes/Database';
 import { EditNavigator } from '../editNavigator/EditNavigator';
-import { getProductsLeftAndBannerData } from '../editNavigator/editNavigatorFunctions';
 import { Offer } from '../scenes/menuScene/menuEnums';
 import { StartOptionsScene } from '../scenes/startOptionsScene/StartOptionsScene';
 import { TavernCollectionScene } from '../scenes/tavernCollectionScene/TavernCollectionScene';
@@ -13,6 +12,7 @@ import { TitleScene } from '../scenes/titleScene/TitleScene';
 import { taverns } from '../templates/taverns';
 import { getRandomStartTavern } from './getRandomStartTavern';
 import {
+    getMinimalDataFromTavern,
     getTavernFromMinimalData,
     getTavernHistoryInitializer,
 } from './mainNavigatorFunctions';
@@ -28,6 +28,7 @@ export const MainNavigator = () => {
     const onDataChange = (newData: Partial<TavernData>) => {
         const newTavernData = { ...tavernHistory[historyIndex], ...newData };
         const pastTavernHistory = [] as TavernData[];
+        //TODO: use declarative approach
         tavernHistory.forEach((tavernData: TavernData, index: number) => {
             if (index <= historyIndex) {
                 pastTavernHistory.push(tavernData);
@@ -45,50 +46,24 @@ export const MainNavigator = () => {
         templateKey: string,
         getMisfits: (fits: association[]) => association[]
     ) => {
-        const tavernData = getTavernHistoryInitializer();
-        taverns.forEach((tavern) => {
-            if (templateKey === tavern.key) {
-                tavernData.name = tavern.name;
-                tavernData.fitting = {
-                    fits: tavern.fits,
-                    misfits: getMisfits(tavern.fits),
-                };
-                tavernData.drinks = tavern.drinks;
-                tavernData.dishes = tavern.dishes;
-                const bannerData = getProductsLeftAndBannerData(
-                    {
-                        fits: tavern.fits,
-                        misfits: tavernData.fitting.misfits,
-                    },
-                    tavernData.drinks,
-                    tavernData.dishes
-                );
-                tavernData.drinksLeft = bannerData.drinksLeft!;
-                tavernData.dishesLeft = bannerData.dishesLeft!;
-                tavernData.drinkBannerData = bannerData.drinkBannerData!;
-                tavernData.foodBannerData = bannerData.foodBannerData!;
-                tavernData.prices = tavern.basePrice;
-            }
-        });
+        const minTavernDataByID = taverns.find(
+            (tavern) => tavern.key === templateKey
+        );
+        const tavernData = minTavernDataByID
+            ? getTavernFromMinimalData(minTavernDataByID)
+            : getTavernHistoryInitializer();
         setHistoryIndex(0);
         setTavernHistory([tavernData]);
     };
-
+    //TODO: Here continue
     const saveMinimalTavernData = async () => {
         const tavern = tavernHistory[historyIndex];
-        const minimalData: MinimalTavernData = {
-            name: tavern.name,
-            fitting: tavern.fitting,
-            drinks: tavern.drinks,
-            dishes: tavern.dishes,
-            prices: tavern.prices,
-            boughtOffers: tavern.boughtOffers,
-        };
+        const minimalData = getMinimalDataFromTavern(tavern);
         const dataHandler = new SavedDataHandler(weSave.taverns);
         dataHandler.saveData(minimalData);
     };
 
-    const buildMinimalTavernData = (minimalData: MinimalTavernData) => {
+    const buildTavernFromMinimalData = (minimalData: MinimalTavernData) => {
         const buildTavern = getTavernFromMinimalData(minimalData);
         setHistoryIndex(0);
         setTavernHistory([buildTavern]);
@@ -186,7 +161,7 @@ export const MainNavigator = () => {
                     children={({ navigation }) => (
                         <TavernCollectionScene
                             buildTavern={(minimalData: MinimalTavernData) => {
-                                buildMinimalTavernData(minimalData);
+                                buildTavernFromMinimalData(minimalData);
                                 navigation.navigate('EDIT TAVERN');
                             }}
                         ></TavernCollectionScene>

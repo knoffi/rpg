@@ -21,7 +21,8 @@ export const getTavernHistoryInitializer = () => {
         dishesLeft: startMenuMaps.dishesMap,
         drinkBannerData: { isVisible: false, emptyCategories: [] },
         foodBannerData: { isVisible: false, emptyCategories: [] },
-        boughtOffers: [] as Offer[],
+        boughtOffers: [],
+        impressions: [],
     } as TavernData;
 };
 
@@ -55,17 +56,27 @@ export const getTavernFromMinimalData = (minimalData: MinimalTavernData) => {
         oldBannerData
     );
     return {
-        name: minimalData.name,
+        ...minimalData,
         boughtOffers: rebuildBoughtOffers,
-        fitting: minimalData.fitting,
         drinks: rebuildDrinkOffers,
         dishes: rebuildFoodOffers,
-        prices: minimalData.prices,
         drinkBannerData: BannerData.drinkBannerData,
         foodBannerData: BannerData.foodBannerData,
         dishesLeft: BannerData.dishesLeft,
         drinksLeft: BannerData.drinksLeft,
     } as TavernData;
+};
+export const getMinimalDataFromTavern = (tavern: TavernData) => {
+    const minimalData: MinimalTavernData = {
+        name: tavern.name,
+        fitting: tavern.fitting,
+        drinks: tavern.drinks,
+        dishes: tavern.dishes,
+        prices: tavern.prices,
+        boughtOffers: tavern.boughtOffers,
+        impressions: tavern.impressions,
+    };
+    return minimalData;
 };
 
 const getStartMenuMaps = () => {

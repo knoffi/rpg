@@ -6,8 +6,9 @@ import { BasePrice } from '../menuScene/basePrice';
 import { nameSceneStyles } from '../nameScene/nameSceneStyles';
 import { CurrencySetDialog } from './CurrencySetDialog';
 import { DetailsList } from './DetailsList';
+import { TavernDescription } from './impressions/tavernDescription';
 import { incomeExampleMap } from './incomeExampleMap';
-import { PriceDescriptionDialog } from './PriceDescriptionDialog';
+import { PriceExplanationDialog } from './PriceExplanationDialog';
 import { PriceSetDialog } from './PriceSetDialog';
 
 const getPriceFromIncome = (income: association, basePrice: BasePrice) => {
@@ -29,9 +30,10 @@ const getPriceFromIncome = (income: association, basePrice: BasePrice) => {
 export const QuestScene = (props: {
     fitting: { fits: association[]; misfits: association[] };
     basePrice: BasePrice;
+    impressions: TavernDescription[];
     onDataChange: (newData: Partial<TavernData>) => void;
 }) => {
-    const [descriptionDialog, setDialog] = useState({
+    const [explanationDialog, setDialog] = useState({
         open: false,
         income: association.poor,
         jobExamples: '',
@@ -166,10 +168,10 @@ export const QuestScene = (props: {
     const onDialogDismiss = () => {
         setDialog({
             open: false,
-            income: descriptionDialog.income,
-            price: descriptionDialog.price,
-            currencyName: descriptionDialog.currencyName,
-            jobExamples: descriptionDialog.jobExamples,
+            income: explanationDialog.income,
+            price: explanationDialog.price,
+            currencyName: explanationDialog.currencyName,
+            jobExamples: explanationDialog.jobExamples,
         });
         setPriceSetter({
             open: false,
@@ -188,8 +190,8 @@ export const QuestScene = (props: {
                 backgroundColor: nameSceneStyles.backgroundView.backgroundColor,
             }}
         >
-            <PriceDescriptionDialog
-                descriptionDialog={descriptionDialog}
+            <PriceExplanationDialog
+                explanationDialog={explanationDialog}
                 onDismiss={onDialogDismiss}
             />
             <PriceSetDialog
@@ -215,6 +217,8 @@ export const QuestScene = (props: {
                 onInfoPress={onInfoPress}
                 onPriceSetPress={onPriceSetPress}
                 onCurrencySetPress={onCurrencySetPress}
+                onDataChange={props.onDataChange}
+                impressions={props.impressions}
             ></DetailsList>
         </ScrollView>
     );

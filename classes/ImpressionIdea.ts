@@ -4,10 +4,9 @@ import { Idea } from './Idea';
 import { StructuredTavernFits } from './StructuredTavernFits';
 export enum Noticable {
     bartender = 'bartender',
-    furniture = 'furniture',
-    extras = 'atmosphere',
     averageCustomer = 'averageCustomers',
     someCustomers = 'someCustomers',
+    furniture = 'furniture',
 }
 
 export class ImpressionIdea extends Idea {
