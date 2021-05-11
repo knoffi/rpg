@@ -15,7 +15,7 @@ export const beefRoasts =
             {
                 mainIng: {
                     name: 'Roast Beef',
-                    fitRange: [
+                    fitsTo: [
                         ...landAssociations,
                         a.poor,
                         a.worker,
@@ -25,19 +25,19 @@ export const beefRoasts =
                 firstSideDishes: [
                     {
                         name: ' in Red Wine Sauce',
-                        fitRange: [...landAssociations, a.sophisticated],
+                        fitsTo: [...landAssociations, a.sophisticated],
                     },
                     {
                         name: ' in Port Wine Sauce',
-                        fitRange: [...landAssociations, a.sophisticated],
+                        fitsTo: [...landAssociations, a.sophisticated],
                     },
                     {
                         name: ' in Pepper Sauce',
-                        fitRange: [...landAssociations, a.worker, a.poor],
+                        fitsTo: [...landAssociations, a.worker, a.poor],
                     },
                     {
                         name: ' in Brown Sauce',
-                        fitRange: [...landAssociations, a.worker, a.poor],
+                        fitsTo: [...landAssociations, a.worker, a.poor],
                     },
                 ],
                 secondSideDishes: standardGreens,
@@ -51,7 +51,7 @@ export const beefRoasts =
             {
                 mainIng: {
                     name: 'Roast Lamb',
-                    fitRange: [
+                    fitsTo: [
                         a.village,
                         a.city,
                         a.mountain,
@@ -63,19 +63,19 @@ export const beefRoasts =
                 firstSideDishes: [
                     {
                         name: ' in Red Wine Sauce',
-                        fitRange: [...landAssociations, a.sophisticated],
+                        fitsTo: [...landAssociations, a.sophisticated],
                     },
                     {
                         name: ' in Port Wine Sauce',
-                        fitRange: [...landAssociations, a.sophisticated],
+                        fitsTo: [...landAssociations, a.sophisticated],
                     },
                     {
                         name: ' in Pepper Sauce',
-                        fitRange: [...landAssociations, a.worker, a.poor],
+                        fitsTo: [...landAssociations, a.worker, a.poor],
                     },
                     {
                         name: ' in Brown Sauce',
-                        fitRange: [...landAssociations, a.worker, a.poor],
+                        fitsTo: [...landAssociations, a.worker, a.poor],
                     },
                 ],
                 secondSideDishes: standardGreens,

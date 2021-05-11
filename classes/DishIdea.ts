@@ -1,26 +1,31 @@
 import { association } from './association';
-import { IngredientsIdea } from './mainDishSuperStructures';
+import { IngredientIdea, IngredientsIdea } from "./ingredientIdea";
 import { PriceSetter } from './PriceSetter';
 import { menuCategory, TavernProduct } from './TavernProduct';
 export class DishIdea {
     private ingredients: IngredientsIdea;
     private averagePrice: number | PriceSetter;
     private category: menuCategory;
+    private description?: string;
 
     constructor(
         ingredients: IngredientsIdea,
         averagePrice: number | PriceSetter,
-        category: menuCategory
+        category: menuCategory,
+        description?:string
     ) {
         this.ingredients = ingredients;
         this.averagePrice = averagePrice;
         this.category = category;
+        if(description){
+            this.description=description;
+        }
     }
 
     private ingredientCollectionFitsToTavern(
         incomeAreaFits: association[],
         isExcludedByPrefix: (name: string) => boolean,
-        ingredients?: { name: string; fitRange: association[] }[]
+        ingredients?: IngredientIdea[]
     ) {
         if (!ingredients || ingredients.length === 0) {
             return true;
@@ -37,14 +42,15 @@ export class DishIdea {
 
     private ingredientFitsToTavern(
         incomeAreaFits: association[],
-        ingredient: { name: string; fitRange: association[] },
+        ingredient: IngredientIdea,
         isExcludedByPrefix: (name: string) => boolean
     ) {
         return (
+            //TODO: use ALL properties of ingredient (needs, needsOne,...)
             incomeAreaFits.filter(
                 (fit) =>
-                    !ingredient.fitRange.includes(fit) &&
-                    fit !== association.empty
+                    ingredient.fitsTo? !ingredient.fitsTo.includes(fit) &&
+                    fit !== association.empty:true
             ).length === 0 && !isExcludedByPrefix(ingredient.name)
         );
     }
@@ -85,7 +91,7 @@ export class DishIdea {
     private getFilteredSideIngredientNames(
         incomeAreaFits: association[],
         isExcludedByPrefix: (name: string) => boolean,
-        ingredients?: { name: string; fitRange: association[] }[]
+        ingredients?: IngredientIdea[]
     ) {
         // can be improved with flatMap(stuff => [stuff.name] or [ ] ) ?
         if (!ingredients) {
@@ -161,7 +167,8 @@ export class DishIdea {
             name,
             price,
             incomeAreaFits,
-            this.category
+            this.category,
+            this.description
         );
         return newMainDish;
     }

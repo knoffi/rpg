@@ -1,5 +1,5 @@
 import { DishIdea } from '../../../classes/DishIdea';
-import { MainDishChapters } from '../../../classes/mainDishSuperStructures';
+import { DessertChapters, MainDishChapters } from '../../../classes/mainDishSuperStructures';
 import { foodCategory } from '../../../classes/TavernProduct';
 import { appetizers, breakfasts, desserts, sideDishes } from './dishes';
 import { beefRoasts } from './mainDishes/beefRoasts';
@@ -27,6 +27,17 @@ const mainDishChapters: MainDishChapters = {
     fish: { weight: 1, dishIdeas: [fishAndChips] },
     vegetarian: { weight: 0, dishIdeas: [] as DishIdea[] },
 };
+const dessertChapters: DessertChapters = {
+    cake: { weight: 0, dishIdeas: [] as DishIdea[] },
+    chocolate: { weight: 0, dishIdeas: [] as DishIdea[] },
+    candy: { weight: 0, dishIdeas: [] as DishIdea[] },
+    iceCream: { weight: 0, dishIdeas: [] as DishIdea[] },
+    fruity: { weight: 0, dishIdeas: [] as DishIdea[] },
+    nutty: { weight: 0, dishIdeas: [] as DishIdea[] },
+    pastries: { weight: 0, dishIdeas: [] as DishIdea[] },
+    pudding: { weight: 0, dishIdeas: [] as DishIdea[] },
+};
 export const foodChapters = [
     { category: foodCategory.mainDish, chapters: mainDishChapters },
+    { category: foodCategory.dessert, chapters: dessertChapters },
 ];

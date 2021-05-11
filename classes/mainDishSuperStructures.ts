@@ -12,6 +12,7 @@ export type IngredientList = {
     areas: association[];
     sauces?: string[];
 }[];
+//TODO: remove with next refactor
 export type IngredientsFromIncome = {
     poor: IngredientList;
     modest: IngredientList;
@@ -23,14 +24,6 @@ export type IngredientStore = {
     greens: IngredientsFromIncome;
     main: IngredientsFromIncome;
 };
-
-export type IngredientsIdea = {
-    mainIng: { name: string; fitRange: association[] };
-    firstSideDishes?: { name: string; fitRange: association[] }[];
-    secondSideDishes?: { name: string; fitRange: association[] }[];
-    thirdSideDishes?: { name: string; fitRange: association[] }[];
-};
-
 export type MainDishChapters = {
     pasta: { weight: number; dishIdeas: DishIdea[] };
     beefRoast: { weight: number; dishIdeas: DishIdea[] };
@@ -42,9 +35,19 @@ export type MainDishChapters = {
     steak: { weight: number; dishIdeas: DishIdea[] };
     stew: { weight: number; dishIdeas: DishIdea[] };
 };
+export type DessertChapters = {
+    iceCream: { weight: number; dishIdeas: DishIdea[] };
+    fruity: { weight: number; dishIdeas: DishIdea[] };
+    chocolate: { weight: number; dishIdeas: DishIdea[] };
+    cake: { weight: number; dishIdeas: DishIdea[] };
+    pastries: { weight: number; dishIdeas: DishIdea[] };
+    pudding: { weight: number; dishIdeas: DishIdea[] };
+    candy: { weight: number; dishIdeas: DishIdea[] };
+    nutty: { weight: number; dishIdeas: DishIdea[] };
+};
 
 export const predecideDishes = (
-    bookChapters: MainDishChapters,
+    bookChapters: MainDishChapters|DessertChapters,
     fits: association[],
     isExcludedByPrefix: (name: string) => boolean
 ) => {

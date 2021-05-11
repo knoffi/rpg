@@ -3,6 +3,7 @@ import { PriceSetter } from '../../../classes/PriceSetter';
 import { standardBasePrice } from '../basePrice';
 
 const MAIN_DISH_FACTOR = 2.5;
+const DESSERT_FACTOR = 1.1;
 
 export const adjustPrice = (price: number, factor: number) => {
     const adjustedPrice = Math.floor(price * factor);
@@ -46,4 +47,5 @@ export const getPriceByFactorFromBasePrice = (foodToDrinkFactor: number) => {
 };
 export const foodPrices = {
     mainDish: getPriceByFactorFromBasePrice(MAIN_DISH_FACTOR),
+    desserts: getPriceByFactorFromBasePrice(DESSERT_FACTOR)
 };
