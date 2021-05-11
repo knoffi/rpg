@@ -27,6 +27,26 @@ export const candies = [
     new DishIdea(
         {
             mainIng: {
+                name: 'Mochi',
+                needsOne: [a.soldier, a.forest, a.tiefling, a.haven],
+                misfits: [a.knight],
+                fitsTo: [a.druid, a.modest],
+                worksForBrothel: false,
+            },
+            // first, second, third sideDishes sind optional
+            firstSideDishes: [
+                { name: ' Anko', needs: [a.tiefling] },
+                { name: ' Strawberry', needs: [a.village] },
+            ],
+        },
+        adjustPriceSetter(foodPrices.desserts, 1),
+        foodCategory.dessert,
+        // description ist optional
+        'The first Mochi fell down from the Moon, because a Rabbit up there was careless. (You gain Advantage on the next Jumping Check)'
+    ),
+    new DishIdea(
+        {
+            mainIng: {
                 name: 'Baklava',
                 needsOne: [a.desert, a.city],
                 misfits: [a.poor],
