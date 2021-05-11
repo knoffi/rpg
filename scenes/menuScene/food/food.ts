@@ -7,6 +7,11 @@ import {
 import { breakfastPlates } from './breakfastPlates/breakfastPlates';
 import { porridges } from './cereals/porridges';
 import { DessertChapters } from './desserts/DessertChapters';
+import { cake } from './desserts/cakes';
+import { candies } from './desserts/candies';
+import { chocolates } from './desserts/chocolates';
+import { Fruities } from './desserts/fruities';
+import { nutties } from './desserts/nutties';
 import { appetizers, desserts, sideDishes } from './dishes';
 import { beefRoasts } from './mainDishes/beefRoasts';
 import { chickenRoasts } from './mainDishes/chickenRoasts';
@@ -42,12 +47,12 @@ const breakfastChapters: BreakfastChapters = {
 };
 
 const dessertChapters: DessertChapters = {
-    cake: { weight: 0, dishIdeas: [] as DishIdea[] },
-    chocolate: { weight: 0, dishIdeas: [] as DishIdea[] },
-    candy: { weight: 0, dishIdeas: [] as DishIdea[] },
+    cake: { weight: 1, dishIdeas: cake },
+    chocolate: { weight: 1, dishIdeas: chocolates },
+    candy: { weight: 1, dishIdeas: candies },
     iceCream: { weight: 0, dishIdeas: [] as DishIdea[] },
-    fruity: { weight: 0, dishIdeas: [] as DishIdea[] },
-    nutty: { weight: 0, dishIdeas: [] as DishIdea[] },
+    fruity: { weight: 1, dishIdeas: Fruities },
+    nutty: { weight: 1, dishIdeas: nutties },
     pastries: { weight: 0, dishIdeas: [] as DishIdea[] },
     pudding: { weight: 0, dishIdeas: [] as DishIdea[] },
 };

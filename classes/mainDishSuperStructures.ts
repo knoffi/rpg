@@ -90,7 +90,6 @@ export const predecideDishes = (
         );
         const predecidedChapter =
             filteredChapters[-negativPredecidedIndex].dishIdeas;
-        //FIX: Stews only come at last main dishes... why though?
         const fittingDishIdeas = predecidedChapter.filter((dishIdea) =>
             dishIdea.satisfiesIncomeAreaFits(incomeAreaFits, isExcludedByPrefix)
         );

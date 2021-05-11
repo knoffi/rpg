@@ -17,6 +17,47 @@ export class Idea {
         protected contrastAdditions?: DescriptionAsset[][]
     ) {}
 
+    // public fitsToTavern(
+    //     tavernFits: StructuredTavernFits,
+    //     isExcludedByPrefix?: (name: string) => boolean
+    // ) {
+    //     const mainFitsToTavern = this.assetFitsToTavern(
+    //         tavernFits,
+    //         this.main,
+    //         isExcludedByPrefix
+    //     );
+    //     if (!mainFitsToTavern) {
+    //         return false;
+    //     }
+    //     const additionsWereGiven = this.additions || this.contrastAdditions;
+    //     if (!additionsWereGiven) {
+    //         return true;
+    //     }
+    //     if (this.additions) {
+    //         const someHarmonySubstantiveFitsToTavern = this.additions.every(
+    //             (additionCollection) =>
+    //                 additionCollection.some((addition) =>
+    //                     this.assetFitsToTavern(tavernFits, addition)
+    //                 )
+    //         );
+    //         if (someHarmonySubstantiveFitsToTavern) {
+    //             return true;
+    //         }
+    //     }
+    //     if (this.contrastAdditions) {
+    //         const someContrastSubstantiveFitsToTavern =
+    //             this.contrastAdditions.every((additionCollection) =>
+    //                 additionCollection.some((addition) =>
+    //                     this.assetFitsToTavern(tavernFits, addition)
+    //                 )
+    //             );
+    //         if (someContrastSubstantiveFitsToTavern) {
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
+
     public countFittingChoices(
         tavernFits: StructuredTavernFits,
         isExcludedByPrefix?: (name: string) => boolean
