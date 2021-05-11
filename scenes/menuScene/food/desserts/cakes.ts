@@ -8,7 +8,7 @@ export const cake = [
         {
             mainIng: {
                 name: 'Cheesecake',
-                needsOne: [a.village, a.worker],
+                needsOne: [a.village, a.modest],
                 misfits: [a.barbarian],
                 incomeRange: [a.wealthy],
                 fitsTo: [a.human, a.gnome, a.halfling],

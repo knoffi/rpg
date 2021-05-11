@@ -126,8 +126,10 @@ const getRandomDrinkOffer = (
         misfits,
         excludedDrinkNames
     ) as TavernProduct;
-    //if drink is undefined, then there are no new drinks left
     if (!drink) {
+        return NothingLeftOffer;
+    }
+    if (drink.name === NothingLeftOffer.product.name) {
         return NothingLeftOffer;
     }
     const copperPrice = drink.copperPrice;

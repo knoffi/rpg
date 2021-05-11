@@ -9,7 +9,7 @@ export const chocolates = [
             mainIng: {
                 name: 'Mousse au Chocolate',
                 needsOne: [a.cleric, a.knight, a.wizard, a.drow],
-                misfits: [a.barbarian, a.worker],
+                misfits: [a.barbarian, a.modest],
                 landRange: [a.city],
                 incomeRange: [a.rich],
                 worksForBrothel: true,
