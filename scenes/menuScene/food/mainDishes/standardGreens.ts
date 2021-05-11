@@ -61,6 +61,7 @@ export const standardGreens = [
         name: ' with Spinach',
         landRange: [a.haven, a.mountain],
         misfits: [a.rich],
+<<<<<<< HEAD
     },
     {
         name: ' with Bell Pepper, Coriander',
@@ -81,5 +82,7 @@ export const standardGreens = [
         name: ' with Pineapple Chunks, Peanuts',
         needs: [a.tropical],
         misfits: [a.rich],
+=======
+>>>>>>> f87c9e0 (FIX #37 description for steak, greens, pork, carbs)
     },
 ];
