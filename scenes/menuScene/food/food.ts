@@ -6,6 +6,7 @@ import {
 } from '../menuChapters/FoodChapters';
 import { breakfastPlates } from './breakfastPlates/breakfastPlates';
 import { porridges } from './cereals/porridges';
+import { DessertChapters } from './desserts/DessertChapters';
 import { appetizers, desserts, sideDishes } from './dishes';
 import { beefRoasts } from './mainDishes/beefRoasts';
 import { chickenRoasts } from './mainDishes/chickenRoasts';
@@ -40,7 +41,18 @@ const breakfastChapters: BreakfastChapters = {
     panCakes: { weight: 0, ideas: [] as DishIdea[] },
 };
 
+const dessertChapters: DessertChapters = {
+    cake: { weight: 0, dishIdeas: [] as DishIdea[] },
+    chocolate: { weight: 0, dishIdeas: [] as DishIdea[] },
+    candy: { weight: 0, dishIdeas: [] as DishIdea[] },
+    iceCream: { weight: 0, dishIdeas: [] as DishIdea[] },
+    fruity: { weight: 0, dishIdeas: [] as DishIdea[] },
+    nutty: { weight: 0, dishIdeas: [] as DishIdea[] },
+    pastries: { weight: 0, dishIdeas: [] as DishIdea[] },
+    pudding: { weight: 0, dishIdeas: [] as DishIdea[] },
+};
 export const foodChapters = [
     { category: Eatable.mainDish, chapters: mainDishChapters },
     { category: Eatable.breakfast, chapters: breakfastChapters },
+    { category: Eatable.dessert, chapters: dessertChapters },
 ];

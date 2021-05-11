@@ -40,6 +40,9 @@ export class DishIdea extends Idea {
         super(mainEnabledForCriminals, sideDishesEnabledForCriminals);
         this.averagePrice = averagePrice;
         this.category = category;
+        if (description) {
+            this.description = description;
+        }
     }
 
     public fitsToMenu(
