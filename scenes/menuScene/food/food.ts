@@ -12,6 +12,7 @@ import { candies } from './desserts/candies';
 import { chocolates } from './desserts/chocolates';
 import { Fruities } from './desserts/fruities';
 import { nutties } from './desserts/nutties';
+import { pudding } from './desserts/puddings';
 import { appetizers, desserts, sideDishes } from './dishes';
 import { beefRoasts } from './mainDishes/beefRoasts';
 import { chickenRoasts } from './mainDishes/chickenRoasts';
@@ -54,7 +55,7 @@ const dessertChapters: DessertChapters = {
     fruity: { weight: 1, dishIdeas: Fruities },
     nutty: { weight: 1, dishIdeas: nutties },
     pastries: { weight: 0, dishIdeas: [] as DishIdea[] },
-    pudding: { weight: 0, dishIdeas: [] as DishIdea[] },
+    pudding: { weight: 1, dishIdeas: pudding },
 };
 export const foodChapters = [
     { category: Eatable.mainDish, chapters: mainDishChapters },
