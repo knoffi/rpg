@@ -87,13 +87,14 @@ const getFilteredTavernProducts = (
         const dishIdeaIndex = foodChapters.findIndex(
             (chapter) => chapter.category === category
         );
-        if (dishIdeaIndex >= 0) {
-            const chosenMainDish = predecideDishes(
+        const dishIdeaFound = dishIdeaIndex >= 0;
+        if (dishIdeaFound) {
+            const chosenDishFromIdea = predecideDishes(
                 foodChapters[dishIdeaIndex].chapters,
                 tavernFits,
                 (name: string) => isExcludedByPrefix(name, excludedDrinkNames)
             );
-            return [chosenMainDish];
+            return [chosenDishFromIdea];
         } else {
             const result = filterFoodByPrefix(
                 foodExamples.find((example) => {
