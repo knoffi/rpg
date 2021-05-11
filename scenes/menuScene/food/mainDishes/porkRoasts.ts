@@ -12,26 +12,11 @@ export const porkRoasts = [
         {
             mainIng: {
                 name: 'Roast Pork',
-<<<<<<< HEAD
                 misfits: [a.rich, a.tropical, a.desert],
-=======
-                fitsTo: [
-                    a.village,
-                    a.city,
-                    a.forest,
-                    a.mountain,
-                    a.haven,
-                    a.underdark,
-                    a.poor,
-                    a.worker,
-                    a.sophisticated,
-                ],
->>>>>>> b56654fa94832ea8632d95518cf848dfa99ed6f8
             },
             firstSideDishes: [
                 {
                     name: ' in Brown Sauce',
-<<<<<<< HEAD
                     incomeRange: [a.modest, a.poor],
                 },
                 {
@@ -45,21 +30,6 @@ export const porkRoasts = [
                 {
                     name: ' in Beer Sauce',
                     incomeRange: [a.modest, a.poor],
-=======
-                    fitsTo: [...landAssociations, a.worker, a.poor],
-                },
-                {
-                    name: ' in Maple-Balsamic Sauce',
-                    fitsTo: [...landAssociations, a.sophisticated],
-                },
-                {
-                    name: ' in Mustard Sauce',
-                    fitsTo: [...landAssociations, a.worker, a.poor],
-                },
-                {
-                    name: ' in Beer Sauce',
-                    fitsTo: [...landAssociations, a.worker, a.poor],
->>>>>>> b56654fa94832ea8632d95518cf848dfa99ed6f8
                 },
             ],
             secondSideDishes: standardGreens,
