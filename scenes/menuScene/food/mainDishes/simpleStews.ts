@@ -11,76 +11,76 @@ export const leftoverStew =
         {
             mainIng: {
                 name: 'Leftover Stew',
-                fitRange: [...landAssociations, a.poor, a.worker],
+                fitsTo: [...landAssociations, a.poor, a.worker],
             },
             firstSideDishes: [
                 {
                     name: ' with Chicken Legs',
-                    fitRange: [...landAssociations, a.worker, a.poor],
+                    fitsTo: [...landAssociations, a.worker, a.poor],
                 },
                 {
                     name: ' with Beef Chunks',
-                    fitRange: [...landAssociations, a.worker, a.poor],
+                    fitsTo: [...landAssociations, a.worker, a.poor],
                 },
                 {
                     name: ' with Pork Chunks',
-                    fitRange: [a.city, a.village, a.tropical, a.worker, a.poor],
+                    fitsTo: [a.city, a.village, a.tropical, a.worker, a.poor],
                 },
                 {
                     name: ' with Boar Chunks',
-                    fitRange: [a.forest, a.mountain, a.worker, a.poor],
+                    fitsTo: [a.forest, a.mountain, a.worker, a.poor],
                 },
                 {
                     name: ' with Chick Peas, Coriander',
-                    fitRange: [a.desert, a.worker, a.poor],
+                    fitsTo: [a.desert, a.worker, a.poor],
                 },
                 {
                     name: ' with Lamb Chunks',
-                    fitRange: [a.desert, a.mountain, a.worker],
+                    fitsTo: [a.desert, a.mountain, a.worker],
                 },
                 {
                     name: ' with Beans, Onions',
-                    fitRange: [...landAssociations, a.worker],
+                    fitsTo: [...landAssociations, a.worker],
                 },
-                { name: ' with Dried Squid', fitRange: [a.haven, a.worker] },
+                { name: ' with Dried Squid', fitsTo: [a.haven, a.worker] },
                 {
                     name: ' with Pumpkin Chunks',
-                    fitRange: [a.forest, a.village, a.worker],
+                    fitsTo: [a.forest, a.village, a.worker],
                 },
-                { name: ' with Shrimps', fitRange: [a.haven, a.worker] },
-                { name: ' with Anchovies', fitRange: [a.haven, a.poor] },
+                { name: ' with Shrimps', fitsTo: [a.haven, a.worker] },
+                { name: ' with Anchovies', fitsTo: [a.haven, a.poor] },
                 {
                     name: ' with Smoked Salmon',
-                    fitRange: [a.haven, a.village, a.city, a.worker],
+                    fitsTo: [a.haven, a.village, a.city, a.worker],
                 },
                 {
                     name: ' with Boar Feet',
-                    fitRange: [a.village, a.forest, a.mountain, a.poor],
+                    fitsTo: [a.village, a.forest, a.mountain, a.poor],
                 },
                 {
                     name: ' with Pig Feet',
-                    fitRange: [a.village, a.city, a.forest, a.poor],
+                    fitsTo: [a.village, a.city, a.forest, a.poor],
                 },
                 {
                     name: ' with Pickled Mole',
-                    fitRange: [a.underdark, a.worker],
+                    fitsTo: [a.underdark, a.worker],
                 },
-                { name: ' with Earth Worms', fitRange: [a.underdark, a.poor] },
+                { name: ' with Earth Worms', fitsTo: [a.underdark, a.poor] },
             ],
             secondSideDishes: [
-                { name: ' and Bread', fitRange: [a.city, a.village, a.poor] },
+                { name: ' and Bread', fitsTo: [a.city, a.village, a.poor] },
                 {
                     name: ' and Potatoes',
-                    fitRange: [...landAssociations, a.worker],
+                    fitsTo: [...landAssociations, a.worker],
                 },
-                { name: ' and Cabbage', fitRange: [a.forest, a.poor] },
+                { name: ' and Cabbage', fitsTo: [a.forest, a.poor] },
                 {
                     name: ' and Rice',
-                    fitRange: [a.tropical, a.desert, a.haven, a.worker],
+                    fitsTo: [a.tropical, a.desert, a.haven, a.worker],
                 },
                 {
                     name: ' and Flat Bread',
-                    fitRange: [a.tropical, a.mountain, a.desert, a.poor],
+                    fitsTo: [a.tropical, a.mountain, a.desert, a.poor],
                 },
             ],
         },

@@ -12,7 +12,7 @@ export const porkRoasts = [
         {
             mainIng: {
                 name: 'Roast Pork',
-                fitRange: [
+                fitsTo: [
                     a.village,
                     a.city,
                     a.forest,
@@ -27,19 +27,19 @@ export const porkRoasts = [
             firstSideDishes: [
                 {
                     name: ' in Brown Sauce',
-                    fitRange: [...landAssociations, a.worker, a.poor],
+                    fitsTo: [...landAssociations, a.worker, a.poor],
                 },
                 {
                     name: ' in Maple-Balsamic Sauce',
-                    fitRange: [...landAssociations, a.sophisticated],
+                    fitsTo: [...landAssociations, a.sophisticated],
                 },
                 {
                     name: ' in Mustard Sauce',
-                    fitRange: [...landAssociations, a.worker, a.poor],
+                    fitsTo: [...landAssociations, a.worker, a.poor],
                 },
                 {
                     name: ' in Beer Sauce',
-                    fitRange: [...landAssociations, a.worker, a.poor],
+                    fitsTo: [...landAssociations, a.worker, a.poor],
                 },
             ],
             secondSideDishes: standardGreens,

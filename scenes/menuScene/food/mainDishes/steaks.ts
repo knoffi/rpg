@@ -9,13 +9,13 @@ export const steaks = [
         {
             mainIng: {
                 name: 'Chateaubriand Steak',
-                fitRange: [...landAssociations, a.rich],
+                fitsTo: [...landAssociations, a.rich],
             },
             firstSideDishes: [
                 {
                     name: ' with Gold Plated Duchesse Potatoes',
-                    // maybe fitRange should be an optional parameter. If it is undefined, then this will be seen as [...landAssociations, ...incomeAssociations] when it comes to fitting and filtering
-                    fitRange: [...landAssociations, a.rich],
+                    // maybe fitsTo should be an optional parameter. If it is undefined, then this will be seen as [...landAssociations, ...incomeAssociations] when it comes to fitting and filtering
+                    fitsTo: [...landAssociations, a.rich],
                 },
             ],
         },

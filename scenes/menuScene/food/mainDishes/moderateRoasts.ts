@@ -2,7 +2,7 @@ import { association } from '../../../../classes/association';
 import { IngredientList } from '../../../../classes/mainDishSuperStructures';
 const a = association;
 const workerMainIngredients: IngredientList = [
-    {
+    { // TODO: Refactor into new system
         name: 'Rump Steak',
         areas: [a.city, a.village],
         sauces: ['in Whiskey Sauce', '', ''],
