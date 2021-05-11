@@ -1,11 +1,15 @@
 import { getRandomArrayEntry } from '../helpingFunctions/getFittingRandom';
 import { NothingLeftOffer } from '../scenes/menuScene/menuEnums';
 import { association } from './association';
-import { BreakfastChapters, MainDishChapters } from './FoodChapters';
+import {
+    BreakfastChapters,
+    DessertChapters,
+    MainDishChapters,
+} from './FoodChapters';
 import { getStructuredFits } from './StructuredTavernFits';
 
 export const predecideDishes = (
-    bookChapters: MainDishChapters | BreakfastChapters,
+    bookChapters: MainDishChapters | BreakfastChapters | DessertChapters,
     fits: association[],
     isExcludedByPrefix: (name: string) => boolean
 ) => {

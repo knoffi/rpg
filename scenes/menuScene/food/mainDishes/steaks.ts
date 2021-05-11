@@ -9,11 +9,20 @@ export const steaks = [
         {
             mainIng: {
                 name: 'Chateaubriand Steak',
+<<<<<<< HEAD
                 needs: [a.rich],
+=======
+                fitsTo: [...landAssociations, a.rich],
+>>>>>>> b56654fa94832ea8632d95518cf848dfa99ed6f8
             },
             firstSideDishes: [
                 {
                     name: ' with Gold Plated Duchesse Potatoes',
+<<<<<<< HEAD
+=======
+                    // maybe fitsTo should be an optional parameter. If it is undefined, then this will be seen as [...landAssociations, ...incomeAssociations] when it comes to fitting and filtering
+                    fitsTo: [...landAssociations, a.rich],
+>>>>>>> b56654fa94832ea8632d95518cf848dfa99ed6f8
                 },
             ],
         },

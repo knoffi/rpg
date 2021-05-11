@@ -1,6 +1,7 @@
 import { DishIdea } from '../../../classes/DishIdea';
 import {
     BreakfastChapters,
+    DessertChapters,
     MainDishChapters,
 } from '../../../classes/FoodChapters';
 import { foodCategory } from '../../../classes/TavernProduct';
@@ -40,7 +41,19 @@ const breakfastChapters: BreakfastChapters = {
     panCakes: { weight: 0, dishIdeas: [] as DishIdea[] },
 };
 
+const dessertChapters: DessertChapters = {
+    cake: { weight: 0, dishIdeas: [] as DishIdea[] },
+    chocolate: { weight: 0, dishIdeas: [] as DishIdea[] },
+    candy: { weight: 0, dishIdeas: [] as DishIdea[] },
+    iceCream: { weight: 0, dishIdeas: [] as DishIdea[] },
+    fruity: { weight: 0, dishIdeas: [] as DishIdea[] },
+    nutty: { weight: 0, dishIdeas: [] as DishIdea[] },
+    pastries: { weight: 0, dishIdeas: [] as DishIdea[] },
+    pudding: { weight: 0, dishIdeas: [] as DishIdea[] },
+};
+
 export const foodChapters = [
     { category: foodCategory.mainDish, chapters: mainDishChapters },
     { category: foodCategory.breakfast, chapters: breakfastChapters },
+    { category: foodCategory.dessert, chapters: dessertChapters },
 ];
