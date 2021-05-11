@@ -1,6 +1,5 @@
 import { association } from '../../../../classes/association';
 import { DishIdea } from '../../../../classes/DishIdea';
-import { IngredientsIdea } from '../../../../classes/ingredientIdea';
 import { foodCategory } from '../../../../classes/TavernProduct';
 import { adjustPriceSetter, foodPrices } from '../foodPrices';
 const a = association;
@@ -10,7 +9,7 @@ export const pastries = [
             mainIng: {
                 name: 'Cartwheel Cookie',
                 needsOne: [a.forest, a.gnome],
-                misfits: [a.nobel],
+                misfits: [a.knight],
                 landRange: [a.city],
                 incomeRange: [a.poor],
                 fitsTo: [a.halfling],

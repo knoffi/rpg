@@ -1,6 +1,5 @@
 import { association } from '../../../../classes/association';
 import { DishIdea } from '../../../../classes/DishIdea';
-import { IngredientsIdea } from '../../../../classes/ingredientIdea';
 import { foodCategory } from '../../../../classes/TavernProduct';
 import { adjustPriceSetter, foodPrices } from '../foodPrices';
 const a = association;
@@ -9,11 +8,11 @@ export const icecream = [
         {
             mainIng: {
                 name: 'My Icecream',
-                needsOne: [a.cleric, a.nobel],
+                needsOne: [a.cleric, a.knight],
                 needs: [a.adventurer, a.barbarian],
                 misfits: [a.barbarian],
                 landRange: [a.city],
-                incomeRange: [a.sophisticated],
+                incomeRange: [a.wealthy],
                 fitsTo: [a.druid],
                 worksForBrothel: true,
             },

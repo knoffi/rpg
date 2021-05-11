@@ -1,6 +1,5 @@
 import { association } from '../../../../classes/association';
 import { DishIdea } from '../../../../classes/DishIdea';
-import { IngredientsIdea } from '../../../../classes/ingredientIdea';
 import { foodCategory } from '../../../../classes/TavernProduct';
 import { adjustPriceSetter, foodPrices } from '../foodPrices';
 const a = association;
@@ -10,7 +9,7 @@ export const candies = [
             mainIng: {
                 name: 'Mochi',
                 needsOne: [a.dragonborn, a.forest, a.tiefling, a.haven],
-                misfits: [a.nobel],
+                misfits: [a.knight],
                 fitsTo: [a.druid, a.worker],
                 worksForBrothel: false,
             },
@@ -72,7 +71,7 @@ export const candies = [
             mainIng: {
                 name: 'Jelly Droplets',
                 misfits: [a.village, a.forest],
-                incomeRange: [a.sophisticated],
+                incomeRange: [a.wealthy],
                 fitsTo: [a.elf, a.gnome, a.bard, a.underdark],
                 worksForBrothel: false,
             },

@@ -7,6 +7,7 @@ import {
 import { foodCategory } from '../../../classes/TavernProduct';
 import { breakfastPlates } from './breakfastPlates/breakfastPlates';
 import { porridges } from './cereals/porridges';
+import { pudding } from './desserts/puddings';
 import { appetizers, desserts, sideDishes } from './dishes';
 import { beefRoasts } from './mainDishes/beefRoasts';
 import { chickenRoasts } from './mainDishes/chickenRoasts';
@@ -49,7 +50,7 @@ const dessertChapters: DessertChapters = {
     fruity: { weight: 0, dishIdeas: [] as DishIdea[] },
     nutty: { weight: 0, dishIdeas: [] as DishIdea[] },
     pastries: { weight: 0, dishIdeas: [] as DishIdea[] },
-    pudding: { weight: 0, dishIdeas: [] as DishIdea[] },
+    pudding: { weight: 1, dishIdeas: pudding },
 };
 
 export const foodChapters = [

@@ -1,6 +1,5 @@
 import { association } from '../../../../classes/association';
 import { DishIdea } from '../../../../classes/DishIdea';
-import { IngredientsIdea } from '../../../../classes/ingredientIdea';
 import { foodCategory } from '../../../../classes/TavernProduct';
 import { adjustPriceSetter, foodPrices } from '../foodPrices';
 const a = association;
@@ -11,7 +10,7 @@ export const cake = [
                 name: 'Cheesecake',
                 needsOne: [a.village, a.worker],
                 misfits: [a.barbarian],
-                incomeRange: [a.sophisticated],
+                incomeRange: [a.wealthy],
                 fitsTo: [a.human, a.gnome, a.halfling],
                 worksForBrothel: true,
             },
@@ -29,9 +28,9 @@ export const cake = [
         {
             mainIng: {
                 name: 'Black Forest Gateau',
-                needsOne: [a.forest, a.nobel],
+                needsOne: [a.forest, a.knight],
                 misfits: [a.barbarian],
-                incomeRange: [a.sophisticated],
+                incomeRange: [a.wealthy],
                 fitsTo: [a.forest, a.gnome, a.halfling, a.mountain],
                 worksForBrothel: true,
             },
@@ -59,7 +58,7 @@ export const cake = [
                 worksForBrothel: true,
             },
             // first, second, third sideDishes sind optional
-            firstSideDishes: [{ name: ' Glazed', needs: [a.sophisticated] }],
+            firstSideDishes: [{ name: ' Glazed', needs: [a.wealthy] }],
             secondSideDishes: [
                 { name: ' candied Lemons', needs: [a.tropical] },
             ],

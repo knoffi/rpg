@@ -1,6 +1,5 @@
 import { association } from '../../../../classes/association';
 import { DishIdea } from '../../../../classes/DishIdea';
-import { IngredientsIdea } from '../../../../classes/ingredientIdea';
 import { foodCategory } from '../../../../classes/TavernProduct';
 import { adjustPriceSetter, foodPrices } from '../foodPrices';
 const a = association;
@@ -8,12 +7,24 @@ export const pudding = [
     new DishIdea(
         {
             mainIng: {
+                name: 'Milk Pudding',
+                worksForAssasines: true,
+                worksForBrothel: true,
+                worksForThiefs: true,
+            },
+        },
+        adjustPriceSetter(foodPrices.desserts, 1),
+        foodCategory.dessert
+    ),
+    new DishIdea(
+        {
+            mainIng: {
                 name: 'My Pudding',
-                needsOne: [a.cleric, a.nobel],
+                needsOne: [a.cleric, a.knight],
                 needs: [a.adventurer, a.barbarian],
                 misfits: [a.barbarian],
                 landRange: [a.city],
-                incomeRange: [a.sophisticated],
+                incomeRange: [a.wealthy],
                 fitsTo: [a.druid],
                 worksForBrothel: true,
             },
