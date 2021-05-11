@@ -61,6 +61,10 @@ export const weapons: NounIdea[] = [
         worksForAssasines: true,
     },
     {
+        name: 'Shield',
+        classRange: [a.soldier, a.knight],
+    },
+    {
         name: 'Crossbow',
         classRange: [a.knight, a.knight],
         misfits: [a.rich, a.haven, a.elf, a.drow],

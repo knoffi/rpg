@@ -22,14 +22,22 @@ export const chickenRoasts = [
             firstSideDishes: [
                 {
                     name: ' in Redcurrant Sauce',
+                    incomeRange: [a.wealthy],
                 },
                 {
                     name: ' in Port Wine Sauce',
+                    incomeRange: [a.wealthy],
                 },
                 {
                     name: ' in Blackcurrant Sauce',
+                    incomeRange: [a.wealthy],
+                },
+                {
+                    name: ' in Cranberry Sauce',
+                    incomeRange: [a.modest, a.poor],
                 },
             ],
+
             secondSideDishes: standardGreens,
             thirdSideDishes: standardCarbs,
         },
@@ -81,8 +89,6 @@ export const chickenRoasts = [
                     name: ' with Cranberries, Potatoe Dumplings & Red Cabbage',
                 },
             ],
-            secondSideDishes: standardGreens,
-            thirdSideDishes: standardCarbs,
         },
         adjustPriceSetter(foodPrices.mainDish, PHEASANT_FACTOR),
         foodCategory.mainDish

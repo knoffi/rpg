@@ -54,6 +54,7 @@ export const getRandomStartTavern = () => {
     tavernData.drinkBannerData = bannerData.drinkBannerData!;
     tavernData.foodBannerData = bannerData.foodBannerData!;
     tavernData.prices = basePrice;
+    //TODO: add random bartender, average guest, some guests, furniture
     return tavernData;
 };
 

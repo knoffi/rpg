@@ -16,6 +16,8 @@ const SUBSTANTIVES_FOR_GOLD: NounIdea[] = [
     ...weapons,
     ...majesticBeasts,
     ...preyNormalAnimals,
+    { name: 'Temple', needsOne: [a.cleric] },
+    { name: 'Mine', needsOne: [a.dwarf, a.underdark] },
     /*{ name: 'Temple', needsOne: [a.cleric] },
     { name: 'Mine', needsOne: [a.dwarf, a.underdark] },
     { name: 'Sun', needsOne: [a.knight, a.wealthy, a.cleric, a.elf] },
@@ -75,6 +77,7 @@ const SUBSTANTIVES_FOR_GOLD: NounIdea[] = [
         worksForBrothel: true,
     },
 ];
+const moneyOrHonor = [a.rich, a.wealthy, a.knight, a.cleric];
 export const materials: NameIdea[] = [
     new NameIdea(
         {
@@ -121,6 +124,16 @@ export const materials: NameIdea[] = [
     ),
     new NameIdea(
         {
+            name: 'Marble',
+            needsOne: [a.rich, a.wealthy, a.cleric, a.wizard, a.dwarf],
+            worksForThiefs: true,
+            worksForBrothel: true,
+            worksForAssasines: true,
+        },
+        SUBSTANTIVES_FOR_GOLD
+    ),
+    new NameIdea(
+        {
             name: 'Copper',
             misfits: [a.rich, a.wealthy],
             worksForThiefs: true,
@@ -137,24 +150,41 @@ export const materials: NameIdea[] = [
     new NameIdea(
         {
             name: 'Oaken',
-            misfits: [a.rich, a.wealthy, a.knight, a.cleric],
+            misfits: moneyOrHonor,
         },
         SUBSTANTIVES_FOR_GOLD
     ),
     new NameIdea(
         {
             name: 'Red',
-            misfits: [a.rich, a.wealthy, a.knight, a.cleric],
+            misfits: moneyOrHonor,
         },
         SUBSTANTIVES_FOR_GOLD
     ),
     new NameIdea(
         {
             name: 'Black',
-            misfits: [a.rich, a.wealthy, a.knight, a.cleric],
+            misfits: moneyOrHonor,
             worksForThiefs: true,
             worksForAssasines: true,
         },
         [{ name: 'Sheep', worksForBrothel: true, worksForThiefs: true }]
+    ),
+    new NameIdea(
+        {
+            name: 'Rusty',
+            misfits: moneyOrHonor,
+            worksForThiefs: true,
+        },
+        SUBSTANTIVES_FOR_GOLD
+    ),
+    new NameIdea(
+        {
+            name: 'Tin',
+            misfits: moneyOrHonor,
+            worksForThiefs: true,
+            worksForAssasines: true,
+        },
+        SUBSTANTIVES_FOR_GOLD
     ),
 ];

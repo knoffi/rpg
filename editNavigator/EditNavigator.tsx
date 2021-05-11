@@ -151,6 +151,7 @@ export const EditNavigator = (props: {
                         fitting={props.tavern.fitting}
                         basePrice={props.tavern.prices}
                         onDataChange={props.onDataChange}
+                        impressions={props.tavern.impressions}
                     ></QuestScene>
                 )}
             />

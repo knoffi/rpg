@@ -1,19 +1,16 @@
-import React, { useState } from 'react';
-import { View } from 'react-native';
+import React from 'react';
 import { List } from 'react-native-paper';
 import { association } from '../../classes/association';
-import { aspect, Impression } from '../../classes/Atmosphere';
-import {
-    AddButton,
-    buttonEmphasis,
-    DeleteButton,
-    RerollButton,
-} from '../../components/buttons/generalButtons';
+import { Impression } from '../../classes/Atmosphere';
+import { Noticable } from '../../classes/ImpressionIdea';
+import { AddButton } from '../../components/buttons/generalButtons';
+import { TavernData } from '../../mainNavigator/TavernData';
 import { globalStyles } from '../globalStyles';
 import { BasePrice } from '../menuScene/basePrice';
 import { menuSceneStyles } from '../menuScene/menuStyles';
 import { LIST_END_BUTTON_SIZE } from '../menuScene/offerList/LIST_END_BUTTON_SIZE';
-import { OfferListTopItem } from '../menuScene/offerList/OfferList';
+import { OfferListTopItem } from '../menuScene/offerList/OfferListTopItem';
+import { TavernDescription } from './impressions/tavernDescription';
 import { PriceAccordion } from './PriceAccordion';
 
 export const DetailsList = (props: {
@@ -22,8 +19,61 @@ export const DetailsList = (props: {
     onInfoPress: (income: association) => void;
     onPriceSetPress: (income: association) => void;
     onCurrencySetPress: () => void;
+    onDataChange: (data: Partial<TavernData>) => void;
+    impressions: TavernDescription[];
 }) => {
-    const impressionListAccordions = getImpressionAccordions(props.fits);
+    const impression = new Impression(props.fits);
+    const onDelete = (oldImpression: TavernDescription) => {
+        const otherImpressions = props.impressions.filter(
+            (impression) => impression.name !== oldImpression.name
+        );
+        props.onDataChange({ impressions: otherImpressions });
+    };
+    const onReroll = (oldImpression: TavernDescription) => {
+        const newImpressions = props.impressions.map((impression) =>
+            impression.name !== oldImpression.name
+                ? impression
+                : {
+                      name:
+                          'empty' + Math.floor(Math.random() * 100).toString(),
+                      category: oldImpression.category,
+                  }
+        );
+        props.onDataChange({ impressions: newImpressions });
+    };
+    const onAdd = (category: Noticable) => {
+        const newImpression = {
+            name: 'empty' + Math.floor(Math.random() * 100).toString(),
+            category: category,
+        };
+        props.onDataChange({
+            impressions: [...props.impressions, newImpression],
+        });
+    };
+    //TODO: What about barmaids?
+    const impressionTitles = Object.values(Noticable);
+    const impressionListAccordions = impressionTitles.map((title) => {
+        const impressionsOfTitle = props.impressions.filter(
+            (impression) => impression.category === title
+        );
+        const namesOfTitle = impressionsOfTitle.map(
+            (impression) => impression.name
+        );
+        return (
+            <ImpressionListAccordion
+                key={title}
+                title={title}
+                descriptionNames={namesOfTitle}
+                onDelete={(name: string) =>
+                    onDelete({ name: name, category: title })
+                }
+                onReroll={(name: string) =>
+                    onReroll({ name: name, category: title })
+                }
+                onAdd={() => onAdd(title)}
+            ></ImpressionListAccordion>
+        );
+    });
     return (
         <List.Section title={'NOTES'} titleStyle={globalStyles.title}>
             <PriceAccordion
@@ -37,151 +87,41 @@ export const DetailsList = (props: {
     );
 };
 
-const getImpressionAccordions = (fits: association[]) => {
-    const impression = new Impression(fits);
-    //TODO: What about barmaids?
-    const chefOfBarTitle = 'Bartender';
-    const mostGuestsTitle = 'Most Guests';
-    const intriguingTitle = 'Intriguing';
-    const interiorTitle = 'Interior';
-    const aspectKeyValuePairs = Object.values(aspect).map((aspect) => {
-        return { [aspect]: [aspect as string] };
-    });
-    const startImpressions = aspectKeyValuePairs.reduce(
-        (collection, keyValue) => {
-            const key = Object.keys(keyValue)[0];
-            const value = Object.values(keyValue)[0];
-            collection[key] = [impression.getText(value[0] as aspect)];
-            return collection;
-        },
-        {}
-    );
-    const [impressions, setImpressions] = useState(startImpressions);
-    const onReroll = (aspect: aspect, indexForReroll: number) => {
-        const oldTextsOfAspect = impressions[aspect];
-        const newTextsOfAspect = oldTextsOfAspect.map((text, index) =>
-            index === indexForReroll ? impression.getText(aspect) : text
-        );
-        const impressionsCopy = { ...impressions, [aspect]: newTextsOfAspect };
-        setImpressions(impressionsCopy);
-    };
-    const onAdd = (aspect: aspect) => {
-        const oldTextsOfAspect = impressions[aspect];
-        const newTextsOfAspect = [
-            ...oldTextsOfAspect,
-            impression.getText(aspect),
-        ];
-        const impressionsCopy = { ...impressions, [aspect]: newTextsOfAspect };
-        setImpressions(impressionsCopy);
-    };
-    const onDelete = (aspect: aspect, indexForDelete: number) => {
-        const oldTextsOfAspect = impressions[aspect];
-        const newTextsOfAspect = [
-            ...oldTextsOfAspect.slice(0, indexForDelete),
-            ...oldTextsOfAspect.slice(indexForDelete + 1),
-        ];
-        const impressionsCopy = { ...impressions, [aspect]: newTextsOfAspect };
-        setImpressions(impressionsCopy);
-    };
-    const bartenderAccordions = (
-        <ImpressionListAccordion
-            key={aspect.bartender}
-            aspect={aspect.bartender}
-            title={chefOfBarTitle}
-            descriptions={impressions[aspect.bartender]}
-            onReroll={onReroll}
-            onAdd={onAdd}
-            onDelete={onDelete}
-        ></ImpressionListAccordion>
-    );
-    const averageCustomerAccordions = (
-        <ImpressionListAccordion
-            key={aspect.averageCustomer}
-            aspect={aspect.averageCustomer}
-            title={mostGuestsTitle}
-            descriptions={impressions[aspect.averageCustomer]}
-            onReroll={onReroll}
-            onAdd={onAdd}
-            onDelete={onDelete}
-        ></ImpressionListAccordion>
-    );
-    const intriguingAccordions = (
-        <ImpressionListAccordion
-            key={aspect.someCustomers}
-            aspect={aspect.someCustomers}
-            title={intriguingTitle}
-            descriptions={impressions[aspect.someCustomers]}
-            onReroll={onReroll}
-            onAdd={onAdd}
-            onDelete={onDelete}
-        ></ImpressionListAccordion>
-    );
-    const interiorAccordions = (
-        <ImpressionListAccordion
-            key={aspect.interior}
-            aspect={aspect.interior}
-            title={interiorTitle}
-            descriptions={impressions[aspect.interior]}
-            onReroll={onReroll}
-            onAdd={onAdd}
-            onDelete={onDelete}
-        ></ImpressionListAccordion>
-    );
-
-    return [
-        bartenderAccordions,
-        averageCustomerAccordions,
-        intriguingAccordions,
-        interiorAccordions,
-    ];
-};
 const ImpressionListAccordion = (props: {
-    aspect: aspect;
     title: string;
-    descriptions: string[];
-    onDelete: (aspect: aspect, index: number) => void;
-    onAdd: (aspect: aspect) => void;
-    onReroll: (aspect: aspect, index: number) => void;
+    descriptionNames: string[];
+    onDelete: (name: string) => void;
+    onAdd: () => void;
+    onReroll: (name: string) => void;
 }) => {
-    const descriptionItems = props.descriptions.map((text, index) => [
+    const descriptionItems = props.descriptionNames.map((text, index) => (
         <OfferListTopItem
             drinkName={text}
-            infoAction={() => {}}
-            key={props.aspect + index.toString() + 'text'}
-        ></OfferListTopItem>,
-        <List.Item
-            title={''}
-            right={() => (
-                <View
-                    style={{ flexDirection: 'row', justifyContent: 'flex-end' }}
-                >
-                    <DeleteButton
-                        size={14}
-                        mode={buttonEmphasis.medium}
-                        onPress={() => {
-                            props.onDelete!(props.aspect, index);
-                        }}
-                    />
-
-                    <RerollButton
-                        mode={buttonEmphasis.high}
-                        size={12}
-                        onPress={() => props.onReroll(props.aspect, index)}
-                    />
-                </View>
-            )}
-            key={(props.aspect as String) + index.toString() + 'buttons'}
-        ></List.Item>,
-    ]);
+            key={+index.toString() + 'text'}
+            priceString={''}
+            //TODO: make this adjustable, so that instad of reroll user can edit
+            //TODO: also, do use "NO DESCRIPTION LEFT" instead of "MENU FULL!"
+            isUserMade={false}
+            //TODO: check, if there is no description left
+            noDrinkToAddLeft={false}
+            actions={{
+                onReroll: () => props.onReroll(text),
+                onDelete: () => props.onDelete(text),
+                onEdit: () => {},
+                onShop: () => {},
+                onInfo: () => {},
+            }}
+        ></OfferListTopItem>
+    ));
     const addBar = (
         <List.Item
             title=""
-            key={props.aspect + 'addBar'}
+            key={+'addBar'}
             left={() => (
                 <AddButton
                     size={LIST_END_BUTTON_SIZE}
                     onPress={() => {
-                        props.onAdd!(props.aspect);
+                        props.onAdd();
                     }}
                 />
             )}
@@ -193,7 +133,7 @@ const ImpressionListAccordion = (props: {
             titleStyle={menuSceneStyles.accordeonListTitle}
             key={props.title}
         >
-            {[...descriptionItems.flat(), addBar]}
+            {[...descriptionItems, addBar]}
         </List.Accordion>
     );
 };

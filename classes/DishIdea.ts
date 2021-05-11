@@ -1,3 +1,4 @@
+import { splitMarker } from '../scenes/menuScene/offerList/nameSplitter/splitMarker';
 import { association } from './association';
 import {
     DescriptionAsset,
@@ -56,11 +57,7 @@ export class DishIdea extends Idea {
             const result =
                 sideDishes[0].name === EMPTY_SIDE_DISH.name
                     ? EMPTY_SIDE_DISH
-                    : this.getFittingAssetPart(
-                          tavernFits,
-                          sideDishes,
-                          isExcludedByPrefix
-                      );
+                    : this.getFittingAssetPart(tavernFits, sideDishes);
             return result;
         });
         const sideDishSlotHasNoFitting = fittingSideDishMenu.some(
@@ -100,6 +97,7 @@ export class DishIdea extends Idea {
     ) {
         const name =
             mainIngredient +
+            splitMarker +
             firstSideIngredient +
             secondSideIngredient +
             thirdSideIngredient;
