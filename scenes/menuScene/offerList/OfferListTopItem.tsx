@@ -83,17 +83,26 @@ export const OfferListTopItem = (props: {
 
 const DishText = (props: { drinkName: string; priceString: string }) => {
     const { name, description } = getDishTexts(props.drinkName);
+    const isNotForDishes = props.priceString === '';
 
     return (
         <View>
-            <View style={menuSceneStyles.listItemView}>
+            <View
+                style={
+                    isNotForDishes
+                        ? menuSceneStyles.detailsListItemView
+                        : menuSceneStyles.drinkListItemView
+                }
+            >
                 <Text style={menuSceneStyles.drinkName}>{name}</Text>
                 <Text style={menuSceneStyles.drinkDescription}>
                     {description}
                 </Text>
-                <Text style={menuSceneStyles.drinkPrice}>
-                    {props.priceString}
-                </Text>
+                {isNotForDishes ? undefined : (
+                    <Text style={menuSceneStyles.drinkPrice}>
+                        {props.priceString}
+                    </Text>
+                )}
             </View>
         </View>
     );

@@ -16,7 +16,8 @@ export const menuSceneStyles = StyleSheet.create({
         marginBottom: 5 * HEIGHT_FACTOR,
     },
     animatedText: { fontWeight: 'bold', padding: 20 },
-    listItemView: { flexDirection: 'column', marginBottom: 20 },
+    drinkListItemView: { flexDirection: 'column', marginBottom: 20 },
+    detailsListItemView: { flexDirection: 'column', marginBottom: 1 },
     drinkDescription: {
         fontSize: 15 * WIDTH_FACTOR,
         fontWeight: '100',
