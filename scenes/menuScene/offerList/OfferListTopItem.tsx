@@ -1,11 +1,13 @@
 import * as React from 'react';
 import { Animated, View } from 'react-native';
-import { Divider, List, Text } from 'react-native-paper';
+import { List, Text } from 'react-native-paper';
+import { WIDTH_FACTOR } from '../../../dimensionConstants';
 import { OpacitySwiper } from '../../titleScene/OpacitySwiper';
 import { menuSceneStyles } from '../menuStyles';
 import { getDishTexts } from './nameSplitter/getDishTexts';
 import { productActions } from './productActions';
 
+const SWIPE_THRESHOLD = 150 * WIDTH_FACTOR;
 export const OfferListTopItem = (props: {
     drinkName: string;
     actions: productActions;
@@ -50,7 +52,7 @@ export const OfferListTopItem = (props: {
             left={(props) => {
                 return (
                     <OpacitySwiper
-                        swipeThreshold={150}
+                        swipeThreshold={SWIPE_THRESHOLD}
                         onSwipeRight={actions.onReroll}
                         onSwipeLeft={actions.onDelete}
                         onClick={actions.onShop}
@@ -70,9 +72,7 @@ export const OfferListTopItem = (props: {
                                     flexDirection: 'row',
                                     justifyContent: 'center',
                                 }}
-                            >
-                                <Divider />
-                            </View>
+                            ></View>
                         </View>
                     </OpacitySwiper>
                 );

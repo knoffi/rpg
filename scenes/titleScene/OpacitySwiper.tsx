@@ -2,6 +2,7 @@ import React from 'react';
 import {
     PanGestureHandler,
     State as GestureState,
+    State,
 } from 'react-native-gesture-handler';
 import Animated from 'react-native-reanimated';
 
@@ -27,7 +28,7 @@ type OpacitySwiperProps = {
 };
 export class OpacitySwiper extends React.Component<OpacitySwiperProps, {}> {
     private clock: Animated.Clock;
-    private gestureState: Animated.Value<0>;
+    private gestureState: Animated.Value<State>;
     private onHandlerStateChange: (...args: any[]) => void;
     private onPanEvent: (...args: any[]) => void;
     private animState: {

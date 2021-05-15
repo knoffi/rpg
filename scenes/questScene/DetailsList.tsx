@@ -1,7 +1,6 @@
 import React from 'react';
 import { List } from 'react-native-paper';
 import { association } from '../../classes/association';
-import { Impression } from '../../classes/Atmosphere';
 import { Noticable } from '../../classes/ImpressionIdea';
 import { AddButton } from '../../components/buttons/generalButtons';
 import { TavernData } from '../../mainNavigator/TavernData';
@@ -10,6 +9,7 @@ import { BasePrice } from '../menuScene/basePrice';
 import { menuSceneStyles } from '../menuScene/menuStyles';
 import { LIST_END_BUTTON_SIZE } from '../menuScene/offerList/LIST_END_BUTTON_SIZE';
 import { OfferListTopItem } from '../menuScene/offerList/OfferListTopItem';
+import { getRandomTavernDescription } from './impressions/impressionChapters';
 import { TavernDescription } from './impressions/tavernDescription';
 import { PriceAccordion } from './PriceAccordion';
 
@@ -22,7 +22,6 @@ export const DetailsList = (props: {
     onDataChange: (data: Partial<TavernData>) => void;
     impressions: TavernDescription[];
 }) => {
-    const impression = new Impression(props.fits);
     const onDelete = (oldImpression: TavernDescription) => {
         const otherImpressions = props.impressions.filter(
             (impression) => impression.name !== oldImpression.name
@@ -33,19 +32,12 @@ export const DetailsList = (props: {
         const newImpressions = props.impressions.map((impression) =>
             impression.name !== oldImpression.name
                 ? impression
-                : {
-                      name:
-                          'empty' + Math.floor(Math.random() * 100).toString(),
-                      category: oldImpression.category,
-                  }
+                : getRandomTavernDescription(props.fits, oldImpression.category)
         );
         props.onDataChange({ impressions: newImpressions });
     };
     const onAdd = (category: Noticable) => {
-        const newImpression = {
-            name: 'empty' + Math.floor(Math.random() * 100).toString(),
-            category: category,
-        };
+        const newImpression = getRandomTavernDescription(props.fits, category);
         props.onDataChange({
             impressions: [...props.impressions, newImpression],
         });

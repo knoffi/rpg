@@ -3,10 +3,10 @@ import { DescriptionAsset } from './DescriptionIdea';
 import { Idea } from './Idea';
 import { StructuredTavernFits } from './StructuredTavernFits';
 export enum Noticable {
-    bartender = 'bartender',
-    averageCustomer = 'averageCustomers',
-    someCustomers = 'someCustomers',
-    furniture = 'furniture',
+    bartender = 'Bartender',
+    averageCustomer = 'Average Customer',
+    someCustomers = 'Individuals',
+    furniture = 'Furniture',
 }
 
 export class ImpressionIdea extends Idea {
@@ -36,9 +36,9 @@ export class ImpressionIdea extends Idea {
                 );
                 return this.main.name;
             }
-            return this.category === Noticable.someCustomers
-                ? this.main.name + secondDescription.name + splitMarker
-                : this.main.name + ' & ' + secondDescription.name + splitMarker;
+            return this.category === Noticable.bartender
+                ? this.main.name + ' & ' + secondDescription.name + splitMarker
+                : this.main.name + secondDescription.name + splitMarker;
         } else {
             return this.main.name;
         }
