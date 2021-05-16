@@ -5,42 +5,32 @@ const a = association;
 const getEnabledForAllCriminals = (asset: DescriptionAsset) => {
     return {
         ...asset,
-        worksForAssasines: true,
-        worksForThiefs: true,
-        worksForBrothel: true,
+        worksForAllCriminals: true,
     } as DescriptionAsset;
 };
 const macho: DescriptionAsset[] = [
     {
         classRange: [a.barbarian, a.soldier],
         name: 'Provoking other Guests',
-        worksForAssasines: true,
-        worksForThiefs: true,
-        worksForBrothel: true,
+        worksForAllCriminals: true,
         misfits: sophisticatedGroup,
     },
     {
         classRange: [a.barbarian, a.bard, a.adventurer, a.soldier, a.knight],
         name: 'Bragging',
-        worksForAssasines: true,
-        worksForThiefs: true,
-        worksForBrothel: true,
+        worksForAllCriminals: true,
         misfits: sophisticatedGroup,
     },
     {
         classRange: [a.barbarian, a.bard, a.adventurer, a.soldier, a.knight],
         name: 'Posing',
-        worksForAssasines: true,
-        worksForThiefs: true,
-        worksForBrothel: true,
+        worksForAllCriminals: true,
     },
     { name: 'Loudly Complaining' },
     {
         name: 'Babbling',
         misfits: sophisticatedGroup,
-        worksForAssasines: true,
-        worksForThiefs: true,
-        worksForBrothel: true,
+        worksForAllCriminals: true,
     },
     { name: 'Story Telling', worksForAssasines: true, worksForBrothel: true },
 ];
@@ -51,23 +41,17 @@ export const lively: DescriptionAsset[] = [
     { name: 'Searching for a Dance Partner', worksForBrothel: true },
     {
         name: 'Gambling',
-        worksForAssasines: true,
-        worksForThiefs: true,
-        worksForBrothel: true,
+        worksForAllCriminals: true,
     },
     {
         name: 'Smoking a Pipe',
         misfits: [a.desert],
-        worksForAssasines: true,
-        worksForThiefs: true,
-        worksForBrothel: true,
+        worksForAllCriminals: true,
     },
     {
         needs: [a.desert],
         name: 'Smoking a Shisa',
-        worksForAssasines: true,
-        worksForThiefs: true,
-        worksForBrothel: true,
+        worksForAllCriminals: true,
     },
     { name: 'Singing' },
     { name: 'Story Telling', worksForAssasines: true, worksForBrothel: true },
@@ -78,24 +62,18 @@ const veryDrunk: DescriptionAsset[] = [
     {
         name: 'Vomitting',
         misfits: sophisticatedGroup,
-        worksForAssasines: true,
-        worksForThiefs: true,
-        worksForBrothel: true,
+        worksForAllCriminals: true,
     },
     {
         name: 'Unconscious',
         misfits: sophisticatedGroup,
-        worksForAssasines: true,
-        worksForThiefs: true,
-        worksForBrothel: true,
+        worksForAllCriminals: true,
     },
     { name: 'Slurring', misfits: sophisticatedGroup },
     {
         name: 'Totally Drunk',
         misfits: sophisticatedGroup,
-        worksForAssasines: true,
-        worksForThiefs: true,
-        worksForBrothel: true,
+        worksForAllCriminals: true,
     },
 ];
 const scholar: DescriptionAsset[] = [
@@ -171,39 +149,27 @@ export const feasting: DescriptionAsset[] = [
 export const spying: DescriptionAsset[] = [
     {
         name: 'Watching some Guests',
-        worksForAssasines: true,
-        worksForThiefs: true,
-        worksForBrothel: true,
+        worksForAllCriminals: true,
     },
     {
         name: 'Watching You',
-        worksForAssasines: true,
-        worksForThiefs: true,
-        worksForBrothel: true,
+        worksForAllCriminals: true,
     },
     {
         name: 'Following You',
-        worksForAssasines: true,
-        worksForThiefs: true,
-        worksForBrothel: true,
+        worksForAllCriminals: true,
     },
     {
         name: 'Waiting for Someone',
-        worksForAssasines: true,
-        worksForThiefs: true,
-        worksForBrothel: true,
+        worksForAllCriminals: true,
     },
     {
         name: 'Eavesdropping a Conversation',
-        worksForAssasines: true,
-        worksForThiefs: true,
-        worksForBrothel: true,
+        worksForAllCriminals: true,
     },
     {
         name: 'Following You',
-        worksForAssasines: true,
-        worksForThiefs: true,
-        worksForBrothel: true,
+        worksForAllCriminals: true,
     },
 ].map((asset) => getEnabledForAllCriminals(asset));
 //TODO: go more into details, like "Opening a Champagne Bottle for Customers" or "Bringing Rum in Golden Cups" for a.rich,a.wealthy ... or "Presenting an Expensive Bottle of Brandy" for a.tiefling

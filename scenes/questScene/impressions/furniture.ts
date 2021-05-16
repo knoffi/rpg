@@ -1,4 +1,5 @@
 import { association } from '../../../classes/association';
+import { emptyDescriptionAsset } from '../../../classes/DescriptionIdea';
 import { ImpressionIdea, Noticable } from '../../../classes/ImpressionIdea';
 const a = association;
 export const furnitures: ImpressionIdea[] = [
@@ -6,32 +7,36 @@ export const furnitures: ImpressionIdea[] = [
         {
             name: 'Wooden tables in bad shape',
             needs: [a.poor],
+            worksForAllCriminals: true,
         },
-        [{ name: '' }],
+        [emptyDescriptionAsset],
         Noticable.furniture
     ),
     new ImpressionIdea(
         {
             name: 'Sturdy tables made from oaken wood',
             incomeRange: [a.modest],
+            worksForAllCriminals: true,
         },
-        [{ name: '' }],
+        [emptyDescriptionAsset],
         Noticable.furniture
     ),
     new ImpressionIdea(
         {
             name: 'Mahagony tables, polished and clean',
             needs: [a.wealthy],
+            worksForAllCriminals: true,
         },
-        [{ name: '' }],
+        [emptyDescriptionAsset],
         Noticable.furniture
     ),
     new ImpressionIdea(
         {
             name: 'Marmor tables with silver plates',
             needs: [a.rich],
+            worksForAllCriminals: true,
         },
-        [{ name: '' }],
+        [emptyDescriptionAsset],
         Noticable.furniture
     ),
 ];

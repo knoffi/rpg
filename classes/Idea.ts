@@ -152,11 +152,17 @@ export class Idea {
             noMisfitsInTavern;
         switch (tavernFits.special) {
             case association.prostitute:
-                return asset.worksForBrothel ? nonSpecialCondition : false;
+                return asset.worksForBrothel || asset.worksForAllCriminals
+                    ? nonSpecialCondition
+                    : false;
             case association.thief:
-                return asset.worksForThiefs ? nonSpecialCondition : false;
+                return asset.worksForThiefs || asset.worksForAllCriminals
+                    ? nonSpecialCondition
+                    : false;
             case association.assasine:
-                return asset.worksForAssasines ? nonSpecialCondition : false;
+                return asset.worksForAssasines || asset.worksForAllCriminals
+                    ? nonSpecialCondition
+                    : false;
 
             default:
                 return nonSpecialCondition;

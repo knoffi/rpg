@@ -84,7 +84,11 @@ const bartenderCharacter: DescriptionAsset[] = [
         classRange: [a.knight, a.bard, a.barbarian, a.soldier, a.adventurer],
         name: 'brave',
     },
-    { classRange: [a.knight, a.soldier], name: 'armored' },
+    {
+        classRange: [a.knight, a.soldier],
+        name: 'armored',
+        worksForAssasines: true,
+    },
     { classRange: [a.cleric], name: 'enlightened' },
     { classRange: [a.cleric, a.bard], name: 'kind', worksForBrothel: true },
     {

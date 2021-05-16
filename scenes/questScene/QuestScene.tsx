@@ -6,7 +6,7 @@ import { BasePrice } from '../menuScene/basePrice';
 import { nameSceneStyles } from '../nameScene/nameSceneStyles';
 import { CurrencySetDialog } from './CurrencySetDialog';
 import { DetailsList } from './DetailsList';
-import { TavernDescription } from './impressions/tavernDescription';
+import { ITavernDescription } from './impressions/ITavernDescription';
 import { incomeExampleMap } from './incomeExampleMap';
 import { PriceExplanationDialog } from './PriceExplanationDialog';
 import { PriceSetDialog } from './PriceSetDialog';
@@ -30,7 +30,7 @@ const getPriceFromIncome = (income: association, basePrice: BasePrice) => {
 export const QuestScene = (props: {
     fitting: { fits: association[]; misfits: association[] };
     basePrice: BasePrice;
-    impressions: TavernDescription[];
+    impressions: ITavernDescription[];
     onDataChange: (newData: Partial<TavernData>) => void;
 }) => {
     const [explanationDialog, setDialog] = useState({

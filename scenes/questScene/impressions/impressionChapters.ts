@@ -6,11 +6,20 @@ import { averageCustomers } from './averageCustomer';
 import { bartenders } from './bartender';
 import { furnitures } from './furniture';
 import { individuals } from './genericIndividuals';
+import { ITavernDescription } from './ITavernDescription';
 import { specialIndividuals } from './specialIndividuals';
-import { TavernDescription } from './tavernDescription';
+import { stuffedAnimals } from './stuffedAnimals';
+import { trapsIntriguingShockingFurniture } from './trapsSecretIntriguingFurnite';
 
 const impressionChapters = [
-    { impressions: furnitures, category: Noticable.furniture },
+    {
+        impressions: [
+            ...furnitures,
+            ...stuffedAnimals,
+            ...trapsIntriguingShockingFurniture,
+        ],
+        category: Noticable.furniture,
+    },
     { impressions: averageCustomers, category: Noticable.averageCustomer },
     {
         impressions: [...individuals, ...specialIndividuals],
@@ -22,12 +31,12 @@ const impressionChapters = [
 export const getRandomTavernDescription = (
     tavernFits: association[],
     category: Noticable
-): TavernDescription => {
+): ITavernDescription => {
     const impressionChapter = impressionChapters.find(
         (chapter) => chapter.category === category
     );
-    const emptyDescription: TavernDescription = {
-        name: 'Empty',
+    const emptyDescription: ITavernDescription = {
+        name: 'No description of that category left!',
         category: category,
     };
     if (!impressionChapter) {
@@ -47,5 +56,5 @@ export const getRandomTavernDescription = (
     return {
         name: newDescriptionText,
         category: category,
-    } as TavernDescription;
+    } as ITavernDescription;
 };

@@ -1,117 +1,126 @@
 import { association } from '../../../classes/association';
-import { DescriptionAsset } from '../../../classes/DescriptionIdea';
+import { emptyDescriptionAsset } from '../../../classes/DescriptionIdea';
 import { ImpressionIdea, Noticable } from '../../../classes/ImpressionIdea';
 
 const a = association;
-const emptyAddition: DescriptionAsset[] = [{ name: '' }];
 export const specialIndividuals: ImpressionIdea[] = [
-    new ImpressionIdea(
-        { name: 'Three bounty hunters are searching' },
-        emptyAddition,
-        Noticable.someCustomers
-    ),
     new ImpressionIdea(
         {
             name: 'Babbling parrot on bar counter',
             landRange: [a.haven, a.tropical],
+            worksForAllCriminals: true,
         },
-        emptyAddition,
+        [emptyDescriptionAsset],
         Noticable.someCustomers
     ),
     new ImpressionIdea(
-        { name: 'A guest seems to recognize YOU!' },
-        emptyAddition,
+        { name: 'A guest seems to recognize YOU!', worksForAllCriminals: true },
+        [emptyDescriptionAsset],
         Noticable.someCustomers
     ),
     new ImpressionIdea(
-        { name: 'A guest is pointing towards your table!' },
-        emptyAddition,
+        {
+            name: 'A guest is pointing towards your table!',
+            worksForAllCriminals: true,
+        },
+        [emptyDescriptionAsset],
         Noticable.someCustomers
     ),
     new ImpressionIdea(
         {
             name: 'An old man is story-telling',
             classRange: [a.adventurer, a.bard, a.wizard, a.druid],
+            worksForAllCriminals: true,
         },
-        emptyAddition,
+        [emptyDescriptionAsset],
         Noticable.someCustomers
     ),
     new ImpressionIdea(
-        { name: 'Three bounty hunters are searching' },
-        emptyAddition,
+        { name: 'Three bounty hunters are searching', worksForBrothel: true },
+        [emptyDescriptionAsset],
         Noticable.someCustomers
     ),
     new ImpressionIdea(
-        { name: 'Some guests notice you and suddenly look nervous' },
-        emptyAddition,
+        {
+            name: 'Some guests notice you and suddenly look nervous',
+            worksForAllCriminals: true,
+        },
+        [emptyDescriptionAsset],
         Noticable.someCustomers
     ),
     new ImpressionIdea(
         { name: 'Police monitors guests' },
-        emptyAddition,
+        [emptyDescriptionAsset],
         Noticable.someCustomers
     ),
     new ImpressionIdea(
-        { name: 'Guards monitor guests' },
-        emptyAddition,
+        { name: 'Guards monitor guests', worksForBrothel: true },
+        [emptyDescriptionAsset],
         Noticable.someCustomers
     ),
     new ImpressionIdea(
         {
             name: 'Guards in front of VIP-lounge',
             needsOne: [a.assasine, a.thief, a.prostitute, a.rich],
+            worksForAllCriminals: true,
         },
-        emptyAddition,
+        [emptyDescriptionAsset],
         Noticable.someCustomers
     ),
     new ImpressionIdea(
         {
             name: 'Genie accompanies a guest',
             needsOne: [a.adventurer, a.desert, a.haven, a.city],
+            worksForAllCriminals: true,
         },
-        emptyAddition,
+        [emptyDescriptionAsset],
         Noticable.someCustomers
     ),
     new ImpressionIdea(
         {
             name: 'A rich-looking person is crying at the bar',
             needsOne: [a.poor, a.rich, a.adventurer, a.knight, a.city, a.haven],
+            worksForBrothel: true,
         },
-        emptyAddition,
+        [emptyDescriptionAsset],
         Noticable.someCustomers
     ),
     new ImpressionIdea(
         {
             name: 'A old man is crying at the bar',
             needsOne: [a.poor, a.village],
+            worksForAssasines: true,
         },
-        emptyAddition,
+        [emptyDescriptionAsset],
         Noticable.someCustomers
     ),
     new ImpressionIdea(
         {
             name: 'A young lady is crying at a table',
             misfits: [a.rich, a.wealthy],
+            worksForBrothel: true,
         },
-        emptyAddition,
+        [emptyDescriptionAsset],
         Noticable.someCustomers
     ),
     new ImpressionIdea(
         {
-            name: 'A rich-looking person is crying at the bar',
-            needsOne: [a.poor, a.rich, a.adventurer, a.knight, a.city, a.haven],
+            name: 'Two seamen are having an argument',
+            needs: [a.haven],
+            worksForBrothel: true,
+            worksForThiefs: true,
         },
-        emptyAddition,
+        [emptyDescriptionAsset],
         Noticable.someCustomers
     ),
     new ImpressionIdea(
-        { name: 'Two seamen are having an argument', needs: [a.haven] },
-        emptyAddition,
-        Noticable.someCustomers
-    ),
-    new ImpressionIdea(
-        { name: 'A ship crew gets totally drunk', needs: [a.haven] },
-        emptyAddition,
+        {
+            name: 'A ship crew gets totally drunk',
+            needs: [a.haven],
+            worksForBrothel: true,
+            worksForThiefs: true,
+        },
+        [emptyDescriptionAsset],
         Noticable.someCustomers
     ),
     new ImpressionIdea(
@@ -120,49 +129,75 @@ export const specialIndividuals: ImpressionIdea[] = [
             needs: [a.haven],
             needsOne: [a.prostitute, a.thief, a.poor],
             misfits: [a.wealthy, a.rich],
+            worksForBrothel: true,
+            worksForThiefs: true,
         },
-        emptyAddition,
-        Noticable.someCustomers
-    ),
-    new ImpressionIdea(
-        { name: 'A captain searching for his crew', needs: [a.haven] },
-        emptyAddition,
-        Noticable.someCustomers
-    ),
-    new ImpressionIdea(
-        { name: 'A crew searching for its captain', needs: [a.haven] },
-        emptyAddition,
-        Noticable.someCustomers
-    ),
-    new ImpressionIdea(
-        { name: 'A captain is hiring', needs: [a.haven] },
-        emptyAddition,
+        [emptyDescriptionAsset],
         Noticable.someCustomers
     ),
     new ImpressionIdea(
         {
-            name: 'A woman with a tattoo which looks like a map',
+            name: 'A captain searching for his crew',
             needs: [a.haven],
+            worksForBrothel: true,
+            worksForThiefs: true,
         },
-        emptyAddition,
+        [emptyDescriptionAsset],
         Noticable.someCustomers
     ),
     new ImpressionIdea(
-        { name: 'A female pirate scares away other pirates', needs: [a.haven] },
-        emptyAddition,
+        {
+            name: 'A crew searching for its captain',
+            needs: [a.haven],
+            worksForBrothel: true,
+            worksForThiefs: true,
+        },
+        [emptyDescriptionAsset],
         Noticable.someCustomers
     ),
     new ImpressionIdea(
-        { name: 'A rebel group is hiring', incomeRange: [a.poor, a.modest] },
-        emptyAddition,
+        {
+            name: 'A captain is hiring',
+            needs: [a.haven],
+            worksForAllCriminals: true,
+        },
+        [emptyDescriptionAsset],
+        Noticable.someCustomers
+    ),
+    new ImpressionIdea(
+        {
+            name: 'A woman with a tattoo in the form of a map',
+            needs: [a.haven],
+            worksForAllCriminals: true,
+        },
+        [emptyDescriptionAsset],
+        Noticable.someCustomers
+    ),
+    new ImpressionIdea(
+        {
+            name: 'A female pirate scares away other pirates',
+            needs: [a.haven],
+            worksForAllCriminals: true,
+        },
+        [emptyDescriptionAsset],
+        Noticable.someCustomers
+    ),
+    new ImpressionIdea(
+        {
+            name: 'A rebel group is hiring',
+            incomeRange: [a.poor, a.modest],
+            worksForAllCriminals: true,
+        },
+        [emptyDescriptionAsset],
         Noticable.someCustomers
     ),
     new ImpressionIdea(
         {
             name: 'A group of bandits is hiring',
             incomeRange: [a.poor, a.modest],
+            worksForAllCriminals: true,
         },
-        emptyAddition,
+        [emptyDescriptionAsset],
         Noticable.someCustomers
     ),
     new ImpressionIdea(
@@ -170,60 +205,36 @@ export const specialIndividuals: ImpressionIdea[] = [
             name: 'A a street gang is hiring',
             incomeRange: [a.poor],
             needsOne: [a.prostitute, a.assasine, a.thief],
+            worksForAllCriminals: true,
         },
-        emptyAddition,
+        [emptyDescriptionAsset],
         Noticable.someCustomers
     ),
     new ImpressionIdea(
         {
             name: 'A group of high lords is playing poker',
             incomeRange: [a.rich],
+            worksForBrothel: true,
         },
-        emptyAddition,
+        [emptyDescriptionAsset],
         Noticable.someCustomers
     ),
     new ImpressionIdea(
         {
             name: 'A group of merchants is playing poker',
             incomeRange: [a.wealthy],
+            worksForBrothel: true,
         },
-        emptyAddition,
+        [emptyDescriptionAsset],
         Noticable.someCustomers
     ),
     new ImpressionIdea(
         {
-            name: 'A group of merchants is playing poker',
-            incomeRange: [a.rich, a.wealthy],
+            name: 'A group of artisans is playing poker',
+            incomeRange: [a.modest],
+            worksForBrothel: true,
         },
-        emptyAddition,
+        [emptyDescriptionAsset],
         Noticable.someCustomers
     ),
-];
-const specialIntriguings = [
-    { association: a.empty, name: 'Sealed trapdoor under a table' },
-    { association: a.empty, name: 'A painting of your face on wall' },
-    { association: a.empty, name: 'A wanted poster with your face on it' },
-    { association: a.assasine, name: 'A wanted poster with your face on it' },
-    { association: a.thief, name: 'A wanted poster with your face on it' },
-    { association: a.empty, name: 'Sealed trapdoor under a table' },
-    { association: a.forest, name: 'Stuffed owlbear in corner' },
-    { association: a.forest, name: 'Stuffed dire Wolf in corner' },
-    { association: a.village, name: 'Stuffed bloodhound in corner' },
-    { association: a.village, name: 'Stuffed horse in corner' },
-    { association: a.village, name: 'Stuffed troll in corner' },
-    { association: a.village, name: 'Stuffed bulldog in corner' },
-    { association: a.desert, name: 'Stuffed lion in corner' },
-    { association: a.desert, name: 'Stuffed hyena in corner' },
-    { association: a.mountain, name: 'Stuffed manticore in corner' },
-    { association: a.mountain, name: 'Stuffed lion in corner' },
-    { association: a.haven, name: 'Stuffed shark in corner' },
-    { association: a.haven, name: 'Stuffed manticore in corner' },
-    { association: a.tropical, name: 'Stuffed shark in corner' },
-    { association: a.tropical, name: 'Stuffed gorilla in corner' },
-    { association: a.empty, name: 'Two-way mirror on wall' },
-    { association: a.empty, name: 'Giant mirror on wall' },
-    { association: a.empty, name: 'Exclusive VIP-lounge' },
-    { association: a.rich, name: 'Exclusive VIP-lounge' },
-    { association: a.prostitute, name: 'Exclusive VIP-lounge' },
-    { association: a.empty, name: 'Onewall was newly painted' },
 ];

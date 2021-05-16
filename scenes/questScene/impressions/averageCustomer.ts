@@ -1,10 +1,11 @@
 import { association } from '../../../classes/association';
+import { emptyDescriptionAsset } from '../../../classes/DescriptionIdea';
 import { ImpressionIdea, Noticable } from '../../../classes/ImpressionIdea';
 const a = association;
 export const averageCustomers: ImpressionIdea[] = [
     new ImpressionIdea(
         { name: 'Loudly Laughing & Drinking Beer', raceRange: [a.dwarf] },
-        [{ name: '' }],
+        [emptyDescriptionAsset],
         Noticable.averageCustomer
     ),
     new ImpressionIdea(
@@ -12,12 +13,12 @@ export const averageCustomers: ImpressionIdea[] = [
             name: 'Discussing Investments & Drinking Whisky',
             raceRange: [a.gnome],
         },
-        [{ name: '' }],
+        [emptyDescriptionAsset],
         Noticable.averageCustomer
     ),
     new ImpressionIdea(
         { name: 'Singing and Dancing to Folk Music', raceRange: [a.halfling] },
-        [{ name: '' }],
+        [emptyDescriptionAsset],
         Noticable.averageCustomer
     ),
     new ImpressionIdea(
@@ -25,7 +26,7 @@ export const averageCustomers: ImpressionIdea[] = [
             name: 'Listening to Harp Music & Drinking Nectar',
             raceRange: [a.elf],
         },
-        [{ name: '' }],
+        [emptyDescriptionAsset],
         Noticable.averageCustomer
     ),
     new ImpressionIdea(
@@ -34,12 +35,12 @@ export const averageCustomers: ImpressionIdea[] = [
             raceRange: [a.elf],
             misfits: [a.desert],
         },
-        [{ name: '' }],
+        [emptyDescriptionAsset],
         Noticable.averageCustomer
     ),
     new ImpressionIdea(
         { name: 'Mistrustful & Quiet', raceRange: [a.drow] },
-        [{ name: '' }],
+        [emptyDescriptionAsset],
         Noticable.averageCustomer
     ),
     new ImpressionIdea(
@@ -47,12 +48,12 @@ export const averageCustomers: ImpressionIdea[] = [
             name: 'Discussing Politics & Drinking Brandy',
             raceRange: [a.tiefling],
         },
-        [{ name: '' }],
+        [emptyDescriptionAsset],
         Noticable.averageCustomer
     ),
     new ImpressionIdea(
         { name: 'Meeting Friends & Drinking Mead', raceRange: [a.human] },
-        [{ name: '' }],
+        [emptyDescriptionAsset],
         Noticable.averageCustomer
     ),
 ];

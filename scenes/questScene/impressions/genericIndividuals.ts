@@ -404,9 +404,7 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             name: 'A pretty waitress is ',
-            worksForBrothel: true,
-            worksForAssasines: true,
-            worksForThiefs: true,
+            worksForAllCriminals: true,
         },
         servantActions,
         Noticable.someCustomers
@@ -414,9 +412,7 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             name: 'A handsome waiter is ',
-            worksForBrothel: true,
-            worksForAssasines: true,
-            worksForThiefs: true,
+            worksForAllCriminals: true,
         },
         servantActions,
         Noticable.someCustomers
@@ -583,9 +579,7 @@ export const individuals: ImpressionIdea[] = [
         {
             needs: [a.haven],
             name: 'Some pirates are ',
-            worksForBrothel: true,
-            worksForAssasines: true,
-            worksForThiefs: true,
+            worksForAllCriminals: true,
         },
         machoClass,
         Noticable.someCustomers
@@ -636,7 +630,7 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             needs: [a.haven],
-            name: 'AsShipwright is ',
+            name: 'A shipwright is ',
             worksForBrothel: true,
             worksForThiefs: true,
             incomeRange: [a.wealthy, a.modest],
@@ -685,7 +679,7 @@ export const individuals: ImpressionIdea[] = [
         },
         [
             ...general,
-            { name: 'smoking some dried herbs' },
+            { name: 'smoking dried herbs' },
             { name: 'nursing a young bird' },
             { name: 'drinking his own brew', misfits: [a.desert, a.tropical] },
             { name: 'selling dried mushrooms' },

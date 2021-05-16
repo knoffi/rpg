@@ -14,6 +14,14 @@ export type DescriptionAsset = {
     worksForBrothel?: boolean;
     worksForThiefs?: boolean;
     worksForAssasines?: boolean;
+    worksForAllCriminals?: boolean;
+};
+
+export const emptyDescriptionAsset = {
+    name: '',
+    worksForAssasines: true,
+    worksForBrothel: true,
+    worksForThiefs: true,
 };
 
 export const forCriminalsOverwrittenAsset = (asset: DescriptionAsset) => {

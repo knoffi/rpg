@@ -10,7 +10,7 @@ import { menuSceneStyles } from '../menuScene/menuStyles';
 import { LIST_END_BUTTON_SIZE } from '../menuScene/offerList/LIST_END_BUTTON_SIZE';
 import { OfferListTopItem } from '../menuScene/offerList/OfferListTopItem';
 import { getRandomTavernDescription } from './impressions/impressionChapters';
-import { TavernDescription } from './impressions/tavernDescription';
+import { ITavernDescription } from './impressions/ITavernDescription';
 import { PriceAccordion } from './PriceAccordion';
 
 export const DetailsList = (props: {
@@ -20,15 +20,15 @@ export const DetailsList = (props: {
     onPriceSetPress: (income: association) => void;
     onCurrencySetPress: () => void;
     onDataChange: (data: Partial<TavernData>) => void;
-    impressions: TavernDescription[];
+    impressions: ITavernDescription[];
 }) => {
-    const onDelete = (oldImpression: TavernDescription) => {
+    const onDelete = (oldImpression: ITavernDescription) => {
         const otherImpressions = props.impressions.filter(
             (impression) => impression.name !== oldImpression.name
         );
         props.onDataChange({ impressions: otherImpressions });
     };
-    const onReroll = (oldImpression: TavernDescription) => {
+    const onReroll = (oldImpression: ITavernDescription) => {
         const newImpressions = props.impressions.map((impression) =>
             impression.name !== oldImpression.name
                 ? impression

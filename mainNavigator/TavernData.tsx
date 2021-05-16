@@ -3,7 +3,7 @@ import { drinkCategory, foodCategory } from '../classes/TavernProduct';
 import { BasePrice } from '../scenes/menuScene/basePrice';
 import { BannerData } from '../scenes/menuScene/menuBanner/MenuBanner';
 import { Offer } from '../scenes/menuScene/menuEnums';
-import { TavernDescription } from '../scenes/questScene/impressions/tavernDescription';
+import { ITavernDescription } from '../scenes/questScene/impressions/ITavernDescription';
 
 export type TavernData = {
     //TODO: misfits are depreciated
@@ -17,7 +17,7 @@ export type TavernData = {
     drinkBannerData: BannerData;
     foodBannerData: BannerData;
     boughtOffers: Offer[];
-    impressions: TavernDescription[];
+    impressions: ITavernDescription[];
 };
 
 export interface MinimalTavernData {
@@ -28,5 +28,5 @@ export interface MinimalTavernData {
     dishes: Offer[];
     prices: BasePrice;
     boughtOffers: Offer[];
-    impressions: TavernDescription[];
+    impressions: ITavernDescription[];
 }

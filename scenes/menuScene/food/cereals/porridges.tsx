@@ -8,7 +8,7 @@ import {
     poorPorridgeToppings,
     wealthyPorridgeToppings,
 } from './porridgeToppings';
-export const a = association;
+const a = association;
 const PORRIDGE_FACTOR = 1;
 
 export const porridges = [
