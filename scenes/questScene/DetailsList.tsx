@@ -34,6 +34,11 @@ export const DetailsList = (props: {
                 ? impression
                 : getRandomTavernDescription(props.fits, oldImpression.category)
         );
+        console.log(
+            newImpressions
+                .map((impression) => impression.name)
+                .reduce((res, cur) => res + ' ' + cur, '')
+        );
         props.onDataChange({ impressions: newImpressions });
     };
     const onAdd = (category: Noticable) => {

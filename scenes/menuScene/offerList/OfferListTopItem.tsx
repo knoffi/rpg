@@ -1,10 +1,9 @@
 import * as React from 'react';
 import { Animated, View } from 'react-native';
-import { List, Text } from 'react-native-paper';
-import { OpacitySwiper } from '../../../components/OpacitySwiper/OpacitySwiper';
+import { List } from 'react-native-paper';
+import { OpacitySwiperText } from '../../../components/OpacitySwiper/OpacitySwiper';
 import { WIDTH_FACTOR } from '../../../dimensionConstants';
 import { menuSceneStyles } from '../menuStyles';
-import { getDishTexts } from './nameSplitter/getDishTexts';
 import { productActions } from './productActions';
 
 const SWIPE_THRESHOLD = 150 * WIDTH_FACTOR;
@@ -16,10 +15,10 @@ export const OfferListTopItem = (props: {
     isUserMade?: boolean;
 }) => {
     const actions = props.actions;
-    const thisDrinkName = props.drinkName;
+    const drinkName = props.drinkName;
     const editPossible = props.isUserMade;
     const rerollPossible = !props.noDrinkToAddLeft && !props.isUserMade;
-    const price = props.priceString;
+    const priceString = props.priceString;
     const actionText =
         (text: string, inputRange: number[], outputRange: number[]) =>
         (progress: any, dragX: any) => {
@@ -51,7 +50,11 @@ export const OfferListTopItem = (props: {
             onLongPress={actions.onInfo}
             left={(props) => {
                 return (
-                    <OpacitySwiper
+                    <OpacitySwiperText
+                        rightSwipeActionPossible={
+                            editPossible ? editPossible : rerollPossible
+                        }
+                        leftSwipeActionPossible={true}
                         swipeThreshold={SWIPE_THRESHOLD}
                         onSwipeRight={
                             editPossible
@@ -62,54 +65,11 @@ export const OfferListTopItem = (props: {
                         }
                         onSwipeLeft={actions.onDelete}
                         onClick={actions.onShop}
-                    >
-                        <View
-                            style={{
-                                flexDirection: 'row',
-                                justifyContent: 'flex-start',
-                            }}
-                        >
-                            <DishText
-                                drinkName={thisDrinkName}
-                                priceString={price}
-                            ></DishText>
-                            <View
-                                style={{
-                                    flexDirection: 'row',
-                                    justifyContent: 'center',
-                                }}
-                            ></View>
-                        </View>
-                    </OpacitySwiper>
+                        descriptionText={drinkName}
+                        priceString={priceString}
+                    ></OpacitySwiperText>
                 );
             }}
         ></List.Item>
-    );
-};
-
-const DishText = (props: { drinkName: string; priceString: string }) => {
-    const { name, description } = getDishTexts(props.drinkName);
-    const isNotForDishes = props.priceString === '';
-
-    return (
-        <View>
-            <View
-                style={
-                    isNotForDishes
-                        ? menuSceneStyles.detailsListItemView
-                        : menuSceneStyles.drinkListItemView
-                }
-            >
-                <Text style={menuSceneStyles.drinkName}>{name}</Text>
-                <Text style={menuSceneStyles.drinkDescription}>
-                    {description}
-                </Text>
-                {isNotForDishes ? undefined : (
-                    <Text style={menuSceneStyles.drinkPrice}>
-                        {props.priceString}
-                    </Text>
-                )}
-            </View>
-        </View>
     );
 };

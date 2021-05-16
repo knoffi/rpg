@@ -5,6 +5,7 @@ import {
     State,
 } from 'react-native-gesture-handler';
 import Animated from 'react-native-reanimated';
+import { SwiperText } from './SwiperText';
 
 const {
     block,
@@ -20,25 +21,30 @@ const {
     spring,
     stopClock,
 } = Animated;
-type OpacitySwiperProps = {
+type OpacitySwiperTextProps = {
+    rightSwipeActionPossible: boolean;
+    leftSwipeActionPossible: boolean;
     onSwipeRight: () => void;
     onSwipeLeft: () => void;
     onClick: () => void;
     swipeThreshold: number;
+    descriptionText: string;
+    priceString: string;
 };
-type OpacityState = {
+type OpacitySwiperTextState = {
     stiffness: number;
 };
-const FAST_STIFFNESS = 100;
+const FAST_STIFFNESS = 5;
 const NO_MOVE_STIFFNESS = 0.001;
-export class OpacitySwiper extends React.Component<
-    OpacitySwiperProps,
-    OpacityState
+export class OpacitySwiperText extends React.Component<
+    OpacitySwiperTextProps,
+    OpacitySwiperTextState
 > {
     private clock: Animated.Clock;
     private gestureState: Animated.Value<State>;
     private onHandlerStateChange: (...args: any[]) => void;
     private onPanEvent: (...args: any[]) => void;
+    private userChangedText: boolean;
     private animState: {
         finished: Animated.Value<0>;
         position: Animated.Value<0>;
@@ -61,6 +67,7 @@ export class OpacitySwiper extends React.Component<
         super(props);
         this.state = { stiffness: FAST_STIFFNESS };
         this.clock = new Animated.Clock();
+        this.userChangedText = false;
         this.gestureState = new Animated.Value(GestureState.UNDETERMINED);
         this.animState = {
             finished: new Animated.Value(0),
@@ -72,7 +79,7 @@ export class OpacitySwiper extends React.Component<
             toValue: new Animated.Value(0),
             damping: 20,
             mass: 0.2,
-            stiffness: 5,
+            stiffness: FAST_STIFFNESS,
             overshootClamping: false,
             restSpeedThreshold: 0.2,
             restDisplacementThreshold: 0.2,
@@ -93,9 +100,9 @@ export class OpacitySwiper extends React.Component<
                                     translationX,
                                     this.props.swipeThreshold
                                 ),
-                                call([this.animState.position], () =>
-                                    this.adjustToSwipeSuccess('right')
-                                ),
+                                call([this.animState.position], () => {
+                                    this.adjustToSwipeSuccess('right');
+                                }),
                                 call([this.animState.position], () =>
                                     this.adjustToSwipeCancel('right')
                                 )
@@ -141,13 +148,23 @@ export class OpacitySwiper extends React.Component<
                         cond(
                             eq(state, GestureState.END),
                             call([this.animState.position], () => {
+                                if (this.userChangedText) {
+                                    this.animState.position =
+                                        new Animated.Value(0);
+                                    this.userChangedText = false;
+                                }
                                 if (this.userSwipedLeft) {
                                     this.userSwipedLeft = false;
                                     this.props.onSwipeLeft();
                                 } else {
                                     if (this.userSwipedRight) {
                                         this.userSwipedRight = false;
-                                        this.props.onSwipeRight();
+                                        if (
+                                            this.props.rightSwipeActionPossible
+                                        ) {
+                                            console.log('I was possible');
+                                            this.props.onSwipeRight();
+                                        }
                                     }
                                 }
                             })
@@ -166,11 +183,20 @@ export class OpacitySwiper extends React.Component<
     }
 
     adjustToSwipeSuccess(direction: 'left' | 'right') {
-        if (!this.userSwipedRight && direction === 'right') {
+        if (
+            !this.userSwipedRight &&
+            direction === 'right' &&
+            true
+            //this.props.rightSwipeActionPossible
+        ) {
             this.setState({ stiffness: NO_MOVE_STIFFNESS });
             this.userSwipedRight = true;
         }
-        if (!this.userSwipedLeft && direction === 'left') {
+        if (
+            !this.userSwipedLeft &&
+            direction === 'left' &&
+            this.props.leftSwipeActionPossible
+        ) {
             this.setState({ stiffness: NO_MOVE_STIFFNESS });
             this.userSwipedLeft = true;
         }
@@ -197,7 +223,10 @@ export class OpacitySwiper extends React.Component<
             this.props.swipeThreshold
         );
     }
-
+    adjustToTextChanges() {
+        //DO NOT change anim.position in this method. Although it would be beautiful code, it won't work
+        this.userChangedText = true;
+    }
     render() {
         return (
             <PanGestureHandler
@@ -233,7 +262,11 @@ export class OpacitySwiper extends React.Component<
                             ])
                         }
                     </Animated.Code>
-                    {this.props.children}
+                    <SwiperText
+                        drinkName={this.props.descriptionText}
+                        priceString={this.props.priceString}
+                        onTextChange={this.adjustToTextChanges.bind(this)}
+                    />
                 </Animated.View>
             </PanGestureHandler>
         );
