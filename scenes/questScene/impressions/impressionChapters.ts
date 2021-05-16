@@ -6,12 +6,16 @@ import { averageCustomers } from './averageCustomer';
 import { bartenders } from './bartender';
 import { furnitures } from './furniture';
 import { individuals } from './genericIndividuals';
+import { specialIndividuals } from './specialIndividuals';
 import { TavernDescription } from './tavernDescription';
 
 const impressionChapters = [
     { impressions: furnitures, category: Noticable.furniture },
     { impressions: averageCustomers, category: Noticable.averageCustomer },
-    { impressions: individuals, category: Noticable.someCustomers },
+    {
+        impressions: [...individuals, ...specialIndividuals],
+        category: Noticable.someCustomers,
+    },
     { impressions: bartenders, category: Noticable.bartender },
 ];
 
