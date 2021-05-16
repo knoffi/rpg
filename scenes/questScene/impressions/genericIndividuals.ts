@@ -16,19 +16,19 @@ const a = association;
 
 export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
-        { incomeRange: [a.rich], name: 'A Prince is ', worksForBrothel: true },
+        { incomeRange: [a.rich], name: 'A prince is ', worksForBrothel: true },
         leisureUpperClass,
         Noticable.someCustomers
     ),
     new ImpressionIdea(
-        { incomeRange: [a.rich], name: 'A Princess is ' },
+        { incomeRange: [a.rich], name: 'A princess is ' },
         leisureUpperClass,
         Noticable.someCustomers
     ),
     new ImpressionIdea(
         {
             incomeRange: [a.rich, a.wealthy],
-            name: 'A rich Merchant is ',
+            name: 'A rich merchant is ',
             worksForBrothel: true,
         },
         busyUpperClass,
@@ -37,7 +37,7 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             incomeRange: [a.rich, a.wealthy],
-            name: 'A Merchant with a Gold tooth is ',
+            name: 'A merchant with a gold tooth is ',
             worksForBrothel: true,
         },
         busyUpperClass,
@@ -46,7 +46,7 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             incomeRange: [a.rich, a.wealthy],
-            name: 'A well-known Lord is ',
+            name: 'A well-known lord is ',
             worksForBrothel: true,
         },
         leisureUpperClass,
@@ -55,7 +55,7 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             incomeRange: [a.wealthy],
-            name: 'A Guild Master is ',
+            name: 'A guild master is ',
             worksForBrothel: true,
         },
         busyUpperClass,
@@ -64,7 +64,7 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             incomeRange: [a.wealthy],
-            name: 'A Baron is ',
+            name: 'A baron is ',
             worksForBrothel: true,
         },
         leisureUpperClass,
@@ -73,35 +73,35 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             incomeRange: [a.wealthy],
-            name: 'A Doctor is ',
+            name: 'A doctor is ',
             worksForBrothel: true,
         },
         leisureUpperClass,
         Noticable.someCustomers
     ),
     new ImpressionIdea(
-        { incomeRange: [a.wealthy], name: 'A Baroness is ' },
+        { incomeRange: [a.wealthy], name: 'A baroness is ' },
         leisureUpperClass,
         Noticable.someCustomers
     ),
     new ImpressionIdea(
         {
             incomeRange: [a.rich],
-            name: 'A Foreign Prince is ',
+            name: 'A foreign prince is ',
             worksForBrothel: true,
         },
         leisureUpperClass,
         Noticable.someCustomers
     ),
     new ImpressionIdea(
-        { incomeRange: [a.rich], name: 'A Foreign Princess is ' },
+        { incomeRange: [a.rich], name: 'A foreign princess is ' },
         leisureUpperClass,
         Noticable.someCustomers
     ),
     new ImpressionIdea(
         {
             classRange: [a.soldier, a.adventurer],
-            name: 'A Soldier is ',
+            name: 'A soldier is ',
             worksForBrothel: true,
         },
         machoClass,
@@ -110,7 +110,7 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             classRange: [a.soldier, a.adventurer],
-            name: 'Some Soldiers are ',
+            name: 'Some soldiers are ',
             worksForBrothel: true,
         },
         machoClass,
@@ -120,7 +120,7 @@ export const individuals: ImpressionIdea[] = [
         {
             classRange: [a.soldier, a.adventurer],
             misfits: [a.dwarf],
-            name: 'An Archer is ',
+            name: 'An archer is ',
             worksForBrothel: true,
             worksForAssasines: true,
         },
@@ -131,7 +131,7 @@ export const individuals: ImpressionIdea[] = [
         {
             classRange: [a.soldier, a.adventurer],
             misfits: [a.dwarf],
-            name: 'Some Archers are ',
+            name: 'Some archers are ',
             worksForBrothel: true,
             worksForAssasines: true,
         },
@@ -142,7 +142,7 @@ export const individuals: ImpressionIdea[] = [
         {
             classRange: [a.soldier, a.adventurer],
             misfits: [a.dwarf],
-            name: 'An Axe-Thrower is ',
+            name: 'An axe-thrower is ',
             worksForBrothel: true,
             worksForAssasines: true,
         },
@@ -153,7 +153,7 @@ export const individuals: ImpressionIdea[] = [
         {
             classRange: [a.soldier, a.adventurer],
             misfits: [a.dwarf],
-            name: 'Some Axe-Throwers are ',
+            name: 'Some axe-throwers are ',
             worksForBrothel: true,
             worksForAssasines: true,
         },
@@ -161,24 +161,24 @@ export const individuals: ImpressionIdea[] = [
         Noticable.someCustomers
     ),
     new ImpressionIdea(
-        { name: 'A Musician is ', worksForBrothel: true },
+        { name: 'A musician is ', worksForBrothel: true },
         machoClass,
         Noticable.someCustomers
     ),
     new ImpressionIdea(
-        { name: 'Some Musicians are ', worksForBrothel: true },
+        { name: 'Some musicians are ', worksForBrothel: true },
         machoClass,
         Noticable.someCustomers
     ),
     new ImpressionIdea(
-        { name: 'Some Orchestra Members are ', worksForBrothel: true },
+        { name: 'Some orchestra members are ', worksForBrothel: true },
         machoClass,
         Noticable.someCustomers
     ),
     new ImpressionIdea(
         {
             classRange: [a.adventurer, a.bard],
-            name: 'A Bard is ',
+            name: 'A bard is ',
             worksForBrothel: true,
             worksForAssasines: true,
         },
@@ -188,7 +188,7 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             misfits: sophisticatedGroup,
-            name: 'A Blacksmith is ',
+            name: 'A blacksmith is ',
             worksForBrothel: true,
         },
         machoClass,
@@ -197,7 +197,7 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             misfits: sophisticatedGroup,
-            name: 'A Cobbler is ',
+            name: 'A cobbler is ',
             worksForBrothel: true,
         },
         machoClass,
@@ -206,7 +206,7 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             incomeRange: [a.rich, a.wealthy],
-            name: 'A Goldsmith is ',
+            name: 'A goldsmith is ',
             misfits: [a.elf],
             worksForBrothel: true,
         },
@@ -216,7 +216,7 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             incomeRange: [a.rich, a.wealthy],
-            name: 'A Silk Tailor is ',
+            name: 'A silk tailor is ',
             misfits: [a.dwarf],
             worksForBrothel: true,
         },
@@ -226,7 +226,7 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             incomeRange: [a.rich, a.wealthy],
-            name: 'A Velvet Weaver is ',
+            name: 'A velvet weaver is ',
             misfits: [a.dwarf],
             worksForBrothel: true,
         },
@@ -236,7 +236,7 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             incomeRange: [a.rich, a.wealthy],
-            name: 'A Sculptor is ',
+            name: 'A sculptor is ',
             worksForBrothel: true,
         },
         leisureUpperClass,
@@ -245,7 +245,7 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             incomeRange: [a.rich, a.wealthy],
-            name: 'A Jeweler is ',
+            name: 'A jeweler is ',
             worksForBrothel: true,
         },
         leisureUpperClass,
@@ -254,7 +254,7 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             incomeRange: [a.rich, a.wealthy],
-            name: 'A Chancellor is ',
+            name: 'A chancellor is ',
             needsOne: [a.haven, a.city],
             worksForBrothel: true,
         },
@@ -264,7 +264,7 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             incomeRange: [a.wealthy, a.modest],
-            name: 'A Stone Mason is ',
+            name: 'A stone mason is ',
             misfits: [a.elf, a.drow, a.tiefling],
             worksForBrothel: true,
         },
@@ -274,7 +274,7 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             classRange: [a.knight, a.cleric],
-            name: 'A High Priest is ',
+            name: 'A high priest is ',
             incomeRange: [a.rich],
         },
         leisureUpperClass,
@@ -283,7 +283,7 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             incomeRange: [a.wealthy],
-            name: 'A Judge is ',
+            name: 'A judge is ',
             landRange: [a.city, a.haven],
         },
         busyUpperClass,
@@ -292,7 +292,7 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             incomeRange: [a.wealthy],
-            name: 'A Bishop is ',
+            name: 'A bishop is ',
             classRange: [a.cleric, a.knight],
             landRange: [a.city, a.haven],
         },
@@ -302,7 +302,7 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             classRange: [a.barbarian, a.bard, a.adventurer, a.soldier],
-            name: 'A Gladiator is ',
+            name: 'A gladiator is ',
             landRange: [a.city, a.haven],
             worksForBrothel: true,
             worksForAssasines: true,
@@ -313,36 +313,36 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             classRange: [a.cleric, a.knight],
-            name: 'A Cleric is ',
+            name: 'A cleric is ',
             worksForAssasines: true,
         },
         busyScholarClass,
         Noticable.someCustomers
     ),
     new ImpressionIdea(
-        { classRange: [a.cleric, a.knight], name: 'A Priest is ' },
+        { classRange: [a.cleric, a.knight], name: 'A priest is ' },
         busyScholarClass,
         Noticable.someCustomers
     ),
     new ImpressionIdea(
-        { classRange: [a.cleric, a.knight], name: 'A Priestess is ' },
+        { classRange: [a.cleric, a.knight], name: 'A priestess is ' },
         busyScholarClass,
         Noticable.someCustomers
     ),
     new ImpressionIdea(
-        { classRange: [a.cleric, a.knight], name: 'A Monk is ' },
+        { classRange: [a.cleric, a.knight], name: 'A monk is ' },
         busyUpperClass,
         Noticable.someCustomers
     ),
     new ImpressionIdea(
-        { landRange: [a.mountain], name: 'A Miner is ', worksForBrothel: true },
+        { landRange: [a.mountain], name: 'A miner is ', worksForBrothel: true },
         machoClass,
         Noticable.someCustomers
     ),
     new ImpressionIdea(
         {
             landRange: [a.mountain],
-            name: 'Two Miners are ',
+            name: 'Two miners are ',
             worksForBrothel: true,
         },
         machoClass,
@@ -351,19 +351,19 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             landRange: [a.haven, a.city],
-            name: 'Two City Guards are ',
+            name: 'Two city guards are ',
             worksForBrothel: true,
         },
         machoClass,
         Noticable.someCustomers
     ),
     new ImpressionIdea(
-        { name: 'A Boy is ' },
+        { name: 'A boy is ' },
         childrenClass,
         Noticable.someCustomers
     ),
     new ImpressionIdea(
-        { name: 'A Girl is ' },
+        { name: 'A girl is ' },
         childrenClass,
         Noticable.someCustomers
     ),
@@ -371,7 +371,7 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             needsOne: [a.haven, a.prostitute],
-            name: 'A Wench is ',
+            name: 'A wench is ',
             landRange: [a.city, a.village, a.haven],
             worksForBrothel: true,
             worksForThiefs: true,
@@ -383,7 +383,7 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             needsOne: [a.haven, a.prostitute],
-            name: 'A Harlot is ',
+            name: 'A harlot is ',
             landRange: [a.city, a.village, a.haven],
             worksForBrothel: true,
             worksForThiefs: true,
@@ -394,7 +394,7 @@ export const individuals: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            name: 'A Cavalier is ',
+            name: 'A cavalier is ',
             incomeRange: [a.wealthy, a.rich],
             worksForBrothel: true,
         },
@@ -403,7 +403,7 @@ export const individuals: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            name: 'A Pretty Waitress is ',
+            name: 'A pretty waitress is ',
             worksForBrothel: true,
             worksForAssasines: true,
             worksForThiefs: true,
@@ -413,7 +413,7 @@ export const individuals: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            name: 'A Handsome Waiter is ',
+            name: 'A handsome waiter is ',
             worksForBrothel: true,
             worksForAssasines: true,
             worksForThiefs: true,
@@ -425,7 +425,7 @@ export const individuals: ImpressionIdea[] = [
         {
             needs: [a.poor],
             needsOne: [a.city, a.haven],
-            name: 'A Lumpy Busker is ',
+            name: 'A lumpy busker is ',
             worksForBrothel: true,
         },
         machoClass,
@@ -434,7 +434,7 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             classRange: [a.wizard, a.adventurer],
-            name: 'A Wizard is ',
+            name: 'A wizard is ',
             worksForBrothel: true,
             worksForAssasines: true,
         },
@@ -444,7 +444,7 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             classRange: [a.wizard, a.adventurer],
-            name: 'A Sorcerer is ',
+            name: 'A sorcerer is ',
             worksForBrothel: true,
             worksForAssasines: true,
         },
@@ -454,7 +454,7 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             classRange: [a.wizard, a.adventurer],
-            name: 'A Warlock is ',
+            name: 'A warlock is ',
             worksForBrothel: true,
             worksForAssasines: true,
         },
@@ -464,7 +464,7 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             classRange: [a.wizard, a.adventurer],
-            name: 'An Illusionist is ',
+            name: 'An illusionist is ',
             worksForBrothel: true,
             worksForThiefs: true,
         },
@@ -474,7 +474,7 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             classRange: [a.wizard, a.cleric],
-            name: 'A Scribe is ',
+            name: 'A scribe is ',
             worksForBrothel: true,
             incomeRange: [a.modest, a.wealthy],
         },
@@ -484,7 +484,7 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             classRange: [a.wizard, a.cleric],
-            name: 'A Scholar is ',
+            name: 'A scholar is ',
             worksForBrothel: true,
             incomeRange: [a.modest, a.wealthy],
         },
@@ -494,7 +494,7 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             classRange: [a.wizard, a.bard, a.adventurer],
-            name: 'An Archaeologist is ',
+            name: 'An archaeologist is ',
             worksForBrothel: true,
         },
         machoClass,
@@ -503,7 +503,7 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             needsOne: [a.barbarian, a.adventurer],
-            name: 'A Barbarian is ',
+            name: 'A barbarian is ',
             worksForBrothel: true,
             worksForAssasines: true,
         },
@@ -513,7 +513,7 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             classRange: [a.cleric, a.knight, a.adventurer],
-            name: 'A Knight is ',
+            name: 'A knight is ',
             worksForBrothel: true,
             worksForAssasines: true,
         },
@@ -523,7 +523,7 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             classRange: [a.soldier, a.adventurer],
-            name: 'A Warrior is ',
+            name: 'A warrior is ',
             worksForBrothel: true,
             worksForAssasines: true,
         },
@@ -533,7 +533,7 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             classRange: [a.adventurer, a.assasine],
-            name: 'A Bounty Hunter is ',
+            name: 'A bounty hunter is ',
             worksForBrothel: true,
             worksForAssasines: true,
         },
@@ -543,7 +543,7 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             needs: [a.village],
-            name: 'A Farmer is ',
+            name: 'A farmer is ',
             worksForBrothel: true,
             incomeRange: [a.poor, a.modest],
         },
@@ -553,7 +553,7 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             needs: [a.village, a.city],
-            name: 'A Potter is ',
+            name: 'A potter is ',
             worksForBrothel: true,
             incomeRange: [a.poor, a.modest],
         },
@@ -563,7 +563,7 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             needs: [a.haven, a.city],
-            name: 'A Carpenter is ',
+            name: 'A carpenter is ',
             worksForBrothel: true,
             incomeRange: [a.poor, a.modest],
         },
@@ -573,7 +573,7 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             landRange: [a.city, a.village, a.haven],
-            name: 'Some Guards are ',
+            name: 'Some guards are ',
             worksForBrothel: true,
         },
         machoClass,
@@ -582,7 +582,7 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             needs: [a.haven],
-            name: 'Some Pirates are ',
+            name: 'Some pirates are ',
             worksForBrothel: true,
             worksForAssasines: true,
             worksForThiefs: true,
@@ -593,7 +593,7 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             needs: [a.haven],
-            name: 'Some Sailors are ',
+            name: 'Some sailors are ',
             worksForBrothel: true,
             worksForThiefs: true,
             incomeRange: [a.poor, a.modest],
@@ -604,7 +604,7 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             needs: [a.haven],
-            name: 'Some Smugglers are ',
+            name: 'Some smugglers are ',
             worksForBrothel: true,
             worksForThiefs: true,
         },
@@ -614,18 +614,7 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             needs: [a.haven],
-            name: 'Some Seamen are ',
-            worksForBrothel: true,
-            worksForThiefs: true,
-            incomeRange: [a.poor, a.modest],
-        },
-        machoClass,
-        Noticable.someCustomers
-    ),
-    new ImpressionIdea(
-        {
-            needs: [a.haven],
-            name: 'A Sailors is ',
+            name: 'Some seamen are ',
             worksForBrothel: true,
             worksForThiefs: true,
             incomeRange: [a.poor, a.modest],
@@ -636,7 +625,18 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             needs: [a.haven],
-            name: 'A Shipwright is ',
+            name: 'A sailors is ',
+            worksForBrothel: true,
+            worksForThiefs: true,
+            incomeRange: [a.poor, a.modest],
+        },
+        machoClass,
+        Noticable.someCustomers
+    ),
+    new ImpressionIdea(
+        {
+            needs: [a.haven],
+            name: 'AsShipwright is ',
             worksForBrothel: true,
             worksForThiefs: true,
             incomeRange: [a.wealthy, a.modest],
@@ -647,7 +647,7 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             needs: [a.haven],
-            name: 'A Navigator is ',
+            name: 'A navigator is ',
             worksForBrothel: true,
             worksForThiefs: true,
             incomeRange: [a.modest, a.wealthy],
@@ -658,7 +658,7 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             needs: [a.haven],
-            name: 'A Lighthouse Keeper is ',
+            name: 'A lighthouse keeper is ',
             worksForBrothel: true,
             worksForThiefs: true,
         },
@@ -668,7 +668,7 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             needs: [a.haven],
-            name: 'A Captain is ',
+            name: 'A captain is ',
             worksForBrothel: true,
             worksForThiefs: true,
             worksForAssasines: true,
@@ -679,23 +679,23 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             needsOne: [a.druid, a.forest, a.mountain, a.village],
-            name: 'A Druid is ',
+            name: 'A druid is ',
             worksForBrothel: true,
             worksForAssasines: true,
         },
         [
             ...general,
-            { name: 'Smoking some Dried Herbs' },
-            { name: 'Nursing a Young Bird' },
-            { name: 'Drinking his own Brew', misfits: [a.desert, a.tropical] },
-            { name: 'Selling some Dried Mushrooms' },
+            { name: 'smoking some dried herbs' },
+            { name: 'nursing a young bird' },
+            { name: 'drinking his own brew', misfits: [a.desert, a.tropical] },
+            { name: 'selling dried mushrooms' },
         ],
         Noticable.someCustomers
     ),
     new ImpressionIdea(
         {
             needs: [a.thief],
-            name: 'A Thief is ',
+            name: 'A thief is ',
             worksForBrothel: true,
             worksForThiefs: true,
         },
@@ -704,7 +704,7 @@ export const individuals: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            name: 'A Con Artist is ',
+            name: 'A con artist is ',
             worksForBrothel: true,
             worksForThiefs: true,
         },
@@ -713,7 +713,7 @@ export const individuals: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            name: 'A Secret Spy is ',
+            name: 'A secret spy is ',
             worksForBrothel: true,
             worksForThiefs: true,
             worksForAssasines: true,
@@ -723,7 +723,7 @@ export const individuals: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            name: 'An Secret Agent is ',
+            name: 'A secret agent is ',
             worksForBrothel: true,
             worksForThiefs: true,
             worksForAssasines: true,
@@ -734,7 +734,7 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             needs: [a.forest],
-            name: 'A Shapeshifter is ',
+            name: 'A shapeshifter is ',
             worksForBrothel: true,
             worksForThiefs: true,
             worksForAssasines: true,
