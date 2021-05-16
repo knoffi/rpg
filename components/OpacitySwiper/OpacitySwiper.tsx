@@ -26,7 +26,15 @@ type OpacitySwiperProps = {
     onClick: () => void;
     swipeThreshold: number;
 };
-export class OpacitySwiper extends React.Component<OpacitySwiperProps, {}> {
+type OpacityState = {
+    stiffness: number;
+};
+const FAST_STIFFNESS = 100;
+const NO_MOVE_STIFFNESS = 0.001;
+export class OpacitySwiper extends React.Component<
+    OpacitySwiperProps,
+    OpacityState
+> {
     private clock: Animated.Clock;
     private gestureState: Animated.Value<State>;
     private onHandlerStateChange: (...args: any[]) => void;
@@ -51,6 +59,7 @@ export class OpacitySwiper extends React.Component<OpacitySwiperProps, {}> {
     private userMightClick: boolean;
     constructor(props: any) {
         super(props);
+        this.state = { stiffness: FAST_STIFFNESS };
         this.clock = new Animated.Clock();
         this.gestureState = new Animated.Value(GestureState.UNDETERMINED);
         this.animState = {
@@ -68,12 +77,6 @@ export class OpacitySwiper extends React.Component<OpacitySwiperProps, {}> {
             restSpeedThreshold: 0.2,
             restDisplacementThreshold: 0.2,
         };
-        this.animState = {
-            finished: new Animated.Value(0),
-            position: new Animated.Value(0),
-            velocity: new Animated.Value(0),
-            time: new Animated.Value(0),
-        };
         this.userSwipedLeft = false;
         this.userSwipedRight = false;
         this.userMightClick = false;
@@ -90,13 +93,11 @@ export class OpacitySwiper extends React.Component<OpacitySwiperProps, {}> {
                                     translationX,
                                     this.props.swipeThreshold
                                 ),
-                                call(
-                                    [this.animState.position],
-                                    () => (this.userSwipedRight = true)
+                                call([this.animState.position], () =>
+                                    this.adjustToSwipeSuccess('right')
                                 ),
-                                call(
-                                    [this.animState.position],
-                                    () => (this.userSwipedRight = false)
+                                call([this.animState.position], () =>
+                                    this.adjustToSwipeCancel('right')
                                 )
                             ),
                             cond(
@@ -104,13 +105,11 @@ export class OpacitySwiper extends React.Component<OpacitySwiperProps, {}> {
                                     translationX,
                                     -this.props.swipeThreshold
                                 ),
-                                call(
-                                    [this.animState.position],
-                                    () => (this.userSwipedLeft = true)
+                                call([this.animState.position], () =>
+                                    this.adjustToSwipeSuccess('left')
                                 ),
-                                call(
-                                    [this.animState.position],
-                                    () => (this.userSwipedLeft = false)
+                                call([this.animState.position], () =>
+                                    this.adjustToSwipeCancel('left')
                                 )
                             ),
                         ]),
@@ -166,6 +165,26 @@ export class OpacitySwiper extends React.Component<OpacitySwiperProps, {}> {
         ]);
     }
 
+    adjustToSwipeSuccess(direction: 'left' | 'right') {
+        if (!this.userSwipedRight && direction === 'right') {
+            this.setState({ stiffness: NO_MOVE_STIFFNESS });
+            this.userSwipedRight = true;
+        }
+        if (!this.userSwipedLeft && direction === 'left') {
+            this.setState({ stiffness: NO_MOVE_STIFFNESS });
+            this.userSwipedLeft = true;
+        }
+    }
+
+    adjustToSwipeCancel(direction: 'left' | 'right') {
+        if (this.userSwipedRight && direction === 'right') {
+            this.userSwipedRight = false;
+        }
+        if (this.userSwipedLeft && direction === 'left') {
+            this.userSwipedLeft = false;
+        }
+    }
+
     getOpacity() {
         return Animated.divide(
             Animated.min(
@@ -198,11 +217,10 @@ export class OpacitySwiper extends React.Component<OpacitySwiperProps, {}> {
                             block([
                                 // If the clock is running, increment position in next tick by calling spring()
                                 cond(clockRunning(this.clock), [
-                                    spring(
-                                        this.clock,
-                                        this.animState,
-                                        this.springAnimConfig
-                                    ),
+                                    spring(this.clock, this.animState, {
+                                        ...this.springAnimConfig,
+                                        stiffness: this.state.stiffness,
+                                    }),
                                     // Stop and reset clock when spring is complete
                                     cond(this.animState.finished, [
                                         stopClock(this.clock),

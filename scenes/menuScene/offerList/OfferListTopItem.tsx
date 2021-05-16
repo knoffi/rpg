@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Animated, View } from 'react-native';
 import { List, Text } from 'react-native-paper';
+import { OpacitySwiper } from '../../../components/OpacitySwiper/OpacitySwiper';
 import { WIDTH_FACTOR } from '../../../dimensionConstants';
-import { OpacitySwiper } from '../../titleScene/OpacitySwiper';
 import { menuSceneStyles } from '../menuStyles';
 import { getDishTexts } from './nameSplitter/getDishTexts';
 import { productActions } from './productActions';
@@ -53,7 +53,13 @@ export const OfferListTopItem = (props: {
                 return (
                     <OpacitySwiper
                         swipeThreshold={SWIPE_THRESHOLD}
-                        onSwipeRight={actions.onReroll}
+                        onSwipeRight={
+                            editPossible
+                                ? actions.onEdit
+                                : rerollPossible
+                                ? actions.onReroll
+                                : () => {}
+                        }
                         onSwipeLeft={actions.onDelete}
                         onClick={actions.onShop}
                     >
