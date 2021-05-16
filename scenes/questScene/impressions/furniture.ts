@@ -4,7 +4,7 @@ const a = association;
 export const furnitures: ImpressionIdea[] = [
     new ImpressionIdea(
         {
-            name: 'Wooden Tables in Bad Shape',
+            name: 'Wooden tables in bad shape',
             needs: [a.poor],
         },
         [{ name: '' }],
@@ -12,7 +12,7 @@ export const furnitures: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            name: 'Sturdy Tables made from Oaken Wood',
+            name: 'Sturdy tables made from oaken wood',
             incomeRange: [a.modest],
         },
         [{ name: '' }],
@@ -20,7 +20,7 @@ export const furnitures: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            name: 'Mahagony Tables, polished and clean',
+            name: 'Mahagony tables, polished and clean',
             needs: [a.wealthy],
         },
         [{ name: '' }],
@@ -28,7 +28,7 @@ export const furnitures: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            name: 'Marmor Tables with Silver Plates',
+            name: 'Marmor tables with silver plates',
             needs: [a.rich],
         },
         [{ name: '' }],
