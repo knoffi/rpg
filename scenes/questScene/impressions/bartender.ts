@@ -11,99 +11,99 @@ const lowerClass = [
     association.barbarian,
 ];
 const bartenderCharacter: DescriptionAsset[] = [
-    { name: 'Grumbling', worksForThiefs: true },
-    { name: 'Warm-Hearted' },
-    { name: 'Unfriendly', misfits: sophisticatedGroup, worksForThiefs: true },
-    { name: 'Generous', worksForBrothel: true },
-    { name: 'Honest' },
-    { name: 'Busy', worksForBrothel: true, worksForAssasines: true },
-    { name: 'In Love', worksForBrothel: true },
-    { name: 'Dreaming', worksForBrothel: true },
-    { name: 'Lazy', misfits: sophisticatedGroup },
-    { name: 'Nostalgic' },
+    { name: 'grumbling', worksForThiefs: true },
+    { name: 'warm-hearted' },
+    { name: 'unfriendly', misfits: sophisticatedGroup, worksForThiefs: true },
+    { name: 'generous', worksForBrothel: true },
+    { name: 'honest' },
+    { name: 'busy', worksForBrothel: true, worksForAssasines: true },
+    { name: 'in love', worksForBrothel: true },
+    { name: 'dreaming', worksForBrothel: true },
+    { name: 'lazy', misfits: sophisticatedGroup },
+    { name: 'nostalgic' },
 
     {
-        name: 'Dumb',
+        name: 'dumb',
         misfits: sophisticatedGroup,
         worksForThiefs: true,
         worksForBrothel: true,
     },
     {
         needsOne: [a.poor, a.barbarian],
-        name: 'Weak Minded',
+        name: 'weak Minded',
         worksForThiefs: true,
         worksForBrothel: true,
     },
     {
         incomeRange: [a.modest, a.poor],
         classRange: [a.dwarf],
-        name: 'Vulgar',
+        name: 'vulgar',
         misfits: sophisticatedGroup,
         worksForThiefs: true,
         worksForBrothel: true,
     },
-    { incomeRange: [a.poor], name: 'Depressed', misfits: sophisticatedGroup },
+    { incomeRange: [a.poor], name: 'depressed', misfits: sophisticatedGroup },
     {
         needsOne: [a.rich, a.thief],
-        name: 'Gold Tooth',
+        name: 'gold tooth',
         worksForThiefs: true,
         worksForBrothel: true,
         worksForAssasines: true,
     },
     {
         incomeRange: [a.rich, a.wealthy],
-        name: 'Sophisticated',
+        name: 'sophisticated',
         worksForAssasines: true,
         worksForBrothel: true,
     },
     {
         needsOne: [a.rich, a.prostitute],
-        name: 'Lofty',
+        name: 'lofty',
         misfits: lowerClass,
         worksForBrothel: true,
     },
     {
         incomeRange: [a.wealthy, a.rich],
-        name: 'Organized',
+        name: 'organized',
         worksForBrothel: true,
         worksForAssasines: true,
         worksForThiefs: true,
     },
     {
         incomeRange: [a.modest, a.poor],
-        name: 'Hard-Working',
+        name: 'hard-working',
         worksForBrothel: true,
     },
     {
         classRange: [a.knight],
-        name: 'Nobel',
+        name: 'nobel',
         misfits: lowerClass,
         worksForBrothel: true,
     },
     {
         classRange: [a.knight, a.bard, a.barbarian, a.soldier, a.adventurer],
-        name: 'Brave',
+        name: 'brave',
     },
-    { classRange: [a.knight, a.soldier], name: 'Armored' },
-    { classRange: [a.cleric], name: 'Enlightened' },
-    { classRange: [a.cleric, a.bard], name: 'Kind', worksForBrothel: true },
+    { classRange: [a.knight, a.soldier], name: 'armored' },
+    { classRange: [a.cleric], name: 'enlightened' },
+    { classRange: [a.cleric, a.bard], name: 'kind', worksForBrothel: true },
     {
         needsOne: [a.thief, a.assasine, a.prostitute],
-        name: 'Shady',
+        name: 'shady',
         worksForAssasines: true,
         worksForBrothel: true,
         worksForThiefs: true,
     },
     {
         needsOne: [a.thief, a.assasine],
-        name: 'Dangerous',
+        name: 'dangerous',
         worksForAssasines: true,
         worksForBrothel: true,
         worksForThiefs: true,
     },
     {
         needsOne: [a.haven, a.barbarian, a.dwarf],
-        name: 'Die-Hard',
+        name: 'die-hard',
         misfits: [a.elf],
         worksForAssasines: true,
         worksForBrothel: true,
@@ -111,7 +111,7 @@ const bartenderCharacter: DescriptionAsset[] = [
     },
     {
         needsOne: [a.haven, a.barbarian, a.dwarf],
-        name: 'Grimly',
+        name: 'grimly',
         misfits: [a.elf],
         worksForAssasines: true,
         worksForBrothel: true,
@@ -119,21 +119,21 @@ const bartenderCharacter: DescriptionAsset[] = [
     },
     {
         needsOne: [a.haven, a.soldier, a.adventurer, a.assasine],
-        name: 'Eye-Patch',
+        name: 'eye-patch',
         worksForAssasines: true,
         worksForBrothel: true,
         worksForThiefs: true,
     },
     {
         landRange: [a.city],
-        name: 'Greedy',
+        name: 'greedy',
         worksForAssasines: true,
         worksForBrothel: true,
         worksForThiefs: true,
     },
     {
         landRange: [a.village],
-        name: 'Tipsy',
+        name: 'tipsy',
         misfits: sophisticatedGroup,
         worksForBrothel: true,
         worksForThiefs: true,
@@ -141,7 +141,7 @@ const bartenderCharacter: DescriptionAsset[] = [
     { needs: [a.tropical], name: 'Coconut Bra', worksForBrothel: true },
     {
         needsOne: [a.dwarf, a.barbarian, a.soldier],
-        name: 'Crude Humor',
+        name: 'crude humor',
         worksForAssasines: true,
         worksForBrothel: true,
         worksForThiefs: true,
@@ -149,35 +149,35 @@ const bartenderCharacter: DescriptionAsset[] = [
     { landRange: [a.mountain], name: 'Clumsy' },
     {
         needsOne: [a.underdark, a.assasine, a.thief],
-        name: 'Mistrusting',
+        name: 'mistrusting',
         worksForAssasines: true,
         worksForThiefs: true,
     },
     {
         needsOne: [a.underdark, a.assasine],
-        name: 'Closed-Mouthed',
+        name: 'closed-mouthed',
         worksForAssasines: true,
         worksForBrothel: true,
         worksForThiefs: true,
     },
     {
         needsOne: [a.underdark, a.assasine],
-        name: 'Macabre',
+        name: 'macabre',
         worksForAssasines: true,
         worksForThiefs: true,
     },
-    { classRange: [a.cleric, a.wizard], name: 'Wise' },
-    { needs: [a.cleric], name: 'Forgiving' },
-    { classRange: [a.wizard], name: 'Daydreaming' },
-    { needs: [a.wizard], name: 'Deep-Minded' },
-    { needsOne: [a.barbarian, a.soldier, a.dwarf], name: 'Ferocious' },
-    { needsOne: [a.barbarian, a.soldier, a.dwarf], name: 'Fierce' },
+    { classRange: [a.cleric, a.wizard], name: 'wise' },
+    { needs: [a.cleric], name: 'forgiving' },
+    { classRange: [a.wizard], name: 'daydreaming' },
+    { needs: [a.wizard], name: 'deep-minded' },
+    { needsOne: [a.barbarian, a.soldier, a.dwarf], name: 'ferocious' },
+    { needsOne: [a.barbarian, a.soldier, a.dwarf], name: 'fierce' },
     {
         needsOne: [a.barbarian, a.soldier, a.dwarf],
-        name: 'Experienced Fighter',
+        name: 'experienced fighter',
         worksForAssasines: true,
     },
-    { classRange: [a.adventurer, a.bard], name: 'Story-Loving' },
+    { classRange: [a.adventurer, a.bard], name: 'story-loving' },
 ];
 export const bartenders: ImpressionIdea[] = [
     new ImpressionIdea(
@@ -216,7 +216,7 @@ export const bartenders: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             misfits: [a.elf, a.drow, a.tiefling],
-            name: 'Big Belly',
+            name: 'Big belly',
             worksForAssasines: true,
             worksForBrothel: true,
             worksForThiefs: true,
@@ -227,7 +227,7 @@ export const bartenders: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             needsOne: [a.bard, a.adventurer, a.tiefling],
-            name: 'Charming Smile',
+            name: 'Charming smile',
             worksForAssasines: true,
             worksForBrothel: true,
             worksForThiefs: true,
@@ -238,7 +238,7 @@ export const bartenders: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             needsOne: [a.elf, a.drow],
-            name: 'Giant Ears',
+            name: 'Giant ears',
             worksForAssasines: true,
             worksForBrothel: true,
             worksForThiefs: true,
@@ -335,7 +335,7 @@ export const bartenders: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             incomeRange: [a.poor, a.modest],
-            name: 'Ugly Face',
+            name: 'Ugly face',
             misfits: [a.elf, a.drow],
             worksForAssasines: true,
             worksForBrothel: true,
@@ -367,7 +367,7 @@ export const bartenders: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             needsOne: [a.prostitute, a.bard],
-            name: 'Half-Naked',
+            name: 'Half-naked',
             worksForBrothel: true,
         },
         bartenderCharacter,
@@ -375,7 +375,7 @@ export const bartenders: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            name: 'Silver Hair',
+            name: 'Silver hair',
             worksForAssasines: true,
             worksForBrothel: true,
             worksForThiefs: true,
@@ -385,7 +385,7 @@ export const bartenders: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            name: 'Grey-Haired',
+            name: 'Grey-haired',
             worksForAssasines: true,
             worksForBrothel: true,
             worksForThiefs: true,
@@ -396,7 +396,7 @@ export const bartenders: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             needsOne: [a.thief, a.assasine, a.tiefling, a.drow],
-            name: 'Malicious Smile',
+            name: 'Malicious smile',
             worksForAssasines: true,
             worksForThiefs: true,
         },
@@ -406,7 +406,7 @@ export const bartenders: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             needsOne: [a.thief, a.assasine, a.tiefling, a.drow],
-            name: 'Sinister Smile',
+            name: 'Sinister smile',
             worksForAssasines: true,
             worksForThiefs: true,
         },
@@ -416,7 +416,7 @@ export const bartenders: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             misfits: [a.thief, a.assasine, a.elf, a.tiefling, a.drow],
-            name: 'Good-natured Smile',
+            name: 'Good-natured smile',
         },
         bartenderCharacter,
         Noticable.bartender
@@ -429,7 +429,7 @@ export const bartenders: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             needsOne: [a.poor, a.thief, a.barbarian],
-            name: 'Covered in Bruises',
+            name: 'Covered in bruises',
             worksForThiefs: true,
         },
         bartenderCharacter,
@@ -438,7 +438,7 @@ export const bartenders: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             needsOne: [a.poor, a.thief, a.barbarian],
-            name: 'Covered in Tattoes',
+            name: 'Covered in tattoes',
             worksForAssasines: true,
             worksForThiefs: true,
         },
@@ -448,7 +448,7 @@ export const bartenders: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             needsOne: [a.thief, a.adventurer, a.barbarian, a.haven],
-            name: 'One-Eyed',
+            name: 'One-eyed',
             worksForAssasines: true,
             worksForThiefs: true,
         },
@@ -458,7 +458,7 @@ export const bartenders: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             needsOne: [a.thief, a.adventurer, a.barbarian, a.haven],
-            name: 'One-Eared',
+            name: 'One-eared',
             worksForAssasines: true,
             worksForThiefs: true,
         },
@@ -468,7 +468,7 @@ export const bartenders: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             needsOne: [a.thief, a.adventurer, a.barbarian, a.haven],
-            name: 'One-Legged',
+            name: 'One-legged',
             worksForAssasines: true,
             worksForThiefs: true,
         },
@@ -478,7 +478,7 @@ export const bartenders: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             needsOne: [a.thief, a.adventurer, a.barbarian, a.haven],
-            name: 'One-Armed',
+            name: 'One-armed',
             worksForAssasines: true,
             worksForThiefs: true,
         },
@@ -488,7 +488,7 @@ export const bartenders: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             needs: [a.haven],
-            name: 'Parrot on Shoulder',
+            name: 'Parrot on shoulder',
             worksForBrothel: true,
             worksForThiefs: true,
         },
@@ -498,7 +498,7 @@ export const bartenders: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             misfits: [a.wizard, a.dwarf, a.drow, a.elf],
-            name: 'Thick Mustache',
+            name: 'Thick mustache',
             worksForAssasines: true,
             worksForThiefs: true,
             worksForBrothel: true,
@@ -509,7 +509,7 @@ export const bartenders: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             needsOne: [a.cleric, a.knight],
-            name: 'Golden Hair',
+            name: 'Golden hair',
             worksForAssasines: true,
             worksForThiefs: true,
             worksForBrothel: true,
@@ -525,7 +525,7 @@ export const bartenders: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             needsOne: [a.tropical, a.desert],
-            name: 'Monkey on Shoulder',
+            name: 'Monkey on shoulder',
             worksForAssasines: true,
             worksForThiefs: true,
             worksForBrothel: true,
@@ -537,7 +537,7 @@ export const bartenders: ImpressionIdea[] = [
         {
             needsOne: [a.desert],
             incomeRange: [a.rich],
-            name: 'Purple Turban',
+            name: 'Purple turban',
             worksForAssasines: true,
             worksForThiefs: true,
             worksForBrothel: true,
@@ -549,7 +549,7 @@ export const bartenders: ImpressionIdea[] = [
         {
             needsOne: [a.desert],
             incomeRange: [a.poor],
-            name: 'Grey Turban',
+            name: 'Grey turban',
             worksForAssasines: true,
             worksForThiefs: true,
             worksForBrothel: true,
@@ -561,7 +561,7 @@ export const bartenders: ImpressionIdea[] = [
         {
             needsOne: [a.desert],
             incomeRange: [a.wealthy],
-            name: 'Blue Turban',
+            name: 'Blue turban',
             worksForAssasines: true,
             worksForThiefs: true,
             worksForBrothel: true,
@@ -573,7 +573,7 @@ export const bartenders: ImpressionIdea[] = [
         {
             needsOne: [a.desert],
             incomeRange: [a.modest],
-            name: 'White Turban',
+            name: 'White turban',
             worksForAssasines: true,
             worksForThiefs: true,
             worksForBrothel: true,
@@ -585,7 +585,7 @@ export const bartenders: ImpressionIdea[] = [
         {
             needsOne: [a.desert],
             misfits: [a.poor],
-            name: 'Is a Genie',
+            name: 'Is a genie',
             worksForAssasines: true,
             worksForThiefs: true,
             worksForBrothel: true,
@@ -596,7 +596,7 @@ export const bartenders: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             needsOne: [a.tropical, a.desert],
-            name: 'Black Talisman',
+            name: 'Black talisman',
             worksForAssasines: true,
             worksForThiefs: true,
             worksForBrothel: true,
@@ -618,7 +618,7 @@ export const bartenders: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             needsOne: [a.knight, a.cleric, a.wizard],
-            name: 'Old-Fashioned',
+            name: 'Old-fashioned',
             worksForAssasines: true,
             worksForThiefs: true,
             worksForBrothel: true,
@@ -629,7 +629,7 @@ export const bartenders: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             incomeRange: [a.rich, a.wealthy],
-            name: 'Dapper Appearance',
+            name: 'Dapper appearance',
             worksForAssasines: true,
             worksForBrothel: true,
         },
@@ -639,7 +639,7 @@ export const bartenders: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             incomeRange: [a.rich, a.wealthy],
-            name: 'Elegant Clothes',
+            name: 'Elegant clothes',
             worksForAssasines: true,
             worksForThiefs: true,
             worksForBrothel: true,
@@ -648,12 +648,12 @@ export const bartenders: ImpressionIdea[] = [
         Noticable.bartender
     ),
     new ImpressionIdea(
-        { incomeRange: [a.rich, a.wealthy], name: 'Sophisticated Look' },
+        { incomeRange: [a.rich, a.wealthy], name: 'Sophisticated look' },
         bartenderCharacter,
         Noticable.bartender
     ),
     new ImpressionIdea(
-        { incomeRange: [a.rich, a.wealthy], name: 'Well-Dressed Style' },
+        { incomeRange: [a.rich, a.wealthy], name: 'Well-dressed style' },
         bartenderCharacter,
         Noticable.bartender
     ),
