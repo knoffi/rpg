@@ -4,26 +4,36 @@ import { ImpressionIdea, Noticable } from '../../../classes/ImpressionIdea';
 const a = association;
 export const averageCustomers: ImpressionIdea[] = [
     new ImpressionIdea(
-        { name: 'Loudly Laughing & Drinking Beer', raceRange: [a.dwarf] },
+        { name: 'Loudly laughing & drinking beer', raceRange: [a.dwarf] },
         [emptyDescriptionAsset],
         Noticable.averageCustomer
     ),
     new ImpressionIdea(
         {
-            name: 'Discussing Investments & Drinking Whisky',
+            name: 'Discussing investments & drinking whisky',
             raceRange: [a.gnome],
+            misfits: [a.poor, a.adventurer],
         },
         [emptyDescriptionAsset],
         Noticable.averageCustomer
     ),
     new ImpressionIdea(
-        { name: 'Singing and Dancing to Folk Music', raceRange: [a.halfling] },
+        {
+            name: 'Complaining about politics & drinking whisky',
+            raceRange: [a.gnome],
+            needs: [a.poor],
+        },
+        [emptyDescriptionAsset],
+        Noticable.averageCustomer
+    ),
+    new ImpressionIdea(
+        { name: 'Singing and dancing to folk music', raceRange: [a.halfling] },
         [emptyDescriptionAsset],
         Noticable.averageCustomer
     ),
     new ImpressionIdea(
         {
-            name: 'Listening to Harp Music & Drinking Nectar',
+            name: 'Listening to harp music & drinking nectar',
             raceRange: [a.elf],
         },
         [emptyDescriptionAsset],
@@ -31,7 +41,7 @@ export const averageCustomers: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            name: 'Listening to Harp Music & Drinking White Wine',
+            name: 'Listening to harp music & drinking white wine',
             raceRange: [a.elf],
             misfits: [a.desert],
         },
@@ -39,20 +49,20 @@ export const averageCustomers: ImpressionIdea[] = [
         Noticable.averageCustomer
     ),
     new ImpressionIdea(
-        { name: 'Mistrustful & Quiet', raceRange: [a.drow] },
+        { name: 'Mistrustful & quiet', raceRange: [a.drow] },
         [emptyDescriptionAsset],
         Noticable.averageCustomer
     ),
     new ImpressionIdea(
         {
-            name: 'Discussing Politics & Drinking Brandy',
+            name: 'Discussing politics & drinking brandy',
             raceRange: [a.tiefling],
         },
         [emptyDescriptionAsset],
         Noticable.averageCustomer
     ),
     new ImpressionIdea(
-        { name: 'Meeting Friends & Drinking Mead', raceRange: [a.human] },
+        { name: 'Meeting friends & drinking mead', raceRange: [a.human] },
         [emptyDescriptionAsset],
         Noticable.averageCustomer
     ),
