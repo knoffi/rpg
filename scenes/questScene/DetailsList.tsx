@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { List } from 'react-native-paper';
 import { association } from '../../classes/association';
 import { Noticable } from '../../classes/ImpressionIdea';
@@ -91,25 +91,37 @@ const ImpressionListAccordion = (props: {
     onAdd: () => void;
     onReroll: (name: string) => void;
 }) => {
-    const descriptionItems = props.descriptionNames.map((text, index) => (
-        <OfferListTopItem
-            drinkName={text}
-            key={index.toString() + text}
-            priceString={''}
-            //TODO: make this adjustable, so that instad of reroll user can edit
-            //TODO: also, do use "NO DESCRIPTION LEFT" instead of "MENU FULL!"
-            isUserMade={false}
-            //TODO: check, if there is no description left
-            noDrinkToAddLeft={false}
-            actions={{
-                onReroll: () => props.onReroll(text),
-                onDelete: () => props.onDelete(text),
-                onEdit: () => {},
-                onShop: () => {},
-                onInfo: () => {},
-            }}
-        ></OfferListTopItem>
-    ));
+    const [renderedItems, setRenderedItems] = useState(
+        props.descriptionNames.length
+    );
+    const descriptionItems = props.descriptionNames.map((text, index) => {
+        const newID = index + renderedItems;
+        const newKey = newID.toString() + props.title;
+        return (
+            <OfferListTopItem
+                drinkName={text}
+                key={newKey}
+                priceString={''}
+                //TODO: make this adjustable, so that instad of reroll user can edit
+                //TODO: also, do use "NO DESCRIPTION LEFT" instead of "MENU FULL!"
+                isUserMade={false}
+                //TODO: check, if there is no description left
+                noDrinkToAddLeft={false}
+                actions={{
+                    onReroll: () => {
+                        setRenderedItems(
+                            renderedItems + props.descriptionNames.length
+                        );
+                        props.onReroll(text);
+                    },
+                    onDelete: () => props.onDelete(text),
+                    onEdit: () => {},
+                    onShop: () => {},
+                    onInfo: () => {},
+                }}
+            ></OfferListTopItem>
+        );
+    });
     const addBar = (
         <List.Item
             title=""

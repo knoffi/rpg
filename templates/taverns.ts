@@ -6,15 +6,7 @@ import { standardBasePrice } from '../scenes/menuScene/basePrice';
 type tavernMinData = MinimalTavernData & {
     key: string;
     note: string;
-}; /*{
-    key: string;
-    name: string;
-    fitting:{fits: association[];
-    drinks: Offer[];
-    dishes: Offer[];
-    prices: BasePrice;
-    note: string;
-}*/
+};
 
 export const taverns: tavernMinData[] = [
     {
@@ -27,8 +19,7 @@ export const taverns: tavernMinData[] = [
         drinks: [],
         dishes: [],
         prices: standardBasePrice,
-        note:
-            "Barbara was a Barbarian chieftain. After losing an eye and three fingers while fighting a Tyrannosaurus Rex, she decided to settle down and open a tavern. Well known for its variety of strong beers, Barbara's bar gets visited by numerous ferocious fighters from far away. Some of them come to take part in the legendary bar fights in Barbara's tavern, and if they are unlucky, Barbara is attending too...",
+        note: "Barbara was a Barbarian chieftain. After losing an eye and three fingers while fighting a Tyrannosaurus Rex, she decided to settle down and open a tavern. Well known for its variety of strong beers, Barbara's bar gets visited by numerous ferocious fighters from far away. Some of them come to take part in the legendary bar fights in Barbara's tavern, and if they are unlucky, Barbara is attending too...",
         boughtOffers: [],
         impressions: [
             {
@@ -105,8 +96,7 @@ export const taverns: tavernMinData[] = [
         drinks: [],
         dishes: [],
         prices: standardBasePrice,
-        note:
-            'When an Elvish ambassador comes to the Dwarvish capital, he usually gets invited to the Molthorium Mine, a nobel Dwarvish tavern. This masterwork of stone cutters is a symbol of the rich Dwarvish culture and craftsmanship. Marble columns decorated with beautiful, handcrafted details, cups made of the purest silver and a Dwarvish beer which even the gods could not reject: Molthorium beer. It is malty like autumn, cosy like winter, vitalizing like summer and refreshing like spring. Not even the Elves can make a beer of this quality.',
+        note: 'When an Elvish ambassador comes to the Dwarvish capital, he usually gets invited to the Molthorium Mine, a nobel Dwarvish tavern. This masterwork of stone cutters is a symbol of the rich Dwarvish culture and craftsmanship. Marble columns decorated with beautiful, handcrafted details, cups made of the purest silver and a Dwarvish beer which even the gods could not reject: Molthorium beer. It is malty like autumn, cosy like winter, vitalizing like summer and refreshing like spring. Not even the Elves can make a beer of this quality.',
         boughtOffers: [],
         impressions: [
             { name: 'Long Silver Beard', category: Noticable.bartender },
@@ -129,8 +119,7 @@ export const taverns: tavernMinData[] = [
                 category: Noticable.averageCustomer,
             },
             {
-                name:
-                    'The Royal Masons discuss the Defenses of the Dwarvish Capital',
+                name: 'The Royal Masons discuss the Defenses of the Dwarvish Capital',
                 category: Noticable.someCustomers,
             },
             {
@@ -147,8 +136,7 @@ export const taverns: tavernMinData[] = [
             },
             { name: 'Mahagony Tables', category: Noticable.furniture },
             {
-                name:
-                    'A Giant Portrait of the Dwarvish Royal Family on the Wall',
+                name: 'A Giant Portrait of the Dwarvish Royal Family on the Wall',
                 category: Noticable.furniture,
             },
         ],
@@ -163,8 +151,7 @@ export const taverns: tavernMinData[] = [
         drinks: [],
         dishes: [],
         prices: standardBasePrice,
-        note:
-            'The Drowning Rat is a tavern which landlubbers normally avoid. Rumors have it that this location is filled with smugglers, pirates and other untrustworthy sailors. However, between the bitter ale and the harsh rum you may also find ferocious captains who fear neither tides nor kraken. Their crew may sail you to any island you desire, IF you can provide enough gold.',
+        note: 'The Drowning Rat is a tavern which landlubbers normally avoid. Rumors have it that this location is filled with smugglers, pirates and other untrustworthy sailors. However, between the bitter ale and the harsh rum you may also find ferocious captains who fear neither tides nor kraken. Their crew may sail you to any island you desire, IF you can provide enough gold.',
         boughtOffers: [],
         impressions: [
             {
@@ -218,8 +205,7 @@ export const taverns: tavernMinData[] = [
         drinks: [],
         dishes: [],
         prices: standardBasePrice,
-        note:
-            'The Foxy Gold Nymph is a high class tavern in the capital city, full of beautiful servants wrapped in revealing garments. The prices are expensiv, but the quality of erotic services and exotic beverages is absolute world class. Soon, a chauvinistic prince will celebrate his bachelor party right here in these halls, and the guest list for this mix of orgy and banquette is extremely exclusive.',
+        note: 'The Foxy Gold Nymph is a high class tavern in the capital city, full of beautiful servants wrapped in revealing garments. The prices are expensiv, but the quality of erotic services and exotic beverages is absolute world class. Soon, a chauvinistic prince will celebrate his bachelor party right here in these halls, and the guest list for this mix of orgy and banquette is extremely exclusive.',
         boughtOffers: [],
         impressions: [
             { name: 'Half-Naked Half Elve', category: Noticable.bartender },
@@ -240,8 +226,7 @@ export const taverns: tavernMinData[] = [
             },
 
             {
-                name:
-                    'A Halfling eats Grapes from the Hand of A Tiefling Servant',
+                name: 'A Halfling eats Grapes from the Hand of A Tiefling Servant',
                 category: Noticable.someCustomers,
             },
             {

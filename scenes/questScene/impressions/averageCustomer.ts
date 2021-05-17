@@ -33,6 +33,14 @@ export const averageCustomers: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
+            name: 'Giggling and gossiping about others',
+            raceRange: [a.halfling],
+        },
+        [emptyDescriptionAsset],
+        Noticable.averageCustomer
+    ),
+    new ImpressionIdea(
+        {
             name: 'Listening to harp music & drinking nectar',
             raceRange: [a.elf],
         },

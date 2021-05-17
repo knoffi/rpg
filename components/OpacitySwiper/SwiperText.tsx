@@ -7,13 +7,9 @@ import { getDishTexts } from '../../scenes/menuScene/offerList/nameSplitter/getD
 export const SwiperText = (props: {
     drinkName: string;
     priceString: string;
-    onTextChange: () => void;
 }) => {
     const { name, description } = getDishTexts(props.drinkName);
     const isNotForDishes = props.priceString === '';
-    React.useEffect(() => {
-        props.onTextChange();
-    }, [name]);
     return (
         <View
             style={{

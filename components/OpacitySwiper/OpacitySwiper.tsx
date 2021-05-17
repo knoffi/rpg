@@ -37,8 +37,8 @@ type OpacitySwiperTextState = {
         time: Animated.Value<0>;
     };
 };
-const FAST_STIFFNESS = 5;
-const NO_MOVE_STIFFNESS = 0.001;
+const FAST_STIFFNESS = 10;
+const NO_MOVE_STIFFNESS = 0.0001;
 export class OpacitySwiperText extends React.Component<
     OpacitySwiperTextProps,
     OpacitySwiperTextState
@@ -47,7 +47,7 @@ export class OpacitySwiperText extends React.Component<
     private gestureState: Animated.Value<State>;
     private onHandlerStateChange: (...args: any[]) => void;
     private onPanEvent: (...args: any[]) => void;
-    private userChangedText: boolean;
+    //private userChangedText: boolean;
     private springAnimConfig: {
         toValue: Animated.Value<0>;
         damping: number;
@@ -72,7 +72,7 @@ export class OpacitySwiperText extends React.Component<
             },
         };
         this.clock = new Animated.Clock();
-        this.userChangedText = false;
+        // this.userChangedText = false;
         this.gestureState = new Animated.Value(GestureState.UNDETERMINED);
         this.springAnimConfig = {
             toValue: new Animated.Value(0),
@@ -149,19 +149,13 @@ export class OpacitySwiperText extends React.Component<
                         cond(
                             eq(state, GestureState.END),
                             call([], () => {
-                                if (this.userChangedText) {
-                                    const newAnim = {
-                                        ...this.state.anim,
-                                        position: new Animated.Value(0),
-                                    };
-                                    this.setState({ anim: newAnim });
-                                    this.userChangedText = false;
-                                }
                                 if (this.userSwipedLeft) {
+                                    console.log('user swiped left');
                                     this.userSwipedLeft = false;
                                     this.props.onSwipeLeft();
                                 } else {
                                     if (this.userSwipedRight) {
+                                        console.log('user swiped right');
                                         this.userSwipedRight = false;
                                         this.props.onSwipeRight();
                                     }
@@ -215,10 +209,6 @@ export class OpacitySwiperText extends React.Component<
             this.props.swipeThreshold
         );
     }
-    adjustToTextChanges() {
-        //DO NOT change anim.position in this method. Although it would be beautiful code, it won't work
-        this.userChangedText = true;
-    }
     render() {
         return (
             <PanGestureHandler
@@ -265,7 +255,6 @@ export class OpacitySwiperText extends React.Component<
                         <SwiperText
                             drinkName={this.props.descriptionText}
                             priceString={this.props.priceString}
-                            onTextChange={this.adjustToTextChanges.bind(this)}
                         />
                     </Animated.View>
                 </Animated.View>
