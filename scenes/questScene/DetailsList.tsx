@@ -94,7 +94,7 @@ const ImpressionListAccordion = (props: {
     const descriptionItems = props.descriptionNames.map((text, index) => (
         <OfferListTopItem
             drinkName={text}
-            key={+index.toString() + 'text'}
+            key={index.toString() + text}
             priceString={''}
             //TODO: make this adjustable, so that instad of reroll user can edit
             //TODO: also, do use "NO DESCRIPTION LEFT" instead of "MENU FULL!"

@@ -13,6 +13,22 @@ export enum weServe {
     service = 'service',
 }
 
+const getCloneForRerender = (offer: Offer) => {
+    const offerIsVirgin = !offer.product.name.endsWith(' ');
+    const newName = offerIsVirgin
+        ? offer.product.name + ' '
+        : offer.product.name.slice(0, offer.product.name.length - 1);
+    return {
+        price: offer.price,
+        product: new TavernProduct(
+            newName,
+            offer.product.copperPrice,
+            offer.product.associations,
+            offer.product.category
+        ),
+    };
+};
+
 export const offersWithOneReroll = (
     name: string,
     offers: Offer[],
@@ -26,16 +42,22 @@ export const offersWithOneReroll = (
         if (offer.product.name !== name) {
             return offer;
         } else {
-            return getRandomDrinkOffer(
+            const rerolledOffer = getRandomDrinkOffer(
                 category,
                 fits,
                 misfits,
                 offeredNames(offers),
                 isAbout
             );
+            const oldOffer = offer;
+            if (rerolledOffer.product.name === NothingLeftOffer.product.name) {
+                return getCloneForRerender(oldOffer);
+            } else {
+                return rerolledOffer;
+            }
         }
     });
-    return newOffers;
+    return [...newOffers];
 };
 
 export const getNewRandomDrinkOffer = (
