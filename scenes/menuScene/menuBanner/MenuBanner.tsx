@@ -54,7 +54,7 @@ export const MenuBanner = (props: {
                             newBannerData.drink.isVisible = false;
                         }
                         if (props.isAbout === WeServe.food) {
-                            newBannerData.drink.isVisible = false;
+                            newBannerData.food.isVisible = false;
                         }
                         if (props.isAbout === WeServe.impressions) {
                             newBannerData.impression.isVisible = false;
