@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import { HelperText, Text, TextInput } from 'react-native-paper';
-import { SavedDataHandler, weSave } from '../../../classes/Database';
+import { SavedDataHandler, WeSave } from '../../../classes/Database';
 import {
     buttonEmphasis,
     OkayButton,
@@ -36,7 +36,7 @@ export const ProductEditor = (props: {
             name: name,
             category: props.startTexts.category,
         } as MinimalOfferDataWithNumber;
-        new SavedDataHandler(weSave.menu, props.startTexts.category).saveData(
+        new SavedDataHandler(WeSave.menu, props.startTexts.category).saveData(
             minimalOfferDataWithNumber
         );
     };

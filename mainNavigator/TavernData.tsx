@@ -1,9 +1,10 @@
 import { association } from '../classes/association';
-import { drinkCategory, foodCategory } from '../classes/TavernProduct';
+import { Noticable } from '../classes/ImpressionIdea';
+import { Drinkable, Eatable } from '../classes/TavernProduct';
 import { BasePrice } from '../scenes/menuScene/basePrice';
 import { BannerData } from '../scenes/menuScene/menuBanner/MenuBanner';
 import { Offer } from '../scenes/menuScene/menuEnums';
-import { ITavernDescription } from '../scenes/questScene/impressions/ITavernDescription';
+import { IImpression } from '../scenes/questScene/impressions/IImpression';
 
 export type TavernData = {
     //TODO: misfits are depreciated
@@ -12,12 +13,18 @@ export type TavernData = {
     drinks: Offer[];
     dishes: Offer[];
     prices: BasePrice;
-    drinksLeft: Map<drinkCategory, boolean>;
-    dishesLeft: Map<foodCategory, boolean>;
-    drinkBannerData: BannerData;
-    foodBannerData: BannerData;
+    ideasLeft: {
+        drink: Map<Drinkable, boolean>;
+        food: Map<Eatable, boolean>;
+        impression: Map<Noticable, boolean>;
+    };
+    bannerData: {
+        drink: BannerData;
+        food: BannerData;
+        impression: BannerData;
+    };
     boughtOffers: Offer[];
-    impressions: ITavernDescription[];
+    impressions: IImpression[];
 };
 
 export interface MinimalTavernData {
@@ -28,5 +35,5 @@ export interface MinimalTavernData {
     dishes: Offer[];
     prices: BasePrice;
     boughtOffers: Offer[];
-    impressions: ITavernDescription[];
+    impressions: IImpression[];
 }

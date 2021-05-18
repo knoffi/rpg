@@ -1,4 +1,4 @@
-import { weServe } from '../addRandomDrink';
+import { WeServe } from '../addRandomDrink';
 
 const drinkBannerEndings = [
     'Cheers to that!',
@@ -31,7 +31,7 @@ const serviceBannerEndings = [
 ];
 
 export const bannerEndings = new Map([
-    [weServe.drinks, drinkBannerEndings],
-    [weServe.food, foodBannerEndings],
-    [weServe.service, serviceBannerEndings],
+    [WeServe.drinks, drinkBannerEndings],
+    [WeServe.food, foodBannerEndings],
+    [WeServe.service, serviceBannerEndings],
 ]);

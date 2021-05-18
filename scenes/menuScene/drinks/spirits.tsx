@@ -1,7 +1,7 @@
 import { association } from '../../../classes/association';
-import { drinkCategory, TavernProduct } from '../../../classes/TavernProduct';
+import { Drinkable, TavernProduct } from '../../../classes/TavernProduct';
 
-const spiritEnum = drinkCategory.spirit;
+const spiritEnum = Drinkable.spirit;
 const a = association;
 
 //TODO is the reduction of price justified? For example: Are Single Grains always more expensive than Blended Malt?

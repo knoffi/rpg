@@ -1,13 +1,13 @@
 import { association } from '../../../classes/association';
-import { foodCategory, TavernProduct } from '../../../classes/TavernProduct';
+import { Eatable, TavernProduct } from '../../../classes/TavernProduct';
 const a = association;
-const mainDishEnum = foodCategory.mainDish;
+const mainDishEnum = Eatable.mainDish;
 export const appetizers = [
     new TavernProduct(
         'Asparagus Creme Soup with Seasonal Spices',
         10,
         [],
-        foodCategory.appetizer
+        Eatable.appetizer
     ),
 ];
 
@@ -16,9 +16,9 @@ export const sideDishes = [
         'Arugula Salad with Cherry Tomatoes',
         10,
         [],
-        foodCategory.sideDish
+        Eatable.sideDish
     ),
 ];
 export const desserts = [
-    new TavernProduct('Crème Brûlée', 10, [], foodCategory.sideDish),
+    new TavernProduct('Crème Brûlée', 10, [], Eatable.sideDish),
 ];

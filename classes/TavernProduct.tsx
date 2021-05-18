@@ -2,14 +2,14 @@ import { ITavernAsset } from '../helpingFunctions/ITavernAsset';
 import { association } from './association';
 
 //more ideas: water, coffee, tea, juice, liqueur, cocktail
-export enum drinkCategory {
+export enum Drinkable {
     lemonade = 'Lemonade',
     beer = 'Beer',
     wine = 'Wine',
     spirit = 'Spirit',
 }
 // so that a tavern does not only
-export enum foodCategory {
+export enum Eatable {
     breakfast = 'Breakfast',
     appetizer = 'Appetizer',
     sideDish = 'Side Dish',
@@ -25,7 +25,7 @@ export enum serviceCategory {
     prostitute = 'Adult Pleasures',
 }
 
-export type menuCategory = foodCategory | drinkCategory;
+export type MenuCategory = Eatable | Drinkable;
 
 const DRINK_BINDINGS = [
     association.prostitute,
@@ -53,7 +53,7 @@ export class TavernProduct implements ITavernAsset {
     //price in copper for easier translation into gold,silver, etc.
     public copperPrice!: number;
     public associations!: association[];
-    public category!: menuCategory;
+    public category!: MenuCategory;
     public isUserMade?: boolean;
     public description?: string;
 
@@ -61,7 +61,7 @@ export class TavernProduct implements ITavernAsset {
         name: string,
         price: number,
         associations: association[],
-        category: menuCategory,
+        category: MenuCategory,
         description?: string,
         isUserMade?: boolean
     ) {
@@ -109,18 +109,18 @@ export class TavernProduct implements ITavernAsset {
     }
 
     public isDrink = () => {
-        return Object.values(drinkCategory).some((categoryName) => {
+        return Object.values(Drinkable).some((categoryName) => {
             return categoryName === this.category;
         });
     };
 
     public isFood = () => {
-        return Object.values(foodCategory).some((categoryName) => {
+        return Object.values(Eatable).some((categoryName) => {
             return categoryName === this.category;
         });
     };
 
-    public resetCategory = (category: menuCategory) => {
+    public resetCategory = (category: MenuCategory) => {
         this.category = category;
     };
 

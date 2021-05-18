@@ -19,7 +19,17 @@ export const standardCarbs: DescriptionAsset[] = [
     },
     {
         name: ' & Sweet Potatoes',
-        landRange: [a.haven, a.tropical, a.desert],
+        needsOne: [a.haven, a.tropical, a.desert],
+        incomeRange: [a.modest, a.wealthy],
+    },
+    {
+        name: ' & Falafel',
+        needs: [a.desert],
+        incomeRange: [a.modest, a.wealthy],
+    },
+    {
+        name: ' & Rice',
+        needs: [a.tropical],
         incomeRange: [a.modest, a.wealthy],
     },
     {

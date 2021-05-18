@@ -1,15 +1,17 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
 import { association } from '../classes/association';
+import { Noticable } from '../classes/ImpressionIdea';
 import Icon from '../components/icons';
 import { iconKeys } from '../components/icons/iconKeys';
 import { TavernData } from '../mainNavigator/TavernData';
-import { weServe } from '../scenes/menuScene/addRandomDrink';
+import { WeServe } from '../scenes/menuScene/addRandomDrink';
 import { Offer } from '../scenes/menuScene/menuEnums';
 import { MenuScene } from '../scenes/menuScene/MenuScene';
 import { NameScene } from '../scenes/nameScene/NameScene';
+import { IImpression } from '../scenes/questScene/impressions/IImpression';
 import { QuestScene } from '../scenes/questScene/QuestScene';
-import { getNewBannerDataAndOffersLeft } from './getNewBannerDataAndOffersLeft';
+import { getAllNewBannerDataAndOffersLeft } from './getNewBannerDataAndIdeasLeft';
 
 const Tab = createBottomTabNavigator();
 
@@ -50,10 +52,10 @@ export const EditNavigator = (props: {
         });
     };
 
-    const oldDrinkBannerData = props.tavern.drinkBannerData;
-    const oldFoodBannerData = props.tavern.foodBannerData;
+    const oldBanner = props.tavern.bannerData;
     const oldDrinks = props.tavern.drinks;
     const oldDishes = props.tavern.dishes;
+    const oldImpressions = props.tavern.impressions;
 
     return (
         <Tab.Navigator
@@ -76,12 +78,18 @@ export const EditNavigator = (props: {
                             fits: association[];
                             misfits: association[];
                         }) =>
-                            getNewBannerDataAndOffersLeft(
+                            getAllNewBannerDataAndOffersLeft(
                                 newFitting,
-                                oldDrinks,
-                                oldDishes,
-                                oldDrinkBannerData,
-                                oldFoodBannerData
+                                {
+                                    drinks: oldDrinks,
+                                    dishes: oldDishes,
+                                    impressions: oldImpressions,
+                                },
+                                {
+                                    drink: oldBanner.drink,
+                                    food: oldBanner.food,
+                                    impression: oldBanner.impression,
+                                }
                             )
                         }
                     ></NameScene>
@@ -94,22 +102,28 @@ export const EditNavigator = (props: {
                         buyOffer={buyOffer}
                         offersBought={props.tavern.boughtOffers}
                         fitting={props.tavern.fitting}
-                        isAbout={weServe.drinks}
-                        offers={props.tavern.drinks}
+                        isAbout={WeServe.drinks}
+                        offers={oldDrinks}
                         onDataChange={props.onDataChange}
-                        offersLeft={props.tavern.drinksLeft}
+                        offersLeft={props.tavern.ideasLeft.drink}
                         basePrice={props.tavern.prices}
-                        bannerData={props.tavern.drinkBannerData}
+                        bannerData={oldBanner.drink}
                         getImpliedChanges={(
                             newDrinks?: Offer[],
                             newDishes?: Offer[]
                         ) => {
-                            return getNewBannerDataAndOffersLeft(
+                            return getAllNewBannerDataAndOffersLeft(
                                 props.tavern.fitting,
-                                newDrinks ? newDrinks : oldDrinks,
-                                newDishes ? newDishes : oldDishes,
-                                oldDrinkBannerData,
-                                oldFoodBannerData
+                                {
+                                    drinks: newDrinks || oldDrinks,
+                                    dishes: newDishes || oldDishes,
+                                    impressions: oldImpressions,
+                                },
+                                {
+                                    drink: oldBanner.drink,
+                                    food: oldBanner.food,
+                                    impression: oldBanner.impression,
+                                }
                             );
                         }}
                     ></MenuScene>
@@ -122,23 +136,28 @@ export const EditNavigator = (props: {
                         buyOffer={buyOffer}
                         offersBought={props.tavern.boughtOffers}
                         fitting={props.tavern.fitting}
-                        isAbout={weServe.food}
-                        offers={props.tavern.dishes}
+                        isAbout={WeServe.food}
+                        offers={oldDishes}
                         onDataChange={props.onDataChange}
-                        offersLeft={props.tavern.dishesLeft}
+                        offersLeft={props.tavern.ideasLeft.food}
                         basePrice={props.tavern.prices}
-                        bannerData={props.tavern.foodBannerData}
+                        bannerData={oldBanner.food}
                         getImpliedChanges={(
                             newDrinks?: Offer[],
                             newDishes?: Offer[]
                         ) => {
-                            //change back
-                            return getNewBannerDataAndOffersLeft(
+                            return getAllNewBannerDataAndOffersLeft(
                                 props.tavern.fitting,
-                                newDrinks ? newDrinks : oldDrinks,
-                                newDishes ? newDishes : oldDishes,
-                                oldDrinkBannerData,
-                                oldFoodBannerData
+                                {
+                                    drinks: newDrinks || oldDrinks,
+                                    dishes: newDishes || oldDishes,
+                                    impressions: oldImpressions,
+                                },
+                                {
+                                    drink: oldBanner.drink,
+                                    food: oldBanner.food,
+                                    impression: oldBanner.impression,
+                                }
                             );
                         }}
                     ></MenuScene>
@@ -146,12 +165,33 @@ export const EditNavigator = (props: {
             />
             <Tab.Screen
                 name="Notes"
+                //needs a getImpliedChanges
                 children={() => (
                     <QuestScene
                         fitting={props.tavern.fitting}
                         basePrice={props.tavern.prices}
                         onDataChange={props.onDataChange}
                         impressions={props.tavern.impressions}
+                        banner={oldBanner.impression}
+                        noticablesLeft={props.tavern.ideasLeft.impression}
+                        getImpliedChanges={(newImpressions?: IImpression[]) => {
+                            const test = getAllNewBannerDataAndOffersLeft(
+                                props.tavern.fitting,
+                                {
+                                    drinks: oldDrinks,
+                                    dishes: oldDishes,
+                                    impressions:
+                                        newImpressions || oldImpressions,
+                                },
+                                oldBanner
+                            );
+                            console.log(
+                                test.ideasLeft?.impression.get(
+                                    Noticable.averageCustomer
+                                )
+                            );
+                            return test;
+                        }}
                     ></QuestScene>
                 )}
             />

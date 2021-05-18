@@ -1,7 +1,8 @@
 import { association } from '../classes/association';
 import { BannerData } from '../scenes/menuScene/menuBanner/MenuBanner';
 import { Offer } from '../scenes/menuScene/menuEnums';
-import { getNewBannerDataAndOffersLeft } from './getNewBannerDataAndOffersLeft';
+import { IImpression } from '../scenes/questScene/impressions/IImpression';
+import { getAllNewBannerDataAndOffersLeft } from './getNewBannerDataAndIdeasLeft';
 
 export const removeEmptyStrings = (
     newFits: association[],
@@ -14,18 +15,19 @@ export const removeEmptyStrings = (
 };
 export const getProductsLeftAndBannerData = (
     fitting: { fits: association[]; misfits: association[] },
-    drinkOffers: Offer[],
-    foodOffers: Offer[]
+    ideas: { drinks: Offer[]; dishes: Offer[]; impressions: IImpression[] }
 ) => {
-    const emptyTavernBannerData: BannerData = {
+    const emptyBanner: BannerData = {
         isVisible: false,
         emptyCategories: [],
     };
-    return getNewBannerDataAndOffersLeft(
+    return getAllNewBannerDataAndOffersLeft(
         fitting,
-        drinkOffers,
-        foodOffers,
-        emptyTavernBannerData,
-        emptyTavernBannerData
+        {
+            drinks: ideas.drinks,
+            dishes: ideas.dishes,
+            impressions: ideas.impressions,
+        },
+        { drink: emptyBanner, food: emptyBanner, impression: emptyBanner }
     );
 };

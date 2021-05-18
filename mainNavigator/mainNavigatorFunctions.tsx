@@ -1,26 +1,26 @@
-import {
-    drinkCategory,
-    foodCategory,
-    menuCategory,
-    TavernProduct,
-} from '../classes/TavernProduct';
-import { getNewBannerDataAndOffersLeft } from '../editNavigator/getNewBannerDataAndOffersLeft';
+import { Noticable } from '../classes/ImpressionIdea';
+import { Drinkable, Eatable, TavernProduct } from '../classes/TavernProduct';
+import { getAllNewBannerDataAndOffersLeft } from '../editNavigator/getNewBannerDataAndIdeasLeft';
 import { standardBasePrice } from '../scenes/menuScene/basePrice';
 import { Offer } from '../scenes/menuScene/menuEnums';
+import { IImpression } from '../scenes/questScene/impressions/IImpression';
 import { MinimalTavernData, TavernData } from './TavernData';
 
 export const getTavernHistoryInitializer = () => {
-    const startMenuMaps = getStartMenuMaps();
+    const startIdeasLeft = getDefaultIdeasLeft();
+    const startBanner = { isVisible: false, emptyCategories: [] };
     return {
         fitting: { fits: [], misfits: [] },
         name: 'Nameless Tavern',
         drinks: [],
         dishes: [],
         prices: standardBasePrice,
-        drinksLeft: startMenuMaps.drinkMap,
-        dishesLeft: startMenuMaps.dishesMap,
-        drinkBannerData: { isVisible: false, emptyCategories: [] },
-        foodBannerData: { isVisible: false, emptyCategories: [] },
+        ideasLeft: startIdeasLeft,
+        bannerData: {
+            drink: startBanner,
+            food: startBanner,
+            impression: startBanner,
+        },
         boughtOffers: [],
         impressions: [],
     } as TavernData;
@@ -41,29 +41,35 @@ const rebuildOffers = (offers: Offer[]) => {
         } as Offer;
     });
 };
+const rebuildImpressions = (impressions: IImpression[]) => {
+    return impressions.map((impression) => {
+        return {
+            name: impression.name,
+            category: impression.category,
+        } as IImpression;
+    });
+};
 
 export const getTavernFromMinimalData = (minimalData: MinimalTavernData) => {
-    const rebuildDrinkOffers = rebuildOffers(minimalData.drinks);
-    const rebuildFoodOffers = rebuildOffers(minimalData.dishes);
-    const rebuildBoughtOffers = rebuildOffers(minimalData.boughtOffers);
-
-    const oldBannerData = { isVisible: false, emptyCategories: [] };
-    const BannerData = getNewBannerDataAndOffersLeft(
+    const newDrinks = rebuildOffers(minimalData.drinks);
+    const newDishes = rebuildOffers(minimalData.dishes);
+    const newBoughtOffers = rebuildOffers(minimalData.boughtOffers);
+    const newImpressions = rebuildImpressions(minimalData.impressions);
+    const { drinks, dishes, impressions } = minimalData;
+    const startBanner = { isVisible: false, emptyCategories: [] };
+    const { bannerData, ideasLeft } = getAllNewBannerDataAndOffersLeft(
         minimalData.fitting,
-        minimalData.drinks,
-        minimalData.dishes,
-        oldBannerData,
-        oldBannerData
+        { drinks, dishes, impressions },
+        { drink: startBanner, food: startBanner, impression: startBanner }
     );
     return {
         ...minimalData,
-        boughtOffers: rebuildBoughtOffers,
-        drinks: rebuildDrinkOffers,
-        dishes: rebuildFoodOffers,
-        drinkBannerData: BannerData.drinkBannerData,
-        foodBannerData: BannerData.foodBannerData,
-        dishesLeft: BannerData.dishesLeft,
-        drinksLeft: BannerData.drinksLeft,
+        boughtOffers: newBoughtOffers,
+        drinks: newDrinks,
+        dishes: newDishes,
+        impressions: newImpressions,
+        bannerData: bannerData,
+        ideasLeft: ideasLeft,
     } as TavernData;
 };
 export const getMinimalDataFromTavern = (tavern: TavernData) => {
@@ -79,16 +85,19 @@ export const getMinimalDataFromTavern = (tavern: TavernData) => {
     return minimalData;
 };
 
-const getStartMenuMaps = () => {
-    const startDrinksLeft = new Map([]) as Map<menuCategory, boolean>;
-    // assuming that every category has additional drinks to add from the start!
-    Object.values(drinkCategory).forEach((category) => {
-        startDrinksLeft.set(category as drinkCategory, true);
-    });
-    const startDishesLeft = new Map([]) as Map<menuCategory, boolean>;
-    // assuming that every category has additional food to add from the start!
-    Object.values(foodCategory).forEach((category) => {
-        startDishesLeft.set(category as foodCategory, true);
-    });
-    return { drinkMap: startDrinksLeft, dishesMap: startDishesLeft };
+const getDefaultIdeasLeft = () => {
+    const startDrinksLeft = new Map(
+        Object.values(Drinkable).map((category) => [category, true])
+    );
+    const startFoodLeft = new Map(
+        Object.values(Eatable).map((category) => [category, true])
+    );
+    const startImpressionsLeft = new Map(
+        Object.values(Noticable).map((category) => [category, true])
+    );
+    return {
+        drink: startDrinksLeft,
+        food: startFoodLeft,
+        impression: startImpressionsLeft,
+    };
 };

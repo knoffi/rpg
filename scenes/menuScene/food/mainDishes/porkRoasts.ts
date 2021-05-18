@@ -1,6 +1,6 @@
 import { association } from '../../../../classes/association';
 import { DishIdea } from '../../../../classes/DishIdea';
-import { foodCategory } from '../../../../classes/TavernProduct';
+import { Eatable } from '../../../../classes/TavernProduct';
 import { adjustPriceSetter, foodPrices } from '../foodPrices';
 import { standardCarbs } from './standardCarbs';
 import { standardGreens } from './standardGreens';
@@ -36,6 +36,6 @@ export const porkRoasts = [
             thirdSideDishes: standardCarbs,
         },
         adjustPriceSetter(foodPrices.mainDish, ROAST_PORK_FACTOR),
-        foodCategory.mainDish
+        Eatable.mainDish
     ),
 ];

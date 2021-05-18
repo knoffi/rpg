@@ -1,11 +1,11 @@
 import { association } from '../../classes/association';
-import { menuCategory, TavernProduct } from '../../classes/TavernProduct';
+import { MenuCategory, TavernProduct } from '../../classes/TavernProduct';
 
 export interface MinimalOfferData {
     name: string;
     priceText: string;
     description: string;
-    category: menuCategory;
+    category: MenuCategory;
 }
 
 export const createMinimalOffer = (data: MinimalOfferData) => {

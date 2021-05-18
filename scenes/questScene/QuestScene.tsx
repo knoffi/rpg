@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { ScrollView } from 'react-native';
 import { association } from '../../classes/association';
+import { Noticable } from '../../classes/ImpressionIdea';
 import { TavernData } from '../../mainNavigator/TavernData';
+import { WeServe } from '../menuScene/addRandomDrink';
 import { BasePrice } from '../menuScene/basePrice';
+import { BannerData, MenuBanner } from '../menuScene/menuBanner/MenuBanner';
 import { nameSceneStyles } from '../nameScene/nameSceneStyles';
 import { CurrencySetDialog } from './CurrencySetDialog';
 import { DetailsList } from './DetailsList';
-import { ITavernDescription } from './impressions/ITavernDescription';
+import { IImpression } from './impressions/IImpression';
 import { incomeExampleMap } from './incomeExampleMap';
 import { PriceExplanationDialog } from './PriceExplanationDialog';
 import { PriceSetDialog } from './PriceSetDialog';
@@ -30,8 +33,11 @@ const getPriceFromIncome = (income: association, basePrice: BasePrice) => {
 export const QuestScene = (props: {
     fitting: { fits: association[]; misfits: association[] };
     basePrice: BasePrice;
-    impressions: ITavernDescription[];
+    impressions: IImpression[];
+    banner: BannerData;
+    noticablesLeft: Map<Noticable, boolean>;
     onDataChange: (newData: Partial<TavernData>) => void;
+    getImpliedChanges: (newImpressions?: IImpression[]) => Partial<TavernData>;
 }) => {
     const [explanationDialog, setDialog] = useState({
         open: false,
@@ -190,6 +196,13 @@ export const QuestScene = (props: {
                 backgroundColor: nameSceneStyles.backgroundView.backgroundColor,
             }}
         >
+            <MenuBanner
+                bannerData={props.banner}
+                onDataChange={props.onDataChange}
+                getImpliedChanges={props.getImpliedChanges}
+                bannerEnding={'Let the story begin!'}
+                isAbout={WeServe.impressions}
+            />
             <PriceExplanationDialog
                 explanationDialog={explanationDialog}
                 onDismiss={onDialogDismiss}
@@ -219,6 +232,8 @@ export const QuestScene = (props: {
                 onCurrencySetPress={onCurrencySetPress}
                 onDataChange={props.onDataChange}
                 impressions={props.impressions}
+                noticablesLeft={props.noticablesLeft}
+                getImpliedChanges={props.getImpliedChanges}
             ></DetailsList>
         </ScrollView>
     );
