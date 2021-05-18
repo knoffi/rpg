@@ -181,24 +181,26 @@ export class Idea {
         if (!mainFitsToTavern) {
             return false;
         }
-        const someHarmonySubstantiveFitsToTavern = this.additions
+        if (!this.additions && !this.contrastAdditions && mainFitsToTavern) {
+            return true;
+        }
+        const someHarmonySubstantiveFits = this.additions
             ? this.additions.every((additionCollection) =>
                   additionCollection.some((addition) =>
                       this.assetFitsToTavern(tavernFits, addition)
                   )
               )
-            : true;
-        if (someHarmonySubstantiveFitsToTavern) {
+            : false;
+        if (someHarmonySubstantiveFits) {
             return true;
-        } else {
-            const someConstrastSubstantiveFitsToTavern = this.contrastAdditions
-                ? this.contrastAdditions.every((additionCollection) =>
-                      additionCollection.some((addition) =>
-                          this.assetFitsToTavern(tavernFits, addition)
-                      )
-                  )
-                : true;
-            return someConstrastSubstantiveFitsToTavern;
         }
+        const someConstrastSubstantiveFits = this.contrastAdditions
+            ? this.contrastAdditions.every((additionCollection) =>
+                  additionCollection.some((addition) =>
+                      this.assetFitsToTavern(tavernFits, addition)
+                  )
+              )
+            : false;
+        return someConstrastSubstantiveFits;
     }
 }
