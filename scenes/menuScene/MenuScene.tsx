@@ -30,6 +30,7 @@ const DEFAULT_MODAL_START_DATA = {
     name: '',
     priceText: '10',
     description: '',
+    isUserMade: true,
 };
 interface MenuProps {
     fitting: { fits: association[]; misfits: association[] };
@@ -279,6 +280,7 @@ export const MenuScene = (props: MenuProps) => {
                                 priceText: priceText,
                                 description: description,
                                 category: savedListData.category,
+                                isUserMade: true,
                             });
                         },
                         nameIsDuplicated: nameIsDuplicated,
