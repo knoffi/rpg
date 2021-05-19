@@ -1,4 +1,4 @@
-import { DescriptionAsset } from './DescriptionIdea';
+import { DescriptionAsset } from './DescriptionAsset';
 
 export interface IIdeaOptions {
     main: DescriptionAsset;

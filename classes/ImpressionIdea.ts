@@ -1,5 +1,5 @@
 import { splitMarker } from '../scenes/menuScene/offerList/nameSplitter/splitMarker';
-import { DescriptionAsset } from './DescriptionIdea';
+import { DescriptionAsset } from './DescriptionAsset';
 import { Idea } from './Idea';
 import { StructuredTavernFits } from './StructuredTavernFits';
 export enum Noticable {

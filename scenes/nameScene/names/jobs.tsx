@@ -1,104 +1,275 @@
-// import { association } from '../../../classes/association';
-// import { Substantive, substantiveCategory } from '../../../classes/Substantive';
-// import { getDividedProducts, makeProductsFromNecessary } from '../nounDivider';
-// const a = association;
-// const s = substantiveCategory;
-// const dividableJobs = [
-//     new Substantive('Tailor', [a.modest, a.city], s.job),
-//     new Substantive('Undertaker', [a.modest, a.assasine], s.job),
-//     new Substantive('Butcher', [a.modest, a.village, a.barbarian], s.job),
-//     new Substantive('Cobbler', [a.modest, a.city], s.job),
-//     new Substantive('Carpenter', [a.modest, a.city], s.job),
-//     new Substantive('Weaver', [a.modest, a.village, a.city], s.job),
-//     new Substantive(
-//         'Blacksmith',
-//         [a.modest, a.city, a.village, a.dwarf],
-//         s.job
-//     ),
-//     new Substantive('Jeweler', [a.modest, a.rich, a.city, a.dwarf], s.job),
-//     new Substantive('Potter', [a.modest, a.city, a.village], s.job),
-//     new Substantive('Butcher', [a.modest, a.village, a.dwarf], s.job),
-//     new Substantive('Cheese Maker', [a.modest, a.village, a.halfling], s.job),
-//     new Substantive('Baker', [a.modest, a.village, a.halfling], s.job),
-//     new Substantive('Brewer', [a.modest, a.village, a.dwarf], s.job),
-//     new Substantive('Plummer', [a.modest, a.city, a.village, a.poor], s.job),
-//     new Substantive(
-//         'Miner',
-//         [a.modest, a.mountain, a.underdark, a.dwarf],
-//         s.job
-//     ),
-//     new Substantive('Digger', [a.modest, a.underdark, a.dwarf], s.job),
-//     new Substantive('Pharao', [a.rich, a.knight, a.human, a.desert], s.job),
-//     new Substantive('Sheikh', [a.rich, a.knight, a.human, a.desert], s.job),
-//     new Substantive('Sultan', [a.rich, a.knight, a.human, a.desert], s.job),
-//     new Substantive('King', [a.rich, a.knight, a.human, a.city], s.job),
-//     new Substantive('Emperor', [a.rich, a.assasine, a.human, a.city], s.job),
-//     new Substantive(
-//         'Vizier',
-//         [a.desert, a.cleric, a.wealthy, a.tiefling],
-//         s.job
-//     ),
-//     new Substantive('Priest', [a.cleric, a.wealthy], s.job),
-//     new Substantive('Priestess', [a.cleric, a.wealthy], s.job),
-//     new Substantive('Doctor', [a.city, a.wealthy, a.halfling], s.job),
-//     new Substantive('Lawyer', [a.city, a.wealthy, a.gnome], s.job),
-//     new Substantive('Advocate', [a.city, a.wealthy, a.gnome], s.job),
-//     new Substantive('Judge', [a.city, a.wealthy, a.human], s.job),
-//     new Substantive('Alchemist', [a.city, a.wealthy, a.human], s.job),
-//     new Substantive('Chancellor', [a.city, a.wealthy, a.tiefling], s.job),
-//     new Substantive('Geologist', [a.city, a.wealthy, a.tiefling], s.job),
-//     new Substantive('Astronomer', [a.city, a.wealthy, a.tiefling], s.job),
-// ];
+import { association } from '../../../classes/association';
+import { DescriptionAsset } from '../../../classes/DescriptionAsset';
+const a = association;
+export const artisanJobs: DescriptionAsset[] = [
+    {
+        name: 'Tunnel Digger',
+        incomeRange: [a.modest, a.poor],
+        strongNeedsOne: [a.underdark, a.thief],
+        worksForThiefs: true,
+    },
+    {
+        name: 'Miner',
+        incomeRange: [a.modest, a.poor],
+        strongNeedsOne: [a.underdark, a.thief],
+        worksForThiefs: true,
+    },
+    {
+        name: 'Undertaker',
+        incomeRange: [a.modest, a.poor, a.wealthy],
+        needsOne: [a.underdark, a.assasine],
+        worksForAssasines: true,
+    },
+    {
+        name: 'Tailor',
+        incomeRange: [a.modest, a.poor, a.wealthy],
+        needsOne: [a.village, a.city],
+    },
+    {
+        name: 'Cobbler',
+        incomeRange: [a.modest, a.poor],
+        needsOne: [a.village, a.city],
+    },
+    {
+        name: 'Potter',
+        incomeRange: [a.modest, a.poor],
+        needsOne: [a.village, a.city],
+    },
+    {
+        name: 'Plummer',
+        incomeRange: [a.modest, a.poor],
+        needsOne: [a.village, a.haven],
+    },
+    {
+        name: 'Blacksmith',
+        incomeRange: [a.modest, a.poor, a.wealthy],
+        needsOne: [a.village, a.city],
+    },
+    {
+        name: 'Jeweler',
+        incomeRange: [a.rich, a.wealthy],
+        needsOne: [a.desert, a.city],
+    },
+    {
+        name: 'Carpet Weaver',
+        incomeRange: [a.wealthy, a.rich],
+        needsOne: [a.desert, a.city],
+    },
+    {
+        name: 'Silk Tailor',
+        incomeRange: [a.wealthy, a.rich],
+        needsOne: [a.desert, a.city, a.tropical],
+    },
 
-// const prostituteJobs = {
-//     necessary: [a.prostitute],
-//     nested: [
-//         new Substantive(
-//             'Mistress',
-//             [a.underdark, a.drow, a.human, a.city, a.haven, a.modest],
-//             s.job
-//         ),
-//         new Substantive(
-//             'Domina',
-//             [a.gnome, a.human, a.city, a.wealthy, a.drow],
-//             s.job
-//         ),
-//         new Substantive(
-//             'Wench',
-//             [a.village, a.halfling, a.haven, a.dwarf, a.poor],
-//             s.job
-//         ),
-//         new Substantive(
-//             'Cowgirl',
-//             [a.village, a.mountain, a.haven, a.halfling],
-//             s.job
-//         ),
-//         new Substantive(
-//             'Milkmaid',
-//             [a.village, a.mountain, a.haven, a.halfling],
-//             s.job
-//         ),
-//         new Substantive(
-//             'Maiden',
-//             [a.bard, a.wealthy, a.knight, a.elf, a.modest],
-//             s.job
-//         ),
-//         new Substantive(
-//             'Harlot',
-//             [a.city, a.wealthy, a.elf, a.thief, a.poor],
-//             s.job
-//         ),
-//         new Substantive('Strumpet', [a.dwarf, a.wealthy], s.job),
-//         new Substantive('Catamite', [a.drow, a.desert, a.city], s.job),
-//         new Substantive('Belly Dancer', [a.desert, a.tropical], s.job),
-//         new Substantive('Masseuse', [a.desert, a.tropical], s.job),
-//         new Substantive('Dancer', [a.desert, a.tropical], s.job),
-//         new Substantive('Gigolo', [a.rich, a.drow], s.job),
-//         new Substantive('Nurse', [], s.job),
-//         new Substantive('Firefighter', [], s.job),
-//     ],
-// };
+    {
+        name: 'Priest',
+        incomeRange: [a.wealthy, a.poor, a.modest],
+        needsOne: [a.cleric, a.village, a.desert],
+        classRange: [a.cleric],
+    },
+    {
+        name: 'Monk',
+        incomeRange: [a.wealthy, a.poor, a.modest],
+        needsOne: [a.cleric, a.village],
+        classRange: [a.cleric],
+    },
+    { name: 'Judge', incomeRange: [a.wealthy], needsOne: [a.city] },
+    { name: 'Doctor', incomeRange: [a.wealthy], needsOne: [a.city] },
+    { name: 'Advocate', incomeRange: [a.wealthy], needsOne: [a.city] },
+    { name: 'Lawyer', incomeRange: [a.wealthy], needsOne: [a.city] },
+    {
+        name: 'Merchant',
+        strongNeedsOne: [a.wealthy, a.rich, a.city, a.haven],
+    },
+    {
+        name: 'Alchemist',
+        incomeRange: [a.wealthy, a.modest],
+        needsOne: [a.desert, a.wizard],
+    },
+    {
+        name: 'Astronomer',
+        incomeRange: [a.wealthy, a.modest],
+        needsOne: [a.desert, a.wizard],
+    },
+    {
+        name: 'Wench',
+        needs: [a.prostitute],
+        needsOne: [a.haven, a.village],
+        worksForBrothel: true,
+    },
+    {
+        name: 'Mistress',
+        needs: [a.prostitute],
+        needsOne: [a.drow, a.city, a.haven],
+        worksForBrothel: true,
+    },
+    {
+        name: 'Lust Slave',
+        needs: [a.prostitute],
+        needsOne: [a.drow],
+        worksForBrothel: true,
+    },
+    {
+        name: 'Concubine',
+        needs: [a.prostitute],
+        incomeRange: [a.rich, a.wealthy],
+        needsOne: [a.drow],
+        worksForBrothel: true,
+    },
+    {
+        name: 'Domina',
+        needs: [a.prostitute],
+        needsOne: [a.drow, a.city, a.haven],
+        worksForBrothel: true,
+    },
+    {
+        name: 'Cowgirl',
+        needs: [a.prostitute],
+        landRange: [a.village, a.mountain],
+        worksForBrothel: true,
+    },
+    {
+        name: 'Milkmaid',
+        needs: [a.prostitute],
+        landRange: [a.village, a.mountain],
+        worksForBrothel: true,
+    },
+    {
+        name: 'Maiden',
+        needs: [a.prostitute],
+        misfits: [a.drow],
+        worksForBrothel: true,
+    },
+    { name: 'Harlot', needs: [a.prostitute], worksForBrothel: true },
+    { name: 'Strumpet', needs: [a.prostitute], worksForBrothel: true },
+    {
+        name: 'Masseuse',
+        needs: [a.prostitute, a.tropical],
+        worksForBrothel: true,
+    },
+    {
+        name: 'Belly Dancer',
+        needs: [a.prostitute, a.desert],
+        worksForBrothel: true,
+    },
+    { name: 'Dancer', needs: [a.prostitute], worksForBrothel: true },
+    {
+        name: 'Gigolo',
+        needs: [a.prostitute],
+        needsOne: [a.drow, a.rich],
+        incomeRange: [a.rich, a.wealthy],
+        worksForBrothel: true,
+    },
+    { name: 'Nurse', needs: [a.prostitute, a.city], worksForBrothel: true },
+    {
+        name: 'Firefighter',
+        needs: [a.prostitute, a.city],
+        worksForBrothel: true,
+    },
+];
 
-// export const jobs = getDividedProducts(dividableJobs).concat(
-//     makeProductsFromNecessary(prostituteJobs)
-// );
+export const gastronomyJobs: DescriptionAsset[] = [
+    {
+        name: 'Barmaid',
+        incomeRange: [a.poor, a.modest],
+        misfits: [a.desert, a.drow],
+        worksForBrothel: true,
+    },
+    {
+        name: 'Bartender',
+        incomeRange: [a.wealthy, a.rich],
+        misfits: [a.desert],
+    },
+    { name: 'Cook', incomeRange: [a.modest, a.poor] },
+    { name: 'Chef', incomeRange: [a.wealthy, a.rich] },
+    {
+        name: 'Barkeeper',
+        incomeRange: [a.wealthy, a.rich],
+        misfits: [a.desert],
+    },
+    {
+        name: 'Baker',
+        incomeRange: [a.modest, a.poor],
+        needsOne: [a.village, a.city],
+    },
+    {
+        name: 'Brewer',
+        incomeRange: [a.modest, a.poor],
+        strongNeedsOne: [
+            a.village,
+            a.city,
+            a.mountain,
+            a.forest,
+            a.dwarf,
+            a.gnome,
+            a.halfling,
+            a.human,
+        ],
+        misfits: [a.desert],
+    },
+    {
+        name: 'Butcher',
+        incomeRange: [a.modest, a.poor],
+        strongNeedsOne: [
+            a.village,
+            a.city,
+            a.mountain,
+            a.forest,
+            a.dwarf,
+            a.gnome,
+            a.halfling,
+            a.human,
+        ],
+        worksForAssasines: true,
+    },
+    {
+        name: 'Innkeeper',
+        incomeRange: [a.modest, a.poor, a.wealthy],
+        misfits: [a.desert, a.haven],
+    },
+    {
+        name: 'Host',
+        incomeRange: [a.modest, a.poor, a.wealthy],
+        misfits: [a.haven],
+    },
+    {
+        name: 'Fishmonger',
+        incomeRange: [a.modest, a.poor],
+        needs: [a.haven, a.city],
+    },
+];
+
+export const noblesAndTitles: DescriptionAsset[] = [
+    { name: 'Sheikh', incomeRange: [a.wealthy, a.rich], needs: [a.desert] },
+    { name: 'Sultan', incomeRange: [a.wealthy, a.rich], needs: [a.desert] },
+    { name: 'Pharao', incomeRange: [a.wealthy, a.rich], needs: [a.desert] },
+    { name: 'Mummy', incomeRange: [a.modest, a.poor], needs: [a.desert] },
+    { name: 'Vizier', incomeRange: [a.wealthy, a.rich], needs: [a.desert] },
+    { name: 'Chancellor', strongNeedsOne: [a.wealthy, a.city] },
+    { name: 'Benevolent', incomeRange: [a.wealthy, a.rich] },
+    {
+        name: 'King',
+        incomeRange: [a.wealthy, a.rich, a.modest],
+        landRange: [a.forest, a.mountain, a.city, a.village],
+        misfits: [a.drow],
+    },
+    { name: 'Queen', needsOne: [a.rich, a.wealthy, a.knight] },
+    {
+        name: 'Prince',
+        needsOne: [a.rich, a.wealthy, a.knight],
+        misfits: [a.drow],
+    },
+    { name: 'Princess', needsOne: [a.rich, a.wealthy, a.knight] },
+    {
+        name: 'Earl',
+        incomeRange: [a.wealthy, a.rich],
+        landRange: [a.forest, a.mountain, a.city, a.village],
+        misfits: [a.barbarian, a.drow],
+    },
+    {
+        name: 'Emperor',
+        incomeRange: [a.wealthy, a.rich, a.modest],
+        needsOne: [a.desert, a.tropical, a.underdark, a.haven],
+        misfits: [a.drow],
+    },
+];

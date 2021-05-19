@@ -1,5 +1,5 @@
 import { association, sophisticatedGroup } from '../../../classes/association';
-import { DescriptionAsset } from '../../../classes/DescriptionIdea';
+import { DescriptionAsset } from '../../../classes/DescriptionAsset';
 //tODO: test, if f.e. all food/drink options are working for brothel, thief, ... (i.e., if mapping worked correctly)
 const a = association;
 const getEnabledForAllCriminals = (asset: DescriptionAsset) => {

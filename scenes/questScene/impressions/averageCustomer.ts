@@ -1,5 +1,5 @@
 import { association } from '../../../classes/association';
-import { emptyDescriptionAsset } from '../../../classes/DescriptionIdea';
+import { emptyDescriptionAsset } from '../../../classes/DescriptionAsset';
 import { ImpressionIdea, Noticable } from '../../../classes/ImpressionIdea';
 const a = association;
 export const averageCustomers: ImpressionIdea[] = [

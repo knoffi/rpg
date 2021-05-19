@@ -61,15 +61,7 @@
 //     new Adjective('Laughing', [], empty),
 //     new Adjective('Whining', [], empty),
 //     new Adjective('Cheering', [], empty),
-//     new Adjective('Drinking', [], [s.solid]),
-
-//     new Adjective('Thirsty', [], empty),
-//     new Adjective('Hungry', [a.poor, a.barbarian], empty),
-
-//     new Adjective('Sleeping', [a.modest], [s.solid]),
-//     new Adjective('Slumbering', [a.rich, a.bard, a.wealthy], [s.solid]),
-//     new Adjective('Exhausted', [], [s.solid, s.plant]),
-//     new Adjective('Resting', [], [s.solid, s.plant]),
+//     new Adjective('Drinking', [], [s.solid])
 //     new Adjective('Salty', [a.haven], [s.solid]),
 //     new Adjective('Fishy', [a.haven, a.thief], [s.solid]),
 //     new Adjective('Spicy', [a.tropical, a.desert], [s.solid]),

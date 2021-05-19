@@ -3,7 +3,7 @@ import { association } from './association';
 import {
     DescriptionAsset,
     forCriminalsOverwrittenAsset,
-} from './DescriptionIdea';
+} from './DescriptionAsset';
 import { Idea } from './Idea';
 import { IngredientsIdea } from './IngredientsIdea';
 import { PriceSetter } from './PriceSetter';

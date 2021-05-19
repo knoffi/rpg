@@ -1,6 +1,13 @@
 import { getRandomArrayEntry } from '../helpingFunctions/getFittingRandom';
-import { association } from './association';
-import { DescriptionAsset } from './DescriptionIdea';
+import {
+    association,
+    isClassAssociation,
+    isIncomeAssociation,
+    isLandAssociation,
+    isRaceAssociation,
+    isSpecialAssociation,
+} from './association';
+import { DescriptionAsset } from './DescriptionAsset';
 import { StructuredTavernFits } from './StructuredTavernFits';
 
 export class Idea {
@@ -87,6 +94,7 @@ export class Idea {
         const tavernFitsArray = Object.values(tavernFits).filter(
             (entry) => entry
         ) as association[];
+        //TODO: Do I really want to be so generous if tavern fits are empty?
         if (
             tavernFitsArray.length === 0 &&
             !asset.worksForBrothel &&
@@ -119,7 +127,11 @@ export class Idea {
                       asset.fitsTo!.includes(fit)
               )
             : true;
-
+        const strongNeedsOneFulfilled = this.strongNeedsOneCheck(
+            tavernFitsArray,
+            tavernFits,
+            asset.strongNeedsOne
+        );
         const incomeIsFitting =
             !tavernFits.income ||
             !asset.incomeRange ||
@@ -167,6 +179,39 @@ export class Idea {
             default:
                 return nonSpecialCondition;
         }
+    }
+    private strongNeedsOneCheck(
+        tavernFits: association[],
+        structuredFits: StructuredTavernFits,
+        strongNeedsOne?: association[]
+    ) {
+        if (!strongNeedsOne) {
+            return true;
+        }
+        const needsOneCondition = strongNeedsOne.some((need) =>
+            tavernFits.includes(need)
+        );
+        const impliedRangeCondition = strongNeedsOne.every((need) => {
+            if (isRaceAssociation(need)) {
+                return !structuredFits.race || structuredFits.race === need;
+            }
+            if (isClassAssociation(need)) {
+                return !structuredFits.class || structuredFits.class === need;
+            }
+            if (isIncomeAssociation(need)) {
+                return !structuredFits.income || structuredFits.income === need;
+            }
+            if (isLandAssociation(need)) {
+                return !structuredFits.land || structuredFits.land === need;
+            }
+            if (isSpecialAssociation(need)) {
+                return (
+                    !structuredFits.special || structuredFits.special === need
+                );
+            }
+            return true;
+        });
+        return needsOneCondition && impliedRangeCondition;
     }
 
     public fitsToTavern(

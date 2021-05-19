@@ -1,5 +1,5 @@
 import { association, sophisticatedGroup } from '../../../classes/association';
-import { DescriptionAsset } from '../../../classes/DescriptionIdea';
+import { DescriptionAsset } from '../../../classes/DescriptionAsset';
 import { ImpressionIdea, Noticable } from '../../../classes/ImpressionIdea';
 
 const a = association;
