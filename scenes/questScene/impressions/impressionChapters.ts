@@ -39,7 +39,6 @@ export const getRandomImpression = (
     category: Noticable,
     oldNames: string[]
 ): IImpression => {
-    console.log('I was called');
     const isExcludedByPrefix = getPrefixExcluder(oldNames, WeServe.impressions);
     const impressionChapter = impressionChapters.find(
         (chapter) => chapter.category === category

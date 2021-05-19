@@ -1,7 +1,6 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
 import { association } from '../classes/association';
-import { Noticable } from '../classes/ImpressionIdea';
 import Icon from '../components/icons';
 import { iconKeys } from '../components/icons/iconKeys';
 import { TavernData } from '../mainNavigator/TavernData';
@@ -184,11 +183,6 @@ export const EditNavigator = (props: {
                                         newImpressions || oldImpressions,
                                 },
                                 oldBanner
-                            );
-                            console.log(
-                                test.ideasLeft?.impression.get(
-                                    Noticable.averageCustomer
-                                )
                             );
                             return test;
                         }}

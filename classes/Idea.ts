@@ -161,7 +161,8 @@ export class Idea {
             classIsFitting &&
             raceIsFitting &&
             specialIsFitting &&
-            noMisfitsInTavern;
+            noMisfitsInTavern &&
+            strongNeedsOneFulfilled;
         switch (tavernFits.special) {
             case association.prostitute:
                 return asset.worksForBrothel || asset.worksForAllCriminals
@@ -192,22 +193,20 @@ export class Idea {
             tavernFits.includes(need)
         );
         const impliedRangeCondition = strongNeedsOne.every((need) => {
-            if (isRaceAssociation(need)) {
-                return !structuredFits.race || structuredFits.race === need;
+            if (isRaceAssociation(need) && structuredFits.race) {
+                return structuredFits.race === need;
             }
-            if (isClassAssociation(need)) {
-                return !structuredFits.class || structuredFits.class === need;
+            if (isClassAssociation(need) && structuredFits.class) {
+                return structuredFits.class === need;
             }
-            if (isIncomeAssociation(need)) {
-                return !structuredFits.income || structuredFits.income === need;
+            if (isIncomeAssociation(need) && structuredFits.income) {
+                return structuredFits.income === need;
             }
-            if (isLandAssociation(need)) {
-                return !structuredFits.land || structuredFits.land === need;
+            if (isLandAssociation(need) && structuredFits.land) {
+                return structuredFits.land === need;
             }
-            if (isSpecialAssociation(need)) {
-                return (
-                    !structuredFits.special || structuredFits.special === need
-                );
+            if (isSpecialAssociation(need) && structuredFits.special) {
+                return structuredFits.special === need;
             }
             return true;
         });

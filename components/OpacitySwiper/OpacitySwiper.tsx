@@ -150,12 +150,10 @@ export class OpacitySwiperText extends React.Component<
                             eq(state, GestureState.END),
                             call([], () => {
                                 if (this.userSwipedLeft) {
-                                    console.log('user swiped left');
                                     this.userSwipedLeft = false;
                                     this.props.onSwipeLeft();
                                 } else {
                                     if (this.userSwipedRight) {
-                                        console.log('user swiped right');
                                         this.userSwipedRight = false;
                                         this.props.onSwipeRight();
                                     }
