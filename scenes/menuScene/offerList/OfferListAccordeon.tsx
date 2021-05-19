@@ -54,6 +54,7 @@ export const OfferListAccordeon = (props: {
                                 priceText: offerOfList.price.toString(),
                                 description: description,
                                 category: product.category,
+                                isUserMade: true,
                             });
                         },
                     }}

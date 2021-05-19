@@ -6,23 +6,23 @@ const a = association;
 const FISH_AND_CHIPS_PRICE_FACTOR = 1.0;
 
 const fishAndChipsSideDishes = [
-    { name: ' with Peas', incomeRange: [a.modest, a.poor] },
-    { name: ' with Baked Beans', incomeRange: [a.modest, a.poor] },
-    { name: ' with Onions', incomeRange: [a.modest, a.poor] },
-    { name: ' with Gherkins', incomeRange: [a.modest, a.poor] },
+    { name: ' with Fries and Peas', incomeRange: [a.modest, a.poor] },
+    { name: ' with Fries and Baked Beans', incomeRange: [a.modest, a.poor] },
+    { name: ' with Fries and Onions', incomeRange: [a.modest, a.poor] },
+    { name: ' with Fries and Gherkins', incomeRange: [a.modest, a.poor] },
 ];
 const fishAndChipsFishes = [
-    { name: ' (Plaice)', incomeRange: [a.modest] },
-    { name: ' (Pollock', incomeRange: [a.modest] },
-    { name: ' (Haddock)', incomeRange: [a.modest] },
-    { name: ' (Whiting)', incomeRange: [a.modest] },
-    { name: ' (Bluewater Cod)', incomeRange: [a.modest] },
-    { name: ' (Deepwater Cod)', incomeRange: [a.modest] },
-    { name: ' (Blackwater Cod)', incomeRange: [a.modest] },
-    { name: ' (Grey Mackerel)', incomeRange: [a.poor] },
-    { name: ' (Stink Cod)', incomeRange: [a.poor] },
-    { name: ' (Black Cod)', incomeRange: [a.poor] },
-    { name: ' (Sock Fish)', incomeRange: [a.poor] },
+    { name: 'Deep-Fried Fish (Plaice)', incomeRange: [a.modest] },
+    { name: 'Deep-Fried Fish (Pollock)', incomeRange: [a.modest] },
+    { name: 'Deep-Fried Fish (Haddock)', incomeRange: [a.modest] },
+    { name: 'Deep-Fried Fish (Whiting)', incomeRange: [a.modest] },
+    { name: 'Deep-Fried Fish (Bluewater Cod)', incomeRange: [a.modest] },
+    { name: 'Deep-Fried Fish (Deepwater Cod)', incomeRange: [a.modest] },
+    { name: 'Deep-Fried Fish (Blackwater Cod)', incomeRange: [a.modest] },
+    { name: 'Deep-Fried Fish (Grey Mackerel)', incomeRange: [a.poor] },
+    { name: 'Deep-Fried Fish (Stink Cod)', incomeRange: [a.poor] },
+    { name: 'Deep-Fried Fish (Black Cod)', incomeRange: [a.poor] },
+    { name: 'Deep-Fried Fish (Sock Fish)', incomeRange: [a.poor] },
 ];
 
 export const fishAndChips = new DishIdea(
