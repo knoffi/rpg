@@ -3,7 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import React, { useState } from 'react';
 import { AppBar } from '../appBar/AppBar';
 import { association } from '../classes/association';
-import { SavedDataHandler, weSave } from '../classes/Database';
+import { SavedDataHandler, WeSave } from '../classes/Database';
 import { EditNavigator } from '../editNavigator/EditNavigator';
 import { Offer } from '../scenes/menuScene/menuEnums';
 import { StartOptionsScene } from '../scenes/startOptionsScene/StartOptionsScene';
@@ -59,7 +59,7 @@ export const MainNavigator = () => {
     const saveMinimalTavernData = async () => {
         const tavern = tavernHistory[historyIndex];
         const minimalData = getMinimalDataFromTavern(tavern);
-        const dataHandler = new SavedDataHandler(weSave.taverns);
+        const dataHandler = new SavedDataHandler(WeSave.taverns);
         dataHandler.saveData(minimalData);
     };
 

@@ -1,4 +1,4 @@
-import { menuCategory } from '../../../classes/TavernProduct';
+import { MenuCategory } from '../../../classes/TavernProduct';
 import { MinimalOfferData } from '../userOffer';
 
 export interface productActions {
@@ -9,9 +9,9 @@ export interface productActions {
     onInfo: () => void;
 }
 export interface addingActions {
-    randomAdd: (category: menuCategory) => void;
-    import: (category: menuCategory) => void;
-    edit: (category: menuCategory) => void;
+    randomAdd: (category: MenuCategory) => void;
+    import: (category: MenuCategory) => void;
+    edit: (category: MenuCategory) => void;
 }
 export interface offerActions {
     deleteOffer: (name: string) => void;

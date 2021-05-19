@@ -1,7 +1,8 @@
 import { association } from '../classes/association';
+import { Noticable } from '../classes/ImpressionIdea';
 import { NameIdea } from '../classes/NameIdea';
 import { getStructuredFits } from '../classes/StructuredTavernFits';
-import { menuCategory } from '../classes/TavernProduct';
+import { Drinkable, Eatable, MenuCategory } from '../classes/TavernProduct';
 import { getProductsLeftAndBannerData } from '../editNavigator/editNavigatorFunctions';
 import { getRandomArrayEntry } from '../helpingFunctions/getFittingRandom';
 import {
@@ -11,14 +12,17 @@ import {
 import { getMisfits } from '../helpingFunctions/misFitsHandlers';
 import {
     getNewRandomDrinkOffer,
-    weServe,
+    WeServe,
 } from '../scenes/menuScene/addRandomDrink';
 import { BasePrice, standardBasePrice } from '../scenes/menuScene/basePrice';
-import { drinkExamples } from '../scenes/menuScene/drinks/drinks';
-import { foodExamples } from '../scenes/menuScene/food/food';
 import { NothingLeftOffer, Offer } from '../scenes/menuScene/menuEnums';
 import { nameIdeas } from '../scenes/nameScene/names/nameIdeas';
 import { getSpecialTavernName } from '../scenes/nameScene/names/specialTavernNames';
+import { IImpression } from '../scenes/questScene/impressions/IImpression';
+import {
+    emptyImpression,
+    getRandomImpression,
+} from '../scenes/questScene/impressions/impressionChapters';
 import { getTavernHistoryInitializer } from './mainNavigatorFunctions';
 
 const CHANCE_FOR_SPECIAL_FIT = 0.2;
@@ -32,8 +36,13 @@ export const getRandomStartTavern = () => {
     const fits = getRandomFits();
     const misfits = getMisfits(fits, misfitMode.stricter);
     const basePrice = getRandomBasePrice();
-    const drinks = getRandomOffers(fits, misfits, weServe.drinks);
-    const dishes = getRandomOffers(fits, misfits, weServe.food);
+    const drinks = getRandomIdeas(fits, misfits, WeServe.drinks) as Offer[];
+    const dishes = getRandomIdeas(fits, misfits, WeServe.food) as Offer[];
+    const impressions = getRandomIdeas(
+        fits,
+        misfits,
+        WeServe.impressions
+    ) as IImpression[];
     tavernData.name = getRandomName(fits);
     tavernData.fitting = {
         fits: fits,
@@ -41,18 +50,16 @@ export const getRandomStartTavern = () => {
     };
     tavernData.drinks = drinks;
     tavernData.dishes = dishes;
-    const bannerData = getProductsLeftAndBannerData(
+    tavernData.impressions = impressions;
+    const { bannerData, ideasLeft } = getProductsLeftAndBannerData(
         {
             fits: fits,
             misfits: misfits,
         },
-        drinks,
-        dishes
+        { drinks, dishes, impressions }
     );
-    tavernData.drinksLeft = bannerData.drinksLeft!;
-    tavernData.dishesLeft = bannerData.dishesLeft!;
-    tavernData.drinkBannerData = bannerData.drinkBannerData!;
-    tavernData.foodBannerData = bannerData.foodBannerData!;
+    tavernData.bannerData = bannerData!;
+    tavernData.ideasLeft = ideasLeft!;
     tavernData.prices = basePrice;
     //TODO: add random bartender, average guest, some guests, furniture
     return tavernData;
@@ -82,23 +89,24 @@ const getRandomBasePrice = () => {
     } as BasePrice;
 };
 
-const getRandomOffers = (
+const getRandomIdeas = (
     fits: association[],
     misfits: association[],
-    isAbout: weServe
+    isAbout: WeServe
 ) => {
-    const chapters = isAbout === weServe.drinks ? drinkExamples : foodExamples;
-    return chapters
-        .map((chapter) => {
-            return getExamplesForChapter(
-                fits,
-                misfits,
-                chapter.category,
-                isAbout
-            );
+    const categories =
+        isAbout === WeServe.drinks
+            ? Drinkable
+            : isAbout === WeServe.food
+            ? Eatable
+            : Noticable;
+    return Object.values(categories)
+        .map((category: MenuCategory | Noticable) => {
+            return getExamplesForChapter(fits, misfits, category, isAbout);
         })
         .flat();
 };
+//TODO: Ist das Kunst oder kann das weg?
 /*{
         const randomNumber = Math.random();
         const structuredFits = getStructuredFits(fits);
@@ -143,36 +151,57 @@ const getRandomName = (fits: association[]) => {
 const getExamplesForChapter = (
     fits: association[],
     misfits: association[],
-    category: menuCategory,
-    isAbout: weServe
+    category: MenuCategory | Noticable,
+    isAbout: WeServe
 ) => {
-    const maxNumberOfProducts = Math.floor(
+    const maxNumberOfIdeas = Math.floor(
         Math.random() * MAX_OFFER + (1 - NO_OFFER_PROBABILITY)
     );
-    const emptyOffers = new Array<Offer>(maxNumberOfProducts).fill(
-        NothingLeftOffer
+    const forImpressions = isAbout === WeServe.impressions;
+    const emptyOffers = new Array<Offer | IImpression>(maxNumberOfIdeas).fill(
+        forImpressions ? emptyImpression : NothingLeftOffer
     );
-    const fillUp = (alreadyFilled: Offer[]) => {
-        return getNewRandomDrinkOffer(
-            fits,
-            misfits,
-            category,
-            alreadyFilled,
-            isAbout
-        );
+    const fillUp = (alreadyFilled: (Offer | IImpression)[]) => {
+        //TODO: getRandomImpression and getNewRandomDrinkOffer should both only rely on a string[] of forbidden names or a function like nameIsRedundant:(name:string)=>boolean
+        return forImpressions
+            ? getRandomImpression(
+                  fits,
+                  category as Noticable,
+                  (alreadyFilled as IImpression[]).map((impression) => {
+                      if (!impression.name) {
+                          console.log(
+                              'wanted only impressions, got something else'
+                          );
+                      }
+                      return (impression as IImpression).name;
+                  })
+              )
+            : getNewRandomDrinkOffer(
+                  fits,
+                  misfits,
+                  category as MenuCategory,
+                  alreadyFilled as Offer[],
+                  isAbout
+              );
     };
-    return fillMenuPart(emptyOffers, 0, fillUp);
+    const newAssets = fillIdeaPart(emptyOffers, 0, fillUp);
+
+    return newAssets.filter((asset) =>
+        asset.product
+            ? asset.product.name !== NothingLeftOffer.product.name
+            : asset.name !== emptyImpression.name
+    );
 };
 
-const fillMenuPart = (
-    menuPart: Offer[],
+const fillIdeaPart = (
+    ideaPart: (Offer | IImpression)[],
     fillStart = 0,
-    getFillUp: (alreadyFilled: Offer[]) => Offer
-): Offer[] => {
-    if (fillStart >= menuPart.length) {
-        return menuPart;
+    getFillUp: (alreadyFilled: (Offer | IImpression)[]) => Offer | IImpression
+): (Offer | IImpression)[] => {
+    if (fillStart >= ideaPart.length) {
+        return ideaPart;
     }
-    const alreadyFilled = menuPart.slice(0, fillStart);
+    const alreadyFilled = ideaPart.slice(0, fillStart);
     const newOffer = getFillUp(alreadyFilled);
-    return fillMenuPart([...alreadyFilled, newOffer], fillStart + 1, getFillUp);
+    return fillIdeaPart([...alreadyFilled, newOffer], fillStart + 1, getFillUp);
 };

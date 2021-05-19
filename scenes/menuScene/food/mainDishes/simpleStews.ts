@@ -1,6 +1,6 @@
 import { association } from '../../../../classes/association';
 import { DishIdea } from '../../../../classes/DishIdea';
-import { foodCategory } from '../../../../classes/TavernProduct';
+import { Eatable } from '../../../../classes/TavernProduct';
 import { adjustPriceSetter, foodPrices } from '../foodPrices';
 
 const STEW_PRICE_FACTOR = 0.7;
@@ -127,5 +127,5 @@ export const leftoverStew =
             ],
         },
         adjustPriceSetter(foodPrices.mainDish, STEW_PRICE_FACTOR),
-        foodCategory.mainDish
+        Eatable.mainDish
     );

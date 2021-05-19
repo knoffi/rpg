@@ -1,8 +1,8 @@
 import { association } from '../../../classes/association';
-import { drinkCategory, TavernProduct } from '../../../classes/TavernProduct';
+import { Drinkable, TavernProduct } from '../../../classes/TavernProduct';
 
 const a = association;
-const beerEnum = drinkCategory.beer;
+const beerEnum = Drinkable.beer;
 
 export const beers = [
     new TavernProduct('Black-Bearded Brew', 5, [a.haven, a.poor], beerEnum),

@@ -1,6 +1,6 @@
 import { Noticable } from '../../../classes/ImpressionIdea';
 
-export interface TavernDescription {
+export type IImpression = {
     name: string;
     category: Noticable;
-}
+};

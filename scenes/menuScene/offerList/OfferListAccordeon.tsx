@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import { List } from 'react-native-paper';
-import { menuCategory } from '../../../classes/TavernProduct';
+import { MenuCategory } from '../../../classes/TavernProduct';
 import {
     AddButton,
     FeatherButton,
@@ -14,7 +14,7 @@ import { OfferListTopItem } from './OfferListTopItem';
 import { addingActions, offerActions } from './productActions';
 
 export const OfferListAccordeon = (props: {
-    drinkCategory: menuCategory;
+    Drinkable: MenuCategory;
     listOfOffers: Offer[];
     offerActions: offerActions;
     addingActions: addingActions;
@@ -24,7 +24,7 @@ export const OfferListAccordeon = (props: {
     const onRandomAdd = props.addingActions.randomAdd;
     const onImport = props.addingActions.import;
     const onEdit = props.addingActions.edit;
-    const thisCategory = props.drinkCategory;
+    const thisCategory = props.Drinkable;
     const noDrinkToAddLeft = props.noDrinkToAddLeft;
     const getPriceString = props.getPriceString;
     const offerItems = props.listOfOffers.map((offerOfList) => {
@@ -67,7 +67,7 @@ export const OfferListAccordeon = (props: {
 
     return (
         <List.Accordion
-            title={props.drinkCategory}
+            title={props.Drinkable}
             titleStyle={menuSceneStyles.accordeonListTitle}
         >
             {offerItems}

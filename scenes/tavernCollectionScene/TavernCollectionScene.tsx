@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
-import { SavedDataHandler, weSave } from '../../classes/Database';
+import { SavedDataHandler, WeSave } from '../../classes/Database';
 import { ListOfSaves } from '../../components/ListOfSaves/ListOfSaves';
 import { MinimalTavernData } from '../../mainNavigator/TavernData';
 import { nameSceneStyles } from '../nameScene/nameSceneStyles';
@@ -12,7 +12,7 @@ export const TavernCollectionScene = (props: {
         <View style={nameSceneStyles.backgroundView}>
             <ListOfSaves
                 visible={listIsVisible}
-                dataHandler={new SavedDataHandler(weSave.taverns)}
+                dataHandler={new SavedDataHandler(WeSave.taverns)}
                 title={'TAVERNS'}
                 onDismiss={() => {
                     setListVisible(false);

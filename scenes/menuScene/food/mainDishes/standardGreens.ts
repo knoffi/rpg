@@ -8,6 +8,11 @@ export const standardGreens = [
         misfits: [a.rich],
     },
     {
+        name: ' with Pumpkin Chunks, Shallots',
+        landRange: [a.city, a.forest],
+        misfits: [a.rich],
+    },
+    {
         name: ' with Cauliflower, Peas',
         landRange: [a.village, a.mountain],
         misfits: [a.rich],
@@ -18,7 +23,7 @@ export const standardGreens = [
         misfits: [a.rich],
     },
     {
-        name: ' with Pickled Cabbage, Mustard',
+        name: ' with Pickled Cabbage, Mustard Sauce',
         landRange: [a.village, a.mountain],
         misfits: [a.rich],
     },
@@ -55,6 +60,26 @@ export const standardGreens = [
     {
         name: ' with Spinach',
         landRange: [a.haven, a.mountain],
+        misfits: [a.rich],
+    },
+    {
+        name: ' with Bell Pepper, Coriander',
+        needs: [a.desert],
+        misfits: [a.rich],
+    },
+    {
+        name: ' with Eggplant, Garlic',
+        needs: [a.desert],
+        misfits: [a.rich],
+    },
+    {
+        name: ' with Bell Pepper, Lemongrass',
+        needs: [a.tropical],
+        misfits: [a.rich],
+    },
+    {
+        name: ' with Pineapple Chunks, Peanuts',
+        needs: [a.tropical],
         misfits: [a.rich],
     },
 ];

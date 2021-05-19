@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import { Modal, Portal } from 'react-native-paper';
 import { association } from '../../classes/association';
-import { SavedDataHandler, weSave } from '../../classes/Database';
+import { SavedDataHandler, WeSave } from '../../classes/Database';
 import {
-    drinkCategory,
-    menuCategory,
+    Drinkable,
+    MenuCategory,
     TavernProduct,
 } from '../../classes/TavernProduct';
 import { ListOfSaves } from '../../components/ListOfSaves/ListOfSaves';
@@ -15,7 +15,7 @@ import { nameSceneStyles } from '../nameScene/nameSceneStyles';
 import {
     getNewRandomDrinkOffer,
     offersWithOneReroll,
-    weServe,
+    WeServe,
 } from './addRandomDrink';
 import { BasePrice } from './basePrice';
 import { bannerEndings } from './menuBanner/bannerEndings';
@@ -33,10 +33,10 @@ const DEFAULT_MODAL_START_DATA = {
 };
 interface MenuProps {
     fitting: { fits: association[]; misfits: association[] };
-    isAbout: weServe;
+    isAbout: WeServe;
     offers: Offer[];
     onDataChange: (newData: Partial<TavernData>) => void;
-    offersLeft: Map<menuCategory, boolean>;
+    offersLeft: Map<MenuCategory, boolean>;
     offersBought: Offer[];
     basePrice: BasePrice;
     bannerData: BannerData;
@@ -57,12 +57,12 @@ export const MenuScene = (props: MenuProps) => {
         visible: false,
         startData: {
             ...DEFAULT_MODAL_START_DATA,
-            category: drinkCategory.lemonade as menuCategory,
+            category: Drinkable.lemonade as MenuCategory,
         } as MinimalOfferData,
     });
     const [savedListData, setSavedListData] = useState({
         visible: false,
-        category: drinkCategory.spirit as menuCategory,
+        category: Drinkable.spirit as MenuCategory,
     });
 
     const deleteOffer = (name: string) => {
@@ -73,7 +73,7 @@ export const MenuScene = (props: MenuProps) => {
             (offer) => offer.product.name === name
         )!.product.category;
         //assuming that delete button is not clickable if props.offers is empty
-        if (props.isAbout === weServe.drinks) {
+        if (props.isAbout === WeServe.drinks) {
             props.onDataChange({
                 drinks: newOffers,
                 ...props.getImpliedChanges(newOffers, undefined),
@@ -101,17 +101,17 @@ export const MenuScene = (props: MenuProps) => {
                   misfits,
                   props.isAbout
               );
-        if (props.isAbout === weServe.drinks) {
+        if (props.isAbout === WeServe.drinks) {
             props.onDataChange({ drinks: newOffers });
         } else {
             props.onDataChange({ dishes: newOffers });
         }
     };
-    // TODO: change this to getUserOfferAdding (category:menuCategory)=> function
+    // TODO: change this to getUserOfferAdding (category:MenuCategory)=> function
     const addUserOffer = (textData: MinimalOfferData) => {
         const newUserOffer = createMinimalOffer(textData);
         const newOffers = [...props.offers, newUserOffer];
-        if (props.isAbout === weServe.drinks) {
+        if (props.isAbout === WeServe.drinks) {
             props.onDataChange({ drinks: newOffers });
         } else {
             props.onDataChange({ dishes: newOffers });
@@ -127,7 +127,7 @@ export const MenuScene = (props: MenuProps) => {
             }
         });
     };
-    const addRandomOffer = (category: menuCategory) => {
+    const addRandomOffer = (category: MenuCategory) => {
         const newOffer = getNewRandomDrinkOffer(
             fits,
             misfits,
@@ -148,7 +148,7 @@ export const MenuScene = (props: MenuProps) => {
                 getRandomArrayEntry(bannerEndings.get(props.isAbout)!)
             );
         }
-        if (props.isAbout === weServe.drinks) {
+        if (props.isAbout === WeServe.drinks) {
             props.onDataChange({
                 drinks: newOffers,
                 ...props.getImpliedChanges(newOffers, undefined),
@@ -200,13 +200,13 @@ export const MenuScene = (props: MenuProps) => {
                     isAbout={props.isAbout}
                     addingActions={{
                         randomAdd: addRandomOffer,
-                        import: (category: menuCategory) => {
+                        import: (category: MenuCategory) => {
                             setSavedListData({
                                 visible: true,
                                 category: category,
                             });
                         },
-                        edit: (category: menuCategory) => {
+                        edit: (category: MenuCategory) => {
                             setEditorData({
                                 visible: true,
                                 startData: {
@@ -264,7 +264,7 @@ export const MenuScene = (props: MenuProps) => {
                     title={savedListData.category.toUpperCase()}
                     dataHandler={
                         new SavedDataHandler(
-                            weSave.menu,
+                            WeSave.menu,
                             savedListData.category
                         )
                     }
@@ -287,7 +287,7 @@ export const MenuScene = (props: MenuProps) => {
                     onDismiss={() => {
                         setSavedListData({
                             visible: false,
-                            category: drinkCategory.spirit,
+                            category: Drinkable.spirit,
                         });
                     }}
                 />

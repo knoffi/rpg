@@ -1,5 +1,5 @@
 import { DishIdea } from '../../../../classes/DishIdea';
-import { foodCategory } from '../../../../classes/TavernProduct';
+import { Eatable } from '../../../../classes/TavernProduct';
 import { adjustPriceSetter, foodPrices } from '../foodPrices';
 import { areaBreads } from './areaBreads';
 import {
@@ -21,6 +21,6 @@ export const breakfastPlates = [
             ],
         },
         adjustPriceSetter(foodPrices.breakfast, BREAKFAST_PLATE_FACTOR),
-        foodCategory.breakfast
+        Eatable.breakfast
     ),
 ];

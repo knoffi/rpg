@@ -3,7 +3,7 @@ import {
     BreakfastChapters,
     MainDishChapters,
 } from '../../../classes/FoodChapters';
-import { foodCategory } from '../../../classes/TavernProduct';
+import { Eatable } from '../../../classes/TavernProduct';
 import { breakfastPlates } from './breakfastPlates/breakfastPlates';
 import { porridges } from './cereals/porridges';
 import { appetizers, desserts, sideDishes } from './dishes';
@@ -15,9 +15,9 @@ import { leftoverStew } from './mainDishes/simpleStews';
 import { steaks } from './mainDishes/steaks';
 
 export const foodExamples = [
-    { category: foodCategory.dessert, examples: desserts },
-    { category: foodCategory.sideDish, examples: sideDishes },
-    { category: foodCategory.appetizer, examples: appetizers },
+    { category: Eatable.dessert, examples: desserts },
+    { category: Eatable.sideDish, examples: sideDishes },
+    { category: Eatable.appetizer, examples: appetizers },
 ];
 
 const mainDishChapters: MainDishChapters = {
@@ -41,6 +41,6 @@ const breakfastChapters: BreakfastChapters = {
 };
 
 export const foodChapters = [
-    { category: foodCategory.mainDish, chapters: mainDishChapters },
-    { category: foodCategory.breakfast, chapters: breakfastChapters },
+    { category: Eatable.mainDish, chapters: mainDishChapters },
+    { category: Eatable.breakfast, chapters: breakfastChapters },
 ];

@@ -71,6 +71,7 @@ export const honorfulPredatorBeasts: NounIdea[] = [
 export const criminalPredatorBeasts: NounIdea[] = [
     { name: 'Wyrm', misfits: [a.rich, a.haven] },
     { name: 'Lindworm', misfits: [a.rich, a.haven] },
+    { name: 'Eal', needs: [a.haven], misfits: [a.rich], worksForThiefs: true },
     {
         name: 'Hyena',
         needsOne: [a.desert, a.thief],

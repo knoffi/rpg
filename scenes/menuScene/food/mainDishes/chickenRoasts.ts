@@ -1,6 +1,6 @@
 import { association } from '../../../../classes/association';
 import { DishIdea } from '../../../../classes/DishIdea';
-import { foodCategory } from '../../../../classes/TavernProduct';
+import { Eatable } from '../../../../classes/TavernProduct';
 import { adjustPriceSetter, foodPrices } from '../foodPrices';
 import { standardCarbs } from './standardCarbs';
 import { standardGreens } from './standardGreens';
@@ -42,7 +42,7 @@ export const chickenRoasts = [
             thirdSideDishes: standardCarbs,
         },
         adjustPriceSetter(foodPrices.mainDish, GOOSE_FACTOR),
-        foodCategory.mainDish
+        Eatable.mainDish
     ),
     new DishIdea(
         {
@@ -69,7 +69,7 @@ export const chickenRoasts = [
             thirdSideDishes: standardCarbs,
         },
         adjustPriceSetter(foodPrices.mainDish, TURKEY_FACTOR),
-        foodCategory.mainDish
+        Eatable.mainDish
     ),
     new DishIdea(
         {
@@ -91,7 +91,7 @@ export const chickenRoasts = [
             ],
         },
         adjustPriceSetter(foodPrices.mainDish, PHEASANT_FACTOR),
-        foodCategory.mainDish
+        Eatable.mainDish
     ),
 
     new DishIdea(
@@ -104,6 +104,11 @@ export const chickenRoasts = [
                 {
                     name: ' in Lemon Sauce',
                     landRange: [a.city, a.haven, a.tropical],
+                    incomeRange: [a.wealthy, a.modest],
+                },
+                {
+                    name: ' in Sweet Sour Sauce',
+                    needs: [a.tropical],
                     incomeRange: [a.wealthy, a.modest],
                 },
                 {
@@ -135,7 +140,7 @@ export const chickenRoasts = [
             thirdSideDishes: standardCarbs,
         },
         adjustPriceSetter(foodPrices.mainDish, CHICKEN_FACTOR),
-        foodCategory.mainDish
+        Eatable.mainDish
     ),
     new DishIdea(
         {
@@ -171,6 +176,6 @@ export const chickenRoasts = [
             ],
         },
         adjustPriceSetter(foodPrices.mainDish, PIGEON_FACTOR),
-        foodCategory.mainDish
+        Eatable.mainDish
     ),
 ];

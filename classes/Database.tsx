@@ -1,10 +1,10 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SavedData } from '../components/ListOfSaves/SavedData';
-import { drinkCategory, foodCategory, menuCategory } from './TavernProduct';
+import { Drinkable, Eatable, MenuCategory } from './TavernProduct';
 
 const TAVERN_KEY_PREIMAGE = 'tavern';
 
-export enum weSave {
+export enum WeSave {
     taverns = 'taverns',
     menu = 'menu',
 }
@@ -46,11 +46,11 @@ export class SavedDataHandler {
                 )
         )!;
     };
-    private isAbout: weSave;
-    private chapter?: menuCategory;
+    private isAbout: WeSave;
+    private chapter?: MenuCategory;
     private mainKey!: string;
     prefixMap!: Map<string, string>;
-    constructor(isAbout: weSave, chapter?: menuCategory) {
+    constructor(isAbout: WeSave, chapter?: MenuCategory) {
         this.isAbout = isAbout;
         this.chapter = chapter;
         this.setPrefixMap();
@@ -58,20 +58,20 @@ export class SavedDataHandler {
     }
     setPrefixMap() {
         this.prefixMap = new Map([
-            [foodCategory.appetizer as string, 'Appetizers'],
-            [foodCategory.breakfast as string, 'Breakfasts'],
-            [foodCategory.dessert as string, 'Desserts'],
-            [foodCategory.mainDish as string, 'Main Dishes'],
-            [foodCategory.sideDish as string, 'Side Dishes'],
-            [drinkCategory.beer as string, 'Beers'],
-            [drinkCategory.lemonade as string, 'Lemonades'],
-            [drinkCategory.spirit as string, 'Spirits'],
-            [drinkCategory.wine as string, 'Wines'],
+            [Eatable.appetizer as string, 'Appetizers'],
+            [Eatable.breakfast as string, 'Breakfasts'],
+            [Eatable.dessert as string, 'Desserts'],
+            [Eatable.mainDish as string, 'Main Dishes'],
+            [Eatable.sideDish as string, 'Side Dishes'],
+            [Drinkable.beer as string, 'Beers'],
+            [Drinkable.lemonade as string, 'Lemonades'],
+            [Drinkable.spirit as string, 'Spirits'],
+            [Drinkable.wine as string, 'Wines'],
             [TAVERN_KEY_PREIMAGE, 'Taverns'],
         ]);
     }
     private setMainKey() {
-        if (this.isAbout === weSave.taverns) {
+        if (this.isAbout === WeSave.taverns) {
             this.mainKey = this.prefixMap.get(TAVERN_KEY_PREIMAGE)!;
         } else {
             if (!this.chapter) {

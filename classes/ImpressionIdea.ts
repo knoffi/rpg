@@ -1,12 +1,12 @@
 import { splitMarker } from '../scenes/menuScene/offerList/nameSplitter/splitMarker';
-import { DescriptionAsset } from './DescriptionIdea';
+import { DescriptionAsset } from './DescriptionAsset';
 import { Idea } from './Idea';
 import { StructuredTavernFits } from './StructuredTavernFits';
 export enum Noticable {
-    bartender = 'bartender',
-    averageCustomer = 'averageCustomers',
-    someCustomers = 'someCustomers',
-    furniture = 'furniture',
+    bartender = 'The Bartender',
+    averageCustomer = 'Average Customers',
+    someCustomers = 'Individual Guests',
+    furniture = 'The Furniture',
 }
 
 export class ImpressionIdea extends Idea {
@@ -36,9 +36,9 @@ export class ImpressionIdea extends Idea {
                 );
                 return this.main.name;
             }
-            return this.category === Noticable.someCustomers
-                ? this.main.name + secondDescription.name + splitMarker
-                : this.main.name + ' & ' + secondDescription.name + splitMarker;
+            return this.category === Noticable.bartender
+                ? this.main.name + ' & ' + secondDescription.name + splitMarker
+                : this.main.name + secondDescription.name + splitMarker;
         } else {
             return this.main.name;
         }

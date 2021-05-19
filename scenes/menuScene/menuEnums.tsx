@@ -1,4 +1,4 @@
-import { drinkCategory, TavernProduct } from '../../classes/TavernProduct';
+import { Drinkable, TavernProduct } from '../../classes/TavernProduct';
 
 export interface Offer {
     product: TavernProduct;
@@ -10,7 +10,7 @@ export const NothingLeftOffer = {
         'NothingABCDEFGWinnie_The_PuH_SUcKs',
         0,
         [],
-        drinkCategory.spirit
+        Drinkable.spirit
     ),
     price: 0,
 };

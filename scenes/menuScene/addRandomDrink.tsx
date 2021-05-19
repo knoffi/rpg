@@ -1,24 +1,41 @@
 import { association } from '../../classes/association';
 import { predecideDishes } from '../../classes/mainDishSuperStructures';
-import { menuCategory, TavernProduct } from '../../classes/TavernProduct';
+import { MenuCategory, TavernProduct } from '../../classes/TavernProduct';
 import { getFittingRandom } from '../../helpingFunctions/getFittingRandom';
 import { drinkExamples } from './drinks/drinks';
 import { foodChapters, foodExamples } from './food/food';
 import { NothingLeftOffer, Offer } from './menuEnums';
 
 const PREFIX_FILTER_INDEX = 8;
-export enum weServe {
+export enum WeServe {
     drinks = 'drinks',
     food = 'food',
     service = 'service',
+    impressions = 'impressions',
 }
+
+const getCloneForRerender = (offer: Offer) => {
+    const offerIsVirgin = !offer.product.name.endsWith(' ');
+    const newName = offerIsVirgin
+        ? offer.product.name + ' '
+        : offer.product.name.slice(0, offer.product.name.length - 1);
+    return {
+        price: offer.price,
+        product: new TavernProduct(
+            newName,
+            offer.product.copperPrice,
+            offer.product.associations,
+            offer.product.category
+        ),
+    };
+};
 
 export const offersWithOneReroll = (
     name: string,
     offers: Offer[],
     fits: association[],
     misfits: association[],
-    isAbout: weServe
+    isAbout: WeServe
 ) => {
     const category = offers.find((offer) => offer.product.name === name)!
         .product.category;
@@ -26,24 +43,30 @@ export const offersWithOneReroll = (
         if (offer.product.name !== name) {
             return offer;
         } else {
-            return getRandomDrinkOffer(
+            const rerolledOffer = getRandomDrinkOffer(
                 category,
                 fits,
                 misfits,
                 offeredNames(offers),
                 isAbout
             );
+            const oldOffer = offer;
+            if (rerolledOffer.product.name === NothingLeftOffer.product.name) {
+                return getCloneForRerender(oldOffer);
+            } else {
+                return rerolledOffer;
+            }
         }
     });
-    return newOffers;
+    return [...newOffers];
 };
 
 export const getNewRandomDrinkOffer = (
     fits: association[],
     misfits: association[],
-    category: menuCategory,
+    category: MenuCategory,
     oldOffers: Offer[],
-    isAbout: weServe
+    isAbout: WeServe
 ) => {
     const newRandomOffer = getRandomDrinkOffer(
         category,
@@ -74,12 +97,12 @@ const filterFoodByPrefix = (
     );
 };
 const getFilteredTavernProducts = (
-    category: menuCategory,
+    category: MenuCategory,
     excludedDrinkNames: string[],
-    isAbout: weServe,
+    isAbout: WeServe,
     tavernFits: association[]
 ) => {
-    if (isAbout === weServe.drinks) {
+    if (isAbout === WeServe.drinks) {
         return drinkExamples.find((example) => {
             return example.category === category;
         })!.examples;
@@ -107,11 +130,11 @@ const getFilteredTavernProducts = (
 };
 //drinks have a wider range, therefore social misfits are more important than landscape misfits
 const getRandomDrinkOffer = (
-    category: menuCategory,
+    category: MenuCategory,
     fits: association[],
     misfits: association[],
     excludedDrinkNames: string[],
-    isAbout: weServe
+    isAbout: WeServe
 ): Offer => {
     const examples = getFilteredTavernProducts(
         category,

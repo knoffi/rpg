@@ -1,29 +1,27 @@
 import React from 'react';
 import { Banner } from 'react-native-paper';
-import { menuCategory } from '../../../classes/TavernProduct';
+import { Noticable } from '../../../classes/ImpressionIdea';
+import { MenuCategory } from '../../../classes/TavernProduct';
 import { TavernData } from '../../../mainNavigator/TavernData';
-import { weServe } from '../addRandomDrink';
-import { Offer } from '../menuEnums';
+import { WeServe } from '../addRandomDrink';
 
 export interface BannerData {
-    emptyCategories: menuCategory[];
+    emptyCategories: (MenuCategory | Noticable)[];
     isVisible: boolean;
 }
 
-const getEmptyCategoriesString = (names: menuCategory[]) => {
-    const numerationStringPieces = names.map(
-        (name: menuCategory, index: number) => {
-            if (index === 0) {
-                return name;
+const getEmptyCategoriesString = (names: (MenuCategory | Noticable)[]) => {
+    const numerationStringPieces = names.map((name, index) => {
+        if (index === 0) {
+            return name;
+        } else {
+            if (index < names.length - 1) {
+                return ', ' + name;
             } else {
-                if (index < names.length - 1) {
-                    return ', ' + name;
-                } else {
-                    return ' and ' + name;
-                }
+                return ' and ' + name;
             }
         }
-    );
+    });
     return numerationStringPieces
         .reduce(
             (numerationString, stringPiece) => numerationString + stringPiece,
@@ -36,12 +34,13 @@ export const MenuBanner = (props: {
     bannerData: BannerData;
     bannerEnding: string;
     onDataChange: (change: Partial<TavernData>) => void;
-    getImpliedChanges: (
-        newDrinks?: Offer[],
-        newDishes?: Offer[]
-    ) => Partial<TavernData>;
-    isAbout: weServe;
+    getImpliedChanges: () => Partial<TavernData>;
+    isAbout: WeServe;
 }) => {
+    const beginningText =
+        props.isAbout === WeServe.impressions
+            ? 'You have added every fitting description for '
+            : 'Your tavern offers every fitting ';
     return (
         <Banner
             visible={props.bannerData.isVisible}
@@ -49,27 +48,25 @@ export const MenuBanner = (props: {
                 {
                     label: 'Got it',
                     onPress: () => {
-                        if (props.isAbout === weServe.drinks) {
-                            const newBannerData = props.getImpliedChanges()
-                                .drinkBannerData!;
-
-                            newBannerData.isVisible = false;
-                            props.onDataChange({
-                                drinkBannerData: newBannerData,
-                            });
-                        } else {
-                            const newBannerData = props.getImpliedChanges()
-                                .foodBannerData!;
-                            newBannerData.isVisible = false;
-                            props.onDataChange({
-                                foodBannerData: newBannerData,
-                            });
+                        const newBannerData =
+                            props.getImpliedChanges().bannerData!;
+                        if (props.isAbout === WeServe.drinks) {
+                            newBannerData.drink.isVisible = false;
                         }
+                        if (props.isAbout === WeServe.food) {
+                            newBannerData.food.isVisible = false;
+                        }
+                        if (props.isAbout === WeServe.impressions) {
+                            newBannerData.impression.isVisible = false;
+                        }
+                        props.onDataChange({
+                            bannerData: newBannerData,
+                        });
                     },
                 },
             ]}
         >
-            {'Your tavern offers every fitting ' +
+            {beginningText +
                 getEmptyCategoriesString(props.bannerData.emptyCategories) +
                 '!\n\n' +
                 props.bannerEnding}

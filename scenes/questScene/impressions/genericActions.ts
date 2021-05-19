@@ -1,138 +1,116 @@
 import { association, sophisticatedGroup } from '../../../classes/association';
-import { DescriptionAsset } from '../../../classes/DescriptionIdea';
-//TODO: Test, if f.e. all food/drink options are working for brothel, thief, ... (i.e., if mapping worked correctly)
+import { DescriptionAsset } from '../../../classes/DescriptionAsset';
+//tODO: test, if f.e. all food/drink options are working for brothel, thief, ... (i.e., if mapping worked correctly)
 const a = association;
 const getEnabledForAllCriminals = (asset: DescriptionAsset) => {
     return {
         ...asset,
-        worksForAssasines: true,
-        worksForThiefs: true,
-        worksForBrothel: true,
+        worksForAllCriminals: true,
     } as DescriptionAsset;
 };
 const macho: DescriptionAsset[] = [
     {
         classRange: [a.barbarian, a.soldier],
-        name: 'Provoking other Guests',
-        worksForAssasines: true,
-        worksForThiefs: true,
-        worksForBrothel: true,
+        name: 'provoking other guests',
+        worksForAllCriminals: true,
         misfits: sophisticatedGroup,
     },
     {
         classRange: [a.barbarian, a.bard, a.adventurer, a.soldier, a.knight],
-        name: 'Bragging',
-        worksForAssasines: true,
-        worksForThiefs: true,
-        worksForBrothel: true,
+        name: 'bragging',
+        worksForAllCriminals: true,
         misfits: sophisticatedGroup,
     },
     {
         classRange: [a.barbarian, a.bard, a.adventurer, a.soldier, a.knight],
-        name: 'Posing',
-        worksForAssasines: true,
-        worksForThiefs: true,
-        worksForBrothel: true,
+        name: 'posing',
+        worksForAllCriminals: true,
     },
-    { name: 'Loudly Complaining' },
+    { name: 'loudly complaining' },
     {
-        name: 'Babbling',
+        name: 'babbling',
         misfits: sophisticatedGroup,
-        worksForAssasines: true,
-        worksForThiefs: true,
-        worksForBrothel: true,
+        worksForAllCriminals: true,
     },
-    { name: 'Story Telling', worksForAssasines: true, worksForBrothel: true },
+    { name: 'story telling', worksForAssasines: true, worksForBrothel: true },
 ];
 export const lively: DescriptionAsset[] = [
-    { name: 'Dancing', worksForBrothel: true },
-    { name: 'Flirting', worksForBrothel: true },
-    { name: 'Betting', worksForAssasines: true, worksForThiefs: true },
-    { name: 'Searching for a Dance Partner', worksForBrothel: true },
+    { name: 'dancing', worksForBrothel: true },
+    { name: 'flirting', worksForBrothel: true },
+    { name: 'betting', worksForAssasines: true, worksForThiefs: true },
+    { name: 'searching for a dance partner', worksForBrothel: true },
     {
-        name: 'Gambling',
-        worksForAssasines: true,
-        worksForThiefs: true,
-        worksForBrothel: true,
+        name: 'gambling',
+        worksForAllCriminals: true,
     },
     {
-        name: 'Smoking a Pipe',
+        name: 'smoking a pipe',
         misfits: [a.desert],
-        worksForAssasines: true,
-        worksForThiefs: true,
-        worksForBrothel: true,
+        worksForAllCriminals: true,
     },
     {
         needs: [a.desert],
-        name: 'Smoking a Shisa',
-        worksForAssasines: true,
-        worksForThiefs: true,
-        worksForBrothel: true,
+        name: 'smoking a shisa',
+        worksForAllCriminals: true,
     },
-    { name: 'Singing' },
-    { name: 'Story Telling', worksForAssasines: true, worksForBrothel: true },
+    { name: 'singing' },
+    { name: 'story telling', worksForAssasines: true, worksForBrothel: true },
 ];
 const veryDrunk: DescriptionAsset[] = [
-    { name: 'Yelling', misfits: sophisticatedGroup },
-    { name: 'Shouting', misfits: sophisticatedGroup },
+    { name: 'yelling', misfits: sophisticatedGroup },
+    { name: 'shouting', misfits: sophisticatedGroup },
     {
-        name: 'Vomitting',
+        name: 'vomitting',
         misfits: sophisticatedGroup,
-        worksForAssasines: true,
-        worksForThiefs: true,
-        worksForBrothel: true,
+        worksForAllCriminals: true,
     },
     {
-        name: 'Unconscious',
+        name: 'unconscious',
         misfits: sophisticatedGroup,
-        worksForAssasines: true,
-        worksForThiefs: true,
-        worksForBrothel: true,
+        worksForAllCriminals: true,
     },
-    { name: 'Slurring', misfits: sophisticatedGroup },
+    { name: 'slurring', misfits: sophisticatedGroup },
     {
-        name: 'Totally Drunk',
+        name: 'totally drunk',
         misfits: sophisticatedGroup,
-        worksForAssasines: true,
-        worksForThiefs: true,
-        worksForBrothel: true,
+        worksForAllCriminals: true,
     },
 ];
 const scholar: DescriptionAsset[] = [
-    { name: 'Disgusted' },
-    { classRange: [a.wizard, a.cleric], name: 'Reading a Book' },
-    { name: 'Reading a Letter' },
-    { name: 'Writing a Letter' },
-    { name: 'Reading a Scroll' },
-    { name: 'Writing a Scroll' },
-    { name: 'Reading a Parchment Roll' },
-    { name: 'Writing a Parchment Roll' },
-    { name: 'Writing a Book' },
-    { name: 'Doing the Accounting' },
+    { name: 'disgusted' },
+    { classRange: [a.wizard, a.cleric], name: 'reading a book' },
+    { name: 'reading a letter' },
+    { name: 'writing a letter' },
+    { name: 'reading a scroll' },
+    { name: 'writing a scroll' },
+    { name: 'reading a parchment roll' },
+    { name: 'writing a parchment roll' },
+    { name: 'writing a book' },
+    { name: 'doing the accounting' },
 ];
 export const magical: DescriptionAsset[] = [
-    { classRange: [a.wizard, a.cleric], name: 'Reading a Heavy Tome' },
-    { classRange: [a.wizard, a.cleric], name: 'Examining an Old Artifact' },
-    { classRange: [a.wizard, a.cleric, a.bard], name: 'Practicing a Spell' },
+    { classRange: [a.wizard, a.cleric], name: 'reading a heavy tome' },
+    { classRange: [a.wizard, a.cleric], name: 'examining an old artifact' },
+    { classRange: [a.wizard, a.cleric, a.bard], name: 'practicing a spell' },
     {
         classRange: [a.wizard, a.cleric],
-        name: 'Concentrating on a Research Paper',
+        name: 'concentrating on a research paper',
     },
-    { classRange: [a.wizard, a.cleric], name: 'Writing a Mystical Scroll' },
-    { classRange: [a.wizard, a.cleric], name: 'Examining a Mystical Scroll' },
-    { classRange: [a.wizard, a.cleric], name: 'Enchanting an Object' },
+    { classRange: [a.wizard, a.cleric], name: 'writing a mystical scroll' },
+    { classRange: [a.wizard, a.cleric], name: 'examining a mystical scroll' },
+    { classRange: [a.wizard, a.cleric], name: 'enchanting an object' },
 ];
 export const feasting: DescriptionAsset[] = [
     {
-        name: 'Drinking Red Wine',
+        name: 'drinking red wine',
         misfits: [a.rich, a.desert, a.tropical, a.dwarf, a.barbarian],
     },
     {
-        name: 'Drinking White Wine',
+        name: 'drinking white wine',
         misfits: [a.rich, a.desert, a.tropical, a.dwarf, a.barbarian],
     },
     {
-        name: 'Drinking Mead',
+        name: 'drinking mead',
         misfits: [
             a.desert,
             a.tropical,
@@ -144,95 +122,83 @@ export const feasting: DescriptionAsset[] = [
         ],
     },
     {
-        name: 'Drinking Rum',
+        name: 'drinking rum',
         landRange: [a.city, a.haven, a.tropical],
     },
     {
-        name: 'Drinking Beer',
+        name: 'drinking beer',
         misfits: [a.rich, a.desert, a.tropical, a.elf, a.drow],
     },
     {
-        name: 'Drinking Champagne',
+        name: 'drinking champagne',
         misfits: [a.desert, a.tropical],
     },
     {
-        name: 'Savoring a Decadent Meal',
+        name: 'savoring a decadent meal',
         misfits: [a.poor, a.modest],
     },
     {
-        name: 'Holding a Banquette',
+        name: 'holding a banquette',
         misfits: [a.poor, a.modest],
     },
     {
-        name: 'Pronouncing a Toast',
+        name: 'pronouncing a toast',
         misfits: [a.poor, a.modest, a.desert],
     },
 ].map((asset) => getEnabledForAllCriminals(asset));
 export const spying: DescriptionAsset[] = [
     {
-        name: 'Watching some Guests',
-        worksForAssasines: true,
-        worksForThiefs: true,
-        worksForBrothel: true,
+        name: 'watching some guests',
+        worksForAllCriminals: true,
     },
     {
-        name: 'Watching You',
-        worksForAssasines: true,
-        worksForThiefs: true,
-        worksForBrothel: true,
+        name: 'watching you',
+        worksForAllCriminals: true,
     },
     {
-        name: 'Following You',
-        worksForAssasines: true,
-        worksForThiefs: true,
-        worksForBrothel: true,
+        name: 'following you',
+        worksForAllCriminals: true,
     },
     {
-        name: 'Waiting for Someone',
-        worksForAssasines: true,
-        worksForThiefs: true,
-        worksForBrothel: true,
+        name: 'waiting for someone',
+        worksForAllCriminals: true,
     },
     {
-        name: 'Eavesdropping a Conversation',
-        worksForAssasines: true,
-        worksForThiefs: true,
-        worksForBrothel: true,
+        name: 'eavesdropping a conversation',
+        worksForAllCriminals: true,
     },
     {
-        name: 'Following You',
-        worksForAssasines: true,
-        worksForThiefs: true,
-        worksForBrothel: true,
+        name: 'following you',
+        worksForAllCriminals: true,
     },
 ].map((asset) => getEnabledForAllCriminals(asset));
-//TODO: go more into details, like "Opening a Champagne Bottle for Customers" or "Bringing Rum in Golden Cups" for a.rich,a.wealthy ... or "Presenting an Expensive Bottle of Brandy" for a.tiefling
+//tODO: go more into details, like "Opening a champagne bottle for customers" or "Bringing rum in golden cups" for a.rich,a.wealthy ... or "presenting an expensive bottle of brandy" for a.tiefling
 export const servantActions: DescriptionAsset[] = [
-    { name: 'Listening to Complains', misfits: [a.poor] },
-    { name: 'Taking Orders from Customers' },
-    { name: 'Transporting Plates full of Dishes', misfits: [a.poor] },
-    { name: 'Transporting Wine Jugs', misfits: [a.barbarian, a.dwarf] },
+    { name: 'listening to complains', misfits: [a.poor] },
+    { name: 'taking orders from customers' },
+    { name: 'transporting plates full of dishes', misfits: [a.poor] },
+    { name: 'transporting wine jugs', misfits: [a.barbarian, a.dwarf] },
     {
-        name: 'Transporting Beer Mugs',
+        name: 'transporting beer mugs',
         misfits: [a.rich, a.elf, a.drow, a.tiefling],
     },
-    { name: 'Chatting with some Customers' },
-    { name: 'Thanking for a Generous Tip', misfits: [a.poor] },
+    { name: 'chatting with some customers' },
+    { name: 'thanking for a generous tip', misfits: [a.poor] },
 ].map((asset) => getEnabledForAllCriminals(asset));
 export const general: DescriptionAsset[] = [
-    { classRange: [a.thief], name: 'Whispering' },
-    { name: 'Grumbling' },
-    { name: 'Searching' },
-    { name: 'Looking at You!' },
-    { name: 'Looking into Your Eyes!' },
-    { name: 'Spying' },
-    { name: 'Bargaining', misfits: [a.rich, a.knight, a.wealthy] },
+    { classRange: [a.thief], name: 'whispering' },
+    { name: 'grumbling' },
+    { name: 'searching' },
+    { name: 'looking at you!' },
+    { name: 'looking into your eyes!' },
+    { name: 'spying' },
+    { name: 'bargaining', misfits: [a.rich, a.knight, a.wealthy] },
 ].map((asset) => getEnabledForAllCriminals(asset));
 
 export const leisureUpperClass = [
     ...feasting,
     ...lively,
-    { name: 'Disgusted' },
+    { name: 'disgusted' },
 ];
 export const busyUpperClass = [...leisureUpperClass, ...scholar];
 export const busyScholarClass = [...leisureUpperClass, ...scholar, ...magical];
@@ -241,6 +207,6 @@ export const machoClass = [
     ...macho,
     ...general,
     ...veryDrunk,
-    { name: 'Chatting with a Prostitute' },
+    { name: 'chatting with a prostitute' },
 ];
 export const childrenClass = [...lively, ...general];

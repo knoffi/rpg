@@ -1,13 +1,13 @@
 import React from 'react';
 import { List } from 'react-native-paper';
 import {
-    drinkCategory,
-    foodCategory,
-    menuCategory,
+    Drinkable,
+    Eatable,
+    MenuCategory,
 } from '../../../classes/TavernProduct';
 import { HEIGHT_FACTOR } from '../../../dimensionConstants';
 import { globalStyles } from '../../globalStyles';
-import { weServe } from '../addRandomDrink';
+import { WeServe } from '../addRandomDrink';
 import { Offer } from '../menuEnums';
 import { OfferListAccordeon } from './OfferListAccordeon';
 import { addingActions, offerActions } from './productActions';
@@ -17,20 +17,19 @@ const BOTTOM_PADDING_FOOD = 188 * HEIGHT_FACTOR;
 
 export const OfferList = (props: {
     offers: Offer[];
-    isAbout: weServe;
+    isAbout: WeServe;
     offerActions: offerActions;
     addingActions: addingActions;
-    offersLeftMap: Map<menuCategory, boolean>;
+    offersLeftMap: Map<MenuCategory, boolean>;
     getPriceString: (offer: Offer) => string;
 }) => {
-    const categories =
-        props.isAbout === weServe.drinks ? drinkCategory : foodCategory;
+    const categories = props.isAbout === WeServe.drinks ? Drinkable : Eatable;
     const menu = Object.values(categories).map((category) => {
         const offersOfCategory = props.offers.filter(
             (offer) => offer.product.category === category
         );
         return {
-            category: category as menuCategory,
+            category: category as MenuCategory,
             offers: offersOfCategory,
         };
     });
@@ -40,7 +39,7 @@ export const OfferList = (props: {
         return (
             <OfferListAccordeon
                 key={chapter.category}
-                drinkCategory={chapter.category}
+                Drinkable={chapter.category}
                 listOfOffers={chapter.offers}
                 offerActions={props.offerActions}
                 addingActions={{
@@ -63,7 +62,7 @@ export const OfferList = (props: {
             titleStyle={globalStyles.title}
             style={{
                 paddingBottom:
-                    props.isAbout === weServe.drinks
+                    props.isAbout === WeServe.drinks
                         ? BOTTOM_PADDING_DRINKS
                         : BOTTOM_PADDING_FOOD,
             }}

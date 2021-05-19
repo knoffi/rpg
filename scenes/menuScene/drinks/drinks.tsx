@@ -1,6 +1,6 @@
 import {
-    drinkCategory,
-    foodCategory,
+    Drinkable,
+    Eatable,
     TavernProduct,
 } from '../../../classes/TavernProduct';
 import { beers } from './beer';
@@ -9,13 +9,13 @@ import { spirits } from './spirits';
 import { wines } from './wines';
 
 interface productExamples {
-    category: drinkCategory | foodCategory;
+    category: Drinkable | Eatable;
     examples: TavernProduct[];
 }
 
 export const drinkExamples = [
-    { category: drinkCategory.beer, examples: beers },
-    { category: drinkCategory.wine, examples: wines },
-    { category: drinkCategory.spirit, examples: spirits },
-    { category: drinkCategory.lemonade, examples: lemonades },
+    { category: Drinkable.beer, examples: beers },
+    { category: Drinkable.wine, examples: wines },
+    { category: Drinkable.spirit, examples: spirits },
+    { category: Drinkable.lemonade, examples: lemonades },
 ] as productExamples[];

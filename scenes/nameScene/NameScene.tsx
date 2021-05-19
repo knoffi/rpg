@@ -18,6 +18,7 @@ import {
     RerollButton,
 } from '../../components/buttons/generalButtons';
 import { removeEmptyStrings } from '../../editNavigator/editNavigatorFunctions';
+import { checkDataDistribution } from '../../helpingFunctions/checkDataDistribution';
 import { getRandomArrayEntry } from '../../helpingFunctions/getFittingRandom';
 import { misfitMode } from '../../helpingFunctions/misfitModes';
 import { getMisfits } from '../../helpingFunctions/misFitsHandlers';
@@ -174,7 +175,13 @@ export class NameScene extends React.Component<NameProps, TextState> {
     private getFittingNamesSign() {
         return (
             <View style={{ flexDirection: 'row' }}>
-                <Button>{this.totalNumberOfPossibleNames()}</Button>
+                <Button
+                    onPress={() => {
+                        checkDataDistribution();
+                    }}
+                >
+                    {this.totalNumberOfPossibleNames()}
+                </Button>
             </View>
         );
     }

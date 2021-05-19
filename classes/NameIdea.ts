@@ -1,4 +1,4 @@
-import { DescriptionAsset } from './DescriptionIdea';
+import { DescriptionAsset } from './DescriptionAsset';
 import { Idea } from './Idea';
 import { StructuredTavernFits } from './StructuredTavernFits';
 

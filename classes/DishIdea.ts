@@ -3,23 +3,23 @@ import { association } from './association';
 import {
     DescriptionAsset,
     forCriminalsOverwrittenAsset,
-} from './DescriptionIdea';
+} from './DescriptionAsset';
 import { Idea } from './Idea';
 import { IngredientsIdea } from './IngredientsIdea';
 import { PriceSetter } from './PriceSetter';
 import { StructuredTavernFits } from './StructuredTavernFits';
-import { menuCategory, TavernProduct } from './TavernProduct';
+import { MenuCategory, TavernProduct } from './TavernProduct';
 
 const EMPTY_SIDE_DISH: DescriptionAsset = { name: '' };
 
 export class DishIdea extends Idea {
     private averagePrice: number | PriceSetter;
-    private category: menuCategory;
+    private category: MenuCategory;
 
     constructor(
         ingredients: IngredientsIdea,
         averagePrice: number | PriceSetter,
-        category: menuCategory
+        category: MenuCategory
     ) {
         const additionalSideDishes = [
             ingredients.firstSideDishes || [EMPTY_SIDE_DISH],

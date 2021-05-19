@@ -1,6 +1,6 @@
 import { association } from '../../../../classes/association';
 import { DishIdea } from '../../../../classes/DishIdea';
-import { foodCategory } from '../../../../classes/TavernProduct';
+import { Eatable } from '../../../../classes/TavernProduct';
 import { adjustPriceSetter, foodPrices } from '../foodPrices';
 const a = association;
 const FISH_AND_CHIPS_PRICE_FACTOR = 1.0;
@@ -36,5 +36,5 @@ export const fishAndChips = new DishIdea(
         secondSideDishes: fishAndChipsSideDishes,
     },
     adjustPriceSetter(foodPrices.mainDish, FISH_AND_CHIPS_PRICE_FACTOR),
-    foodCategory.mainDish
+    Eatable.mainDish
 );

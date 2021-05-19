@@ -1,6 +1,6 @@
 import { association } from '../../../../classes/association';
 import { DishIdea } from '../../../../classes/DishIdea';
-import { foodCategory } from '../../../../classes/TavernProduct';
+import { Eatable } from '../../../../classes/TavernProduct';
 import { adjustPriceSetter, foodPrices } from '../foodPrices';
 import { poorBases, wealthyBases, workerBases } from './porridgeBases';
 import {
@@ -8,7 +8,7 @@ import {
     poorPorridgeToppings,
     wealthyPorridgeToppings,
 } from './porridgeToppings';
-export const a = association;
+const a = association;
 const PORRIDGE_FACTOR = 1;
 
 export const porridges = [
@@ -23,6 +23,6 @@ export const porridges = [
             ],
         },
         adjustPriceSetter(foodPrices.breakfast, PORRIDGE_FACTOR),
-        foodCategory.breakfast
+        Eatable.breakfast
     ),
 ];

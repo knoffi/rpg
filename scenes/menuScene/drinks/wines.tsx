@@ -1,7 +1,7 @@
 import { association } from '../../../classes/association';
-import { drinkCategory, TavernProduct } from '../../../classes/TavernProduct';
+import { Drinkable, TavernProduct } from '../../../classes/TavernProduct';
 const a = association;
-const wineEnum = drinkCategory.wine;
+const wineEnum = Drinkable.wine;
 export const wines = [
     new TavernProduct(
         "Zoltan's Red Wine of Fairytales",

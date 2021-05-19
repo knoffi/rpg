@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Button, List, Modal, Portal } from 'react-native-paper';
 import { SavedDataHandler } from '../../classes/Database';
-import { menuCategory } from '../../classes/TavernProduct';
+import { MenuCategory } from '../../classes/TavernProduct';
 import { MinimalTavernData } from '../../mainNavigator/TavernData';
 import { editModalStyles } from '../../scenes/startOptionsScene/editModalStyles';
 interface ListOfSavesProps {
@@ -31,7 +31,7 @@ export interface MinimalOfferDataWithNumber {
     name: string;
     priceText: number;
     description: string;
-    category: menuCategory;
+    category: MenuCategory;
 }
 
 export class ListOfSaves extends React.Component<
@@ -76,7 +76,8 @@ export class ListOfSaves extends React.Component<
                                 style={{ marginHorizontal: 5 }}
                                 onPress={() => {
                                     if (this.props.offerHandling) {
-                                        const offerData = save as MinimalOfferDataWithNumber;
+                                        const offerData =
+                                            save as MinimalOfferDataWithNumber;
                                         this.props.offerHandling.addUserOffer(
                                             offerData.name,
                                             offerData.priceText.toString(),
@@ -84,7 +85,8 @@ export class ListOfSaves extends React.Component<
                                         );
                                     }
                                     if (this.props.tavernHandling) {
-                                        const offerData = save as MinimalTavernData;
+                                        const offerData =
+                                            save as MinimalTavernData;
                                         this.props.tavernHandling.buildTavern(
                                             offerData
                                         );

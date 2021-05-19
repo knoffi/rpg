@@ -1,6 +1,13 @@
 import { getRandomArrayEntry } from '../helpingFunctions/getFittingRandom';
-import { association } from './association';
-import { DescriptionAsset } from './DescriptionIdea';
+import {
+    association,
+    isClassAssociation,
+    isIncomeAssociation,
+    isLandAssociation,
+    isRaceAssociation,
+    isSpecialAssociation,
+} from './association';
+import { DescriptionAsset } from './DescriptionAsset';
 import { StructuredTavernFits } from './StructuredTavernFits';
 
 export class Idea {
@@ -87,6 +94,7 @@ export class Idea {
         const tavernFitsArray = Object.values(tavernFits).filter(
             (entry) => entry
         ) as association[];
+        //TODO: Do I really want to be so generous if tavern fits are empty?
         if (
             tavernFitsArray.length === 0 &&
             !asset.worksForBrothel &&
@@ -119,7 +127,11 @@ export class Idea {
                       asset.fitsTo!.includes(fit)
               )
             : true;
-
+        const strongNeedsOneFulfilled = this.strongNeedsOneCheck(
+            tavernFitsArray,
+            tavernFits,
+            asset.strongNeedsOne
+        );
         const incomeIsFitting =
             !tavernFits.income ||
             !asset.incomeRange ||
@@ -149,18 +161,56 @@ export class Idea {
             classIsFitting &&
             raceIsFitting &&
             specialIsFitting &&
-            noMisfitsInTavern;
+            noMisfitsInTavern &&
+            strongNeedsOneFulfilled;
         switch (tavernFits.special) {
             case association.prostitute:
-                return asset.worksForBrothel ? nonSpecialCondition : false;
+                return asset.worksForBrothel || asset.worksForAllCriminals
+                    ? nonSpecialCondition
+                    : false;
             case association.thief:
-                return asset.worksForThiefs ? nonSpecialCondition : false;
+                return asset.worksForThiefs || asset.worksForAllCriminals
+                    ? nonSpecialCondition
+                    : false;
             case association.assasine:
-                return asset.worksForAssasines ? nonSpecialCondition : false;
+                return asset.worksForAssasines || asset.worksForAllCriminals
+                    ? nonSpecialCondition
+                    : false;
 
             default:
                 return nonSpecialCondition;
         }
+    }
+    private strongNeedsOneCheck(
+        tavernFits: association[],
+        structuredFits: StructuredTavernFits,
+        strongNeedsOne?: association[]
+    ) {
+        if (!strongNeedsOne) {
+            return true;
+        }
+        const needsOneCondition = strongNeedsOne.some((need) =>
+            tavernFits.includes(need)
+        );
+        const impliedRangeCondition = strongNeedsOne.every((need) => {
+            if (isRaceAssociation(need) && structuredFits.race) {
+                return structuredFits.race === need;
+            }
+            if (isClassAssociation(need) && structuredFits.class) {
+                return structuredFits.class === need;
+            }
+            if (isIncomeAssociation(need) && structuredFits.income) {
+                return structuredFits.income === need;
+            }
+            if (isLandAssociation(need) && structuredFits.land) {
+                return structuredFits.land === need;
+            }
+            if (isSpecialAssociation(need) && structuredFits.special) {
+                return structuredFits.special === need;
+            }
+            return true;
+        });
+        return needsOneCondition && impliedRangeCondition;
     }
 
     public fitsToTavern(
@@ -175,24 +225,26 @@ export class Idea {
         if (!mainFitsToTavern) {
             return false;
         }
-        const someHarmonySubstantiveFitsToTavern = this.additions
+        if (!this.additions && !this.contrastAdditions && mainFitsToTavern) {
+            return true;
+        }
+        const someHarmonySubstantiveFits = this.additions
             ? this.additions.every((additionCollection) =>
                   additionCollection.some((addition) =>
                       this.assetFitsToTavern(tavernFits, addition)
                   )
               )
-            : true;
-        if (someHarmonySubstantiveFitsToTavern) {
+            : false;
+        if (someHarmonySubstantiveFits) {
             return true;
-        } else {
-            const someConstrastSubstantiveFitsToTavern = this.contrastAdditions
-                ? this.contrastAdditions.every((additionCollection) =>
-                      additionCollection.some((addition) =>
-                          this.assetFitsToTavern(tavernFits, addition)
-                      )
-                  )
-                : true;
-            return someConstrastSubstantiveFitsToTavern;
         }
+        const someConstrastSubstantiveFits = this.contrastAdditions
+            ? this.contrastAdditions.every((additionCollection) =>
+                  additionCollection.some((addition) =>
+                      this.assetFitsToTavern(tavernFits, addition)
+                  )
+              )
+            : false;
+        return someConstrastSubstantiveFits;
     }
 }
