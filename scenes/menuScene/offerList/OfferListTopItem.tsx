@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { List } from 'react-native-paper';
-import { OpacitySwiperText } from '../../../components/OpacitySwiper/OpacitySwiper';
+import { OpacitySwiperText } from '../../../components/OpacitySwiper/OpacitySwiperText';
 import { WIDTH_FACTOR } from '../../../dimensionConstants';
 import { productActions } from './productActions';
 
@@ -54,7 +54,6 @@ export const OfferListTopItem = (props: {
                             editPossible
                                 ? () => {
                                       actions.onEdit();
-                                      setId(id + 1);
                                   }
                                 : actions.onReroll
                         }
