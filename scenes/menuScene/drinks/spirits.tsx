@@ -15,31 +15,31 @@ const scotchTemplate = (
 ) => {
     return [
         new TavernProduct(
-            producerName + "'s Single Malt Scotch Whiskey",
+            producerName + "'s Single Malt Scotch Whisky",
             singleMaltPrice,
             fits,
             spiritEnum
         ),
         new TavernProduct(
-            producerName + "'s Single Grain Scotch Whiskey",
+            producerName + "'s Single Grain Scotch Whisky",
             reducedPrice(singleMaltPrice, 1),
             fits,
             spiritEnum
         ),
         new TavernProduct(
-            producerName + "'s Blended Malt Scotch Whiskey",
+            producerName + "'s Blended Malt Scotch Whisky",
             reducedPrice(singleMaltPrice, 2),
             fits,
             spiritEnum
         ),
         new TavernProduct(
-            producerName + "'s Blended Grain Scotch Whiskey",
+            producerName + "'s Blended Grain Scotch Whisky",
             reducedPrice(singleMaltPrice, 3),
             fits,
             spiritEnum
         ),
         new TavernProduct(
-            producerName + "'s Blended Scotch Whiskey",
+            producerName + "'s Blended Scotch Whisky",
             reducedPrice(singleMaltPrice, 4),
             fits,
             spiritEnum

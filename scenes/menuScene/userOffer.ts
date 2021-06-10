@@ -6,6 +6,7 @@ export interface MinimalOfferData {
     priceText: string;
     description: string;
     category: MenuCategory;
+    isUserMade: boolean;
 }
 
 export const createMinimalOffer = (data: MinimalOfferData) => {
@@ -16,7 +17,7 @@ export const createMinimalOffer = (data: MinimalOfferData) => {
             [] as association[],
             data.category,
             data.description,
-            true
+            data.isUserMade
         ),
         price: parseInt(data.priceText),
     };

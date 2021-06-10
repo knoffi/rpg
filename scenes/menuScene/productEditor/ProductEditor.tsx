@@ -105,10 +105,11 @@ export const ProductEditor = (props: {
                             disabled={!priceTextIsValid || !nameTextIsValid}
                             onPress={() => {
                                 const newProductData = {
-                                    name: name,
-                                    priceText: priceText,
-                                    description: description,
+                                    name,
+                                    priceText,
+                                    description,
                                     category: props.startTexts.category,
+                                    isUserMade: true,
                                 };
                                 if (props.startTexts.name.length > 0) {
                                     props.overwriteTavernProduct(
