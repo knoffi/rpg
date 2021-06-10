@@ -39,7 +39,6 @@ type OpacitySwiperTextState = {
     };
 };
 const FAST_STIFFNESS = 10;
-const NO_MOVE_STIFFNESS = 0.0001;
 export class OpacitySwiperText extends React.Component<
     OpacitySwiperTextProps,
     OpacitySwiperTextState
