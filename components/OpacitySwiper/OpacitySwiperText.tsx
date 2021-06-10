@@ -4,7 +4,7 @@ import {
     State as GestureState,
     State,
 } from 'react-native-gesture-handler';
-import Animated from 'react-native-reanimated';
+import Animated, { or } from 'react-native-reanimated';
 import { SwiperText } from './SwiperText';
 const {
     block,
@@ -39,6 +39,7 @@ type OpacitySwiperTextState = {
     };
 };
 const FAST_STIFFNESS = 10;
+const IS_NO_CLICK_THRESHOLD = 2;
 export class OpacitySwiperText extends React.Component<
     OpacitySwiperTextProps,
     OpacitySwiperTextState
@@ -88,12 +89,29 @@ export class OpacitySwiperText extends React.Component<
                 nativeEvent: ({ translationX }) =>
                     block([
                         cond(eq(this.gestureState, GestureState.ACTIVE), [
-                            // Update our translate animated value as the user pans
                             Animated.set(
                                 this.state.anim.position,
                                 translationX
                             ),
                         ]),
+                        cond(
+                            and(
+                                eq(this.gestureState, GestureState.ACTIVE),
+                                or(
+                                    greaterThan(
+                                        translationX,
+                                        IS_NO_CLICK_THRESHOLD
+                                    ),
+                                    lessThan(
+                                        translationX,
+                                        -IS_NO_CLICK_THRESHOLD
+                                    )
+                                )
+                            ),
+                            call([], () => {
+                                this.userMightClick = false;
+                            })
+                        ),
                     ]),
             },
         ]);
