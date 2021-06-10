@@ -19,6 +19,7 @@ const {
     startClock,
     spring,
     stopClock,
+    set,
 } = Animated;
 type OpacitySwiperTextProps = {
     onSwipeRight: () => void;
@@ -57,8 +58,7 @@ export class OpacitySwiperText extends React.Component<
         restSpeedThreshold: number;
         restDisplacementThreshold: number;
     };
-    private userSwipedRight: boolean;
-    private userSwipedLeft: boolean;
+
     private userMightClick: boolean;
     constructor(props: any) {
         super(props);
@@ -83,8 +83,6 @@ export class OpacitySwiperText extends React.Component<
             restSpeedThreshold: 0.2,
             restDisplacementThreshold: 0.2,
         };
-        this.userSwipedLeft = false;
-        this.userSwipedRight = false;
         this.userMightClick = false;
         this.onPanEvent = Animated.event([
             {
@@ -96,30 +94,6 @@ export class OpacitySwiperText extends React.Component<
                                 this.state.anim.position,
                                 translationX
                             ),
-
-                            // If swipe distance exceeds threshold, delete item
-                            cond(
-                                greaterThan(
-                                    translationX,
-                                    this.props.swipeThreshold
-                                ),
-                                call([], () => {
-                                    this.adjustToSwipeSuccess('right');
-                                }),
-                                call([], () =>
-                                    this.adjustToSwipeCancel('right')
-                                )
-                            ),
-                            cond(
-                                lessThan(
-                                    translationX,
-                                    -this.props.swipeThreshold
-                                ),
-                                call([], () =>
-                                    this.adjustToSwipeSuccess('left')
-                                ),
-                                call([], () => this.adjustToSwipeCancel('left'))
-                            ),
                         ]),
                     ]),
             },
@@ -128,7 +102,6 @@ export class OpacitySwiperText extends React.Component<
             {
                 nativeEvent: ({ state }) =>
                     block([
-                        // Update our animated value that tracks gesture state
                         Animated.set(this.gestureState, state),
                         cond(
                             eq(state, GestureState.BEGAN),
@@ -147,49 +120,55 @@ export class OpacitySwiperText extends React.Component<
                             })
                         ),
                         cond(
-                            eq(state, GestureState.END),
-                            call([], () => {
-                                if (this.userSwipedLeft) {
-                                    this.userSwipedLeft = false;
-                                    this.props.onSwipeLeft();
-                                } else {
-                                    if (this.userSwipedRight) {
-                                        this.userSwipedRight = false;
-                                        this.props.onSwipeRight();
-                                    }
-                                }
-                            })
+                            and(
+                                eq(state, GestureState.END),
+                                greaterThan(
+                                    this.state.anim.position,
+                                    this.props.swipeThreshold
+                                )
+                            ),
+                            [
+                                stopClock(this.clock),
+                                call([], () => {
+                                    this.props.onSwipeRight();
+                                }),
+                            ]
                         ),
-                        // Spring row back into place when user lifts their finger
                         cond(
                             and(
                                 eq(state, GestureState.END),
-                                not(clockRunning(this.clock))
+                                lessThan(
+                                    this.state.anim.position,
+                                    -this.props.swipeThreshold
+                                )
+                            ),
+                            [
+                                stopClock(this.clock),
+                                call([], () => {
+                                    this.props.onSwipeLeft();
+                                }),
+                            ]
+                        ),
+                        cond(
+                            and(
+                                eq(state, GestureState.END),
+                                not(clockRunning(this.clock)),
+                                and(
+                                    lessThan(
+                                        this.state.anim.position,
+                                        this.props.swipeThreshold
+                                    ),
+                                    greaterThan(
+                                        this.state.anim.position,
+                                        -this.props.swipeThreshold
+                                    )
+                                )
                             ),
                             startClock(this.clock)
                         ),
                     ]),
             },
         ]);
-    }
-
-    adjustToSwipeSuccess(direction: 'left' | 'right') {
-        if (!this.userSwipedRight && direction === 'right') {
-            this.userSwipedRight = true;
-        }
-        if (!this.userSwipedLeft && direction === 'left') {
-            this.userSwipedLeft = true;
-        }
-        this.setState({ stiffness: NO_MOVE_STIFFNESS });
-    }
-
-    adjustToSwipeCancel(direction: 'left' | 'right') {
-        if (this.userSwipedRight && direction === 'right') {
-            this.userSwipedRight = false;
-        }
-        if (this.userSwipedLeft && direction === 'left') {
-            this.userSwipedLeft = false;
-        }
     }
 
     getOpacity() {
@@ -214,46 +193,52 @@ export class OpacitySwiperText extends React.Component<
                 onGestureEvent={this.onPanEvent}
                 onHandlerStateChange={this.onHandlerStateChange}
             >
-                <Animated.View style={{ opacity: this.getOpacity() }}>
-                    <Animated.View
-                        style={{
-                            flex: 1,
-                            transform: [
-                                { translateX: this.state.anim.position },
-                            ],
-                        }}
-                    >
-                        <Animated.Code>
-                            {() =>
-                                block([
-                                    // If the clock is running, increment position in next tick by calling spring()
-                                    cond(clockRunning(this.clock), [
-                                        spring(
-                                            this.clock,
+                <Animated.View>
+                    <Animated.View>
+                        <Animated.View style={{ opacity: this.getOpacity() }}>
+                            <Animated.View
+                                style={{
+                                    flex: 1,
+                                    transform: [
+                                        {
+                                            translateX:
+                                                this.state.anim.position,
+                                        },
+                                    ],
+                                }}
+                            >
+                                <Animated.Code>
+                                    {() =>
+                                        block([
+                                            cond(clockRunning(this.clock), [
+                                                spring(
+                                                    this.clock,
 
-                                            this.state.anim,
+                                                    this.state.anim,
 
-                                            {
-                                                ...this.springAnimConfig,
-                                                stiffness: this.state.stiffness,
-                                            }
-                                        ),
-                                        // Stop and reset clock when spring is complete
-                                        cond(this.state.anim.finished, [
-                                            stopClock(this.clock),
-                                            Animated.set(
-                                                this.state.anim.finished,
-                                                0
-                                            ),
-                                        ]),
-                                    ]),
-                                ])
-                            }
-                        </Animated.Code>
-                        <SwiperText
-                            drinkName={this.props.descriptionText}
-                            priceString={this.props.priceString}
-                        />
+                                                    {
+                                                        ...this
+                                                            .springAnimConfig,
+                                                    }
+                                                ),
+                                                cond(this.state.anim.finished, [
+                                                    stopClock(this.clock),
+                                                    Animated.set(
+                                                        this.state.anim
+                                                            .finished,
+                                                        0
+                                                    ),
+                                                ]),
+                                            ]),
+                                        ])
+                                    }
+                                </Animated.Code>
+                                <SwiperText
+                                    drinkName={this.props.descriptionText}
+                                    priceString={this.props.priceString}
+                                />
+                            </Animated.View>
+                        </Animated.View>
                     </Animated.View>
                 </Animated.View>
             </PanGestureHandler>
