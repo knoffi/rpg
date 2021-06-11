@@ -25,10 +25,11 @@ import {
 } from '../scenes/questScene/impressions/impressionChapters';
 import { getTavernHistoryInitializer } from './mainNavigatorFunctions';
 
+const CHANCE_FOR_SPECIAL_NAME = 0.3;
 const CHANCE_FOR_SPECIAL_FIT = 0.2;
 const CHANCE_FOR_ORDINARY_FIT = 0.625;
-const NO_OFFER_PROBABILITY = 0.1;
-const MAX_OFFER = 4;
+const NO_IDEA_PROBABILITY = 0.1;
+const MAX_IDEA = 3;
 const MAX_PRICE_DERIVATION = 0.3;
 export const getRandomStartTavern = () => {
     const tavernData = getTavernHistoryInitializer();
@@ -61,7 +62,6 @@ export const getRandomStartTavern = () => {
     tavernData.bannerData = bannerData!;
     tavernData.ideasLeft = ideasLeft!;
     tavernData.prices = basePrice;
-    //TODO: add random bartender, average guest, some guests, furniture
     return tavernData;
 };
 
@@ -106,30 +106,10 @@ const getRandomIdeas = (
         })
         .flat();
 };
-//TODO: Ist das Kunst oder kann das weg?
-/*{
-        const randomNumber = Math.random();
-        const structuredFits = getStructuredFits(fits);
-        if (randomNumber > PROBABILITY_SPECIAL_NAME || this.noFitsActive()) {
-            const possibleNames = nameIdeas.filter((nameIdea) =>
-                nameIdea.fitsToTavern(structuredFits)
-            );
-            const newNameIdea = getRandomArrayEntry(possibleNames) as NameIdea;
-            const newName = newNameIdea
-                ? newNameIdea.getConcreteName(structuredFits)
-                : 'Nameless Tavern';
-            this.props.onDataChange({ name: newName });
-            this.setState({ isSpecialName: false });
-        } else {
-            const specialName = this.getSpecialNames();
-            this.props.onDataChange({ name: specialName });
-            this.setState({ isSpecialName: true });
-        }
-    } */
 const getRandomName = (fits: association[]) => {
     const randomNumber = Math.random();
     const structuredFits = getStructuredFits(fits);
-    if (randomNumber > 0.4 || fits.length === 0) {
+    if (randomNumber < 1 - CHANCE_FOR_SPECIAL_NAME || fits.length === 0) {
         const possibleNames = nameIdeas.filter((nameIdea) =>
             nameIdea.fitsToTavern(structuredFits)
         );
@@ -155,7 +135,7 @@ const getExamplesForChapter = (
     isAbout: WeServe
 ) => {
     const maxNumberOfIdeas = Math.floor(
-        Math.random() * MAX_OFFER + (1 - NO_OFFER_PROBABILITY)
+        Math.random() * MAX_IDEA + (1 - NO_IDEA_PROBABILITY)
     );
     const forImpressions = isAbout === WeServe.impressions;
     const emptyOffers = new Array<Offer | IImpression>(maxNumberOfIdeas).fill(
@@ -185,11 +165,10 @@ const getExamplesForChapter = (
               );
     };
     const newAssets = fillIdeaPart(emptyOffers, 0, fillUp);
-
     return newAssets.filter((asset) =>
-        asset.product
-            ? asset.product.name !== NothingLeftOffer.product.name
-            : asset.name !== emptyImpression.name
+        (asset as Offer).product
+            ? (asset as Offer).product.name !== NothingLeftOffer.product.name
+            : (asset as IImpression).name !== emptyImpression.name
     );
 };
 
@@ -202,6 +181,9 @@ const fillIdeaPart = (
         return ideaPart;
     }
     const alreadyFilled = ideaPart.slice(0, fillStart);
-    const newOffer = getFillUp(alreadyFilled);
-    return fillIdeaPart([...alreadyFilled, newOffer], fillStart + 1, getFillUp);
+    const newIdea = getFillUp(alreadyFilled);
+    const fullerIdeaPart = ideaPart.map((idea, index) =>
+        index === fillStart ? newIdea : idea
+    );
+    return fillIdeaPart(fullerIdeaPart, fillStart + 1, getFillUp);
 };
