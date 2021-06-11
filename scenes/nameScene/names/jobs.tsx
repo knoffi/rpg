@@ -240,13 +240,47 @@ export const gastronomyJobs: DescriptionAsset[] = [
 ];
 
 export const noblesAndTitles: DescriptionAsset[] = [
-    { name: 'Sheikh', incomeRange: [a.wealthy, a.rich], needs: [a.desert] },
-    { name: 'Sultan', incomeRange: [a.wealthy, a.rich], needs: [a.desert] },
+    {
+        name: 'Sheikh',
+        incomeRange: [a.wealthy, a.rich],
+        needs: [a.desert],
+        misfits: [a.drow],
+    },
+    {
+        name: 'Sultan',
+        incomeRange: [a.wealthy, a.rich],
+        needs: [a.desert],
+        misfits: [a.drow],
+    },
     { name: 'Pharao', incomeRange: [a.wealthy, a.rich], needs: [a.desert] },
     { name: 'Mummy', incomeRange: [a.modest, a.poor], needs: [a.desert] },
-    { name: 'Vizier', incomeRange: [a.wealthy, a.rich], needs: [a.desert] },
-    { name: 'Chancellor', strongNeedsOne: [a.wealthy, a.city] },
-    { name: 'Benevolent', incomeRange: [a.wealthy, a.rich] },
+    {
+        name: 'Vizier',
+        incomeRange: [a.wealthy, a.rich],
+        needs: [a.desert],
+        misfits: [a.barbarian],
+    },
+    {
+        name: 'Chancellor',
+        strongNeedsOne: [a.wealthy, a.city],
+        misfits: [a.barbarian],
+    },
+    {
+        name: 'Lord',
+        incomeRange: [a.wealthy, a.rich],
+        misfits: [a.drow, a.barbarian],
+    },
+    {
+        name: 'Admiral',
+        needs: [a.haven],
+        incomeRange: [a.wealthy, a.rich],
+        misfits: [a.drow, a.barbarian],
+    },
+    {
+        name: 'Knight',
+        incomeRange: [a.wealthy, a.modest],
+        misfits: [a.drow, a.barbarian],
+    },
     {
         name: 'King',
         incomeRange: [a.wealthy, a.rich, a.modest],
@@ -257,7 +291,7 @@ export const noblesAndTitles: DescriptionAsset[] = [
     {
         name: 'Prince',
         needsOne: [a.rich, a.wealthy, a.knight],
-        misfits: [a.drow],
+        misfits: [a.drow, a.barbarian],
     },
     { name: 'Princess', needsOne: [a.rich, a.wealthy, a.knight] },
     {
@@ -267,9 +301,21 @@ export const noblesAndTitles: DescriptionAsset[] = [
         misfits: [a.barbarian, a.drow],
     },
     {
+        name: 'Countess',
+        incomeRange: [a.wealthy, a.rich],
+        landRange: [a.forest, a.mountain, a.city, a.village],
+        misfits: [a.barbarian],
+    },
+    {
+        name: 'Duchess',
+        incomeRange: [a.wealthy, a.rich],
+        landRange: [a.forest, a.mountain, a.city, a.village],
+        misfits: [a.barbarian],
+    },
+    {
         name: 'Emperor',
         incomeRange: [a.wealthy, a.rich, a.modest],
         needsOne: [a.desert, a.tropical, a.underdark, a.haven],
-        misfits: [a.drow],
+        misfits: [a.drow, a.barbarian],
     },
 ];

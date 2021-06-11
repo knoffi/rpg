@@ -21,6 +21,26 @@ export const individuals: ImpressionIdea[] = [
         Noticable.someCustomers
     ),
     new ImpressionIdea(
+        {
+            incomeRange: [a.rich, a.wealthy],
+            name: 'An admiral is ',
+            worksForBrothel: true,
+            needs: [a.haven],
+        },
+        leisureUpperClass,
+        Noticable.someCustomers
+    ),
+    new ImpressionIdea(
+        {
+            incomeRange: [a.rich, a.wealthy],
+            name: 'A vice admiral is ',
+            worksForBrothel: true,
+            needs: [a.haven],
+        },
+        leisureUpperClass,
+        Noticable.someCustomers
+    ),
+    new ImpressionIdea(
         { incomeRange: [a.rich], name: 'A princess is ' },
         leisureUpperClass,
         Noticable.someCustomers
@@ -46,6 +66,7 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             incomeRange: [a.rich, a.wealthy],
+            misfits: [a.drow],
             name: 'A well-known lord is ',
             worksForBrothel: true,
         },
@@ -57,6 +78,17 @@ export const individuals: ImpressionIdea[] = [
             incomeRange: [a.wealthy],
             name: 'A guild master is ',
             worksForBrothel: true,
+            misfits: [a.drow],
+        },
+        busyUpperClass,
+        Noticable.someCustomers
+    ),
+    new ImpressionIdea(
+        {
+            incomeRange: [a.wealthy],
+            name: 'A guild mistress is ',
+            worksForBrothel: true,
+            needsOne: [a.drow, a.elf],
         },
         busyUpperClass,
         Noticable.someCustomers
@@ -66,6 +98,7 @@ export const individuals: ImpressionIdea[] = [
             incomeRange: [a.wealthy],
             name: 'A baron is ',
             worksForBrothel: true,
+            misfits: [a.drow],
         },
         leisureUpperClass,
         Noticable.someCustomers
