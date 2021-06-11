@@ -5,7 +5,7 @@ import { menuSceneStyles } from '../../scenes/menuScene/menuStyles';
 import { getDishTexts } from '../../scenes/menuScene/offerList/nameSplitter/getDishTexts';
 import { AppearingView } from './AppearingView';
 
-export const SwiperText = React.memo(
+export const MemoizedSwiperText = React.memo(
     (props: { drinkName: string; priceString: string }) => {
         const { name, description } = getDishTexts(props.drinkName);
         const isNotForDishes = props.priceString === '';
