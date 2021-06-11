@@ -6,6 +6,7 @@ import { association } from '../classes/association';
 import { SavedDataHandler, WeSave } from '../classes/Database';
 import { EditNavigator } from '../editNavigator/EditNavigator';
 import { Offer } from '../scenes/menuScene/menuEnums';
+import { getAdjustedPrice } from '../scenes/menuScene/priceFunctions';
 import { StartOptionsScene } from '../scenes/startOptionsScene/StartOptionsScene';
 import { TavernCollectionScene } from '../scenes/tavernCollectionScene/TavernCollectionScene';
 import { TitleScene } from '../scenes/titleScene/TitleScene';
@@ -69,6 +70,16 @@ export const MainNavigator = () => {
         setTavernHistory([buildTavern]);
     };
 
+    const getOfferPrice = (offer: Offer) => {
+        const tavern = tavernHistory[historyIndex];
+        return getAdjustedPrice(
+            offer,
+            tavern.fitting.fits,
+            tavern.fitting.misfits,
+            tavern.prices
+        );
+    };
+
     return (
         <NavigationContainer>
             <Stack.Navigator initialRouteName={'YOU ALL MEET IN A TAVERN!'}>
@@ -91,6 +102,7 @@ export const MainNavigator = () => {
                     options={{
                         header: ({ navigation }) => (
                             <AppBar
+                                getAdjustedPrice={getOfferPrice}
                                 onSave={saveMinimalTavernData}
                                 onRedo={() => {
                                     setHistoryIndex(historyIndex + 1);
@@ -122,6 +134,7 @@ export const MainNavigator = () => {
                     options={{
                         header: ({ navigation }) => (
                             <AppBar
+                                getAdjustedPrice={getOfferPrice}
                                 onSave={saveMinimalTavernData}
                                 onRedo={() => {
                                     setHistoryIndex(historyIndex + 1);

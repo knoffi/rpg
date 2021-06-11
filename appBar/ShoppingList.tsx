@@ -14,6 +14,7 @@ export const ShoppingList = (props: {
     currencyName: string;
     increaseOrder: (name: string) => void;
     decreaseOrder: (name: string) => void;
+    getAdjustedPrice: (offer: Offer) => number;
 }) => {
     const boughtDrinks = [] as JSX.Element[];
     const boughtFood = [] as JSX.Element[];
@@ -21,7 +22,7 @@ export const ShoppingList = (props: {
     const drinkMap = new Map<string, { price: number; count: number }>([]);
     const foodMap = new Map<string, { price: number; count: number }>([]);
     const totalPrice = props.boughtOffers
-        .map((offer) => offer.price)
+        .map((offer) => props.getAdjustedPrice(offer))
         .reduce((priceSum, price) => {
             return priceSum + price;
         }, 0);
@@ -32,11 +33,14 @@ export const ShoppingList = (props: {
         if (orderValues) {
             //thisMap.delete(name);
             thisMap.set(name, {
-                price: orderValues.price + offer.price,
+                price: orderValues.price + props.getAdjustedPrice(offer),
                 count: orderValues.count + 1,
             });
         } else {
-            thisMap.set(name, { price: offer.price, count: 1 });
+            thisMap.set(name, {
+                price: props.getAdjustedPrice(offer),
+                count: 1,
+            });
         }
     });
     drinkMap.forEach((orderValues, name) => {

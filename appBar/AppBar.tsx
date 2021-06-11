@@ -24,6 +24,7 @@ export const AppBar = (props: {
     sceneTitle: string;
     boughtOffers: Offer[];
     currencyName: string;
+    getAdjustedPrice: (offer: Offer) => number;
     onDataChange: (newData: Partial<TavernData>) => void;
 }) => {
     const [modalVisible, setModalVisible] = React.useState(false);
@@ -116,6 +117,7 @@ export const AppBar = (props: {
             <Portal>
                 <Modal visible={modalVisible} onDismiss={hideModal}>
                     <ShoppingList
+                        getAdjustedPrice={props.getAdjustedPrice}
                         boughtOffers={props.boughtOffers}
                         currencyName={props.currencyName}
                         increaseOrder={(offerName: string) => {
