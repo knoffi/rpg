@@ -4,56 +4,56 @@ const a = association;
 
 export const poorBases: DescriptionAsset[] = [
     {
-        name: ' (Grey Oat)',
+        name: 'Cereals (Grey Oat) in Hot Milk',
         incomeRange: [a.poor],
         landRange: [a.village, a.city, a.forest, a.haven],
     },
     {
-        name: ' (Millet)',
+        name: 'Cereals (Millet)',
         incomeRange: [a.poor],
         landRange: [a.mountain, a.desert, a.underdark],
     },
-    { name: ' (Rice)', incomeRange: [a.poor], landRange: [a.tropical] },
+    { name: 'Cereals (Rice)', incomeRange: [a.poor], landRange: [a.tropical] },
 ];
 
 export const workerBases: DescriptionAsset[] = [
     {
-        name: ' (Brown Oat)',
+        name: 'Cereals (Brown Oat) in Hot Milk',
         landRange: [a.village],
         incomeRange: [a.modest],
     },
     {
-        name: ' (Oat)',
+        name: 'Cereals (Oat) in Hot Milk',
         landRange: [a.city, a.haven],
         incomeRange: [a.modest],
     },
     {
-        name: ' (Wild Oat)',
+        name: 'Cereals (Wild Oat) in Hot Milk',
         landRange: [a.forest],
         incomeRange: [a.modest],
     },
     {
-        name: ' (Buckwheat)',
+        name: 'Cereals (Buckwheat) in Hot Milk',
         landRange: [a.village],
         incomeRange: [a.modest],
     },
     {
-        name: ' (Millet)',
+        name: 'Cereals (Millet) in Hot Milk',
         landRange: [a.desert, a.mountain],
         incomeRange: [a.modest],
     },
     {
-        name: ' (Maize)',
+        name: 'Cereals (Maize) in Hot Milk',
         landRange: [a.tropical],
         incomeRange: [a.modest],
     },
     {
-        name: ' (Rice)',
+        name: 'Cereals (Rice) in Hot Milk',
         landRange: [a.tropical],
         incomeRange: [a.modest],
     },
     {
-        name: ' (Dark Oat)',
+        name: 'Cereals (Dark Oat) in Hot Milk',
         landRange: [a.underdark],
         incomeRange: [a.modest],
     },
@@ -61,19 +61,23 @@ export const workerBases: DescriptionAsset[] = [
 
 export const wealthyBases: DescriptionAsset[] = [
     {
-        name: ' (Ivory Oat)',
+        name: 'Cereals (Ivory Oat) in Hot Milk',
         landRange: [a.city, a.haven, a.forest, a.village],
         incomeRange: [a.wealthy],
     },
-    { name: ' (Midnight Oat)', needs: [a.underdark], incomeRange: [a.wealthy] },
-    { name: ' (Silver Oat)', incomeRange: [a.wealthy] },
     {
-        name: ' (Copper Millet)',
+        name: 'Cereals (Midnight Oat) in Hot Milk',
+        needs: [a.underdark],
+        incomeRange: [a.wealthy],
+    },
+    { name: 'Cereals (Silver Oat) in Hot Milk', incomeRange: [a.wealthy] },
+    {
+        name: 'Cereals (Copper Millet) in Hot Milk',
         landRange: [a.desert, a.mountain],
         incomeRange: [a.wealthy],
     },
     {
-        name: ' (Moonshine Rice)',
+        name: 'Cereals (Silky Rice) in Hot Milk',
         landRange: [a.tropical, a.haven],
         incomeRange: [a.wealthy],
     },

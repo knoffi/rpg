@@ -5,7 +5,7 @@ import {
     State,
 } from 'react-native-gesture-handler';
 import Animated, { or } from 'react-native-reanimated';
-import { SwiperText } from './SwiperText';
+import { MemoizedSwiperText } from './SwiperText';
 const {
     block,
     cond,
@@ -250,7 +250,7 @@ export class OpacitySwiperText extends React.Component<
                                         ])
                                     }
                                 </Animated.Code>
-                                <SwiperText
+                                <MemoizedSwiperText
                                     drinkName={this.props.descriptionText}
                                     priceString={this.props.priceString}
                                 />

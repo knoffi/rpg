@@ -1,15 +1,14 @@
 import { association } from '../../classes/association';
 import { BasePrice, standardBasePrice } from './basePrice';
 import { Offer } from './menuEnums';
-
-export const getAdjustedPriceString = (
+export const getAdjustedPrice = (
     offer: Offer,
     fits: association[],
     misfits: association[],
     basePrice: BasePrice
 ) => {
     if (offer.product.isUserMade) {
-        return offer.price.toString() + ' ' + basePrice.currency;
+        return offer.price;
     }
     const basePriceFactor = getPriceFactorFromBasePrice(
         basePrice,
@@ -35,8 +34,17 @@ export const getAdjustedPriceString = (
             (100 - fitLevel + misfitLevel + incomeLevel!)) /
             100.0
     );
-    const priceNumberString = newPrice > 0 ? newPrice.toString() : '1';
-    return priceNumberString + ' ' + basePrice.currency;
+    return newPrice;
+};
+export const getAdjustedPriceString = (
+    offer: Offer,
+    fits: association[],
+    misfits: association[],
+    basePrice: BasePrice
+) => {
+    const calculatedPrice = getAdjustedPrice(offer, fits, misfits, basePrice);
+    const economicPrice = calculatedPrice > 0 ? calculatedPrice : 1;
+    return economicPrice.toString() + ' ' + basePrice.currency;
 };
 
 const getPriceFactorFromBasePrice = (

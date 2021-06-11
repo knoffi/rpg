@@ -35,7 +35,6 @@ const PROBABILITY_SPECIAL_NAME = 0.15;
 const CHARACTER_MAX_ON_LINE = 14;
 interface TextState {
     invalidSubstantives: string[];
-    isSpecialName: boolean;
     nameSetDialogOpen: boolean;
     dialogText: string;
 }
@@ -56,7 +55,6 @@ export class NameScene extends React.Component<NameProps, TextState> {
         super(props);
         this.state = {
             invalidSubstantives: [],
-            isSpecialName: true,
             nameSetDialogOpen: false,
             dialogText: '',
         };
@@ -150,11 +148,9 @@ export class NameScene extends React.Component<NameProps, TextState> {
                 ? newNameIdea.getConcreteName(structuredFits)
                 : 'Nameless Tavern';
             this.props.onDataChange({ name: newName });
-            this.setState({ isSpecialName: false });
         } else {
             const specialName = this.getSpecialNames();
             this.props.onDataChange({ name: specialName });
-            this.setState({ isSpecialName: true });
         }
     }
 

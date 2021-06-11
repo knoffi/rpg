@@ -1,17 +1,14 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { View } from 'react-native';
 import { Text } from 'react-native-paper';
 import { menuSceneStyles } from '../../scenes/menuScene/menuStyles';
 import { getDishTexts } from '../../scenes/menuScene/offerList/nameSplitter/getDishTexts';
 import { AppearingView } from './AppearingView';
 
-export const SwiperText = React.memo(
+export const MemoizedSwiperText = React.memo(
     (props: { drinkName: string; priceString: string }) => {
         const { name, description } = getDishTexts(props.drinkName);
         const isNotForDishes = props.priceString === '';
-        useEffect(() => {
-            console.log(props.drinkName);
-        }, [props.drinkName]);
         return (
             <View
                 style={{
