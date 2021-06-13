@@ -1,19 +1,19 @@
-import { getRandomArrayEntry } from '../helpingFunctions/getFittingRandom';
-import { NothingLeftOffer } from '../scenes/menuScene/menuEnums';
-import { association } from './association';
-import { BreakfastChapters, MainDishChapters } from './FoodChapters';
-import { getStructuredFits } from './StructuredTavernFits';
+import { association } from '../../../classes/association';
+import { getStructuredFits } from '../../../classes/StructuredTavernFits';
+import { getRandomArrayEntry } from '../../../helpingFunctions/getFittingRandom';
+import { NothingLeftOffer } from '../menuEnums';
+import { DrinkChapters } from './DrinkChapters';
+import { FoodChapters } from './FoodChapters';
 
 export const predecideDishes = (
-    bookChapters: MainDishChapters | BreakfastChapters,
+    bookChapters: FoodChapters | DrinkChapters,
     fits: association[],
     isExcludedByPrefix: (name: string) => boolean
 ) => {
     const structuredTavernFits = getStructuredFits(fits);
-    // are we copying here every dish possibility? or just objects with references?
     const chapters = Object.values(bookChapters);
     const filteredChapters = chapters.filter((chapter) =>
-        chapter.dishIdeas.some((dishIdea) =>
+        chapter.ideas.some((dishIdea) =>
             dishIdea.fitsToMenu(structuredTavernFits, isExcludedByPrefix)
         )
     );
@@ -26,6 +26,11 @@ export const predecideDishes = (
             (chapter) => chapter.weight
         );
         const totalWeight = chapterWeights.reduce((sum, cur) => sum + cur, 0);
+        if (totalWeight === 0) {
+            console.log(
+                'total weight of chapter was 0. I can not work with this crap!'
+            );
+        }
 
         const randomWeightedIndex = Math.floor(Math.random() * totalWeight);
         const negativPredecidedIndex = chapterWeights.reduce(
@@ -45,8 +50,7 @@ export const predecideDishes = (
             0
         );
         const predecidedChapter =
-            filteredChapters[-negativPredecidedIndex].dishIdeas;
-        //FIX: Stews only come at last main dishes... why though?
+            filteredChapters[-negativPredecidedIndex].ideas;
         const fittingDishIdeas = predecidedChapter.filter((dishIdea) =>
             dishIdea.fitsToMenu(structuredTavernFits, isExcludedByPrefix)
         );
