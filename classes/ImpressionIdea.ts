@@ -12,14 +12,17 @@ export enum Noticable {
 export class ImpressionIdea extends Idea {
     private category: Noticable;
     private displayTextAsFurniture: boolean;
+    private reverseDisplay: boolean;
     constructor(
         mainImpression: DescriptionAsset,
         additions: DescriptionAsset[],
         category: Noticable,
-        displayTextAsFurniture?: boolean
+        displayTextAsFurniture?: boolean,
+        reverseDisplay = false
     ) {
         super(mainImpression, [additions]);
         this.category = category;
+        this.reverseDisplay = reverseDisplay;
         this.displayTextAsFurniture = displayTextAsFurniture || false;
     }
     public createImpression(
@@ -46,10 +49,16 @@ export class ImpressionIdea extends Idea {
                 }
                 return this.main.name;
             }
+            const firstText = this.reverseDisplay
+                ? this.main.name
+                : secondDescription.name;
+            const secondText = this.reverseDisplay
+                ? secondDescription
+                : this.main.name;
             return this.category === Noticable.bartender &&
                 !this.displayTextAsFurniture
-                ? this.main.name + ' & ' + secondDescription.name + splitMarker
-                : this.main.name + secondDescription.name + splitMarker;
+                ? firstText + ' & ' + secondText + splitMarker
+                : firstText + secondText + splitMarker;
         } else {
             return this.main.name;
         }

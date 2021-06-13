@@ -197,6 +197,39 @@ export const bartenders: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
+            needsOne: [a.wizard, a.cleric, a.adventurer, a.druid],
+            name: 'Long silver beard',
+            worksForAssasines: true,
+            worksForBrothel: true,
+            worksForThiefs: true,
+        },
+        bartenderCharacter,
+        Noticable.bartender
+    ),
+    new ImpressionIdea(
+        {
+            needsOne: [a.wizard, a.druid, a.adventurer],
+            name: 'Pointy witch hat',
+            worksForAssasines: true,
+            worksForBrothel: true,
+            worksForThiefs: true,
+        },
+        bartenderCharacter,
+        Noticable.bartender
+    ),
+    new ImpressionIdea(
+        {
+            needsOne: [a.wizard, a.druid, a.adventurer],
+            name: 'Owl on shoulder',
+            worksForAssasines: true,
+            worksForBrothel: true,
+            worksForThiefs: true,
+        },
+        bartenderCharacter,
+        Noticable.bartender
+    ),
+    new ImpressionIdea(
+        {
             misfits: [a.elf, a.drow, a.tiefling],
             name: 'Bold',
             worksForAssasines: true,
