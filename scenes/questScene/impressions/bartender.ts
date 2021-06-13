@@ -313,7 +313,8 @@ export const bartenders: ImpressionIdea[] = [
             worksForThiefs: true,
         },
         [{ name: '' }],
-        Noticable.bartender
+        Noticable.bartender,
+        true
     ),
     new ImpressionIdea(
         {
@@ -523,7 +524,8 @@ export const bartenders: ImpressionIdea[] = [
             worksForAllCriminals: true,
         },
         [{ name: ' over the left eye' }, { name: ' over the right eye' }],
-        Noticable.bartender
+        Noticable.bartender,
+        true
     ),
     new ImpressionIdea(
         {
@@ -540,7 +542,8 @@ export const bartenders: ImpressionIdea[] = [
             worksForAllCriminals: true,
         },
         [{ name: ' behind the left ear' }, { name: ' behind the right ear' }],
-        Noticable.bartender
+        Noticable.bartender,
+        true
     ),
     new ImpressionIdea(
         {
