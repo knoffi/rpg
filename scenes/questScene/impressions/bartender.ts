@@ -307,6 +307,16 @@ export const bartenders: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
+            name: 'Was replaced by a Doppelganger',
+            worksForAssasines: true,
+            worksForBrothel: true,
+            worksForThiefs: true,
+        },
+        [{ name: '' }],
+        Noticable.bartender
+    ),
+    new ImpressionIdea(
+        {
             name: 'Attractive',
             worksForAssasines: true,
             worksForBrothel: true,
@@ -501,6 +511,50 @@ export const bartenders: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
+            needs: [a.haven],
+            name: 'Wears an eye-patch',
+            needsOne: [
+                a.prostitute,
+                a.thief,
+                a.assasine,
+                a.haven,
+                a.adventurer,
+            ],
+            worksForAllCriminals: true,
+        },
+        [{ name: ' over the left eye' }, { name: ' over the right eye' }],
+        Noticable.bartender
+    ),
+    new ImpressionIdea(
+        {
+            needs: [a.haven],
+            name: 'Has a gang tattoo hidden',
+            needsOne: [
+                a.prostitute,
+                a.thief,
+                a.assasine,
+                a.city,
+                a.mountain,
+                a.forest,
+            ],
+            worksForAllCriminals: true,
+        },
+        [{ name: ' behind the left ear' }, { name: ' behind the right ear' }],
+        Noticable.bartender
+    ),
+    new ImpressionIdea(
+        {
+            needs: [a.haven],
+            name: 'Long, greasy hair',
+            worksForAllCriminals: true,
+            needsOne: [a.poor, a.barbarian],
+            misfits: [a.elf, a.drow],
+        },
+        bartenderCharacter,
+        Noticable.bartender
+    ),
+    new ImpressionIdea(
+        {
             misfits: [a.wizard, a.dwarf, a.drow, a.elf],
             name: 'Thick mustache',
             worksForAssasines: true,
@@ -590,6 +644,30 @@ export const bartenders: ImpressionIdea[] = [
             needsOne: [a.desert],
             misfits: [a.poor],
             name: 'Is a genie',
+            worksForAssasines: true,
+            worksForThiefs: true,
+            worksForBrothel: true,
+        },
+        bartenderCharacter,
+        Noticable.bartender
+    ),
+    new ImpressionIdea(
+        {
+            needsOne: [a.desert],
+            misfits: [a.poor],
+            name: 'Is a golem',
+            worksForAssasines: true,
+            worksForThiefs: true,
+            worksForBrothel: true,
+        },
+        bartenderCharacter,
+        Noticable.bartender
+    ),
+    new ImpressionIdea(
+        {
+            needsOne: [a.desert],
+            misfits: [a.poor],
+            name: 'Is a goblin',
             worksForAssasines: true,
             worksForThiefs: true,
             worksForBrothel: true,
