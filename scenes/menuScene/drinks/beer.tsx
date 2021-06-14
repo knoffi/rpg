@@ -79,18 +79,18 @@ export const beers = [
         [a.village, a.halfling, a.modest],
         beerEnum
     ),
-    new TavernProduct(
-        "Baselbruck's Lager",
-        25,
-        [a.modest, a.halfling, a.city],
-        beerEnum
-    ),
-    new TavernProduct(
-        "Baselbruck's Export",
-        26,
-        [a.modest, a.tropical],
-        beerEnum
-    ),
+    // new TavernProduct(
+    //     "Baselbruck's Lager",
+    //     25,
+    //     [a.modest, a.halfling, a.city],
+    //     beerEnum
+    // ),
+    // new TavernProduct(
+    //     "Baselbruck's Export",
+    //     26,
+    //     [a.modest, a.tropical],
+    //     beerEnum
+    // ),
     // new TavernProduct(
     //     "Baselbruck's Black Beer",
     //     29,
@@ -235,24 +235,25 @@ export const beers = [
     //     [a.drow, a.rich],
     //     beerEnum
     // ),
-    new TavernProduct(
-        'Molthorium Lager',
-        100,
-        [a.dwarf, a.rich, a.city],
-        beerEnum
-    ),
-    new TavernProduct(
-        'Molthorium Bock Beer',
-        100,
-        [a.dwarf, a.rich, a.city],
-        beerEnum
-    ),
+    // new TavernProduct(
+    //     'Molthorium Lager',
+    //     100,
+    //     [a.dwarf, a.rich, a.city],
+    //     beerEnum
+    // ),
+    // new TavernProduct(
+    //     'Molthorium Bock Beer',
+    //     100,
+    //     [a.dwarf, a.rich, a.city],
+    //     beerEnum
+    // ),
     // new TavernProduct(
     //     'Molthorium Umber Ale',
     //     90,
     //     [a.dwarf, a.rich, a.underdark],
     //     beerEnum
     // ),
+    // This should be a Desperado-like "mix beer" with an accidic and fruity flavor
     new TavernProduct(
         'Cerveza of the South',
         5,

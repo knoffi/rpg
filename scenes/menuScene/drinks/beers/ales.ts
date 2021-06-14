@@ -75,7 +75,9 @@ export const ales: DishIdea[] = [
                 incomeRange: [a.wealthy, a.rich],
                 misfits: [a.elf, a.dwarf, a.gnome],
             },
-            firstSideDishes: [{ name: 'Ale -  black and delicately bitter' }],
+            firstSideDishes: [
+                { name: 'Ale -  black in color and delicately bitter' },
+            ],
         },
         85,
         Drinkable.beer

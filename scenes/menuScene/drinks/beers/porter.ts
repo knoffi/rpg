@@ -60,16 +60,9 @@ export const porters: DishIdea[] = [
         {
             mainIng: {
                 name: "Spidermother's Rich Porter",
-                needsOne: [
-                    a.drow,
-                    a.underdark,
-                    a.assasine,
-                    a.thief,
-                    a.prostitute,
-                ],
                 incomeRange: [a.rich, a.wealthy],
-                landRange: [a.city, a.haven, a.underdark],
-                misfits: [a.elf, a.dwarf],
+                needsOne: [a.drow, a.assasine, a.underdark, a.prostitute],
+                raceRange: [a.drow],
             },
             firstSideDishes: [
                 { name: 'Porter - dark, delightfully malty and notes of plum' },
@@ -82,16 +75,9 @@ export const porters: DishIdea[] = [
         {
             mainIng: {
                 name: "Spidermother's Imperial Stout",
-                needsOne: [
-                    a.drow,
-                    a.underdark,
-                    a.assasine,
-                    a.thief,
-                    a.prostitute,
-                ],
                 incomeRange: [a.rich, a.wealthy],
-                landRange: [a.city, a.haven, a.underdark],
-                misfits: [a.elf, a.dwarf],
+                needsOne: [a.drow, a.assasine, a.underdark, a.prostitute],
+                raceRange: [a.drow],
             },
             firstSideDishes: [
                 {

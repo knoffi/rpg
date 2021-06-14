@@ -118,7 +118,6 @@ const ImpressionListAccordion = (props: {
                 //TODO: make this adjustable, so that instead of reroll user can edit
                 //TODO: also, do use "NO DESCRIPTION LEFT" instead of "MENU FULL!"
                 isUserMade={false}
-                //TODO: check, if there is no description left
                 noDrinkToAddLeft={!props.isNotFull}
                 actions={{
                     onReroll: () => {
