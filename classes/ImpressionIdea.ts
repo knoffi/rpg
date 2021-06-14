@@ -50,11 +50,11 @@ export class ImpressionIdea extends Idea {
                 return this.main.name;
             }
             const firstText = this.reverseDisplay
+                ? secondDescription.name
+                : this.main.name;
+            const secondText = this.reverseDisplay
                 ? this.main.name
                 : secondDescription.name;
-            const secondText = this.reverseDisplay
-                ? secondDescription
-                : this.main.name;
             return this.category === Noticable.bartender &&
                 !this.displayTextAsFurniture
                 ? firstText + ' & ' + secondText + splitMarker
