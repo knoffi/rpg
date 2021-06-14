@@ -11,13 +11,19 @@ export enum Noticable {
 
 export class ImpressionIdea extends Idea {
     private category: Noticable;
+    private displayTextAsFurniture: boolean;
+    private reverseDisplay: boolean;
     constructor(
         mainImpression: DescriptionAsset,
         additions: DescriptionAsset[],
-        category: Noticable
+        category: Noticable,
+        displayTextAsFurniture?: boolean,
+        reverseDisplay = false
     ) {
         super(mainImpression, [additions]);
         this.category = category;
+        this.reverseDisplay = reverseDisplay;
+        this.displayTextAsFurniture = displayTextAsFurniture || false;
     }
     public createImpression(
         tavernFits: StructuredTavernFits,
@@ -31,14 +37,28 @@ export class ImpressionIdea extends Idea {
                 isExcludedByPrefix
             );
             if (!secondDescription) {
-                console.log(
-                    'no fitting, second description was found, although it was demanded'
-                );
+                if (possibleAdditions.length === 0) {
+                    console.log(
+                        'got no possible additions, I hope this was on purpose for ' +
+                            this.main.name
+                    );
+                } else {
+                    console.log(
+                        'no fitting, second description was found, although it was demanded and there were some additions provided'
+                    );
+                }
                 return this.main.name;
             }
-            return this.category === Noticable.bartender
-                ? this.main.name + ' & ' + secondDescription.name + splitMarker
-                : this.main.name + secondDescription.name + splitMarker;
+            const firstText = this.reverseDisplay
+                ? secondDescription.name
+                : this.main.name;
+            const secondText = this.reverseDisplay
+                ? this.main.name
+                : secondDescription.name;
+            return this.category === Noticable.bartender &&
+                !this.displayTextAsFurniture
+                ? firstText + ' & ' + secondText + splitMarker
+                : firstText + secondText + splitMarker;
         } else {
             return this.main.name;
         }

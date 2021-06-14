@@ -65,14 +65,10 @@ export const MenuScene = (props: MenuProps) => {
         visible: false,
         category: Drinkable.spirit as MenuCategory,
     });
-
     const deleteOffer = (name: string) => {
         const newOffers = props.offers.filter(
             (offer) => offer.product.name !== name
         );
-        const deletedCategory = props.offers.find(
-            (offer) => offer.product.name === name
-        )!.product.category;
         //assuming that delete button is not clickable if props.offers is empty
         if (props.isAbout === WeServe.drinks) {
             props.onDataChange({

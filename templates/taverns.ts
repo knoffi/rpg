@@ -23,60 +23,60 @@ export const taverns: tavernMinData[] = [
         boughtOffers: [],
         impressions: [
             {
-                name: 'Barbarian Woman with Red Hair',
+                name: 'Barbarian woman with red Hair',
                 category: Noticable.bartender,
             },
             {
-                name: 'Experienced Warrior, many respect her',
+                name: 'Experienced warrior, many respect her',
                 category: Noticable.bartender,
             },
             {
-                name: 'Carries a Giant Axe on her Back',
+                name: 'Carries a giant axe on her back',
                 category: Noticable.bartender,
             },
             {
-                name: 'Wears Clothes made of Dire Wolf Fur',
+                name: 'Wears clothes made of dire wolf fur',
                 category: Noticable.bartender,
             },
             {
-                name: 'Boots are made of a Tyrannosaurus Rex she once fought',
+                name: 'Boots are made of a tyrannosaurus rex she once fought',
                 category: Noticable.bartender,
             },
             {
-                name: 'Lost One Eye and Three Fingers during the fight',
+                name: 'Lost one eye and three fingers during the fight',
                 category: Noticable.bartender,
             },
             {
-                name: 'Half-Naked Barbarians',
+                name: 'Half-naked barbarians',
                 category: Noticable.averageCustomer,
             },
             {
-                name: 'Heavily Armored Warriors',
+                name: 'Heavily armored warriors',
                 category: Noticable.averageCustomer,
             },
             {
-                name: 'Drinking Beer and Mead from Horns',
+                name: 'Drinking beer and mead from horns',
                 category: Noticable.averageCustomer,
             },
             {
-                name: 'Excessive Drinking and Loud Laughing',
+                name: 'Excessive drinking and loud laughing',
                 category: Noticable.averageCustomer,
             },
             {
-                name: 'A Bard at the Bar passes out',
+                name: 'A bard at the bar passed out',
                 category: Noticable.someCustomers,
             },
             {
-                name: 'The Guests surrounding him laugh',
+                name: 'The guests surrounding the bard are laughing',
                 category: Noticable.someCustomers,
             },
-            { name: 'Heavy Wooden Tables', category: Noticable.furniture },
+            { name: 'Heavy wooden tables', category: Noticable.furniture },
             {
-                name: 'Marks of Axe Slashes on the Wall',
+                name: 'Marks of axe slashes on the wall',
                 category: Noticable.furniture,
             },
             {
-                name: 'Head of Tyrannosaurus Rex hangs from Ceiling ',
+                name: 'Head of tyrannosaurus rex hangs from ceiling ',
                 category: Noticable.furniture,
             },
         ],
@@ -96,47 +96,47 @@ export const taverns: tavernMinData[] = [
         drinks: [],
         dishes: [],
         prices: standardBasePrice,
-        note: 'When an Elvish ambassador comes to the Dwarvish capital, he usually gets invited to the Molthorium Mine, a nobel Dwarvish tavern. This masterwork of stone cutters is a symbol of the rich Dwarvish culture and craftsmanship. Marble columns decorated with beautiful, handcrafted details, cups made of the purest silver and a Dwarvish beer which even the gods could not reject: Molthorium beer. It is malty like autumn, cosy like winter, vitalizing like summer and refreshing like spring. Not even the Elves can make a beer of this quality.',
+        note: 'When an Elvish ambassador comes to the Dwarvish capital, he usually gets invited to the Molthorium Mine, a nobel Dwarvish tavern. This masterwork of stone cutters is a symbol of the rich Dwarvish culture and craftsmanship. Marble columns decorated with beautiful, handcrafted details, cups made of the purest silver and a Dwarvish beer which even the gods could not reject: Molthorium beer. It is malty like autumn, cosy like winter, joyful like summer and refreshing like spring. Only Dwarvish expertise can make a beer of such quality.',
         boughtOffers: [],
         impressions: [
-            { name: 'Long Silver Beard', category: Noticable.bartender },
-            { name: 'Friendly Dwarve', category: Noticable.bartender },
+            { name: 'Long silver beard', category: Noticable.bartender },
+            { name: 'Friendly dwarve', category: Noticable.bartender },
             {
-                name: 'Perfectionist when it comes to Beer',
+                name: 'Perfectionist when it comes to beer',
                 category: Noticable.bartender,
             },
-            { name: 'Wealthy Clothes', category: Noticable.averageCustomer },
+            { name: 'Wealthy clothes', category: Noticable.averageCustomer },
             {
                 name: 'Mostly Dwarvish or Gnomish',
                 category: Noticable.averageCustomer,
             },
             {
-                name: 'Drink Beer from Silver Cups',
+                name: 'Drink beer from silver cups',
                 category: Noticable.averageCustomer,
             },
             {
-                name: 'Mostly ordering Beer from Molthorium Brand',
+                name: 'Mostly ordering beer from Molthorium brand',
                 category: Noticable.averageCustomer,
             },
             {
-                name: 'The Royal Masons discuss the Defenses of the Dwarvish Capital',
+                name: 'The royal masons discuss the defenses of the Dwarvish capital',
                 category: Noticable.someCustomers,
             },
             {
-                name: 'A group of Noble Elves is lead to a VIP-Lounge',
+                name: 'A group of noble elves is lead to a VIP-Lounge',
                 category: Noticable.someCustomers,
             },
             {
-                name: 'A Band of Bards plays Pub Music',
+                name: 'A band of bards plays pub music',
                 category: Noticable.someCustomers,
             },
             {
-                name: 'Marble Columns with Handcrafted Details',
+                name: 'Marble columns with handcrafted details',
                 category: Noticable.furniture,
             },
-            { name: 'Mahagony Tables', category: Noticable.furniture },
+            { name: 'Mahagony tables', category: Noticable.furniture },
             {
-                name: 'A Giant Portrait of the Dwarvish Royal Family on the Wall',
+                name: 'A giant portrait of the Dwarvish royal family on the wall',
                 category: Noticable.furniture,
             },
         ],
@@ -155,42 +155,42 @@ export const taverns: tavernMinData[] = [
         boughtOffers: [],
         impressions: [
             {
-                name: 'Slim, old Man with Grey Hair and Eye-Patch',
+                name: 'Slim, old man with grey hair and eye-patch',
                 category: Noticable.bartender,
             },
             {
-                name: 'Gruff towards Unkown Costumers',
+                name: 'Gruff towards unkown costumers',
                 category: Noticable.bartender,
             },
-            { name: 'Snake Tattoe on his Neck', category: Noticable.bartender },
+            { name: 'Snake tattoe on his neck', category: Noticable.bartender },
             {
-                name: 'Look a bit Threatening',
+                name: 'Look a bit threatening',
                 category: Noticable.averageCustomer,
             },
             {
-                name: 'Many wear Sabers around their Belt',
+                name: 'Many wear sabers around their belt',
                 category: Noticable.averageCustomer,
             },
             {
-                name: 'Silent, Unfriendly Atmosphere',
+                name: 'Silent, unfriendly atmosphere',
                 category: Noticable.averageCustomer,
             },
             {
-                name: 'Turn Silent when You Walk by',
+                name: 'Turn silent when you walk by',
                 category: Noticable.someCustomers,
             },
             {
-                name: 'A Sailor Spits on the Ground',
+                name: 'A sailor spits on the ground',
                 category: Noticable.someCustomers,
             },
             {
-                name: 'A Captain drinks Rum at the Bar',
+                name: 'A captain drinks rum at the bar',
                 category: Noticable.someCustomers,
             },
-            { name: 'Scruffy Chairs', category: Noticable.furniture },
-            { name: 'Some Tables have Holes', category: Noticable.furniture },
+            { name: 'Scruffy chairs', category: Noticable.furniture },
+            { name: 'Some tables have holes', category: Noticable.furniture },
             {
-                name: 'Smell of Cheap Rum and Ale',
+                name: 'Smell of cheap rum and ale',
                 category: Noticable.furniture,
             },
         ],
@@ -208,46 +208,46 @@ export const taverns: tavernMinData[] = [
         note: 'The Foxy Gold Nymph is a high class tavern in the capital city, full of beautiful servants wrapped in revealing garments. The prices are expensiv, but the quality of erotic services and exotic beverages is absolute world class. Soon, a chauvinistic prince will celebrate his bachelor party right here in these halls, and the guest list for this mix of orgy and banquette is extremely exclusive.',
         boughtOffers: [],
         impressions: [
-            { name: 'Half-Naked Half Elve', category: Noticable.bartender },
-            { name: 'Witty and Entertaining', category: Noticable.bartender },
-            { name: 'Slim and Alluring', category: Noticable.bartender },
+            { name: 'Half-naked half elve', category: Noticable.bartender },
+            { name: 'Witty and entertaining', category: Noticable.bartender },
+            { name: 'Slim and alluring', category: Noticable.bartender },
 
             {
-                name: 'Decadent Meals with Beautiful Servants on their Laps',
+                name: 'Decadent meals with beautiful servants on their laps',
                 category: Noticable.averageCustomer,
             },
             {
-                name: 'Drink Expensive Wines and eat Exotic Fruits',
+                name: 'Drink expensive wines and eat exotic fruits',
                 category: Noticable.averageCustomer,
             },
             {
-                name: 'Careless, Tipsy and Lustful',
+                name: 'Careless, tipsy and lustful',
                 category: Noticable.averageCustomer,
             },
 
             {
-                name: 'A Halfling eats Grapes from the Hand of A Tiefling Servant',
+                name: 'A halfling eats grapes from the hand of a tiefling servant',
                 category: Noticable.someCustomers,
             },
             {
-                name: 'A Male and a Female Gnome Seduce a Merchant',
+                name: 'A male and a female Gnome seduce a merchant',
                 category: Noticable.someCustomers,
             },
             {
-                name: 'A Bishop comes out of the VIP-Lounge',
+                name: 'A bishop comes out of the VIP-lounge',
                 category: Noticable.someCustomers,
             },
 
             {
-                name: 'Chairs Padded with Soft Velvet',
+                name: 'Chairs padded with soft velvet',
                 category: Noticable.furniture,
             },
             {
-                name: 'Golden Cups and Silken Napkins',
+                name: 'Golden cups and silken Napkins',
                 category: Noticable.furniture,
             },
             {
-                name: 'An Elve sings on the Stage',
+                name: 'An elf sings on the stage',
                 category: Noticable.furniture,
             },
         ],

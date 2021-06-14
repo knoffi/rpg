@@ -1,9 +1,9 @@
 import { DishIdea } from '../../../classes/DishIdea';
+import { Eatable } from '../../../classes/TavernProduct';
 import {
     BreakfastChapters,
     MainDishChapters,
-} from '../../../classes/FoodChapters';
-import { Eatable } from '../../../classes/TavernProduct';
+} from '../menuChapters/FoodChapters';
 import { breakfastPlates } from './breakfastPlates/breakfastPlates';
 import { porridges } from './cereals/porridges';
 import { appetizers, desserts, sideDishes } from './dishes';
@@ -21,23 +21,23 @@ export const foodExamples = [
 ];
 
 const mainDishChapters: MainDishChapters = {
-    pasta: { weight: 0, dishIdeas: [] as DishIdea[] },
-    stew: { weight: 1, dishIdeas: [leftoverStew] },
-    chickenRoast: { weight: 1, dishIdeas: [...chickenRoasts] },
-    porkRoast: { weight: 1, dishIdeas: [...porkRoasts] },
-    beefRoast: { weight: 1, dishIdeas: [...beefRoasts] },
-    sausage: { weight: 0, dishIdeas: [] as DishIdea[] },
-    steak: { weight: 1, dishIdeas: [...steaks] },
-    fish: { weight: 1, dishIdeas: [fishAndChips] },
-    vegetarian: { weight: 0, dishIdeas: [] as DishIdea[] },
+    pasta: { weight: 0, ideas: [] as DishIdea[] },
+    stew: { weight: 1, ideas: [leftoverStew] },
+    chickenRoast: { weight: 1, ideas: [...chickenRoasts] },
+    porkRoast: { weight: 1, ideas: [...porkRoasts] },
+    beefRoast: { weight: 1, ideas: [...beefRoasts] },
+    sausage: { weight: 0, ideas: [] as DishIdea[] },
+    steak: { weight: 1, ideas: [...steaks] },
+    fish: { weight: 1, ideas: [fishAndChips] },
+    vegetarian: { weight: 0, ideas: [] as DishIdea[] },
 };
 const breakfastChapters: BreakfastChapters = {
-    cereals: { weight: 1, dishIdeas: [...porridges] },
-    mainSweet: { weight: 0, dishIdeas: [] as DishIdea[] },
-    mainEgg: { weight: 0, dishIdeas: [] as DishIdea[] },
-    mainBread: { weight: 0, dishIdeas: [] as DishIdea[] },
-    fullPlate: { weight: 1, dishIdeas: breakfastPlates },
-    panCakes: { weight: 0, dishIdeas: [] as DishIdea[] },
+    cereals: { weight: 1, ideas: [...porridges] },
+    mainSweet: { weight: 0, ideas: [] as DishIdea[] },
+    mainEgg: { weight: 0, ideas: [] as DishIdea[] },
+    mainBread: { weight: 0, ideas: [] as DishIdea[] },
+    fullPlate: { weight: 1, ideas: breakfastPlates },
+    panCakes: { weight: 0, ideas: [] as DishIdea[] },
 };
 
 export const foodChapters = [

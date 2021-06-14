@@ -1,9 +1,10 @@
 import { association } from '../../classes/association';
-import { predecideDishes } from '../../classes/mainDishSuperStructures';
 import { MenuCategory, TavernProduct } from '../../classes/TavernProduct';
 import { getFittingRandom } from '../../helpingFunctions/getFittingRandom';
+import { drinkChapters } from './drinks/drink';
 import { drinkExamples } from './drinks/drinks';
 import { foodChapters, foodExamples } from './food/food';
+import { predecideDishes } from './menuChapters/getDrinksAndFood';
 import { NothingLeftOffer, Offer } from './menuEnums';
 
 const PREFIX_FILTER_INDEX = 8;
@@ -103,6 +104,17 @@ const getFilteredTavernProducts = (
     tavernFits: association[]
 ) => {
     if (isAbout === WeServe.drinks) {
+        const drinkIdeaIndex = drinkChapters.findIndex(
+            (chapter) => chapter.category === category
+        );
+        if (drinkIdeaIndex >= 0) {
+            const chosenDrink = predecideDishes(
+                drinkChapters[drinkIdeaIndex].chapters,
+                tavernFits,
+                (name: string) => isExcludedByPrefix(name, excludedDrinkNames)
+            );
+            return [chosenDrink];
+        }
         return drinkExamples.find((example) => {
             return example.category === category;
         })!.examples;
@@ -111,12 +123,12 @@ const getFilteredTavernProducts = (
             (chapter) => chapter.category === category
         );
         if (dishIdeaIndex >= 0) {
-            const chosenMainDish = predecideDishes(
+            const chosenDish = predecideDishes(
                 foodChapters[dishIdeaIndex].chapters,
                 tavernFits,
                 (name: string) => isExcludedByPrefix(name, excludedDrinkNames)
             );
-            return [chosenMainDish];
+            return [chosenDish];
         } else {
             const result = filterFoodByPrefix(
                 foodExamples.find((example) => {

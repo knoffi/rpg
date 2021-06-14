@@ -10,10 +10,6 @@ import { menuSceneStyles } from '../menuScene/menuStyles';
 import { LIST_END_BUTTON_SIZE } from '../menuScene/offerList/LIST_END_BUTTON_SIZE';
 import { OfferListTopItem } from '../menuScene/offerList/OfferListTopItem';
 import { IImpression } from './impressions/IImpression';
-import {
-    getImpressionsWithOneReroll,
-    getRandomImpression,
-} from './impressions/impressionChapters';
 import { PriceAccordion } from './PriceAccordion';
 
 export const DetailsList = (props: {
@@ -23,41 +19,13 @@ export const DetailsList = (props: {
     onPriceSetPress: (income: association) => void;
     onCurrencySetPress: () => void;
     onDataChange: (data: Partial<TavernData>) => void;
+    onDelete: (name: string) => void;
+    onAdd: (category: Noticable) => void;
     impressions: IImpression[];
     noticablesLeft: Map<Noticable, boolean>;
     getImpliedChanges: (newImpressions: IImpression[]) => Partial<TavernData>;
+    onReroll: (impression: IImpression) => void;
 }) => {
-    const onDelete = (oldImpression: IImpression) => {
-        const otherImpressions = props.impressions.filter(
-            (impression) => impression.name !== oldImpression.name
-        );
-        const bannerChanges = props.getImpliedChanges(otherImpressions);
-        props.onDataChange({ impressions: otherImpressions, ...bannerChanges });
-    };
-    const onReroll = (oldImpression: IImpression) => {
-        const newImpressions = getImpressionsWithOneReroll(
-            oldImpression.name,
-            props.impressions,
-            props.fits,
-            oldImpression.category
-        );
-        const bannerChanges = props.getImpliedChanges(newImpressions);
-        props.onDataChange({ impressions: newImpressions, ...bannerChanges });
-    };
-    const onAdd = (category: Noticable) => {
-        const oldNames = props.impressions.map((impression) => impression.name);
-        const newImpression = getRandomImpression(
-            props.fits,
-            category,
-            oldNames
-        );
-        const extendedImpressions = [...props.impressions, newImpression];
-        const bannerChanges = props.getImpliedChanges(extendedImpressions);
-        props.onDataChange({
-            impressions: extendedImpressions,
-            ...bannerChanges,
-        });
-    };
     //TODO: What about barmaids?
     const impressionTitles = Object.values(Noticable);
     const impressionListAccordions = impressionTitles.map((title) => {
@@ -72,13 +40,13 @@ export const DetailsList = (props: {
                 key={title}
                 title={title}
                 descriptionNames={namesOfTitle}
-                onDelete={(name: string) =>
-                    onDelete({ name: name, category: title })
-                }
+                onDelete={props.onDelete}
                 onReroll={(name: string) =>
-                    onReroll({ name: name, category: title })
+                    props.onReroll({ name: name, category: title })
                 }
-                onAdd={() => onAdd(title)}
+                onAdd={() => {
+                    props.onAdd(title);
+                }}
                 isNotFull={props.noticablesLeft.get(title)!}
             ></ImpressionListAccordion>
         );
@@ -108,8 +76,7 @@ const ImpressionListAccordion = (props: {
         props.descriptionNames.length
     );
     const descriptionItems = props.descriptionNames.map((text, index) => {
-        const newID = index + renderedItems;
-        const newKey = newID.toString() + props.title;
+        const newKey = text;
         return (
             <OfferListTopItem
                 drinkName={text}
@@ -118,7 +85,6 @@ const ImpressionListAccordion = (props: {
                 //TODO: make this adjustable, so that instead of reroll user can edit
                 //TODO: also, do use "NO DESCRIPTION LEFT" instead of "MENU FULL!"
                 isUserMade={false}
-                //TODO: check, if there is no description left
                 noDrinkToAddLeft={!props.isNotFull}
                 actions={{
                     onReroll: () => {
@@ -127,7 +93,9 @@ const ImpressionListAccordion = (props: {
                         );
                         props.onReroll(text);
                     },
-                    onDelete: () => props.onDelete(text),
+                    onDelete: () => {
+                        props.onDelete(text);
+                    },
                     onEdit: () => {},
                     onShop: () => {},
                     onInfo: () => {},

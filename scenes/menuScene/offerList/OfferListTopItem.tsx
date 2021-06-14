@@ -16,30 +16,6 @@ export const OfferListTopItem = (props: {
     const drinkName = props.drinkName;
     const editPossible = props.isUserMade;
     const priceString = props.priceString;
-    const [id, setId] = React.useState(0);
-    // const actionText =
-    //     (text: string, inputRange: number[], outputRange: number[]) =>
-    //     (progress: any, dragX: any) => {
-    //         const scale = dragX.interpolate({
-    //             inputRange: inputRange,
-    //             outputRange: outputRange,
-    //             extrapolate: 'clamp',
-    //         });
-    //         return (
-    //             <View style={{ justifyContent: 'center' }}>
-    //                 <View style={{ flexDirection: 'row-reverse' }}>
-    //                     <Animated.Text
-    //                         style={[
-    //                             menuSceneStyles.animatedText,
-    //                             { transform: [{ scale }] },
-    //                         ]}
-    //                     >
-    //                         {text}
-    //                     </Animated.Text>
-    //                 </View>
-    //             </View>
-    //         );
-    //     };
     return (
         <List.Item
             title=""
@@ -48,7 +24,6 @@ export const OfferListTopItem = (props: {
             left={(props) => {
                 return (
                     <OpacitySwiperText
-                        key={id}
                         swipeThreshold={SWIPE_THRESHOLD}
                         onSwipeRight={
                             editPossible

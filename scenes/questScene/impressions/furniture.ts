@@ -39,4 +39,31 @@ export const furnitures: ImpressionIdea[] = [
         [emptyDescriptionAsset],
         Noticable.furniture
     ),
+    new ImpressionIdea(
+        {
+            name: 'Tiny mugs and tiny chairs',
+            needsOne: [a.gnome, a.halfling],
+            worksForAllCriminals: true,
+        },
+        [emptyDescriptionAsset],
+        Noticable.furniture
+    ),
+    new ImpressionIdea(
+        {
+            name: 'Magical lights hover over each table',
+            needsOne: [a.wizard],
+            worksForAllCriminals: true,
+        },
+        [emptyDescriptionAsset],
+        Noticable.furniture
+    ),
+    new ImpressionIdea(
+        {
+            name: 'A golem in a suit works as a waiter',
+            needsOne: [a.wizard],
+            worksForAllCriminals: true,
+        },
+        [emptyDescriptionAsset],
+        Noticable.furniture
+    ),
 ];
