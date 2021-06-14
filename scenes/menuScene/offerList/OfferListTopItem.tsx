@@ -12,7 +12,6 @@ export const OfferListTopItem = (props: {
     priceString: string;
     isUserMade?: boolean;
 }) => {
-    React.useEffect(() => console.log('List item renders'), [props.drinkName]);
     const actions = props.actions;
     const drinkName = props.drinkName;
     const editPossible = props.isUserMade;
