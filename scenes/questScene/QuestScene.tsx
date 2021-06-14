@@ -10,6 +10,10 @@ import { nameSceneStyles } from '../nameScene/nameSceneStyles';
 import { CurrencySetDialog } from './CurrencySetDialog';
 import { DetailsList } from './DetailsList';
 import { IImpression } from './impressions/IImpression';
+import {
+    getImpressionsWithOneReroll,
+    getRandomImpression,
+} from './impressions/impressionChapters';
 import { incomeExampleMap } from './incomeExampleMap';
 import { PriceExplanationDialog } from './PriceExplanationDialog';
 import { PriceSetDialog } from './PriceSetDialog';
@@ -46,6 +50,37 @@ export const QuestScene = (props: {
         currencyName: props.basePrice.currency,
         price: props.basePrice.poor,
     });
+    const onDelete = (name: string) => {
+        const otherImpressions = props.impressions.filter(
+            (impression) => impression.name !== name
+        );
+        const bannerChanges = props.getImpliedChanges(otherImpressions);
+        props.onDataChange({ impressions: otherImpressions, ...bannerChanges });
+    };
+    const onReroll = (oldImpression: IImpression) => {
+        const newImpressions = getImpressionsWithOneReroll(
+            oldImpression.name,
+            props.impressions,
+            props.fitting.fits,
+            oldImpression.category
+        );
+        const bannerChanges = props.getImpliedChanges(newImpressions);
+        props.onDataChange({ impressions: newImpressions, ...bannerChanges });
+    };
+    const onAdd = (category: Noticable) => {
+        const oldNames = props.impressions.map((impression) => impression.name);
+        const newImpression = getRandomImpression(
+            props.fitting.fits,
+            category,
+            oldNames
+        );
+        const extendedImpressions = [...props.impressions, newImpression];
+        const bannerChanges = props.getImpliedChanges(extendedImpressions);
+        props.onDataChange({
+            impressions: extendedImpressions,
+            ...bannerChanges,
+        });
+    };
     const [priceSetter, setPriceSetter] = useState({
         open: false,
         income: association.poor,
@@ -225,6 +260,9 @@ export const QuestScene = (props: {
                 onDismiss={onDialogDismiss}
             ></CurrencySetDialog>
             <DetailsList
+                onDelete={onDelete}
+                onReroll={onReroll}
+                onAdd={onAdd}
                 fits={props.fitting.fits}
                 basePrice={props.basePrice}
                 onInfoPress={onInfoPress}
