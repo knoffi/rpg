@@ -12,7 +12,7 @@ const BREAKFAST_PLATE_FACTOR = 1.7;
 export const breakfastPlates = [
     new DishIdea(
         {
-            mainIng: { name: 'Breakfast Plate:' },
+            mainIng: { name: 'Breakfast Plate' },
             firstSideDishes: [...eggIncomeVariations],
             secondSideDishes: [...areaBreads],
             thirdSideDishes: [

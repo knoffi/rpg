@@ -10,6 +10,7 @@ import {
 } from '../menuChapters/DrinkChapters';
 import { ales } from './beers/ales';
 import { porters } from './beers/porter';
+import { redWines } from './wines/redWines';
 
 export const foodExamples = [
     { category: Eatable.dessert, examples: desserts },
@@ -46,7 +47,7 @@ const beerChapters: BeerChapters = {
 };
 const wineChapters: WineChapters = {
     white: { weight: 0, ideas: [] as DishIdea[] },
-    red: { weight: 0, ideas: [] as DishIdea[] },
+    red: { weight: 1, ideas: redWines as DishIdea[] },
     cider: { weight: 0, ideas: [] as DishIdea[] },
     sparkling: { weight: 0, ideas: [] as DishIdea[] },
     mead: { weight: 0, ideas: [] as DishIdea[] },
@@ -55,7 +56,7 @@ const wineChapters: WineChapters = {
 
 export const drinkChapters = [
     { category: Drinkable.beer, chapters: beerChapters },
-    // { category: Drinkable.wine, chapters: wineChapters },
+    { category: Drinkable.wine, chapters: wineChapters },
     // { category: Drinkable.spirit, chapters: spiritChapters },
     // { category: Drinkable.lemonade, chapters: coldChapters },
     //{ category: Drinkable.hot, chapters: hotChapters },

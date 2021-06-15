@@ -79,12 +79,16 @@ export class DishIdea extends Idea {
             const sideDishNames = fittingSideDishMenu.map(
                 (sideDish) => sideDish!.name
             );
+            const overwritePrice = fittingSideDishMenu[0]
+                ? fittingSideDishMenu[0].price
+                : undefined;
             return this.createDishFromNames(
                 this.main.name,
                 sideDishNames[0],
                 sideDishNames[1],
                 sideDishNames[2],
-                tavernFits
+                tavernFits,
+                overwritePrice
             );
         }
     }
@@ -93,7 +97,8 @@ export class DishIdea extends Idea {
         firstSideIngredient: string,
         secondSideIngredient: string,
         thirdSideIngredient: string,
-        tavernFits: StructuredTavernFits
+        tavernFits: StructuredTavernFits,
+        overwritePrice?: number
     ) {
         const name =
             mainIngredient +
@@ -105,14 +110,16 @@ export class DishIdea extends Idea {
         const filteredTavernFits = Object.values(tavernFits).filter(
             (fit) => fit
         ) as association[];
-        const price = this.getPriceFromFits(tavernFits.income);
-        const newMainDish = new TavernProduct(
+        const price = overwritePrice
+            ? this.getPriceFluctuation(overwritePrice)
+            : this.getPriceFromFits(tavernFits.income);
+        const newDish = new TavernProduct(
             name,
             price,
             filteredTavernFits,
             this.category
         );
-        return newMainDish;
+        return newDish;
     }
 
     private getPriceFromFits(income?: association) {

@@ -6,7 +6,7 @@ export const ales: DishIdea[] = [
     new DishIdea(
         {
             mainIng: { name: 'Ale for Sale', needs: [a.poor, a.haven] },
-            firstSideDishes: [{ name: 'Ale - harsh and bitter' }],
+            firstSideDishes: [{ name: 'Ale  -  harsh and bitter' }],
         },
         1,
         Drinkable.beer
@@ -19,7 +19,7 @@ export const ales: DishIdea[] = [
                 needsOne: [a.prostitute, a.thief, a.assasine],
                 incomeRange: [a.modest],
             },
-            firstSideDishes: [{ name: 'Ale - dark and roasty taste' }],
+            firstSideDishes: [{ name: 'Ale  -  dark and roasty taste' }],
         },
         16,
         Drinkable.beer
@@ -31,7 +31,7 @@ export const ales: DishIdea[] = [
                 needs: [a.haven],
                 incomeRange: [a.modest],
             },
-            firstSideDishes: [{ name: 'Ale - hoppy and bitter' }],
+            firstSideDishes: [{ name: 'Ale  -  hoppy and bitter' }],
         },
         14,
         Drinkable.beer
@@ -44,7 +44,7 @@ export const ales: DishIdea[] = [
                 incomeRange: [a.wealthy],
             },
             firstSideDishes: [
-                { name: 'Ale - full bodied, malty and refreshing' },
+                { name: 'Ale  -  full bodied, malty and refreshing' },
             ],
         },
         35,
@@ -60,7 +60,7 @@ export const ales: DishIdea[] = [
             },
             firstSideDishes: [
                 {
-                    name: 'Ale -  dark brown, delicate maltyness and notes of walnut',
+                    name: 'Ale  -   dark brown, delicate maltyness and notes of walnut',
                 },
             ],
         },
@@ -76,7 +76,7 @@ export const ales: DishIdea[] = [
                 misfits: [a.elf, a.dwarf, a.gnome],
             },
             firstSideDishes: [
-                { name: 'Ale -  black in color and delicately bitter' },
+                { name: 'Ale  -   black in color and delicately bitter' },
             ],
         },
         85,
@@ -89,7 +89,9 @@ export const ales: DishIdea[] = [
                 needsOne: [a.assasine, a.drow, a.thief],
                 incomeRange: [a.modest],
             },
-            firstSideDishes: [{ name: 'Ale -  dark red and notes of cherry' }],
+            firstSideDishes: [
+                { name: 'Ale  -   dark red and notes of cherry' },
+            ],
         },
         18,
         Drinkable.beer
@@ -102,7 +104,7 @@ export const ales: DishIdea[] = [
                 incomeRange: [a.modest, a.poor],
                 misfits: [a.dwarf, a.drow],
             },
-            firstSideDishes: [{ name: 'Ale -  slightly yellow and fruity' }],
+            firstSideDishes: [{ name: 'Ale  -   slightly yellow and fruity' }],
         },
         14,
         Drinkable.beer
@@ -115,7 +117,7 @@ export const ales: DishIdea[] = [
                 incomeRange: [a.wealthy],
                 misfits: [a.dwarf, a.drow],
             },
-            firstSideDishes: [{ name: 'Ale -  light brown and nutty' }],
+            firstSideDishes: [{ name: 'Ale  -   light brown and nutty' }],
         },
         38,
         Drinkable.beer
@@ -128,7 +130,7 @@ export const ales: DishIdea[] = [
                 incomeRange: [a.wealthy, a.rich],
                 misfits: [a.dwarf, a.drow],
             },
-            firstSideDishes: [{ name: 'Ale -  malty, light and sweet' }],
+            firstSideDishes: [{ name: 'Ale  -   malty, light and sweet' }],
         },
         58,
         Drinkable.beer
@@ -142,7 +144,7 @@ export const ales: DishIdea[] = [
                 landRange: [a.haven, a.city],
             },
             firstSideDishes: [
-                { name: 'Ale -  sturdy malt with a sweet accent' },
+                { name: 'Ale  -   sturdy malt with a sweet accent' },
             ],
         },
         23,
@@ -157,7 +159,7 @@ export const ales: DishIdea[] = [
                 landRange: [a.haven, a.city],
             },
             firstSideDishes: [
-                { name: 'Ale -  sturdy malt with a nutty accent' },
+                { name: 'Ale  -   sturdy malt with a nutty accent' },
             ],
         },
         24,
