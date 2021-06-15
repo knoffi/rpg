@@ -9,9 +9,9 @@ export const candies = [
         {
             mainIng: {
                 name: 'Mochi',
-                needsOne: [a.dragonborn, a.forest, a.tiefling, a.haven],
-                misfits: [a.nobel],
-                fitsTo: [a.druid, a.worker],
+                needsOne: [a.soldier, a.forest, a.tiefling, a.haven],
+                misfits: [a.knight],
+                fitsTo: [a.druid, a.modest],
                 worksForBrothel: false,
             },
             // first, second, third sideDishes sind optional
@@ -25,23 +25,22 @@ export const candies = [
         // description ist optional
         'The first Mochi fell down from the Moon, because a Rabbit up there was careless. (You gain Advantage on the next Jumping Check)'
     ),
-        new DishIdea(
+    new DishIdea(
         {
             mainIng: {
                 name: 'Baklava',
                 needsOne: [a.desert, a.city],
                 misfits: [a.poor],
                 incomeRange: [a.rich],
-                fitsTo: [a.human, a.dragonborn, a.wizard],
+                fitsTo: [a.human, a.soldier, a.wizard],
                 worksForBrothel: true,
             },
             // first, second, third sideDishes sind optional
-            firstSideDishes: [
-                { name: ' Pistachios', needs: [a.desert] },
-            ],
+            firstSideDishes: [{ name: ' Pistachios', needs: [a.desert] }],
             secondSideDishes: [
                 { name: ' Almonds', needs: [a.city] },
                 { name: ' Strawberry', needs: [a.druid] },
+            ],
         },
         adjustPriceSetter(foodPrices.desserts, 4),
         foodCategory.dessert,
@@ -54,13 +53,17 @@ export const candies = [
                 name: 'S´mores',
                 misfits: [a.haven, a.city],
                 incomeRange: [a.poor],
-                fitsTo: [a.forest, a.halfling, a.mountain, a.adventurer, a.dwarf],
+                fitsTo: [
+                    a.forest,
+                    a.halfling,
+                    a.mountain,
+                    a.adventurer,
+                    a.dwarf,
+                ],
                 worksForBrothel: false,
             },
             // first, second, third sideDishes sind optional
-            firstSideDishes: [
-                { name: ' Chocolate', needs: [a.forest] },
-            ],
+            firstSideDishes: [{ name: ' Chocolate', needs: [a.forest] }],
         },
         adjustPriceSetter(foodPrices.desserts, 1),
         foodCategory.dessert,
@@ -72,7 +75,7 @@ export const candies = [
             mainIng: {
                 name: 'Jelly Droplets',
                 misfits: [a.village, a.forest],
-                incomeRange: [a.sophisticated],
+                incomeRange: [a.wealthy],
                 fitsTo: [a.elf, a.gnome, a.bard, a.underdark],
                 worksForBrothel: false,
             },

@@ -9,11 +9,11 @@ export const pudding = [
         {
             mainIng: {
                 name: 'My Pudding',
-                needsOne: [a.cleric, a.nobel],
+                needsOne: [a.cleric, a.knight],
                 needs: [a.adventurer, a.barbarian],
                 misfits: [a.barbarian],
                 landRange: [a.city],
-                incomeRange: [a.sophisticated],
+                incomeRange: [a.wealthy],
                 fitsTo: [a.druid],
                 worksForBrothel: true,
             },
