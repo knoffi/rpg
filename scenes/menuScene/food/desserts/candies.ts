@@ -1,6 +1,6 @@
 import { association } from '../../../../classes/association';
 import { DishIdea } from '../../../../classes/DishIdea';
-import { foodCategory } from '../../../../classes/TavernProduct';
+import { Eatable } from '../../../../classes/TavernProduct';
 import { adjustPriceSetter, foodPrices } from '../foodPrices';
 const a = association;
 export const candies = [
@@ -20,7 +20,7 @@ export const candies = [
             ],
         },
         adjustPriceSetter(foodPrices.desserts, 1),
-        foodCategory.dessert,
+        Eatable.dessert,
         // description ist optional
         'The first Mochi fell down from the Moon, because a Rabbit up there was careless. (You gain Advantage on the next Jumping Check)'
     ),
@@ -40,7 +40,7 @@ export const candies = [
             ],
         },
         adjustPriceSetter(foodPrices.desserts, 1),
-        foodCategory.dessert,
+        Eatable.dessert,
         // description ist optional
         'The first Mochi fell down from the Moon, because a Rabbit up there was careless. (You gain Advantage on the next Jumping Check)'
     ),
@@ -62,7 +62,7 @@ export const candies = [
             ],
         },
         adjustPriceSetter(foodPrices.desserts, 4),
-        foodCategory.dessert,
+        Eatable.dessert,
         // description ist optional
         'A special Treat, handmade from thin layers of puff pastry, fine nuts and palm sugar. (Ignore the next 5 Damage by Fire)'
     ),
@@ -85,7 +85,7 @@ export const candies = [
             firstSideDishes: [{ name: ' Chocolate', needs: [a.forest] }],
         },
         adjustPriceSetter(foodPrices.desserts, 1),
-        foodCategory.dessert,
+        Eatable.dessert,
         // description ist optional
         'A traditional Camping Dessert. Like a Sandwich, but more addictive. (During your Night Watch you gain Advantage on your Wisdom Check)'
     ),
@@ -107,7 +107,7 @@ export const candies = [
             ],
         },
         adjustPriceSetter(foodPrices.desserts, 2),
-        foodCategory.dessert,
+        Eatable.dessert,
         // description ist optional
         'Strange little pearls. Squishy and juicy. How they are made is a secret...  (Ignore the next 5 Damagefrom Falling)'
     ),

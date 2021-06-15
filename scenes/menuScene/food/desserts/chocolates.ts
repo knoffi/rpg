@@ -1,6 +1,6 @@
 import { association } from '../../../../classes/association';
 import { DishIdea } from '../../../../classes/DishIdea';
-import { foodCategory } from '../../../../classes/TavernProduct';
+import { Eatable } from '../../../../classes/TavernProduct';
 import { adjustPriceSetter, foodPrices } from '../foodPrices';
 const a = association;
 export const chocolates = [
@@ -23,7 +23,7 @@ export const chocolates = [
             ],
         },
         adjustPriceSetter(foodPrices.desserts, 4),
-        foodCategory.dessert,
+        Eatable.dessert,
         // description ist optional
         'Some poor People dream their whole life of this exquisite Dessert, never being able to taste it. (The next Person you cross is more willing to forgive you)'
     ),

@@ -15,11 +15,13 @@ const EMPTY_SIDE_DISH: DescriptionAsset = { name: '' };
 export class DishIdea extends Idea {
     private averagePrice: number | PriceSetter;
     private category: MenuCategory;
+    private description?: string;
 
     constructor(
         ingredients: IngredientsIdea,
         averagePrice: number | PriceSetter,
-        category: MenuCategory
+        category: MenuCategory,
+        description?: string
     ) {
         const additionalSideDishes = [
             ingredients.firstSideDishes || [EMPTY_SIDE_DISH],
@@ -40,6 +42,7 @@ export class DishIdea extends Idea {
         super(mainEnabledForCriminals, sideDishesEnabledForCriminals);
         this.averagePrice = averagePrice;
         this.category = category;
+        this.description = description;
         if (description) {
             this.description = description;
         }

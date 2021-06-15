@@ -1,6 +1,6 @@
 import { association } from '../../../../classes/association';
 import { DishIdea } from '../../../../classes/DishIdea';
-import { foodCategory } from '../../../../classes/TavernProduct';
+import { Eatable } from '../../../../classes/TavernProduct';
 import { adjustPriceSetter, foodPrices } from '../foodPrices';
 const a = association;
 export const Fruities = [
@@ -32,7 +32,7 @@ export const Fruities = [
             ],
         },
         adjustPriceSetter(foodPrices.desserts, 1),
-        foodCategory.dessert,
+        Eatable.dessert,
         // description ist optional
         'This Dish is very healthy, you should eat it more often. (The next time you make a Constitution Save, you have Advantage)'
     ),
@@ -63,7 +63,7 @@ export const Fruities = [
             ],
         },
         adjustPriceSetter(foodPrices.desserts, 1),
-        foodCategory.dessert,
+        Eatable.dessert,
         // description ist optional
         'A mix of freshly picked blossoms, dwarfs dislike it. (The next time you make a Charisma Save, you have Advantage)'
     ),

@@ -1,6 +1,6 @@
 import { association } from '../../../../classes/association';
 import { DishIdea } from '../../../../classes/DishIdea';
-import { foodCategory } from '../../../../classes/TavernProduct';
+import { Eatable } from '../../../../classes/TavernProduct';
 import { adjustPriceSetter, foodPrices } from '../foodPrices';
 const a = association;
 export const pastries = [
@@ -22,7 +22,7 @@ export const pastries = [
             ],
         },
         adjustPriceSetter(foodPrices.desserts, 1),
-        foodCategory.dessert,
+        Eatable.dessert,
         // description ist optional
         'A humongous Cookie. Remembers Giants of their Grandmother. (Even fills the Gloomiest with a Spark of Happiness)'
     ),

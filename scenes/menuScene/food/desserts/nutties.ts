@@ -1,7 +1,7 @@
 import { association } from '../../../../classes/association';
 import { DishIdea } from '../../../../classes/DishIdea';
 import { IngredientsIdea } from '../../../../classes/ingredientIdea';
-import { foodCategory } from '../../../../classes/TavernProduct';
+import { Eatable } from '../../../../classes/TavernProduct';
 import { adjustPriceSetter, foodPrices } from '../foodPrices';
 const a = association;
 export const nutties = [
@@ -36,7 +36,7 @@ export const nutties = [
             ],
         },
         adjustPriceSetter(foodPrices.desserts, 2),
-        foodCategory.dessert,
+        Eatable.dessert,
         // description ist optional
         'Durable and nutritious, these Nuts and Seeds make an excellent Snack. (You gain 5 temporary Hitpoints)'
     ),

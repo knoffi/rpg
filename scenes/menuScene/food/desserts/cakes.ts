@@ -1,6 +1,6 @@
 import { association } from '../../../../classes/association';
 import { DishIdea } from '../../../../classes/DishIdea';
-import { foodCategory } from '../../../../classes/TavernProduct';
+import { Eatable } from '../../../../classes/TavernProduct';
 import { adjustPriceSetter, foodPrices } from '../foodPrices';
 const a = association;
 export const cake = [
@@ -20,7 +20,7 @@ export const cake = [
             thirdSideDishes: [{ name: ' without Topping', needs: [a.village] }],
         },
         adjustPriceSetter(foodPrices.desserts, 1),
-        foodCategory.dessert,
+        Eatable.dessert,
         // description ist optional
         'A juicy Piece, creamy and uplifting. (The next 1 in any Charisma Check is turned into a 10 instead)'
     ),
@@ -43,7 +43,7 @@ export const cake = [
             ],
         },
         adjustPriceSetter(foodPrices.desserts, 2),
-        foodCategory.dessert,
+        Eatable.dessert,
         // description ist optional
         'The Original! Sweet Cherrys and a lot of Cream. (The next 1 in any Wisdom Check is turned into a 10 instead)'
     ),
@@ -64,7 +64,7 @@ export const cake = [
             ],
         },
         adjustPriceSetter(foodPrices.desserts, 1),
-        foodCategory.dessert,
+        Eatable.dessert,
         // description ist optional
         'Sour, sweet and crumbly. When Life gives you Lemons... (The next 1 in any Intelligence Check is turned into a 10 instead)'
     ),
