@@ -9,8 +9,8 @@ export const chocolates = [
         {
             mainIng: {
                 name: 'Mousse au Chocolate',
-                needsOne: [a.cleric, a.nobel, a.wizard, a.drow],
-                misfits: [a.barbarian, a.worker],
+                needsOne: [a.cleric, a.knight, a.wizard, a.drow],
+                misfits: [a.barbarian, a.modest],
                 landRange: [a.city],
                 incomeRange: [a.rich],
                 worksForBrothel: true,
@@ -20,7 +20,7 @@ export const chocolates = [
                 { name: ' Cherrys', needs: [a.wizard] },
                 { name: ' Waffle', needs: [a.cleric] },
                 { name: ' Torture Spores', needs: [a.drow] },
-                { name: ' Goldenberrys', needs: [a.nobel] },
+                { name: ' Goldenberrys', needs: [a.knight] },
             ],
         },
         adjustPriceSetter(foodPrices.desserts, 4),

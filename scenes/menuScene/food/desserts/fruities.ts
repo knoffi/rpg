@@ -11,7 +11,7 @@ export const Fruities = [
                 name: 'Fruit Salad',
                 needsOne: [a.elf, a.tropical],
                 misfits: [a.dwarf],
-                incomeRange: [a.sophisticated],
+                incomeRange: [a.wealthy],
                 fitsTo: [a.druid],
                 worksForBrothel: true,
             },
@@ -43,7 +43,7 @@ export const Fruities = [
                 name: 'Floral Salad',
                 needsOne: [a.druid, a.village],
                 misfits: [a.barbarian, a.dwarf],
-                incomeRange: [a.nobel, a.poor],
+                incomeRange: [a.knight, a.poor],
                 fitsTo: [a.elf],
             },
             // first, second, third sideDishes sind optional

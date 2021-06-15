@@ -10,7 +10,7 @@ export const pastries = [
             mainIng: {
                 name: 'Cartwheel Cookie',
                 needsOne: [a.forest, a.gnome],
-                misfits: [a.nobel],
+                misfits: [a.knight],
                 landRange: [a.city],
                 incomeRange: [a.poor],
                 fitsTo: [a.halfling],
