@@ -47,7 +47,7 @@ export type DessertChapters = {
 };
 
 export const predecideDishes = (
-    bookChapters: MainDishChapters|DessertChapters,
+    bookChapters: MainDishChapters | DessertChapters,
     fits: association[],
     isExcludedByPrefix: (name: string) => boolean
 ) => {

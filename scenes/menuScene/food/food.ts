@@ -2,6 +2,7 @@ import { DishIdea } from '../../../classes/DishIdea';
 import { Eatable } from '../../../classes/TavernProduct';
 import {
     BreakfastChapters,
+    DessertChapters,
     MainDishChapters,
 } from '../menuChapters/FoodChapters';
 import { breakfastPlates } from './breakfastPlates/breakfastPlates';
