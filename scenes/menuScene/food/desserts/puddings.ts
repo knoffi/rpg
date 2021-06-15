@@ -1,10 +1,21 @@
 import { association } from '../../../../classes/association';
 import { DishIdea } from '../../../../classes/DishIdea';
-import { IngredientsIdea } from '../../../../classes/ingredientIdea';
 import { foodCategory } from '../../../../classes/TavernProduct';
 import { adjustPriceSetter, foodPrices } from '../foodPrices';
 const a = association;
 export const pudding = [
+    new DishIdea(
+        {
+            mainIng: {
+                name: 'Milk Pudding',
+                worksForAssasines: true,
+                worksForBrothel: true,
+                worksForThiefs: true,
+            },
+        },
+        adjustPriceSetter(foodPrices.desserts, 1),
+        foodCategory.dessert
+    ),
     new DishIdea(
         {
             mainIng: {
