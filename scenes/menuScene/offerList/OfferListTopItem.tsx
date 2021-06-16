@@ -15,6 +15,7 @@ export const OfferListTopItem = (props: {
     const actions = props.actions;
     const drinkName = props.drinkName;
     const editPossible = props.isUserMade;
+    const rerollPossible = !editPossible && !props.noDrinkToAddLeft;
     const priceString = props.priceString;
     return (
         <List.Item
@@ -36,6 +37,11 @@ export const OfferListTopItem = (props: {
                         onClick={actions.onShop}
                         descriptionText={drinkName}
                         priceString={priceString}
+                        leftSwipePossible={true}
+                        rightSwipePossible={
+                            editPossible ? true : rerollPossible
+                        }
+                        isUserMade={editPossible || false}
                     ></OpacitySwiperText>
                 );
             }}
