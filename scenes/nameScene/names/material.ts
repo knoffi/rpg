@@ -1,6 +1,8 @@
 import { association } from '../../../classes/association';
 import { NameIdea } from '../../../classes/NameIdea';
 import { NounIdea } from '../../../classes/NounIdea';
+import { femaleGenitals, maleGenitals, sexyParts } from './genitals';
+import { artisanJobs } from './jobs';
 import { majesticBeasts, preyNormalAnimals } from './majesticBeasts';
 import {
     criminalPredatorBeasts,
@@ -16,6 +18,10 @@ const SUBSTANTIVES_FOR_GOLD: NounIdea[] = [
     ...weapons,
     ...majesticBeasts,
     ...preyNormalAnimals,
+    ...sexyParts,
+    ...maleGenitals,
+    ...femaleGenitals,
+    ...artisanJobs,
     { name: 'Temple', needsOne: [a.cleric] },
     { name: 'Mine', needsOne: [a.dwarf, a.underdark] },
     /*{ name: 'Temple', needsOne: [a.cleric] },
@@ -48,29 +54,6 @@ const SUBSTANTIVES_FOR_GOLD: NounIdea[] = [
         worksForBrothel: true,
     },*/
     { name: 'Tooth', needs: [a.thief] },
-    { name: 'Thighs', needs: [a.prostitute], worksForBrothel: true },
-    { name: 'Beaver', needs: [a.prostitute], worksForBrothel: true },
-    { name: 'Bust', needs: [a.prostitute], worksForBrothel: true },
-    {
-        name: 'Wench',
-        needs: [a.prostitute],
-        misfits: [a.rich],
-        worksForBrothel: true,
-    },
-    { name: 'Concubine', needs: [a.prostitute], worksForBrothel: true },
-    { name: 'Succubus', needs: [a.prostitute], worksForBrothel: true },
-    {
-        name: 'Mistress',
-        needsOne: [a.prostitute, a.drow],
-        worksForBrothel: true,
-    },
-    { name: 'Shaft', needsOne: [a.prostitute], worksForBrothel: true },
-    { name: 'Slit', needsOne: [a.prostitute], worksForBrothel: true },
-    {
-        name: 'Cowgirl',
-        needs: [a.prostitute, a.village],
-        worksForBrothel: true,
-    },
     {
         name: 'Coin',
         needsOne: [a.city, a.village, a.haven],

@@ -104,7 +104,7 @@ export const weapons: NounIdea[] = [
     },
     {
         name: 'Halberd',
-        misfits: [a.haven, a.elf, a.halfling, a.gnome, a.drow],
+        misfits: [a.haven, a.elf, a.halfling, a.gnome, a.drow, a.desert],
         classRange: [a.knight, a.soldier, a.barbarian],
     },
     {

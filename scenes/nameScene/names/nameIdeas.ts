@@ -1,5 +1,6 @@
 import { association } from '../../../classes/association';
 import { NameIdea } from '../../../classes/NameIdea';
+import { femaleGenitals, maleGenitals, sexyParts } from './genitals';
 import { artisanJobs, gastronomyJobs, noblesAndTitles } from './jobs';
 import { majesticBeasts } from './majesticBeasts';
 import { materials } from './material';
@@ -133,12 +134,145 @@ const characteristics = [
     new NameIdea(
         {
             name: 'Resting',
-            worksForBrothel: true,
         },
         [...noblesAndTitles, ...artisanJobs, ...weapons]
     ),
+    new NameIdea(
+        {
+            name: 'Alluring',
+            needs: [a.prostitute],
+            worksForBrothel: true,
+            incomeRange: [a.rich, a.wealthy],
+        },
+        [...artisanJobs, ...sexyParts, ...maleGenitals, ...femaleGenitals]
+    ),
+    new NameIdea(
+        {
+            name: 'Spreading',
+            needs: [a.prostitute],
+            worksForBrothel: true,
+        },
+        [...artisanJobs]
+    ),
+    new NameIdea(
+        {
+            name: 'Enticing',
+            needs: [a.prostitute],
+            worksForBrothel: true,
+            incomeRange: [a.rich, a.wealthy],
+        },
+        [...artisanJobs, ...sexyParts, ...maleGenitals, ...femaleGenitals]
+    ),
+    new NameIdea(
+        {
+            name: 'Sinful',
+            needs: [a.prostitute],
+            worksForBrothel: true,
+        },
+        [...artisanJobs, ...sexyParts, ...maleGenitals, ...femaleGenitals]
+    ),
+    new NameIdea(
+        {
+            name: 'Moaning',
+            needs: [a.prostitute],
+            worksForBrothel: true,
+        },
+        [...artisanJobs]
+    ),
+    new NameIdea(
+        {
+            name: 'Flirty',
+            needs: [a.prostitute],
+            worksForBrothel: true,
+        },
+        [...artisanJobs]
+    ),
+    new NameIdea(
+        {
+            name: 'Spanked',
+            needs: [a.prostitute],
+            worksForBrothel: true,
+            incomeRange: [a.poor, a.modest],
+        },
+        [...artisanJobs, ...sexyParts]
+    ),
+    new NameIdea(
+        {
+            name: 'Seducing',
+            needs: [a.prostitute],
+            worksForBrothel: true,
+        },
+        [...artisanJobs]
+    ),
+    new NameIdea(
+        {
+            name: 'Thick',
+            needs: [a.prostitute],
+            worksForBrothel: true,
+            incomeRange: [a.poor, a.modest],
+            misfits: [a.elf],
+        },
+        [...sexyParts, ...maleGenitals]
+    ),
+    new NameIdea(
+        {
+            name: 'Moist',
+            needs: [a.prostitute],
+            worksForBrothel: true,
+            incomeRange: [a.poor, a.modest],
+            misfits: [a.elf],
+        },
+        [...femaleGenitals]
+    ),
+    new NameIdea(
+        {
+            name: 'Tight',
+            needs: [a.prostitute],
+            worksForBrothel: true,
+            incomeRange: [a.poor, a.modest],
+            misfits: [a.elf],
+        },
+        [...femaleGenitals]
+    ),
+    new NameIdea(
+        {
+            name: 'Wet',
+            needs: [a.prostitute],
+            worksForBrothel: true,
+            incomeRange: [a.poor, a.modest],
+            misfits: [a.elf],
+        },
+        [...femaleGenitals]
+    ),
+    new NameIdea(
+        {
+            name: 'Lubbed',
+            needs: [a.prostitute],
+            worksForBrothel: true,
+            incomeRange: [a.poor, a.modest],
+        },
+        [...sexyParts, ...maleGenitals, ...femaleGenitals]
+    ),
+    new NameIdea(
+        {
+            name: 'Juicy',
+            needs: [a.prostitute],
+            worksForBrothel: true,
+            incomeRange: [a.poor, a.modest],
+        },
+        [...sexyParts, ...femaleGenitals]
+    ),
+    new NameIdea(
+        {
+            name: 'Hard',
+            needs: [a.prostitute],
+            worksForBrothel: true,
+            incomeRange: [a.poor, a.modest],
+        },
+        [...maleGenitals]
+    ),
 ];
 
-// more ideas: Alluring, Holy, Divine, Virtuous, Rightous, Honorable, Virtuous, Peaceful, Merciful, Rejoicing, Virgin, Decadent, Smiling, Giggling, Singing, Dancing, Joyful, Resting, Fierce, Ferocious, Vigorous Enraged, Vigilant, Glowing, Shining, Glorious, Nonchalant, Dapper, Marmor?, Victorious?, Triumphant?, Roaring, Sinister, Insidious?, Drunken, Spitting, Squint-Eyes, One-Eyed, Gleeful, Spiteful, Malicious, Cursed,  Flaming, Fiery, Infernal, Horned, Macabre, Squinting, Whispering, Silent, Venomous, Wrathful, Patient, Lurking, Slumbering, Decadent, Hungry, Starving, Sleepy, Salty, Fishy, Sailing, Dreaming, Rotten, Savage, Gloomy, Feasting, Dining, Savoring, Chomping, Moaning, Licking, Enticing, Alluring, Moist, Flitrting, Seducing, Spanking, Spreading, Lascivious, Salacious, Hard, Long, Wet, Hammering, Forging, Weaving, Knitting,      Dried Out, Thirsty, Spicy, Silky, Cashmere, Velvet, Exhausted more oriental stuff... ,    Colorful, Fruity, Spicy,  more tropical stuff...
+// more ideas: Holy, Divine, Virtuous, Rightous, Honorable, Virtuous, Peaceful, Merciful, Rejoicing, Virgin, Decadent, Smiling, Giggling, Singing, Dancing, Joyful, Fierce, Ferocious, Vigorous Enraged, Vigilant, Glowing, Shining, Glorious, Nonchalant, Dapper, Marmor?, Victorious?, Triumphant?, Roaring, Sinister, Insidious?, Drunken, Spitting, Squint-Eyes, One-Eyed, Gleeful, Spiteful, Malicious, Cursed,  Flaming, Fiery, Infernal, Horned, Macabre, Squinting, Whispering, Silent, Venomous, Wrathful, Patient, Lurking,  Decadent, Hungry, Starving, Sleepy, Salty, Fishy, Sailing, Dreaming, Rotten, Savage, Gloomy, Feasting, Dining, Savoring, Chomping, Moaning, Moist, Flitrting, Lascivious, Salacious, Hammering, Forging, Weaving, Knitting,      Dried Out, Thirsty, Spicy, Silky, Cashmere, Velvet, Exhausted more oriental stuff... ,    Colorful, Fruity, Spicy,  more tropical stuff...
 
 export const nameIdeas: NameIdea[] = [...materials, ...characteristics];

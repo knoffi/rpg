@@ -64,13 +64,10 @@ export const honorfulPredatorBeasts: NounIdea[] = [
         incomeRange: BEAR_INCOME,
         misfits: [a.drow],
     },
-    { name: 'Wyvern', misfits: [a.rich, a.haven] },
     { name: 'Drake', misfits: [a.rich, a.haven] },
 ];
 
 export const criminalPredatorBeasts: NounIdea[] = [
-    { name: 'Wyrm', misfits: [a.rich, a.haven] },
-    { name: 'Lindworm', misfits: [a.rich, a.haven] },
     { name: 'Eal', needs: [a.haven], misfits: [a.rich], worksForThiefs: true },
     {
         name: 'Hyena',

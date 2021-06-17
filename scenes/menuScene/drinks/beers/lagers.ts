@@ -2,7 +2,7 @@ import { association } from '../../../../classes/association';
 import { DishIdea } from '../../../../classes/DishIdea';
 import { Drinkable } from '../../../../classes/TavernProduct';
 const a = association;
-export const ales: DishIdea[] = [
+export const lagers: DishIdea[] = [
     new DishIdea(
         {
             mainIng: {
