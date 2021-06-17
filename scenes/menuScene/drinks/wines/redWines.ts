@@ -1,8 +1,14 @@
 import { association } from '../../../../classes/association';
 import { DishIdea } from '../../../../classes/DishIdea';
 import { Drinkable } from '../../../../classes/TavernProduct';
+import { drinkPrices } from '../../priceSetting/drinkPriceSetters';
+import { adjustPriceSetter } from '../../priceSetting/priceSetters';
 const a = association;
-
+const RED_WINE_FACTOR = 1.2;
+const RED_WINE_PRICE_SETTER = adjustPriceSetter(
+    drinkPrices.wine,
+    RED_WINE_FACTOR
+);
 export const redWines: DishIdea[] = [
     new DishIdea(
         {
@@ -12,33 +18,32 @@ export const redWines: DishIdea[] = [
             },
             firstSideDishes: [
                 {
-                    name: 'Red wine (dry)  -  aged 4 years in oak barrels, smoky note, spicy finish',
-                    incomeRange: [a.rich],
-                    price: 90,
-                },
-                {
-                    name: 'Red wine (dry)  -  aged 3 years in oak barrels, smoky note, spicy finish',
-                    incomeRange: [a.rich],
-                    price: 75,
-                },
-                {
                     name: 'Red wine (dry)  -  aged 6 years in oak barrels, smoky note, spicy finish',
                     incomeRange: [a.rich],
-                    price: 120,
+                    priceFactor: 1.8,
                 },
                 {
                     name: 'Red wine (dry)  -  aged 5 years in oak barrels, smoky note, spicy finish',
                     incomeRange: [a.rich],
-                    price: 105,
+                    priceFactor: 1.6,
+                },
+                {
+                    name: 'Red wine (dry)  -  aged 4 years in oak barrels, smoky note, spicy finish',
+                    incomeRange: [a.rich],
+                    priceFactor: 1.4,
+                },
+                {
+                    name: 'Red wine (dry)  -  aged 3 years in oak barrels, smoky note, spicy finish',
+                    incomeRange: [a.rich],
+                    priceFactor: 1.2,
                 },
                 {
                     name: 'Red wine (dry)  -  aged 2 years in oak barrels, smoky note, spicy finish',
                     incomeRange: [a.rich, a.wealthy],
-                    price: 60,
                 },
             ],
         },
-        0,
+        adjustPriceSetter(drinkPrices.wine, RED_WINE_FACTOR),
         Drinkable.wine
     ),
     new DishIdea(
@@ -51,21 +56,20 @@ export const redWines: DishIdea[] = [
                 {
                     name: 'Red wine (sweet)  -  aged 1 year,  full-bodied, fruity note',
                     incomeRange: [a.wealthy],
-                    price: 28,
                 },
                 {
                     name: 'Red wine (sweet)  -  aged 2 years,  full-bodied, fruity note',
                     incomeRange: [a.wealthy],
-                    price: 39,
+                    priceFactor: 1.1,
                 },
                 {
                     name: 'Red wine (sweet)  -  aged 3 years,  full-bodied, fruity note',
                     incomeRange: [a.wealthy],
-                    price: 50,
+                    priceFactor: 1.2,
                 },
             ],
         },
-        0,
+        RED_WINE_PRICE_SETTER,
         Drinkable.wine
     ),
     new DishIdea(
@@ -78,21 +82,20 @@ export const redWines: DishIdea[] = [
                 {
                     name: 'Red wine (semi-dry)  -  aged 1 year,  light-bodied, cherry note',
                     incomeRange: [a.modest],
-                    price: 18,
                 },
                 {
                     name: 'Red wine (semi-dry)  -  aged 2 years,  light-bodied, cherry note',
                     incomeRange: [a.modest, a.wealthy],
-                    price: 27,
+                    priceFactor: 1.1,
                 },
                 {
                     name: 'Red wine (semi-dry)  -  aged 3 years,  light-bodied, cherry note',
                     incomeRange: [a.wealthy],
-                    price: 38,
+                    priceFactor: 1.2,
                 },
             ],
         },
-        0,
+        RED_WINE_PRICE_SETTER,
         Drinkable.wine
     ),
     new DishIdea(
@@ -105,11 +108,10 @@ export const redWines: DishIdea[] = [
                 {
                     name: 'Red wine (sweet)  -  rough fruityness',
                     incomeRange: [a.modest],
-                    price: 8,
                 },
             ],
         },
-        0,
+        RED_WINE_PRICE_SETTER,
         Drinkable.wine
     ),
     new DishIdea(
@@ -122,21 +124,20 @@ export const redWines: DishIdea[] = [
                 {
                     name: 'Red wine (dry)  -  aged 1 year, fruity, light-bodied, notes of plum',
                     incomeRange: [a.modest, a.wealthy],
-                    price: 30,
                 },
                 {
-                    name: 'Red wine (dry)  -  aged 3 years, fruity, full-bodied, notes of plum',
+                    name: 'Red wine (dry)  -  aged 2 years, fruity, full-bodied, notes of plum',
                     incomeRange: [a.wealthy],
-                    price: 60,
+                    priceFactor: 1.1,
                 },
                 {
                     name: 'Red wine (dry)  -  aged 4 years, fruity, full-bodied, notes of plum',
                     incomeRange: [a.rich],
-                    price: 90,
+                    priceFactor: 1.1,
                 },
             ],
         },
-        0,
+        RED_WINE_PRICE_SETTER,
         Drinkable.wine
     ),
 ];

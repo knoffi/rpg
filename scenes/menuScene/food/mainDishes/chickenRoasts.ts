@@ -1,7 +1,8 @@
 import { association } from '../../../../classes/association';
 import { DishIdea } from '../../../../classes/DishIdea';
 import { Eatable } from '../../../../classes/TavernProduct';
-import { adjustPriceSetter, foodPrices } from '../foodPrices';
+import { foodPrices } from '../../priceSetting/foodPriceSetters';
+import { adjustPriceSetter } from '../../priceSetting/priceSetters';
 import { standardCarbs } from './standardCarbs';
 import { standardGreens } from './standardGreens';
 const a = association;

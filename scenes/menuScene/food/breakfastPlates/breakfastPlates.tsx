@@ -1,6 +1,7 @@
 import { DishIdea } from '../../../../classes/DishIdea';
 import { Eatable } from '../../../../classes/TavernProduct';
-import { adjustPriceSetter, foodPrices } from '../foodPrices';
+import { foodPrices } from '../../priceSetting/foodPriceSetters';
+import { adjustPriceSetter } from '../../priceSetting/priceSetters';
 import { areaBreads } from './areaBreads';
 import {
     nonRichBreakfastPlateToppings,
