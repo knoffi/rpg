@@ -174,7 +174,7 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             classRange: [a.soldier, a.adventurer],
-            misfits: [a.dwarf],
+            needs: [a.dwarf],
             name: 'An axe-thrower is ',
             worksForBrothel: true,
             worksForAssasines: true,
@@ -185,7 +185,7 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             classRange: [a.soldier, a.adventurer],
-            misfits: [a.dwarf],
+            needs: [a.dwarf],
             name: 'Some axe-throwers are ',
             worksForBrothel: true,
             worksForAssasines: true,

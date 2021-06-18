@@ -92,21 +92,12 @@ export class OpacitySwiperText extends React.Component<
             {
                 nativeEvent: ({ translationX }) =>
                     block([
-                        cond(
-                            //and(
-                            eq(this.gestureState, GestureState.ACTIVE),
-                            // or(
-                            //     lessThan(translationX, 30),
-                            //     eq(this.props.rightSwipePossible ? 1 : 0, 1)
-                            // )
-                            //),
-                            [
-                                Animated.set(
-                                    this.state.anim.position,
-                                    translationX
-                                ),
-                            ]
-                        ),
+                        cond(eq(this.gestureState, GestureState.ACTIVE), [
+                            Animated.set(
+                                this.state.anim.position,
+                                translationX
+                            ),
+                        ]),
                         cond(
                             and(
                                 eq(this.gestureState, GestureState.ACTIVE),

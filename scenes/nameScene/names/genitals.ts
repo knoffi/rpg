@@ -5,10 +5,9 @@ const a = association;
 
 export const maleGenitals: DescriptionAsset[] = [
     { name: 'Prick', needs: [a.prostitute], worksForBrothel: true },
-    { name: 'Cock', needs: [a.prostitute], worksForBrothel: true },
-    { name: 'Lovestick', needs: [a.prostitute], worksForBrothel: true },
+    { name: 'Spear', needs: [a.prostitute], worksForBrothel: true },
     { name: 'Anaconda', needs: [a.prostitute], worksForBrothel: true },
-    { name: 'Dong', needs: [a.prostitute], worksForBrothel: true },
+    { name: 'Lance', needs: [a.prostitute], worksForBrothel: true },
     { name: 'Boner', needs: [a.prostitute], worksForBrothel: true },
     { name: 'Shaft', needs: [a.prostitute], worksForBrothel: true },
 ];

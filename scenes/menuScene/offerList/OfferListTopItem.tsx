@@ -4,7 +4,7 @@ import { OpacitySwiperText } from '../../../components/OpacitySwiper/OpacitySwip
 import { WIDTH_FACTOR } from '../../../dimensionConstants';
 import { productActions } from './productActions';
 
-const SWIPE_THRESHOLD = 50 * WIDTH_FACTOR;
+const SWIPE_THRESHOLD = 70 * WIDTH_FACTOR;
 export const OfferListTopItem = (props: {
     drinkName: string;
     actions: productActions;
@@ -14,7 +14,7 @@ export const OfferListTopItem = (props: {
 }) => {
     const actions = props.actions;
     const drinkName = props.drinkName;
-    const editPossible = props.isUserMade;
+    const editPossible = props.isUserMade || false;
     const rerollPossible = !editPossible && !props.noDrinkToAddLeft;
     const priceString = props.priceString;
     return (
@@ -41,7 +41,7 @@ export const OfferListTopItem = (props: {
                         rightSwipePossible={
                             editPossible ? true : rerollPossible
                         }
-                        isUserMade={editPossible || false}
+                        isUserMade={editPossible}
                     ></OpacitySwiperText>
                 );
             }}

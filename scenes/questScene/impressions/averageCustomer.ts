@@ -70,7 +70,20 @@ export const averageCustomers: ImpressionIdea[] = [
         Noticable.averageCustomer
     ),
     new ImpressionIdea(
-        { name: 'Meeting friends & drinking mead', raceRange: [a.human] },
+        {
+            name: 'Meeting friends & drinking mead',
+            raceRange: [a.human],
+            incomeRange: [a.poor, a.modest],
+        },
+        [emptyDescriptionAsset],
+        Noticable.averageCustomer
+    ),
+    new ImpressionIdea(
+        {
+            name: 'Dining with business partners',
+            raceRange: [a.human],
+            incomeRange: [a.rich, a.wealthy],
+        },
         [emptyDescriptionAsset],
         Noticable.averageCustomer
     ),
