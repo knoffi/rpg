@@ -93,13 +93,13 @@ export class OpacitySwiperText extends React.Component<
                 nativeEvent: ({ translationX }) =>
                     block([
                         cond(
-                            and(
-                                eq(this.gestureState, GestureState.ACTIVE),
-                                or(
-                                    lessThan(translationX, 30),
-                                    eq(this.props.rightSwipePossible ? 1 : 0, 1)
-                                )
-                            ),
+                            //and(
+                            eq(this.gestureState, GestureState.ACTIVE),
+                            // or(
+                            //     lessThan(translationX, 30),
+                            //     eq(this.props.rightSwipePossible ? 1 : 0, 1)
+                            // )
+                            //),
                             [
                                 Animated.set(
                                     this.state.anim.position,
@@ -211,18 +211,27 @@ export class OpacitySwiperText extends React.Component<
                             and(
                                 eq(state, GestureState.END),
                                 not(clockRunning(this.clock)),
-                                and(
+                                or(
+                                    and(
+                                        lessThan(
+                                            this.state.anim.position,
+                                            this.props.swipeThreshold
+                                        ),
+                                        greaterThan(
+                                            this.state.anim.position,
+                                            -this.props.swipeThreshold
+                                        )
+                                    ),
                                     lessThan(
                                         this.state.anim.position,
-                                        this.props.swipeThreshold
-                                    ),
-                                    greaterThan(
-                                        this.state.anim.position,
-                                        -this.props.swipeThreshold
+                                        Animated.multiply(
+                                            this.getTranslation(),
+                                            2
+                                        )
                                     )
                                 )
                             ),
-                            startClock(this.clock)
+                            [startClock(this.clock)]
                         ),
                     ]),
             },
@@ -249,6 +258,18 @@ export class OpacitySwiperText extends React.Component<
             this.props.swipeThreshold
         );
     }
+    getTranslation() {
+        return Animated.add(
+            Animated.max(
+                Animated.divide(
+                    this.state.anim.position,
+                    this.props.rightSwipePossible ? 1 : 7
+                ),
+                0
+            ),
+            Animated.min(this.state.anim.position, 0)
+        );
+    }
     render() {
         return (
             <PanGestureHandler
@@ -264,8 +285,7 @@ export class OpacitySwiperText extends React.Component<
                                     flex: 1,
                                     transform: [
                                         {
-                                            translateX:
-                                                this.state.anim.position,
+                                            translateX: this.getTranslation(),
                                         },
                                     ],
                                 }}
