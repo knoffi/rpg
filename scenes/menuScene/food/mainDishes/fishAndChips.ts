@@ -1,7 +1,8 @@
 import { association } from '../../../../classes/association';
 import { DishIdea } from '../../../../classes/DishIdea';
 import { Eatable } from '../../../../classes/TavernProduct';
-import { adjustPriceSetter, foodPrices } from '../foodPrices';
+import { foodPrices } from '../../priceSetting/foodPriceSetters';
+import { adjustPriceSetter } from '../../priceSetting/priceSetters';
 const a = association;
 const FISH_AND_CHIPS_PRICE_FACTOR = 1.0;
 

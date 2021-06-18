@@ -90,7 +90,6 @@ export const OfferListAccordeon = (props: {
                                     onImport(thisCategory);
                                 }}
                                 size={LIST_END_BUTTON_SIZE}
-                                disabled={noDrinkToAddLeft}
                             />
                             <FeatherButton
                                 onPress={() => {

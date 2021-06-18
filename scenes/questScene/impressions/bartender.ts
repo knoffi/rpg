@@ -329,7 +329,6 @@ export const bartenders: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            needs: [a.poor],
             name: 'Old',
             worksForAssasines: true,
             worksForBrothel: true,

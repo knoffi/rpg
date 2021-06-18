@@ -87,30 +87,30 @@ export const wines = [
         [a.human, a.modest],
         wineEnum
     ),
-    new TavernProduct(
-        '10 Year Old Baiser Rouge',
-        55,
-        [a.cleric, a.rich],
-        wineEnum
-    ),
-    new TavernProduct(
-        '15 Year Old Baiser Rouge',
-        76,
-        [a.cleric, a.rich],
-        wineEnum
-    ),
-    new TavernProduct(
-        '20 Year Old Baiser Rouge',
-        90,
-        [a.cleric, a.rich],
-        wineEnum
-    ),
-    new TavernProduct(
-        '30 Year Old Baiser Rouge',
-        130,
-        [a.cleric, a.rich],
-        wineEnum
-    ),
+    // new TavernProduct(
+    //     '10 Year Old Baiser Rouge',
+    //     55,
+    //     [a.cleric, a.rich],
+    //     wineEnum
+    // ),
+    // new TavernProduct(
+    //     '15 Year Old Baiser Rouge',
+    //     76,
+    //     [a.cleric, a.rich],
+    //     wineEnum
+    // ),
+    // new TavernProduct(
+    //     '20 Year Old Baiser Rouge',
+    //     90,
+    //     [a.cleric, a.rich],
+    //     wineEnum
+    // ),
+    // new TavernProduct(
+    //     '30 Year Old Baiser Rouge',
+    //     130,
+    //     [a.cleric, a.rich],
+    //     wineEnum
+    // ),
     new TavernProduct(
         "Marigold's Rhubarb Cider ",
         17,
@@ -135,30 +135,30 @@ export const wines = [
         [a.wealthy, a.adventurer],
         wineEnum
     ),
-    new TavernProduct(
-        '8 Year Old Luiselbacher',
-        30,
-        [a.modest, a.village],
-        wineEnum
-    ),
-    new TavernProduct(
-        '9 Year Old Luiselbacher',
-        35,
-        [a.modest, a.village],
-        wineEnum
-    ),
-    new TavernProduct(
-        '10 Year Old Luiselbacher',
-        40,
-        [a.wealthy, a.village],
-        wineEnum
-    ),
-    new TavernProduct('4 Year Old Cavalosso', 18, [a.modest], wineEnum),
-    new TavernProduct('5 Year Old Cavalosso', 22, [a.wealthy], wineEnum),
-    new TavernProduct('6 Year Old Cavalosso', 29, [a.wealthy], wineEnum),
-    new TavernProduct('1 Year Old Cavaebleu', 7, [a.poor], wineEnum),
-    new TavernProduct('2 Year Old Cavaebleu', 9, [a.poor], wineEnum),
-    new TavernProduct('3 Year Old Cavaebleu', 11, [a.poor], wineEnum),
+    // new TavernProduct(
+    //     '8 Year Old Luiselbacher',
+    //     30,
+    //     [a.modest, a.village],
+    //     wineEnum
+    // ),
+    // new TavernProduct(
+    //     '9 Year Old Luiselbacher',
+    //     35,
+    //     [a.modest, a.village],
+    //     wineEnum
+    // ),
+    // new TavernProduct(
+    //     '10 Year Old Luiselbacher',
+    //     40,
+    //     [a.wealthy, a.village],
+    //     wineEnum
+    // ),
+    // new TavernProduct('4 Year Old Cavalosso', 18, [a.modest], wineEnum),
+    // new TavernProduct('5 Year Old Cavalosso', 22, [a.wealthy], wineEnum),
+    // new TavernProduct('6 Year Old Cavalosso', 29, [a.wealthy], wineEnum),
+    // new TavernProduct('1 Year Old Cavaebleu', 7, [a.poor], wineEnum),
+    // new TavernProduct('2 Year Old Cavaebleu', 9, [a.poor], wineEnum),
+    // new TavernProduct('3 Year Old Cavaebleu', 11, [a.poor], wineEnum),
     new TavernProduct(
         '4 Year Old Pugnavini',
         21,

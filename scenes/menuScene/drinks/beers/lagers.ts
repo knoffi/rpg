@@ -2,7 +2,7 @@ import { association } from '../../../../classes/association';
 import { DishIdea } from '../../../../classes/DishIdea';
 import { Drinkable } from '../../../../classes/TavernProduct';
 const a = association;
-export const ales: DishIdea[] = [
+export const lagers: DishIdea[] = [
     new DishIdea(
         {
             mainIng: {
@@ -11,7 +11,7 @@ export const ales: DishIdea[] = [
                 incomeRange: [a.poor],
                 needsOne: [a.thief, a.assasine, a.prostitute],
             },
-            firstSideDishes: [{ name: 'Lager - fierce and malty' }],
+            firstSideDishes: [{ name: 'Lager  -  fierce and malty' }],
         },
         4,
         Drinkable.beer
@@ -24,7 +24,7 @@ export const ales: DishIdea[] = [
                 incomeRange: [a.wealthy],
                 classRange: [a.wizard, a.adventurer, a.bard],
             },
-            firstSideDishes: [{ name: 'Lager - green, malty and fruity' }],
+            firstSideDishes: [{ name: 'Lager  -  green, malty and fruity' }],
         },
         38,
         Drinkable.beer
@@ -34,7 +34,7 @@ export const ales: DishIdea[] = [
             mainIng: { name: "Aiven's Golden Malt", incomeRange: [a.rich] },
             firstSideDishes: [
                 {
-                    name: 'Lager - very malty with a sweet note and golden foam',
+                    name: 'Lager  -  very malty with a sweet note and golden foam',
                 },
             ],
         },
@@ -49,7 +49,7 @@ export const ales: DishIdea[] = [
                 incomeRange: [a.rich],
             },
             firstSideDishes: [
-                { name: 'Lager - the best lager beer brewed by humans' },
+                { name: 'Lager  -  the best lager beer brewed by humans' },
             ],
         },
         140,
@@ -64,7 +64,7 @@ export const ales: DishIdea[] = [
             },
             firstSideDishes: [
                 {
-                    name: 'Lager - elegant maltyness meets full-bodied fruityness',
+                    name: 'Lager  -  elegant maltyness meets full-bodied fruityness',
                 },
             ],
         },
@@ -79,7 +79,9 @@ export const ales: DishIdea[] = [
                 incomeRange: [a.rich],
             },
             firstSideDishes: [
-                { name: 'Lager - mellow maltyness meets delicate smoothness ' },
+                {
+                    name: 'Lager  -  mellow maltyness meets delicate smoothness ',
+                },
             ],
         },
         85,
@@ -94,7 +96,7 @@ export const ales: DishIdea[] = [
             },
             firstSideDishes: [
                 {
-                    name: 'Lager - Joyful fruityness with a refreshing crispness',
+                    name: 'Lager  -  Joyful fruityness with a refreshing crispness',
                 },
             ],
         },
@@ -109,7 +111,9 @@ export const ales: DishIdea[] = [
                 incomeRange: [a.wealthy],
             },
             firstSideDishes: [
-                { name: 'Lager - melodic maltyness with a swinging sweetness' },
+                {
+                    name: 'Lager  -  melodic maltyness with a swinging sweetness',
+                },
             ],
         },
         40,
@@ -123,7 +127,7 @@ export const ales: DishIdea[] = [
                 raceRange: [a.elf],
             },
             firstSideDishes: [
-                { name: 'Lager - soft maltyness and mild notes of grapes' },
+                { name: 'Lager  -  soft maltyness and mild notes of grapes' },
             ],
         },
         70,
@@ -137,7 +141,9 @@ export const ales: DishIdea[] = [
                 raceRange: [a.elf],
             },
             firstSideDishes: [
-                { name: 'Lager - delicate maltyness and a note of elderberry' },
+                {
+                    name: 'Lager  -  delicate maltyness and a note of elderberry',
+                },
             ],
         },
         70,
@@ -151,7 +157,7 @@ export const ales: DishIdea[] = [
                 raceRange: [a.gnome, a.human, a.halfling],
             },
             firstSideDishes: [
-                { name: 'Lager - embracing maltnyess with a fruity aroma' },
+                { name: 'Lager  -  embracing maltnyess with a fruity aroma' },
             ],
         },
         80,
@@ -165,7 +171,7 @@ export const ales: DishIdea[] = [
                 raceRange: [a.gnome, a.human, a.halfling],
             },
             firstSideDishes: [
-                { name: 'Lager - exquisite maltyness with a crisp finish' },
+                { name: 'Lager  -  exquisite maltyness with a crisp finish' },
             ],
         },
         100,
@@ -180,7 +186,7 @@ export const ales: DishIdea[] = [
             },
             firstSideDishes: [
                 {
-                    name: 'Lager - superb maltyness with a divine note of sweetness',
+                    name: 'Lager  -  superb maltyness with a divine note of sweetness',
                 },
             ],
         },
@@ -197,7 +203,7 @@ export const ales: DishIdea[] = [
             },
             firstSideDishes: [
                 {
-                    name: 'Lager - the perfect balance of hops and malt make it refreshing like spring',
+                    name: 'Lager  -  the perfect balance of hops and malt make it refreshing like spring',
                 },
             ],
         },
@@ -214,7 +220,7 @@ export const ales: DishIdea[] = [
             },
             firstSideDishes: [
                 {
-                    name: 'Lager - a full-bodied malt flavor makes it cosy as winter',
+                    name: 'Lager  -  a full-bodied malt flavor makes it cosy as winter',
                 },
             ],
         },
@@ -231,7 +237,7 @@ export const ales: DishIdea[] = [
             },
             firstSideDishes: [
                 {
-                    name: 'Lager - a featherlike sweetness and a crisp finish make it joyful as summer',
+                    name: 'Lager  -  a featherlike sweetness and a crisp finish make it joyful as summer',
                 },
             ],
         },
@@ -248,7 +254,7 @@ export const ales: DishIdea[] = [
             },
             firstSideDishes: [
                 {
-                    name: 'Lager - a delightfully spicy finish with a autumn-like maltyness',
+                    name: 'Lager  -  a delightfully spicy finish with a autumn-like maltyness',
                 },
             ],
         },
@@ -265,7 +271,7 @@ export const ales: DishIdea[] = [
             },
             firstSideDishes: [
                 {
-                    name: 'Lager - a mild hop profile with a spicy note and a crisp finish',
+                    name: 'Lager  -  a mild hop profile with a spicy note and a crisp finish',
                 },
             ],
         },
@@ -281,7 +287,7 @@ export const ales: DishIdea[] = [
             },
             firstSideDishes: [
                 {
-                    name: 'Lager - malty with a note of biscuits',
+                    name: 'Lager  -  malty with a note of biscuits',
                 },
             ],
         },
@@ -297,7 +303,7 @@ export const ales: DishIdea[] = [
             },
             firstSideDishes: [
                 {
-                    name: 'Lager - light color and a strong and sturdy hop-profile ',
+                    name: 'Lager  -  light color and a strong and sturdy hop-profile ',
                 },
             ],
         },
@@ -313,7 +319,7 @@ export const ales: DishIdea[] = [
             },
             firstSideDishes: [
                 {
-                    name: 'Lager - dark in color and a bready malt flavor',
+                    name: 'Lager  -  dark in color and a bready malt flavor',
                 },
             ],
         },
@@ -329,7 +335,7 @@ export const ales: DishIdea[] = [
             },
             firstSideDishes: [
                 {
-                    name: 'Lager - light color, light maltyness and a fruity note',
+                    name: 'Lager  -  light color, light maltyness and a fruity note',
                 },
             ],
         },
@@ -347,7 +353,7 @@ export const ales: DishIdea[] = [
             },
             firstSideDishes: [
                 {
-                    name: 'Lager - golden color, malty and a crisp finish',
+                    name: 'Lager  -  golden color, malty and a crisp finish',
                 },
             ],
         },
@@ -365,7 +371,7 @@ export const ales: DishIdea[] = [
             },
             firstSideDishes: [
                 {
-                    name: 'Lager - slightly silver, malty and a crisp finish',
+                    name: 'Lager  -  slightly silver, malty and a crisp finish',
                 },
             ],
         },
@@ -383,7 +389,7 @@ export const ales: DishIdea[] = [
             },
             firstSideDishes: [
                 {
-                    name: 'Lager - strong maltyness and a note of hazelnut',
+                    name: 'Lager  -  strong maltyness and a note of hazelnut',
                 },
             ],
         },
@@ -401,7 +407,7 @@ export const ales: DishIdea[] = [
             },
             firstSideDishes: [
                 {
-                    name: 'Lager - slightly beige, mellow maltyness and a note of caramel',
+                    name: 'Lager  -  slightly beige, mellow maltyness and a note of caramel',
                 },
             ],
         },
@@ -419,7 +425,7 @@ export const ales: DishIdea[] = [
             },
             firstSideDishes: [
                 {
-                    name: 'Lager - pale brown, crisp and a note of cherry',
+                    name: 'Lager  -  pale brown, crisp and a note of cherry',
                 },
             ],
         },
@@ -437,7 +443,7 @@ export const ales: DishIdea[] = [
             },
             firstSideDishes: [
                 {
-                    name: 'Lager - pale brown, malty and a fruity note of berries',
+                    name: 'Lager  -  pale brown, malty and a fruity note of berries',
                 },
             ],
         },
@@ -455,7 +461,7 @@ export const ales: DishIdea[] = [
             },
             firstSideDishes: [
                 {
-                    name: 'Lager - light golden color, strong maltyness and a crisp finish',
+                    name: 'Lager  -  light golden color, strong maltyness and a crisp finish',
                 },
             ],
         },

@@ -40,26 +40,20 @@ export const offersWithOneReroll = (
 ) => {
     const category = offers.find((offer) => offer.product.name === name)!
         .product.category;
-    const newOffers = offers.map((offer) => {
-        if (offer.product.name !== name) {
-            return offer;
-        } else {
-            const rerolledOffer = getRandomDrinkOffer(
-                category,
-                fits,
-                misfits,
-                offeredNames(offers),
-                isAbout
-            );
-            const oldOffer = offer;
-            if (rerolledOffer.product.name === NothingLeftOffer.product.name) {
-                return getCloneForRerender(oldOffer);
-            } else {
-                return rerolledOffer;
-            }
-        }
-    });
-    return [...newOffers];
+    const newOffer = getRandomDrinkOffer(
+        category,
+        fits,
+        misfits,
+        offeredNames(offers),
+        isAbout
+    );
+    if (newOffer.product.name === NothingLeftOffer.product.name || !newOffer) {
+        return undefined;
+    } else {
+        return offers.map((offer) =>
+            offer.product.name === name ? newOffer : offer
+        );
+    }
 };
 
 export const getNewRandomDrinkOffer = (

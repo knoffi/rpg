@@ -98,10 +98,12 @@ export const MenuScene = (props: MenuProps) => {
                   misfits,
                   props.isAbout
               );
-        if (props.isAbout === WeServe.drinks) {
-            props.onDataChange({ drinks: newOffers });
-        } else {
-            props.onDataChange({ dishes: newOffers });
+        if (newOffers) {
+            if (props.isAbout === WeServe.drinks) {
+                props.onDataChange({ drinks: newOffers });
+            } else {
+                props.onDataChange({ dishes: newOffers });
+            }
         }
     };
     // TODO: change this to getUserOfferAdding (category:MenuCategory)=> function

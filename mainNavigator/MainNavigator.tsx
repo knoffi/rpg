@@ -27,16 +27,17 @@ export const MainNavigator = () => {
     const [historyIndex, setHistoryIndex] = useState(0);
 
     const onDataChange = (newData: Partial<TavernData>) => {
-        const newTavernData = { ...tavernHistory[historyIndex], ...newData };
-        const pastTavernHistory = [] as TavernData[];
-        //TODO: use declarative approach
-        tavernHistory.forEach((tavernData: TavernData, index: number) => {
-            if (index <= historyIndex) {
-                pastTavernHistory.push(tavernData);
-            }
-        });
-        setTavernHistory([...pastTavernHistory, newTavernData]);
-        setHistoryIndex(historyIndex + 1);
+        if (newData) {
+            const newTavernData = {
+                ...tavernHistory[historyIndex],
+                ...newData,
+            };
+            const pastTavernHistory = tavernHistory.filter(
+                (data, index) => index <= historyIndex
+            );
+            setTavernHistory([...pastTavernHistory, newTavernData]);
+            setHistoryIndex(historyIndex + 1);
+        }
     };
     const buildRandomTavern = () => {
         const randomStartTavern = getRandomStartTavern();

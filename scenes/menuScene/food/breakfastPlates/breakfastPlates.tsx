@@ -1,6 +1,7 @@
 import { DishIdea } from '../../../../classes/DishIdea';
 import { Eatable } from '../../../../classes/TavernProduct';
-import { adjustPriceSetter, foodPrices } from '../foodPrices';
+import { foodPrices } from '../../priceSetting/foodPriceSetters';
+import { adjustPriceSetter } from '../../priceSetting/priceSetters';
 import { areaBreads } from './areaBreads';
 import {
     nonRichBreakfastPlateToppings,
@@ -12,7 +13,7 @@ const BREAKFAST_PLATE_FACTOR = 1.7;
 export const breakfastPlates = [
     new DishIdea(
         {
-            mainIng: { name: 'Breakfast Plate:' },
+            mainIng: { name: 'Breakfast Plate' },
             firstSideDishes: [...eggIncomeVariations],
             secondSideDishes: [...areaBreads],
             thirdSideDishes: [

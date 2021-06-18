@@ -17,6 +17,7 @@ export type DescriptionAsset = {
     worksForThiefs?: boolean;
     worksForAssasines?: boolean;
     worksForAllCriminals?: boolean;
+    priceFactor?: number;
 };
 
 export const emptyDescriptionAsset = {

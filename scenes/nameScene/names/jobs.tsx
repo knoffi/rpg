@@ -123,6 +123,12 @@ export const artisanJobs: DescriptionAsset[] = [
         worksForBrothel: true,
     },
     {
+        name: 'Succubus',
+        needs: [a.prostitute],
+        misfits: [a.drow, a.cleric, a.haven],
+        worksForBrothel: true,
+    },
+    {
         name: 'Cowgirl',
         needs: [a.prostitute],
         landRange: [a.village, a.mountain],

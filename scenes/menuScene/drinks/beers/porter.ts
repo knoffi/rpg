@@ -10,7 +10,7 @@ export const porters: DishIdea[] = [
                 incomeRange: [a.poor],
                 landRange: [a.haven, a.city],
             },
-            firstSideDishes: [{ name: 'Stout - black, roasty, bitter' }],
+            firstSideDishes: [{ name: 'Stout  -  black, roasty, bitter' }],
         },
         5,
         Drinkable.beer
@@ -22,7 +22,7 @@ export const porters: DishIdea[] = [
                 incomeRange: [a.poor],
                 landRange: [a.haven, a.city],
             },
-            firstSideDishes: [{ name: 'Stout - black, sturdy, bitter' }],
+            firstSideDishes: [{ name: 'Stout  -  black, sturdy, bitter' }],
         },
         2,
         Drinkable.beer
@@ -35,7 +35,7 @@ export const porters: DishIdea[] = [
                 landRange: [a.haven, a.city],
             },
             firstSideDishes: [
-                { name: 'Stout - dark, slightly bitter, roasty note' },
+                { name: 'Stout  -  dark, slightly bitter, roasty note' },
             ],
         },
         18,
@@ -50,7 +50,7 @@ export const porters: DishIdea[] = [
                 landRange: [a.village, a.city],
             },
             firstSideDishes: [
-                { name: 'Porter - dark, fruity, slightly bitter' },
+                { name: 'Porter  -  dark, fruity, slightly bitter' },
             ],
         },
         12,
@@ -65,7 +65,9 @@ export const porters: DishIdea[] = [
                 raceRange: [a.drow],
             },
             firstSideDishes: [
-                { name: 'Porter - dark, delightfully malty and notes of plum' },
+                {
+                    name: 'Porter  -  dark, delightfully malty and notes of plum',
+                },
             ],
         },
         80,
@@ -81,7 +83,7 @@ export const porters: DishIdea[] = [
             },
             firstSideDishes: [
                 {
-                    name: 'Stout - black, slightly bitter and notes of chocolate',
+                    name: 'Stout  -  black, slightly bitter and notes of chocolate',
                 },
             ],
         },
@@ -96,7 +98,7 @@ export const porters: DishIdea[] = [
                 misfits: [a.drow],
                 incomeRange: [a.modest, a.wealthy],
             },
-            firstSideDishes: [{ name: 'Porter - dark brown, malty, nutty' }],
+            firstSideDishes: [{ name: 'Porter  -  dark brown, malty, nutty' }],
         },
         29,
         Drinkable.beer

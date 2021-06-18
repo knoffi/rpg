@@ -28,6 +28,9 @@ type OpacitySwiperTextProps = {
     swipeThreshold: number;
     descriptionText: string;
     priceString: string;
+    isUserMade: boolean;
+    leftSwipePossible: boolean;
+    rightSwipePossible: boolean;
 };
 type OpacitySwiperTextState = {
     stiffness: number;
@@ -48,6 +51,7 @@ export class OpacitySwiperText extends React.Component<
     private gestureState: Animated.Value<State>;
     private onHandlerStateChange: (...args: any[]) => void;
     private onPanEvent: (...args: any[]) => void;
+    private swiperIsOnLeftSide: boolean;
     //private userChangedText: boolean;
     private springAnimConfig: {
         toValue: Animated.Value<0>;
@@ -72,7 +76,6 @@ export class OpacitySwiperText extends React.Component<
             },
         };
         this.clock = new Animated.Clock();
-        // this.userChangedText = false;
         this.gestureState = new Animated.Value(GestureState.UNDETERMINED);
         this.springAnimConfig = {
             toValue: new Animated.Value(0),
@@ -83,6 +86,7 @@ export class OpacitySwiperText extends React.Component<
             restSpeedThreshold: 0.2,
             restDisplacementThreshold: 0.2,
         };
+        this.swiperIsOnLeftSide = false;
         this.userMightClick = false;
         this.onPanEvent = Animated.event([
             {
@@ -141,14 +145,42 @@ export class OpacitySwiperText extends React.Component<
                                 eq(state, GestureState.END),
                                 greaterThan(
                                     this.state.anim.position,
+
                                     this.props.swipeThreshold
                                 )
                             ),
                             [
-                                stopClock(this.clock),
-                                call([], () => {
-                                    this.props.onSwipeRight();
-                                }),
+                                cond(
+                                    eq(
+                                        !this.props.isUserMade &&
+                                            this.props.rightSwipePossible
+                                            ? 1
+                                            : 0,
+                                        1
+                                    ),
+                                    [
+                                        stopClock(this.clock),
+                                        call([], () => {
+                                            this.props.onSwipeRight();
+                                        }),
+                                    ]
+                                ),
+                                cond(eq(this.props.isUserMade ? 1 : 0, 1), [
+                                    call([], () => {
+                                        this.props.onSwipeRight();
+                                        this.state.anim.position.setValue(0);
+                                    }),
+                                ]),
+                                cond(
+                                    eq(
+                                        !this.props.isUserMade &&
+                                            !this.props.rightSwipePossible
+                                            ? 1
+                                            : 0,
+                                        1
+                                    ),
+                                    [startClock(this.clock)]
+                                ),
                             ]
                         ),
                         cond(
@@ -170,18 +202,27 @@ export class OpacitySwiperText extends React.Component<
                             and(
                                 eq(state, GestureState.END),
                                 not(clockRunning(this.clock)),
-                                and(
+                                or(
+                                    and(
+                                        lessThan(
+                                            this.state.anim.position,
+                                            this.props.swipeThreshold
+                                        ),
+                                        greaterThan(
+                                            this.state.anim.position,
+                                            -this.props.swipeThreshold
+                                        )
+                                    ),
                                     lessThan(
                                         this.state.anim.position,
-                                        this.props.swipeThreshold
-                                    ),
-                                    greaterThan(
-                                        this.state.anim.position,
-                                        -this.props.swipeThreshold
+                                        Animated.multiply(
+                                            this.getTranslation(),
+                                            2
+                                        )
                                     )
                                 )
                             ),
-                            startClock(this.clock)
+                            [startClock(this.clock)]
                         ),
                     ]),
             },
@@ -192,7 +233,12 @@ export class OpacitySwiperText extends React.Component<
         return Animated.divide(
             Animated.min(
                 Animated.sub(
-                    this.props.swipeThreshold,
+                    this.props.rightSwipePossible
+                        ? this.props.swipeThreshold
+                        : Animated.add(
+                              this.props.swipeThreshold,
+                              this.state.anim.position
+                          ),
                     this.state.anim.position
                 ),
                 Animated.add(
@@ -201,6 +247,18 @@ export class OpacitySwiperText extends React.Component<
                 )
             ),
             this.props.swipeThreshold
+        );
+    }
+    getTranslation() {
+        return Animated.add(
+            Animated.max(
+                Animated.divide(
+                    this.state.anim.position,
+                    this.props.rightSwipePossible ? 1 : 7
+                ),
+                0
+            ),
+            Animated.min(this.state.anim.position, 0)
         );
     }
     render() {
@@ -218,8 +276,7 @@ export class OpacitySwiperText extends React.Component<
                                     flex: 1,
                                     transform: [
                                         {
-                                            translateX:
-                                                this.state.anim.position,
+                                            translateX: this.getTranslation(),
                                         },
                                     ],
                                 }}
