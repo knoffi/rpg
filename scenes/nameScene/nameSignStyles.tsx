@@ -15,7 +15,7 @@ export const nameSignStyles = StyleSheet.create({
         marginVertical: 10 * WIDTH_FACTOR,
         marginHorizontal: 10 * HEIGHT_FACTOR,
     },
-    articalText: {
+    articleText: {
         alignContent: 'center',
         textAlign: 'center',
         fontSize: (34 / 2) * FONT_FACTOR,
