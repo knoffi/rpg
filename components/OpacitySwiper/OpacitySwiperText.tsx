@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createRef } from 'react';
 import {
     PanGestureHandler,
     State as GestureState,
@@ -49,10 +49,9 @@ export class OpacitySwiperText extends React.Component<
 > {
     private clock: Animated.Clock;
     private gestureState: Animated.Value<State>;
-    private onHandlerStateChange: (...args: any[]) => void;
     private onPanEvent: (...args: any[]) => void;
-    private swiperIsOnLeftSide: boolean;
-    //private userChangedText: boolean;
+    private onGestureEvent: (...args: any[]) => void;
+    private panRef = createRef<PanGestureHandler>();
     private springAnimConfig: {
         toValue: Animated.Value<0>;
         damping: number;
@@ -77,6 +76,7 @@ export class OpacitySwiperText extends React.Component<
         };
         this.clock = new Animated.Clock();
         this.gestureState = new Animated.Value(GestureState.UNDETERMINED);
+        this.onGestureEvent = this.getStateHandler();
         this.springAnimConfig = {
             toValue: new Animated.Value(0),
             damping: 20,
@@ -86,7 +86,6 @@ export class OpacitySwiperText extends React.Component<
             restSpeedThreshold: 0.2,
             restDisplacementThreshold: 0.2,
         };
-        this.swiperIsOnLeftSide = false;
         this.userMightClick = false;
         this.onPanEvent = Animated.event([
             {
@@ -119,7 +118,10 @@ export class OpacitySwiperText extends React.Component<
                     ]),
             },
         ]);
-        this.onHandlerStateChange = Animated.event([
+    }
+
+    getStateHandler() {
+        return Animated.event([
             {
                 nativeEvent: ({ state }) =>
                     block([
@@ -150,36 +152,19 @@ export class OpacitySwiperText extends React.Component<
                                 )
                             ),
                             [
+                                call([], () => {
+                                    this.props.onSwipeRight();
+                                }),
                                 cond(
-                                    eq(
-                                        !this.props.isUserMade &&
-                                            this.props.rightSwipePossible
-                                            ? 1
-                                            : 0,
-                                        1
-                                    ),
+                                    eq(this.props.isUserMade ? 1 : 0, 1),
                                     [
-                                        stopClock(this.clock),
                                         call([], () => {
-                                            this.props.onSwipeRight();
+                                            this.state.anim.position.setValue(
+                                                0
+                                            );
                                         }),
-                                    ]
-                                ),
-                                cond(eq(this.props.isUserMade ? 1 : 0, 1), [
-                                    call([], () => {
-                                        this.props.onSwipeRight();
-                                        this.state.anim.position.setValue(0);
-                                    }),
-                                ]),
-                                cond(
-                                    eq(
-                                        !this.props.isUserMade &&
-                                            !this.props.rightSwipePossible
-                                            ? 1
-                                            : 0,
-                                        1
-                                    ),
-                                    [startClock(this.clock)]
+                                    ],
+                                    startClock(this.clock)
                                 ),
                             ]
                         ),
@@ -192,7 +177,6 @@ export class OpacitySwiperText extends React.Component<
                                 )
                             ),
                             [
-                                stopClock(this.clock),
                                 call([], () => {
                                     this.props.onSwipeLeft();
                                 }),
@@ -202,23 +186,14 @@ export class OpacitySwiperText extends React.Component<
                             and(
                                 eq(state, GestureState.END),
                                 not(clockRunning(this.clock)),
-                                or(
-                                    and(
-                                        lessThan(
-                                            this.state.anim.position,
-                                            this.props.swipeThreshold
-                                        ),
-                                        greaterThan(
-                                            this.state.anim.position,
-                                            -this.props.swipeThreshold
-                                        )
-                                    ),
+                                and(
                                     lessThan(
                                         this.state.anim.position,
-                                        Animated.multiply(
-                                            this.getTranslation(),
-                                            2
-                                        )
+                                        this.props.swipeThreshold
+                                    ),
+                                    greaterThan(
+                                        this.state.anim.position,
+                                        -this.props.swipeThreshold
                                     )
                                 )
                             ),
@@ -249,24 +224,39 @@ export class OpacitySwiperText extends React.Component<
             this.props.swipeThreshold
         );
     }
-    getTranslation() {
-        return Animated.add(
-            Animated.max(
-                Animated.divide(
-                    this.state.anim.position,
-                    this.props.rightSwipePossible ? 1 : 7
-                ),
-                0
-            ),
-            Animated.min(this.state.anim.position, 0)
-        );
+    getStiffness() {
+        return this.props.rightSwipePossible
+            ? cond(
+                  greaterThan(
+                      this.state.anim.position,
+                      this.props.swipeThreshold
+                  ),
+                  new Animated.Value(0),
+                  new Animated.Value(FAST_STIFFNESS)
+              )
+            : FAST_STIFFNESS;
     }
+    getTranslation() {
+        const position = this.state.anim.position;
+        return this.props.rightSwipePossible
+            ? position
+            : cond(
+                  greaterThan(position, 0),
+                  Animated.multiply(
+                      Animated.divide(position, Animated.add(position, 100)),
+                      this.props.swipeThreshold
+                  ),
+                  position
+              );
+    }
+
     render() {
         return (
             <PanGestureHandler
+                ref={this.panRef}
                 minDeltaX={10}
                 onGestureEvent={this.onPanEvent}
-                onHandlerStateChange={this.onHandlerStateChange}
+                onHandlerStateChange={this.onGestureEvent}
             >
                 <Animated.View>
                     <Animated.View>
@@ -293,6 +283,8 @@ export class OpacitySwiperText extends React.Component<
                                                     {
                                                         ...this
                                                             .springAnimConfig,
+                                                        stiffness:
+                                                            this.getStiffness(),
                                                     }
                                                 ),
                                                 cond(this.state.anim.finished, [
