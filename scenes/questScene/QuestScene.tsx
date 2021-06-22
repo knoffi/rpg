@@ -64,8 +64,14 @@ export const QuestScene = (props: {
             props.fitting.fits,
             oldImpression.category
         );
-        const bannerChanges = props.getImpliedChanges(newImpressions);
-        props.onDataChange({ impressions: newImpressions, ...bannerChanges });
+        if (!newImpressions) {
+            console.log('I am undefined');
+        }
+        if (newImpressions) {
+            props.onDataChange({
+                impressions: newImpressions,
+            });
+        }
     };
     const onAdd = (category: Noticable) => {
         const oldNames = props.impressions.map((impression) => impression.name);

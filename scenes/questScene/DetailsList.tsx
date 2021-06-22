@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { List } from 'react-native-paper';
 import { association } from '../../classes/association';
 import { Noticable } from '../../classes/ImpressionIdea';
@@ -72,9 +72,7 @@ const ImpressionListAccordion = (props: {
     onReroll: (name: string) => void;
     isNotFull: boolean;
 }) => {
-    const [renderedItems, setRenderedItems] = useState(
-        props.descriptionNames.length
-    );
+    const noDrinkToAddLeft = !props.isNotFull;
     const descriptionItems = props.descriptionNames.map((text, index) => {
         const newKey = text;
         return (
@@ -85,14 +83,13 @@ const ImpressionListAccordion = (props: {
                 //TODO: make this adjustable, so that instead of reroll user can edit
                 //TODO: also, do use "NO DESCRIPTION LEFT" instead of "MENU FULL!"
                 isUserMade={false}
-                noDrinkToAddLeft={!props.isNotFull}
+                noDrinkToAddLeft={noDrinkToAddLeft}
                 actions={{
-                    onReroll: () => {
-                        setRenderedItems(
-                            renderedItems + props.descriptionNames.length
-                        );
-                        props.onReroll(text);
-                    },
+                    onReroll: noDrinkToAddLeft
+                        ? () => {}
+                        : () => {
+                              props.onReroll(text);
+                          },
                     onDelete: () => {
                         props.onDelete(text);
                     },
@@ -110,10 +107,14 @@ const ImpressionListAccordion = (props: {
             left={() => (
                 <AddButton
                     size={LIST_END_BUTTON_SIZE}
-                    onPress={() => {
-                        props.onAdd();
-                    }}
-                    disabled={!props.isNotFull}
+                    onPress={
+                        noDrinkToAddLeft
+                            ? () => {}
+                            : () => {
+                                  props.onAdd();
+                              }
+                    }
+                    disabled={noDrinkToAddLeft}
                 />
             )}
         ></List.Item>
