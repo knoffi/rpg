@@ -47,7 +47,7 @@ export const majesticBeasts: NounIdea[] = [
         needs: [a.haven],
         needsOne: [a.wealthy, a.modest, a.bard],
     },
-    { name: 'Tiger', needsOne: [a.tropical, a.city] },
+    { name: 'Tiger', needsOne: [a.tropical, a.city, a.barbarian] },
     {
         name: 'Pheasant',
         needsOne: [a.forest, a.wealthy, a.druid, a.bard],
