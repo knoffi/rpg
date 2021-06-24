@@ -8,7 +8,7 @@ import { getStructuredFits } from '../../classes/StructuredTavernFits';
 import {
     buttonEmphasis,
     PencilButton,
-    RerollButton,
+    RerollButton
 } from '../../components/buttons/generalButtons';
 import { removeEmptyStrings } from '../../editNavigator/editNavigatorFunctions';
 import { checkDataDistribution } from '../../helpingFunctions/checkDataDistribution';
@@ -25,13 +25,13 @@ import { NameSetDialog } from './NameSetDialog';
 import { TavernSign } from './TavernSign';
 
 const PROBABILITY_SPECIAL_NAME = 0.15;
-interface TextState {
+type TextState= {
     invalidSubstantives: string[];
     nameSetDialogOpen: boolean;
     dialogText: string;
 }
 
-interface NameProps {
+type NameProps= {
     fitting: { fits: association[]; misfits: association[] };
     name: string;
     onDataChange: (newData: Partial<TavernData>) => void;
