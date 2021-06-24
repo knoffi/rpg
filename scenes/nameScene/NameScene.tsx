@@ -1,21 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View } from 'react-native';
 import 'react-native-gesture-handler';
-import {
-    Button,
-    Dialog,
-    HelperText,
-    List,
-    Portal,
-    TextInput,
-} from 'react-native-paper';
+import { Button, List } from 'react-native-paper';
 import { association } from '../../classes/association';
 import { NameIdea } from '../../classes/NameIdea';
 import { getStructuredFits } from '../../classes/StructuredTavernFits';
 import {
     buttonEmphasis,
     PencilButton,
-    RerollButton,
+    RerollButton
 } from '../../components/buttons/generalButtons';
 import { removeEmptyStrings } from '../../editNavigator/editNavigatorFunctions';
 import { checkDataDistribution } from '../../helpingFunctions/checkDataDistribution';
@@ -28,18 +21,17 @@ import { AssociationDialogBar } from './associationBar/AssociationDialogBar';
 import { nameIdeas } from './names/nameIdeas';
 import { getSpecialTavernName } from './names/specialTavernNames';
 import { nameSceneStyles } from './nameSceneStyles';
-import { nameSplitter } from './nameSplitter';
+import { NameSetDialog } from './NameSetDialog';
 import { TavernSign } from './TavernSign';
 
 const PROBABILITY_SPECIAL_NAME = 0.15;
-const CHARACTER_MAX_ON_LINE = 14;
-interface TextState {
+type TextState= {
     invalidSubstantives: string[];
     nameSetDialogOpen: boolean;
     dialogText: string;
 }
 
-interface NameProps {
+type NameProps= {
     fitting: { fits: association[]; misfits: association[] };
     name: string;
     onDataChange: (newData: Partial<TavernData>) => void;
@@ -94,12 +86,7 @@ export class NameScene extends React.Component<NameProps, TextState> {
                                 this.setState({ nameSetDialogOpen: false });
                             }}
                         />
-                        <TavernSign
-                            nameText={nameSplitter(
-                                this.props.name,
-                                CHARACTER_MAX_ON_LINE
-                            )}
-                        ></TavernSign>
+                        <TavernSign nameText={this.props.name}></TavernSign>
                         <View
                             style={{
                                 flexDirection: 'row',
@@ -188,51 +175,3 @@ export class NameScene extends React.Component<NameProps, TextState> {
             .reduce((sum, cur) => sum + cur, 0);
     }
 }
-
-const NameSetDialog = (props: {
-    startText: string;
-    setStartText: (text: string) => void;
-    open: boolean;
-    tavernName: string;
-    setTavernName: (text: string) => void;
-    onDismiss: () => void;
-}) => {
-    const [textIsValid, setTextIsValid] = useState(true);
-
-    const checkText = (text: string) => {
-        if (text.length > CHARACTER_MAX_ON_LINE + 7) {
-            setTextIsValid(false);
-        } else {
-            setTextIsValid(true);
-        }
-    };
-
-    return (
-        <Portal>
-            <Dialog visible={props.open} onDismiss={props.onDismiss}>
-                <Dialog.Content>
-                    <TextInput
-                        label="Tavern Name"
-                        value={props.startText}
-                        onChangeText={(text: string) => {
-                            props.setStartText(text);
-                            checkText(text);
-                        }}
-                    ></TextInput>
-                    <HelperText type="error" visible={!textIsValid}>
-                        Name is too long and not dividable by empty spaces.
-                    </HelperText>
-                    <Button
-                        onPress={() => {
-                            props.onDismiss();
-                            props.setTavernName(props.startText);
-                        }}
-                        disabled={!textIsValid}
-                    >
-                        Okay!
-                    </Button>
-                </Dialog.Content>
-            </Dialog>
-        </Portal>
-    );
-};

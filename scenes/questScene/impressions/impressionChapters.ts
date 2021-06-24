@@ -71,9 +71,11 @@ export const getImpressionsWithOneReroll = (
     category: Noticable
 ) => {
     const oldNames = impressions.map((impression) => impression.name);
+    const newImpression = getRandomImpression(fits, category, oldNames);
+    if (!newImpression || newImpression.name === emptyImpression.name) {
+        return undefined;
+    }
     return impressions.map((impression) =>
-        impression.name !== oldName
-            ? impression
-            : getRandomImpression(fits, category, oldNames)
+        impression.name !== oldName ? impression : newImpression
     );
 };
