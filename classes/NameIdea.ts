@@ -2,6 +2,7 @@ import { DescriptionAsset } from './DescriptionAsset';
 import { Idea } from './Idea';
 import { StructuredTavernFits } from './StructuredTavernFits';
 
+const DEFAULT_HARMONY_CHANCE = 0.9;
 export class NameIdea extends Idea {
     constructor(
         private adjective: DescriptionAsset,
@@ -14,24 +15,32 @@ export class NameIdea extends Idea {
 
     public getConcreteName(
         tavernFits: StructuredTavernFits,
-        harmonyChance = 0.9
+        oldNameParts: string[]
     ) {
-        const substantive = this.chooseSubstantive(tavernFits, harmonyChance);
+        const substantive = this.chooseSubstantive(tavernFits, oldNameParts);
         const adjective = this.main.name;
-        return this.createNameForDisplay(adjective, substantive);
+        return this.fuseNameForDisplay(adjective, substantive);
     }
 
     private chooseSubstantive(
         tavernFits: StructuredTavernFits,
-        harmonyChance = 0.9
+        oldNameParts: string[],
+        harmonyChance = DEFAULT_HARMONY_CHANCE
     ) {
+        const isExcludedByPrefix = (name: string) => {
+            return oldNameParts.some(
+                (namePart) => namePart.slice(0, 5) === name.slice(0, 5)
+            );
+        };
         const fittingHarmony = this.getFittingAssetPart(
             tavernFits,
-            this.additions ? this.additions[0] : undefined
+            this.additions ? this.additions[0] : undefined,
+            isExcludedByPrefix
         )?.name;
         const fittingContrast = this.getFittingAssetPart(
             tavernFits,
-            this.contrastAdditions ? this.contrastAdditions[0] : undefined
+            this.contrastAdditions ? this.contrastAdditions[0] : undefined,
+            isExcludedByPrefix
         )?.name;
 
         return Math.random() < harmonyChance && fittingHarmony
@@ -39,7 +48,7 @@ export class NameIdea extends Idea {
             : fittingContrast || fittingHarmony;
     }
 
-    public createNameForDisplay(adjective: string, substantive?: string) {
+    private fuseNameForDisplay(adjective: string, substantive?: string) {
         if (!substantive) {
             return 'Nameless Tavern';
         } else {
