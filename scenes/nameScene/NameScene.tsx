@@ -55,7 +55,6 @@ export class NameScene extends React.Component<NameProps, TextState> {
     }
 
     public render() {
-        console.log(this.state.oldNameParts);
         return (
             <View style={nameSceneStyles.backgroundView}>
                 <List.Section
