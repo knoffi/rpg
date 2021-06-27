@@ -8,6 +8,8 @@ import {
     criminalPredatorBeasts,
     honorfulPredatorBeasts,
 } from './predatorBeasts';
+import { preyTinyAnimals } from './preyTinyAnimals';
+import { tools } from './tools';
 import { weapons } from './weapons';
 
 const a = association;
@@ -109,6 +111,7 @@ const characteristics = [
             ...artisanJobs,
             ...honorfulPredatorBeasts,
             ...majesticBeasts,
+            ...preyTinyAnimals,
             { name: 'Beauty', classRange: [a.bard, a.knight] },
         ]
     ),
@@ -122,20 +125,14 @@ const characteristics = [
             ...artisanJobs,
             ...honorfulPredatorBeasts,
             ...majesticBeasts,
+            ...preyTinyAnimals,
         ]
-    ),
-    new NameIdea(
-        {
-            name: 'Exhausted',
-            worksForBrothel: true,
-        },
-        [...noblesAndTitles, ...artisanJobs]
     ),
     new NameIdea(
         {
             name: 'Resting',
         },
-        [...noblesAndTitles, ...artisanJobs, ...weapons]
+        [...noblesAndTitles, ...artisanJobs, ...weapons, ...tools]
     ),
     new NameIdea(
         {
@@ -195,6 +192,15 @@ const characteristics = [
             incomeRange: [a.poor, a.modest],
         },
         [...artisanJobs, ...sexyParts]
+    ),
+    new NameIdea(
+        {
+            name: 'Lustful',
+            needs: [a.prostitute],
+            worksForBrothel: true,
+            incomeRange: [a.poor, a.modest],
+        },
+        [...maleGenitals, ...femaleGenitals]
     ),
     new NameIdea(
         {

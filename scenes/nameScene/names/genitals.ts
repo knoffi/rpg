@@ -18,6 +18,12 @@ export const femaleGenitals: DescriptionAsset[] = [
     { name: 'Honeypot', needs: [a.prostitute], worksForBrothel: true },
     { name: 'Beaver', needs: [a.prostitute], worksForBrothel: true },
     { name: 'Clit', needs: [a.prostitute], worksForBrothel: true },
+    {
+        name: 'Oyster',
+        needs: [a.prostitute],
+        worksForBrothel: true,
+        needsOne: [a.city, a.haven],
+    },
 ];
 
 export const sexyParts: DescriptionAsset[] = [

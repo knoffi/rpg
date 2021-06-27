@@ -120,7 +120,7 @@ const getRandomName = (fits: association[]) => {
             );
         }
         const newName = newNameIdea
-            ? newNameIdea.getConcreteName(structuredFits)
+            ? newNameIdea.getConcreteName(structuredFits, [])
             : 'Nameless Tavern';
         return newName;
     } else {

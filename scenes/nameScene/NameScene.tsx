@@ -8,7 +8,7 @@ import { getStructuredFits } from '../../classes/StructuredTavernFits';
 import {
     buttonEmphasis,
     PencilButton,
-    RerollButton
+    RerollButton,
 } from '../../components/buttons/generalButtons';
 import { removeEmptyStrings } from '../../editNavigator/editNavigatorFunctions';
 import { checkDataDistribution } from '../../helpingFunctions/checkDataDistribution';
@@ -25,13 +25,15 @@ import { NameSetDialog } from './NameSetDialog';
 import { TavernSign } from './TavernSign';
 
 const PROBABILITY_SPECIAL_NAME = 0.15;
-type TextState= {
+const MAX_NAME_MEMORY = 4;
+type TextState = {
     invalidSubstantives: string[];
     nameSetDialogOpen: boolean;
     dialogText: string;
-}
+    oldNameParts: string[];
+};
 
-type NameProps= {
+type NameProps = {
     fitting: { fits: association[]; misfits: association[] };
     name: string;
     onDataChange: (newData: Partial<TavernData>) => void;
@@ -39,9 +41,8 @@ type NameProps= {
         fits: association[];
         misfits: association[];
     }) => Partial<TavernData>;
-}
+};
 
-// Food Scene: Fehler bei Main Dish
 export class NameScene extends React.Component<NameProps, TextState> {
     constructor(props: any) {
         super(props);
@@ -49,6 +50,7 @@ export class NameScene extends React.Component<NameProps, TextState> {
             invalidSubstantives: [],
             nameSetDialogOpen: false,
             dialogText: '',
+            oldNameParts: [],
         };
     }
 
@@ -132,9 +134,22 @@ export class NameScene extends React.Component<NameProps, TextState> {
             );
             const newNameIdea = getRandomArrayEntry(possibleNames) as NameIdea;
             const newName = newNameIdea
-                ? newNameIdea.getConcreteName(structuredFits)
+                ? newNameIdea.getConcreteName(
+                      structuredFits,
+                      this.state.oldNameParts
+                  )
                 : 'Nameless Tavern';
             this.props.onDataChange({ name: newName });
+            const incomingNameParts = newName.split(' ');
+            const newOldNameParts = [
+                ...this.state.oldNameParts,
+                ...incomingNameParts,
+            ].filter(
+                (part, index) =>
+                    this.state.oldNameParts.length <= MAX_NAME_MEMORY ||
+                    index >= incomingNameParts.length
+            );
+            this.setState({ oldNameParts: newOldNameParts });
         } else {
             const specialName = this.getSpecialNames();
             this.props.onDataChange({ name: specialName });
