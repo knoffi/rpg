@@ -5,6 +5,11 @@ export const a = association;
 // NOTE: if you wanna combine them for humor effects (f.e. "The Whiny Dragon"), then "poor" should not be a misfit
 export const majesticBeasts: DescriptionAsset[] = [
     {
+        name: 'Deer',
+        landRange: [a.mountain, a.forest, a.village, a.city],
+        powerFits: [a.druid, a.forest, a.village, a.knight],
+    },
+    {
         name: 'Lion',
         needsOne: [a.knight, a.rich, a.wealthy],
         powerFits: [
