@@ -1,6 +1,6 @@
 import { association } from '../../../classes/association';
-import { emptyDescriptionAsset } from '../../../classes/DescriptionAsset';
-import { ImpressionIdea, Noticable } from '../../../classes/ImpressionIdea';
+import { emptyDescriptionAsset } from '../../../classes/idea/DescriptionAsset';
+import { ImpressionIdea, Noticable } from '../../../classes/idea/ImpressionIdea';
 const a = association;
 
 export const stuffedAnimals: ImpressionIdea[] = [

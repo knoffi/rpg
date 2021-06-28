@@ -1,5 +1,5 @@
 import { association } from '../../../../classes/association';
-import { DescriptionAsset } from '../../../../classes/DescriptionAsset';
+import { DescriptionAsset } from '../../../../classes/idea/DescriptionAsset';
 const a = association;
 
 export const poorBases: DescriptionAsset[] = [

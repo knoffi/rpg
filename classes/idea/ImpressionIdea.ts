@@ -1,4 +1,5 @@
-import { splitMarker } from '../scenes/menuScene/offerList/nameSplitter/splitMarker';
+import { splitMarker } from '../../scenes/menuScene/offerList/nameSplitter/splitMarker';
+import { AssetStressMode } from './assetStressMode';
 import { DescriptionAsset } from './DescriptionAsset';
 import { Idea } from './Idea';
 import { StructuredTavernFits } from './StructuredTavernFits';
@@ -17,13 +18,18 @@ export class ImpressionIdea extends Idea {
         mainImpression: DescriptionAsset,
         additions: DescriptionAsset[],
         category: Noticable,
-        displayTextAsFurniture?: boolean,
-        reverseDisplay = false
+        displayTextAsFurniture = false,
+        reverseDisplay = false,
+        stress = AssetStressMode.main
     ) {
-        super(mainImpression, [additions]);
+        super(mainImpression, [additions], undefined, {
+            main: stress === AssetStressMode.main,
+            harmony: stress === AssetStressMode.harmony,
+            contrast: stress === AssetStressMode.contrast,
+        });
         this.category = category;
         this.reverseDisplay = reverseDisplay;
-        this.displayTextAsFurniture = displayTextAsFurniture || false;
+        this.displayTextAsFurniture = displayTextAsFurniture;
     }
     public createImpression(
         tavernFits: StructuredTavernFits,

@@ -1,5 +1,5 @@
 import { association } from '../../../classes/association';
-import { NameIdea } from '../../../classes/NameIdea';
+import { NameIdea } from '../../../classes/idea/NameIdea';
 import { femaleGenitals, maleGenitals, sexyParts } from './genitals';
 import { artisanJobs, gastronomyJobs, noblesAndTitles } from './jobs';
 import { majesticBeasts } from './majesticBeasts';
@@ -31,25 +31,6 @@ const characteristics = [
             ...gastronomyJobs,
             ...noblesAndTitles,
             { name: 'Hat', needs: [a.wizard] },
-            {
-                name: 'Wench',
-                needs: [a.prostitute],
-                misfits: [a.rich, a.wealthy, a.drow],
-                worksForBrothel: true,
-            },
-            {
-                name: 'Concubine',
-                needs: [a.prostitute],
-                incomeRange: [a.rich, a.wealthy],
-                misfits: [a.drow],
-                worksForBrothel: true,
-            },
-            {
-                name: 'Lust Slave',
-                needs: [a.prostitute, a.drow],
-                incomeRange: [a.rich, a.wealthy],
-                worksForBrothel: true,
-            },
             {
                 name: 'Squid',
                 needs: [a.haven],
@@ -133,6 +114,20 @@ const characteristics = [
             name: 'Resting',
         },
         [...noblesAndTitles, ...artisanJobs, ...weapons, ...tools]
+    ),
+    new NameIdea(
+        {
+            name: 'Humble',
+            misfits: [a.rich],
+        },
+        [...noblesAndTitles, ...artisanJobs]
+    ),
+    new NameIdea(
+        {
+            name: 'Decadent',
+            incomeRange: [a.rich, a.wealthy],
+        },
+        [...noblesAndTitles, ...artisanJobs]
     ),
     new NameIdea(
         {

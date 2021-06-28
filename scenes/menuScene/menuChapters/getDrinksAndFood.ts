@@ -1,5 +1,5 @@
 import { association } from '../../../classes/association';
-import { getStructuredFits } from '../../../classes/StructuredTavernFits';
+import { getStructuredFits } from '../../../classes/idea/StructuredTavernFits';
 import { getRandomArrayEntry } from '../../../helpingFunctions/getFittingRandom';
 import { NothingLeftOffer } from '../menuEnums';
 import { DrinkChapters } from './DrinkChapters';

@@ -1,5 +1,5 @@
 import { association, sophisticatedGroup } from '../../../classes/association';
-import { ImpressionIdea, Noticable } from '../../../classes/ImpressionIdea';
+import { ImpressionIdea, Noticable } from '../../../classes/idea/ImpressionIdea';
 import {
     busyScholarClass,
     busyUpperClass,

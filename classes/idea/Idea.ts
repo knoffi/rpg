@@ -1,4 +1,4 @@
-import { getRandomArrayEntry } from '../helpingFunctions/getFittingRandom';
+import { getRandomArrayEntry } from '../../helpingFunctions/getFittingRandom';
 import {
     association,
     isClassAssociation,
@@ -6,7 +6,7 @@ import {
     isLandAssociation,
     isRaceAssociation,
     isSpecialAssociation,
-} from './association';
+} from '../association';
 import { DescriptionAsset } from './DescriptionAsset';
 import { StructuredTavernFits } from './StructuredTavernFits';
 
@@ -14,7 +14,12 @@ export class Idea {
     constructor(
         protected main: DescriptionAsset,
         protected additions?: DescriptionAsset[][],
-        protected contrastAdditions?: DescriptionAsset[][]
+        protected contrastAdditions?: DescriptionAsset[][],
+        protected powerFitConcept?: {
+            main: boolean;
+            harmony: boolean;
+            contrast: boolean;
+        }
     ) {}
 
     public countFittingChoices(
@@ -41,7 +46,8 @@ export class Idea {
     private countFittingIdeaConstellations(
         additions: DescriptionAsset[][],
         tavernFits: StructuredTavernFits,
-        isExcludedByPrefix?: (name: string) => boolean
+        isExcludedByPrefix?: (name: string) => boolean,
+        applyPowerFit?: boolean
     ) {
         if (additions.length === 0 || additions === [[]]) {
             return 0;
@@ -52,7 +58,8 @@ export class Idea {
                     this.assetFitsToTavern(
                         tavernFits,
                         addition,
-                        isExcludedByPrefix
+                        isExcludedByPrefix,
+                        applyPowerFit
                     )
                 ).length
         );
@@ -67,11 +74,16 @@ export class Idea {
         tavernFits: StructuredTavernFits,
         additionChoices?: DescriptionAsset[],
         isExcludedByPrefix?: (name: string) => boolean,
-        ignoreCriminalRestrictions?: boolean
+        applyPowerFit?: boolean
     ) {
         if (additionChoices) {
             const fittingAssetParts = additionChoices.filter((addition) =>
-                this.assetFitsToTavern(tavernFits, addition, isExcludedByPrefix)
+                this.assetFitsToTavern(
+                    tavernFits,
+                    addition,
+                    isExcludedByPrefix,
+                    applyPowerFit
+                )
             );
             return getRandomArrayEntry(fittingAssetParts);
         } else {
@@ -82,7 +94,8 @@ export class Idea {
     private assetFitsToTavern(
         tavernFits: StructuredTavernFits,
         asset: DescriptionAsset,
-        isExcludedByPrefix?: (name: string) => boolean
+        isExcludedByPrefix?: (name: string) => boolean,
+        applyPowerFit?: boolean
     ) {
         const assetIsRedundant = isExcludedByPrefix
             ? isExcludedByPrefix(asset.name)
@@ -105,19 +118,21 @@ export class Idea {
         }
         const necessarities = asset.needs || [];
         const misfits = asset.misfits || [];
-        const needsOne = asset.needsOne;
+        const ownedPowerFits = asset.powerFits || [];
+        //TODO: test if this still works, changed in first issue of #54
+        const needsOne = asset.needsOne || [];
         const necessaritiesFulfilled = necessarities.every((necessaryFit) =>
             tavernFitsArray.includes(necessaryFit)
         );
         const noMisfitsInTavern = misfits.every(
             (misfit) => !tavernFitsArray.includes(misfit)
         );
-
-        const needsOneFulfilled = needsOne
-            ? needsOne.some((replacableNecessarity) =>
-                  tavernFitsArray.includes(replacableNecessarity)
-              )
-            : true;
+        const needsOneFulfilled =
+            needsOne.length === 0
+                ? true
+                : needsOne.some((replacableNecessarity) =>
+                      tavernFitsArray.includes(replacableNecessarity)
+                  );
 
         const assetContainsTavernFits = asset.fitsTo
             ? tavernFitsArray.every(
@@ -132,6 +147,20 @@ export class Idea {
             tavernFits,
             asset.strongNeedsOne
         );
+
+        const powerFitFulfilled = tavernFits.powerFit
+            ? !applyPowerFit ||
+              this.powerFitCheck(
+                  tavernFits.powerFit,
+                  necessarities,
+                  needsOne,
+                  ownedPowerFits,
+                  asset.worksForAssasines,
+                  asset.worksForThiefs,
+                  asset.worksForBrothel,
+                  asset.worksForAllCriminals
+              )
+            : true;
         const incomeIsFitting =
             !tavernFits.income ||
             !asset.incomeRange ||
@@ -162,7 +191,8 @@ export class Idea {
             raceIsFitting &&
             specialIsFitting &&
             noMisfitsInTavern &&
-            strongNeedsOneFulfilled;
+            strongNeedsOneFulfilled &&
+            powerFitFulfilled;
         switch (tavernFits.special) {
             case association.prostitute:
                 return asset.worksForBrothel || asset.worksForAllCriminals
@@ -213,6 +243,41 @@ export class Idea {
         return needsOneCondition && impliedRangeCondition;
     }
 
+    private powerFitCheck(
+        powerFit: association,
+        needs: association[],
+        needsOne: association[],
+        ownedPowerFits?: association[],
+        worksForAssasines?: boolean,
+        worksForThiefs?: boolean,
+        worksForBrothel?: boolean,
+        worksForAllCriminals?: boolean
+    ) {
+        if (
+            powerFit === association.thief &&
+            (worksForAllCriminals || worksForThiefs)
+        ) {
+            return true;
+        }
+        if (
+            powerFit === association.assasine &&
+            (worksForAllCriminals || worksForAssasines)
+        ) {
+            return true;
+        }
+        if (
+            powerFit === association.prostitute &&
+            (worksForAllCriminals || worksForBrothel)
+        ) {
+            return true;
+        }
+        return (
+            (ownedPowerFits || []).includes(powerFit) ||
+            needs.includes(powerFit) ||
+            needsOne.includes(powerFit)
+        );
+    }
+
     public fitsToTavern(
         tavernFits: StructuredTavernFits,
         isExcludedByPrefix?: (name: string) => boolean
@@ -220,7 +285,8 @@ export class Idea {
         const mainFitsToTavern = this.assetFitsToTavern(
             tavernFits,
             this.main,
-            isExcludedByPrefix
+            isExcludedByPrefix,
+            this.powerFitConcept ? this.powerFitConcept.main : undefined
         );
         if (!mainFitsToTavern) {
             return false;
@@ -231,7 +297,14 @@ export class Idea {
         const someHarmonySubstantiveFits = this.additions
             ? this.additions.every((additionCollection) =>
                   additionCollection.some((addition) =>
-                      this.assetFitsToTavern(tavernFits, addition)
+                      this.assetFitsToTavern(
+                          tavernFits,
+                          addition,
+                          undefined,
+                          this.powerFitConcept
+                              ? this.powerFitConcept.harmony
+                              : undefined
+                      )
                   )
               )
             : false;
@@ -241,7 +314,14 @@ export class Idea {
         const someConstrastSubstantiveFits = this.contrastAdditions
             ? this.contrastAdditions.every((additionCollection) =>
                   additionCollection.some((addition) =>
-                      this.assetFitsToTavern(tavernFits, addition)
+                      this.assetFitsToTavern(
+                          tavernFits,
+                          addition,
+                          undefined,
+                          this.powerFitConcept
+                              ? this.powerFitConcept.contrast
+                              : undefined
+                      )
                   )
               )
             : false;

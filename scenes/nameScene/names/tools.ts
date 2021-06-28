@@ -1,5 +1,5 @@
 import { association } from '../../../classes/association';
-import { DescriptionAsset } from '../../../classes/DescriptionAsset';
+import { DescriptionAsset } from '../../../classes/idea/DescriptionAsset';
 const a = association;
 const unproletarianGroups = [
     a.wizard,
@@ -14,6 +14,8 @@ const unproletarianGroups = [
     a.forest,
     a.elf,
     a.drow,
+    //because druides are anti-industry
+    a.druid,
 ];
 export const tools: DescriptionAsset[] = [
     {
@@ -23,6 +25,7 @@ export const tools: DescriptionAsset[] = [
         misfits: unproletarianGroups,
         classRange: [a.barbarian, a.knight, a.cleric],
         worksForAssasines: true,
+        powerFits: [a.cleric, a.modest, a.barbarian],
     },
     {
         name: 'Anvil',
@@ -30,41 +33,41 @@ export const tools: DescriptionAsset[] = [
         needsOne: [a.dwarf, a.knight, a.modest],
         misfits: unproletarianGroups,
         classRange: [a.barbarian, a.knight, a.soldier],
+        powerFits: [a.modest, a.city],
     },
     {
         name: 'Chisel',
         landRange: [a.city, a.village],
-        needsOne: [a.dwarf, a.modest],
+        incomeRange: [a.modest],
         misfits: unproletarianGroups,
-        classRange: [],
+        powerFits: [a.modest, a.city],
     },
     {
         name: 'Screwdriver',
         landRange: [a.city, a.village],
-        needsOne: [a.dwarf, a.modest],
+        incomeRange: [a.modest],
         misfits: unproletarianGroups,
-        classRange: [],
+        powerFits: [a.modest, a.city],
     },
     {
         name: 'Scissor',
         landRange: [a.city, a.village],
-        needsOne: [a.halfling, a.modest],
+        incomeRange: [a.poor, a.modest],
         misfits: unproletarianGroups,
-        classRange: [],
+        powerFits: [a.modest, a.halfling],
     },
     {
         name: 'Shovel',
         landRange: [a.city, a.village, a.underdark, a.mountain],
         needsOne: [a.dwarf, a.gnome, a.modest],
         misfits: unproletarianGroups,
-        classRange: [],
+        powerFits: [a.modest, a.underdark],
     },
     {
         name: 'Pickaxe',
         landRange: [a.city, a.village, a.underdark, a.mountain],
-        needsOne: [a.dwarf, a.modest],
         misfits: unproletarianGroups,
-        classRange: [],
+        powerFits: [a.gnome, a.modest, a.underdark, a.mountain, a.dwarf],
     },
     {
         name: 'Saw',
@@ -72,6 +75,7 @@ export const tools: DescriptionAsset[] = [
         needsOne: [a.halfling, a.modest],
         misfits: unproletarianGroups,
         classRange: [],
+        powerFits: [a.modest, a.village, a.forest],
     },
     {
         name: 'Axe',
@@ -80,5 +84,6 @@ export const tools: DescriptionAsset[] = [
         misfits: unproletarianGroups,
         classRange: [a.barbarian, a.knight, a.soldier],
         worksForAssasines: true,
+        powerFits: [a.modest, a.dwarf, a.barbarian, a.forest, a.village],
     },
 ];

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import { HelperText, Text, TextInput } from 'react-native-paper';
-import { SavedDataHandler, WeSave } from '../../../classes/Database';
+import { SavedDataHandler, WeSave } from '../../../classes/database/Database';
 import {
     buttonEmphasis,
     OkayButton,

@@ -1,3 +1,4 @@
+import { AssetStressMode } from './assetStressMode';
 import { DescriptionAsset } from './DescriptionAsset';
 import { Idea } from './Idea';
 import { StructuredTavernFits } from './StructuredTavernFits';
@@ -6,11 +7,16 @@ const DEFAULT_HARMONY_CHANCE = 0.9;
 export class NameIdea extends Idea {
     constructor(
         private adjective: DescriptionAsset,
-        private substantives?: DescriptionAsset[],
-        private contrastSubstantives?: DescriptionAsset[],
-        private reverseNaming = false
+        private substantives = [] as DescriptionAsset[],
+        private contrastSubstantives = [] as DescriptionAsset[],
+        private reverseNaming = false,
+        private stress = AssetStressMode.harmony
     ) {
-        super(adjective, [substantives || []], [contrastSubstantives || []]);
+        super(adjective, [substantives], [contrastSubstantives], {
+            main: stress === AssetStressMode.main,
+            harmony: stress === AssetStressMode.harmony,
+            contrast: stress === AssetStressMode.contrast,
+        });
     }
 
     public getConcreteName(
@@ -35,12 +41,14 @@ export class NameIdea extends Idea {
         const fittingHarmony = this.getFittingAssetPart(
             tavernFits,
             this.additions ? this.additions[0] : undefined,
-            isExcludedByPrefix
+            isExcludedByPrefix,
+            true
         )?.name;
         const fittingContrast = this.getFittingAssetPart(
             tavernFits,
             this.contrastAdditions ? this.contrastAdditions[0] : undefined,
-            isExcludedByPrefix
+            isExcludedByPrefix,
+            true
         )?.name;
 
         return Math.random() < harmonyChance && fittingHarmony
@@ -58,3 +66,5 @@ export class NameIdea extends Idea {
         }
     }
 }
+
+const test = new NameIdea({ name: 'test' }, [], [], false);

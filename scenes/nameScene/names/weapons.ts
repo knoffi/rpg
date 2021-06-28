@@ -1,37 +1,47 @@
 import { association } from '../../../classes/association';
-import { NounIdea } from '../../../classes/NounIdea';
+import { DescriptionAsset } from '../../../classes/idea/DescriptionAsset';
 const a = association;
 
-export const weapons: NounIdea[] = [
-    { name: 'Saber', needs: [a.haven] },
+export const weapons: DescriptionAsset[] = [
+    {
+        name: 'Saber',
+        needs: [a.haven],
+        powerFits: [a.haven],
+        worksForThiefs: true,
+    },
     {
         name: 'Arrow',
         needsOne: [a.assasine, a.drow, a.thief, a.soldier, a.elf],
         misfits: [a.haven],
+        powerFits: [a.soldier, a.elf, a.drow],
     },
     {
         name: 'Dagger',
         needsOne: [a.assasine, a.drow, a.thief, a.wizard],
         worksForAssasines: true,
         worksForThiefs: true,
+        powerFits: [a.drow, a.tiefling, a.gnome],
     },
     {
         name: 'Claymore',
         classRange: [a.barbarian, a.knight, a.soldier],
         misfits: [a.desert, a.haven, a.tropical, a.elf, a.drow],
+        powerFits: [a.knight, a.human, a.barbarian],
     },
     {
         name: 'Trident',
         needs: [a.haven],
         classRange: [a.knight, a.soldier, a.cleric],
+        powerFits: [a.haven],
     },
     {
         name: 'Scimitar',
-        needs: [a.desert],
+        landRange: [a.haven, a.desert],
         classRange: [a.soldier, a.bard, a.druid],
         misfits: [a.rich, a.dwarf],
         worksForThiefs: true,
         worksForAssasines: true,
+        powerFits: [a.desert],
     },
     {
         name: 'Lance',
@@ -45,6 +55,7 @@ export const weapons: NounIdea[] = [
             a.gnome,
             a.halfling,
         ],
+        powerFits: [a.knight],
     },
     {
         name: 'Chakram',
@@ -53,42 +64,50 @@ export const weapons: NounIdea[] = [
         misfits: [a.dwarf],
         worksForAssasines: true,
         worksForThiefs: true,
+        powerFits: [a.desert],
     },
     {
         name: 'Longbow',
         classRange: [a.soldier, a.knight],
         misfits: [a.rich, a.haven, a.dwarf, a.halfling, a.gnome],
         worksForAssasines: true,
+        powerFits: [a.soldier, a.elf, a.drow],
     },
     {
         name: 'Shield',
         classRange: [a.soldier, a.knight],
+        powerFits: [a.soldier, a.knight],
     },
     {
         name: 'Crossbow',
-        classRange: [a.knight, a.knight],
+        classRange: [a.knight, a.soldier],
         misfits: [a.rich, a.haven, a.elf, a.drow],
         worksForAssasines: true,
+        powerFits: [a.knight, a.soldier],
     },
     {
         name: 'Mace',
         classRange: [a.cleric, a.knight, a.soldier],
         misfits: [a.haven, a.rich],
+        powerFits: [a.cleric, a.knight, a.soldier],
     },
     {
         name: 'Greataxe',
         needsOne: [a.barbarian, a.knight],
         misfits: [a.rich, a.haven, a.elf, a.drow],
+        powerFits: [a.dwarf, a.barbarian],
     },
     {
         name: 'Warhammer',
         misfits: [a.haven, a.elf, a.drow],
         classRange: [a.knight, a.soldier, a.cleric, a.barbarian],
+        powerFits: [a.cleric, a.barbarian, a.knight],
     },
     {
         name: 'Longsword',
         misfits: [a.haven, a.desert, a.tropical, a.dwarf],
         classRange: [a.knight, a.soldier, a.barbarian],
+        powerFits: [a.knight, a.human, a.soldier],
     },
     {
         name: 'Flail',
@@ -101,16 +120,19 @@ export const weapons: NounIdea[] = [
         classRange: [a.soldier, a.bard],
         worksForThiefs: true,
         worksForAssasines: true,
+        powerFits: [a.soldier, a.halfling],
     },
     {
         name: 'Halberd',
         misfits: [a.haven, a.elf, a.halfling, a.gnome, a.drow, a.desert],
         classRange: [a.knight, a.soldier, a.barbarian],
+        powerFits: [a.soldier, a.knight],
     },
     {
         name: 'Harpune',
         needs: [a.haven],
         classRange: [a.knight, a.soldier, a.bard, a.barbarian],
         worksForAssasines: true,
+        powerFits: [a.haven, a.soldier],
     },
 ];

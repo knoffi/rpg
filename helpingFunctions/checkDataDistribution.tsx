@@ -8,7 +8,7 @@ import {
 import {
     getStructuredFits,
     StructuredTavernFits,
-} from '../classes/StructuredTavernFits';
+} from '../classes/idea/StructuredTavernFits';
 import { nameIdeas } from '../scenes/nameScene/names/nameIdeas';
 type associationNote = { name: association; occurence: number };
 const countNamesForStructuredFits = (structuredFits: StructuredTavernFits) => {

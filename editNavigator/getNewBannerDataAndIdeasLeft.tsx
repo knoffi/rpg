@@ -1,5 +1,5 @@
 import { association } from '../classes/association';
-import { Noticable } from '../classes/ImpressionIdea';
+import { Noticable } from '../classes/idea/ImpressionIdea';
 import { Drinkable, Eatable, MenuCategory } from '../classes/TavernProduct';
 import { TavernData } from '../mainNavigator/TavernData';
 import {

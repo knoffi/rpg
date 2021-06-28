@@ -1,7 +1,7 @@
 import { association } from '../classes/association';
-import { Noticable } from '../classes/ImpressionIdea';
-import { NameIdea } from '../classes/NameIdea';
-import { getStructuredFits } from '../classes/StructuredTavernFits';
+import { Noticable } from '../classes/idea/ImpressionIdea';
+import { NameIdea } from '../classes/idea/NameIdea';
+import { getStructuredFits } from '../classes/idea/StructuredTavernFits';
 import { Drinkable, Eatable, MenuCategory } from '../classes/TavernProduct';
 import { getProductsLeftAndBannerData } from '../editNavigator/editNavigatorFunctions';
 import { getRandomArrayEntry } from '../helpingFunctions/getFittingRandom';

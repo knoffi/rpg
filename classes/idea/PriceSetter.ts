@@ -1,4 +1,4 @@
-import { association } from './association';
+import { association } from '../association';
 
 export type PriceSetter = {
     [association.poor]: number;

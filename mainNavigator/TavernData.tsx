@@ -1,5 +1,5 @@
 import { association } from '../classes/association';
-import { Noticable } from '../classes/ImpressionIdea';
+import { Noticable } from '../classes/idea/ImpressionIdea';
 import { Drinkable, Eatable } from '../classes/TavernProduct';
 import { BasePrice } from '../scenes/menuScene/basePrice';
 import { BannerData } from '../scenes/menuScene/menuBanner/MenuBanner';

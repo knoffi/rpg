@@ -1,5 +1,5 @@
 import { association } from '../classes/association';
-import { Noticable } from '../classes/ImpressionIdea';
+import { Noticable } from '../classes/idea/ImpressionIdea';
 import { MinimalTavernData } from '../mainNavigator/TavernData';
 import { standardBasePrice } from '../scenes/menuScene/basePrice';
 

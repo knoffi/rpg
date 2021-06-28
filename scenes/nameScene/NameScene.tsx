@@ -3,8 +3,8 @@ import { View } from 'react-native';
 import 'react-native-gesture-handler';
 import { Button, List } from 'react-native-paper';
 import { association } from '../../classes/association';
-import { NameIdea } from '../../classes/NameIdea';
-import { getStructuredFits } from '../../classes/StructuredTavernFits';
+import { NameIdea } from '../../classes/idea/NameIdea';
+import { getStructuredFits } from '../../classes/idea/StructuredTavernFits';
 import {
     buttonEmphasis,
     PencilButton,
@@ -25,7 +25,7 @@ import { NameSetDialog } from './NameSetDialog';
 import { TavernSign } from './TavernSign';
 
 const PROBABILITY_SPECIAL_NAME = 0.15;
-const MAX_NAME_MEMORY = 4;
+const MAX_NAME_MEMORY = 2;
 type TextState = {
     invalidSubstantives: string[];
     nameSetDialogOpen: boolean;

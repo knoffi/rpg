@@ -2,7 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Button, List, Modal, Portal } from 'react-native-paper';
-import { SavedDataHandler } from '../../classes/Database';
+import { SavedDataHandler } from '../../classes/database/Database';
 import { MenuCategory } from '../../classes/TavernProduct';
 import { MinimalTavernData } from '../../mainNavigator/TavernData';
 import { editModalStyles } from '../../scenes/startOptionsScene/editModalStyles';

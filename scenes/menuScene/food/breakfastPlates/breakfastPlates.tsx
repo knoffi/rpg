@@ -1,4 +1,4 @@
-import { DishIdea } from '../../../../classes/DishIdea';
+import { DishIdea } from '../../../../classes/idea/DishIdea';
 import { Eatable } from '../../../../classes/TavernProduct';
 import { foodPrices } from '../../priceSetting/foodPriceSetters';
 import { adjustPriceSetter } from '../../priceSetting/priceSetters';

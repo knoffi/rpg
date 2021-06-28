@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ScrollView } from 'react-native';
 import { association } from '../../classes/association';
-import { Noticable } from '../../classes/ImpressionIdea';
+import { Noticable } from '../../classes/idea/ImpressionIdea';
 import { TavernData } from '../../mainNavigator/TavernData';
 import { WeServe } from '../menuScene/addRandomDrink';
 import { BasePrice } from '../menuScene/basePrice';

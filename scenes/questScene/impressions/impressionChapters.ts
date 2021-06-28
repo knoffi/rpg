@@ -1,6 +1,6 @@
 import { association } from '../../../classes/association';
-import { Noticable } from '../../../classes/ImpressionIdea';
-import { getStructuredFits } from '../../../classes/StructuredTavernFits';
+import { Noticable } from '../../../classes/idea/ImpressionIdea';
+import { getStructuredFits } from '../../../classes/idea/StructuredTavernFits';
 import { getRandomArrayEntry } from '../../../helpingFunctions/getFittingRandom';
 import { WeServe } from '../../menuScene/addRandomDrink';
 import { averageCustomers } from './averageCustomer';

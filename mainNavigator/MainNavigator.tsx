@@ -3,7 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import React, { useState } from 'react';
 import { AppBar } from '../appBar/AppBar';
 import { association } from '../classes/association';
-import { SavedDataHandler, WeSave } from '../classes/Database';
+import { SavedDataHandler, WeSave } from '../classes/database/Database';
 import { EditNavigator } from '../editNavigator/EditNavigator';
 import { Offer } from '../scenes/menuScene/menuEnums';
 import { getAdjustedPrice } from '../scenes/menuScene/priceFunctions';

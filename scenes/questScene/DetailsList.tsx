@@ -1,7 +1,7 @@
 import React from 'react';
 import { List } from 'react-native-paper';
 import { association } from '../../classes/association';
-import { Noticable } from '../../classes/ImpressionIdea';
+import { Noticable } from '../../classes/idea/ImpressionIdea';
 import { AddButton } from '../../components/buttons/generalButtons';
 import { TavernData } from '../../mainNavigator/TavernData';
 import { globalStyles } from '../globalStyles';
