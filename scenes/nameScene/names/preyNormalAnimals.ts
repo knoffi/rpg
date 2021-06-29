@@ -10,16 +10,6 @@ export const preyNormalAnimals: DescriptionAsset[] = [
         powerFits: [a.druid, a.forest, a.mountain],
     },
     {
-        name: 'Weasel',
-        landRange: [a.forest, a.village, a.city],
-        powerFits: [a.druid, a.forest, a.village, a.halfling],
-    },
-    {
-        name: 'Chicken',
-        landRange: [a.village, a.city],
-        powerFits: [a.village, a.halfling],
-    },
-    {
         name: 'Beaver',
         worksForBrothel: true,
         incomeRange: [a.poor, a.modest],
@@ -66,19 +56,6 @@ export const preyNormalAnimals: DescriptionAsset[] = [
         powerFits: [a.village, a.mountain, a.halfling],
     },
     {
-        name: 'Swine',
-        incomeRange: [a.poor, a.modest],
-        landRange: [a.village, a.city],
-        powerFits: [a.village, a.human],
-    },
-    {
-        name: 'Cat',
-        incomeRange: [a.poor, a.modest],
-        landRange: [a.village, a.city],
-        worksForThiefs: true,
-        powerFits: [a.village, a.halfling],
-    },
-    {
         name: 'Goat',
         incomeRange: [a.poor, a.modest],
         landRange: [a.village, a.mountain],
@@ -123,23 +100,5 @@ export const preyNormalAnimals: DescriptionAsset[] = [
         name: 'Mole',
         needs: [a.underdark, a.modest],
         powerFits: [a.underdark, a.gnome],
-    },
-    {
-        name: 'Camel',
-        needs: [a.desert],
-        misfits: [a.rich],
-        powerFits: [a.desert, a.modest, a.druid],
-    },
-    {
-        name: 'Dromedary',
-        needs: [a.desert],
-        misfits: [a.rich],
-        powerFits: [a.desert, a.modest, a.druid],
-    },
-    {
-        name: 'Gecko',
-        needs: [a.desert],
-        misfits: [a.rich, a.wealthy],
-        powerFits: [a.desert, a.poor, a.druid],
     },
 ];
