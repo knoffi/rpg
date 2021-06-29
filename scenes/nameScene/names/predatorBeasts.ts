@@ -16,6 +16,22 @@ export const honorfulPredatorBeasts: DescriptionAsset[] = [
         powerFits: [a.druid, a.village, a.forest, a.barbarian],
     },
     {
+        name: 'Boar',
+        landRange: BEAR_LAND,
+        classRange: BEAR_CLASSES,
+        incomeRange: BEAR_INCOME,
+        misfits: BEAR_ANTI_RACES,
+        powerFits: [a.druid, a.village, a.forest, a.barbarian],
+    },
+    {
+        name: 'Ox',
+        landRange: BEAR_LAND,
+        classRange: BEAR_CLASSES,
+        incomeRange: BEAR_INCOME,
+        misfits: BEAR_ANTI_RACES,
+        powerFits: [a.village, a.barbarian],
+    },
+    {
         name: 'Wolve',
         landRange: BEAR_LAND,
         classRange: BEAR_CLASSES,
