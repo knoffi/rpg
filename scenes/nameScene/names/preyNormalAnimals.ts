@@ -69,7 +69,9 @@ export const preyNormalAnimals: DescriptionAsset[] = [
         name: 'Swine',
         incomeRange: [a.poor, a.modest],
         landRange: [a.village, a.city],
-        powerFits: [a.village, a.human],
+        misfits: [a.elf, a.drow, a.tiefling],
+        worksForBrothel: true,
+        powerFits: [a.village, a.human, a.halfling],
     },
     {
         name: 'Cat',

@@ -1,6 +1,5 @@
-import { association } from '../../../classes/association';
 import { Noticable } from '../../../classes/idea/ImpressionIdea';
-import { getStructuredFits } from '../../../classes/idea/StructuredTavernFits';
+import { StructuredTavernFits } from '../../../classes/idea/StructuredTavernFits';
 import { getRandomArrayEntry } from '../../../helpingFunctions/getFittingRandom';
 import { WeServe } from '../../menuScene/addRandomDrink';
 import { averageCustomers } from './averageCustomer';
@@ -35,7 +34,7 @@ export const emptyImpression: IImpression = {
     category: Noticable.bartender,
 };
 export const getRandomImpression = (
-    tavernFits: association[],
+    fitting: StructuredTavernFits,
     category: Noticable,
     oldNames: string[]
 ): IImpression => {
@@ -47,17 +46,15 @@ export const getRandomImpression = (
         console.log('Impression category not found!');
         return emptyImpression;
     }
-    const structuredFits = getStructuredFits(tavernFits);
     const fittingImpressions = impressionChapter!.impressions.filter(
-        (impression) =>
-            impression.fitsToTavern(structuredFits, isExcludedByPrefix)
+        (impression) => impression.fitsToTavern(fitting, isExcludedByPrefix)
     );
     if (fittingImpressions.length === 0) {
         return emptyImpression;
     }
     const newDescriptionText = getRandomArrayEntry(
         fittingImpressions
-    ).createImpression(structuredFits, () => false);
+    ).createImpression(fitting, () => false);
     return {
         name: newDescriptionText,
         category: category,
@@ -67,11 +64,11 @@ export const getRandomImpression = (
 export const getImpressionsWithOneReroll = (
     oldName: string,
     impressions: IImpression[],
-    fits: association[],
+    fitting: StructuredTavernFits,
     category: Noticable
 ) => {
     const oldNames = impressions.map((impression) => impression.name);
-    const newImpression = getRandomImpression(fits, category, oldNames);
+    const newImpression = getRandomImpression(fitting, category, oldNames);
     if (!newImpression || newImpression.name === emptyImpression.name) {
         return undefined;
     }

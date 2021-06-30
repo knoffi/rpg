@@ -1,6 +1,13 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { association } from '../../../classes/association';
+import {
+    AssociationTypes,
+    getAssociationsOfType,
+} from '../../../classes/association';
+import {
+    getFitFromStructure,
+    StructuredTavernFits,
+} from '../../../classes/idea/StructuredTavernFits';
 import { AssociationDialog } from './AssociationDialog';
 
 const colors = {
@@ -8,41 +15,31 @@ const colors = {
     income: '#B9770E',
     class: '#76448A',
     race: '#717D7E',
-    specials: '#B03A2E',
+    special: '#B03A2E',
 };
 
 export const AssociationDialogBar = (props: {
-    fits: association[];
-    switchFits: (newFits: association[]) => void;
+    fits: StructuredTavernFits;
+    switchFits: (newFit: Partial<StructuredTavernFits>) => void;
 }) => {
-    const associationDialogs = Object.values(fitGroup).map((group) => {
-        const dialogData = dialogMap.get(group)!;
-        const onPick = (
-            oldAssociation: association,
-            newAssociation: association
-        ) => {
-            props.switchFits(
-                getNewFits(props.fits, newAssociation, oldAssociation)
-            );
-        };
-        const fitsOfThisGroup = props.fits.filter((fit) => {
-            return dialogData.fits.includes(fit);
-        });
-        const startText =
-            fitsOfThisGroup.length > 0 ? fitsOfThisGroup[0] : group;
-        return (
-            <AssociationDialog
-                pickAssociationList={dialogData.fits}
-                startText={startText}
-                onPick={onPick}
-                color={dialogData.color}
-                key={group + 'Dialog'}
-            ></AssociationDialog>
-        );
-    });
+    const onPick = (newFit: Partial<StructuredTavernFits>) => {
+        props.switchFits(newFit);
+    };
+    const dialogs = Object.values(AssociationTypes).map((type) => (
+        <AssociationDialog
+            type={type}
+            key={'Dialog' + type}
+            pickAssociationList={getAssociationsOfType(type)}
+            startText={
+                getFitFromStructure(type, props.fits) || type.toUpperCase()
+            }
+            onPick={onPick}
+            color={getColorForType(type)}
+        ></AssociationDialog>
+    ));
 
-    const topDialogs = associationDialogs.slice(0, 3);
-    const bottomDialogs = associationDialogs.slice(3, 5);
+    const topDialogs = dialogs.slice(0, 3);
+    const bottomDialogs = dialogs.slice(3, 5);
 
     return (
         <View
@@ -68,79 +65,21 @@ export const AssociationDialogBar = (props: {
     );
 };
 
-const getNewFits = (
-    array: association[],
-    newAssociation: association,
-    oldAssociation: association
-) => {
-    const switchedOutArray = array.filter((element) => {
-        return element !== oldAssociation;
-    });
-    switchedOutArray.push(newAssociation);
-    return switchedOutArray;
+const getColorForType = (type: AssociationTypes) => {
+    switch (type) {
+        case AssociationTypes.class:
+            return colors.class;
+        case AssociationTypes.land:
+            return colors.land;
+        case AssociationTypes.race:
+            return colors.race;
+        case AssociationTypes.income:
+            return colors.income;
+        case AssociationTypes.special:
+            return colors.special;
+
+        default:
+            console.log('Could not find a color for that type');
+            return '#000000';
+    }
 };
-const a = association;
-enum fitGroup {
-    land = 'LAND',
-    income = 'INCOME',
-    class = 'CLASS',
-    race = 'RACE',
-    special = 'SPECIALS',
-}
-const dialogMap = new Map([
-    [
-        fitGroup.land,
-        {
-            fits: [
-                a.city,
-                a.forest,
-                a.mountain,
-                a.desert,
-                a.haven,
-                a.village,
-                a.tropical,
-                a.underdark,
-            ],
-            color: '#117A65',
-        },
-    ],
-    [
-        fitGroup.income,
-        { fits: [a.modest, a.poor, a.wealthy, a.rich], color: '#B9770E' },
-    ],
-    [
-        fitGroup.race,
-        {
-            fits: [
-                a.dwarf,
-                a.drow,
-                a.elf,
-                a.human,
-                a.gnome,
-                a.halfling,
-                a.tiefling,
-            ],
-            color: '#76448A',
-        },
-    ],
-    [
-        fitGroup.class,
-        {
-            fits: [
-                a.adventurer,
-                a.barbarian,
-                a.bard,
-                a.soldier,
-                a.cleric,
-                a.wizard,
-                a.knight,
-                a.druid,
-            ],
-            color: '#717D7E',
-        },
-    ],
-    [
-        fitGroup.special,
-        { fits: [a.thief, a.prostitute, a.assasine], color: '#B03A2E' },
-    ],
-]) as Map<fitGroup, { fits: association[]; color: string }>;

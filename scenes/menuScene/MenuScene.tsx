@@ -3,6 +3,7 @@ import { ScrollView, View } from 'react-native';
 import { Modal, Portal } from 'react-native-paper';
 import { association } from '../../classes/association';
 import { SavedDataHandler, WeSave } from '../../classes/database/Database';
+import { StructuredTavernFits } from '../../classes/idea/StructuredTavernFits';
 import {
     Drinkable,
     MenuCategory,
@@ -33,7 +34,7 @@ const DEFAULT_MODAL_START_DATA = {
     isUserMade: true,
 };
 interface MenuProps {
-    fitting: { fits: association[]; misfits: association[] };
+    fitting: StructuredTavernFits;
     isAbout: WeServe;
     offers: Offer[];
     onDataChange: (newData: Partial<TavernData>) => void;
@@ -49,8 +50,7 @@ interface MenuProps {
 }
 
 export const MenuScene = (props: MenuProps) => {
-    const fits = props.fitting.fits;
-    const misfits = props.fitting.misfits;
+    const fits = props.fitting;
     const [bannerEnding, setBannerEnding] = useState(
         getRandomArrayEntry(bannerEndings.get(props.isAbout)!)
     );
@@ -95,7 +95,6 @@ export const MenuScene = (props: MenuProps) => {
                   nameOfChangedOffer,
                   props.offers,
                   fits,
-                  misfits,
                   props.isAbout
               );
         if (newOffers) {
@@ -129,7 +128,6 @@ export const MenuScene = (props: MenuProps) => {
     const addRandomOffer = (category: MenuCategory) => {
         const newOffer = getNewRandomDrinkOffer(
             fits,
-            misfits,
             category,
             props.offers,
             props.isAbout
@@ -137,7 +135,6 @@ export const MenuScene = (props: MenuProps) => {
         const newOffers = [...props.offers.map((offer) => offer), newOffer];
         const testOffer = getNewRandomDrinkOffer(
             fits,
-            misfits,
             category,
             newOffers,
             props.isAbout
@@ -225,8 +222,7 @@ export const MenuScene = (props: MenuProps) => {
                     getPriceString={(offer: Offer) => {
                         return getAdjustedPriceString(
                             offer,
-                            props.fitting.fits,
-                            props.fitting.misfits,
+                            fits,
                             props.basePrice
                         );
                     }}

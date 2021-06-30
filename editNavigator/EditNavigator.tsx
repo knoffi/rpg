@@ -1,6 +1,6 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
-import { association } from '../classes/association';
+import { StructuredTavernFits } from '../classes/idea/StructuredTavernFits';
 import Icon from '../components/icons';
 import { iconKeys } from '../components/icons/iconKeys';
 import { TavernData } from '../mainNavigator/TavernData';
@@ -73,10 +73,7 @@ export const EditNavigator = (props: {
                         name={props.tavern.name}
                         onDataChange={props.onDataChange}
                         fitting={props.tavern.fitting}
-                        getImpliedChanges={(newFitting: {
-                            fits: association[];
-                            misfits: association[];
-                        }) =>
+                        getImpliedChanges={(newFitting: StructuredTavernFits) =>
                             getAllNewBannerDataAndOffersLeft(
                                 newFitting,
                                 {

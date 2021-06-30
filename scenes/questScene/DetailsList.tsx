@@ -14,7 +14,6 @@ import { PriceAccordion } from './PriceAccordion';
 
 export const DetailsList = (props: {
     basePrice: BasePrice;
-    fits: association[];
     onInfoPress: (income: association) => void;
     onPriceSetPress: (income: association) => void;
     onCurrencySetPress: () => void;

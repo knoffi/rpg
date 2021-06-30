@@ -1,16 +1,17 @@
 import * as React from 'react';
 import { Text, View } from 'react-native';
 import { Button, Dialog, Portal } from 'react-native-paper';
-import { association, getAssociation } from '../../../classes/association';
+import { association, AssociationTypes } from '../../../classes/association';
+import { StructuredTavernFits } from '../../../classes/idea/StructuredTavernFits';
 
 export const AssociationDialog = (props: {
     pickAssociationList: association[];
     startText: string;
-    onPick: (oldAssociation: association, newAssociation: association) => void;
+    onPick: (newFit: Partial<StructuredTavernFits>) => void;
     color: string;
+    type: AssociationTypes;
 }) => {
     const [visible, setVisible] = React.useState(false);
-    const [text, setText] = React.useState(props.startText);
 
     const openDialog = () => setVisible(true);
 
@@ -23,9 +24,8 @@ export const AssociationDialog = (props: {
                 <Dialog.Actions key={association + props.startText}>
                     <AssociationButton
                         setPick={() => {
-                            setText(association);
                             closeDialog();
-                            props.onPick(getAssociation(text), association);
+                            props.onPick({ [props.type]: association });
                         }}
                         pick={association}
                     />
@@ -37,9 +37,8 @@ export const AssociationDialog = (props: {
         <Dialog.Actions key={'delete' + props.startText}>
             <AssociationButton
                 setPick={() => {
-                    setText(props.startText);
                     closeDialog();
-                    props.onPick(getAssociation(text), association.empty);
+                    props.onPick({ [props.type]: undefined });
                 }}
                 pick={<Text style={{ color: 'red' }}>CLEAR</Text>}
             />
@@ -102,13 +101,5 @@ const getDialogInput = (dialogActions: JSX.Element[], dialogName: string) => {
 };
 
 const AssociationButton = (props: any) => {
-    return (
-        <Button
-            onPress={() => {
-                props.setPick();
-            }}
-        >
-            {props.pick}
-        </Button>
-    );
+    return <Button onPress={props.setPick}>{props.pick}</Button>;
 };

@@ -1,12 +1,27 @@
-import { association } from '../../../classes/association';
+import { association, incomeAssociations } from '../../../classes/association';
+import { StructuredTavernFits } from '../../../classes/idea/StructuredTavernFits';
 import { getRandomArrayEntry } from '../../../helpingFunctions/getFittingRandom';
 
-export const getSpecialTavernName = (shouldFitTo: association[]) => {
-    const focusedFit = getRandomArrayEntry(shouldFitTo);
+export const getSpecialTavernName = (fits: StructuredTavernFits) => {
+    const fitList = Object.values(fits).filter(
+        (fit) => fit && (fit as string) !== association.empty
+    );
+    const focusedFit = getRandomArrayEntry(
+        fitList.length > 0 ? fitList : Object.values(incomeAssociations)
+    );
+    if (
+        fitList.length === 0 ||
+        !focusedFit ||
+        (focusedFit as string) === association.empty
+    ) {
+        console.log(
+            'Special tavern name was demanded, but calculated fit list was empty or full of undefined'
+        );
+    }
     const specialNames = specialTavernNames.find((entry) => {
         return entry.association === focusedFit;
     }) || { names: ['Nameless Tavern'] };
-    if (!specialNames) {
+    if (specialNames.names[0] === 'Nameless Tavern') {
         console.log(
             'specialNames are undefined, but special Names were requested'
         );

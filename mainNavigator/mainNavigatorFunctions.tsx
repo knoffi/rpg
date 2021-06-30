@@ -10,7 +10,7 @@ export const getTavernHistoryInitializer = () => {
     const startIdeasLeft = getDefaultIdeasLeft();
     const startBanner = { isVisible: false, emptyCategories: [] };
     return {
-        fitting: { fits: [], misfits: [] },
+        fitting: {},
         name: 'Nameless Tavern',
         drinks: [],
         dishes: [],

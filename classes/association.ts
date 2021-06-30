@@ -37,6 +37,32 @@ export const getAssociation = (name: string) => {
     });
     return possibleName ? possibleName : association.empty;
 };
+export enum AssociationTypes {
+    land = 'land',
+    class = 'class',
+    race = 'race',
+    income = 'income',
+    special = 'special',
+}
+
+export const getAssociationsOfType = (type: AssociationTypes) => {
+    switch (type) {
+        case AssociationTypes.class:
+            return classAssociations;
+        case AssociationTypes.land:
+            return landAssociations;
+        case AssociationTypes.income:
+            return incomeAssociations;
+        case AssociationTypes.race:
+            return raceAssociations;
+        case AssociationTypes.special:
+            return specialAssociations;
+
+        default:
+            console.log('Could not find associations of that type.');
+            return specialAssociations;
+    }
+};
 export const allAssociations = Object.values(association);
 export const landAssociations = [
     association.city,
