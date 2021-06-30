@@ -2,6 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import 'react-native-gesture-handler';
 import { Button, List } from 'react-native-paper';
+import { association } from '../../classes/association';
 import { NameIdea } from '../../classes/idea/NameIdea';
 import {
     getFitsFromStructure,
@@ -29,7 +30,6 @@ type TextState = {
     nameSetDialogOpen: boolean;
     dialogText: string;
     oldNameParts: string[];
-    userActivelySetPowerfit: boolean;
 };
 
 type NameProps = {
@@ -43,14 +43,15 @@ type NameProps = {
 
 const SECTION_FLEX = 0.2;
 export class NameScene extends React.Component<NameProps, TextState> {
+    private userActivelySetPowerfit: boolean;
     constructor(props: any) {
         super(props);
         this.state = {
             nameSetDialogOpen: false,
             dialogText: '',
             oldNameParts: [],
-            userActivelySetPowerfit: false,
         };
+        this.userActivelySetPowerfit = false;
     }
 
     public render() {
@@ -66,6 +67,7 @@ export class NameScene extends React.Component<NameProps, TextState> {
                 <View style={nameSceneStyles.associationView}>
                     <View>
                         <AssociationDialogBar
+                            setPowerFit={this.setPowerFitByName.bind(this)}
                             fits={this.props.fitting}
                             switchFits={(
                                 newFits: Partial<StructuredTavernFits>
@@ -112,7 +114,24 @@ export class NameScene extends React.Component<NameProps, TextState> {
             </View>
         );
     }
-
+    private setPowerFitByName(name: string) {
+        const newPowerFit = Object.values(association).find(
+            (fit) => (fit as string) === name
+        );
+        if (newPowerFit) {
+            const newFits: StructuredTavernFits = {
+                ...this.props.fitting,
+            };
+            if (name === this.props.fitting.powerFit) {
+                this.userActivelySetPowerfit = false;
+                newFits.powerFit = undefined;
+            } else {
+                this.userActivelySetPowerfit = true;
+                newFits.powerFit = newPowerFit;
+            }
+            this.props.onDataChange({ fitting: newFits });
+        }
+    }
     private renderRerollButton() {
         return (
             <RerollButton
@@ -167,10 +186,15 @@ export class NameScene extends React.Component<NameProps, TextState> {
             ...this.props.fitting,
             ...newFit,
         };
-        if (!this.state.userActivelySetPowerfit) {
-            const fits = getFitsFromStructure(newFitting);
-            if (fits.length === 1) {
-                newFitting.powerFit = fits[0];
+        const updatedFits = getFitsFromStructure(newFitting);
+        const oldPowerFit = this.props.fitting.powerFit;
+        if (oldPowerFit && !updatedFits.includes(oldPowerFit)) {
+            newFitting.powerFit = undefined;
+            this.userActivelySetPowerfit = false;
+        }
+        if (!this.userActivelySetPowerfit) {
+            if (updatedFits.length === 1) {
+                newFitting.powerFit = updatedFits[0];
             } else {
                 newFitting.powerFit = undefined;
             }

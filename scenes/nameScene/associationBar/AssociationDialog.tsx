@@ -8,6 +8,7 @@ export const AssociationDialog = (props: {
     pickAssociationList: association[];
     startText: string;
     onPick: (newFit: Partial<StructuredTavernFits>) => void;
+    onLongPress: () => void;
     color: string;
     type: AssociationTypes;
 }) => {
@@ -57,6 +58,7 @@ export const AssociationDialog = (props: {
                 onPress={() => {
                     openDialog();
                 }}
+                onLongPress={props.onLongPress}
                 compact={true}
                 mode="contained"
                 color={props.color}
@@ -65,12 +67,16 @@ export const AssociationDialog = (props: {
             </Button>
             <Portal>
                 <Dialog visible={visible} onDismiss={closeDialog}>
-                    {/* <Dialog.Title
+                    <Dialog.Title
                         style={{
                             textDecorationLine: 'underline',
                             fontWeight: 'bold',
                         }}
-                    >{props.startText.toUpperCase()}</Dialog.Title> */}
+                        onTextLayout={() => {}}
+                        dataDetectorType={'none'}
+                    >
+                        {props.startText.toUpperCase()}
+                    </Dialog.Title>
                     {getDialogInput(pickList, props.startText)}
                 </Dialog>
             </Portal>

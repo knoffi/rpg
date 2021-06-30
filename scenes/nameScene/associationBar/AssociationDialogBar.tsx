@@ -21,22 +21,28 @@ const colors = {
 export const AssociationDialogBar = (props: {
     fits: StructuredTavernFits;
     switchFits: (newFit: Partial<StructuredTavernFits>) => void;
+    setPowerFit: (fit: string) => void;
 }) => {
     const onPick = (newFit: Partial<StructuredTavernFits>) => {
         props.switchFits(newFit);
     };
-    const dialogs = Object.values(AssociationTypes).map((type) => (
-        <AssociationDialog
-            type={type}
-            key={'Dialog' + type}
-            pickAssociationList={getAssociationsOfType(type)}
-            startText={
-                getFitFromStructure(type, props.fits) || type.toUpperCase()
-            }
-            onPick={onPick}
-            color={getColorForType(type)}
-        ></AssociationDialog>
-    ));
+    const dialogs = Object.values(AssociationTypes).map((type) => {
+        const title =
+            getFitFromStructure(type, props.fits) || type.toUpperCase();
+        return (
+            <AssociationDialog
+                type={type}
+                key={'Dialog' + type}
+                pickAssociationList={getAssociationsOfType(type)}
+                startText={title}
+                onPick={onPick}
+                onLongPress={() => {
+                    props.setPowerFit(title);
+                }}
+                color={getColorForType(type)}
+            ></AssociationDialog>
+        );
+    });
 
     const topDialogs = dialogs.slice(0, 3);
     const bottomDialogs = dialogs.slice(3, 5);
