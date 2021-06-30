@@ -15,6 +15,7 @@ export const CurrencySetDialog = (props: {
             <Dialog visible={props.open} onDismiss={props.onDismiss}>
                 <Dialog.Content>
                     <TextInput
+                        textAlign={false}
                         mode="outlined"
                         value={text}
                         label="New currency"

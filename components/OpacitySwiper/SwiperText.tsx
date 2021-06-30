@@ -1,6 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
-import { Text } from 'react-native-paper';
+import { Text, View } from 'react-native';
 import { menuSceneStyles } from '../../scenes/menuScene/menuStyles';
 import { getDishTexts } from '../../scenes/menuScene/offerList/nameSplitter/getDishTexts';
 import { AppearingView } from './AppearingView';

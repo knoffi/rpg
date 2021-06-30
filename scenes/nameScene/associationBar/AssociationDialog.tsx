@@ -65,14 +65,12 @@ export const AssociationDialog = (props: {
             </Button>
             <Portal>
                 <Dialog visible={visible} onDismiss={closeDialog}>
-                    <Dialog.Title
+                    {/* <Dialog.Title
                         style={{
                             textDecorationLine: 'underline',
                             fontWeight: 'bold',
                         }}
-                    >
-                        {props.startText.toUpperCase()}
-                    </Dialog.Title>
+                    >{props.startText.toUpperCase()}</Dialog.Title> */}
                     {getDialogInput(pickList, props.startText)}
                 </Dialog>
             </Portal>

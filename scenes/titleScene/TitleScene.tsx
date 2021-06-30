@@ -7,7 +7,11 @@ import { titleSceneStyle } from './titleSceneStyle';
 export const TitleScene = ({ navigation }: any) => {
     return (
         <View style={titleSceneStyle.BG}>
-            <Text style={titleSceneStyle.headline}>
+            <Text
+                style={titleSceneStyle.headline}
+                onTextLayout={() => {}}
+                dataDetectorType={'none'}
+            >
                 You all meet in a tavern
             </Text>
             <TitleButtons
