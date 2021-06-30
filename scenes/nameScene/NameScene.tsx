@@ -143,6 +143,7 @@ export class NameScene extends React.Component<NameProps, TextState> {
     }
 
     private rerollName() {
+        console.log(JSON.stringify(this.state.oldNameParts));
         const randomNumber = Math.random();
         if (randomNumber > PROBABILITY_SPECIAL_NAME) {
             const possibleNames = nameIdeas.filter((nameIdea) =>
@@ -160,17 +161,7 @@ export class NameScene extends React.Component<NameProps, TextState> {
                       this.state.oldNameParts
                   )
                 : 'Nameless Tavern';
-            this.props.onDataChange({ name: newName });
-            const incomingNameParts = newName.split(' ');
-            const newOldNameParts = [
-                ...this.state.oldNameParts,
-                ...incomingNameParts,
-            ].filter(
-                (part, index) =>
-                    this.state.oldNameParts.length <= MAX_NAME_MEMORY ||
-                    index >= incomingNameParts.length
-            );
-            this.setState({ oldNameParts: newOldNameParts });
+            this.updateByNewName(newName);
         } else {
             const specialName = this.getSpecialNames();
             this.props.onDataChange({ name: specialName });
@@ -179,6 +170,20 @@ export class NameScene extends React.Component<NameProps, TextState> {
 
     private getSpecialNames() {
         return getSpecialTavernName(this.props.fitting);
+    }
+
+    private updateByNewName(newName: string) {
+        this.props.onDataChange({ name: newName });
+        const incomingNameParts = newName.split(' ');
+        const newOldNameParts = [
+            ...this.state.oldNameParts,
+            ...incomingNameParts,
+        ].filter(
+            (part, index) =>
+                this.state.oldNameParts.length <= MAX_NAME_MEMORY ||
+                index >= incomingNameParts.length
+        );
+        this.setState({ oldNameParts: newOldNameParts });
     }
 
     private updateFits(newFit: Partial<StructuredTavernFits>) {
