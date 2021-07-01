@@ -145,8 +145,17 @@ export const averageCustomers: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             name: 'Discussing the new wanted posters',
-            worksForBrothel: true,
-            needs: [a.prostitute],
+            worksForAssasines: true,
+            needs: [a.assasine],
+        },
+        [emptyDescriptionAsset],
+        Noticable.averageCustomer
+    ),
+    new ImpressionIdea(
+        {
+            name: 'Polishing their weapons & drinking hard booze',
+            worksForAssasines: true,
+            needs: [a.assasine],
         },
         [emptyDescriptionAsset],
         Noticable.averageCustomer
