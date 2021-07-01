@@ -7,16 +7,25 @@ const DEFAULT_HARMONY_CHANCE = 0.9;
 export class NameIdea extends Idea {
     constructor(
         private adjective: DescriptionAsset,
-        private substantives = [] as DescriptionAsset[],
-        private contrastSubstantives = [] as DescriptionAsset[],
+        private substantives?: DescriptionAsset[],
+        private contrastSubstantives?: DescriptionAsset[],
         private reverseNaming = false,
         private stress = AssetStressMode.harmony
     ) {
-        super(adjective, [substantives], [contrastSubstantives], {
-            main: stress === AssetStressMode.main,
-            harmony: stress === AssetStressMode.harmony,
-            contrast: stress === AssetStressMode.contrast,
-        });
+        super(
+            adjective,
+            substantives ? [substantives] : undefined,
+            contrastSubstantives ? [contrastSubstantives] : undefined,
+            {
+                main: substantives ? stress === AssetStressMode.main : true,
+                harmony: substantives
+                    ? stress === AssetStressMode.harmony
+                    : false,
+                contrast: substantives
+                    ? stress === AssetStressMode.contrast
+                    : true,
+            }
+        );
     }
 
     public getConcreteName(
@@ -56,7 +65,13 @@ export class NameIdea extends Idea {
             : fittingContrast || fittingHarmony;
     }
 
-    private fuseNameForDisplay(adjective: string, substantive?: string) {
+    private fuseNameForDisplay(
+        adjective: string,
+        substantive?: string
+    ): string {
+        if (!this.substantives && !this.contrastAdditions) {
+            return this.main.name;
+        }
         if (!substantive) {
             return 'Nameless Tavern';
         } else {
