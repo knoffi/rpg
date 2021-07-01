@@ -158,7 +158,6 @@ export class NameScene extends React.Component<
     }
 
     private rerollName() {
-        console.log(JSON.stringify(this.state.oldNameParts));
         const randomNumber = Math.random();
         if (randomNumber > PROBABILITY_SPECIAL_NAME) {
             const possibleNames = nameIdeas.filter((nameIdea) =>
