@@ -2,7 +2,11 @@ import React from 'react';
 import { View } from 'react-native';
 import 'react-native-gesture-handler';
 import { Button, List } from 'react-native-paper';
-import { association, AssociationTypes } from '../../classes/association';
+import {
+    association,
+    AssociationTypes,
+    getCategoryOfAssociation,
+} from '../../classes/association';
 import { NameIdea } from '../../classes/idea/NameIdea';
 import {
     getFitsFromStructure,
@@ -102,7 +106,6 @@ export class NameScene extends React.Component<
                             style={{
                                 flexDirection: 'row',
                                 justifyContent: 'space-evenly',
-                                paddingHorizontal: 0,
                             }}
                         >
                             {this.renderRerollButton()}
@@ -131,20 +134,33 @@ export class NameScene extends React.Component<
         const newPowerFit = Object.values(association).find(
             (fit) => (fit as string) === name
         );
+        const oldPowerFit = this.props.fitting.powerFit;
         if (newPowerFit) {
             const newFits: StructuredTavernFits = {
                 ...this.props.fitting,
             };
-            if (name === this.props.fitting.powerFit) {
-                this.userActivelySetPowerfit = false;
-                newFits.powerFit = undefined;
-                this.setButtonState(category, ButtonState.active);
+            if (name === oldPowerFit) {
+                if (this.userActivelySetPowerfit) {
+                    this.userActivelySetPowerfit = false;
+                    newFits.powerFit = undefined;
+                    this.setButtonState(category, ButtonState.active);
+                } else {
+                    this.userActivelySetPowerfit = true;
+                    this.setButtonState(category, ButtonState.powerFit);
+                }
             } else {
                 this.userActivelySetPowerfit = true;
                 newFits.powerFit = newPowerFit;
                 this.setButtonState(category, ButtonState.powerFit);
+                const oldPowerFitType = getCategoryOfAssociation(oldPowerFit);
+                if (oldPowerFitType) {
+                    this.setButtonState(oldPowerFitType, ButtonState.active);
+                }
             }
-            this.props.onDataChange({ fitting: newFits });
+            this.props.onDataChange({
+                fitting: newFits,
+                ...this.props.getImpliedChanges(newFits),
+            });
         }
     }
     private renderRerollButton() {

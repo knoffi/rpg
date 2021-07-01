@@ -71,7 +71,7 @@ const ImpressionListAccordion = (props: {
     onReroll: (name: string) => void;
     isNotFull: boolean;
 }) => {
-    const noDrinkToAddLeft = !props.isNotFull;
+    const impressionsFull = !props.isNotFull;
     const descriptionItems = props.descriptionNames.map((text, index) => {
         const newKey = text;
         return (
@@ -82,9 +82,9 @@ const ImpressionListAccordion = (props: {
                 //TODO: make this adjustable, so that instead of reroll user can edit
                 //TODO: also, do use "NO DESCRIPTION LEFT" instead of "MENU FULL!"
                 isUserMade={false}
-                noDrinkToAddLeft={noDrinkToAddLeft}
+                noDrinkToAddLeft={impressionsFull}
                 actions={{
-                    onReroll: noDrinkToAddLeft
+                    onReroll: impressionsFull
                         ? () => {}
                         : () => {
                               props.onReroll(text);
@@ -107,13 +107,13 @@ const ImpressionListAccordion = (props: {
                 <AddButton
                     size={LIST_END_BUTTON_SIZE}
                     onPress={
-                        noDrinkToAddLeft
+                        impressionsFull
                             ? () => {}
                             : () => {
                                   props.onAdd();
                               }
                     }
-                    disabled={noDrinkToAddLeft}
+                    disabled={impressionsFull}
                 />
             )}
         ></List.Item>

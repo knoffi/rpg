@@ -5,7 +5,7 @@ import {
     isIncomeAssociation,
     isLandAssociation,
     isRaceAssociation,
-    isSpecialAssociation,
+    isSpecialAssociation
 } from '../association';
 import { DescriptionAsset } from './DescriptionAsset';
 import { StructuredTavernFits } from './StructuredTavernFits';
@@ -278,6 +278,7 @@ export class Idea {
         );
     }
 
+    
     public fitsToTavern(
         tavernFits: StructuredTavernFits,
         isExcludedByPrefix?: (name: string) => boolean

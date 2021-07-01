@@ -161,7 +161,6 @@ export const EditNavigator = (props: {
             />
             <Tab.Screen
                 name="Notes"
-                //needs a getImpliedChanges
                 children={() => (
                     <QuestScene
                         fitting={props.tavern.fitting}
@@ -170,8 +169,8 @@ export const EditNavigator = (props: {
                         impressions={props.tavern.impressions}
                         banner={oldBanner.impression}
                         noticablesLeft={props.tavern.ideasLeft.impression}
-                        getImpliedChanges={(newImpressions?: IImpression[]) => {
-                            const test = getAllNewBannerDataAndOffersLeft(
+                        getImpliedChanges={(newImpressions?: IImpression[]) =>
+                            getAllNewBannerDataAndOffersLeft(
                                 props.tavern.fitting,
                                 {
                                     drinks: oldDrinks,
@@ -180,9 +179,8 @@ export const EditNavigator = (props: {
                                         newImpressions || oldImpressions,
                                 },
                                 oldBanner
-                            );
-                            return test;
-                        }}
+                            )
+                        }
                     ></QuestScene>
                 )}
             />

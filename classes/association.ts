@@ -185,3 +185,23 @@ export const classChosen = (fits: association[]) => {
 export const raceChosen = (fits: association[]) => {
     return fits.some((fit) => raceAssociations.includes(fit));
 };
+
+export const getCategoryOfAssociation = (fit?: association) => {
+    if (!fit) {
+        return undefined;
+    } else {
+        if (landAssociations.includes(fit)) {
+            return AssociationTypes.land;
+        }
+        if (classAssociations.includes(fit)) {
+            return AssociationTypes.class;
+        }
+        if (raceAssociations.includes(fit)) {
+            return AssociationTypes.race;
+        }
+        if (incomeAssociations.includes(fit)) {
+            return AssociationTypes.income;
+        }
+        return AssociationTypes.special;
+    }
+};
