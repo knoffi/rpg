@@ -1,44 +1,31 @@
-import { association, incomeAssociations } from '../../../classes/association';
+import { association } from '../../../classes/association';
 import { NameIdea } from '../../../classes/idea/NameIdea';
-import { StructuredTavernFits } from '../../../classes/idea/StructuredTavernFits';
-import { getRandomArrayEntry } from '../../../helpingFunctions/getFittingRandom';
 
-export const getSpecialTavernName = (fits: StructuredTavernFits) => {
-    const fitList = Object.values(fits).filter(
-        (fit) => fit && (fit as string) !== association.empty
-    );
-    const focusedFit = getRandomArrayEntry(
-        fitList.length > 0 ? fitList : Object.values(incomeAssociations)
-    );
-    if (
-        fitList.length === 0 ||
-        !focusedFit ||
-        (focusedFit as string) === association.empty
-    ) {
-        console.log(
-            'Special tavern name was demanded, but calculated fit list was empty or full of undefined'
-        );
-    }
-    const specialNames = specialTavernNames.find((entry) => {
-        return entry.association === focusedFit;
-    }) || { names: ['Nameless Tavern'] };
-    if (specialNames.names[0] === 'Nameless Tavern') {
-        console.log(
-            'specialNames are undefined, but special Names were requested'
-        );
-    }
-    return getRandomArrayEntry(specialNames.names);
-};
 const a = association;
 
-const specialNames: NameIdea[] = [
+export const specialNames: NameIdea[] = [
     new NameIdea({
         name: 'Wrathful Axe',
         needs: [a.barbarian],
         powerFits: [a.barbarian],
     }),
     new NameIdea({
+        name: 'BARbarians',
+        needs: [a.barbarian],
+        powerFits: [a.barbarian],
+    }),
+    new NameIdea({
         name: 'Raging Minotaur',
+        needs: [a.barbarian],
+        powerFits: [a.barbarian],
+    }),
+    new NameIdea({
+        name: "Khalif's House of (S)Laughter",
+        needs: [a.barbarian],
+        powerFits: [a.barbarian],
+    }),
+    new NameIdea({
+        name: "Kain's Bretzel Pub",
         needs: [a.barbarian],
         powerFits: [a.barbarian],
     }),
@@ -112,6 +99,7 @@ const specialNames: NameIdea[] = [
         needsOne: [a.bard, a.prostitute],
         powerFits: [a.bard],
         worksForBrothel: true,
+        misfits: [a.desert],
     }),
     new NameIdea({
         name: 'House of Poets',
@@ -225,6 +213,7 @@ const specialNames: NameIdea[] = [
         needsOne: [a.thief],
         powerFits: [a.thief],
         worksForThiefs: true,
+        misfits: [a.desert],
     }),
     new NameIdea({
         name: 'Resting Crowbar',
@@ -243,6 +232,7 @@ const specialNames: NameIdea[] = [
         needsOne: [a.thief],
         powerFits: [a.thief],
         worksForThiefs: true,
+        misfits: [a.desert],
     }),
     new NameIdea({
         name: 'Sips & Secrets',
@@ -283,7 +273,7 @@ const specialNames: NameIdea[] = [
         powerFits: [a.desert],
     }),
     new NameIdea({
-        name: 'Dancing Cactus',
+        name: 'Waving Cactus',
         needsOne: [a.desert],
         powerFits: [a.desert],
     }),
@@ -326,9 +316,10 @@ const specialNames: NameIdea[] = [
         powerFits: [a.soldier, a.cleric, a.knight],
     }),
     new NameIdea({
-        name: 'Drunk Archer',
+        name: 'Drunken Archer',
         needsOne: [a.soldier],
         powerFits: [a.soldier],
+        misfits: [a.desert],
     }),
     new NameIdea({
         name: 'Sleepy Spearman',
@@ -354,6 +345,7 @@ const specialNames: NameIdea[] = [
         name: 'Beers & Bucklers',
         needsOne: [a.soldier],
         powerFits: [a.soldier],
+        misfits: [a.desert],
     }),
     new NameIdea({
         name: 'Roasted Boar',
@@ -436,6 +428,7 @@ const specialNames: NameIdea[] = [
     new NameIdea({
         name: 'Whiskey Web',
         needsOne: [a.drow],
+        misfits: [a.desert],
         powerFits: [a.drow],
     }),
     new NameIdea({
@@ -451,8 +444,8 @@ const specialNames: NameIdea[] = [
     }),
     new NameIdea({
         name: 'Fabulous Fungus',
-        needsOne: [a.druid],
-        powerFits: [a.druid],
+        needsOne: [a.druid, a.underdark],
+        powerFits: [a.druid, a.underdark],
     }),
     new NameIdea({
         name: 'Womb of Nature',
@@ -514,11 +507,13 @@ const specialNames: NameIdea[] = [
         name: 'Beards & Beers',
         needsOne: [a.dwarf],
         powerFits: [a.dwarf],
+        misfits: [a.desert],
     }),
     new NameIdea({
         name: 'Booze Tunnel',
         needsOne: [a.dwarf],
         powerFits: [a.dwarf],
+        misfits: [a.desert],
     }),
     new NameIdea({
         name: 'Beardy Barmaid',
@@ -576,6 +571,21 @@ const specialNames: NameIdea[] = [
         powerFits: [a.elf],
     }),
     new NameIdea({
+        name: "Miridan's Chrystal Palace",
+        needsOne: [a.elf],
+        powerFits: [a.elf],
+    }),
+    new NameIdea({
+        name: "Helandir's House Of Fine Drinks",
+        needsOne: [a.elf],
+        powerFits: [a.elf],
+    }),
+    new NameIdea({
+        name: "Ilmarin's Inn Of Harmony",
+        needsOne: [a.elf],
+        powerFits: [a.elf],
+    }),
+    new NameIdea({
         name: 'Slumbering Fairy',
         needsOne: [a.elf],
         powerFits: [a.elf],
@@ -600,6 +610,7 @@ const specialNames: NameIdea[] = [
         name: 'Wines & Wonders',
         needsOne: [a.elf, a.adventurer],
         powerFits: [a.elf, a.adventurer],
+        misfits: [a.desert],
     }),
     new NameIdea({
         name: 'Resting Bow',
@@ -635,6 +646,7 @@ const specialNames: NameIdea[] = [
         name: 'Beers & Bounties',
         needsOne: [a.assasine],
         worksForAssasines: true,
+        misfits: [a.desert],
     }),
     new NameIdea({
         name: 'Waiting Gallow',
@@ -685,11 +697,13 @@ const specialNames: NameIdea[] = [
         name: 'Bubbling Beer',
         needsOne: [a.gnome],
         powerFits: [a.gnome],
+        misfits: [a.desert],
     }),
     new NameIdea({
         name: 'Tipsy Giant',
         needsOne: [a.gnome],
         powerFits: [a.gnome],
+        misfits: [a.desert],
     }),
     new NameIdea({
         name: 'Resting Gear',
@@ -889,6 +903,7 @@ const specialNames: NameIdea[] = [
         name: 'Tipsy Tavern',
         needs: [a.human],
         powerFits: [a.human],
+        misfits: [a.desert],
     }),
     new NameIdea({
         name: 'On The Rocks',
@@ -904,6 +919,7 @@ const specialNames: NameIdea[] = [
         name: 'Through Thick and Gin',
         needs: [a.human],
         powerFits: [a.human],
+        misfits: [a.desert],
     }),
     new NameIdea({
         name: "Inngrid's Inn",
@@ -944,6 +960,7 @@ const specialNames: NameIdea[] = [
         name: 'Beer Cave',
         needs: [a.mountain],
         powerFits: [a.mountain],
+        misfits: [a.desert],
     }),
     new NameIdea({
         name: 'Majestic Stallion',
@@ -1177,101 +1194,362 @@ const specialNames: NameIdea[] = [
         needs: [a.rich],
         powerFits: [a.rich],
     }),
-];
-
-export const specialTavernNames = [
-    {
-        association: association.wealthy,
-        names: [
-            'Parlament Of Pints',
-            'Wine Castle',
-            'Paisley Ascot',
-            'Ruby Owl',
-            "Philosopher's Beard",
-            'Dreaming Philantropist',
-            'Diligent Scholar',
-            'Glimmering Candle',
-            'Culture & Cognac',
-        ],
-    },
-    {
-        association: association.tiefling,
-        names: [
-            'Inner Flame',
-            'Sarcastic Thinker',
-            'Flickering Spark',
-            'Malicious Smirker',
-            'Horned Watchdog',
-            'Macabre Dancer',
-            'Devilish Fiddler',
-            'Brandy Fountain',
-        ],
-    },
-    {
-        association: association.tropical,
-        names: [
-            'Dancing Coconut',
-            'Chatty Parrat',
-            'Chilling Monkey',
-            'Giggling Cockatoo',
-            'Rum Fountain',
-            'Tequila Fountain',
-            'Sweating Norseman',
-            'Dancing Palm Tree',
-        ],
-    },
-    {
-        association: association.underdark,
-        names: [
-            'Dripping Stalagmite',
-            'Dancing Mowl',
-            'Resting Earthworm',
-            'Sleepy Imp',
-            'Dancing Dwarf Pit',
-            'Tango Tunnel',
-            'Underbar',
-            'Darkest Beer Brewery',
-        ],
-    },
-    {
-        association: association.village,
-        names: [
-            'Laughing Sheep',
-            'Wooden Anvil',
-            'Golden Cow',
-            'Dancing Farmer',
-            'Wimpy City Dweller',
-            'Sleeping Hound',
-            'Resting Scythe',
-            'Brass Plow',
-        ],
-    },
-    {
-        association: association.wizard,
-        names: [
-            'Books & Beverages',
-            'Magical Mug',
-            'Crystall Bell',
-            'Tricking Hat',
-            'Fiddling Robe',
-            'Smirking Hat',
-            'Shots & Scrolls',
-            'Wine Fountain',
-            'Illiterate Barbarian',
-        ],
-    },
-    {
-        association: association.modest,
-        names: [
-            'Fellow Craftsman',
-            'Sweaty Blacksmith',
-            'Resting Anvil',
-            'Resting Hammer',
-            'Silver Nail',
-            'Whiskey Fountain',
-            'Snot-Nosed Nobleman',
-            'Smirking Tailor',
-            'Drunken Cobbler',
-        ],
-    },
+    new NameIdea({
+        name: 'Diamonds & Drinks',
+        needs: [a.rich],
+        powerFits: [a.rich],
+    }),
+    new NameIdea({
+        name: 'Parlament of Pints',
+        needs: [a.wealthy],
+        powerFits: [a.wealthy],
+    }),
+    new NameIdea({
+        name: 'Wine Castle',
+        needs: [a.wealthy],
+        powerFits: [a.wealthy],
+        misfits: [a.desert],
+    }),
+    new NameIdea({
+        name: 'Paisley Ascot',
+        needs: [a.wealthy],
+        powerFits: [a.wealthy],
+    }),
+    new NameIdea({
+        name: 'Ruby Owl',
+        needs: [a.wealthy],
+        powerFits: [a.wealthy],
+    }),
+    new NameIdea({
+        name: 'Diligent Scholar',
+        needs: [a.wealthy],
+        powerFits: [a.wealthy],
+    }),
+    new NameIdea({
+        name: 'Culture & Cognac',
+        needs: [a.wealthy],
+        powerFits: [a.wealthy],
+    }),
+    new NameIdea({
+        name: 'Thinking Beard',
+        needs: [a.wealthy],
+        powerFits: [a.wealthy],
+    }),
+    new NameIdea({
+        name: "Dr. Rubendrum's Tavern",
+        needs: [a.wealthy],
+        powerFits: [a.wealthy],
+    }),
+    new NameIdea({
+        name: 'Dapper Inn of Sophistication',
+        needs: [a.wealthy],
+        powerFits: [a.wealthy],
+    }),
+    new NameIdea({
+        name: 'Infernal Thirst',
+        needs: [a.tiefling],
+        powerFits: [a.tiefling],
+    }),
+    new NameIdea({
+        name: "Philizer's Pub",
+        needs: [a.tiefling],
+        powerFits: [a.tiefling],
+    }),
+    new NameIdea({
+        name: "Talemon's Tavern",
+        needs: [a.tiefling],
+        powerFits: [a.tiefling],
+    }),
+    new NameIdea({
+        name: "Izalim's Insidious Inn'",
+        needs: [a.tiefling],
+        powerFits: [a.tiefling],
+    }),
+    new NameIdea({
+        name: 'Sarcastic Thinker',
+        needs: [a.tiefling],
+        powerFits: [a.tiefling],
+    }),
+    new NameIdea({
+        name: 'Flickering Spark',
+        needs: [a.tiefling],
+        powerFits: [a.tiefling],
+    }),
+    new NameIdea({
+        name: 'Macabre Dancer',
+        needs: [a.tiefling],
+        powerFits: [a.tiefling],
+    }),
+    new NameIdea({
+        name: 'Devilish Fiddler',
+        needs: [a.tiefling],
+        powerFits: [a.tiefling],
+    }),
+    new NameIdea({
+        name: 'Brandy Fountain',
+        needs: [a.tiefling],
+        powerFits: [a.tiefling],
+        misfits: [a.desert],
+    }),
+    new NameIdea({
+        name: 'Lurking Devil',
+        needs: [a.tiefling],
+        powerFits: [a.tiefling],
+    }),
+    new NameIdea({
+        name: 'Diabolic Dweller',
+        needs: [a.tiefling],
+        powerFits: [a.tiefling],
+    }),
+    new NameIdea({
+        name: 'Malicious Smirker',
+        needs: [a.tiefling],
+        powerFits: [a.tiefling],
+    }),
+    new NameIdea({
+        name: 'Jolly Coconut',
+        needs: [a.tropical],
+        powerFits: [a.tropical],
+    }),
+    new NameIdea({
+        name: 'Chatty Parrot',
+        needs: [a.tropical],
+        powerFits: [a.tropical],
+    }),
+    new NameIdea({
+        name: 'Chilling Monkey',
+        needs: [a.tropical],
+        powerFits: [a.tropical],
+    }),
+    new NameIdea({
+        name: 'Giggling Cockatoo',
+        needs: [a.tropical],
+        powerFits: [a.tropical],
+    }),
+    new NameIdea({
+        name: 'Rum Fountain',
+        needs: [a.tropical],
+        powerFits: [a.tropical],
+    }),
+    new NameIdea({
+        name: 'Tequila Fountain',
+        needs: [a.tropical],
+        powerFits: [a.tropical],
+    }),
+    new NameIdea({
+        name: 'Sweating Norseman',
+        needs: [a.tropical],
+        powerFits: [a.tropical],
+    }),
+    new NameIdea({
+        name: 'Dancing Palm Tree',
+        needs: [a.tropical],
+        powerFits: [a.tropical],
+    }),
+    new NameIdea({
+        name: 'Dripping Stalagmite',
+        needs: [a.underdark],
+        powerFits: [a.underdark],
+    }),
+    new NameIdea({
+        name: 'Dancing Mowl',
+        needs: [a.underdark],
+        powerFits: [a.underdark],
+    }),
+    new NameIdea({
+        name: 'Slumbering Earthworm',
+        needs: [a.underdark],
+        powerFits: [a.underdark],
+    }),
+    new NameIdea({
+        name: 'Sleepy Imp',
+        needs: [a.underdark],
+        powerFits: [a.underdark],
+    }),
+    new NameIdea({
+        name: 'Dancing Dwarf Pit',
+        needs: [a.underdark],
+        powerFits: [a.underdark],
+    }),
+    new NameIdea({
+        name: 'Under Bar',
+        needs: [a.underdark],
+        powerFits: [a.underdark],
+    }),
+    new NameIdea({
+        name: 'Tipsy Beholder',
+        needs: [a.underdark],
+        powerFits: [a.underdark],
+    }),
+    new NameIdea({
+        name: 'Down Under',
+        needs: [a.underdark],
+        powerFits: [a.underdark],
+    }),
+    new NameIdea({
+        name: 'Sharing Sheep',
+        needs: [a.village],
+        powerFits: [a.village],
+    }),
+    new NameIdea({
+        name: 'Wooden Anvil',
+        needs: [a.village],
+        powerFits: [a.village],
+    }),
+    new NameIdea({
+        name: 'Cuddling Cow',
+        needs: [a.village],
+        powerFits: [a.village],
+    }),
+    new NameIdea({
+        name: 'Jolly Farmer',
+        needs: [a.village],
+        powerFits: [a.village],
+    }),
+    new NameIdea({
+        name: 'Blushing Milkmaid',
+        needs: [a.village],
+        powerFits: [a.village],
+    }),
+    new NameIdea({
+        name: 'Wimpy City Dweller',
+        needs: [a.village],
+        powerFits: [a.village],
+    }),
+    new NameIdea({
+        name: 'Golden Ox',
+        needs: [a.village],
+        powerFits: [a.village],
+    }),
+    new NameIdea({
+        name: 'Resting Pitchfork',
+        needs: [a.village],
+        powerFits: [a.village],
+    }),
+    new NameIdea({
+        name: 'Copper Plow',
+        needs: [a.village],
+        powerFits: [a.village],
+    }),
+    new NameIdea({
+        name: 'Dancing Piglet',
+        needs: [a.village],
+        powerFits: [a.village],
+    }),
+    new NameIdea({
+        name: 'Books & Beverages',
+        needs: [a.wizard],
+        powerFits: [a.wizard],
+    }),
+    new NameIdea({
+        name: 'Magical Mug',
+        needs: [a.wizard],
+        powerFits: [a.wizard],
+    }),
+    new NameIdea({
+        name: 'Fiddling Robe',
+        needs: [a.wizard],
+        powerFits: [a.wizard],
+    }),
+    new NameIdea({
+        name: 'Tricking Hat',
+        needs: [a.wizard],
+        powerFits: [a.wizard],
+    }),
+    new NameIdea({
+        name: 'Smirking Hat',
+        needs: [a.wizard],
+        powerFits: [a.wizard],
+    }),
+    new NameIdea({
+        name: 'Shots & Scrolls',
+        needs: [a.wizard],
+        powerFits: [a.wizard],
+    }),
+    new NameIdea({
+        name: "Fundalf's Fantastic Fairytale",
+        needs: [a.wizard],
+        powerFits: [a.wizard],
+    }),
+    new NameIdea({
+        name: 'Illiterate Barbarian',
+        needs: [a.wizard],
+        powerFits: [a.wizard],
+    }),
+    new NameIdea({
+        name: "Nordenkainen's Public Sanctum",
+        needs: [a.wizard],
+        powerFits: [a.wizard],
+    }),
+    new NameIdea({
+        name: "Yanathar's Bar For Everything",
+        needs: [a.wizard],
+        powerFits: [a.wizard],
+    }),
+    new NameIdea({
+        name: "Meolund's Tiny Pub",
+        needs: [a.wizard],
+        powerFits: [a.wizard],
+    }),
+    new NameIdea({
+        name: "Numentor's Bar Of Twisted Dimensions",
+        needs: [a.wizard],
+        powerFits: [a.wizard],
+    }),
+    new NameIdea({
+        name: 'Resting Anvil',
+        needs: [a.modest],
+        powerFits: [a.modest],
+    }),
+    new NameIdea({
+        name: 'Beer Fountain',
+        needs: [a.modest],
+        powerFits: [a.modest],
+        misfits: [a.desert],
+    }),
+    new NameIdea({
+        name: 'Tipsy Tailor',
+        needs: [a.modest],
+        powerFits: [a.modest],
+        misfits: [a.desert],
+    }),
+    new NameIdea({
+        name: 'Drunken Cobbler',
+        needs: [a.modest],
+        powerFits: [a.modest],
+        misfits: [a.desert],
+    }),
+    new NameIdea({
+        name: 'Snot-Nosed Noble',
+        needs: [a.modest],
+        powerFits: [a.modest],
+    }),
+    new NameIdea({
+        name: 'Thirsty Blacksmith',
+        needs: [a.modest],
+        powerFits: [a.modest],
+    }),
+    new NameIdea({
+        name: "Crafter's Craft Beer Pub",
+        needs: [a.modest],
+        powerFits: [a.modest],
+        misfits: [a.desert],
+    }),
+    new NameIdea({
+        name: 'Ale & Artisans',
+        needs: [a.modest],
+        powerFits: [a.modest],
+        misfits: [a.desert],
+    }),
+    new NameIdea({
+        name: 'Golden Lager',
+        needs: [a.modest],
+        powerFits: [a.modest],
+        misfits: [a.desert],
+    }),
+    new NameIdea({
+        name: 'Crafting Carpenter',
+        needs: [a.modest],
+        powerFits: [a.modest],
+    }),
 ];
