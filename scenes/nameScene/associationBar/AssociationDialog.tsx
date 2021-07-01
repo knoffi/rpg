@@ -3,6 +3,7 @@ import { Text, View } from 'react-native';
 import { Button, Dialog, Portal } from 'react-native-paper';
 import { association, AssociationTypes } from '../../../classes/association';
 import { StructuredTavernFits } from '../../../classes/idea/StructuredTavernFits';
+import { ButtonState } from './getButtonStates';
 
 export const AssociationDialog = (props: {
     pickAssociationList: association[];
@@ -11,6 +12,7 @@ export const AssociationDialog = (props: {
     onLongPress: () => void;
     color: string;
     type: AssociationTypes;
+    activity: ButtonState;
 }) => {
     const [visible, setVisible] = React.useState(false);
 
@@ -62,6 +64,7 @@ export const AssociationDialog = (props: {
                 compact={true}
                 mode="contained"
                 color={props.color}
+                style={getStyelByActivity(props.activity)}
             >
                 {props.startText}
             </Button>
@@ -106,4 +109,23 @@ const getDialogInput = (dialogActions: JSX.Element[], dialogName: string) => {
 
 const AssociationButton = (props: any) => {
     return <Button onPress={props.setPick}>{props.pick}</Button>;
+};
+
+const getStyelByActivity = (activity: ButtonState) => {
+    if (activity === ButtonState.active) {
+        return {
+            borderWidth: 2,
+            borderColor: 'navy',
+        };
+    }
+    if (activity === ButtonState.none) {
+        return {
+            borderWidth: 4,
+            borderColor: 'black',
+        };
+    }
+    return {
+        borderWidth: 1,
+        borderColor: 'silver',
+    };
 };

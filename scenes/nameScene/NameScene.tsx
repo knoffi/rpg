@@ -2,7 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import 'react-native-gesture-handler';
 import { Button, List } from 'react-native-paper';
-import { association } from '../../classes/association';
+import { association, AssociationTypes } from '../../classes/association';
 import { NameIdea } from '../../classes/idea/NameIdea';
 import {
     getFitsFromStructure,
@@ -18,6 +18,11 @@ import { getRandomArrayEntry } from '../../helpingFunctions/getFittingRandom';
 import { TavernData } from '../../mainNavigator/TavernData';
 import { globalStyles } from '../globalStyles';
 import { AssociationDialogBar } from './associationBar/AssociationDialogBar';
+import {
+    ButtonState,
+    ButtonStates,
+    getButtonStates,
+} from './associationBar/getButtonStates';
 import { nameIdeas } from './names/nameIdeas';
 import { getSpecialTavernName } from './names/specialTavernNames';
 import { nameSceneStyles } from './nameSceneStyles';
@@ -31,7 +36,6 @@ type TextState = {
     dialogText: string;
     oldNameParts: string[];
 };
-
 type NameProps = {
     fitting: StructuredTavernFits;
     name: string;
@@ -42,14 +46,19 @@ type NameProps = {
 };
 
 const SECTION_FLEX = 0.2;
-export class NameScene extends React.Component<NameProps, TextState> {
+export class NameScene extends React.Component<
+    NameProps,
+    TextState & { buttons: ButtonStates }
+> {
     private userActivelySetPowerfit: boolean;
     constructor(props: any) {
         super(props);
+
         this.state = {
             nameSetDialogOpen: false,
             dialogText: '',
             oldNameParts: [],
+            buttons: getButtonStates(this.props.fitting),
         };
         this.userActivelySetPowerfit = false;
     }
@@ -69,11 +78,8 @@ export class NameScene extends React.Component<NameProps, TextState> {
                         <AssociationDialogBar
                             setPowerFit={this.setPowerFitByName.bind(this)}
                             fits={this.props.fitting}
-                            switchFits={(
-                                newFits: Partial<StructuredTavernFits>
-                            ) => {
-                                this.updateFits(newFits);
-                            }}
+                            switchFits={this.updateFits.bind(this)}
+                            buttonStates={this.state.buttons}
                         />
                     </View>
                     <View style={nameSceneStyles.signView}>
@@ -114,7 +120,14 @@ export class NameScene extends React.Component<NameProps, TextState> {
             </View>
         );
     }
-    private setPowerFitByName(name: string) {
+    private setButtonState(category: AssociationTypes, state: ButtonState) {
+        const newButtonStates: ButtonStates = {
+            ...this.state.buttons,
+            [category]: state,
+        };
+        this.setState({ buttons: newButtonStates });
+    }
+    private setPowerFitByName(name: string, category: AssociationTypes) {
         const newPowerFit = Object.values(association).find(
             (fit) => (fit as string) === name
         );
@@ -125,9 +138,11 @@ export class NameScene extends React.Component<NameProps, TextState> {
             if (name === this.props.fitting.powerFit) {
                 this.userActivelySetPowerfit = false;
                 newFits.powerFit = undefined;
+                this.setButtonState(category, ButtonState.active);
             } else {
                 this.userActivelySetPowerfit = true;
                 newFits.powerFit = newPowerFit;
+                this.setButtonState(category, ButtonState.powerFit);
             }
             this.props.onDataChange({ fitting: newFits });
         }
@@ -186,13 +201,20 @@ export class NameScene extends React.Component<NameProps, TextState> {
         this.setState({ oldNameParts: newOldNameParts });
     }
 
-    private updateFits(newFit: Partial<StructuredTavernFits>) {
+    private updateFits(
+        newFit: Partial<StructuredTavernFits>,
+        category: AssociationTypes
+    ) {
         const newFitting: StructuredTavernFits = {
             ...this.props.fitting,
             ...newFit,
         };
         const updatedFits = getFitsFromStructure(newFitting);
         const oldPowerFit = this.props.fitting.powerFit;
+        this.setButtonState(
+            category,
+            newFitting[category] ? ButtonState.active : ButtonState.powerFit
+        );
         if (oldPowerFit && !updatedFits.includes(oldPowerFit)) {
             newFitting.powerFit = undefined;
             this.userActivelySetPowerfit = false;
