@@ -1,6 +1,9 @@
 import { association, sophisticatedGroup } from '../../../classes/association';
 import { DescriptionAsset } from '../../../classes/idea/DescriptionAsset';
-import { ImpressionIdea, Noticable } from '../../../classes/idea/ImpressionIdea';
+import {
+    ImpressionIdea,
+    Noticable,
+} from '../../../classes/idea/ImpressionIdea';
 
 const a = association;
 
@@ -307,7 +310,7 @@ export const bartenders: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            needs: [a.gnome, a.dwarf, a.halfling],
+            needsOne: [a.gnome, a.dwarf, a.halfling],
             name: 'Tiny',
             worksForAssasines: true,
             worksForBrothel: true,

@@ -28,12 +28,10 @@ import {
     getButtonStates,
 } from './associationBar/getButtonStates';
 import { nameIdeas } from './names/nameIdeas';
-import { getSpecialTavernName } from './names/specialTavernNames';
 import { nameSceneStyles } from './nameSceneStyles';
 import { NameSetDialog } from './NameSetDialog';
 import { TavernSign } from './TavernSign';
 
-const PROBABILITY_SPECIAL_NAME = 0.15;
 const MAX_NAME_MEMORY = 2;
 type TextState = {
     nameSetDialogOpen: boolean;
@@ -174,32 +172,22 @@ export class NameScene extends React.Component<
     }
 
     private rerollName() {
-        const randomNumber = Math.random();
-        if (randomNumber > PROBABILITY_SPECIAL_NAME) {
-            const possibleNames = nameIdeas.filter((nameIdea) =>
-                nameIdea.fitsToTavern(this.props.fitting)
+        const possibleNames = nameIdeas.filter((nameIdea) =>
+            nameIdea.fitsToTavern(this.props.fitting)
+        );
+        const newNameIdea = getRandomArrayEntry(possibleNames) as NameIdea;
+        if (!newNameIdea) {
+            console.log(
+                'There was not fitting name idea which I could have chosen'
             );
-            const newNameIdea = getRandomArrayEntry(possibleNames) as NameIdea;
-            if (!newNameIdea) {
-                console.log(
-                    'There was not fitting name idea which I could have chosen'
-                );
-            }
-            const newName = newNameIdea
-                ? newNameIdea.getConcreteName(
-                      this.props.fitting,
-                      this.state.oldNameParts
-                  )
-                : 'Nameless Tavern';
-            this.updateByNewName(newName);
-        } else {
-            const specialName = this.getSpecialNames();
-            this.props.onDataChange({ name: specialName });
         }
-    }
-
-    private getSpecialNames() {
-        return getSpecialTavernName(this.props.fitting);
+        const newName = newNameIdea
+            ? newNameIdea.getConcreteName(
+                  this.props.fitting,
+                  this.state.oldNameParts
+              )
+            : 'Nameless Tavern';
+        this.updateByNewName(newName);
     }
 
     private updateByNewName(newName: string) {
