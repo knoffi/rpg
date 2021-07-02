@@ -16,7 +16,6 @@ import {
 import { BasePrice, standardBasePrice } from '../scenes/menuScene/basePrice';
 import { NothingLeftOffer, Offer } from '../scenes/menuScene/menuEnums';
 import { nameIdeas } from '../scenes/nameScene/names/nameIdeas';
-import { getSpecialTavernName } from '../scenes/nameScene/names/specialTavernNames';
 import { IImpression } from '../scenes/questScene/impressions/IImpression';
 import {
     emptyImpression,
@@ -24,7 +23,6 @@ import {
 } from '../scenes/questScene/impressions/impressionChapters';
 import { getTavernHistoryInitializer } from './mainNavigatorFunctions';
 
-const CHANCE_FOR_SPECIAL_NAME = 0.3;
 const CHANCE_FOR_SPECIAL_FIT = 0.2;
 const CHANCE_FOR_ORDINARY_FIT = 0.625;
 const NO_IDEA_PROBABILITY = 0.1;
@@ -99,26 +97,20 @@ const getRandomName = (fits: StructuredTavernFits) => {
     const nonEmptyCategories = Object.values(fits).filter(
         (fit) => fit && (fit as string) !== association.empty
     );
-    if (
-        randomNumber < 1 - CHANCE_FOR_SPECIAL_NAME ||
-        nonEmptyCategories.length === 0
-    ) {
-        const possibleNames = nameIdeas.filter((nameIdea) =>
-            nameIdea.fitsToTavern(fits)
+
+    const possibleNames = nameIdeas.filter((nameIdea) =>
+        nameIdea.fitsToTavern(fits, undefined, randomNumber)
+    );
+    const newNameIdea = getRandomArrayEntry(possibleNames) as NameIdea;
+    if (!newNameIdea) {
+        console.log(
+            'no name idea fitted to tavern, thus newNameIdea was undefined'
         );
-        const newNameIdea = getRandomArrayEntry(possibleNames) as NameIdea;
-        if (!newNameIdea) {
-            console.log(
-                'no name idea fitted to tavern, thus newNameIdea was undefined'
-            );
-        }
-        const newName = newNameIdea
-            ? newNameIdea.getConcreteName(fits, [])
-            : 'Nameless Tavern';
-        return newName;
-    } else {
-        return getSpecialTavernName(fits);
     }
+    const newName = newNameIdea
+        ? newNameIdea.getConcreteName(fits, () => false)
+        : 'Nameless Tavern';
+    return newName;
 };
 
 const getExamplesForChapter = (
