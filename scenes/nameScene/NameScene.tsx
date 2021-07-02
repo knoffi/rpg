@@ -172,8 +172,19 @@ export class NameScene extends React.Component<
     }
 
     private rerollName() {
+        const isExcludedByPrefix = (name: string) => {
+            return this.state.oldNameParts.some(
+                (namePart) => namePart.slice(0, 5) === name.slice(0, 5)
+            );
+        };
+        const probabilityForNameFilter = Math.random();
+        console.log(probabilityForNameFilter);
         const possibleNames = nameIdeas.filter((nameIdea) =>
-            nameIdea.fitsToTavern(this.props.fitting)
+            nameIdea.fitsToTavern(
+                this.props.fitting,
+                isExcludedByPrefix,
+                probabilityForNameFilter
+            )
         );
         const newNameIdea = getRandomArrayEntry(possibleNames) as NameIdea;
         if (!newNameIdea) {
@@ -184,7 +195,7 @@ export class NameScene extends React.Component<
         const newName = newNameIdea
             ? newNameIdea.getConcreteName(
                   this.props.fitting,
-                  this.state.oldNameParts
+                  isExcludedByPrefix
               )
             : 'Nameless Tavern';
         this.updateByNewName(newName);

@@ -5,7 +5,7 @@ import {
     isIncomeAssociation,
     isLandAssociation,
     isRaceAssociation,
-    isSpecialAssociation
+    isSpecialAssociation,
 } from '../association';
 import { DescriptionAsset } from './DescriptionAsset';
 import { StructuredTavernFits } from './StructuredTavernFits';
@@ -95,8 +95,16 @@ export class Idea {
         tavernFits: StructuredTavernFits,
         asset: DescriptionAsset,
         isExcludedByPrefix?: (name: string) => boolean,
-        applyPowerFit?: boolean
+        applyPowerFit?: boolean,
+        probabilityFilter?: number
     ) {
+        const filteredByProbability =
+            asset.probability &&
+            probabilityFilter &&
+            probabilityFilter > asset.probability;
+        if (filteredByProbability) {
+            return false;
+        }
         const assetIsRedundant = isExcludedByPrefix
             ? isExcludedByPrefix(asset.name)
             : false;
@@ -278,16 +286,18 @@ export class Idea {
         );
     }
 
-    
     public fitsToTavern(
         tavernFits: StructuredTavernFits,
-        isExcludedByPrefix?: (name: string) => boolean
+        isExcludedByPrefix?: (name: string) => boolean,
+        mainFilter?: number,
+        additionFilter?: number
     ) {
         const mainFitsToTavern = this.assetFitsToTavern(
             tavernFits,
             this.main,
             isExcludedByPrefix,
-            this.powerFitConcept ? this.powerFitConcept.main : undefined
+            this.powerFitConcept ? this.powerFitConcept.main : undefined,
+            mainFilter
         );
         if (!mainFitsToTavern) {
             return false;
@@ -304,7 +314,8 @@ export class Idea {
                           undefined,
                           this.powerFitConcept
                               ? this.powerFitConcept.harmony
-                              : undefined
+                              : undefined,
+                          additionFilter
                       )
                   )
               )
@@ -321,7 +332,8 @@ export class Idea {
                           undefined,
                           this.powerFitConcept
                               ? this.powerFitConcept.contrast
-                              : undefined
+                              : undefined,
+                          additionFilter
                       )
                   )
               )

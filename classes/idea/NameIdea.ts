@@ -30,23 +30,21 @@ export class NameIdea extends Idea {
 
     public getConcreteName(
         tavernFits: StructuredTavernFits,
-        oldNameParts: string[]
+        isExcludedByPrefix: (name: string) => boolean
     ) {
-        const substantive = this.chooseSubstantive(tavernFits, oldNameParts);
+        const substantive = this.chooseSubstantive(
+            tavernFits,
+            isExcludedByPrefix
+        );
         const adjective = this.main.name;
         return this.fuseNameForDisplay(adjective, substantive);
     }
 
     private chooseSubstantive(
         tavernFits: StructuredTavernFits,
-        oldNameParts: string[],
+        isExcludedByPrefix: (name: string) => boolean,
         harmonyChance = DEFAULT_HARMONY_CHANCE
     ) {
-        const isExcludedByPrefix = (name: string) => {
-            return oldNameParts.some(
-                (namePart) => namePart.slice(0, 5) === name.slice(0, 5)
-            );
-        };
         const fittingHarmony = this.getFittingAssetPart(
             tavernFits,
             this.additions ? this.additions[0] : undefined,

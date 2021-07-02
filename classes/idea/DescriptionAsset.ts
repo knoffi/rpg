@@ -19,6 +19,7 @@ export type DescriptionAsset = {
     worksForAllCriminals?: boolean;
     priceFactor?: number;
     powerFits?: association[];
+    probability?: number;
 };
 
 export const emptyDescriptionAsset = {
