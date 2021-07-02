@@ -3,6 +3,7 @@ import { NameIdea } from '../../../classes/idea/NameIdea';
 
 const a = association;
 
+const VERY_SPECIAL_NAME_PROB = 0.2;
 export const specialNames: NameIdea[] = [
     new NameIdea({
         name: 'Wrathful Axe',
@@ -13,6 +14,7 @@ export const specialNames: NameIdea[] = [
         name: 'BARbarians',
         needs: [a.barbarian],
         powerFits: [a.barbarian],
+        probability: VERY_SPECIAL_NAME_PROB,
     }),
     new NameIdea({
         name: 'Raging Minotaur',
@@ -23,11 +25,13 @@ export const specialNames: NameIdea[] = [
         name: "Khalif's House of (S)Laughter",
         needs: [a.barbarian],
         powerFits: [a.barbarian],
+        probability: VERY_SPECIAL_NAME_PROB,
     }),
     new NameIdea({
         name: "Kain's Bretzel Pub",
         needs: [a.barbarian],
         powerFits: [a.barbarian],
+        probability: VERY_SPECIAL_NAME_PROB,
     }),
     new NameIdea({
         name: 'Mead Fountain',
@@ -35,7 +39,12 @@ export const specialNames: NameIdea[] = [
         powerFits: [a.barbarian, a.dwarf],
     }),
     new NameIdea({
-        name: 'Savage Hunter',
+        name: 'Patient Hunter',
+        needs: [a.barbarian],
+        powerFits: [a.barbarian],
+    }),
+    new NameIdea({
+        name: 'Feasting Savage',
         needs: [a.barbarian],
         powerFits: [a.barbarian],
     }),
@@ -68,6 +77,7 @@ export const specialNames: NameIdea[] = [
         name: 'Aliba Bar',
         needsOne: [a.adventurer, a.desert],
         powerFits: [a.adventurer, a.desert],
+        probability: VERY_SPECIAL_NAME_PROB,
     }),
     new NameIdea({
         name: 'Resting Cape',
@@ -95,7 +105,7 @@ export const specialNames: NameIdea[] = [
         powerFits: [a.bard],
     }),
     new NameIdea({
-        name: 'Drunken Virgin',
+        name: 'Tipsy Virgin',
         needsOne: [a.bard, a.prostitute],
         powerFits: [a.bard],
         worksForBrothel: true,
@@ -192,6 +202,23 @@ export const specialNames: NameIdea[] = [
         powerFits: [a.cleric],
     }),
     new NameIdea({
+        name: "Brother Pummelduff's Pub",
+        needsOne: [a.cleric],
+        powerFits: [a.cleric],
+        probability: VERY_SPECIAL_NAME_PROB,
+    }),
+    new NameIdea({
+        name: "Sister Tavia's Tavern",
+        needsOne: [a.cleric],
+        powerFits: [a.cleric],
+        probability: VERY_SPECIAL_NAME_PROB,
+    }),
+    new NameIdea({
+        name: 'Bald-Headed Monk',
+        needsOne: [a.cleric],
+        powerFits: [a.cleric],
+    }),
+    new NameIdea({
         name: 'Praising Priestess',
         needsOne: [a.cleric],
         powerFits: [a.cleric],
@@ -264,8 +291,13 @@ export const specialNames: NameIdea[] = [
     }),
     new NameIdea({
         name: 'Happy Hookah',
-        needsOne: [a.desert, a.wizard],
-        powerFits: [a.desert, a.wizard],
+        needsOne: [a.desert],
+        powerFits: [a.desert],
+    }),
+    new NameIdea({
+        name: 'Sultans Of Swing',
+        needsOne: [a.desert, a.bard],
+        powerFits: [a.desert, a.bard],
     }),
     new NameIdea({
         name: 'Purple Turban',
@@ -524,34 +556,40 @@ export const specialNames: NameIdea[] = [
         name: "Bardin's Bar",
         needsOne: [a.dwarf],
         powerFits: [a.dwarf],
+        probability: VERY_SPECIAL_NAME_PROB,
     }),
     new NameIdea({
         name: "Baldor's Bar",
         needsOne: [a.dwarf],
         powerFits: [a.dwarf],
+        probability: VERY_SPECIAL_NAME_PROB,
     }),
     new NameIdea({
         name: "Berin's Bar",
         needsOne: [a.dwarf],
         powerFits: [a.dwarf],
+        probability: VERY_SPECIAL_NAME_PROB,
     }),
     new NameIdea({
         name: "Thulrig's Tavern",
         needsOne: [a.dwarf],
         powerFits: [a.dwarf],
+        probability: VERY_SPECIAL_NAME_PROB,
     }),
     new NameIdea({
         name: "Ingard's Inn",
         needsOne: [a.dwarf],
         powerFits: [a.dwarf],
+        probability: VERY_SPECIAL_NAME_PROB,
     }),
     new NameIdea({
         name: "Pulrig's Pub",
         needsOne: [a.dwarf],
         powerFits: [a.dwarf],
+        probability: VERY_SPECIAL_NAME_PROB,
     }),
     new NameIdea({
-        name: 'Joyful Jeweler',
+        name: 'Jolly Jeweler',
         needsOne: [a.dwarf, a.wealthy],
         powerFits: [a.dwarf, a.wealthy],
     }),
@@ -574,16 +612,19 @@ export const specialNames: NameIdea[] = [
         name: "Miridan's Chrystal Palace",
         needsOne: [a.elf],
         powerFits: [a.elf],
+        probability: VERY_SPECIAL_NAME_PROB,
     }),
     new NameIdea({
         name: "Helandir's House Of Fine Drinks",
         needsOne: [a.elf],
         powerFits: [a.elf],
+        probability: VERY_SPECIAL_NAME_PROB,
     }),
     new NameIdea({
         name: "Ilmarin's Inn Of Harmony",
         needsOne: [a.elf],
         powerFits: [a.elf],
+        probability: VERY_SPECIAL_NAME_PROB,
     }),
     new NameIdea({
         name: 'Slumbering Fairy',
@@ -734,11 +775,13 @@ export const specialNames: NameIdea[] = [
         name: "Mr. Pebblebaker's Pub",
         needsOne: [a.gnome],
         powerFits: [a.gnome],
+        probability: VERY_SPECIAL_NAME_PROB,
     }),
     new NameIdea({
         name: "Mrs. Barrenboomer's Bar",
         needsOne: [a.gnome],
         powerFits: [a.gnome],
+        probability: VERY_SPECIAL_NAME_PROB,
     }),
     new NameIdea({
         name: 'Hall of Charades',
@@ -784,21 +827,25 @@ export const specialNames: NameIdea[] = [
         name: "Bronzebrand's Bar",
         needsOne: [a.halfling],
         powerFits: [a.halfling],
+        probability: VERY_SPECIAL_NAME_PROB,
     }),
     new NameIdea({
         name: "Brumblebrand's Bar",
         needsOne: [a.halfling],
         powerFits: [a.halfling],
+        probability: VERY_SPECIAL_NAME_PROB,
     }),
     new NameIdea({
         name: "Isenwood's Inn",
         needsOne: [a.halfling],
         powerFits: [a.halfling],
+        probability: VERY_SPECIAL_NAME_PROB,
     }),
     new NameIdea({
         name: "Terrybawn's Tavern",
         needsOne: [a.halfling],
         powerFits: [a.halfling],
+        probability: VERY_SPECIAL_NAME_PROB,
     }),
     new NameIdea({
         name: 'Hidden Booty',
@@ -856,17 +903,20 @@ export const specialNames: NameIdea[] = [
         name: "Captain Barnabis' Bar",
         needs: [a.haven],
         powerFits: [a.haven],
+        probability: VERY_SPECIAL_NAME_PROB,
     }),
     new NameIdea({
         name: "Perry Piper's Pub",
         needs: [a.haven],
         powerFits: [a.haven],
+        probability: VERY_SPECIAL_NAME_PROB,
     }),
     new NameIdea({
         name: "Admiral Pensington's Pub",
         needs: [a.haven],
         misfits: [a.poor],
         powerFits: [a.haven],
+        probability: VERY_SPECIAL_NAME_PROB,
     }),
     new NameIdea({
         name: 'Feasting Hound',
@@ -893,11 +943,13 @@ export const specialNames: NameIdea[] = [
         name: "Elizabeths's Tavern",
         needs: [a.human],
         powerFits: [a.human],
+        probability: VERY_SPECIAL_NAME_PROB,
     }),
     new NameIdea({
         name: "Paul Paulsen's Pub",
         needs: [a.human],
         powerFits: [a.human],
+        probability: VERY_SPECIAL_NAME_PROB,
     }),
     new NameIdea({
         name: 'Tipsy Tavern',
@@ -925,6 +977,7 @@ export const specialNames: NameIdea[] = [
         name: "Inngrid's Inn",
         needs: [a.human],
         powerFits: [a.human],
+        probability: VERY_SPECIAL_NAME_PROB,
     }),
     new NameIdea({
         name: 'Eagle Nest',
@@ -1001,6 +1054,7 @@ export const specialNames: NameIdea[] = [
         name: "Percival's Pub",
         needs: [a.knight],
         powerFits: [a.knight],
+        probability: VERY_SPECIAL_NAME_PROB,
     }),
     new NameIdea({
         name: 'Victorious Valkyrie',
@@ -1016,6 +1070,7 @@ export const specialNames: NameIdea[] = [
         name: "Sir Thundersmite's Tavern",
         needs: [a.knight],
         powerFits: [a.knight],
+        probability: VERY_SPECIAL_NAME_PROB,
     }),
     new NameIdea({
         name: 'Humping Cowgirl',
@@ -1063,6 +1118,11 @@ export const specialNames: NameIdea[] = [
         worksForBrothel: true,
     }),
     new NameIdea({
+        name: 'Come Together',
+        needs: [a.prostitute],
+        worksForBrothel: true,
+    }),
+    new NameIdea({
         name: 'Club 69',
         needs: [a.prostitute],
         worksForBrothel: true,
@@ -1084,11 +1144,6 @@ export const specialNames: NameIdea[] = [
     }),
     new NameIdea({
         name: 'Fox On The Run',
-        needs: [a.prostitute],
-        worksForBrothel: true,
-    }),
-    new NameIdea({
-        name: 'Pipe Cleaners',
         needs: [a.prostitute],
         worksForBrothel: true,
     }),
@@ -1151,6 +1206,7 @@ export const specialNames: NameIdea[] = [
         name: "Sir Welfare's Dining House",
         needs: [a.rich],
         powerFits: [a.rich],
+        probability: VERY_SPECIAL_NAME_PROB,
     }),
     new NameIdea({ name: 'Red Carpet', needs: [a.rich], powerFits: [a.rich] }),
     new NameIdea({
@@ -1239,11 +1295,13 @@ export const specialNames: NameIdea[] = [
         name: "Dr. Rubendrum's Tavern",
         needs: [a.wealthy],
         powerFits: [a.wealthy],
+        probability: VERY_SPECIAL_NAME_PROB,
     }),
     new NameIdea({
         name: 'Dapper Inn of Sophistication',
         needs: [a.wealthy],
         powerFits: [a.wealthy],
+        probability: VERY_SPECIAL_NAME_PROB,
     }),
     new NameIdea({
         name: 'Infernal Thirst',
@@ -1251,19 +1309,22 @@ export const specialNames: NameIdea[] = [
         powerFits: [a.tiefling],
     }),
     new NameIdea({
-        name: "Philizer's Pub",
+        name: "Mrs. Philizer's Pub",
         needs: [a.tiefling],
         powerFits: [a.tiefling],
+        probability: VERY_SPECIAL_NAME_PROB,
     }),
     new NameIdea({
         name: "Talemon's Tavern",
         needs: [a.tiefling],
         powerFits: [a.tiefling],
+        probability: VERY_SPECIAL_NAME_PROB,
     }),
     new NameIdea({
         name: "Izalim's Insidious Inn'",
         needs: [a.tiefling],
         powerFits: [a.tiefling],
+        probability: VERY_SPECIAL_NAME_PROB,
     }),
     new NameIdea({
         name: 'Sarcastic Thinker',
@@ -1385,6 +1446,7 @@ export const specialNames: NameIdea[] = [
         name: 'Down Under',
         needs: [a.underdark],
         powerFits: [a.underdark],
+        probability: VERY_SPECIAL_NAME_PROB,
     }),
     new NameIdea({
         name: 'Sharing Sheep',
@@ -1470,6 +1532,7 @@ export const specialNames: NameIdea[] = [
         name: "Fundalf's Fantastic Fairytale",
         needs: [a.wizard],
         powerFits: [a.wizard],
+        probability: VERY_SPECIAL_NAME_PROB,
     }),
     new NameIdea({
         name: 'Illiterate Barbarian',
@@ -1480,21 +1543,25 @@ export const specialNames: NameIdea[] = [
         name: "Nordenkainen's Public Sanctum",
         needs: [a.wizard],
         powerFits: [a.wizard],
+        probability: VERY_SPECIAL_NAME_PROB,
     }),
     new NameIdea({
         name: "Yanathar's Bar For Everything",
         needs: [a.wizard],
         powerFits: [a.wizard],
+        probability: VERY_SPECIAL_NAME_PROB,
     }),
     new NameIdea({
         name: "Meolund's Tiny Pub",
         needs: [a.wizard],
         powerFits: [a.wizard],
+        probability: VERY_SPECIAL_NAME_PROB,
     }),
     new NameIdea({
         name: "Numentor's Bar Of Twisted Dimensions",
         needs: [a.wizard],
         powerFits: [a.wizard],
+        probability: VERY_SPECIAL_NAME_PROB,
     }),
     new NameIdea({
         name: 'Resting Anvil',
@@ -1534,6 +1601,7 @@ export const specialNames: NameIdea[] = [
         needs: [a.modest],
         powerFits: [a.modest],
         misfits: [a.desert],
+        probability: VERY_SPECIAL_NAME_PROB,
     }),
     new NameIdea({
         name: 'Ale & Artisans',
