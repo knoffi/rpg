@@ -155,7 +155,6 @@ export class Idea {
             tavernFits,
             asset.strongNeedsOne
         );
-
         const powerFitFulfilled = tavernFits.powerFit
             ? !applyPowerFit ||
               this.powerFitCheck(

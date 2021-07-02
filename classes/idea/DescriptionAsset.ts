@@ -19,7 +19,6 @@ export type DescriptionAsset = {
     worksForAllCriminals?: boolean;
     priceFactor?: number;
     powerFits?: association[];
-    allPowerFits?: boolean;
     probability?: number;
 };
 
