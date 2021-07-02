@@ -178,7 +178,6 @@ export class NameScene extends React.Component<
             );
         };
         const probabilityForNameFilter = Math.random();
-        console.log(probabilityForNameFilter);
         const possibleNames = nameIdeas.filter((nameIdea) =>
             nameIdea.fitsToTavern(
                 this.props.fitting,
@@ -198,10 +197,10 @@ export class NameScene extends React.Component<
                   isExcludedByPrefix
               )
             : 'Nameless Tavern';
-        this.updateByNewName(newName);
+        this.setNewName(newName);
     }
 
-    private updateByNewName(newName: string) {
+    private setNewName(newName: string) {
         this.props.onDataChange({ name: newName });
         const incomingNameParts = newName.split(' ');
         const newOldNameParts = [
@@ -227,7 +226,7 @@ export class NameScene extends React.Component<
         const oldPowerFit = this.props.fitting.powerFit;
         this.setButtonState(
             category,
-            newFitting[category] ? ButtonState.active : ButtonState.powerFit
+            newFitting[category] ? ButtonState.active : ButtonState.none
         );
         if (oldPowerFit && !updatedFits.includes(oldPowerFit)) {
             newFitting.powerFit = undefined;
