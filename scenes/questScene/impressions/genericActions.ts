@@ -70,6 +70,7 @@ const veryDrunk: DescriptionAsset[] = [
         worksForAllCriminals: true,
     },
     { name: 'slurring', misfits: sophisticatedGroup },
+    { name: 'tipsy and frisky', misfits: sophisticatedGroup },
     {
         name: 'totally drunk',
         misfits: sophisticatedGroup,
@@ -232,16 +233,16 @@ export const leisureUpperClass = [
 ];
 export const busyUpperClass = [...leisureUpperClass, ...scholar];
 export const busyScholarClass = [...leisureUpperClass, ...scholar, ...magical];
-export const caritasWork = [
-    { need: [a.poor], name: 'feeding the poor' },
-    { need: [a.poor], name: 'distributing soup to the poor' },
-    { need: [a.poor], name: 'handing out used cloths' },
-    { need: [a.poor], name: 'doing charity work' },
-    { need: [a.poor], name: 'scolding a drunken father' },
-    { need: [a.poor], name: 'blessing a poor family' },
-    { need: [a.poor], name: 'teaching a group of orphans' },
-    { need: [a.poor], name: 'healing an injured hobo' },
-    { need: [a.poor], name: 'blessing an old widow' },
+export const caritasWork: DescriptionAsset[] = [
+    { needs: [a.poor], name: 'feeding the poor' },
+    { needs: [a.poor], name: 'distributing soup to the poor' },
+    { needs: [a.poor], name: 'handing out second hand cloths' },
+    { needs: [a.poor], name: 'doing charity work' },
+    { needs: [a.poor], name: 'scolding a drunken father' },
+    { needs: [a.poor], name: 'blessing a poor family' },
+    { needs: [a.poor], name: 'teaching a group of orphans' },
+    { needs: [a.poor], name: 'healing an injured hobo' },
+    { needs: [a.poor], name: 'blessing an old widow' },
 ];
 export const machoClass = [
     ...leisureUpperClass,

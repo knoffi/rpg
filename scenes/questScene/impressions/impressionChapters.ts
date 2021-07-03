@@ -4,6 +4,7 @@ import { getRandomArrayEntry } from '../../../helpingFunctions/getFittingRandom'
 import { WeServe } from '../../menuScene/addRandomDrink';
 import { averageCustomers } from './averageCustomer';
 import { bartenders } from './bartender';
+import { druidIndividuals } from './druidIndividuals';
 import { furnitures } from './furniture';
 import { individuals } from './genericIndividuals';
 import { getPrefixExcluder } from './getPrefixExcluder';
@@ -23,7 +24,11 @@ const impressionChapters = [
     },
     { impressions: averageCustomers, category: Noticable.averageCustomer },
     {
-        impressions: [...individuals, ...specialIndividuals],
+        impressions: [
+            ...individuals,
+            ...specialIndividuals,
+            ...druidIndividuals,
+        ],
         category: Noticable.someCustomers,
     },
     { impressions: bartenders, category: Noticable.bartender },
