@@ -112,7 +112,7 @@ export const TavernSign = (props: { nameText: string }) => {
     return (
         <View>
             <ImageBackground
-                source={require('../../assets/tavernSign.png')}
+                source={require('../../assets/bigTavernSign.png')}
                 style={{
                     alignSelf: 'center',
                     flexDirection: 'column',
