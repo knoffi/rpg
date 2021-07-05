@@ -311,6 +311,7 @@ export const specialNames: NameIdea[] = [
     }),
     new NameIdea({
         name: 'Resting Camel',
+        landRange: [a.desert],
         needsOne: [a.desert, a.druid],
         powerFits: [a.desert, a.druid],
     }),
@@ -528,7 +529,7 @@ export const specialNames: NameIdea[] = [
     new NameIdea({
         name: 'Fortune Forge',
         needsOne: [a.dwarf, a.modest],
-        powerFits: [a.druid, a.modest],
+        powerFits: [a.dwarf, a.modest],
     }),
     new NameIdea({
         name: 'Mead Cave',
@@ -633,7 +634,7 @@ export const specialNames: NameIdea[] = [
     }),
     new NameIdea({ name: 'Ivory Hall', needsOne: [a.elf], powerFits: [a.elf] }),
     new NameIdea({
-        name: 'Mahagony Temple',
+        name: 'Ebony Temple',
         needsOne: [a.elf],
         powerFits: [a.elf],
     }),
@@ -1309,15 +1310,34 @@ export const specialNames: NameIdea[] = [
         powerFits: [a.tiefling],
     }),
     new NameIdea({
+        name: "Baalzepub's",
+        needs: [a.tiefling],
+        powerFits: [a.tiefling],
+        probability: VERY_SPECIAL_NAME_PROB,
+    }),
+    new NameIdea({
         name: "Mrs. Philizer's Pub",
         needs: [a.tiefling],
         powerFits: [a.tiefling],
         probability: VERY_SPECIAL_NAME_PROB,
     }),
     new NameIdea({
-        name: "Talemon's Tavern",
+        name: "Mammon's House Of Decadence",
         needs: [a.tiefling],
         powerFits: [a.tiefling],
+        probability: VERY_SPECIAL_NAME_PROB,
+    }),
+    new NameIdea({
+        name: "Baleon's Tavern",
+        needs: [a.tiefling],
+        powerFits: [a.tiefling],
+        probability: VERY_SPECIAL_NAME_PROB,
+    }),
+    new NameIdea({
+        name: "Fierna's House of Pleasure",
+        needs: [a.tiefling, a.prostitute],
+        powerFits: [a.tiefling, a.prostitute],
+        worksForBrothel: true,
         probability: VERY_SPECIAL_NAME_PROB,
     }),
     new NameIdea({
