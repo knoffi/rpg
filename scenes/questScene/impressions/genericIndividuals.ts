@@ -4,6 +4,7 @@ import {
     ImpressionIdea,
     Noticable,
 } from '../../../classes/idea/ImpressionIdea';
+import { partyHermit } from './actions/druidicalActions';
 import {
     busyScholarClass,
     busyUpperClass,
@@ -15,7 +16,7 @@ import {
     machoClass,
     servantActions,
     spying,
-} from './genericActions';
+} from './actions/genericActions';
 
 const a = association;
 
@@ -340,7 +341,7 @@ export const individuals: ImpressionIdea[] = [
         {
             incomeRange: [a.rich, a.wealthy],
             name: 'A goldsmith is ',
-            misfits: [a.elf],
+            misfits: [a.elf, a.druid],
             worksForBrothel: true,
             powerFits: [a.city, a.wealthy, a.dwarf],
         },
@@ -351,7 +352,7 @@ export const individuals: ImpressionIdea[] = [
         {
             incomeRange: [a.rich, a.wealthy],
             name: 'A silk tailor is ',
-            misfits: [a.dwarf],
+            misfits: [a.dwarf, a.druid],
             worksForBrothel: true,
             powerFits: [a.desert, a.city, a.elf, a.rich, a.wealthy],
         },
@@ -362,7 +363,7 @@ export const individuals: ImpressionIdea[] = [
         {
             incomeRange: [a.rich, a.wealthy],
             name: 'A velvet weaver is ',
-            misfits: [a.dwarf],
+            misfits: [a.dwarf, a.druid],
             worksForBrothel: true,
             powerFits: [a.desert, a.city, a.elf, a.rich, a.wealthy],
         },
@@ -373,6 +374,7 @@ export const individuals: ImpressionIdea[] = [
         {
             incomeRange: [a.rich, a.wealthy],
             name: 'A sculptor is ',
+            misfits: [a.druid],
             worksForBrothel: true,
             powerFits: [a.city, a.wealthy, a.elf],
         },
@@ -384,6 +386,7 @@ export const individuals: ImpressionIdea[] = [
             incomeRange: [a.rich, a.wealthy],
             name: 'A jeweler is ',
             worksForBrothel: true,
+            misfits: [a.druid],
             powerFits: [a.city, a.wealthy, a.dwarf],
         },
         leisureUpperClass,
@@ -393,6 +396,7 @@ export const individuals: ImpressionIdea[] = [
         {
             incomeRange: [a.rich, a.wealthy],
             name: 'A chancellor is ',
+            misfits: [a.druid],
             landRange: [a.haven, a.city],
             worksForBrothel: true,
             powerFits: [a.wealthy, a.city],
@@ -415,7 +419,7 @@ export const individuals: ImpressionIdea[] = [
         {
             incomeRange: [a.wealthy, a.modest],
             name: 'A stone mason is ',
-            misfits: [a.elf, a.drow, a.tiefling],
+            misfits: [a.elf, a.drow, a.tiefling, a.druid],
             worksForBrothel: true,
             powerFits: [a.dwarf, a.city, a.modest, a.wealthy],
         },
@@ -962,13 +966,7 @@ export const individuals: ImpressionIdea[] = [
             worksForAssasines: true,
             powerFits: [a.mountain, a.desert, a.forest, a.druid, a.adventurer],
         },
-        [
-            ...general,
-            { name: 'smoking dried herbs' },
-            { name: 'nursing a young bird' },
-            { name: 'drinking his own brew', misfits: [a.desert, a.tropical] },
-            { name: 'selling dried mushrooms' },
-        ],
+        partyHermit,
         Noticable.someCustomers
     ),
     new ImpressionIdea(

@@ -1288,7 +1288,7 @@ export const specialNames: NameIdea[] = [
         powerFits: [a.wealthy],
     }),
     new NameIdea({
-        name: 'Thinking Beard',
+        name: "Philosopher's Beard",
         needs: [a.wealthy],
         powerFits: [a.wealthy],
     }),

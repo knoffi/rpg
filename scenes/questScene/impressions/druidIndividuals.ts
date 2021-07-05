@@ -4,24 +4,42 @@ import {
     Noticable,
 } from '../../../classes/idea/ImpressionIdea';
 import {
+    druidGuests,
+    nymphClass,
+    partyHermit,
+} from './actions/druidicalActions';
+import {
     busyScholarClass,
     leisureUpperClass,
     lively,
     machoClass,
     servantActions,
-} from './genericActions';
+} from './actions/genericActions';
+import { warningMonsters, warningWeather } from './actions/warningActions';
 const a = association;
 export const druidIndividuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             name: 'A forest nymph is ',
-            landRange: [a.village, a.forest],
+            landRange: [a.forest],
             needsOne: [a.druid, a.forest],
             powerFits: [a.druid, a.forest],
             worksForBrothel: true,
             worksForThiefs: true,
         },
-        [...servantActions, ...lively],
+        [...servantActions, ...nymphClass],
+        Noticable.someCustomers
+    ),
+    new ImpressionIdea(
+        {
+            name: 'A satyr is ',
+            landRange: [a.forest],
+            needsOne: [a.druid, a.forest],
+            powerFits: [a.druid, a.forest],
+            worksForBrothel: true,
+            worksForThiefs: true,
+        },
+        [...servantActions, ...nymphClass],
         Noticable.someCustomers
     ),
     new ImpressionIdea(
@@ -206,6 +224,16 @@ export const druidIndividuals: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
+            name: 'A group of nymphs is ',
+            needsOne: [a.druid, a.barbarian],
+            powerFits: [a.druid, a.forest, a.mountain],
+            worksForAllCriminals: true,
+        },
+        nymphClass,
+        Noticable.someCustomers
+    ),
+    new ImpressionIdea(
+        {
             name: 'A muscled woman wearing bear fur is ',
             landRange: [a.forest, a.mountain],
             needsOne: [a.druid, a.barbarian],
@@ -240,81 +268,65 @@ export const druidIndividuals: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            name: 'A hermit wearinng a brown robe is ',
+            name: 'A hermit dressed in a brown robe is ',
             landRange: [a.forest, a.mountain],
             needs: [a.druid],
             powerFits: [a.druid, a.forest, a.mountain],
             worksForAllCriminals: true,
         },
         [
-            ...lively,
-            { name: 'inviting you to smoke a pipe with him' },
-            { name: 'nursing a young bird' },
-            { name: 'selling potions and medice' },
-            { name: 'mumbling about a hidden treasure' },
-            { name: 'seeking help' },
-            { name: 'giving you an ancient map' },
-            { name: 'dancing with some animals' },
+            ...partyHermit,
+            ...servantActions,
+            ...warningWeather,
+            ...warningMonsters,
         ],
         Noticable.someCustomers
     ),
     new ImpressionIdea(
         {
-            name: 'A hermit wearinng a white robe is ',
+            name: 'A hermit dressed in a white robe is ',
             landRange: [a.desert],
             needs: [a.druid],
             powerFits: [a.druid, a.desert],
             worksForAllCriminals: true,
         },
         [
-            ...lively,
-            { name: 'inviting you to smoke a pipe with him' },
-            { name: 'nursing a young bird' },
-            { name: 'selling potions and medice' },
-            { name: 'mumbling about a hidden treasure' },
-            { name: 'seeking help' },
-            { name: 'giving you an ancient map' },
-            { name: 'dancing with some animals' },
+            ...partyHermit,
+            ...servantActions,
+            ...warningWeather,
+            ...warningMonsters,
         ],
         Noticable.someCustomers
     ),
     new ImpressionIdea(
         {
-            name: 'A hermit wearinng a grey robe is ',
+            name: 'A hermit dressed in a grey robe is ',
             landRange: [a.underdark],
             needs: [a.druid],
             powerFits: [a.druid, a.underdark],
             worksForAllCriminals: true,
         },
         [
-            ...lively,
-            { name: 'inviting you to smoke a pipe with him' },
-            { name: 'nursing a young bat' },
-            { name: 'selling potions and medice' },
-            { name: 'mumbling about a hidden treasure' },
-            { name: 'seeking help' },
-            { name: 'giving you an ancient map' },
-            { name: 'dancing with some animals' },
+            ...partyHermit,
+            ...servantActions,
+            ...warningWeather,
+            ...warningMonsters,
         ],
         Noticable.someCustomers
     ),
     new ImpressionIdea(
         {
-            name: 'A hermit wearinng a white robe is ',
+            name: 'A hermit dressed in a white robe is ',
             landRange: [a.desert],
             needs: [a.druid],
             powerFits: [a.druid, a.forest, a.mountain],
             worksForAllCriminals: true,
         },
         [
-            ...lively,
-            { name: 'inviting you to smoke a pipe with him' },
-            { name: 'nursing a young bird' },
-            { name: 'selling potions and medice' },
-            { name: 'mumbling about a hidden treasure' },
-            { name: 'seeking help' },
-            { name: 'giving you an ancient map' },
-            { name: 'dancing with some wild animals' },
+            ...partyHermit,
+            ...servantActions,
+            ...warningWeather,
+            ...warningMonsters,
         ],
         Noticable.someCustomers
     ),
@@ -326,14 +338,7 @@ export const druidIndividuals: ImpressionIdea[] = [
             powerFits: [a.druid, a.forest, a.mountain],
             worksForAllCriminals: true,
         },
-        [
-            ...lively,
-            ...servantActions,
-            { name: 'seducing naive customers' },
-            { name: 'asking you for a dance' },
-            { name: 'playing a wooden flute' },
-            { name: 'searching for heroes to stop the local poachers' },
-        ],
+        [...servantActions, ...nymphClass],
         Noticable.someCustomers
     ),
     new ImpressionIdea(
@@ -344,14 +349,7 @@ export const druidIndividuals: ImpressionIdea[] = [
             powerFits: [a.druid, a.forest, a.mountain],
             worksForAllCriminals: true,
         },
-        [
-            ...lively,
-            ...servantActions,
-            { name: 'seducing naive customers' },
-            { name: 'asking you for a dance' },
-            { name: 'playing a wooden flute' },
-            { name: 'searching for heroes to stop the local poachers' },
-        ],
+        [...servantActions, ...nymphClass],
         Noticable.someCustomers
     ),
     new ImpressionIdea(
@@ -362,12 +360,7 @@ export const druidIndividuals: ImpressionIdea[] = [
             powerFits: [a.druid, a.forest, a.mountain],
             worksForAllCriminals: true,
         },
-        [
-            ...busyScholarClass,
-            { name: 'seducing naive customers' },
-            { name: 'asking you for a dance' },
-            { name: 'searching for heroes to stop the local poachers' },
-        ],
+        [...busyScholarClass, ...nymphClass],
         Noticable.someCustomers
     ),
     new ImpressionIdea(
@@ -378,15 +371,177 @@ export const druidIndividuals: ImpressionIdea[] = [
             powerFits: [a.druid, a.forest, a.mountain],
             worksForAllCriminals: true,
         },
+        [...busyScholarClass, ...nymphClass],
+        Noticable.someCustomers
+    ),
+    new ImpressionIdea(
+        {
+            name: 'An old woman dressed in a mushroom hat is ',
+            landRange: [a.forest, a.mountain, a.village],
+            needs: [a.druid],
+            powerFits: [a.druid, a.forest, a.mountain, a.village],
+            worksForAllCriminals: true,
+        },
         [
-            ...busyScholarClass,
-            { name: 'seducing naive customers' },
-            { name: 'asking you for a dance' },
-            { name: 'playing a wooden flute' },
-            { name: 'searching for heroes to stop the local poachers' },
+            ...partyHermit,
+            ...servantActions,
+            ...warningWeather,
+            ...warningMonsters,
         ],
         Noticable.someCustomers
     ),
-
-    // a group of wildlings, some forest/desert/mountain folks/people, an elf/gnome/halfling/human, a satyr , a group of mushroom people, a family of smurfs (?), a hunter, a group of hunters, a ranger of this area, an Old man/woman wearing a mushroom hat is, a beardy old man, a huntress in brown clothes, a wood elf, a man with a wooden staff, a red-haired sorceress in a green dress ... intersections with wizard and barbarian
+    new ImpressionIdea(
+        {
+            name: 'An old woman dressed in a pineapple hat is ',
+            landRange: [a.tropical],
+            needs: [a.druid],
+            powerFits: [a.druid, a.tropical],
+            worksForAllCriminals: true,
+        },
+        [
+            ...partyHermit,
+            ...servantActions,
+            ...warningWeather,
+            ...warningMonsters,
+        ],
+        Noticable.someCustomers
+    ),
+    new ImpressionIdea(
+        {
+            name: 'An old woman dressed in a cactus hat is ',
+            landRange: [a.desert],
+            needs: [a.druid],
+            powerFits: [a.druid, a.desert],
+            worksForAllCriminals: true,
+        },
+        [
+            ...partyHermit,
+            ...servantActions,
+            ...warningWeather,
+            ...warningMonsters,
+        ],
+        Noticable.someCustomers
+    ),
+    new ImpressionIdea(
+        {
+            name: 'A frisky gnome',
+            landRange: [a.underdark],
+            needs: [a.druid],
+            powerFits: [a.druid, a.underdark],
+            worksForAllCriminals: true,
+        },
+        druidGuests,
+        Noticable.someCustomers
+    ),
+    new ImpressionIdea(
+        {
+            name: 'A frisky drow',
+            landRange: [a.underdark],
+            needs: [a.druid],
+            powerFits: [a.druid, a.underdark],
+            worksForAllCriminals: true,
+        },
+        druidGuests,
+        Noticable.someCustomers
+    ),
+    new ImpressionIdea(
+        {
+            name: 'A frisky elf',
+            landRange: [a.forest],
+            needs: [a.druid],
+            powerFits: [a.druid, a.forest],
+            worksForAllCriminals: true,
+        },
+        druidGuests,
+        Noticable.someCustomers
+    ),
+    new ImpressionIdea(
+        {
+            name: 'A frisky dwarf',
+            landRange: [a.mountain],
+            needs: [a.druid],
+            powerFits: [a.druid, a.mountain],
+            worksForAllCriminals: true,
+        },
+        druidGuests,
+        Noticable.someCustomers
+    ),
+    new ImpressionIdea(
+        {
+            name: 'A frisky halfling',
+            landRange: [a.village],
+            needs: [a.druid],
+            powerFits: [a.druid, a.village],
+            worksForAllCriminals: true,
+        },
+        druidGuests,
+        Noticable.someCustomers
+    ),
+    new ImpressionIdea(
+        {
+            name: 'A frisky human',
+            landRange: [a.tropical],
+            needs: [a.druid],
+            powerFits: [a.druid, a.tropical],
+            worksForAllCriminals: true,
+        },
+        druidGuests,
+        Noticable.someCustomers
+    ),
+    new ImpressionIdea(
+        {
+            name: 'A frisky tiefling',
+            landRange: [a.desert],
+            needs: [a.druid],
+            powerFits: [a.druid, a.desert],
+            worksForAllCriminals: true,
+        },
+        druidGuests,
+        Noticable.someCustomers
+    ),
+    new ImpressionIdea(
+        {
+            name: 'A frisky tiefling',
+            landRange: [a.desert],
+            needs: [a.druid],
+            powerFits: [a.druid, a.desert],
+            worksForAllCriminals: true,
+        },
+        druidGuests,
+        Noticable.someCustomers
+    ),
+    new ImpressionIdea(
+        {
+            name: 'The local ranger is ',
+            needs: [a.druid],
+            powerFits: [
+                a.druid,
+                a.desert,
+                a.mountain,
+                a.forest,
+                a.underdark,
+                a.tropical,
+            ],
+            worksForAllCriminals: true,
+        },
+        [...partyHermit, ...warningWeather, ...warningMonsters],
+        Noticable.someCustomers
+    ),
+    new ImpressionIdea(
+        {
+            name: 'The local druid is ',
+            needs: [a.druid],
+            powerFits: [
+                a.druid,
+                a.desert,
+                a.mountain,
+                a.forest,
+                a.underdark,
+                a.tropical,
+            ],
+            worksForAllCriminals: true,
+        },
+        [...partyHermit, ...partyHermit, ...warningWeather, ...warningMonsters],
+        Noticable.someCustomers
+    ),
 ];

@@ -1,7 +1,7 @@
-import { association, sophisticatedGroup } from '../../../classes/association';
-import { DescriptionAsset } from '../../../classes/idea/DescriptionAsset';
+import { association, sophisticatedGroup } from '../../../../classes/association';
+import { DescriptionAsset } from '../../../../classes/idea/DescriptionAsset';
 //tODO: test, if f.e. all food/drink options are working for brothel, thief, ... (i.e., if mapping worked correctly)
-const a = association;
+export const a = association;
 const getEnabledForAllCriminals = (asset: DescriptionAsset) => {
     return {
         ...asset,
