@@ -114,14 +114,7 @@ export const chickenRoasts = [
                 },
                 {
                     name: ' in White Wine Sauce',
-                    landRange: [
-                        a.city,
-                        a.haven,
-                        a.mountain,
-                        a.underdark,
-                        a.village,
-                        a.forest,
-                    ],
+                    misfits: [a.tropical],
                     incomeRange: [a.wealthy, a.modest],
                 },
                 {
@@ -175,6 +168,33 @@ export const chickenRoasts = [
                     incomeRange: [a.rich],
                 },
             ],
+        },
+        adjustPriceSetter(foodPrices.mainDish, PIGEON_FACTOR),
+        Eatable.mainDish
+    ),
+    new DishIdea(
+        {
+            mainIng: {
+                name: 'Roast Diatryma',
+                incomeRange: [a.wealthy, a.modest],
+                landRange: [a.underdark],
+            },
+            firstSideDishes: [
+                {
+                    name: ' in Garlic Sauce',
+                    incomeRange: [a.modest],
+                },
+                {
+                    name: ' in Pepper Sauce',
+                    incomeRange: [a.modest],
+                },
+                {
+                    name: ' in Mushroom Sauce',
+                    incomeRange: [a.village, a.haven, a.rich],
+                },
+            ],
+            secondSideDishes: standardGreens,
+            thirdSideDishes: standardCarbs,
         },
         adjustPriceSetter(foodPrices.mainDish, PIGEON_FACTOR),
         Eatable.mainDish
