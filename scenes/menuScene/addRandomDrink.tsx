@@ -1,4 +1,4 @@
-import { association } from '../../classes/association';
+import { StructuredTavernFits } from '../../classes/idea/StructuredTavernFits';
 import { MenuCategory, TavernProduct } from '../../classes/TavernProduct';
 import { getFittingRandom } from '../../helpingFunctions/getFittingRandom';
 import { drinkChapters } from './drinks/drink';
@@ -34,8 +34,7 @@ const getCloneForRerender = (offer: Offer) => {
 export const offersWithOneReroll = (
     name: string,
     offers: Offer[],
-    fits: association[],
-    misfits: association[],
+    fits: StructuredTavernFits,
     isAbout: WeServe
 ) => {
     const category = offers.find((offer) => offer.product.name === name)!
@@ -43,7 +42,6 @@ export const offersWithOneReroll = (
     const newOffer = getRandomDrinkOffer(
         category,
         fits,
-        misfits,
         offeredNames(offers),
         isAbout
     );
@@ -57,8 +55,7 @@ export const offersWithOneReroll = (
 };
 
 export const getNewRandomDrinkOffer = (
-    fits: association[],
-    misfits: association[],
+    fits: StructuredTavernFits,
     category: MenuCategory,
     oldOffers: Offer[],
     isAbout: WeServe
@@ -66,7 +63,6 @@ export const getNewRandomDrinkOffer = (
     const newRandomOffer = getRandomDrinkOffer(
         category,
         fits,
-        misfits,
         offeredNames(oldOffers),
         isAbout
     );
@@ -95,7 +91,7 @@ const getFilteredTavernProducts = (
     category: MenuCategory,
     excludedDrinkNames: string[],
     isAbout: WeServe,
-    tavernFits: association[]
+    fitting: StructuredTavernFits
 ) => {
     if (isAbout === WeServe.drinks) {
         const drinkIdeaIndex = drinkChapters.findIndex(
@@ -104,7 +100,7 @@ const getFilteredTavernProducts = (
         if (drinkIdeaIndex >= 0) {
             const chosenDrink = predecideDishes(
                 drinkChapters[drinkIdeaIndex].chapters,
-                tavernFits,
+                fitting,
                 (name: string) => isExcludedByPrefix(name, excludedDrinkNames)
             );
             return [chosenDrink];
@@ -119,7 +115,7 @@ const getFilteredTavernProducts = (
         if (dishIdeaIndex >= 0) {
             const chosenDish = predecideDishes(
                 foodChapters[dishIdeaIndex].chapters,
-                tavernFits,
+                fitting,
                 (name: string) => isExcludedByPrefix(name, excludedDrinkNames)
             );
             return [chosenDish];
@@ -137,8 +133,7 @@ const getFilteredTavernProducts = (
 //drinks have a wider range, therefore social misfits are more important than landscape misfits
 const getRandomDrinkOffer = (
     category: MenuCategory,
-    fits: association[],
-    misfits: association[],
+    fits: StructuredTavernFits,
     excludedDrinkNames: string[],
     isAbout: WeServe
 ): Offer => {
@@ -151,7 +146,6 @@ const getRandomDrinkOffer = (
     const drink = getFittingRandom(
         examples,
         fits,
-        misfits,
         excludedDrinkNames
     ) as TavernProduct;
     //if drink is undefined, then there are no new drinks left

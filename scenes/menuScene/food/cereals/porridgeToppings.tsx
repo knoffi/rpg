@@ -1,5 +1,5 @@
 import { association } from '../../../../classes/association';
-import { DescriptionAsset } from '../../../../classes/DescriptionAsset';
+import { DescriptionAsset } from '../../../../classes/idea/DescriptionAsset';
 
 const a = association;
 
@@ -120,6 +120,11 @@ export const wealthyPorridgeToppings: DescriptionAsset[] = [
         name: ' garnished with Strawberries & Cream',
         incomeRange: [a.wealthy],
         landRange: [a.village, a.haven, a.city, a.forest],
+    },
+    {
+        name: ' garnished with Caramelized Lizard Bacon',
+        incomeRange: [a.wealthy],
+        needsOne: [a.underdark, a.drow],
     },
     {
         name: ' garnished with Caramelized Mole Filet',
@@ -289,7 +294,12 @@ export const modestPorridgeToppings: DescriptionAsset[] = [
         landRange: [a.underdark],
     },
     {
-        name: ' with Earth Apple',
+        name: ' with Lizard Bacon',
+        incomeRange: [a.modest, a.wealthy],
+        landRange: [a.underdark],
+    },
+    {
+        name: ' with Underdark Apples',
         incomeRange: [a.modest],
         landRange: [a.underdark],
     },

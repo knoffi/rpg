@@ -1,4 +1,4 @@
-import { Noticable } from '../classes/ImpressionIdea';
+import { Noticable } from '../classes/idea/ImpressionIdea';
 import { Drinkable, Eatable, TavernProduct } from '../classes/TavernProduct';
 import { getAllNewBannerDataAndOffersLeft } from '../editNavigator/getNewBannerDataAndIdeasLeft';
 import { standardBasePrice } from '../scenes/menuScene/basePrice';
@@ -10,7 +10,7 @@ export const getTavernHistoryInitializer = () => {
     const startIdeasLeft = getDefaultIdeasLeft();
     const startBanner = { isVisible: false, emptyCategories: [] };
     return {
-        fitting: { fits: [], misfits: [] },
+        fitting: {},
         name: 'Nameless Tavern',
         drinks: [],
         dishes: [],

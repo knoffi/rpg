@@ -1,5 +1,5 @@
 import { association } from '../../../classes/association';
-import { PriceSetter } from '../../../classes/PriceSetter';
+import { PriceSetter } from '../../../classes/idea/PriceSetter';
 import { standardBasePrice } from '../basePrice';
 
 export const adjustPrice = (price: number, factor: number) => {

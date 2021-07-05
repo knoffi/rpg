@@ -1,5 +1,5 @@
-import { association } from '../classes/association';
-import { Noticable } from '../classes/ImpressionIdea';
+import { Noticable } from '../classes/idea/ImpressionIdea';
+import { StructuredTavernFits } from '../classes/idea/StructuredTavernFits';
 import { Drinkable, Eatable } from '../classes/TavernProduct';
 import { BasePrice } from '../scenes/menuScene/basePrice';
 import { BannerData } from '../scenes/menuScene/menuBanner/MenuBanner';
@@ -7,8 +7,7 @@ import { Offer } from '../scenes/menuScene/menuEnums';
 import { IImpression } from '../scenes/questScene/impressions/IImpression';
 
 export type TavernData = {
-    //TODO: misfits are depreciated
-    fitting: { fits: association[]; misfits: association[] };
+    fitting: StructuredTavernFits;
     name: string;
     drinks: Offer[];
     dishes: Offer[];
@@ -28,8 +27,7 @@ export type TavernData = {
 };
 
 export interface MinimalTavernData {
-    //TODO: misfits are depreciated
-    fitting: { fits: association[]; misfits: association[] };
+    fitting: StructuredTavernFits;
     name: string;
     drinks: Offer[];
     dishes: Offer[];

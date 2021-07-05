@@ -1,5 +1,4 @@
-import { association } from '../../../classes/association';
-import { getStructuredFits } from '../../../classes/StructuredTavernFits';
+import { StructuredTavernFits } from '../../../classes/idea/StructuredTavernFits';
 import { getRandomArrayEntry } from '../../../helpingFunctions/getFittingRandom';
 import { NothingLeftOffer } from '../menuEnums';
 import { DrinkChapters } from './DrinkChapters';
@@ -7,14 +6,13 @@ import { FoodChapters } from './FoodChapters';
 
 export const predecideDishes = (
     bookChapters: FoodChapters | DrinkChapters,
-    fits: association[],
+    fitting: StructuredTavernFits,
     isExcludedByPrefix: (name: string) => boolean
 ) => {
-    const structuredTavernFits = getStructuredFits(fits);
     const chapters = Object.values(bookChapters);
     const filteredChapters = chapters.filter((chapter) =>
         chapter.ideas.some((dishIdea) =>
-            dishIdea.fitsToMenu(structuredTavernFits, isExcludedByPrefix)
+            dishIdea.fitsToMenu(fitting, isExcludedByPrefix)
         )
     );
 
@@ -52,7 +50,7 @@ export const predecideDishes = (
         const predecidedChapter =
             filteredChapters[-negativPredecidedIndex].ideas;
         const fittingDishIdeas = predecidedChapter.filter((dishIdea) =>
-            dishIdea.fitsToMenu(structuredTavernFits, isExcludedByPrefix)
+            dishIdea.fitsToMenu(fitting, isExcludedByPrefix)
         );
         if (!predecideDishes) {
             console.log('predecided dishes can be undefined!');
@@ -61,9 +59,6 @@ export const predecideDishes = (
             console.log('predecided dishes can be empty!');
         }
         const predecidedDishIdea = getRandomArrayEntry(fittingDishIdeas);
-        return predecidedDishIdea.getConcreteDish(
-            structuredTavernFits,
-            isExcludedByPrefix
-        );
+        return predecidedDishIdea.getConcreteDish(fitting, isExcludedByPrefix);
     }
 };

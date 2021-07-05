@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
-import { SavedDataHandler, WeSave } from '../../classes/Database';
+import { SavedDataHandler, WeSave } from '../../classes/database/Database';
 import { ListOfSaves } from '../../components/ListOfSaves/ListOfSaves';
 import { MinimalTavernData } from '../../mainNavigator/TavernData';
 import { nameSceneStyles } from '../nameScene/nameSceneStyles';

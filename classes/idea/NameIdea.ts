@@ -1,3 +1,4 @@
+import { AssetStressMode } from './assetStressMode';
 import { DescriptionAsset } from './DescriptionAsset';
 import { Idea } from './Idea';
 import { StructuredTavernFits } from './StructuredTavernFits';
@@ -8,39 +9,53 @@ export class NameIdea extends Idea {
         private adjective: DescriptionAsset,
         private substantives?: DescriptionAsset[],
         private contrastSubstantives?: DescriptionAsset[],
-        private reverseNaming = false
+        private reverseNaming = false,
+        private stress = AssetStressMode.harmony
     ) {
-        super(adjective, [substantives || []], [contrastSubstantives || []]);
+        super(
+            adjective,
+            substantives ? [substantives] : undefined,
+            contrastSubstantives ? [contrastSubstantives] : undefined,
+            {
+                main: substantives ? stress === AssetStressMode.main : true,
+                harmony: substantives
+                    ? stress === AssetStressMode.harmony
+                    : false,
+                contrast: substantives
+                    ? stress === AssetStressMode.contrast
+                    : true,
+            }
+        );
     }
 
     public getConcreteName(
         tavernFits: StructuredTavernFits,
-        oldNameParts: string[]
+        isExcludedByPrefix: (name: string) => boolean
     ) {
-        const substantive = this.chooseSubstantive(tavernFits, oldNameParts);
+        const substantive = this.chooseSubstantive(
+            tavernFits,
+            isExcludedByPrefix
+        );
         const adjective = this.main.name;
         return this.fuseNameForDisplay(adjective, substantive);
     }
 
     private chooseSubstantive(
         tavernFits: StructuredTavernFits,
-        oldNameParts: string[],
+        isExcludedByPrefix: (name: string) => boolean,
         harmonyChance = DEFAULT_HARMONY_CHANCE
     ) {
-        const isExcludedByPrefix = (name: string) => {
-            return oldNameParts.some(
-                (namePart) => namePart.slice(0, 5) === name.slice(0, 5)
-            );
-        };
         const fittingHarmony = this.getFittingAssetPart(
             tavernFits,
             this.additions ? this.additions[0] : undefined,
-            isExcludedByPrefix
+            isExcludedByPrefix,
+            true
         )?.name;
         const fittingContrast = this.getFittingAssetPart(
             tavernFits,
             this.contrastAdditions ? this.contrastAdditions[0] : undefined,
-            isExcludedByPrefix
+            isExcludedByPrefix,
+            true
         )?.name;
 
         return Math.random() < harmonyChance && fittingHarmony
@@ -48,7 +63,13 @@ export class NameIdea extends Idea {
             : fittingContrast || fittingHarmony;
     }
 
-    private fuseNameForDisplay(adjective: string, substantive?: string) {
+    private fuseNameForDisplay(
+        adjective: string,
+        substantive?: string
+    ): string {
+        if (!this.substantives && !this.contrastAdditions) {
+            return this.main.name;
+        }
         if (!substantive) {
             return 'Nameless Tavern';
         } else {
@@ -58,3 +79,5 @@ export class NameIdea extends Idea {
         }
     }
 }
+
+const test = new NameIdea({ name: 'test' }, [], [], false);

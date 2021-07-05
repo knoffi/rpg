@@ -2,8 +2,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import React, { useState } from 'react';
 import { AppBar } from '../appBar/AppBar';
-import { association } from '../classes/association';
-import { SavedDataHandler, WeSave } from '../classes/Database';
+import { SavedDataHandler, WeSave } from '../classes/database/Database';
 import { EditNavigator } from '../editNavigator/EditNavigator';
 import { Offer } from '../scenes/menuScene/menuEnums';
 import { getAdjustedPrice } from '../scenes/menuScene/priceFunctions';
@@ -44,10 +43,7 @@ export const MainNavigator = () => {
         setHistoryIndex(0);
         setTavernHistory([randomStartTavern]);
     };
-    const buildTavernTemplate = (
-        templateKey: string,
-        getMisfits: (fits: association[]) => association[]
-    ) => {
+    const buildTavernTemplate = (templateKey: string) => {
         const minTavernDataByID = taverns.find(
             (tavern) => tavern.key === templateKey
         );
@@ -73,12 +69,7 @@ export const MainNavigator = () => {
 
     const getOfferPrice = (offer: Offer) => {
         const tavern = tavernHistory[historyIndex];
-        return getAdjustedPrice(
-            offer,
-            tavern.fitting.fits,
-            tavern.fitting.misfits,
-            tavern.prices
-        );
+        return getAdjustedPrice(offer, tavern.fitting, tavern.prices);
     };
 
     return (

@@ -1,6 +1,6 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
-import { association } from '../classes/association';
+import { StructuredTavernFits } from '../classes/idea/StructuredTavernFits';
 import Icon from '../components/icons';
 import { iconKeys } from '../components/icons/iconKeys';
 import { TavernData } from '../mainNavigator/TavernData';
@@ -73,10 +73,7 @@ export const EditNavigator = (props: {
                         name={props.tavern.name}
                         onDataChange={props.onDataChange}
                         fitting={props.tavern.fitting}
-                        getImpliedChanges={(newFitting: {
-                            fits: association[];
-                            misfits: association[];
-                        }) =>
+                        getImpliedChanges={(newFitting: StructuredTavernFits) =>
                             getAllNewBannerDataAndOffersLeft(
                                 newFitting,
                                 {
@@ -164,7 +161,6 @@ export const EditNavigator = (props: {
             />
             <Tab.Screen
                 name="Notes"
-                //needs a getImpliedChanges
                 children={() => (
                     <QuestScene
                         fitting={props.tavern.fitting}
@@ -173,8 +169,8 @@ export const EditNavigator = (props: {
                         impressions={props.tavern.impressions}
                         banner={oldBanner.impression}
                         noticablesLeft={props.tavern.ideasLeft.impression}
-                        getImpliedChanges={(newImpressions?: IImpression[]) => {
-                            const test = getAllNewBannerDataAndOffersLeft(
+                        getImpliedChanges={(newImpressions?: IImpression[]) =>
+                            getAllNewBannerDataAndOffersLeft(
                                 props.tavern.fitting,
                                 {
                                     drinks: oldDrinks,
@@ -183,9 +179,8 @@ export const EditNavigator = (props: {
                                         newImpressions || oldImpressions,
                                 },
                                 oldBanner
-                            );
-                            return test;
-                        }}
+                            )
+                        }
                     ></QuestScene>
                 )}
             />

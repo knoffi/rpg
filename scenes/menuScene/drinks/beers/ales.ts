@@ -1,5 +1,5 @@
 import { association } from '../../../../classes/association';
-import { DishIdea } from '../../../../classes/DishIdea';
+import { DishIdea } from '../../../../classes/idea/DishIdea';
 import { Drinkable } from '../../../../classes/TavernProduct';
 const a = association;
 export const ales: DishIdea[] = [

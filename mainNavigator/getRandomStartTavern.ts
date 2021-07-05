@@ -1,15 +1,14 @@
 import { association } from '../classes/association';
-import { Noticable } from '../classes/ImpressionIdea';
-import { NameIdea } from '../classes/NameIdea';
-import { getStructuredFits } from '../classes/StructuredTavernFits';
+import { Noticable } from '../classes/idea/ImpressionIdea';
+import { NameIdea } from '../classes/idea/NameIdea';
+import {
+    getStructuredFits,
+    StructuredTavernFits,
+} from '../classes/idea/StructuredTavernFits';
 import { Drinkable, Eatable, MenuCategory } from '../classes/TavernProduct';
 import { getProductsLeftAndBannerData } from '../editNavigator/editNavigatorFunctions';
 import { getRandomArrayEntry } from '../helpingFunctions/getFittingRandom';
-import {
-    misfitMode,
-    stricterMisfitMode,
-} from '../helpingFunctions/misfitModes';
-import { getMisfits } from '../helpingFunctions/misFitsHandlers';
+import { stricterMisfitMode } from '../helpingFunctions/misfitModes';
 import {
     getNewRandomDrinkOffer,
     WeServe,
@@ -17,7 +16,6 @@ import {
 import { BasePrice, standardBasePrice } from '../scenes/menuScene/basePrice';
 import { NothingLeftOffer, Offer } from '../scenes/menuScene/menuEnums';
 import { nameIdeas } from '../scenes/nameScene/names/nameIdeas';
-import { getSpecialTavernName } from '../scenes/nameScene/names/specialTavernNames';
 import { IImpression } from '../scenes/questScene/impressions/IImpression';
 import {
     emptyImpression,
@@ -25,7 +23,6 @@ import {
 } from '../scenes/questScene/impressions/impressionChapters';
 import { getTavernHistoryInitializer } from './mainNavigatorFunctions';
 
-const CHANCE_FOR_SPECIAL_NAME = 0.3;
 const CHANCE_FOR_SPECIAL_FIT = 0.2;
 const CHANCE_FOR_ORDINARY_FIT = 0.625;
 const NO_IDEA_PROBABILITY = 0.1;
@@ -34,31 +31,24 @@ const MAX_PRICE_DERIVATION = 0.3;
 export const getRandomStartTavern = () => {
     const tavernData = getTavernHistoryInitializer();
 
-    const fits = getRandomFits();
-    const misfits = getMisfits(fits, misfitMode.stricter);
+    const fits = getStructuredFits(getRandomFits());
     const basePrice = getRandomBasePrice();
-    const drinks = getRandomIdeas(fits, misfits, WeServe.drinks) as Offer[];
-    const dishes = getRandomIdeas(fits, misfits, WeServe.food) as Offer[];
+    const drinks = getRandomIdeas(fits, WeServe.drinks) as Offer[];
+    const dishes = getRandomIdeas(fits, WeServe.food) as Offer[];
     const impressions = getRandomIdeas(
         fits,
-        misfits,
         WeServe.impressions
     ) as IImpression[];
     tavernData.name = getRandomName(fits);
-    tavernData.fitting = {
-        fits: fits,
-        misfits: misfits,
-    };
+    tavernData.fitting = fits;
     tavernData.drinks = drinks;
     tavernData.dishes = dishes;
     tavernData.impressions = impressions;
-    const { bannerData, ideasLeft } = getProductsLeftAndBannerData(
-        {
-            fits: fits,
-            misfits: misfits,
-        },
-        { drinks, dishes, impressions }
-    );
+    const { bannerData, ideasLeft } = getProductsLeftAndBannerData(fits, {
+        drinks,
+        dishes,
+        impressions,
+    });
     tavernData.bannerData = bannerData!;
     tavernData.ideasLeft = ideasLeft!;
     tavernData.prices = basePrice;
@@ -89,11 +79,7 @@ const getRandomBasePrice = () => {
     } as BasePrice;
 };
 
-const getRandomIdeas = (
-    fits: association[],
-    misfits: association[],
-    isAbout: WeServe
-) => {
+const getRandomIdeas = (fits: StructuredTavernFits, isAbout: WeServe) => {
     const categories =
         isAbout === WeServe.drinks
             ? Drinkable
@@ -102,35 +88,33 @@ const getRandomIdeas = (
             : Noticable;
     return Object.values(categories)
         .map((category: MenuCategory | Noticable) => {
-            return getExamplesForChapter(fits, misfits, category, isAbout);
+            return getExamplesForChapter(fits, category, isAbout);
         })
         .flat();
 };
-const getRandomName = (fits: association[]) => {
+const getRandomName = (fits: StructuredTavernFits) => {
     const randomNumber = Math.random();
-    const structuredFits = getStructuredFits(fits);
-    if (randomNumber < 1 - CHANCE_FOR_SPECIAL_NAME || fits.length === 0) {
-        const possibleNames = nameIdeas.filter((nameIdea) =>
-            nameIdea.fitsToTavern(structuredFits)
+    const nonEmptyCategories = Object.values(fits).filter(
+        (fit) => fit && (fit as string) !== association.empty
+    );
+
+    const possibleNames = nameIdeas.filter((nameIdea) =>
+        nameIdea.fitsToTavern(fits, undefined, randomNumber)
+    );
+    const newNameIdea = getRandomArrayEntry(possibleNames) as NameIdea;
+    if (!newNameIdea) {
+        console.log(
+            'no name idea fitted to tavern, thus newNameIdea was undefined'
         );
-        const newNameIdea = getRandomArrayEntry(possibleNames) as NameIdea;
-        if (!newNameIdea) {
-            console.log(
-                'no name idea fitted to tavern, thus newNameIdea was undefined'
-            );
-        }
-        const newName = newNameIdea
-            ? newNameIdea.getConcreteName(structuredFits, [])
-            : 'Nameless Tavern';
-        return newName;
-    } else {
-        return getSpecialTavernName(fits);
     }
+    const newName = newNameIdea
+        ? newNameIdea.getConcreteName(fits, () => false)
+        : 'Nameless Tavern';
+    return newName;
 };
 
 const getExamplesForChapter = (
-    fits: association[],
-    misfits: association[],
+    fits: StructuredTavernFits,
     category: MenuCategory | Noticable,
     isAbout: WeServe
 ) => {
@@ -158,7 +142,6 @@ const getExamplesForChapter = (
               )
             : getNewRandomDrinkOffer(
                   fits,
-                  misfits,
                   category as MenuCategory,
                   alreadyFilled as Offer[],
                   isAbout

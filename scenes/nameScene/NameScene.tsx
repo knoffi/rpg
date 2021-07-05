@@ -2,63 +2,74 @@ import React from 'react';
 import { View } from 'react-native';
 import 'react-native-gesture-handler';
 import { Button, List } from 'react-native-paper';
-import { association } from '../../classes/association';
-import { NameIdea } from '../../classes/NameIdea';
-import { getStructuredFits } from '../../classes/StructuredTavernFits';
+import {
+    association,
+    AssociationTypes,
+    getCategoryOfAssociation,
+} from '../../classes/association';
+import { NameIdea } from '../../classes/idea/NameIdea';
+import {
+    getFitsFromStructure,
+    StructuredTavernFits,
+} from '../../classes/idea/StructuredTavernFits';
 import {
     buttonEmphasis,
     PencilButton,
     RerollButton,
 } from '../../components/buttons/generalButtons';
-import { removeEmptyStrings } from '../../editNavigator/editNavigatorFunctions';
 import { checkDataDistribution } from '../../helpingFunctions/checkDataDistribution';
 import { getRandomArrayEntry } from '../../helpingFunctions/getFittingRandom';
-import { misfitMode } from '../../helpingFunctions/misfitModes';
-import { getMisfits } from '../../helpingFunctions/misFitsHandlers';
 import { TavernData } from '../../mainNavigator/TavernData';
 import { globalStyles } from '../globalStyles';
 import { AssociationDialogBar } from './associationBar/AssociationDialogBar';
+import {
+    ButtonState,
+    ButtonStates,
+    getButtonStates,
+} from './associationBar/getButtonStates';
 import { nameIdeas } from './names/nameIdeas';
-import { getSpecialTavernName } from './names/specialTavernNames';
 import { nameSceneStyles } from './nameSceneStyles';
 import { NameSetDialog } from './NameSetDialog';
 import { TavernSign } from './TavernSign';
 
-const PROBABILITY_SPECIAL_NAME = 0.15;
-const MAX_NAME_MEMORY = 4;
+const MAX_NAME_MEMORY = 2;
 type TextState = {
-    invalidSubstantives: string[];
     nameSetDialogOpen: boolean;
     dialogText: string;
     oldNameParts: string[];
 };
-
 type NameProps = {
-    fitting: { fits: association[]; misfits: association[] };
+    fitting: StructuredTavernFits;
     name: string;
     onDataChange: (newData: Partial<TavernData>) => void;
-    getImpliedChanges: (newFitting: {
-        fits: association[];
-        misfits: association[];
-    }) => Partial<TavernData>;
+    getImpliedChanges: (
+        newFitting: StructuredTavernFits
+    ) => Partial<TavernData>;
 };
 
-export class NameScene extends React.Component<NameProps, TextState> {
+const SECTION_FLEX = 0.2;
+export class NameScene extends React.Component<
+    NameProps,
+    TextState & { buttons: ButtonStates }
+> {
+    private userActivelySetPowerfit: boolean;
     constructor(props: any) {
         super(props);
+
         this.state = {
-            invalidSubstantives: [],
             nameSetDialogOpen: false,
             dialogText: '',
             oldNameParts: [],
+            buttons: getButtonStates(this.props.fitting),
         };
+        this.userActivelySetPowerfit = false;
     }
 
     public render() {
         return (
             <View style={nameSceneStyles.backgroundView}>
                 <List.Section
-                    style={{ flex: 0.2 }}
+                    style={{ flex: SECTION_FLEX }}
                     title="NAME"
                     titleStyle={globalStyles.title}
                 >
@@ -67,10 +78,10 @@ export class NameScene extends React.Component<NameProps, TextState> {
                 <View style={nameSceneStyles.associationView}>
                     <View>
                         <AssociationDialogBar
-                            fits={this.props.fitting.fits}
-                            switchFits={(newFits: association[]) => {
-                                this.updateFitsAndMisfits(newFits);
-                            }}
+                            setPowerFit={this.setPowerFitByName.bind(this)}
+                            fits={this.props.fitting}
+                            switchFits={this.updateFits.bind(this)}
+                            buttonStates={this.state.buttons}
                         />
                     </View>
                     <View style={nameSceneStyles.signView}>
@@ -93,7 +104,6 @@ export class NameScene extends React.Component<NameProps, TextState> {
                             style={{
                                 flexDirection: 'row',
                                 justifyContent: 'space-evenly',
-                                paddingHorizontal: 0,
                             }}
                         >
                             {this.renderRerollButton()}
@@ -111,10 +121,46 @@ export class NameScene extends React.Component<NameProps, TextState> {
             </View>
         );
     }
-    private noFitsActive() {
-        return this.props.fitting.fits.length === 0;
+    private setButtonState(category: AssociationTypes, state: ButtonState) {
+        const newButtonStates: ButtonStates = {
+            ...this.state.buttons,
+            [category]: state,
+        };
+        this.setState({ buttons: newButtonStates });
     }
-
+    private setPowerFitByName(name: string, category: AssociationTypes) {
+        const newPowerFit = Object.values(association).find(
+            (fit) => (fit as string) === name
+        );
+        const oldPowerFit = this.props.fitting.powerFit;
+        if (newPowerFit) {
+            const newFits: StructuredTavernFits = {
+                ...this.props.fitting,
+            };
+            if (name === oldPowerFit) {
+                if (this.userActivelySetPowerfit) {
+                    this.userActivelySetPowerfit = false;
+                    newFits.powerFit = undefined;
+                    this.setButtonState(category, ButtonState.active);
+                } else {
+                    this.userActivelySetPowerfit = true;
+                    this.setButtonState(category, ButtonState.powerFit);
+                }
+            } else {
+                this.userActivelySetPowerfit = true;
+                newFits.powerFit = newPowerFit;
+                this.setButtonState(category, ButtonState.powerFit);
+                const oldPowerFitType = getCategoryOfAssociation(oldPowerFit);
+                if (oldPowerFitType) {
+                    this.setButtonState(oldPowerFitType, ButtonState.active);
+                }
+            }
+            this.props.onDataChange({
+                fitting: newFits,
+                ...this.props.getImpliedChanges(newFits),
+            });
+        }
+    }
     private renderRerollButton() {
         return (
             <RerollButton
@@ -126,44 +172,73 @@ export class NameScene extends React.Component<NameProps, TextState> {
     }
 
     private rerollName() {
-        const randomNumber = Math.random();
-        const structuredFits = getStructuredFits(this.props.fitting.fits);
-        if (randomNumber > PROBABILITY_SPECIAL_NAME || this.noFitsActive()) {
-            const possibleNames = nameIdeas.filter((nameIdea) =>
-                nameIdea.fitsToTavern(structuredFits)
+        const isExcludedByPrefix = (name: string) => {
+            return this.state.oldNameParts.some(
+                (namePart) => namePart.slice(0, 5) === name.slice(0, 5)
             );
-            const newNameIdea = getRandomArrayEntry(possibleNames) as NameIdea;
-            const newName = newNameIdea
-                ? newNameIdea.getConcreteName(
-                      structuredFits,
-                      this.state.oldNameParts
-                  )
-                : 'Nameless Tavern';
-            this.props.onDataChange({ name: newName });
-            const incomingNameParts = newName.split(' ');
-            const newOldNameParts = [
-                ...this.state.oldNameParts,
-                ...incomingNameParts,
-            ].filter(
-                (part, index) =>
-                    this.state.oldNameParts.length <= MAX_NAME_MEMORY ||
-                    index >= incomingNameParts.length
+        };
+        const probabilityForNameFilter = Math.random();
+        const possibleNames = nameIdeas.filter((nameIdea) =>
+            nameIdea.fitsToTavern(
+                this.props.fitting,
+                isExcludedByPrefix,
+                probabilityForNameFilter
+            )
+        );
+        const newNameIdea = getRandomArrayEntry(possibleNames) as NameIdea;
+        if (!newNameIdea) {
+            console.log(
+                'There was not fitting name idea which I could have chosen'
             );
-            this.setState({ oldNameParts: newOldNameParts });
-        } else {
-            const specialName = this.getSpecialNames();
-            this.props.onDataChange({ name: specialName });
         }
+        const newName = newNameIdea
+            ? newNameIdea.getConcreteName(
+                  this.props.fitting,
+                  isExcludedByPrefix
+              )
+            : 'Nameless Tavern';
+        this.setNewName(newName);
     }
 
-    private getSpecialNames() {
-        return getSpecialTavernName(this.props.fitting.fits);
+    private setNewName(newName: string) {
+        this.props.onDataChange({ name: newName });
+        const incomingNameParts = newName.split(' ');
+        const newOldNameParts = [
+            ...this.state.oldNameParts,
+            ...incomingNameParts,
+        ].filter(
+            (part, index) =>
+                this.state.oldNameParts.length <= MAX_NAME_MEMORY ||
+                index >= incomingNameParts.length
+        );
+        this.setState({ oldNameParts: newOldNameParts });
     }
 
-    private updateFitsAndMisfits(newFits: association[]) {
-        // Testen: Code wird in richtiger Reihenfolge ausgeführt, obwohl wir states setzen? Ja oder Nein?
-        const newMisfits = getMisfits(newFits, misfitMode.stricter);
-        const newFitting = removeEmptyStrings(newFits, newMisfits);
+    private updateFits(
+        newFit: Partial<StructuredTavernFits>,
+        category: AssociationTypes
+    ) {
+        const newFitting: StructuredTavernFits = {
+            ...this.props.fitting,
+            ...newFit,
+        };
+        const updatedFits = getFitsFromStructure(newFitting);
+        const oldPowerFit = this.props.fitting.powerFit;
+        this.setButtonState(
+            category,
+            newFitting[category] ? ButtonState.active : ButtonState.none
+        );
+        if (oldPowerFit && !updatedFits.includes(oldPowerFit)) {
+            newFitting.powerFit = undefined;
+            this.userActivelySetPowerfit = false;
+        }
+        if (!this.userActivelySetPowerfit) {
+            if (updatedFits.length === 1) {
+                newFitting.powerFit = updatedFits[0];
+            } else {
+                newFitting.powerFit = undefined;
+            }
+        }
         this.props.onDataChange({
             fitting: newFitting,
             ...this.props.getImpliedChanges(newFitting),
@@ -184,9 +259,8 @@ export class NameScene extends React.Component<NameProps, TextState> {
         );
     }
     private totalNumberOfPossibleNames() {
-        const structuredFits = getStructuredFits(this.props.fitting.fits);
         return nameIdeas
-            .map((nameIdea) => nameIdea.countFittingChoices(structuredFits))
+            .map((nameIdea) => nameIdea.countFittingChoices(this.props.fitting))
             .reduce((sum, cur) => sum + cur, 0);
     }
 }

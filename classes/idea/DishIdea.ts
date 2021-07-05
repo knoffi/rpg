@@ -1,14 +1,14 @@
-import { splitMarker } from '../scenes/menuScene/offerList/nameSplitter/splitMarker';
-import { association } from './association';
+import { splitMarker } from '../../scenes/menuScene/offerList/nameSplitter/splitMarker';
+import { association } from '../association';
 import {
     DescriptionAsset,
     forCriminalsOverwrittenAsset,
 } from './DescriptionAsset';
+import { DishConcept } from './DishConcept';
 import { Idea } from './Idea';
-import { IngredientsIdea } from './IngredientsIdea';
 import { PriceSetter } from './PriceSetter';
 import { StructuredTavernFits } from './StructuredTavernFits';
-import { MenuCategory, TavernProduct } from './TavernProduct';
+import { MenuCategory, TavernProduct } from '../TavernProduct';
 
 const EMPTY_SIDE_DISH: DescriptionAsset = { name: '' };
 
@@ -17,7 +17,7 @@ export class DishIdea extends Idea {
     private category: MenuCategory;
 
     constructor(
-        ingredients: IngredientsIdea,
+        ingredients: DishConcept,
         averagePrice: number | PriceSetter,
         category: MenuCategory
     ) {
@@ -37,7 +37,12 @@ export class DishIdea extends Idea {
             ingredients.mainIng
         );
 
-        super(mainEnabledForCriminals, sideDishesEnabledForCriminals);
+        super(
+            mainEnabledForCriminals,
+            sideDishesEnabledForCriminals,
+            undefined
+        ),
+            true;
         this.averagePrice = averagePrice;
         this.category = category;
     }

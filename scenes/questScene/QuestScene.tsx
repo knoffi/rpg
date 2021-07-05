@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { ScrollView } from 'react-native';
 import { association } from '../../classes/association';
-import { Noticable } from '../../classes/ImpressionIdea';
+import { Noticable } from '../../classes/idea/ImpressionIdea';
+import { StructuredTavernFits } from '../../classes/idea/StructuredTavernFits';
 import { TavernData } from '../../mainNavigator/TavernData';
 import { WeServe } from '../menuScene/addRandomDrink';
 import { BasePrice } from '../menuScene/basePrice';
@@ -35,7 +36,7 @@ const getPriceFromIncome = (income: association, basePrice: BasePrice) => {
 };
 
 export const QuestScene = (props: {
-    fitting: { fits: association[]; misfits: association[] };
+    fitting: StructuredTavernFits;
     basePrice: BasePrice;
     impressions: IImpression[];
     banner: BannerData;
@@ -61,7 +62,7 @@ export const QuestScene = (props: {
         const newImpressions = getImpressionsWithOneReroll(
             oldImpression.name,
             props.impressions,
-            props.fitting.fits,
+            props.fitting,
             oldImpression.category
         );
         if (!newImpressions) {
@@ -76,7 +77,7 @@ export const QuestScene = (props: {
     const onAdd = (category: Noticable) => {
         const oldNames = props.impressions.map((impression) => impression.name);
         const newImpression = getRandomImpression(
-            props.fitting.fits,
+            props.fitting,
             category,
             oldNames
         );
@@ -269,7 +270,6 @@ export const QuestScene = (props: {
                 onDelete={onDelete}
                 onReroll={onReroll}
                 onAdd={onAdd}
-                fits={props.fitting.fits}
                 basePrice={props.basePrice}
                 onInfoPress={onInfoPress}
                 onPriceSetPress={onPriceSetPress}

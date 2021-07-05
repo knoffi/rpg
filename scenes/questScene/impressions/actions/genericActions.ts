@@ -1,7 +1,7 @@
-import { association, sophisticatedGroup } from '../../../classes/association';
-import { DescriptionAsset } from '../../../classes/DescriptionAsset';
+import { association, sophisticatedGroup } from '../../../../classes/association';
+import { DescriptionAsset } from '../../../../classes/idea/DescriptionAsset';
 //tODO: test, if f.e. all food/drink options are working for brothel, thief, ... (i.e., if mapping worked correctly)
-const a = association;
+export const a = association;
 const getEnabledForAllCriminals = (asset: DescriptionAsset) => {
     return {
         ...asset,
@@ -70,6 +70,7 @@ const veryDrunk: DescriptionAsset[] = [
         worksForAllCriminals: true,
     },
     { name: 'slurring', misfits: sophisticatedGroup },
+    { name: 'tipsy and frisky', misfits: sophisticatedGroup },
     {
         name: 'totally drunk',
         misfits: sophisticatedGroup,
@@ -86,19 +87,44 @@ const scholar: DescriptionAsset[] = [
     { name: 'reading a parchment roll' },
     { name: 'writing a parchment roll' },
     { name: 'writing a book' },
-    { name: 'doing the accounting' },
+    { name: 'doing the accounting', classRange: [] },
 ];
 export const magical: DescriptionAsset[] = [
-    { classRange: [a.wizard, a.cleric], name: 'reading a heavy tome' },
-    { classRange: [a.wizard, a.cleric], name: 'examining an old artifact' },
-    { classRange: [a.wizard, a.cleric, a.bard], name: 'practicing a spell' },
     {
+        misfits: [a.poor],
         classRange: [a.wizard, a.cleric],
-        name: 'concentrating on a research paper',
+        name: 'reading a heavy tome',
     },
-    { classRange: [a.wizard, a.cleric], name: 'writing a mystical scroll' },
-    { classRange: [a.wizard, a.cleric], name: 'examining a mystical scroll' },
-    { classRange: [a.wizard, a.cleric], name: 'enchanting an object' },
+    {
+        misfits: [a.poor],
+        classRange: [a.wizard, a.cleric],
+        name: 'examining an old artifact',
+    },
+    {
+        misfits: [a.poor],
+        classRange: [a.wizard, a.cleric, a.bard],
+        name: 'practicing a spell',
+    },
+    {
+        misfits: [a.poor],
+        classRange: [a.wizard, a.cleric],
+        name: 'translating an ancient text',
+    },
+    {
+        misfits: [a.poor],
+        classRange: [a.wizard, a.cleric],
+        name: 'writing a mystical scroll',
+    },
+    {
+        misfits: [a.poor],
+        classRange: [a.wizard, a.cleric],
+        name: 'examining a mystical scroll',
+    },
+    {
+        misfits: [a.poor],
+        classRange: [a.wizard, a.cleric],
+        name: 'enchanting an object',
+    },
 ];
 export const feasting: DescriptionAsset[] = [
     {
@@ -177,12 +203,17 @@ export const servantActions: DescriptionAsset[] = [
     { name: 'listening to complains', misfits: [a.poor] },
     { name: 'taking orders from customers' },
     { name: 'transporting plates full of dishes', misfits: [a.poor] },
-    { name: 'transporting wine jugs', misfits: [a.barbarian, a.dwarf] },
+    {
+        name: 'transporting wine jugs',
+        misfits: [a.barbarian, a.dwarf, a.desert],
+    },
+    { name: 'transporting drinks', misfits: [a.barbarian, a.dwarf, a.desert] },
     {
         name: 'transporting beer mugs',
-        misfits: [a.rich, a.elf, a.drow, a.tiefling],
+        misfits: [a.rich, a.elf, a.drow, a.tiefling, a.desert],
     },
     { name: 'chatting with some customers' },
+    { name: 'getting molested by a guest' },
     { name: 'thanking for a generous tip', misfits: [a.poor] },
 ].map((asset) => getEnabledForAllCriminals(asset));
 export const general: DescriptionAsset[] = [
@@ -198,10 +229,21 @@ export const general: DescriptionAsset[] = [
 export const leisureUpperClass = [
     ...feasting,
     ...lively,
-    { name: 'disgusted' },
+    { name: 'disgusted', misfits: [a.poor] },
 ];
 export const busyUpperClass = [...leisureUpperClass, ...scholar];
 export const busyScholarClass = [...leisureUpperClass, ...scholar, ...magical];
+export const caritasWork: DescriptionAsset[] = [
+    { needs: [a.poor], name: 'feeding the poor' },
+    { needs: [a.poor], name: 'distributing soup to the poor' },
+    { needs: [a.poor], name: 'handing out second hand cloths' },
+    { needs: [a.poor], name: 'doing charity work' },
+    { needs: [a.poor], name: 'scolding a drunken father' },
+    { needs: [a.poor], name: 'blessing a poor family' },
+    { needs: [a.poor], name: 'teaching a group of orphans' },
+    { needs: [a.poor], name: 'healing an injured hobo' },
+    { needs: [a.poor], name: 'blessing an old widow' },
+];
 export const machoClass = [
     ...leisureUpperClass,
     ...macho,

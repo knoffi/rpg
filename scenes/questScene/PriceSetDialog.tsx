@@ -34,6 +34,7 @@ export const PriceSetDialog = (props: {
             >
                 <Dialog.Content>
                     <TextInput
+                        textAlign={false}
                         mode="outlined"
                         value={props.priceText}
                         label="New price"
@@ -47,7 +48,12 @@ export const PriceSetDialog = (props: {
                             }
                         }}
                     ></TextInput>
-                    <HelperText type="error" visible={!textIsValid}>
+                    <HelperText
+                        type="error"
+                        visible={!textIsValid}
+                        onTextLayout={() => {}}
+                        dataDetectorType={'none'}
+                    >
                         Only positive numbers, please.
                     </HelperText>
                     <View>

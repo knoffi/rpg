@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { SavedData } from '../components/ListOfSaves/SavedData';
-import { Drinkable, Eatable, MenuCategory } from './TavernProduct';
+import { SavedData } from '../../components/ListOfSaves/SavedData';
+import { Drinkable, Eatable, MenuCategory } from '../TavernProduct';
 
 const TAVERN_KEY_PREIMAGE = 'tavern';
 

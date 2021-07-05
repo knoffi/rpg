@@ -1,5 +1,5 @@
 import { association } from '../../../../classes/association';
-import { DishIdea } from '../../../../classes/DishIdea';
+import { DishIdea } from '../../../../classes/idea/DishIdea';
 import { Eatable } from '../../../../classes/TavernProduct';
 import { foodPrices } from '../../priceSetting/foodPriceSetters';
 import { adjustPriceSetter } from '../../priceSetting/priceSetters';
@@ -81,11 +81,16 @@ export const leftoverStew =
                 },
                 {
                     name: ' with Pickled Mole',
-                    landRange: [a.underdark, a.modest],
+                    landRange: [a.underdark],
                     incomeRange: [a.modest],
                 },
                 {
-                    name: ' with Earth Worms',
+                    name: ' with Lizard Chunks',
+                    landRange: [a.underdark],
+                    incomeRange: [a.wealthy],
+                },
+                {
+                    name: ' with Minced Earth Worms',
                     landRange: [a.underdark],
                     incomeRange: [a.poor],
                 },

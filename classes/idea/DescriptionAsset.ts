@@ -1,4 +1,4 @@
-import { association } from './association';
+import { association } from '../association';
 
 export type DescriptionAsset = {
     name: string;
@@ -18,6 +18,8 @@ export type DescriptionAsset = {
     worksForAssasines?: boolean;
     worksForAllCriminals?: boolean;
     priceFactor?: number;
+    powerFits?: association[];
+    probability?: number;
 };
 
 export const emptyDescriptionAsset = {

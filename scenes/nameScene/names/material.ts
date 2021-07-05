@@ -1,6 +1,6 @@
 import { association } from '../../../classes/association';
-import { NameIdea } from '../../../classes/NameIdea';
-import { NounIdea } from '../../../classes/NounIdea';
+import { DescriptionAsset } from '../../../classes/idea/DescriptionAsset';
+import { NameIdea } from '../../../classes/idea/NameIdea';
 import { femaleGenitals, maleGenitals, sexyParts } from './genitals';
 import { instruments } from './instruments';
 import { artisanJobs } from './jobs';
@@ -16,7 +16,7 @@ import { weapons } from './weapons';
 
 const a = association;
 
-const SUBSTANTIVES_FOR_GOLD: NounIdea[] = [
+const SUBSTANTIVES_FOR_GOLD: DescriptionAsset[] = [
     ...honorfulPredatorBeasts,
     ...criminalPredatorBeasts,
     ...weapons,

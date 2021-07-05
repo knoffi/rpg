@@ -1,5 +1,5 @@
-import { association } from '../classes/association';
-import { Noticable } from '../classes/ImpressionIdea';
+import { Noticable } from '../classes/idea/ImpressionIdea';
+import { StructuredTavernFits } from '../classes/idea/StructuredTavernFits';
 import { Drinkable, Eatable, MenuCategory } from '../classes/TavernProduct';
 import { TavernData } from '../mainNavigator/TavernData';
 import {
@@ -14,7 +14,7 @@ import {
     getRandomImpression,
 } from '../scenes/questScene/impressions/impressionChapters';
 export const getNewBannerDataAndIdeasLeft = (
-    newFitting: { fits: association[]; misfits: association[] },
+    newFitting: StructuredTavernFits,
     newIdeas: Offer[] | IImpression[],
     oldBannerData: BannerData,
     isAbout: WeServe
@@ -39,7 +39,7 @@ export const getNewBannerDataAndIdeasLeft = (
     return { ideasLeft: ideaCategoriesLeft, banner: newBanner };
 };
 export const getAllNewBannerDataAndOffersLeft = (
-    newFitting: { fits: association[]; misfits: association[] },
+    newFitting: StructuredTavernFits,
     newIdeas: { drinks: Offer[]; dishes: Offer[]; impressions: IImpression[] },
     completeBanner: {
         drink: BannerData;
@@ -96,7 +96,7 @@ const getBannerVisibility = (
     return oldBannerData.isVisible;
 };
 const getFullOfferCategories = (
-    fitting: { fits: association[]; misfits: association[] },
+    fitting: StructuredTavernFits,
     newAssets: Offer[] | IImpression[],
     isAbout: WeServe
 ) => {
@@ -106,7 +106,7 @@ const getFullOfferCategories = (
         );
         return Object.values(Noticable).filter(
             (category) =>
-                getRandomImpression(fitting.fits, category, alreadyUsedNames)
+                getRandomImpression(fitting, category, alreadyUsedNames)
                     .name === emptyImpression.name
         );
     }
@@ -115,8 +115,7 @@ const getFullOfferCategories = (
         (category) => {
             return (
                 getNewRandomDrinkOffer(
-                    fitting.fits,
-                    fitting.misfits,
+                    fitting,
                     category,
                     newAssets as Offer[],
                     isAbout

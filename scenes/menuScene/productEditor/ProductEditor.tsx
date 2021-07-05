@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { ScrollView, View } from 'react-native';
-import { HelperText, Text, TextInput } from 'react-native-paper';
-import { SavedDataHandler, WeSave } from '../../../classes/Database';
+import { ScrollView, Text, View } from 'react-native';
+import { HelperText, TextInput } from 'react-native-paper';
+import { SavedDataHandler, WeSave } from '../../../classes/database/Database';
 import {
     buttonEmphasis,
     OkayButton,
@@ -54,6 +54,7 @@ export const ProductEditor = (props: {
             >
                 <View style={productEditorStyles.topTextFields}>
                     <TextInput
+                        textAlign={false}
                         label="Name"
                         value={name}
                         onChangeText={(name: string) => {
@@ -70,12 +71,18 @@ export const ProductEditor = (props: {
                         }}
                     ></TextInput>
 
-                    <HelperText type="error" visible={!nameTextIsValid}>
+                    <HelperText
+                        type="error"
+                        visible={!nameTextIsValid}
+                        onTextLayout={() => {}}
+                        dataDetectorType={'none'}
+                    >
                         Please enter a name which does not exist on your menu!
                     </HelperText>
                 </View>
                 <View style={productEditorStyles.topTextFields}>
                     <TextInput
+                        textAlign={false}
                         label="Price"
                         value={priceText}
                         onChangeText={(text: string) => {
@@ -83,7 +90,12 @@ export const ProductEditor = (props: {
                             setPriceText(text);
                         }}
                     ></TextInput>
-                    <HelperText type="error" visible={!priceTextIsValid}>
+                    <HelperText
+                        type="error"
+                        visible={!priceTextIsValid}
+                        onTextLayout={() => {}}
+                        dataDetectorType={'none'}
+                    >
                         Only positive numbers, please.
                     </HelperText>
                 </View>
@@ -91,6 +103,7 @@ export const ProductEditor = (props: {
             <View style={productEditorStyles.bottomItem}>
                 <View>
                     <TextInput
+                        textAlign={false}
                         label="Description"
                         value={description}
                         onChangeText={(description: string) => {

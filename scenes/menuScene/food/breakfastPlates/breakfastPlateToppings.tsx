@@ -1,5 +1,5 @@
 import { association } from '../../../../classes/association';
-import { DescriptionAsset } from '../../../../classes/DescriptionAsset';
+import { DescriptionAsset } from '../../../../classes/idea/DescriptionAsset';
 const a = association;
 export const nonRichBreakfastPlateToppings: DescriptionAsset[] = [
     { name: ', Jam & Cheddar', landRange: [a.village], misfits: [a.rich] },

@@ -1,16 +1,20 @@
 import * as React from 'react';
 import { Text, View } from 'react-native';
 import { Button, Dialog, Portal } from 'react-native-paper';
-import { association, getAssociation } from '../../../classes/association';
+import { association, AssociationTypes } from '../../../classes/association';
+import { StructuredTavernFits } from '../../../classes/idea/StructuredTavernFits';
+import { ButtonState } from './getButtonStates';
 
 export const AssociationDialog = (props: {
     pickAssociationList: association[];
     startText: string;
-    onPick: (oldAssociation: association, newAssociation: association) => void;
+    onPick: (newFit: Partial<StructuredTavernFits>) => void;
+    onLongPress: () => void;
     color: string;
+    type: AssociationTypes;
+    activity: ButtonState;
 }) => {
     const [visible, setVisible] = React.useState(false);
-    const [text, setText] = React.useState(props.startText);
 
     const openDialog = () => setVisible(true);
 
@@ -23,9 +27,8 @@ export const AssociationDialog = (props: {
                 <Dialog.Actions key={association + props.startText}>
                     <AssociationButton
                         setPick={() => {
-                            setText(association);
                             closeDialog();
-                            props.onPick(getAssociation(text), association);
+                            props.onPick({ [props.type]: association });
                         }}
                         pick={association}
                     />
@@ -37,9 +40,8 @@ export const AssociationDialog = (props: {
         <Dialog.Actions key={'delete' + props.startText}>
             <AssociationButton
                 setPick={() => {
-                    setText(props.startText);
                     closeDialog();
-                    props.onPick(getAssociation(text), association.empty);
+                    props.onPick({ [props.type]: undefined });
                 }}
                 pick={<Text style={{ color: 'red' }}>CLEAR</Text>}
             />
@@ -58,9 +60,11 @@ export const AssociationDialog = (props: {
                 onPress={() => {
                     openDialog();
                 }}
+                onLongPress={props.onLongPress}
                 compact={true}
                 mode="contained"
                 color={props.color}
+                style={getStyelByActivity(props.activity)}
             >
                 {props.startText}
             </Button>
@@ -71,6 +75,8 @@ export const AssociationDialog = (props: {
                             textDecorationLine: 'underline',
                             fontWeight: 'bold',
                         }}
+                        onTextLayout={() => {}}
+                        dataDetectorType={'none'}
                     >
                         {props.startText.toUpperCase()}
                     </Dialog.Title>
@@ -102,13 +108,24 @@ const getDialogInput = (dialogActions: JSX.Element[], dialogName: string) => {
 };
 
 const AssociationButton = (props: any) => {
-    return (
-        <Button
-            onPress={() => {
-                props.setPick();
-            }}
-        >
-            {props.pick}
-        </Button>
-    );
+    return <Button onPress={props.setPick}>{props.pick}</Button>;
+};
+
+const getStyelByActivity = (activity: ButtonState) => {
+    if (activity === ButtonState.active) {
+        return {
+            borderWidth: 2,
+            borderColor: 'navy',
+        };
+    }
+    if (activity === ButtonState.none) {
+        return {
+            borderWidth: 4,
+            borderColor: 'black',
+        };
+    }
+    return {
+        borderWidth: 1,
+        borderColor: 'silver',
+    };
 };

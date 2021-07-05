@@ -31,6 +31,7 @@ export const NameSetDialog = (props: {
             <Dialog visible={props.open} onDismiss={props.onDismiss}>
                 <Dialog.Content>
                     <TextInput
+                        textAlign={false}
                         label="Tavern Name"
                         value={props.startText}
                         onChangeText={(text: string) => {
@@ -38,7 +39,12 @@ export const NameSetDialog = (props: {
                             checkText(text);
                         }}
                     ></TextInput>
-                    <HelperText type="error" visible={!textIsValid}>
+                    <HelperText
+                        type="error"
+                        visible={!textIsValid}
+                        onTextLayout={() => {}}
+                        dataDetectorType={'none'}
+                    >
                         I am afriad this name might be too long for a proper
                         display.
                     </HelperText>

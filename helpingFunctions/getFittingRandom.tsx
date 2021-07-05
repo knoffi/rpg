@@ -10,6 +10,7 @@ import {
     landChosen,
     raceChosen,
 } from '../classes/association';
+import { StructuredTavernFits } from '../classes/idea/StructuredTavernFits';
 import { ITavernAsset } from './ITavernAsset';
 
 const CHOICE_PARAMS = { minDifference: 1 };
@@ -105,10 +106,10 @@ const allNecessaritiesFulfilled = (
 
 export const getFittingRandom = (
     choices: ITavernAsset[],
-    fits: association[],
-    misfits: association[],
+    fitting: StructuredTavernFits,
     excludedNames: string[]
 ): ITavernAsset => {
+    const fits = Object.values(fitting).map((fit) => fit || association.empty);
     const filteredChoices = getFilterChoices(choices, fits);
     const randomCase = Math.random();
     if (randomCase < HIGH_FIT_CHANCE) {
@@ -116,7 +117,7 @@ export const getFittingRandom = (
             filteredChoices,
             3,
             fits,
-            misfits,
+            [],
             excludedNames
         );
         if (fittingChoices.length > 0) {
@@ -128,7 +129,7 @@ export const getFittingRandom = (
             filteredChoices,
             2,
             fits,
-            misfits,
+            [],
             excludedNames
         );
         if (fittingChoices.length > 0) {
@@ -140,7 +141,7 @@ export const getFittingRandom = (
             filteredChoices,
             1,
             fits,
-            misfits,
+            [],
             excludedNames
         );
         if (fittingChoices.length > 0) {
@@ -148,7 +149,7 @@ export const getFittingRandom = (
         }
     }
     return getRandomArrayEntry(
-        filterByFitValue(filteredChoices, 0, fits, misfits, excludedNames)
+        filterByFitValue(filteredChoices, 0, fits, [], excludedNames)
     );
 };
 

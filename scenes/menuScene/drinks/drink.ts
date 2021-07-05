@@ -1,4 +1,4 @@
-import { DishIdea } from '../../../classes/DishIdea';
+import { DishIdea } from '../../../classes/idea/DishIdea';
 import { Drinkable, Eatable } from '../../../classes/TavernProduct';
 import { appetizers, desserts, sideDishes } from '../food/dishes';
 import {

@@ -1,12 +1,13 @@
 import { association } from '../../classes/association';
+import { StructuredTavernFits } from '../../classes/idea/StructuredTavernFits';
 import { BasePrice, standardBasePrice } from './basePrice';
 import { Offer } from './menuEnums';
 export const getAdjustedPrice = (
     offer: Offer,
-    fits: association[],
-    misfits: association[],
+    fitting: StructuredTavernFits,
     basePrice: BasePrice
 ) => {
+    //TODO: Adjust this to Dish Ideas. Maybe even get rid of Offer class
     if (offer.product.isUserMade) {
         return offer.price;
     }
@@ -14,35 +15,29 @@ export const getAdjustedPrice = (
         basePrice,
         offer.product.associations
     );
-    const fitLevel = offer.product.associations.filter((association) =>
-        fits.includes(association)
-    ).length;
-    const misfitLevel = offer.product.associations.filter((association) =>
-        misfits.includes(association)
-    ).length;
-    const tavernIncome = fits.reduce(
-        (income, association) =>
-            incomePriceLevelMap.get(association) ? association : income,
-        association.empty
+    const marketFits = [fitting.class, fitting.race, fitting.land].filter(
+        (fit) => fit
+    ) as association[];
+    const includedMarketFits = marketFits.filter((fit) =>
+        offer.product.associations.includes(fit)
     );
-    const incomeLevel = incomePriceLevelMap.get(tavernIncome)
-        ? incomePriceLevelMap.get(tavernIncome)
-        : 0;
+    const priceLevel = 2 * includedMarketFits.length - marketFits.length;
+    const tavernIncome = fitting.income || association.empty;
+    const incomeLevel = incomePriceLevelMap.get(tavernIncome) || 0;
     const newPrice = Math.floor(
         (offer.product.copperPrice *
             basePriceFactor *
-            (100 - fitLevel + misfitLevel + incomeLevel!)) /
+            (100 + priceLevel + incomeLevel)) /
             100.0
     );
     return newPrice;
 };
 export const getAdjustedPriceString = (
     offer: Offer,
-    fits: association[],
-    misfits: association[],
+    fitting: StructuredTavernFits,
     basePrice: BasePrice
 ) => {
-    const calculatedPrice = getAdjustedPrice(offer, fits, misfits, basePrice);
+    const calculatedPrice = getAdjustedPrice(offer, fitting, basePrice);
     const economicPrice = calculatedPrice > 0 ? calculatedPrice : 1;
     return economicPrice.toString() + ' ' + basePrice.currency;
 };
@@ -79,4 +74,5 @@ const incomePriceLevelMap = new Map([
     [association.modest, -1],
     [association.wealthy, 1],
     [association.rich, 2],
+    [association.empty, 0],
 ]);

@@ -1,6 +1,6 @@
 import { DescriptionAsset } from './DescriptionAsset';
 
-export type IngredientsIdea = {
+export type DishConcept = {
     mainIng: DescriptionAsset;
     firstSideDishes?: DescriptionAsset[];
     secondSideDishes?: DescriptionAsset[];
