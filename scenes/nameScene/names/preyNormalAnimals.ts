@@ -99,6 +99,12 @@ export const preyNormalAnimals: DescriptionAsset[] = [
         powerFits: [a.druid, a.tropical, a.haven],
     },
     {
+        name: 'Gecko',
+        incomeRange: [a.poor, a.modest],
+        needsOne: [a.tropical, a.desert],
+        powerFits: [a.druid, a.tropical, a.desert],
+    },
+    {
         name: 'Anchovy',
         needs: [a.haven],
         incomeRange: [a.poor],

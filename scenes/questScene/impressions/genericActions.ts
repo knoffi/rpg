@@ -87,7 +87,7 @@ const scholar: DescriptionAsset[] = [
     { name: 'reading a parchment roll' },
     { name: 'writing a parchment roll' },
     { name: 'writing a book' },
-    { name: 'doing the accounting' },
+    { name: 'doing the accounting', classRange: [] },
 ];
 export const magical: DescriptionAsset[] = [
     {
