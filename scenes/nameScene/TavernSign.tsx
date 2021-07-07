@@ -7,7 +7,9 @@ import { nameSignStyles } from './nameSignStyles';
 const BIG_FONT_SIZE = 42 * FONT_FACTOR;
 const ARTICLE_SCALING = 0.7;
 const MISSING_ARTICLE_SCALING = 1.2;
-const STANDARD_MAX_LINE_HEIGHT = 155 * HEIGHT_FACTOR;
+const STANDARD_MAX_LINE_HEIGHT = 185 * HEIGHT_FACTOR;
+const MAIN_TEXT_HEIGHT = 150 * HEIGHT_FACTOR;
+const MAX_LINE_NUMBER = 3;
 export const TavernSign = (props: { nameText: string }) => {
     const [fontIndex, setFontIndex] = useState(0);
     const fonts = [
@@ -34,80 +36,101 @@ export const TavernSign = (props: { nameText: string }) => {
         'caslonbold',
     ];
 
-    const getSplittedTextLines = (name: string, maxLength: number) => {
-        const wordLengths = name.split(' ').map((word) => word.length);
-        if (wordLengths[0] > maxLength) {
-            return {
-                first: name.substring(0, maxLength),
-                second: name.substring(maxLength),
-            };
-        }
-        const splitIndex = wordLengths.reduce(
-            (prev, cur) => (prev + cur > maxLength ? prev : prev + cur + 1),
-            -1
-        );
-        if (name.split(' ')[0].toUpperCase() === 'THE') {
-            return { first: name.substring(0, 3), second: name.substring(4) };
-        }
-        return {
-            first: name.substring(0, splitIndex),
-            second: name.substring(splitIndex + 1),
-        };
-    };
     const getStyleFromName = (
         text: string,
         portion: number,
-        hasArticle = false
+        hideArticle?: boolean
     ) => {
-        const sizeFactor =
-            text.toUpperCase() === 'THE'
-                ? ARTICLE_SCALING
-                : hasArticle
-                ? MISSING_ARTICLE_SCALING
-                : 1;
-        return {
-            ...nameSignStyles.nameText,
-            fontFamily: fonts[fontIndex],
-            maxHeight:
-                portion > 0
-                    ? (STANDARD_MAX_LINE_HEIGHT / portion) * sizeFactor
-                    : STANDARD_MAX_LINE_HEIGHT,
-            fontSize: BIG_FONT_SIZE * sizeFactor,
-            paddingTop: 5 * HEIGHT_FACTOR,
-            paddingBottom: 5 * HEIGHT_FACTOR,
-        };
-    };
-    const getTexts = (texts: string[]) => {
-        const numberOfTexts = texts.length;
-        const startsWithArticle = texts[0].toUpperCase() === 'THE';
-        return texts.map((text, index) => (
-            <Text
-                style={getStyleFromName(text, numberOfTexts, startsWithArticle)}
-                adjustsFontSizeToFit={true}
-                minimumFontScale={0.2}
-                key={index.toString() + text}
-            >
-                {text}
-            </Text>
-        ));
-    };
-    const getTextLines = () => {
-        const MAX_LINE_CHARS = 14;
-        const firstSplit = getSplittedTextLines(props.nameText, MAX_LINE_CHARS);
-        const firstText = firstSplit.first;
-        if (firstSplit.second.length === 0) {
-            return getTexts(['The', firstText]);
+        if (text.toUpperCase() === 'THE') {
+            return {
+                ...nameSignStyles.nameText,
+                fontFamily: fonts[fontIndex],
+                maxHeight:
+                    portion > 0
+                        ? (STANDARD_MAX_LINE_HEIGHT / portion) * ARTICLE_SCALING
+                        : STANDARD_MAX_LINE_HEIGHT,
+                fontSize: BIG_FONT_SIZE * ARTICLE_SCALING,
+                paddingTop: 5 * HEIGHT_FACTOR,
+                paddingBottom: 5 * HEIGHT_FACTOR,
+                opacity: hideArticle ? 0 : 1,
+            };
+        } else {
+            const sizeFactor = MISSING_ARTICLE_SCALING;
+            return {
+                ...nameSignStyles.nameText,
+                fontFamily: fonts[fontIndex],
+                maxHeight:
+                    portion > 0
+                        ? (STANDARD_MAX_LINE_HEIGHT / portion) * sizeFactor
+                        : STANDARD_MAX_LINE_HEIGHT,
+                fontSize: BIG_FONT_SIZE * sizeFactor,
+            };
         }
-        const secondSplit = getSplittedTextLines(
-            firstSplit.second,
-            MAX_LINE_CHARS
+    };
+    const getArticleLine = (article: string, hideArticle: boolean) => {
+        const articleLine = (
+            <View key="articleLine">
+                <Text style={getStyleFromName('The', 1, hideArticle)}>
+                    {article}
+                </Text>
+            </View>
         );
-        const secondText = secondSplit.first;
-        if (secondSplit.second.length === 0) {
-            return getTexts([firstText, secondText]);
+        return articleLine;
+    };
+    const getTexts = (texts: string[], hideArticle: boolean) => {
+        const startArticleContained =
+            texts[0].substring(0, 4).toUpperCase() === 'THE ';
+        const article = startArticleContained
+            ? texts[0].substring(0, 3)
+            : 'The';
+        const articleLine = getArticleLine(
+            article,
+            hideArticle && !startArticleContained
+        );
+        //remove article to give it a certain style specialized for article
+        if (startArticleContained) {
+            const articleFreeFirstText = texts[0].substring(4);
+            texts[0] = articleFreeFirstText;
         }
-        const thirdText = secondSplit.second;
-        return getTexts([firstText, secondText, thirdText]);
+        const filteredTexts = texts.filter((text) => text.length > 0);
+        const nonArticleTexts = filteredTexts.map((text, index) => {
+            return (
+                <Text
+                    style={getStyleFromName(text, filteredTexts.length)}
+                    adjustsFontSizeToFit={true}
+                    minimumFontScale={0.2}
+                    key={index.toString() + text}
+                >
+                    {text}
+                </Text>
+            );
+        });
+        const nonArticleLines = (
+            <View
+                key="nonArticle"
+                style={{
+                    height: MAIN_TEXT_HEIGHT,
+                    justifyContent: 'space-evenly',
+                }}
+            >
+                <Text
+                    numberOfLines={MAX_LINE_NUMBER}
+                    adjustsFontSizeToFit={true}
+                    style={{ textAlign: 'center' }}
+                >
+                    {nonArticleTexts}
+                </Text>
+            </View>
+        );
+        return [articleLine, nonArticleLines];
+    };
+
+    const getTextLines = () => {
+        const containsPersonName = props.nameText
+            .split('')
+            .some((char) => char === "'");
+
+        return getTexts([props.nameText], containsPersonName);
     };
     return (
         <View>
@@ -122,7 +145,14 @@ export const TavernSign = (props: { nameText: string }) => {
                     resizeMode: 'center',
                 }}
             >
-                <View style={nameSignStyles.textView}>{getTextLines()}</View>
+                <View
+                    style={{
+                        ...nameSignStyles.textView,
+                        justifyContent: 'flex-start',
+                    }}
+                >
+                    {getTextLines()}
+                </View>
             </ImageBackground>
             <View
                 style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}

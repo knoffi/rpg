@@ -1341,7 +1341,7 @@ export const specialNames: NameIdea[] = [
         probability: VERY_SPECIAL_NAME_PROB,
     }),
     new NameIdea({
-        name: "Izalim's Insidious Inn'",
+        name: "Izalim's Insidious Inn",
         needs: [a.tiefling],
         powerFits: [a.tiefling],
         probability: VERY_SPECIAL_NAME_PROB,
