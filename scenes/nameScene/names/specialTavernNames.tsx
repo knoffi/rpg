@@ -486,7 +486,7 @@ export const specialNames: NameIdea[] = [
         powerFits: [a.druid],
     }),
     new NameIdea({
-        name: 'Mead-Slupring Bear',
+        name: 'Mead-Slurping Bear',
         needsOne: [a.druid],
         powerFits: [a.druid],
     }),
