@@ -36,9 +36,9 @@ export const nameSignStyles = StyleSheet.create({
         fontSize: 34 * FONT_FACTOR,
         color: 'goldenrod',
         fontFamily: 'primitive',
-        paddingBottom: 30 * HEIGHT_FACTOR,
-        paddingTop: 60 * HEIGHT_FACTOR,
         paddingHorizontal: 10 * WIDTH_FACTOR,
         textAlignVertical: 'center',
+        // borderWidth: 1,
+        // borderColor: 'black',
     },
 });
