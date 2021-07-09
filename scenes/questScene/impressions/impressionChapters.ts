@@ -4,11 +4,12 @@ import { getRandomArrayEntry } from '../../../helpingFunctions/getFittingRandom'
 import { WeServe } from '../../menuScene/addRandomDrink';
 import { averageCustomers } from './averageCustomer';
 import { bartenders } from './bartender';
-import { druidIndividuals } from './druidIndividuals';
 import { furnitures } from './furniture';
 import { individuals } from './genericIndividuals';
 import { getPrefixExcluder } from './getPrefixExcluder';
 import { IImpression } from './IImpression';
+import { druidIndividuals } from './individuals/druidIndividuals';
+import { wizardIndividuals } from './individuals/wizardIndividuals';
 import { specialIndividuals } from './specialIndividuals';
 import { stuffedAnimals } from './stuffedAnimals';
 import { trapsIntriguingShockingFurniture } from './trapsSecretIntriguingFurnite';
@@ -28,6 +29,7 @@ const impressionChapters = [
             ...individuals,
             ...specialIndividuals,
             ...druidIndividuals,
+            ...wizardIndividuals,
         ],
         category: Noticable.someCustomers,
     },
