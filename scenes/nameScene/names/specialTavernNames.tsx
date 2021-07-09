@@ -49,7 +49,7 @@ export const specialNames: NameIdea[] = [
         powerFits: [a.barbarian],
     }),
     new NameIdea({
-        name: 'Cowardly Wizard',
+        name: 'Whiny Wizard',
         needs: [a.barbarian],
         powerFits: [a.barbarian],
     }),

@@ -7,6 +7,7 @@ import {
     isRaceAssociation,
     isSpecialAssociation,
 } from '../association';
+import { AssetKey } from './AssetKey/AssetKey';
 import { DescriptionAsset } from './DescriptionAsset';
 import { StructuredTavernFits } from './StructuredTavernFits';
 
@@ -24,20 +25,23 @@ export class Idea {
 
     public countFittingChoices(
         tavernFits: StructuredTavernFits,
-        isExcludedByPrefix?: (name: string) => boolean
+        isExcludedByPrefix?: (name: string) => boolean,
+        applyPowerFit?: boolean
     ) {
         const fittingHarmoniesAmount = this.additions
             ? this.countFittingIdeaConstellations(
                   this.additions,
                   tavernFits,
-                  isExcludedByPrefix
+                  isExcludedByPrefix,
+                  applyPowerFit
               )
             : 0;
         const fittingContrastAmount = this.contrastAdditions
             ? this.countFittingIdeaConstellations(
                   this.contrastAdditions,
                   tavernFits,
-                  isExcludedByPrefix
+                  isExcludedByPrefix,
+                  applyPowerFit
               )
             : 0;
         return fittingHarmoniesAmount + fittingContrastAmount;
@@ -74,7 +78,9 @@ export class Idea {
         tavernFits: StructuredTavernFits,
         additionChoices?: DescriptionAsset[],
         isExcludedByPrefix?: (name: string) => boolean,
-        applyPowerFit?: boolean
+        applyPowerFit?: boolean,
+        probabilityFilter?: number,
+        excludedKeys?: AssetKey[]
     ) {
         if (additionChoices) {
             const fittingAssetParts = additionChoices.filter((addition) =>
@@ -82,7 +88,9 @@ export class Idea {
                     tavernFits,
                     addition,
                     isExcludedByPrefix,
-                    applyPowerFit
+                    applyPowerFit,
+                    probabilityFilter,
+                    excludedKeys
                 )
             );
             return getRandomArrayEntry(fittingAssetParts);
@@ -96,7 +104,8 @@ export class Idea {
         asset: DescriptionAsset,
         isExcludedByPrefix?: (name: string) => boolean,
         applyPowerFit?: boolean,
-        probabilityFilter?: number
+        probabilityFilter?: number,
+        excludedKeys?: AssetKey[]
     ) {
         const filteredByProbability =
             asset.probability &&
@@ -155,6 +164,8 @@ export class Idea {
             tavernFits,
             asset.strongNeedsOne
         );
+        const keyNotExcluded =
+            !excludedKeys || !asset.key || !excludedKeys.includes(asset.key);
         const powerFitFulfilled = tavernFits.powerFit
             ? !applyPowerFit ||
               this.powerFitCheck(
@@ -199,7 +210,8 @@ export class Idea {
             specialIsFitting &&
             noMisfitsInTavern &&
             strongNeedsOneFulfilled &&
-            powerFitFulfilled;
+            powerFitFulfilled &&
+            keyNotExcluded;
         switch (tavernFits.special) {
             case association.prostitute:
                 return asset.worksForBrothel || asset.worksForAllCriminals

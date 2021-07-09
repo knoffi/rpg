@@ -113,3 +113,22 @@ export const warningWeather: DescriptionAsset[] = [
         landRange: [a.forest, a.village],
     },
 ];
+
+export const warningSociety: DescriptionAsset[] = [
+    {
+        name: 'warning you that about a conspiracy in the royal court',
+        landRange: [a.city],
+    },
+    {
+        name: 'warning you about a criminal gang which controls the harbor at night',
+        landRange: [a.haven],
+    },
+    {
+        name: 'telling you a folk tale about the local lord being a vampire',
+        landRange: [a.village],
+    },
+    {
+        name: 'warning you that a neihgbouring kingdom is seeking war',
+        landRange: [a.village],
+    },
+];
