@@ -4,6 +4,7 @@ import { getRandomArrayEntry } from '../../../helpingFunctions/getFittingRandom'
 import { WeServe } from '../../menuScene/addRandomDrink';
 import { averageCustomers } from './averageCustomer';
 import { bartenders } from './bartender';
+import { emptyImpression } from './emptyImpression';
 import { furnitures } from './furniture';
 import { individuals } from './genericIndividuals';
 import { getPrefixExcluder } from './getPrefixExcluder';
@@ -36,10 +37,6 @@ const impressionChapters = [
     { impressions: bartenders, category: Noticable.bartender },
 ];
 
-export const emptyImpression: IImpression = {
-    name: 'No description of that category left! May the DM have mercy on us all!',
-    category: Noticable.bartender,
-};
 export const getRandomImpression = (
     fitting: StructuredTavernFits,
     category: Noticable,
@@ -59,6 +56,7 @@ export const getRandomImpression = (
     if (fittingImpressions.length === 0) {
         return emptyImpression;
     }
+    // these impressions are already filtered, thus no prefixFilter needed
     const newDescriptionText = getRandomArrayEntry(
         fittingImpressions
     ).createImpression(fitting, () => false);
