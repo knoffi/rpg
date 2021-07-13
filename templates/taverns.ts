@@ -1,5 +1,5 @@
 import { association } from '../classes/association';
-import { Noticable } from '../classes/idea/ImpressionIdea';
+import { Noticable } from '../classes/idea/Noticable';
 import { MinimalTavernData } from '../mainNavigator/TavernData';
 import { standardBasePrice } from '../scenes/menuScene/basePrice';
 
@@ -13,8 +13,10 @@ export const taverns: tavernMinData[] = [
         key: 'barbar_worker',
         name: "Barbara's Barbaric Beer Bar",
         fitting: {
-            fits: [association.barbarian, association.modest],
-            misfits: [],
+            land: association.forest,
+            class: association.barbarian,
+            income: association.modest,
+            powerFit: association.barbarian,
         },
         drinks: [],
         dishes: [],
@@ -85,13 +87,11 @@ export const taverns: tavernMinData[] = [
         key: 'dwarf_rich',
         name: 'Molthorium Mine',
         fitting: {
-            fits: [
-                association.dwarf,
-                association.knight,
-                association.rich,
-                association.city,
-            ],
-            misfits: [],
+            land: association.mountain,
+            race: association.dwarf,
+            income: association.rich,
+            class: association.knight,
+            powerFit: association.dwarf,
         },
         drinks: [],
         dishes: [],
@@ -145,8 +145,10 @@ export const taverns: tavernMinData[] = [
         key: 'haven_criminal_poor',
         name: 'Drowning Rat',
         fitting: {
-            fits: [association.poor, association.thief, association.haven],
-            misfits: [],
+            land: association.haven,
+            special: association.thief,
+            income: association.poor,
+            powerFit: association.haven,
         },
         drinks: [],
         dishes: [],
@@ -199,8 +201,10 @@ export const taverns: tavernMinData[] = [
         key: 'brothel_city_rich',
         name: 'Foxy Gold Nymph',
         fitting: {
-            fits: [association.rich, association.prostitute, association.city],
-            misfits: [],
+            land: association.city,
+            special: association.prostitute,
+            income: association.rich,
+            powerFit: association.rich,
         },
         drinks: [],
         dishes: [],
