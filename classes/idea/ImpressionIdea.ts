@@ -1,15 +1,11 @@
 import { splitMarker } from '../../scenes/menuScene/offerList/nameSplitter/splitMarker';
+import { IImpression } from '../../scenes/questScene/impressions/IImpression';
+import { AssetKey } from './AssetKey/AssetKey';
 import { AssetStressMode } from './assetStressMode';
 import { DescriptionAsset } from './DescriptionAsset';
 import { Idea } from './Idea';
+import { Noticable } from './Noticable';
 import { StructuredTavernFits } from './StructuredTavernFits';
-export enum Noticable {
-    bartender = 'Bartender',
-    averageCustomer = 'Customers',
-    someCustomers = 'Special Guests',
-    furniture = 'Furniture',
-}
-
 export class ImpressionIdea extends Idea {
     private category: Noticable;
     private displayTextAsFurniture: boolean;
@@ -33,14 +29,25 @@ export class ImpressionIdea extends Idea {
     }
     public createImpression(
         tavernFits: StructuredTavernFits,
-        isExcludedByPrefix: (name: string) => boolean
+        isExcluded: (name: string, key?: AssetKey) => boolean
+    ) {
+        const createdImpression: IImpression = {
+            ...this.getNameAndKey(tavernFits, isExcluded),
+            category: this.category,
+        };
+        return createdImpression;
+    }
+
+    private getNameAndKey(
+        tavernFits: StructuredTavernFits,
+        isExcluded: (name: string, key?: AssetKey) => boolean
     ) {
         if (this.additions) {
             const possibleAdditions = this.additions[0];
             const secondDescription = this.getFittingAssetPart(
                 tavernFits,
                 possibleAdditions,
-                isExcludedByPrefix
+                isExcluded
             );
             if (!secondDescription) {
                 if (possibleAdditions.length === 0) {
@@ -53,7 +60,7 @@ export class ImpressionIdea extends Idea {
                         'no fitting, second description was found, although it was demanded and there were some additions provided'
                     );
                 }
-                return this.main.name;
+                return { name: this.main.name, firstKey: this.main.key };
             }
             const firstText = this.reverseDisplay
                 ? secondDescription.name
@@ -61,12 +68,22 @@ export class ImpressionIdea extends Idea {
             const secondText = this.reverseDisplay
                 ? this.main.name
                 : secondDescription.name;
-            return this.category === Noticable.bartender &&
+            const createdName =
+                this.category === Noticable.bartender &&
                 !this.displayTextAsFurniture
-                ? firstText + ' & ' + secondText + splitMarker
-                : firstText + secondText + splitMarker;
+                    ? firstText + ' & ' + secondText + splitMarker
+                    : firstText + secondText + splitMarker;
+            return {
+                name: createdName,
+                firstKey: this.main.key,
+                secondKey: secondDescription.key,
+            };
         } else {
-            return this.main.name;
+            const defaultNameAndKey = {
+                name: this.main.name,
+                firstKey: this.main.key,
+            };
+            return defaultNameAndKey;
         }
     }
 }

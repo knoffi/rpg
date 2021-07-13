@@ -1,7 +1,7 @@
 import React from 'react';
 import { List } from 'react-native-paper';
 import { association } from '../../classes/association';
-import { Noticable } from '../../classes/idea/ImpressionIdea';
+import { Noticable } from '../../classes/idea/Noticable';
 import { AddButton } from '../../components/buttons/generalButtons';
 import { TavernData } from '../../mainNavigator/TavernData';
 import { globalStyles } from '../globalStyles';
@@ -31,18 +31,13 @@ export const DetailsList = (props: {
         const impressionsOfTitle = props.impressions.filter(
             (impression) => impression.category === title
         );
-        const namesOfTitle = impressionsOfTitle.map(
-            (impression) => impression.name
-        );
         return (
             <ImpressionListAccordion
                 key={title}
                 title={title}
-                descriptionNames={namesOfTitle}
+                impressions={impressionsOfTitle}
                 onDelete={props.onDelete}
-                onReroll={(name: string) =>
-                    props.onReroll({ name: name, category: title })
-                }
+                onReroll={props.onReroll}
                 onAdd={() => {
                     props.onAdd(title);
                 }}
@@ -50,6 +45,7 @@ export const DetailsList = (props: {
             ></ImpressionListAccordion>
         );
     });
+
     return (
         <List.Section title={'NOTES'} titleStyle={globalStyles.title}>
             <PriceAccordion
@@ -65,14 +61,15 @@ export const DetailsList = (props: {
 
 const ImpressionListAccordion = (props: {
     title: string;
-    descriptionNames: string[];
+    impressions: IImpression[];
     onDelete: (name: string) => void;
     onAdd: () => void;
-    onReroll: (name: string) => void;
+    onReroll: (impression: IImpression) => void;
     isNotFull: boolean;
 }) => {
     const impressionsFull = !props.isNotFull;
-    const descriptionItems = props.descriptionNames.map((text, index) => {
+    const descriptionItems = props.impressions.map((impression) => {
+        const text = impression.name;
         const newKey = text;
         return (
             <OfferListTopItem
@@ -87,7 +84,7 @@ const ImpressionListAccordion = (props: {
                     onReroll: impressionsFull
                         ? () => {}
                         : () => {
-                              props.onReroll(text);
+                              props.onReroll(impression);
                           },
                     onDelete: () => {
                         props.onDelete(text);
@@ -106,13 +103,7 @@ const ImpressionListAccordion = (props: {
             left={() => (
                 <AddButton
                     size={LIST_END_BUTTON_SIZE}
-                    onPress={
-                        impressionsFull
-                            ? () => {}
-                            : () => {
-                                  props.onAdd();
-                              }
-                    }
+                    onPress={impressionsFull ? () => {} : props.onAdd}
                     disabled={impressionsFull}
                 />
             )}

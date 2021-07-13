@@ -1,14 +1,14 @@
-import { Noticable } from '../../../classes/idea/ImpressionIdea';
+import { AssetKey } from '../../../classes/idea/AssetKey/AssetKey';
+import { Noticable } from '../../../classes/idea/Noticable';
 import { StructuredTavernFits } from '../../../classes/idea/StructuredTavernFits';
 import { getRandomArrayEntry } from '../../../helpingFunctions/getFittingRandom';
-import { WeServe } from '../../menuScene/addRandomDrink';
 import { averageCustomers } from './averageCustomer';
 import { bartenders } from './bartender';
 import { emptyImpression } from './emptyImpression';
 import { furnitures } from './furniture';
 import { individuals } from './genericIndividuals';
-import { getPrefixExcluder } from './getPrefixExcluder';
 import { IImpression } from './IImpression';
+import { getImpressionExcluder } from './impressionExcluder/getImpressionExcluder';
 import { druidIndividuals } from './individuals/druidIndividuals';
 import { wizardIndividuals } from './individuals/wizardIndividuals';
 import { specialIndividuals } from './specialIndividuals';
@@ -24,7 +24,10 @@ const impressionChapters = [
         ],
         category: Noticable.furniture,
     },
-    { impressions: averageCustomers, category: Noticable.averageCustomer },
+    {
+        impressions: averageCustomers,
+        category: Noticable.averageCustomer,
+    },
     {
         impressions: [
             ...individuals,
@@ -34,46 +37,69 @@ const impressionChapters = [
         ],
         category: Noticable.someCustomers,
     },
-    { impressions: bartenders, category: Noticable.bartender },
+    {
+        impressions: bartenders,
+        category: Noticable.bartender,
+    },
 ];
 
 export const getRandomImpression = (
     fitting: StructuredTavernFits,
     category: Noticable,
-    oldNames: string[]
+    oldNames: string[],
+    fullFirstKeys: AssetKey[],
+    fullSecondKeys: AssetKey[]
 ): IImpression => {
-    const isExcludedByPrefix = getPrefixExcluder(oldNames, WeServe.impressions);
+    const isExcluded = getImpressionExcluder(
+        oldNames,
+        fullFirstKeys,
+        fullSecondKeys
+    );
     const impressionChapter = impressionChapters.find(
         (chapter) => chapter.category === category
     );
     if (!impressionChapter) {
         console.log('Impression category not found!');
         return emptyImpression;
+    } else {
+        const fittingImpressions = impressionChapter.impressions.filter(
+            (impression) =>
+                impression.fitsToTavern(
+                    fitting,
+                    isExcluded,
+                    undefined,
+                    undefined
+                )
+        );
+        if (fittingImpressions.length === 0) {
+            return emptyImpression;
+        }
+        // these impressions are already filtered, thus no prefixFilter needed
+        const newImpression =
+            getRandomArrayEntry(fittingImpressions).createImpression(
+                fitting,
+                () => false
+            ) || emptyImpression;
+        return newImpression;
     }
-    const fittingImpressions = impressionChapter!.impressions.filter(
-        (impression) => impression.fitsToTavern(fitting, isExcludedByPrefix)
-    );
-    if (fittingImpressions.length === 0) {
-        return emptyImpression;
-    }
-    // these impressions are already filtered, thus no prefixFilter needed
-    const newDescriptionText = getRandomArrayEntry(
-        fittingImpressions
-    ).createImpression(fitting, () => false);
-    return {
-        name: newDescriptionText,
-        category: category,
-    } as IImpression;
 };
 
 export const getImpressionsWithOneReroll = (
     oldName: string,
     impressions: IImpression[],
     fitting: StructuredTavernFits,
-    category: Noticable
+    category: Noticable,
+    fullFirstKeys: AssetKey[],
+    fullSecondKeys: AssetKey[]
 ) => {
     const oldNames = impressions.map((impression) => impression.name);
-    const newImpression = getRandomImpression(fitting, category, oldNames);
+    const newImpression = getRandomImpression(
+        fitting,
+        category,
+        oldNames,
+        fullFirstKeys,
+        fullSecondKeys
+    );
     if (!newImpression || newImpression.name === emptyImpression.name) {
         return undefined;
     }

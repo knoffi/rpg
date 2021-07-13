@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ScrollView } from 'react-native';
 import { association } from '../../classes/association';
-import { Noticable } from '../../classes/idea/ImpressionIdea';
+import { Noticable } from '../../classes/idea/Noticable';
 import { StructuredTavernFits } from '../../classes/idea/StructuredTavernFits';
 import { TavernData } from '../../mainNavigator/TavernData';
 import { WeServe } from '../menuScene/addRandomDrink';
@@ -10,6 +10,7 @@ import { BannerData, MenuBanner } from '../menuScene/menuBanner/MenuBanner';
 import { nameSceneStyles } from '../nameScene/nameSceneStyles';
 import { CurrencySetDialog } from './CurrencySetDialog';
 import { DetailsList } from './DetailsList';
+import { getFullKeys } from './getNamesAndFullKeys';
 import { IImpression } from './impressions/IImpression';
 import {
     getImpressionsWithOneReroll,
@@ -51,11 +52,13 @@ export const QuestScene = (props: {
         currencyName: props.basePrice.currency,
         price: props.basePrice.poor,
     });
+    const [fullKeys, setFullKeys] = useState(getFullKeys(props.impressions));
     const onDelete = (name: string) => {
         const otherImpressions = props.impressions.filter(
             (impression) => impression.name !== name
         );
         const bannerChanges = props.getImpliedChanges(otherImpressions);
+        setFullKeys(getFullKeys(otherImpressions));
         props.onDataChange({ impressions: otherImpressions, ...bannerChanges });
     };
     const onReroll = (oldImpression: IImpression) => {
@@ -63,25 +66,32 @@ export const QuestScene = (props: {
             oldImpression.name,
             props.impressions,
             props.fitting,
-            oldImpression.category
+            oldImpression.category,
+            fullKeys.first,
+            fullKeys.second
         );
         if (!newImpressions) {
             console.log('I am undefined');
         }
         if (newImpressions) {
+            setFullKeys(getFullKeys(newImpressions));
             props.onDataChange({
                 impressions: newImpressions,
             });
         }
     };
+
     const onAdd = (category: Noticable) => {
         const oldNames = props.impressions.map((impression) => impression.name);
         const newImpression = getRandomImpression(
             props.fitting,
             category,
-            oldNames
+            oldNames,
+            fullKeys.first,
+            fullKeys.second
         );
         const extendedImpressions = [...props.impressions, newImpression];
+        setFullKeys(getFullKeys(extendedImpressions));
         const bannerChanges = props.getImpliedChanges(extendedImpressions);
         props.onDataChange({
             impressions: extendedImpressions,

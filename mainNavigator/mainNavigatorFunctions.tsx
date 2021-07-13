@@ -1,4 +1,4 @@
-import { Noticable } from '../classes/idea/ImpressionIdea';
+import { Noticable } from '../classes/idea/Noticable';
 import { Drinkable, Eatable, TavernProduct } from '../classes/TavernProduct';
 import { getAllNewBannerDataAndOffersLeft } from '../editNavigator/getNewBannerDataAndIdeasLeft';
 import { standardBasePrice } from '../scenes/menuScene/basePrice';

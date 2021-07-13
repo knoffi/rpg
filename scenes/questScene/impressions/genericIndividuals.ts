@@ -1,9 +1,8 @@
 import { association, sophisticatedGroup } from '../../../classes/association';
+import { AssetKey } from '../../../classes/idea/AssetKey/AssetKey';
 import { AssetStressMode } from '../../../classes/idea/assetStressMode';
-import {
-    ImpressionIdea,
-    Noticable,
-} from '../../../classes/idea/ImpressionIdea';
+import { ImpressionIdea } from '../../../classes/idea/ImpressionIdea';
+import { Noticable } from '../../../classes/idea/Noticable';
 import { partyHermit } from './actions/druidicalActions';
 import {
     busyScholarClass,
@@ -407,7 +406,7 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             incomeRange: [a.rich, a.wealthy],
-            name: 'The Viceroy is ',
+            name: 'The viceroy is ',
             landRange: [a.haven, a.city],
             worksForBrothel: true,
             powerFits: [a.rich, a.city],
@@ -921,6 +920,7 @@ export const individuals: ImpressionIdea[] = [
             name: 'A con artist is ',
             worksForBrothel: true,
             worksForThiefs: true,
+            key: AssetKey.plotTwist,
         },
         [...lively, ...spying],
         Noticable.someCustomers,
@@ -934,6 +934,7 @@ export const individuals: ImpressionIdea[] = [
             worksForBrothel: true,
             worksForThiefs: true,
             worksForAssasines: true,
+            key: AssetKey.plotTwist,
         },
         spying,
         Noticable.someCustomers,
@@ -947,6 +948,7 @@ export const individuals: ImpressionIdea[] = [
             worksForBrothel: true,
             worksForThiefs: true,
             worksForAssasines: true,
+            key: AssetKey.plotTwist,
         },
         spying,
         Noticable.someCustomers,
@@ -956,10 +958,11 @@ export const individuals: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            name: 'A shapeshifter is ',
+            name: 'A Doppelgaenger is ',
             worksForBrothel: true,
             worksForThiefs: true,
             worksForAssasines: true,
+            key: AssetKey.plotTwist,
         },
         machoClass,
         Noticable.someCustomers,

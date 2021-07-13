@@ -1,8 +1,6 @@
 import { association } from '../../../../classes/association';
-import {
-    ImpressionIdea,
-    Noticable,
-} from '../../../../classes/idea/ImpressionIdea';
+import { ImpressionIdea } from '../../../../classes/idea/ImpressionIdea';
+import { Noticable } from '../../../../classes/idea/Noticable';
 import {
     druidGuests,
     nymphClass,

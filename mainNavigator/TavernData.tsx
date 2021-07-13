@@ -1,4 +1,4 @@
-import { Noticable } from '../classes/idea/ImpressionIdea';
+import { Noticable } from '../classes/idea/Noticable';
 import { StructuredTavernFits } from '../classes/idea/StructuredTavernFits';
 import { Drinkable, Eatable } from '../classes/TavernProduct';
 import { BasePrice } from '../scenes/menuScene/basePrice';

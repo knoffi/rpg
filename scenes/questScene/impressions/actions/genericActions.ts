@@ -1,4 +1,7 @@
-import { association, sophisticatedGroup } from '../../../../classes/association';
+import {
+    association,
+    sophisticatedGroup,
+} from '../../../../classes/association';
 import { DescriptionAsset } from '../../../../classes/idea/DescriptionAsset';
 //tODO: test, if f.e. all food/drink options are working for brothel, thief, ... (i.e., if mapping worked correctly)
 export const a = association;
@@ -176,26 +179,32 @@ export const spying: DescriptionAsset[] = [
     {
         name: 'watching some guests',
         worksForAllCriminals: true,
+        powerFits: [a.poor],
     },
     {
         name: 'watching you',
         worksForAllCriminals: true,
+        powerFits: [a.poor],
     },
     {
         name: 'following you',
         worksForAllCriminals: true,
+        powerFits: [a.poor],
     },
     {
         name: 'waiting for someone',
         worksForAllCriminals: true,
+        powerFits: [a.poor],
     },
     {
         name: 'eavesdropping a conversation',
         worksForAllCriminals: true,
+        powerFits: [a.poor],
     },
     {
         name: 'following you',
         worksForAllCriminals: true,
+        powerFits: [a.poor],
     },
 ].map((asset) => getEnabledForAllCriminals(asset));
 //tODO: go more into details, like "Opening a champagne bottle for customers" or "Bringing rum in golden cups" for a.rich,a.wealthy ... or "presenting an expensive bottle of brandy" for a.tiefling

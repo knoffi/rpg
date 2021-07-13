@@ -1,6 +1,6 @@
 import { association } from '../classes/association';
-import { Noticable } from '../classes/idea/ImpressionIdea';
 import { NameIdea } from '../classes/idea/NameIdea';
+import { Noticable } from '../classes/idea/Noticable';
 import {
     getStructuredFits,
     StructuredTavernFits,
@@ -16,11 +16,9 @@ import {
 import { BasePrice, standardBasePrice } from '../scenes/menuScene/basePrice';
 import { NothingLeftOffer, Offer } from '../scenes/menuScene/menuEnums';
 import { nameIdeas } from '../scenes/nameScene/names/nameIdeas';
+import { emptyImpression } from '../scenes/questScene/impressions/emptyImpression';
 import { IImpression } from '../scenes/questScene/impressions/IImpression';
-import {
-    emptyImpression,
-    getRandomImpression,
-} from '../scenes/questScene/impressions/impressionChapters';
+import { getRandomImpression } from '../scenes/questScene/impressions/impressionChapters';
 import { getTavernHistoryInitializer } from './mainNavigatorFunctions';
 
 const CHANCE_FOR_SPECIAL_FIT = 0.2;
@@ -127,6 +125,7 @@ const getExamplesForChapter = (
     );
     const fillUp = (alreadyFilled: (Offer | IImpression)[]) => {
         //TODO: getRandomImpression and getNewRandomDrinkOffer should both only rely on a string[] of forbidden names or a function like nameIsRedundant:(name:string)=>boolean
+        console.log('random tavern ignores keys for impression');
         return forImpressions
             ? getRandomImpression(
                   fits,
@@ -138,7 +137,9 @@ const getExamplesForChapter = (
                           );
                       }
                       return (impression as IImpression).name;
-                  })
+                  }),
+                  [],
+                  []
               )
             : getNewRandomDrinkOffer(
                   fits,

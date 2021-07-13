@@ -1,10 +1,8 @@
 import { association, sophisticatedGroup } from '../../../classes/association';
 import { AssetStressMode } from '../../../classes/idea/assetStressMode';
 import { DescriptionAsset } from '../../../classes/idea/DescriptionAsset';
-import {
-    ImpressionIdea,
-    Noticable,
-} from '../../../classes/idea/ImpressionIdea';
+import { ImpressionIdea } from '../../../classes/idea/ImpressionIdea';
+import { Noticable } from '../../../classes/idea/Noticable';
 
 const a = association;
 
@@ -338,6 +336,7 @@ export const bartenders: ImpressionIdea[] = [
         {
             name: 'Was replaced by a Doppelganger',
             worksForAllCriminals: true,
+            powerFits: [a.poor],
         },
         [{ name: '' }],
         Noticable.bartender,

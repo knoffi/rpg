@@ -77,20 +77,18 @@ export class Idea {
     protected getFittingAssetPart(
         tavernFits: StructuredTavernFits,
         additionChoices?: DescriptionAsset[],
-        isExcludedByPrefix?: (name: string) => boolean,
+        isExcluded?: (name: string, key?: AssetKey) => boolean,
         applyPowerFit?: boolean,
-        probabilityFilter?: number,
-        excludedKeys?: AssetKey[]
+        probabilityFilter?: number
     ) {
         if (additionChoices) {
             const fittingAssetParts = additionChoices.filter((addition) =>
                 this.assetFitsToTavern(
                     tavernFits,
                     addition,
-                    isExcludedByPrefix,
+                    isExcluded,
                     applyPowerFit,
-                    probabilityFilter,
-                    excludedKeys
+                    probabilityFilter
                 )
             );
             return getRandomArrayEntry(fittingAssetParts);
@@ -102,10 +100,9 @@ export class Idea {
     private assetFitsToTavern(
         tavernFits: StructuredTavernFits,
         asset: DescriptionAsset,
-        isExcludedByPrefix?: (name: string) => boolean,
+        isExcluded?: (name: string, key?: AssetKey) => boolean,
         applyPowerFit?: boolean,
-        probabilityFilter?: number,
-        excludedKeys?: AssetKey[]
+        probabilityFilter?: number
     ) {
         const filteredByProbability =
             asset.probability &&
@@ -114,8 +111,8 @@ export class Idea {
         if (filteredByProbability) {
             return false;
         }
-        const assetIsRedundant = isExcludedByPrefix
-            ? isExcludedByPrefix(asset.name)
+        const assetIsRedundant = isExcluded
+            ? isExcluded(asset.name, asset.key)
             : false;
         if (assetIsRedundant) {
             return false;
@@ -124,7 +121,6 @@ export class Idea {
         const tavernFitsArray = Object.values(tavernFits).filter(
             (entry) => entry
         ) as association[];
-        //TODO: Do I really want to be so generous if tavern fits are empty?
         if (
             tavernFitsArray.length === 0 &&
             !asset.worksForBrothel &&
@@ -164,8 +160,6 @@ export class Idea {
             tavernFits,
             asset.strongNeedsOne
         );
-        const keyNotExcluded =
-            !excludedKeys || !asset.key || !excludedKeys.includes(asset.key);
         const powerFitFulfilled = tavernFits.powerFit
             ? !applyPowerFit ||
               this.powerFitCheck(
@@ -210,8 +204,7 @@ export class Idea {
             specialIsFitting &&
             noMisfitsInTavern &&
             strongNeedsOneFulfilled &&
-            powerFitFulfilled &&
-            keyNotExcluded;
+            powerFitFulfilled;
         switch (tavernFits.special) {
             case association.prostitute:
                 return asset.worksForBrothel || asset.worksForAllCriminals
@@ -299,56 +292,68 @@ export class Idea {
 
     public fitsToTavern(
         tavernFits: StructuredTavernFits,
-        isExcludedByPrefix?: (name: string) => boolean,
+        isExcluded?: (
+            name: string,
+            keyData?: { describes: 'main' | 'addition'; key: AssetKey }
+        ) => boolean,
         mainFilter?: number,
         additionFilter?: number
     ) {
+        const getAssetExcluder = (describes: 'main' | 'addition') =>
+            !isExcluded
+                ? () => false
+                : (name: string, key?: AssetKey) => {
+                      const keyData = key ? { describes, key } : undefined;
+                      return isExcluded(name, keyData);
+                  };
         const mainFitsToTavern = this.assetFitsToTavern(
             tavernFits,
             this.main,
-            isExcludedByPrefix,
+            getAssetExcluder('main'),
             this.powerFitConcept ? this.powerFitConcept.main : undefined,
             mainFilter
         );
         if (!mainFitsToTavern) {
             return false;
-        }
-        if (!this.additions && !this.contrastAdditions && mainFitsToTavern) {
-            return true;
-        }
-        const someHarmonySubstantiveFits = this.additions
-            ? this.additions.every((additionCollection) =>
-                  additionCollection.some((addition) =>
-                      this.assetFitsToTavern(
-                          tavernFits,
-                          addition,
-                          undefined,
-                          this.powerFitConcept
-                              ? this.powerFitConcept.harmony
-                              : undefined,
-                          additionFilter
+        } else {
+            if (!this.additions && !this.contrastAdditions) {
+                return true;
+            } else {
+                const someHarmonySubstantiveFits = this.additions
+                    ? this.additions.every((additionCollection) =>
+                          additionCollection.some((addition) =>
+                              this.assetFitsToTavern(
+                                  tavernFits,
+                                  addition,
+                                  getAssetExcluder('addition'),
+                                  this.powerFitConcept
+                                      ? this.powerFitConcept.harmony
+                                      : undefined,
+                                  additionFilter
+                              )
+                          )
                       )
-                  )
-              )
-            : false;
-        if (someHarmonySubstantiveFits) {
-            return true;
-        }
-        const someConstrastSubstantiveFits = this.contrastAdditions
-            ? this.contrastAdditions.every((additionCollection) =>
-                  additionCollection.some((addition) =>
-                      this.assetFitsToTavern(
-                          tavernFits,
-                          addition,
-                          undefined,
-                          this.powerFitConcept
-                              ? this.powerFitConcept.contrast
-                              : undefined,
-                          additionFilter
+                    : false;
+                if (someHarmonySubstantiveFits) {
+                    return true;
+                }
+                const someConstrastSubstantiveFits = this.contrastAdditions
+                    ? this.contrastAdditions.every((additionCollection) =>
+                          additionCollection.some((addition) =>
+                              this.assetFitsToTavern(
+                                  tavernFits,
+                                  addition,
+                                  getAssetExcluder('addition'),
+                                  this.powerFitConcept
+                                      ? this.powerFitConcept.contrast
+                                      : undefined,
+                                  additionFilter
+                              )
+                          )
                       )
-                  )
-              )
-            : false;
-        return someConstrastSubstantiveFits;
+                    : false;
+                return someConstrastSubstantiveFits;
+            }
+        }
     }
 }

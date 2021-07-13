@@ -1,10 +1,9 @@
 import { association } from '../../../classes/association';
+import { AssetKey } from '../../../classes/idea/AssetKey/AssetKey';
 import { AssetStressMode } from '../../../classes/idea/assetStressMode';
 import { emptyDescriptionAsset } from '../../../classes/idea/DescriptionAsset';
-import {
-    ImpressionIdea,
-    Noticable,
-} from '../../../classes/idea/ImpressionIdea';
+import { ImpressionIdea } from '../../../classes/idea/ImpressionIdea';
+import { Noticable } from '../../../classes/idea/Noticable';
 
 const a = association;
 export const specialIndividuals: ImpressionIdea[] = [
@@ -19,7 +18,11 @@ export const specialIndividuals: ImpressionIdea[] = [
         Noticable.someCustomers
     ),
     new ImpressionIdea(
-        { name: 'A guest seems to recognize YOU!', worksForAllCriminals: true },
+        {
+            name: 'A guest seems to recognize YOU!',
+            worksForAllCriminals: true,
+            key: AssetKey.plotTwist,
+        },
         [emptyDescriptionAsset],
         Noticable.someCustomers,
         undefined,
@@ -30,6 +33,7 @@ export const specialIndividuals: ImpressionIdea[] = [
         {
             name: 'A guest is pointing towards your table!',
             worksForAllCriminals: true,
+            key: AssetKey.plotTwist,
         },
         [emptyDescriptionAsset],
         Noticable.someCustomers,
@@ -40,7 +44,7 @@ export const specialIndividuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             name: 'An old man is story-telling',
-            classRange: [a.adventurer, a.bard, a.wizard, a.druid],
+            needsOne: [a.adventurer, a.bard, a.wizard, a.druid],
             worksForAllCriminals: true,
             powerFits: [a.adventurer, a.bard, a.wizard, a.druid],
         },
@@ -48,7 +52,11 @@ export const specialIndividuals: ImpressionIdea[] = [
         Noticable.someCustomers
     ),
     new ImpressionIdea(
-        { name: 'Three bounty hunters are searching', worksForBrothel: true },
+        {
+            name: 'Three bounty hunters are searching',
+            worksForBrothel: true,
+            key: AssetKey.plotTwist,
+        },
         [emptyDescriptionAsset],
         Noticable.someCustomers,
         undefined,
@@ -59,6 +67,7 @@ export const specialIndividuals: ImpressionIdea[] = [
         {
             name: 'Some guests notice you and suddenly look nervous',
             worksForAllCriminals: true,
+            key: AssetKey.plotTwist,
         },
         [emptyDescriptionAsset],
         Noticable.someCustomers,
@@ -67,7 +76,7 @@ export const specialIndividuals: ImpressionIdea[] = [
         AssetStressMode.nothing
     ),
     new ImpressionIdea(
-        { name: 'Police monitors guests' },
+        { name: 'Police monitors guests', key: AssetKey.plotTwist },
         [emptyDescriptionAsset],
         Noticable.someCustomers,
         undefined,
@@ -116,17 +125,17 @@ export const specialIndividuals: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            name: 'A old man is crying at the bar',
-            needsOne: [a.poor, a.village],
+            name: 'An old man is crying at the bar',
+            needsOne: [a.modest, a.village],
             worksForAssasines: true,
-            powerFits: [a.village, a.poor],
+            powerFits: [a.village, a.modest],
         },
         [emptyDescriptionAsset],
         Noticable.someCustomers
     ),
     new ImpressionIdea(
         {
-            name: 'A young lady is crying at a table',
+            name: 'A young lady is crying at her table',
             misfits: [a.rich, a.wealthy],
             worksForBrothel: true,
             powerFits: [a.village, a.poor],
