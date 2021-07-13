@@ -6,6 +6,9 @@ export const getKeyBound = (key: AssetKey) => {
     if (key === AssetKey.plotTwist) {
         return 1;
     }
+    if (key === AssetKey.waiter) {
+        return 1;
+    }
     console.log('key is missing');
     return 3;
 };
