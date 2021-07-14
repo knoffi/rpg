@@ -2,13 +2,15 @@ import { AssetKey } from '../../../classes/idea/AssetKey/AssetKey';
 import { Noticable } from '../../../classes/idea/Noticable';
 import { StructuredTavernFits } from '../../../classes/idea/StructuredTavernFits';
 import { getRandomArrayEntry } from '../../../helpingFunctions/getFittingRandom';
+import { WeServe } from '../../menuScene/addRandomDrink';
 import { averageCustomers } from './averageCustomer';
 import { bartenders } from './bartender';
 import { emptyImpression } from './emptyImpression';
 import { furnitures } from './furniture';
 import { individuals } from './genericIndividuals';
+import { getPrefixExcluder } from './getPrefixExcluder';
 import { IImpression } from './IImpression';
-import { getImpressionExcluder } from './impressionExcluder/getImpressionExcluder';
+import { getKeyExcluder } from './impressionExcluder/getImpressionExcluder';
 import { druidIndividuals } from './individuals/druidIndividuals';
 import { wizardIndividuals } from './individuals/wizardIndividuals';
 import { specialIndividuals } from './specialIndividuals';
@@ -50,11 +52,9 @@ export const getRandomImpression = (
     fullFirstKeys: AssetKey[],
     fullSecondKeys: AssetKey[]
 ): IImpression => {
-    const isExcluded = getImpressionExcluder(
-        oldNames,
-        fullFirstKeys,
-        fullSecondKeys
-    );
+    const isExcludedByName = getPrefixExcluder(oldNames, WeServe.impressions);
+    const mainIsExcludedByKey = getKeyExcluder(fullFirstKeys);
+    const additionIsExcludedByKey = getKeyExcluder(fullSecondKeys);
     const impressionChapter = impressionChapters.find(
         (chapter) => chapter.category === category
     );
@@ -66,9 +66,11 @@ export const getRandomImpression = (
             (impression) =>
                 impression.fitsToTavern(
                     fitting,
-                    isExcluded,
+                    isExcludedByName,
                     undefined,
-                    undefined
+                    undefined,
+                    mainIsExcludedByKey,
+                    additionIsExcludedByKey
                 )
         );
         if (fittingImpressions.length === 0) {

@@ -1,14 +1,13 @@
 import { getRandomArrayEntry } from '../../helpingFunctions/getFittingRandom';
-import {
-    association,
-    isClassAssociation,
-    isIncomeAssociation,
-    isLandAssociation,
-    isRaceAssociation,
-    isSpecialAssociation,
-} from '../association';
 import { AssetKey } from './AssetKey/AssetKey';
 import { DescriptionAsset } from './DescriptionAsset';
+import { FitLevel } from './fitCalculator/FitLevel';
+import {
+    getMaxFitLevel,
+    getMinFitLevel,
+} from './fitCalculator/fitLevelComparing';
+import { getFitLevel } from './fitCalculator/getFitLevel';
+import { sufficesFitLevel } from './fitCalculator/sufficesFitLevel';
 import { StructuredTavernFits } from './StructuredTavernFits';
 
 export class Idea {
@@ -59,7 +58,8 @@ export class Idea {
         const countsOfFittingAdditions = additions.map(
             (additionCollection) =>
                 additionCollection.filter((addition) =>
-                    this.assetFitsToTavern(
+                    sufficesFitLevel(
+                        FitLevel.high,
                         tavernFits,
                         addition,
                         isExcludedByPrefix,
@@ -77,18 +77,22 @@ export class Idea {
     protected getFittingAssetPart(
         tavernFits: StructuredTavernFits,
         additionChoices?: DescriptionAsset[],
-        isExcluded?: (name: string, key?: AssetKey) => boolean,
+        isExcludedyName?: (name: string) => boolean,
         applyPowerFit?: boolean,
-        probabilityFilter?: number
+        probabilityFilter?: number,
+        isExcludedByKey?: (key: AssetKey) => boolean,
+        minimumFitLevel = FitLevel.high
     ) {
         if (additionChoices) {
             const fittingAssetParts = additionChoices.filter((addition) =>
-                this.assetFitsToTavern(
+                sufficesFitLevel(
+                    minimumFitLevel,
                     tavernFits,
                     addition,
-                    isExcluded,
+                    isExcludedyName,
                     applyPowerFit,
-                    probabilityFilter
+                    probabilityFilter,
+                    isExcludedByKey
                 )
             );
             return getRandomArrayEntry(fittingAssetParts);
@@ -97,221 +101,23 @@ export class Idea {
         }
     }
 
-    private assetFitsToTavern(
-        tavernFits: StructuredTavernFits,
-        asset: DescriptionAsset,
-        isExcluded?: (name: string, key?: AssetKey) => boolean,
-        applyPowerFit?: boolean,
-        probabilityFilter?: number
-    ) {
-        const filteredByProbability =
-            asset.probability &&
-            probabilityFilter &&
-            probabilityFilter > asset.probability;
-        if (filteredByProbability) {
-            return false;
-        }
-        const assetIsRedundant = isExcluded
-            ? isExcluded(asset.name, asset.key)
-            : false;
-        if (assetIsRedundant) {
-            return false;
-        }
-
-        const tavernFitsArray = Object.values(tavernFits).filter(
-            (entry) => entry
-        ) as association[];
-        if (
-            tavernFitsArray.length === 0 &&
-            !asset.worksForBrothel &&
-            !asset.worksForThiefs &&
-            !asset.worksForAssasines
-        ) {
-            return true;
-        }
-        const necessarities = asset.needs || [];
-        const misfits = asset.misfits || [];
-        const ownedPowerFits = asset.powerFits || [];
-        //TODO: test if this still works, changed in first issue of #54
-        const needsOne = asset.needsOne || [];
-        const necessaritiesFulfilled = necessarities.every((necessaryFit) =>
-            tavernFitsArray.includes(necessaryFit)
-        );
-        const noMisfitsInTavern = misfits.every(
-            (misfit) => !tavernFitsArray.includes(misfit)
-        );
-        const needsOneFulfilled =
-            needsOne.length === 0
-                ? true
-                : needsOne.some((replacableNecessarity) =>
-                      tavernFitsArray.includes(replacableNecessarity)
-                  );
-
-        const assetContainsTavernFits = asset.fitsTo
-            ? tavernFitsArray.every(
-                  (fit) =>
-                      fit === association.empty ||
-                      necessarities.includes(fit) ||
-                      asset.fitsTo!.includes(fit)
-              )
-            : true;
-        const strongNeedsOneFulfilled = this.strongNeedsOneCheck(
-            tavernFitsArray,
-            tavernFits,
-            asset.strongNeedsOne
-        );
-        const powerFitFulfilled = tavernFits.powerFit
-            ? !applyPowerFit ||
-              this.powerFitCheck(
-                  tavernFits.powerFit,
-                  necessarities,
-                  needsOne,
-                  ownedPowerFits,
-                  asset.worksForAssasines,
-                  asset.worksForThiefs,
-                  asset.worksForBrothel,
-                  asset.worksForAllCriminals
-              )
-            : true;
-        const incomeIsFitting =
-            !tavernFits.income ||
-            !asset.incomeRange ||
-            asset.incomeRange.includes(tavernFits.income);
-        const landIsFitting =
-            !tavernFits.land ||
-            !asset.landRange ||
-            asset.landRange.includes(tavernFits.land);
-        const classIsFitting =
-            !tavernFits.class ||
-            !asset.classRange ||
-            asset.classRange.includes(tavernFits.class);
-        const raceIsFitting =
-            !tavernFits.race ||
-            !asset.raceRange ||
-            asset.raceRange.includes(tavernFits.race);
-        const specialIsFitting =
-            !tavernFits.special ||
-            !asset.specialsRange ||
-            asset.specialsRange.includes(tavernFits.special);
-        const nonSpecialCondition =
-            assetContainsTavernFits &&
-            necessaritiesFulfilled &&
-            needsOneFulfilled &&
-            incomeIsFitting &&
-            landIsFitting &&
-            classIsFitting &&
-            raceIsFitting &&
-            specialIsFitting &&
-            noMisfitsInTavern &&
-            strongNeedsOneFulfilled &&
-            powerFitFulfilled;
-        switch (tavernFits.special) {
-            case association.prostitute:
-                return asset.worksForBrothel || asset.worksForAllCriminals
-                    ? nonSpecialCondition
-                    : false;
-            case association.thief:
-                return asset.worksForThiefs || asset.worksForAllCriminals
-                    ? nonSpecialCondition
-                    : false;
-            case association.assasine:
-                return asset.worksForAssasines || asset.worksForAllCriminals
-                    ? nonSpecialCondition
-                    : false;
-
-            default:
-                return nonSpecialCondition;
-        }
-    }
-    private strongNeedsOneCheck(
-        tavernFits: association[],
-        structuredFits: StructuredTavernFits,
-        strongNeedsOne?: association[]
-    ) {
-        if (!strongNeedsOne) {
-            return true;
-        }
-        const needsOneCondition = strongNeedsOne.some((need) =>
-            tavernFits.includes(need)
-        );
-        const impliedRangeCondition = strongNeedsOne.every((need) => {
-            if (isRaceAssociation(need) && structuredFits.race) {
-                return structuredFits.race === need;
-            }
-            if (isClassAssociation(need) && structuredFits.class) {
-                return structuredFits.class === need;
-            }
-            if (isIncomeAssociation(need) && structuredFits.income) {
-                return structuredFits.income === need;
-            }
-            if (isLandAssociation(need) && structuredFits.land) {
-                return structuredFits.land === need;
-            }
-            if (isSpecialAssociation(need) && structuredFits.special) {
-                return structuredFits.special === need;
-            }
-            return true;
-        });
-        return needsOneCondition && impliedRangeCondition;
-    }
-
-    private powerFitCheck(
-        powerFit: association,
-        needs: association[],
-        needsOne: association[],
-        ownedPowerFits?: association[],
-        worksForAssasines?: boolean,
-        worksForThiefs?: boolean,
-        worksForBrothel?: boolean,
-        worksForAllCriminals?: boolean
-    ) {
-        if (
-            powerFit === association.thief &&
-            (worksForAllCriminals || worksForThiefs)
-        ) {
-            return true;
-        }
-        if (
-            powerFit === association.assasine &&
-            (worksForAllCriminals || worksForAssasines)
-        ) {
-            return true;
-        }
-        if (
-            powerFit === association.prostitute &&
-            (worksForAllCriminals || worksForBrothel)
-        ) {
-            return true;
-        }
-        return (
-            (ownedPowerFits || []).includes(powerFit) ||
-            needs.includes(powerFit) ||
-            needsOne.includes(powerFit)
-        );
-    }
-
     public fitsToTavern(
         tavernFits: StructuredTavernFits,
-        isExcluded?: (
-            name: string,
-            keyData?: { describes: 'main' | 'addition'; key: AssetKey }
-        ) => boolean,
+        isExcludedByName: (name: string) => boolean,
         mainFilter?: number,
-        additionFilter?: number
+        additionFilter?: number,
+        mainIsExcludedByKey?: (key: AssetKey) => boolean,
+        additionIsExcludedByKey?: (key: AssetKey) => boolean,
+        minimumFitLevel = FitLevel.high
     ) {
-        const getAssetExcluder = (describes: 'main' | 'addition') =>
-            !isExcluded
-                ? () => false
-                : (name: string, key?: AssetKey) => {
-                      const keyData = key ? { describes, key } : undefined;
-                      return isExcluded(name, keyData);
-                  };
-        const mainFitsToTavern = this.assetFitsToTavern(
+        const mainFitsToTavern = sufficesFitLevel(
+            minimumFitLevel,
             tavernFits,
             this.main,
-            getAssetExcluder('main'),
+            isExcludedByName,
             this.powerFitConcept ? this.powerFitConcept.main : undefined,
-            mainFilter
+            mainFilter,
+            mainIsExcludedByKey
         );
         if (!mainFitsToTavern) {
             return false;
@@ -322,14 +128,16 @@ export class Idea {
                 const someHarmonySubstantiveFits = this.additions
                     ? this.additions.every((additionCollection) =>
                           additionCollection.some((addition) =>
-                              this.assetFitsToTavern(
+                              sufficesFitLevel(
+                                  minimumFitLevel,
                                   tavernFits,
                                   addition,
-                                  getAssetExcluder('addition'),
+                                  isExcludedByName,
                                   this.powerFitConcept
                                       ? this.powerFitConcept.harmony
                                       : undefined,
-                                  additionFilter
+                                  additionFilter,
+                                  additionIsExcludedByKey
                               )
                           )
                       )
@@ -340,14 +148,16 @@ export class Idea {
                 const someConstrastSubstantiveFits = this.contrastAdditions
                     ? this.contrastAdditions.every((additionCollection) =>
                           additionCollection.some((addition) =>
-                              this.assetFitsToTavern(
+                              sufficesFitLevel(
+                                  minimumFitLevel,
                                   tavernFits,
                                   addition,
-                                  getAssetExcluder('addition'),
+                                  isExcludedByName,
                                   this.powerFitConcept
                                       ? this.powerFitConcept.contrast
                                       : undefined,
-                                  additionFilter
+                                  additionFilter,
+                                  additionIsExcludedByKey
                               )
                           )
                       )
@@ -355,5 +165,102 @@ export class Idea {
                 return someConstrastSubstantiveFits;
             }
         }
+    }
+    public getFitLevelForTavern(
+        tavernFits: StructuredTavernFits,
+        isExcludedByName: (name: string) => boolean,
+        mainFilter?: number,
+        additionFilter?: number,
+        mainIsExcludedByKey?: (key: AssetKey) => boolean,
+        additionIsExcludedByKey?: (key: AssetKey) => boolean
+    ) {
+        const mainFitLevel = getFitLevel(
+            tavernFits,
+            this.main,
+            isExcludedByName,
+            this.powerFitConcept ? this.powerFitConcept.main : undefined,
+            mainFilter,
+            mainIsExcludedByKey
+        );
+        if (mainFitLevel === FitLevel.bad) {
+            return FitLevel.bad;
+        } else {
+            if (!this.additions && !this.contrastAdditions) {
+                return mainFitLevel;
+            } else {
+                const lowestHarmonyRowMax = this.additions
+                    ? this.additions.reduce((lowestRowMax, additionRow) => {
+                          const rowMaxFitLevel = this.getBestFitFromAdditions(
+                              tavernFits,
+                              additionRow,
+                              isExcludedByName,
+                              'harmony',
+                              additionFilter,
+                              additionIsExcludedByKey
+                          );
+                          return getMinFitLevel(lowestRowMax, rowMaxFitLevel);
+                      }, FitLevel.high)
+                    : FitLevel.bad;
+                if (
+                    getMinFitLevel(mainFitLevel, lowestHarmonyRowMax) ===
+                    mainFilter
+                ) {
+                    return mainFitLevel;
+                } else {
+                    const lowestContrastRowMax = this.contrastAdditions
+                        ? this.contrastAdditions.reduce(
+                              (lowestRowMax, additionRow) => {
+                                  const rowMaxFitLevel =
+                                      this.getBestFitFromAdditions(
+                                          tavernFits,
+                                          additionRow,
+                                          isExcludedByName,
+                                          'contrast',
+                                          additionFilter,
+                                          additionIsExcludedByKey
+                                      );
+                                  return getMinFitLevel(
+                                      lowestRowMax,
+                                      rowMaxFitLevel
+                                  );
+                              },
+                              FitLevel.high
+                          )
+                        : FitLevel.bad;
+                    if (
+                        getMinFitLevel(mainFitLevel, lowestContrastRowMax) ===
+                        mainFilter
+                    ) {
+                        return mainFitLevel;
+                    } else {
+                        //here, mainFitLevel must be higher than both rowMax-values
+                        return getMaxFitLevel(
+                            lowestContrastRowMax,
+                            lowestHarmonyRowMax
+                        );
+                    }
+                }
+            }
+        }
+    }
+    private getBestFitFromAdditions(
+        tavernFits: StructuredTavernFits,
+        additions: DescriptionAsset[],
+        isExcludedByName: (name: string) => boolean,
+        isFor: 'harmony' | 'contrast',
+        additionFilter?: number,
+        isExcludedByKey?: (key: AssetKey) => boolean
+    ) {
+        return additions.reduce((fitLevel, addition) => {
+            const additionFitLevel = getFitLevel(
+                tavernFits,
+                addition,
+                isExcludedByName,
+                this.powerFitConcept ? this.powerFitConcept.harmony : undefined,
+                additionFilter,
+                isExcludedByKey
+            );
+            return getMaxFitLevel(fitLevel, additionFitLevel);
+        }, FitLevel.bad);
     }
 }

@@ -1,4 +1,8 @@
-import { association } from '../classes/association';
+import {
+    association,
+    AssociationTypes,
+    getAssociationsOfType,
+} from '../classes/association';
 import { NameIdea } from '../classes/idea/NameIdea';
 import { Noticable } from '../classes/idea/Noticable';
 import {
@@ -8,7 +12,6 @@ import {
 import { Drinkable, Eatable, MenuCategory } from '../classes/TavernProduct';
 import { getProductsLeftAndBannerData } from '../editNavigator/editNavigatorFunctions';
 import { getRandomArrayEntry } from '../helpingFunctions/getFittingRandom';
-import { stricterMisfitMode } from '../helpingFunctions/misfitModes';
 import {
     getNewRandomDrinkOffer,
     WeServe,
@@ -54,14 +57,13 @@ export const getRandomStartTavern = () => {
 };
 
 const getRandomFits = () => {
-    const associationGroups = stricterMisfitMode.associationGroups;
-    const fitsWithEmptyFits = Object.values(associationGroups).map((group) => {
+    const fitsWithEmptyFits = Object.values(AssociationTypes).map((type) => {
         const chanceToAddFit =
-            group === stricterMisfitMode.associationGroups.special
+            type === AssociationTypes.special
                 ? CHANCE_FOR_SPECIAL_FIT
                 : CHANCE_FOR_ORDINARY_FIT;
         return Math.random() < chanceToAddFit
-            ? getRandomArrayEntry(group)
+            ? getRandomArrayEntry(getAssociationsOfType(type))
             : association.empty;
     });
     return fitsWithEmptyFits.filter((fit) => fit !== association.empty);
@@ -92,12 +94,8 @@ const getRandomIdeas = (fits: StructuredTavernFits, isAbout: WeServe) => {
 };
 const getRandomName = (fits: StructuredTavernFits) => {
     const randomNumber = Math.random();
-    const nonEmptyCategories = Object.values(fits).filter(
-        (fit) => fit && (fit as string) !== association.empty
-    );
-
     const possibleNames = nameIdeas.filter((nameIdea) =>
-        nameIdea.fitsToTavern(fits, undefined, randomNumber)
+        nameIdea.fitsToTavern(fits, (name: string) => true, randomNumber)
     );
     const newNameIdea = getRandomArrayEntry(possibleNames) as NameIdea;
     if (!newNameIdea) {
