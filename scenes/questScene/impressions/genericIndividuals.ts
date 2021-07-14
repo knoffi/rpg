@@ -15,6 +15,7 @@ import {
     machoClass,
     servantActions,
     spying,
+    teenagerClass,
 } from './actions/genericActions';
 
 const a = association;
@@ -558,7 +559,7 @@ export const individuals: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            name: 'A boy is ',
+            name: 'A child of the tavern owner',
             incomeRange: [a.poor, a.modest],
             powerFits: [a.village],
         },
@@ -567,11 +568,22 @@ export const individuals: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            name: 'A girl is ',
+            name: 'A young man is ',
             incomeRange: [a.poor, a.modest],
             powerFits: [a.village],
+            worksForBrothel: true,
         },
-        childrenClass,
+        teenagerClass,
+        Noticable.someCustomers
+    ),
+    new ImpressionIdea(
+        {
+            name: 'A young girl is ',
+            incomeRange: [a.poor, a.modest],
+            powerFits: [a.village],
+            worksForBrothel: true,
+        },
+        teenagerClass,
         Noticable.someCustomers
     ),
     //TODO: wench and harlot should not hire a prostitute, they should behave like prostitutes
@@ -585,7 +597,7 @@ export const individuals: ImpressionIdea[] = [
             worksForAssasines: true,
             powerFits: [a.haven, a.thief, a.bard],
         },
-        [...lively, ...general],
+        [...lively, ...general, ...servantActions],
         Noticable.someCustomers
     ),
     new ImpressionIdea(
@@ -616,6 +628,7 @@ export const individuals: ImpressionIdea[] = [
         {
             name: 'A pretty waitress is ',
             worksForAllCriminals: true,
+            key: AssetKey.servant,
         },
         servantActions,
         Noticable.someCustomers,
@@ -627,6 +640,7 @@ export const individuals: ImpressionIdea[] = [
         {
             name: 'A pregnant waitress is ',
             worksForAllCriminals: true,
+            key: AssetKey.servant,
         },
         servantActions,
         Noticable.someCustomers,
@@ -638,6 +652,7 @@ export const individuals: ImpressionIdea[] = [
         {
             name: 'A handsome waiter is ',
             worksForAllCriminals: true,
+            key: AssetKey.servant,
         },
         servantActions,
         Noticable.someCustomers,

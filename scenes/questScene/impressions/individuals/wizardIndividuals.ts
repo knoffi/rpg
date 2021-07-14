@@ -1,4 +1,6 @@
 import { association } from '../../../../classes/association';
+import { AssetKey } from '../../../../classes/idea/AssetKey/AssetKey';
+import { emptyDescriptionAsset } from '../../../../classes/idea/DescriptionAsset';
 import { ImpressionIdea } from '../../../../classes/idea/ImpressionIdea';
 import { Noticable } from '../../../../classes/idea/Noticable';
 import { historyQuests, magicalQuests } from '../actions/hiringActions';
@@ -12,6 +14,17 @@ import {
 const a = association;
 
 export const wizardIndividuals: ImpressionIdea[] = [
+    new ImpressionIdea(
+        {
+            name: 'A golem in a suit works as a waiter',
+            needsOne: [a.wizard, a.rich],
+            worksForAllCriminals: true,
+            powerFits: [a.wizard, a.rich],
+            key: AssetKey.servant,
+        },
+        [emptyDescriptionAsset],
+        Noticable.someCustomers
+    ),
     new ImpressionIdea(
         {
             name: 'A wealthy alchemist is ',

@@ -74,14 +74,4 @@ export const furnitures: ImpressionIdea[] = [
         [emptyDescriptionAsset],
         Noticable.furniture
     ),
-    new ImpressionIdea(
-        {
-            name: 'A golem in a suit works as a waiter',
-            needsOne: [a.wizard],
-            worksForAllCriminals: true,
-            powerFits: [a.wizard, a.rich],
-        },
-        [emptyDescriptionAsset],
-        Noticable.furniture
-    ),
 ];
