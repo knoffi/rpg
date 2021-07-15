@@ -8,8 +8,9 @@ export const partyHermit: DescriptionAsset[] = [
     { name: 'nursing a young bird', misfits: [a.underdark] },
     { name: 'selling herbs and medicine' },
     { name: 'selling dried mushrooms' },
+    { name: 'selling love potions which work for 48 hours' },
     { name: 'smoking dried herbs' },
-    { name: 'mumbling about a hidden treasure' },
+    { name: 'mumbling about a hidden dungeon' },
     { name: 'seeking help' },
     { name: 'giving you an ancient map' },
     { name: 'dancing with some animals' },
@@ -20,6 +21,7 @@ export const nymphClass: DescriptionAsset[] = [
     { name: 'asking you for a dance' },
     { name: 'searching for heroes to stop the local poachers' },
     { name: 'playing the harp' },
+    { name: 'dancing exotically to the flute play' },
     { name: 'cuddling with a rabbit', landRange: [a.forest] },
 ];
 export const druidGuests: DescriptionAsset[] = [

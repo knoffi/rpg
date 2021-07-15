@@ -1,14 +1,20 @@
-import { Noticable } from '../../../classes/idea/ImpressionIdea';
+import { AssetKey } from '../../../classes/idea/AssetKey/AssetKey';
+import { getBestIdeas } from '../../../classes/idea/fitCalculator/getBestIdeas';
+import { getSortedByFitLevel } from '../../../classes/idea/fitCalculator/getSortedByFitLevel';
+import { Noticable } from '../../../classes/idea/Noticable';
 import { StructuredTavernFits } from '../../../classes/idea/StructuredTavernFits';
+import { WeServe } from '../../../editNavigator/WeServe';
 import { getRandomArrayEntry } from '../../../helpingFunctions/getFittingRandom';
-import { WeServe } from '../../menuScene/addRandomDrink';
 import { averageCustomers } from './averageCustomer';
 import { bartenders } from './bartender';
-import { druidIndividuals } from './druidIndividuals';
+import { emptyImpression } from './emptyImpression';
 import { furnitures } from './furniture';
 import { individuals } from './genericIndividuals';
 import { getPrefixExcluder } from './getPrefixExcluder';
 import { IImpression } from './IImpression';
+import { getKeyExcluder } from './impressionExcluder/getImpressionExcluder';
+import { druidIndividuals } from './individuals/druidIndividuals';
+import { wizardIndividuals } from './individuals/wizardIndividuals';
 import { specialIndividuals } from './specialIndividuals';
 import { stuffedAnimals } from './stuffedAnimals';
 import { trapsIntriguingShockingFurniture } from './trapsSecretIntriguingFurnite';
@@ -22,58 +28,88 @@ const impressionChapters = [
         ],
         category: Noticable.furniture,
     },
-    { impressions: averageCustomers, category: Noticable.averageCustomer },
+    {
+        impressions: averageCustomers,
+        category: Noticable.averageCustomer,
+    },
     {
         impressions: [
             ...individuals,
             ...specialIndividuals,
             ...druidIndividuals,
+            ...wizardIndividuals,
         ],
         category: Noticable.someCustomers,
     },
-    { impressions: bartenders, category: Noticable.bartender },
+    {
+        impressions: bartenders,
+        category: Noticable.bartender,
+    },
 ];
 
-export const emptyImpression: IImpression = {
-    name: 'No description of that category left! May the DM have mercy on us all!',
-    category: Noticable.bartender,
-};
 export const getRandomImpression = (
     fitting: StructuredTavernFits,
     category: Noticable,
-    oldNames: string[]
+    oldNames: string[],
+    fullFirstKeys: AssetKey[],
+    fullSecondKeys: AssetKey[],
+    mainFilter?: number,
+    additionFilter?: number
 ): IImpression => {
-    const isExcludedByPrefix = getPrefixExcluder(oldNames, WeServe.impressions);
-    const impressionChapter = impressionChapters.find(
+    const isExcludedByName = getPrefixExcluder(oldNames, WeServe.impressions);
+    const mainIsExcludedByKey = getKeyExcluder(fullFirstKeys);
+    const additionIsExcludedByKey = getKeyExcluder(fullSecondKeys);
+    const chapter = impressionChapters.find(
         (chapter) => chapter.category === category
     );
-    if (!impressionChapter) {
+    if (!chapter) {
         console.log('Impression category not found!');
         return emptyImpression;
+    } else {
+        const impressions = getSortedByFitLevel(
+            chapter.impressions,
+            fitting,
+            isExcludedByName,
+            mainIsExcludedByKey,
+            additionIsExcludedByKey,
+            mainFilter,
+            additionFilter
+        );
+        const bestImpressions = getBestIdeas(impressions);
+        if (!bestImpressions) {
+            return emptyImpression;
+        } else {
+            const newIdea = getRandomArrayEntry(bestImpressions.ideas);
+            const newImpression =
+                newIdea.createImpression(
+                    fitting,
+                    //additions for impression do not get filtered by name because it seems more realistic
+                    () => false,
+                    additionIsExcludedByKey,
+                    bestImpressions.level,
+                    additionFilter
+                ) || emptyImpression;
+            return newImpression;
+        }
     }
-    const fittingImpressions = impressionChapter!.impressions.filter(
-        (impression) => impression.fitsToTavern(fitting, isExcludedByPrefix)
-    );
-    if (fittingImpressions.length === 0) {
-        return emptyImpression;
-    }
-    const newDescriptionText = getRandomArrayEntry(
-        fittingImpressions
-    ).createImpression(fitting, () => false);
-    return {
-        name: newDescriptionText,
-        category: category,
-    } as IImpression;
 };
 
 export const getImpressionsWithOneReroll = (
     oldName: string,
     impressions: IImpression[],
     fitting: StructuredTavernFits,
-    category: Noticable
+    category: Noticable,
+    fullFirstKeys: AssetKey[],
+    fullSecondKeys: AssetKey[]
 ) => {
     const oldNames = impressions.map((impression) => impression.name);
-    const newImpression = getRandomImpression(fitting, category, oldNames);
+    const newImpression = getRandomImpression(
+        fitting,
+        category,
+        oldNames,
+        fullFirstKeys,
+        fullSecondKeys
+    );
     if (!newImpression || newImpression.name === emptyImpression.name) {
         return undefined;
     }

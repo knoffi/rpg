@@ -1,9 +1,8 @@
 import { association, sophisticatedGroup } from '../../../classes/association';
+import { AssetKey } from '../../../classes/idea/AssetKey/AssetKey';
 import { AssetStressMode } from '../../../classes/idea/assetStressMode';
-import {
-    ImpressionIdea,
-    Noticable,
-} from '../../../classes/idea/ImpressionIdea';
+import { ImpressionIdea } from '../../../classes/idea/ImpressionIdea';
+import { Noticable } from '../../../classes/idea/Noticable';
 import { partyHermit } from './actions/druidicalActions';
 import {
     busyScholarClass,
@@ -16,6 +15,7 @@ import {
     machoClass,
     servantActions,
     spying,
+    teenagerClass,
 } from './actions/genericActions';
 
 const a = association;
@@ -407,7 +407,7 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             incomeRange: [a.rich, a.wealthy],
-            name: 'The Viceroy is ',
+            name: 'The viceroy is ',
             landRange: [a.haven, a.city],
             worksForBrothel: true,
             powerFits: [a.rich, a.city],
@@ -559,7 +559,7 @@ export const individuals: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            name: 'A boy is ',
+            name: 'A child of the tavern owner',
             incomeRange: [a.poor, a.modest],
             powerFits: [a.village],
         },
@@ -568,11 +568,22 @@ export const individuals: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            name: 'A girl is ',
+            name: 'A young man is ',
             incomeRange: [a.poor, a.modest],
             powerFits: [a.village],
+            worksForBrothel: true,
         },
-        childrenClass,
+        teenagerClass,
+        Noticable.someCustomers
+    ),
+    new ImpressionIdea(
+        {
+            name: 'A young girl is ',
+            incomeRange: [a.poor, a.modest],
+            powerFits: [a.village],
+            worksForBrothel: true,
+        },
+        teenagerClass,
         Noticable.someCustomers
     ),
     //TODO: wench and harlot should not hire a prostitute, they should behave like prostitutes
@@ -586,7 +597,7 @@ export const individuals: ImpressionIdea[] = [
             worksForAssasines: true,
             powerFits: [a.haven, a.thief, a.bard],
         },
-        [...lively, ...general],
+        [...lively, ...general, ...servantActions],
         Noticable.someCustomers
     ),
     new ImpressionIdea(
@@ -617,6 +628,7 @@ export const individuals: ImpressionIdea[] = [
         {
             name: 'A pretty waitress is ',
             worksForAllCriminals: true,
+            key: AssetKey.servant,
         },
         servantActions,
         Noticable.someCustomers,
@@ -628,6 +640,7 @@ export const individuals: ImpressionIdea[] = [
         {
             name: 'A pregnant waitress is ',
             worksForAllCriminals: true,
+            key: AssetKey.servant,
         },
         servantActions,
         Noticable.someCustomers,
@@ -639,6 +652,7 @@ export const individuals: ImpressionIdea[] = [
         {
             name: 'A handsome waiter is ',
             worksForAllCriminals: true,
+            key: AssetKey.servant,
         },
         servantActions,
         Noticable.someCustomers,
@@ -653,82 +667,6 @@ export const individuals: ImpressionIdea[] = [
             name: 'A lumpy busker is ',
             worksForBrothel: true,
             powerFits: [a.poor, a.bard],
-        },
-        machoClass,
-        Noticable.someCustomers
-    ),
-    new ImpressionIdea(
-        {
-            classRange: [a.wizard, a.adventurer],
-            name: 'A wizard is ',
-            worksForBrothel: true,
-            worksForAssasines: true,
-            powerFits: [a.adventurer, a.wizard],
-        },
-        busyScholarClass,
-        Noticable.someCustomers
-    ),
-    new ImpressionIdea(
-        {
-            classRange: [a.wizard, a.adventurer],
-            name: 'A sorcerer is ',
-            worksForBrothel: true,
-            worksForAssasines: true,
-            powerFits: [a.adventurer, a.wizard],
-        },
-        busyScholarClass,
-        Noticable.someCustomers
-    ),
-    new ImpressionIdea(
-        {
-            classRange: [a.wizard, a.adventurer],
-            name: 'A warlock is ',
-            worksForBrothel: true,
-            worksForAssasines: true,
-            powerFits: [a.adventurer, a.wizard],
-        },
-        busyScholarClass,
-        Noticable.someCustomers
-    ),
-    new ImpressionIdea(
-        {
-            classRange: [a.wizard, a.adventurer],
-            name: 'An illusionist is ',
-            worksForBrothel: true,
-            worksForThiefs: true,
-            powerFits: [a.adventurer, a.wizard, a.gnome],
-        },
-        busyScholarClass,
-        Noticable.someCustomers
-    ),
-    new ImpressionIdea(
-        {
-            classRange: [a.wizard, a.cleric],
-            name: 'A scribe is ',
-            worksForBrothel: true,
-            incomeRange: [a.modest, a.wealthy],
-            powerFits: [a.wizard, a.cleric, a.wealthy],
-        },
-        busyScholarClass,
-        Noticable.someCustomers
-    ),
-    new ImpressionIdea(
-        {
-            classRange: [a.wizard, a.cleric],
-            name: 'A scholar is ',
-            worksForBrothel: true,
-            incomeRange: [a.modest, a.wealthy],
-            powerFits: [a.wizard, a.cleric],
-        },
-        busyScholarClass,
-        Noticable.someCustomers
-    ),
-    new ImpressionIdea(
-        {
-            classRange: [a.wizard, a.bard, a.adventurer],
-            name: 'An archaeologist is ',
-            worksForBrothel: true,
-            powerFits: [a.wizard, a.bard, a.adventurer],
         },
         machoClass,
         Noticable.someCustomers
@@ -997,6 +935,7 @@ export const individuals: ImpressionIdea[] = [
             name: 'A con artist is ',
             worksForBrothel: true,
             worksForThiefs: true,
+            key: AssetKey.plotTwist,
         },
         [...lively, ...spying],
         Noticable.someCustomers,
@@ -1010,6 +949,7 @@ export const individuals: ImpressionIdea[] = [
             worksForBrothel: true,
             worksForThiefs: true,
             worksForAssasines: true,
+            key: AssetKey.plotTwist,
         },
         spying,
         Noticable.someCustomers,
@@ -1023,6 +963,7 @@ export const individuals: ImpressionIdea[] = [
             worksForBrothel: true,
             worksForThiefs: true,
             worksForAssasines: true,
+            key: AssetKey.plotTwist,
         },
         spying,
         Noticable.someCustomers,
@@ -1032,10 +973,11 @@ export const individuals: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            name: 'A shapeshifter is ',
+            name: 'A Doppelgaenger is ',
             worksForBrothel: true,
             worksForThiefs: true,
             worksForAssasines: true,
+            key: AssetKey.plotTwist,
         },
         machoClass,
         Noticable.someCustomers,

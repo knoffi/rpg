@@ -1,18 +1,14 @@
-import { Noticable } from '../classes/idea/ImpressionIdea';
+import { Noticable } from '../classes/idea/Noticable';
 import { StructuredTavernFits } from '../classes/idea/StructuredTavernFits';
 import { Drinkable, Eatable, MenuCategory } from '../classes/TavernProduct';
 import { TavernData } from '../mainNavigator/TavernData';
-import {
-    getNewRandomDrinkOffer,
-    WeServe,
-} from '../scenes/menuScene/addRandomDrink';
+import { getNewRandomDrinkOffer } from '../scenes/menuScene/addRandomDrink';
 import { BannerData } from '../scenes/menuScene/menuBanner/MenuBanner';
 import { NothingLeftOffer, Offer } from '../scenes/menuScene/menuEnums';
+import { WeServe } from './WeServe';
+import { emptyImpression } from '../scenes/questScene/impressions/emptyImpression';
 import { IImpression } from '../scenes/questScene/impressions/IImpression';
-import {
-    emptyImpression,
-    getRandomImpression,
-} from '../scenes/questScene/impressions/impressionChapters';
+import { getRandomImpression } from '../scenes/questScene/impressions/impressionChapters';
 export const getNewBannerDataAndIdeasLeft = (
     newFitting: StructuredTavernFits,
     newIdeas: Offer[] | IImpression[],
@@ -104,9 +100,10 @@ const getFullOfferCategories = (
         const alreadyUsedNames = (newAssets as IImpression[]).map(
             (asset) => asset.name
         );
+
         return Object.values(Noticable).filter(
             (category) =>
-                getRandomImpression(fitting, category, alreadyUsedNames)
+                getRandomImpression(fitting, category, alreadyUsedNames, [], [])
                     .name === emptyImpression.name
         );
     }

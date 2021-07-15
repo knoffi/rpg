@@ -1,4 +1,8 @@
-import { association, sophisticatedGroup } from '../../../../classes/association';
+import {
+    association,
+    sophisticatedGroup,
+} from '../../../../classes/association';
+import { AssetKey } from '../../../../classes/idea/AssetKey/AssetKey';
 import { DescriptionAsset } from '../../../../classes/idea/DescriptionAsset';
 //tODO: test, if f.e. all food/drink options are working for brothel, thief, ... (i.e., if mapping worked correctly)
 export const a = association;
@@ -176,45 +180,73 @@ export const spying: DescriptionAsset[] = [
     {
         name: 'watching some guests',
         worksForAllCriminals: true,
+        powerFits: [a.poor],
     },
     {
         name: 'watching you',
         worksForAllCriminals: true,
+        powerFits: [a.poor],
     },
     {
         name: 'following you',
         worksForAllCriminals: true,
+        powerFits: [a.poor],
     },
     {
         name: 'waiting for someone',
         worksForAllCriminals: true,
+        powerFits: [a.poor],
     },
     {
         name: 'eavesdropping a conversation',
         worksForAllCriminals: true,
+        powerFits: [a.poor],
     },
     {
         name: 'following you',
         worksForAllCriminals: true,
+        powerFits: [a.poor],
     },
 ].map((asset) => getEnabledForAllCriminals(asset));
 //tODO: go more into details, like "Opening a champagne bottle for customers" or "Bringing rum in golden cups" for a.rich,a.wealthy ... or "presenting an expensive bottle of brandy" for a.tiefling
 export const servantActions: DescriptionAsset[] = [
-    { name: 'listening to complains', misfits: [a.poor] },
-    { name: 'taking orders from customers' },
-    { name: 'transporting plates full of dishes', misfits: [a.poor] },
+    {
+        name: 'listening to complains',
+        misfits: [a.poor],
+        key: AssetKey.servant,
+    },
+    { name: 'taking orders from customers', key: AssetKey.servant },
+    {
+        name: 'transporting plates full of dishes',
+        misfits: [a.poor],
+        key: AssetKey.servant,
+    },
     {
         name: 'transporting wine jugs',
         misfits: [a.barbarian, a.dwarf, a.desert],
+        key: AssetKey.servant,
     },
-    { name: 'transporting drinks', misfits: [a.barbarian, a.dwarf, a.desert] },
+    {
+        name: 'transporting drinks',
+        misfits: [a.barbarian, a.dwarf, a.desert],
+        key: AssetKey.servant,
+    },
     {
         name: 'transporting beer mugs',
         misfits: [a.rich, a.elf, a.drow, a.tiefling, a.desert],
+        key: AssetKey.servant,
     },
     { name: 'chatting with some customers' },
-    { name: 'getting molested by a guest' },
-    { name: 'thanking for a generous tip', misfits: [a.poor] },
+    {
+        name: 'getting molested by a drunken guest',
+        key: AssetKey.servant,
+        misfits: [a.knight, a.elf, a.cleric],
+    },
+    {
+        name: 'thanking for a generous tip',
+        misfits: [a.poor],
+        key: AssetKey.servant,
+    },
 ].map((asset) => getEnabledForAllCriminals(asset));
 export const general: DescriptionAsset[] = [
     { classRange: [a.thief], name: 'whispering' },
@@ -252,3 +284,4 @@ export const machoClass = [
     { name: 'chatting with a prostitute' },
 ];
 export const childrenClass = [...lively, ...general];
+export const teenagerClass = [...lively, ...general, ...servantActions];

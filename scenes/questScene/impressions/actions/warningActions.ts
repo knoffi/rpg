@@ -19,7 +19,7 @@ export const warningMonsters: DescriptionAsset[] = [
         landRange: [a.forest, a.underdark, a.tropical],
     },
     {
-        name: 'warning you about the giant living in this area',
+        name: 'warning you about the giants living in this area',
         landRange: [a.mountain],
     },
     {
@@ -93,11 +93,11 @@ export const warningWeather: DescriptionAsset[] = [
         needs: [a.desert],
     },
     {
-        name: 'warning you about the floods which may occur during this season',
+        name: 'warning you about the floods which are typical for this season',
         needs: [a.forest],
     },
     {
-        name: 'warning you about the flood waves which may occur during this season',
+        name: 'warning you about the flood waves which are typical for this season',
         needs: [a.haven],
     },
     {
@@ -111,5 +111,92 @@ export const warningWeather: DescriptionAsset[] = [
     {
         name: 'warning you that travelers often get lost in the eastern parts of the local woods',
         landRange: [a.forest, a.village],
+    },
+];
+
+export const warningSociety: DescriptionAsset[] = [
+    {
+        name: 'warning you about a conspiracy in the royal court',
+        landRange: [a.city],
+    },
+    {
+        name: 'warning you about a criminal gang which controls the harbor at night',
+        landRange: [a.haven],
+    },
+    {
+        name: 'warning you about a big house where pirates and smugglers are gathering every Thursday',
+        landRange: [a.haven],
+    },
+    {
+        name: 'telling you a folk tale about a local sea monster',
+        landRange: [a.haven],
+    },
+    {
+        name: 'telling you a folk tale about the local lord being a vampire',
+        landRange: [a.village],
+    },
+    {
+        name: 'telling you a folk tale about alligators in the sewers',
+        landRange: [a.city],
+    },
+    {
+        name: 'warning you that the lords a preparing war',
+        landRange: [a.village],
+    },
+    {
+        name: 'warning you that many city guards are corrupt',
+        landRange: [a.city, a.haven],
+    },
+    {
+        name: 'warning you that many city guards are hostile to foreigners',
+        landRange: [a.city, a.haven],
+    },
+    {
+        name: 'telling you a rumor about a worker from a local brothel who has herpes',
+        landRange: [a.city, a.haven, a.village],
+    },
+    {
+        name: 'warning you that the local prostitutes are so experienced that most guests fall in love after a night',
+        landRange: [a.city, a.haven],
+    },
+    {
+        name: 'warning you that a thief guild is hiding in the sewers',
+        landRange: [a.city],
+    },
+    {
+        name: 'warning you about a secret cult which hides in these mountains',
+        landRange: [a.mountain],
+    },
+    {
+        name: 'telling you a folk tale about a local cave inhabited by a giant sorcerer',
+        landRange: [a.mountain],
+    },
+    {
+        name: 'warning you about a local gang of lizard people who raid merchants and travellers',
+        landRange: [a.mountain],
+    },
+    {
+        name: 'warning you that a group of cultists kidnaps children during the night',
+        landRange: [a.city],
+    },
+    {
+        name: 'warning you that drow raiders kidnap people and enslave them',
+        landRange: [a.underdark],
+    },
+    {
+        name: 'warning you about a poisonous mushrooms which kills anyone who touches it',
+        landRange: [a.underdark],
+    },
+    {
+        name: 'warning you about drinking from the local river without cleansing the water first',
+        landRange: [a.underdark, a.mountain, a.forest, a.village],
+    },
+    {
+        name: 'warning you about the tax-collecting sheriff and his harsh methods',
+        landRange: [a.village],
+    },
+    {
+        name: 'telling you a folk tale about a tiefling who haunts people in their dreams',
+        landRange: [a.village],
     },
 ];

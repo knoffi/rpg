@@ -1,16 +1,10 @@
 import React from 'react';
 import { View } from 'react-native';
-import { association } from '../../classes/association';
-import { misfitMode } from '../../helpingFunctions/misfitModes';
-import { getMisfits } from '../../helpingFunctions/misFitsHandlers';
 import { nameSceneStyles } from '../nameScene/nameSceneStyles';
 import { EditModal } from './EditModal';
 
 export const StartOptionsScene = (props: {
-    onTavernTemplate: (
-        key: string,
-        getMisfits: (fits: association[]) => association[]
-    ) => void;
+    onTavernTemplate: (key: string) => void;
     onRandomGenerator: () => void;
     onNextScene: () => void;
 }) => {
@@ -18,9 +12,7 @@ export const StartOptionsScene = (props: {
         <View style={nameSceneStyles.backgroundView}>
             <EditModal
                 buildTavernTemplate={(key: string) => {
-                    props.onTavernTemplate(key, (fits: association[]) => {
-                        return getMisfits(fits, misfitMode.stricter);
-                    });
+                    props.onTavernTemplate(key);
                     props.onNextScene();
                 }}
                 buildRandomTavern={() => {

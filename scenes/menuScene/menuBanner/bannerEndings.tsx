@@ -1,4 +1,4 @@
-import { WeServe } from '../addRandomDrink';
+import { WeServe } from '../../../editNavigator/WeServe';
 
 const drinkBannerEndings = [
     'Cheers to that!',

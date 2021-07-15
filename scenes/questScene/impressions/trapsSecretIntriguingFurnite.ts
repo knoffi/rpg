@@ -1,6 +1,8 @@
 import { association } from '../../../classes/association';
+import { AssetKey } from '../../../classes/idea/AssetKey/AssetKey';
 import { emptyDescriptionAsset } from '../../../classes/idea/DescriptionAsset';
-import { ImpressionIdea, Noticable } from '../../../classes/idea/ImpressionIdea';
+import { ImpressionIdea } from '../../../classes/idea/ImpressionIdea';
+import { Noticable } from '../../../classes/idea/Noticable';
 
 const a = association;
 export const trapsIntriguingShockingFurniture = [
@@ -9,6 +11,7 @@ export const trapsIntriguingShockingFurniture = [
             name: 'Exclusive VIP-lounge',
             needsOne: [a.wealthy, a.rich, a.thief, a.prostitute, a.assasine],
             worksForAllCriminals: true,
+            key: AssetKey.plotTwist,
         },
         [emptyDescriptionAsset],
         Noticable.furniture
@@ -26,6 +29,7 @@ export const trapsIntriguingShockingFurniture = [
             ],
             misfits: [a.rich, a.wealthy],
             worksForAllCriminals: true,
+            key: AssetKey.plotTwist,
         },
         [emptyDescriptionAsset],
         Noticable.furniture
@@ -36,6 +40,7 @@ export const trapsIntriguingShockingFurniture = [
             needsOne: [a.knight, a.adventurer, a.assasine],
             misfits: [a.rich],
             worksForAssasines: true,
+            key: AssetKey.plotTwist,
         },
         [emptyDescriptionAsset],
         Noticable.furniture
@@ -44,6 +49,7 @@ export const trapsIntriguingShockingFurniture = [
         {
             name: 'A painting of your face on wall',
             needsOne: [a.rich, a.wealthy, a.cleric, a.knight],
+            key: AssetKey.plotTwist,
         },
         [emptyDescriptionAsset],
         Noticable.furniture
@@ -62,6 +68,7 @@ export const trapsIntriguingShockingFurniture = [
             name: 'Two-way mirror on wall',
             needsOne: [a.modest, a.wealthy, a.thief, a.prostitute, a.assasine],
             worksForAllCriminals: true,
+            key: AssetKey.plotTwist,
         },
         [emptyDescriptionAsset],
         Noticable.furniture
@@ -71,6 +78,7 @@ export const trapsIntriguingShockingFurniture = [
             name: 'One wall was newly painted',
             needs: [a.poor],
             worksForAllCriminals: true,
+            key: AssetKey.plotTwist,
         },
         [emptyDescriptionAsset],
         Noticable.furniture

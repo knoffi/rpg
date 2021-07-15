@@ -1,6 +1,10 @@
-import { association } from '../classes/association';
-import { Noticable } from '../classes/idea/ImpressionIdea';
+import {
+    association,
+    AssociationTypes,
+    getAssociationsOfType,
+} from '../classes/association';
 import { NameIdea } from '../classes/idea/NameIdea';
+import { Noticable } from '../classes/idea/Noticable';
 import {
     getStructuredFits,
     StructuredTavernFits,
@@ -8,19 +12,14 @@ import {
 import { Drinkable, Eatable, MenuCategory } from '../classes/TavernProduct';
 import { getProductsLeftAndBannerData } from '../editNavigator/editNavigatorFunctions';
 import { getRandomArrayEntry } from '../helpingFunctions/getFittingRandom';
-import { stricterMisfitMode } from '../helpingFunctions/misfitModes';
-import {
-    getNewRandomDrinkOffer,
-    WeServe,
-} from '../scenes/menuScene/addRandomDrink';
+import { getNewRandomDrinkOffer } from '../scenes/menuScene/addRandomDrink';
 import { BasePrice, standardBasePrice } from '../scenes/menuScene/basePrice';
 import { NothingLeftOffer, Offer } from '../scenes/menuScene/menuEnums';
+import { WeServe } from '../editNavigator/WeServe';
 import { nameIdeas } from '../scenes/nameScene/names/nameIdeas';
+import { emptyImpression } from '../scenes/questScene/impressions/emptyImpression';
 import { IImpression } from '../scenes/questScene/impressions/IImpression';
-import {
-    emptyImpression,
-    getRandomImpression,
-} from '../scenes/questScene/impressions/impressionChapters';
+import { getRandomImpression } from '../scenes/questScene/impressions/impressionChapters';
 import { getTavernHistoryInitializer } from './mainNavigatorFunctions';
 
 const CHANCE_FOR_SPECIAL_FIT = 0.2;
@@ -56,14 +55,13 @@ export const getRandomStartTavern = () => {
 };
 
 const getRandomFits = () => {
-    const associationGroups = stricterMisfitMode.associationGroups;
-    const fitsWithEmptyFits = Object.values(associationGroups).map((group) => {
+    const fitsWithEmptyFits = Object.values(AssociationTypes).map((type) => {
         const chanceToAddFit =
-            group === stricterMisfitMode.associationGroups.special
+            type === AssociationTypes.special
                 ? CHANCE_FOR_SPECIAL_FIT
                 : CHANCE_FOR_ORDINARY_FIT;
         return Math.random() < chanceToAddFit
-            ? getRandomArrayEntry(group)
+            ? getRandomArrayEntry(getAssociationsOfType(type))
             : association.empty;
     });
     return fitsWithEmptyFits.filter((fit) => fit !== association.empty);
@@ -94,12 +92,8 @@ const getRandomIdeas = (fits: StructuredTavernFits, isAbout: WeServe) => {
 };
 const getRandomName = (fits: StructuredTavernFits) => {
     const randomNumber = Math.random();
-    const nonEmptyCategories = Object.values(fits).filter(
-        (fit) => fit && (fit as string) !== association.empty
-    );
-
     const possibleNames = nameIdeas.filter((nameIdea) =>
-        nameIdea.fitsToTavern(fits, undefined, randomNumber)
+        nameIdea.fitsToTavern(fits, (name: string) => true, randomNumber)
     );
     const newNameIdea = getRandomArrayEntry(possibleNames) as NameIdea;
     if (!newNameIdea) {
@@ -127,6 +121,7 @@ const getExamplesForChapter = (
     );
     const fillUp = (alreadyFilled: (Offer | IImpression)[]) => {
         //TODO: getRandomImpression and getNewRandomDrinkOffer should both only rely on a string[] of forbidden names or a function like nameIsRedundant:(name:string)=>boolean
+        console.log('random tavern ignores keys for impression');
         return forImpressions
             ? getRandomImpression(
                   fits,
@@ -138,7 +133,9 @@ const getExamplesForChapter = (
                           );
                       }
                       return (impression as IImpression).name;
-                  })
+                  }),
+                  [],
+                  []
               )
             : getNewRandomDrinkOffer(
                   fits,

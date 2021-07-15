@@ -1,9 +1,9 @@
 import React from 'react';
 import { Banner } from 'react-native-paper';
-import { Noticable } from '../../../classes/idea/ImpressionIdea';
+import { Noticable } from '../../../classes/idea/Noticable';
 import { MenuCategory } from '../../../classes/TavernProduct';
 import { TavernData } from '../../../mainNavigator/TavernData';
-import { WeServe } from '../addRandomDrink';
+import { WeServe } from '../../../editNavigator/WeServe';
 
 export interface BannerData {
     emptyCategories: (MenuCategory | Noticable)[];

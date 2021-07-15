@@ -1,35 +1,13 @@
 import { StructuredTavernFits } from '../../classes/idea/StructuredTavernFits';
 import { MenuCategory, TavernProduct } from '../../classes/TavernProduct';
+import { WeServe } from '../../editNavigator/WeServe';
 import { getFittingRandom } from '../../helpingFunctions/getFittingRandom';
+import { getPrefixExcluder } from '../questScene/impressions/getPrefixExcluder';
 import { drinkChapters } from './drinks/drink';
 import { drinkExamples } from './drinks/drinks';
 import { foodChapters, foodExamples } from './food/food';
 import { predecideDishes } from './menuChapters/getDrinksAndFood';
 import { NothingLeftOffer, Offer } from './menuEnums';
-
-const PREFIX_FILTER_INDEX = 8;
-export enum WeServe {
-    drinks = 'drinks',
-    food = 'food',
-    service = 'service',
-    impressions = 'impressions',
-}
-
-const getCloneForRerender = (offer: Offer) => {
-    const offerIsVirgin = !offer.product.name.endsWith(' ');
-    const newName = offerIsVirgin
-        ? offer.product.name + ' '
-        : offer.product.name.slice(0, offer.product.name.length - 1);
-    return {
-        price: offer.price,
-        product: new TavernProduct(
-            newName,
-            offer.product.copperPrice,
-            offer.product.associations,
-            offer.product.category
-        ),
-    };
-};
 
 export const offersWithOneReroll = (
     name: string,
@@ -74,18 +52,12 @@ const offeredNames = (offers: Offer[]) => {
         return offer.product.name;
     });
 };
-const isExcludedByPrefix = (dishName: string, excludedDrinkNames: string[]) => {
-    return excludedDrinkNames.some((name) => {
-        return name.includes(dishName.slice(0, PREFIX_FILTER_INDEX + 1));
-    });
-};
+
 const filterFoodByPrefix = (
     foodExamples: TavernProduct[],
-    excludedDrinkNames: string[]
+    isExcludedByPrefix: (name: string) => boolean
 ) => {
-    return foodExamples.filter(
-        (dish) => !isExcludedByPrefix(dish.name, excludedDrinkNames)
-    );
+    return foodExamples.filter((dish) => !isExcludedByPrefix(dish.name));
 };
 const getFilteredTavernProducts = (
     category: MenuCategory,
@@ -93,6 +65,7 @@ const getFilteredTavernProducts = (
     isAbout: WeServe,
     fitting: StructuredTavernFits
 ) => {
+    const isExcludedByPrefix = getPrefixExcluder(excludedDrinkNames, isAbout);
     if (isAbout === WeServe.drinks) {
         const drinkIdeaIndex = drinkChapters.findIndex(
             (chapter) => chapter.category === category
@@ -101,7 +74,7 @@ const getFilteredTavernProducts = (
             const chosenDrink = predecideDishes(
                 drinkChapters[drinkIdeaIndex].chapters,
                 fitting,
-                (name: string) => isExcludedByPrefix(name, excludedDrinkNames)
+                isExcludedByPrefix
             );
             return [chosenDrink];
         }
@@ -116,7 +89,7 @@ const getFilteredTavernProducts = (
             const chosenDish = predecideDishes(
                 foodChapters[dishIdeaIndex].chapters,
                 fitting,
-                (name: string) => isExcludedByPrefix(name, excludedDrinkNames)
+                isExcludedByPrefix
             );
             return [chosenDish];
         } else {
@@ -124,7 +97,7 @@ const getFilteredTavernProducts = (
                 foodExamples.find((example) => {
                     return example.category === category;
                 })!.examples,
-                excludedDrinkNames
+                isExcludedByPrefix
             );
             return result;
         }

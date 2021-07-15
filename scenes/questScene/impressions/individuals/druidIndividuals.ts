@@ -1,21 +1,19 @@
-import { association } from '../../../classes/association';
-import {
-    ImpressionIdea,
-    Noticable,
-} from '../../../classes/idea/ImpressionIdea';
+import { association } from '../../../../classes/association';
+import { ImpressionIdea } from '../../../../classes/idea/ImpressionIdea';
+import { Noticable } from '../../../../classes/idea/Noticable';
 import {
     druidGuests,
     nymphClass,
     partyHermit,
-} from './actions/druidicalActions';
+} from '../actions/druidicalActions';
 import {
     busyScholarClass,
     leisureUpperClass,
     lively,
     machoClass,
     servantActions,
-} from './actions/genericActions';
-import { warningMonsters, warningWeather } from './actions/warningActions';
+} from '../actions/genericActions';
+import { warningMonsters, warningWeather } from '../actions/warningActions';
 const a = association;
 export const druidIndividuals: ImpressionIdea[] = [
     new ImpressionIdea(
@@ -376,8 +374,8 @@ export const druidIndividuals: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            name: 'An old woman dressed in a mushroom hat is ',
-            landRange: [a.forest, a.mountain, a.village],
+            name: 'An old lady with a mushroom hat is ',
+            landRange: [a.forest, a.mountain, a.village, a.underdark],
             needs: [a.druid],
             powerFits: [a.druid, a.forest, a.mountain, a.village],
             worksForAllCriminals: true,
@@ -392,7 +390,7 @@ export const druidIndividuals: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            name: 'An old woman dressed in a pineapple hat is ',
+            name: 'An old lady with a pineapple hat is ',
             landRange: [a.tropical],
             needs: [a.druid],
             powerFits: [a.druid, a.tropical],
@@ -408,7 +406,7 @@ export const druidIndividuals: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            name: 'An old woman dressed in a cactus hat is ',
+            name: 'An old lady with a cactus hat is ',
             landRange: [a.desert],
             needs: [a.druid],
             powerFits: [a.druid, a.desert],
@@ -424,7 +422,7 @@ export const druidIndividuals: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            name: 'A frisky gnome',
+            name: 'A frisky gnome is ',
             landRange: [a.underdark],
             needs: [a.druid],
             powerFits: [a.druid, a.underdark],
@@ -435,7 +433,7 @@ export const druidIndividuals: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            name: 'A frisky drow',
+            name: 'A frisky drow is ',
             landRange: [a.underdark],
             needs: [a.druid],
             powerFits: [a.druid, a.underdark],
@@ -446,7 +444,7 @@ export const druidIndividuals: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            name: 'A frisky elf',
+            name: 'A frisky elf is ',
             landRange: [a.forest],
             needs: [a.druid],
             powerFits: [a.druid, a.forest],
@@ -457,7 +455,7 @@ export const druidIndividuals: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            name: 'A frisky dwarf',
+            name: 'A frisky dwarf is ',
             landRange: [a.mountain],
             needs: [a.druid],
             powerFits: [a.druid, a.mountain],
@@ -468,7 +466,7 @@ export const druidIndividuals: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            name: 'A frisky halfling',
+            name: 'A frisky halfling is ',
             landRange: [a.village],
             needs: [a.druid],
             powerFits: [a.druid, a.village],
@@ -479,7 +477,7 @@ export const druidIndividuals: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            name: 'A frisky human',
+            name: 'A frisky human is ',
             landRange: [a.tropical],
             needs: [a.druid],
             powerFits: [a.druid, a.tropical],
@@ -490,7 +488,7 @@ export const druidIndividuals: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            name: 'A frisky tiefling',
+            name: 'A frisky tiefling is ',
             landRange: [a.desert],
             needs: [a.druid],
             powerFits: [a.druid, a.desert],
@@ -501,10 +499,10 @@ export const druidIndividuals: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            name: 'A frisky tiefling',
-            landRange: [a.desert],
+            name: 'A frisky human is ',
+            landRange: [a.haven],
             needs: [a.druid],
-            powerFits: [a.druid, a.desert],
+            powerFits: [a.druid, a.human],
             worksForAllCriminals: true,
         },
         druidGuests,

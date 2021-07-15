@@ -7,8 +7,8 @@ import {
 } from '../../../classes/TavernProduct';
 import { HEIGHT_FACTOR } from '../../../dimensionConstants';
 import { globalStyles } from '../../globalStyles';
-import { WeServe } from '../addRandomDrink';
 import { Offer } from '../menuEnums';
+import { WeServe } from '../../../editNavigator/WeServe';
 import { OfferListAccordeon } from './OfferListAccordeon';
 import { addingActions, offerActions } from './productActions';
 
