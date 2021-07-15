@@ -27,7 +27,7 @@ export const furnitures: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             name: 'Mahagony tables, polished and clean',
-            needs: [a.wealthy],
+            incomeRange: [a.wealthy],
             worksForAllCriminals: true,
             powerFits: [a.wealthy],
         },

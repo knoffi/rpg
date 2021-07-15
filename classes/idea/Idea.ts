@@ -203,7 +203,7 @@ export class Idea {
                     : FitLevel.bad;
                 if (
                     getMinFitLevel(mainFitLevel, lowestHarmonyRowMax) ===
-                    mainFilter
+                    mainFitLevel
                 ) {
                     return mainFitLevel;
                 } else {
@@ -229,7 +229,7 @@ export class Idea {
                         : FitLevel.bad;
                     if (
                         getMinFitLevel(mainFitLevel, lowestContrastRowMax) ===
-                        mainFilter
+                        mainFitLevel
                     ) {
                         return mainFitLevel;
                     } else {

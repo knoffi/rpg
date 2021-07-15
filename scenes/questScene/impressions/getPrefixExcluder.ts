@@ -1,4 +1,4 @@
-import { WeServe } from '../../menuScene/addRandomDrink';
+import { WeServe } from '../../../editNavigator/WeServe';
 
 export const getPrefixExcluder = (names: string[], isAbout: WeServe) => {
     if (isAbout === WeServe.impressions) {

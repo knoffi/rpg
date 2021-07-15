@@ -1,5 +1,6 @@
 import { StructuredTavernFits } from '../../classes/idea/StructuredTavernFits';
 import { MenuCategory, TavernProduct } from '../../classes/TavernProduct';
+import { WeServe } from '../../editNavigator/WeServe';
 import { getFittingRandom } from '../../helpingFunctions/getFittingRandom';
 import { getPrefixExcluder } from '../questScene/impressions/getPrefixExcluder';
 import { drinkChapters } from './drinks/drink';
@@ -8,13 +9,6 @@ import { foodChapters, foodExamples } from './food/food';
 import { predecideDishes } from './menuChapters/getDrinksAndFood';
 import { NothingLeftOffer, Offer } from './menuEnums';
 
-const PREFIX_FILTER_INDEX = 8;
-export enum WeServe {
-    drinks = 'drinks',
-    food = 'food',
-    service = 'service',
-    impressions = 'impressions',
-}
 export const offersWithOneReroll = (
     name: string,
     offers: Offer[],

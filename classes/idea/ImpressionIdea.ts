@@ -3,6 +3,7 @@ import { IImpression } from '../../scenes/questScene/impressions/IImpression';
 import { AssetKey } from './AssetKey/AssetKey';
 import { AssetStressMode } from './assetStressMode';
 import { DescriptionAsset } from './DescriptionAsset';
+import { FitLevel } from './fitCalculator/FitLevel';
 import { Idea } from './Idea';
 import { Noticable } from './Noticable';
 import { StructuredTavernFits } from './StructuredTavernFits';
@@ -29,10 +30,19 @@ export class ImpressionIdea extends Idea {
     }
     public createImpression(
         tavernFits: StructuredTavernFits,
-        isExcluded: (name: string, key?: AssetKey) => boolean
+        isExcludedByName: (name: string) => boolean,
+        additionIsExcludedByKey: (key: AssetKey) => boolean,
+        minimalFitLevel: FitLevel,
+        additionFilter?: number
     ) {
         const createdImpression: IImpression = {
-            ...this.getNameAndKey(tavernFits, isExcluded),
+            ...this.getNameAndKey(
+                tavernFits,
+                isExcludedByName,
+                additionIsExcludedByKey,
+                minimalFitLevel,
+                additionFilter
+            ),
             category: this.category,
         };
         return createdImpression;
@@ -40,14 +50,21 @@ export class ImpressionIdea extends Idea {
 
     private getNameAndKey(
         tavernFits: StructuredTavernFits,
-        isExcluded: (name: string, key?: AssetKey) => boolean
+        isExcludedByName: (name: string) => boolean,
+        isExcludedByKey: (key: AssetKey) => boolean,
+        minimalFitLevel: FitLevel,
+        probabilityFilter?: number
     ) {
         if (this.additions) {
             const possibleAdditions = this.additions[0];
             const secondDescription = this.getFittingAssetPart(
                 tavernFits,
                 possibleAdditions,
-                isExcluded
+                isExcludedByName,
+                false,
+                probabilityFilter,
+                isExcludedByKey,
+                minimalFitLevel
             );
             if (!secondDescription) {
                 if (possibleAdditions.length === 0) {

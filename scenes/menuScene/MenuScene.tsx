@@ -13,11 +13,7 @@ import { ListOfSaves } from '../../components/ListOfSaves/ListOfSaves';
 import { getRandomArrayEntry } from '../../helpingFunctions/getFittingRandom';
 import { TavernData } from '../../mainNavigator/TavernData';
 import { nameSceneStyles } from '../nameScene/nameSceneStyles';
-import {
-    getNewRandomDrinkOffer,
-    offersWithOneReroll,
-    WeServe,
-} from './addRandomDrink';
+import { getNewRandomDrinkOffer, offersWithOneReroll } from './addRandomDrink';
 import { BasePrice } from './basePrice';
 import { bannerEndings } from './menuBanner/bannerEndings';
 import { BannerData, MenuBanner } from './menuBanner/MenuBanner';
@@ -26,6 +22,7 @@ import { OfferList } from './offerList/OfferList';
 import { getAdjustedPriceString } from './priceFunctions';
 import { ProductEditor } from './productEditor/ProductEditor';
 import { createMinimalOffer, MinimalOfferData } from './userOffer';
+import { WeServe } from '../../editNavigator/WeServe';
 
 const DEFAULT_MODAL_START_DATA = {
     name: '',

@@ -23,11 +23,9 @@ export type DescriptionAsset = {
     key?: AssetKey;
 };
 
-export const emptyDescriptionAsset = {
+export const emptyDescriptionAsset: DescriptionAsset = {
     name: '',
-    worksForAssasines: true,
-    worksForBrothel: true,
-    worksForThiefs: true,
+    worksForAllCriminals: true,
 };
 
 export const forCriminalsOverwrittenAsset = (asset: DescriptionAsset) => {

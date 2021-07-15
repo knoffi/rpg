@@ -12,12 +12,10 @@ import {
 import { Drinkable, Eatable, MenuCategory } from '../classes/TavernProduct';
 import { getProductsLeftAndBannerData } from '../editNavigator/editNavigatorFunctions';
 import { getRandomArrayEntry } from '../helpingFunctions/getFittingRandom';
-import {
-    getNewRandomDrinkOffer,
-    WeServe,
-} from '../scenes/menuScene/addRandomDrink';
+import { getNewRandomDrinkOffer } from '../scenes/menuScene/addRandomDrink';
 import { BasePrice, standardBasePrice } from '../scenes/menuScene/basePrice';
 import { NothingLeftOffer, Offer } from '../scenes/menuScene/menuEnums';
+import { WeServe } from '../editNavigator/WeServe';
 import { nameIdeas } from '../scenes/nameScene/names/nameIdeas';
 import { emptyImpression } from '../scenes/questScene/impressions/emptyImpression';
 import { IImpression } from '../scenes/questScene/impressions/IImpression';

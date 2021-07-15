@@ -1,8 +1,10 @@
 import { AssetKey } from '../../../classes/idea/AssetKey/AssetKey';
+import { getBestIdeas } from '../../../classes/idea/fitCalculator/getBestIdeas';
+import { getSortedByFitLevel } from '../../../classes/idea/fitCalculator/getSortedByFitLevel';
 import { Noticable } from '../../../classes/idea/Noticable';
 import { StructuredTavernFits } from '../../../classes/idea/StructuredTavernFits';
+import { WeServe } from '../../../editNavigator/WeServe';
 import { getRandomArrayEntry } from '../../../helpingFunctions/getFittingRandom';
-import { WeServe } from '../../menuScene/addRandomDrink';
 import { averageCustomers } from './averageCustomer';
 import { bartenders } from './bartender';
 import { emptyImpression } from './emptyImpression';
@@ -50,39 +52,45 @@ export const getRandomImpression = (
     category: Noticable,
     oldNames: string[],
     fullFirstKeys: AssetKey[],
-    fullSecondKeys: AssetKey[]
+    fullSecondKeys: AssetKey[],
+    mainFilter?: number,
+    additionFilter?: number
 ): IImpression => {
     const isExcludedByName = getPrefixExcluder(oldNames, WeServe.impressions);
     const mainIsExcludedByKey = getKeyExcluder(fullFirstKeys);
     const additionIsExcludedByKey = getKeyExcluder(fullSecondKeys);
-    const impressionChapter = impressionChapters.find(
+    const chapter = impressionChapters.find(
         (chapter) => chapter.category === category
     );
-    if (!impressionChapter) {
+    if (!chapter) {
         console.log('Impression category not found!');
         return emptyImpression;
     } else {
-        const fittingImpressions = impressionChapter.impressions.filter(
-            (impression) =>
-                impression.fitsToTavern(
-                    fitting,
-                    isExcludedByName,
-                    undefined,
-                    undefined,
-                    mainIsExcludedByKey,
-                    additionIsExcludedByKey
-                )
+        const impressions = getSortedByFitLevel(
+            chapter.impressions,
+            fitting,
+            isExcludedByName,
+            mainIsExcludedByKey,
+            additionIsExcludedByKey,
+            mainFilter,
+            additionFilter
         );
-        if (fittingImpressions.length === 0) {
+        const bestImpressions = getBestIdeas(impressions);
+        if (!bestImpressions) {
             return emptyImpression;
+        } else {
+            const newIdea = getRandomArrayEntry(bestImpressions.ideas);
+            const newImpression =
+                newIdea.createImpression(
+                    fitting,
+                    //additions for impression do not get filtered by name because it seems more realistic
+                    () => false,
+                    additionIsExcludedByKey,
+                    bestImpressions.level,
+                    additionFilter
+                ) || emptyImpression;
+            return newImpression;
         }
-        // these impressions are already filtered, thus no prefixFilter needed
-        const newImpression =
-            getRandomArrayEntry(fittingImpressions).createImpression(
-                fitting,
-                () => false
-            ) || emptyImpression;
-        return newImpression;
     }
 };
 

@@ -2,12 +2,10 @@ import { Noticable } from '../classes/idea/Noticable';
 import { StructuredTavernFits } from '../classes/idea/StructuredTavernFits';
 import { Drinkable, Eatable, MenuCategory } from '../classes/TavernProduct';
 import { TavernData } from '../mainNavigator/TavernData';
-import {
-    getNewRandomDrinkOffer,
-    WeServe,
-} from '../scenes/menuScene/addRandomDrink';
+import { getNewRandomDrinkOffer } from '../scenes/menuScene/addRandomDrink';
 import { BannerData } from '../scenes/menuScene/menuBanner/MenuBanner';
 import { NothingLeftOffer, Offer } from '../scenes/menuScene/menuEnums';
+import { WeServe } from './WeServe';
 import { emptyImpression } from '../scenes/questScene/impressions/emptyImpression';
 import { IImpression } from '../scenes/questScene/impressions/IImpression';
 import { getRandomImpression } from '../scenes/questScene/impressions/impressionChapters';
