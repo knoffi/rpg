@@ -39,6 +39,18 @@ export const majesticBeasts: DescriptionAsset[] = [
         powerFits: [a.desert, a.wizard, a.tiefling, a.wizard],
     },
     {
+        name: 'Elephant',
+        needsOne: [a.desert, a.druid, a.barbarian],
+        landRange: [a.desert, a.city, a.haven],
+        powerFits: [a.desert, a.druid, a.barbarian],
+    },
+    {
+        name: 'Rhino',
+        needsOne: [a.desert, a.druid, a.barbarian],
+        landRange: [a.desert, a.city, a.haven],
+        powerFits: [a.desert, a.druid, a.barbarian],
+    },
+    {
         name: 'Beholder',
         needsOne: [a.underdark, a.adventurer, a.wizard],
         powerFits: [a.underdark, a.adventurer, a.wizard],
@@ -61,6 +73,12 @@ export const majesticBeasts: DescriptionAsset[] = [
     },
     {
         name: 'Leviathan',
+        needs: [a.haven],
+        powerFits: [a.haven],
+        worksForAssasines: true,
+    },
+    {
+        name: 'Serpent',
         needs: [a.haven],
         powerFits: [a.haven],
         worksForAssasines: true,

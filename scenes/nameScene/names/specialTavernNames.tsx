@@ -1474,6 +1474,11 @@ export const specialNames: NameIdea[] = [
         powerFits: [a.village],
     }),
     new NameIdea({
+        name: 'Gossiping Goose',
+        needs: [a.village],
+        powerFits: [a.village],
+    }),
+    new NameIdea({
         name: 'Wooden Anvil',
         needs: [a.village],
         powerFits: [a.village],
@@ -1566,7 +1571,7 @@ export const specialNames: NameIdea[] = [
         probability: VERY_SPECIAL_NAME_PROB,
     }),
     new NameIdea({
-        name: "Yanathar's Bar For Everything",
+        name: "Yanathar's Bar For Everyone",
         needs: [a.wizard],
         powerFits: [a.wizard],
         probability: VERY_SPECIAL_NAME_PROB,
