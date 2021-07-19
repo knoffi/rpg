@@ -628,7 +628,7 @@ export const individuals: ImpressionIdea[] = [
         {
             name: 'A pretty waitress is ',
             worksForAllCriminals: true,
-            key: AssetKey.servant,
+            key: AssetKey.INDIVIDUALS_servant,
         },
         servantActions,
         Noticable.someCustomers,
@@ -640,7 +640,7 @@ export const individuals: ImpressionIdea[] = [
         {
             name: 'A pregnant waitress is ',
             worksForAllCriminals: true,
-            key: AssetKey.servant,
+            key: AssetKey.INDIVIDUALS_servant,
         },
         servantActions,
         Noticable.someCustomers,
@@ -652,7 +652,7 @@ export const individuals: ImpressionIdea[] = [
         {
             name: 'A handsome waiter is ',
             worksForAllCriminals: true,
-            key: AssetKey.servant,
+            key: AssetKey.INDIVIDUALS_servant,
         },
         servantActions,
         Noticable.someCustomers,

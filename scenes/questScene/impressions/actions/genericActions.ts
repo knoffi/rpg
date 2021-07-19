@@ -213,39 +213,39 @@ export const servantActions: DescriptionAsset[] = [
     {
         name: 'listening to complains',
         misfits: [a.poor],
-        key: AssetKey.servant,
+        key: AssetKey.INDIVIDUALS_servant,
     },
-    { name: 'taking orders from customers', key: AssetKey.servant },
+    { name: 'taking orders from customers', key: AssetKey.INDIVIDUALS_servant },
     {
         name: 'transporting plates full of dishes',
         misfits: [a.poor],
-        key: AssetKey.servant,
+        key: AssetKey.INDIVIDUALS_servant,
     },
     {
         name: 'transporting wine jugs',
         misfits: [a.barbarian, a.dwarf, a.desert],
-        key: AssetKey.servant,
+        key: AssetKey.INDIVIDUALS_servant,
     },
     {
         name: 'transporting drinks',
         misfits: [a.barbarian, a.dwarf, a.desert],
-        key: AssetKey.servant,
+        key: AssetKey.INDIVIDUALS_servant,
     },
     {
         name: 'transporting beer mugs',
         misfits: [a.rich, a.elf, a.drow, a.tiefling, a.desert],
-        key: AssetKey.servant,
+        key: AssetKey.INDIVIDUALS_servant,
     },
     { name: 'chatting with some customers' },
     {
         name: 'getting molested by a drunken guest',
-        key: AssetKey.servant,
+        key: AssetKey.INDIVIDUALS_servant,
         misfits: [a.knight, a.elf, a.cleric],
     },
     {
         name: 'thanking for a generous tip',
         misfits: [a.poor],
-        key: AssetKey.servant,
+        key: AssetKey.INDIVIDUALS_servant,
     },
 ].map((asset) => getEnabledForAllCriminals(asset));
 export const general: DescriptionAsset[] = [
