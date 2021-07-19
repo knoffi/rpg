@@ -1,6 +1,7 @@
-import { AssetStressMode } from './assetStressMode';
 import { DescriptionAsset } from './DescriptionAsset';
 import { Idea } from './Idea';
+import { PowerFitConcept } from './powerFitConcepts/PowerFitConcept';
+import { defaultPowerFitConcepts } from './powerFitConcepts/powerFitConcepts';
 import { StructuredTavernFits } from './StructuredTavernFits';
 
 const DEFAULT_HARMONY_CHANCE = 0.9;
@@ -10,21 +11,17 @@ export class NameIdea extends Idea {
         private substantives?: DescriptionAsset[],
         private contrastSubstantives?: DescriptionAsset[],
         private reverseNaming = false,
-        private stress = AssetStressMode.harmony
+        private stress?: PowerFitConcept
     ) {
         super(
             adjective,
+            stress
+                ? stress
+                : substantives || contrastSubstantives
+                ? defaultPowerFitConcepts.nameWithAdditions
+                : defaultPowerFitConcepts.nameWithoutAdditions,
             substantives ? [substantives] : undefined,
-            contrastSubstantives ? [contrastSubstantives] : undefined,
-            {
-                main: substantives ? stress === AssetStressMode.main : true,
-                harmony: substantives
-                    ? stress === AssetStressMode.harmony
-                    : false,
-                contrast: substantives
-                    ? stress === AssetStressMode.contrast
-                    : true,
-            }
+            contrastSubstantives ? [contrastSubstantives] : undefined
         );
     }
 

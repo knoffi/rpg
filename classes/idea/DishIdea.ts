@@ -1,14 +1,15 @@
 import { splitMarker } from '../../scenes/menuScene/offerList/nameSplitter/splitMarker';
 import { association } from '../association';
+import { MenuCategory, TavernProduct } from '../TavernProduct';
 import {
     DescriptionAsset,
     forCriminalsOverwrittenAsset,
 } from './DescriptionAsset';
-import { DishConcept } from './DishConcept';
 import { Idea } from './Idea';
+import { DishConcept } from './powerFitConcepts/DishConcept';
+import { defaultPowerFitConcepts } from './powerFitConcepts/powerFitConcepts';
 import { PriceSetter } from './PriceSetter';
 import { StructuredTavernFits } from './StructuredTavernFits';
-import { MenuCategory, TavernProduct } from '../TavernProduct';
 
 const EMPTY_SIDE_DISH: DescriptionAsset = { name: '' };
 
@@ -39,6 +40,7 @@ export class DishIdea extends Idea {
 
         super(
             mainEnabledForCriminals,
+            defaultPowerFitConcepts.menu,
             sideDishesEnabledForCriminals,
             undefined
         ),

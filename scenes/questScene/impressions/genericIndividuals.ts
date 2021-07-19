@@ -1,8 +1,8 @@
 import { association, sophisticatedGroup } from '../../../classes/association';
 import { AssetKey } from '../../../classes/idea/AssetKey/AssetKey';
-import { AssetStressMode } from '../../../classes/idea/assetStressMode';
 import { ImpressionIdea } from '../../../classes/idea/ImpressionIdea';
 import { Noticable } from '../../../classes/idea/Noticable';
+import { defaultPowerFitConcepts } from '../../../classes/idea/powerFitConcepts/powerFitConcepts';
 import { partyHermit } from './actions/druidicalActions';
 import {
     busyScholarClass,
@@ -634,7 +634,7 @@ export const individuals: ImpressionIdea[] = [
         Noticable.someCustomers,
         undefined,
         false,
-        AssetStressMode.nothing
+        defaultPowerFitConcepts.nothing
     ),
     new ImpressionIdea(
         {
@@ -646,7 +646,7 @@ export const individuals: ImpressionIdea[] = [
         Noticable.someCustomers,
         undefined,
         false,
-        AssetStressMode.nothing
+        defaultPowerFitConcepts.nothing
     ),
     new ImpressionIdea(
         {
@@ -658,7 +658,7 @@ export const individuals: ImpressionIdea[] = [
         Noticable.someCustomers,
         undefined,
         false,
-        AssetStressMode.nothing
+        defaultPowerFitConcepts.nothing
     ),
     new ImpressionIdea(
         {
@@ -941,7 +941,7 @@ export const individuals: ImpressionIdea[] = [
         Noticable.someCustomers,
         undefined,
         undefined,
-        AssetStressMode.nothing
+        defaultPowerFitConcepts.nothing
     ),
     new ImpressionIdea(
         {
@@ -955,7 +955,7 @@ export const individuals: ImpressionIdea[] = [
         Noticable.someCustomers,
         undefined,
         undefined,
-        AssetStressMode.nothing
+        defaultPowerFitConcepts.nothing
     ),
     new ImpressionIdea(
         {
@@ -969,7 +969,7 @@ export const individuals: ImpressionIdea[] = [
         Noticable.someCustomers,
         undefined,
         undefined,
-        AssetStressMode.nothing
+        defaultPowerFitConcepts.nothing
     ),
     new ImpressionIdea(
         {
@@ -983,6 +983,6 @@ export const individuals: ImpressionIdea[] = [
         Noticable.someCustomers,
         undefined,
         undefined,
-        AssetStressMode.nothing
+        defaultPowerFitConcepts.nothing
     ),
 ];
