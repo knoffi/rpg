@@ -13,7 +13,6 @@ export const artisanJobs: DescriptionAsset[] = [
         name: 'Miner',
         incomeRange: [a.modest, a.poor],
         strongNeedsOne: [a.underdark, a.thief],
-        worksForThiefs: true,
         powerFits: [a.modest, a.dwarf, a.gnome],
     },
     {
@@ -128,6 +127,33 @@ export const artisanJobs: DescriptionAsset[] = [
         powerFits: [a.wizard, a.desert],
     },
     {
+        name: 'Fishmonger',
+        incomeRange: [a.modest, a.poor],
+        needsOne: [a.haven, a.city],
+        powerFits: [a.haven, a.modest],
+    },
+    {
+        name: 'Brewer',
+        incomeRange: [a.modest, a.poor],
+        landRange: [a.village, a.city, a.mountain, a.forest],
+        raceRange: [a.dwarf, a.gnome, a.halfling, a.human],
+
+        misfits: [a.desert],
+        powerFits: [a.dwarf, a.modest],
+    },
+    {
+        name: 'Butcher',
+        incomeRange: [a.modest, a.poor],
+        landRange: [a.village, a.city, a.mountain, a.forest],
+        raceRange: [a.dwarf, a.human],
+        classRange: [a.barbarian],
+        worksForAssasines: true,
+        powerFits: [a.barbarian, a.modest],
+    },
+];
+
+export const brothelJobs: DescriptionAsset[] = [
+    {
         name: 'Wench',
         needs: [a.prostitute],
         needsOne: [a.haven, a.village],
@@ -203,12 +229,6 @@ export const artisanJobs: DescriptionAsset[] = [
         incomeRange: [a.rich, a.wealthy],
         worksForBrothel: true,
     },
-    { name: 'Nurse', needs: [a.prostitute, a.city], worksForBrothel: true },
-    {
-        name: 'Firefighter',
-        needs: [a.prostitute, a.city],
-        worksForBrothel: true,
-    },
 ];
 
 export const gastronomyJobs: DescriptionAsset[] = [
@@ -240,24 +260,6 @@ export const gastronomyJobs: DescriptionAsset[] = [
         powerFits: [a.halfling, a.modest],
     },
     {
-        name: 'Brewer',
-        incomeRange: [a.modest, a.poor],
-        landRange: [a.village, a.city, a.mountain, a.forest],
-        raceRange: [a.dwarf, a.gnome, a.halfling, a.human],
-
-        misfits: [a.desert],
-        powerFits: [a.dwarf, a.modest],
-    },
-    {
-        name: 'Butcher',
-        incomeRange: [a.modest, a.poor],
-        landRange: [a.village, a.city, a.mountain, a.forest],
-        raceRange: [a.dwarf, a.human],
-        classRange: [a.barbarian],
-        worksForAssasines: true,
-        powerFits: [a.barbarian, a.modest],
-    },
-    {
         name: 'Innkeeper',
         incomeRange: [a.modest, a.poor, a.wealthy],
         misfits: [a.desert, a.haven],
@@ -268,12 +270,6 @@ export const gastronomyJobs: DescriptionAsset[] = [
         incomeRange: [a.modest, a.poor, a.wealthy],
         misfits: [a.haven],
         powerFits: [a.human, a.modest],
-    },
-    {
-        name: 'Fishmonger',
-        incomeRange: [a.modest, a.poor],
-        needsOne: [a.haven, a.city],
-        powerFits: [a.haven, a.modest],
     },
 ];
 
@@ -322,6 +318,19 @@ export const noblesAndTitles: DescriptionAsset[] = [
         name: 'Lord',
         incomeRange: [a.wealthy, a.rich],
         misfits: [a.drow, a.barbarian],
+        powerFits: [a.knight, a.wealthy],
+    },
+    {
+        name: 'Bishop',
+        incomeRange: [a.wealthy, a.rich],
+        misfits: [a.drow, a.barbarian],
+        classRange: [a.cleric],
+        powerFits: [a.knight, a.wealthy],
+    },
+    {
+        name: 'High Priest',
+        incomeRange: [a.wealthy, a.rich],
+        classRange: [a.cleric],
         powerFits: [a.knight, a.wealthy],
     },
     {
@@ -389,4 +398,11 @@ export const noblesAndTitles: DescriptionAsset[] = [
         misfits: [a.drow, a.barbarian],
         powerFits: [a.rich],
     },
+];
+
+export const allJobs = [
+    ...artisanJobs,
+    ...brothelJobs,
+    ...gastronomyJobs,
+    ...noblesAndTitles,
 ];

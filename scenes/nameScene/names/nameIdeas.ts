@@ -2,7 +2,13 @@ import { association } from '../../../classes/association';
 import { NameIdea } from '../../../classes/idea/NameIdea';
 import { fruits, vegetables } from './fruitsVegetables';
 import { femaleGenitals, maleGenitals, sexyParts } from './genitals';
-import { artisanJobs, gastronomyJobs, noblesAndTitles } from './jobs';
+import {
+    allJobs,
+    artisanJobs,
+    brothelJobs,
+    gastronomyJobs,
+    noblesAndTitles,
+} from './jobs';
 import { majesticBeasts } from './majesticBeasts';
 import { materials } from './material';
 import {
@@ -29,9 +35,7 @@ const characteristics = [
             ...honorfulPredatorBeasts,
             ...criminalPredatorBeasts,
             ...majesticBeasts,
-            ...artisanJobs,
-            ...gastronomyJobs,
-            ...noblesAndTitles,
+            ...allJobs,
             ...vegetables,
             { name: 'Hat', needs: [a.wizard] },
             {
@@ -71,7 +75,7 @@ const characteristics = [
             name: 'Thirsty',
             worksForBrothel: true,
         },
-        [...noblesAndTitles, ...artisanJobs]
+        [...noblesAndTitles, ...artisanJobs, ...brothelJobs]
     ),
     new NameIdea(
         {
@@ -81,6 +85,7 @@ const characteristics = [
         [
             ...noblesAndTitles,
             ...artisanJobs,
+            ...brothelJobs,
             ...honorfulPredatorBeasts,
             ...majesticBeasts,
         ]
@@ -88,7 +93,6 @@ const characteristics = [
     new NameIdea(
         {
             name: 'Sleeping',
-            worksForBrothel: true,
         },
         [
             ...noblesAndTitles,
@@ -102,7 +106,6 @@ const characteristics = [
     new NameIdea(
         {
             name: 'Slumbering',
-            worksForBrothel: true,
         },
         [
             ...noblesAndTitles,
@@ -139,7 +142,7 @@ const characteristics = [
             worksForBrothel: true,
             incomeRange: [a.rich, a.wealthy],
         },
-        [...artisanJobs, ...sexyParts, ...maleGenitals, ...femaleGenitals]
+        [...brothelJobs, ...sexyParts, ...maleGenitals, ...femaleGenitals]
     ),
     new NameIdea(
         {
@@ -147,7 +150,7 @@ const characteristics = [
             needs: [a.prostitute],
             worksForBrothel: true,
         },
-        [...artisanJobs]
+        [...brothelJobs]
     ),
     new NameIdea(
         {
@@ -156,7 +159,7 @@ const characteristics = [
             worksForBrothel: true,
             incomeRange: [a.rich, a.wealthy],
         },
-        [...artisanJobs, ...sexyParts, ...maleGenitals, ...femaleGenitals]
+        [...brothelJobs, ...sexyParts, ...maleGenitals, ...femaleGenitals]
     ),
     new NameIdea(
         {
@@ -164,7 +167,7 @@ const characteristics = [
             needs: [a.prostitute],
             worksForBrothel: true,
         },
-        [...artisanJobs, ...sexyParts, ...maleGenitals, ...femaleGenitals]
+        [...brothelJobs, ...sexyParts, ...maleGenitals, ...femaleGenitals]
     ),
     new NameIdea(
         {
@@ -172,7 +175,7 @@ const characteristics = [
             needs: [a.prostitute],
             worksForBrothel: true,
         },
-        [...artisanJobs]
+        [...brothelJobs]
     ),
     new NameIdea(
         {
@@ -180,7 +183,7 @@ const characteristics = [
             needs: [a.prostitute],
             worksForBrothel: true,
         },
-        [...artisanJobs]
+        [...brothelJobs]
     ),
     new NameIdea(
         {
@@ -189,7 +192,7 @@ const characteristics = [
             worksForBrothel: true,
             incomeRange: [a.poor, a.modest],
         },
-        [...artisanJobs, ...sexyParts]
+        [...brothelJobs, ...sexyParts]
     ),
     new NameIdea(
         {
@@ -198,7 +201,7 @@ const characteristics = [
             worksForBrothel: true,
             incomeRange: [a.poor, a.modest],
         },
-        [...maleGenitals, ...femaleGenitals]
+        [...maleGenitals, ...femaleGenitals, ...brothelJobs]
     ),
     new NameIdea(
         {
@@ -206,7 +209,7 @@ const characteristics = [
             needs: [a.prostitute],
             worksForBrothel: true,
         },
-        [...artisanJobs]
+        [...brothelJobs]
     ),
     new NameIdea(
         {
@@ -255,7 +258,7 @@ const characteristics = [
             worksForBrothel: true,
             incomeRange: [a.poor, a.modest],
         },
-        [...sexyParts, ...maleGenitals, ...femaleGenitals]
+        [...sexyParts, ...maleGenitals, ...femaleGenitals, ...brothelJobs]
     ),
     new NameIdea(
         {
