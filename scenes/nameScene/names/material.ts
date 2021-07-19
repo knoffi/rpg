@@ -1,6 +1,7 @@
 import { association } from '../../../classes/association';
 import { DescriptionAsset } from '../../../classes/idea/DescriptionAsset';
 import { NameIdea } from '../../../classes/idea/NameIdea';
+import { fruits, vegetables } from './fruitsVegetables';
 import { femaleGenitals, maleGenitals, sexyParts } from './genitals';
 import { instruments } from './instruments';
 import { artisanJobs } from './jobs';
@@ -28,6 +29,8 @@ const SUBSTANTIVES_FOR_GOLD: DescriptionAsset[] = [
     ...femaleGenitals,
     ...tools,
     ...instruments,
+    ...fruits,
+    ...vegetables,
     { name: 'Temple', needsOne: [a.cleric] },
     { name: 'Mine', needsOne: [a.dwarf, a.underdark] },
     { name: 'Harem', needs: [a.prostitute], worksForBrothel: true },

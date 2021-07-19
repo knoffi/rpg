@@ -1,5 +1,6 @@
 import { association } from '../../../classes/association';
 import { NameIdea } from '../../../classes/idea/NameIdea';
+import { fruits, vegetables } from './fruitsVegetables';
 import { femaleGenitals, maleGenitals, sexyParts } from './genitals';
 import { artisanJobs, gastronomyJobs, noblesAndTitles } from './jobs';
 import { majesticBeasts } from './majesticBeasts';
@@ -31,6 +32,7 @@ const characteristics = [
             ...artisanJobs,
             ...gastronomyJobs,
             ...noblesAndTitles,
+            ...vegetables,
             { name: 'Hat', needs: [a.wizard] },
             {
                 name: 'Squid',
@@ -214,7 +216,7 @@ const characteristics = [
             incomeRange: [a.poor, a.modest],
             misfits: [a.elf],
         },
-        [...sexyParts, ...maleGenitals]
+        [...sexyParts, ...maleGenitals, ...fruits, ...vegetables]
     ),
     new NameIdea(
         {
