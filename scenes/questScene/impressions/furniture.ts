@@ -11,7 +11,7 @@ export const furnitures: ImpressionIdea[] = [
             needs: [a.poor],
             worksForAllCriminals: true,
             powerFits: [a.poor],
-            key: AssetKey.tables,
+            key: AssetKey.FURNITUE_tables,
         },
         [emptyDescriptionAsset],
         Noticable.furniture
@@ -22,7 +22,7 @@ export const furnitures: ImpressionIdea[] = [
             needs: [a.poor],
             worksForAllCriminals: true,
             powerFits: [a.poor],
-            key: AssetKey.tables,
+            key: AssetKey.FURNITUE_tables,
         },
         [emptyDescriptionAsset],
         Noticable.furniture
@@ -33,7 +33,7 @@ export const furnitures: ImpressionIdea[] = [
             needs: [a.poor],
             worksForAllCriminals: true,
             powerFits: [a.poor],
-            key: AssetKey.tables,
+            key: AssetKey.FURNITUE_tables,
         },
         [emptyDescriptionAsset],
         Noticable.furniture
@@ -44,7 +44,7 @@ export const furnitures: ImpressionIdea[] = [
             incomeRange: [a.modest],
             worksForAllCriminals: true,
             powerFits: [a.modest],
-            key: AssetKey.tables,
+            key: AssetKey.FURNITUE_tables,
         },
         [emptyDescriptionAsset],
         Noticable.furniture
@@ -55,7 +55,7 @@ export const furnitures: ImpressionIdea[] = [
             incomeRange: [a.wealthy],
             worksForAllCriminals: true,
             powerFits: [a.wealthy],
-            key: AssetKey.tables,
+            key: AssetKey.FURNITUE_tables,
         },
         [emptyDescriptionAsset],
         Noticable.furniture
@@ -66,7 +66,7 @@ export const furnitures: ImpressionIdea[] = [
             needs: [a.rich],
             worksForAllCriminals: true,
             powerFits: [a.rich],
-            key: AssetKey.tables,
+            key: AssetKey.FURNITUE_tables,
         },
         [emptyDescriptionAsset],
         Noticable.furniture
@@ -77,7 +77,7 @@ export const furnitures: ImpressionIdea[] = [
             incomeRange: [a.wealthy],
             worksForAllCriminals: true,
             powerFits: [a.wealthy],
-            key: AssetKey.tables,
+            key: AssetKey.FURNITUE_tables,
         },
         [emptyDescriptionAsset],
         Noticable.furniture
@@ -88,7 +88,7 @@ export const furnitures: ImpressionIdea[] = [
             needs: [a.rich],
             worksForAllCriminals: true,
             powerFits: [a.rich],
-            key: AssetKey.cutleryPlates,
+            key: AssetKey.FURNITUE_cutleryPlates,
         },
         [emptyDescriptionAsset],
         Noticable.furniture
@@ -99,7 +99,7 @@ export const furnitures: ImpressionIdea[] = [
             needs: [a.rich],
             worksForAllCriminals: true,
             powerFits: [a.rich],
-            key: AssetKey.cutleryPlates,
+            key: AssetKey.FURNITUE_cutleryPlates,
         },
         [emptyDescriptionAsset],
         Noticable.furniture
@@ -110,7 +110,7 @@ export const furnitures: ImpressionIdea[] = [
             incomeRange: [a.rich, a.wealthy],
             worksForAllCriminals: true,
             powerFits: [a.rich],
-            key: AssetKey.cutleryPlates,
+            key: AssetKey.FURNITUE_cutleryPlates,
         },
         [emptyDescriptionAsset],
         Noticable.furniture
@@ -121,7 +121,7 @@ export const furnitures: ImpressionIdea[] = [
             needs: [a.wealthy],
             worksForAllCriminals: true,
             powerFits: [a.wealthy],
-            key: AssetKey.cutleryPlates,
+            key: AssetKey.FURNITUE_cutleryPlates,
         },
         [emptyDescriptionAsset],
         Noticable.furniture
@@ -132,7 +132,7 @@ export const furnitures: ImpressionIdea[] = [
             incomeRange: [a.modest, a.wealthy],
             worksForAllCriminals: true,
             powerFits: [a.wealthy],
-            key: AssetKey.cutleryPlates,
+            key: AssetKey.FURNITUE_cutleryPlates,
         },
         [emptyDescriptionAsset],
         Noticable.furniture
@@ -143,7 +143,7 @@ export const furnitures: ImpressionIdea[] = [
             incomeRange: [a.modest, a.poor],
             worksForAllCriminals: true,
             powerFits: [a.modest],
-            key: AssetKey.cutleryPlates,
+            key: AssetKey.FURNITUE_cutleryPlates,
         },
         [emptyDescriptionAsset],
         Noticable.furniture
@@ -154,7 +154,7 @@ export const furnitures: ImpressionIdea[] = [
             incomeRange: [a.modest, a.wealthy],
             worksForAllCriminals: true,
             powerFits: [a.wealthy],
-            key: AssetKey.cutleryPlates,
+            key: AssetKey.FURNITUE_cutleryPlates,
         },
         [emptyDescriptionAsset],
         Noticable.furniture
@@ -165,7 +165,7 @@ export const furnitures: ImpressionIdea[] = [
             incomeRange: [a.modest],
             worksForAllCriminals: true,
             powerFits: [a.modest],
-            key: AssetKey.cutleryPlates,
+            key: AssetKey.FURNITUE_cutleryPlates,
         },
         [emptyDescriptionAsset],
         Noticable.furniture
@@ -176,7 +176,7 @@ export const furnitures: ImpressionIdea[] = [
             needs: [a.rich],
             worksForAllCriminals: true,
             powerFits: [a.rich],
-            key: AssetKey.cutleryPlates,
+            key: AssetKey.FURNITUE_cutleryPlates,
         },
         [emptyDescriptionAsset],
         Noticable.furniture
@@ -187,7 +187,7 @@ export const furnitures: ImpressionIdea[] = [
             incomeRange: [a.poor, a.modest],
             worksForAllCriminals: true,
             powerFits: [a.poor, a.modest],
-            key: AssetKey.cutleryPlates,
+            key: AssetKey.FURNITUE_cutleryPlates,
         },
         [emptyDescriptionAsset],
         Noticable.furniture
@@ -198,7 +198,7 @@ export const furnitures: ImpressionIdea[] = [
             incomeRange: [a.wealthy],
             worksForAllCriminals: true,
             powerFits: [a.wealthy],
-            key: AssetKey.cutleryPlates,
+            key: AssetKey.FURNITUE_cutleryPlates,
         },
         [emptyDescriptionAsset],
         Noticable.furniture
@@ -209,7 +209,7 @@ export const furnitures: ImpressionIdea[] = [
             incomeRange: [a.modest, a.poor],
             worksForAllCriminals: true,
             powerFits: [a.modest, a.poor],
-            key: AssetKey.cutleryPlates,
+            key: AssetKey.FURNITUE_cutleryPlates,
         },
         [emptyDescriptionAsset],
         Noticable.furniture
@@ -220,7 +220,7 @@ export const furnitures: ImpressionIdea[] = [
             incomeRange: [a.poor],
             worksForAllCriminals: true,
             powerFits: [a.poor],
-            key: AssetKey.cutleryPlates,
+            key: AssetKey.FURNITUE_cutleryPlates,
         },
         [emptyDescriptionAsset],
         Noticable.furniture
@@ -231,7 +231,7 @@ export const furnitures: ImpressionIdea[] = [
             incomeRange: [a.modest],
             worksForAllCriminals: true,
             powerFits: [a.modest],
-            key: AssetKey.cutleryPlates,
+            key: AssetKey.FURNITUE_cutleryPlates,
         },
         [emptyDescriptionAsset],
         Noticable.furniture
@@ -242,7 +242,7 @@ export const furnitures: ImpressionIdea[] = [
             incomeRange: [a.modest],
             worksForAllCriminals: true,
             powerFits: [a.modest],
-            key: AssetKey.cutleryPlates,
+            key: AssetKey.FURNITUE_cutleryPlates,
         },
         [emptyDescriptionAsset],
         Noticable.furniture
@@ -253,7 +253,7 @@ export const furnitures: ImpressionIdea[] = [
             needs: [a.rich],
             worksForAllCriminals: true,
             powerFits: [a.rich],
-            key: AssetKey.tables,
+            key: AssetKey.FURNITUE_tables,
         },
         [emptyDescriptionAsset],
         Noticable.furniture
@@ -264,7 +264,7 @@ export const furnitures: ImpressionIdea[] = [
             needsOne: [a.gnome, a.halfling],
             worksForAllCriminals: true,
             powerFits: [a.gnome, a.halfling],
-            key: AssetKey.drinkHolder,
+            key: AssetKey.FURNITUE_drinkHolder,
         },
         [emptyDescriptionAsset],
         Noticable.furniture

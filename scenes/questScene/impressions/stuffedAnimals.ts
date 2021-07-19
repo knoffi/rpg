@@ -13,7 +13,7 @@ export const stuffedAnimals: ImpressionIdea[] = [
             misfits: [a.druid, a.poor],
             worksForAssasines: true,
             powerFits: [a.adventurer, a.barbarian, a.forest],
-            key: AssetKey.creatureTrophies,
+            key: AssetKey.FURNITUE_creatureTrophies,
         },
         [emptyDescriptionAsset],
         Noticable.furniture
@@ -25,7 +25,7 @@ export const stuffedAnimals: ImpressionIdea[] = [
             misfits: [a.druid, a.poor],
             worksForAssasines: true,
             powerFits: [a.barbarian, a.forest, a.village],
-            key: AssetKey.creatureTrophies,
+            key: AssetKey.FURNITUE_creatureTrophies,
         },
         [emptyDescriptionAsset],
         Noticable.furniture
@@ -37,7 +37,7 @@ export const stuffedAnimals: ImpressionIdea[] = [
             misfits: [a.druid],
             worksForThiefs: true,
             powerFits: [a.modest, a.city, a.village],
-            key: AssetKey.creatureTrophies,
+            key: AssetKey.FURNITUE_creatureTrophies,
         },
         [emptyDescriptionAsset],
         Noticable.furniture
@@ -49,7 +49,7 @@ export const stuffedAnimals: ImpressionIdea[] = [
             misfits: [a.druid, a.poor],
             worksForAssasines: true,
             powerFits: [a.knight],
-            key: AssetKey.creatureTrophies,
+            key: AssetKey.FURNITUE_creatureTrophies,
         },
         [emptyDescriptionAsset],
         Noticable.furniture
@@ -62,7 +62,7 @@ export const stuffedAnimals: ImpressionIdea[] = [
             classRange: [a.adventurer, a.wizard],
             worksForAssasines: true,
             powerFits: [a.wizard, a.underdark, a.adventurer],
-            key: AssetKey.creatureTrophies,
+            key: AssetKey.FURNITUE_creatureTrophies,
         },
         [emptyDescriptionAsset],
         Noticable.furniture
@@ -74,7 +74,7 @@ export const stuffedAnimals: ImpressionIdea[] = [
             landRange: [a.city, a.underdark],
             worksForAssasines: true,
             powerFits: [a.drow, a.underdark],
-            key: AssetKey.creatureTrophies,
+            key: AssetKey.FURNITUE_creatureTrophies,
         },
         [emptyDescriptionAsset],
         Noticable.furniture
@@ -86,7 +86,7 @@ export const stuffedAnimals: ImpressionIdea[] = [
             landRange: [a.city, a.underdark],
             worksForAssasines: true,
             powerFits: [a.drow, a.underdark],
-            key: AssetKey.creatureTrophies,
+            key: AssetKey.FURNITUE_creatureTrophies,
         },
         [emptyDescriptionAsset],
         Noticable.furniture
@@ -98,7 +98,7 @@ export const stuffedAnimals: ImpressionIdea[] = [
             misfits: [a.druid, a.poor],
             worksForAssasines: true,
             powerFits: [a.mountain, a.adventurer],
-            key: AssetKey.creatureTrophies,
+            key: AssetKey.FURNITUE_creatureTrophies,
         },
         [emptyDescriptionAsset],
         Noticable.furniture
@@ -110,7 +110,7 @@ export const stuffedAnimals: ImpressionIdea[] = [
             misfits: [a.druid],
             worksForThiefs: true,
             powerFits: [a.modest, a.city, a.village],
-            key: AssetKey.creatureTrophies,
+            key: AssetKey.FURNITUE_creatureTrophies,
         },
         [emptyDescriptionAsset],
         Noticable.furniture
@@ -122,7 +122,7 @@ export const stuffedAnimals: ImpressionIdea[] = [
             misfits: [a.druid, a.poor],
             worksForAssasines: true,
             powerFits: [a.rich, a.mountain, a.desert],
-            key: AssetKey.creatureTrophies,
+            key: AssetKey.FURNITUE_creatureTrophies,
         },
         [emptyDescriptionAsset],
         Noticable.furniture
@@ -134,7 +134,7 @@ export const stuffedAnimals: ImpressionIdea[] = [
             needsOne: [a.desert, a.rich],
             worksForAssasines: true,
             powerFits: [a.rich, a.desert],
-            key: AssetKey.creatureTrophies,
+            key: AssetKey.FURNITUE_creatureTrophies,
         },
         [emptyDescriptionAsset],
         Noticable.furniture
@@ -146,7 +146,7 @@ export const stuffedAnimals: ImpressionIdea[] = [
             misfits: [a.druid, a.poor],
             worksForAssasines: true,
             powerFits: [a.rich, a.desert],
-            key: AssetKey.creatureTrophies,
+            key: AssetKey.FURNITUE_creatureTrophies,
         },
         [emptyDescriptionAsset],
         Noticable.furniture
@@ -158,7 +158,7 @@ export const stuffedAnimals: ImpressionIdea[] = [
             misfits: [a.druid, a.poor],
             worksForAssasines: true,
             powerFits: [a.rich, a.tropical],
-            key: AssetKey.creatureTrophies,
+            key: AssetKey.FURNITUE_creatureTrophies,
         },
         [emptyDescriptionAsset],
         Noticable.furniture
@@ -170,7 +170,7 @@ export const stuffedAnimals: ImpressionIdea[] = [
             misfits: [a.druid, a.poor],
             worksForAssasines: true,
             powerFits: [a.desert],
-            key: AssetKey.creatureTrophies,
+            key: AssetKey.FURNITUE_creatureTrophies,
         },
         [emptyDescriptionAsset],
         Noticable.furniture
@@ -182,7 +182,7 @@ export const stuffedAnimals: ImpressionIdea[] = [
             misfits: [a.druid, a.poor],
             worksForAssasines: true,
             powerFits: [a.adventurer, a.mountain],
-            key: AssetKey.creatureTrophies,
+            key: AssetKey.FURNITUE_creatureTrophies,
         },
         [emptyDescriptionAsset],
         Noticable.furniture
@@ -193,7 +193,7 @@ export const stuffedAnimals: ImpressionIdea[] = [
             needsOne: [a.haven, a.tropical],
             misfits: [a.druid, a.poor],
             worksForAssasines: true,
-            key: AssetKey.creatureTrophies,
+            key: AssetKey.FURNITUE_creatureTrophies,
         },
         [emptyDescriptionAsset],
         Noticable.furniture
@@ -204,7 +204,7 @@ export const stuffedAnimals: ImpressionIdea[] = [
             landRange: [a.tropical],
             misfits: [a.druid, a.poor],
             worksForAssasines: true,
-            key: AssetKey.creatureTrophies,
+            key: AssetKey.FURNITUE_creatureTrophies,
         },
         [emptyDescriptionAsset],
         Noticable.furniture
