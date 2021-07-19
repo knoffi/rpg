@@ -14,7 +14,7 @@ export const weirdBarDecorations: ImpressionIdea[] = [
             classRange: [a.adventurer, a.wizard],
             worksForAssasines: true,
             powerFits: [a.wizard, a.underdark, a.adventurer],
-            key: AssetKey.FURNITUE_barDeco,
+            key: AssetKey.FURNITURE_barDeco,
         },
         [emptyDescriptionAsset],
         Noticable.furniture

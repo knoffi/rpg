@@ -9,19 +9,19 @@ export const getKeyBound = (key: AssetKey) => {
     if (key === AssetKey.INDIVIDUALS_servant) {
         return 1;
     }
-    if (key === AssetKey.FURNITUE_creatureTrophies) {
+    if (key === AssetKey.FURNITURE_creatureTrophies) {
         return 1;
     }
-    if (key === AssetKey.FURNITUE_barDeco) {
+    if (key === AssetKey.FURNITURE_barDeco) {
         return 2;
     }
-    if (key === AssetKey.FURNITUE_cutleryPlates) {
+    if (key === AssetKey.FURNITURE_cutleryPlates) {
         return 1;
     }
-    if (key === AssetKey.FURNITUE_tables) {
+    if (key === AssetKey.FURNITURE_tables) {
         return 1;
     }
-    if (key === AssetKey.FURNITUE_drinkHolder) {
+    if (key === AssetKey.FURNITURE_drinkHolder) {
         return 1;
     }
     if (key === AssetKey.AVERAGE_CUSTOMER_drinking) {
