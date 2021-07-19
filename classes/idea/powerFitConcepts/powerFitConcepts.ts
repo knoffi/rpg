@@ -11,7 +11,7 @@ export const defaultPowerFitConcepts = {
         harmony: false,
         contrast: false,
     } as PowerFitConcept,
-    menu: { main: false, harmony: false, contrast: false } as PowerFitConcept,
+    menu: { main: true, harmony: true, contrast: true } as PowerFitConcept,
     impression: {
         main: true,
         harmony: false,

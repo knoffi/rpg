@@ -1,4 +1,8 @@
+import { DishIdea } from '../../../classes/idea/DishIdea';
+import { getBestIdeas } from '../../../classes/idea/fitCalculator/getBestIdeas';
+import { getSortedByFitLevel } from '../../../classes/idea/fitCalculator/getSortedByFitLevel';
 import { StructuredTavernFits } from '../../../classes/idea/StructuredTavernFits';
+import { TavernProduct } from '../../../classes/TavernProduct';
 import { getRandomArrayEntry } from '../../../helpingFunctions/getFittingRandom';
 import { NothingLeftOffer } from '../menuEnums';
 import { DrinkChapters } from './DrinkChapters';
@@ -17,6 +21,7 @@ export const predecideDishes = (
     );
 
     if (filteredChapters.length === 0) {
+        console.log('no dish chapter survived filtering...');
         return NothingLeftOffer.product;
     } else {
         //TODO: Extract and generalize the predeciding for breakfastChapters, dessertChapters... etc.
@@ -49,16 +54,40 @@ export const predecideDishes = (
         );
         const predecidedChapter =
             filteredChapters[-negativPredecidedIndex].ideas;
-        const fittingDishIdeas = predecidedChapter.filter((dishIdea) =>
-            dishIdea.fitsToMenu(fitting, isExcludedByPrefix)
+        const newTavernProduct = getRandomTavernProduct(
+            fitting,
+            predecidedChapter,
+            isExcludedByPrefix
         );
-        if (!predecideDishes) {
-            console.log('predecided dishes can be undefined!');
-        }
-        if (predecideDishes.length === 0) {
-            console.log('predecided dishes can be empty!');
-        }
-        const predecidedDishIdea = getRandomArrayEntry(fittingDishIdeas);
-        return predecidedDishIdea.getConcreteDish(fitting, isExcludedByPrefix);
+        return newTavernProduct;
+    }
+};
+
+const getRandomTavernProduct = (
+    fitting: StructuredTavernFits,
+    dishes: DishIdea[],
+    isExcludedByPrefix: (name: string) => boolean
+): TavernProduct => {
+    const sortedDishIdeas = getSortedByFitLevel(
+        dishes,
+        fitting,
+        isExcludedByPrefix,
+        () => false,
+        () => false
+    );
+    console.log(sortedDishIdeas.high.length);
+    console.log(sortedDishIdeas.medium.length);
+    console.log(sortedDishIdeas.low.length);
+    const bestDishes = getBestIdeas(sortedDishIdeas);
+    if (!bestDishes) {
+        console.log('no dish reached low fit level');
+        return NothingLeftOffer.product;
+    } else {
+        const newIdea = getRandomArrayEntry(bestDishes.ideas);
+        const newTavernProduct = newIdea.getConcreteDish(
+            fitting,
+            bestDishes.level
+        );
+        return newTavernProduct;
     }
 };
