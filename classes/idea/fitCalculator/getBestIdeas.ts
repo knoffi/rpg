@@ -1,7 +1,10 @@
 import { FitLevel } from './FitLevel';
-import { FitSorting } from './getSortedByFitLevel';
 
-export const getBestIdeas = (ideaSorting: FitSorting) => {
+export const getBestIdeas = <Type>(ideaSorting: {
+    high: Type[];
+    medium: Type[];
+    low: Type[];
+}) => {
     if (ideaSorting.high.length > 0) {
         return { ideas: ideaSorting.high, level: FitLevel.high };
     }

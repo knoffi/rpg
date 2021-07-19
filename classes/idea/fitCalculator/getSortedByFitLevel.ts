@@ -1,26 +1,30 @@
 import { AssetKey } from '../AssetKey/AssetKey';
-import { ImpressionIdea } from '../ImpressionIdea';
 import { StructuredTavernFits } from '../StructuredTavernFits';
 import { FitLevel } from './FitLevel';
 
-export type FitSorting = {
-    high: ImpressionIdea[];
-    medium: ImpressionIdea[];
-    low: ImpressionIdea[];
-};
+interface IFitLevelSortable {
+    getFitLevelForTavern: (
+        tavernFits: StructuredTavernFits,
+        isExcludedByName: (name: string) => boolean,
+        mainFilter?: number,
+        additionFilter?: number,
+        mainIsExcludedByKey?: (key: AssetKey) => boolean,
+        additionIsExcludedByKey?: (key: AssetKey) => boolean
+    ) => FitLevel;
+}
 
-export const getSortedByFitLevel = (
-    ideas: ImpressionIdea[],
+export const getSortedByFitLevel = <Type extends IFitLevelSortable>(
+    ideas: Type[],
     tavernFits: StructuredTavernFits,
     isExcludedByName: (name: string) => boolean,
     mainIsExcludedByKey: (key: AssetKey) => boolean,
     actionIsExcludedByKey: (key: AssetKey) => boolean,
     mainFilter?: number,
     additionFilter?: number
-): FitSorting => {
-    const highFits: ImpressionIdea[] = [];
-    const mediumFits: ImpressionIdea[] = [];
-    const lowFits: ImpressionIdea[] = [];
+) => {
+    const highFits: Type[] = [];
+    const mediumFits: Type[] = [];
+    const lowFits: Type[] = [];
     ideas.forEach((idea) => {
         const fitLevel = idea.getFitLevelForTavern(
             tavernFits,

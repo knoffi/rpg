@@ -7,7 +7,6 @@ import {
     AssociationTypes,
     getCategoryOfAssociation,
 } from '../../classes/association';
-import { NameIdea } from '../../classes/idea/NameIdea';
 import {
     getFitsFromStructure,
     StructuredTavernFits,
@@ -18,7 +17,6 @@ import {
     RerollButton,
 } from '../../components/buttons/generalButtons';
 import { checkDataDistribution } from '../../helpingFunctions/checkDataDistribution';
-import { getRandomArrayEntry } from '../../helpingFunctions/getFittingRandom';
 import { TavernData } from '../../mainNavigator/TavernData';
 import { globalStyles } from '../globalStyles';
 import { AssociationDialogBar } from './associationBar/AssociationDialogBar';
@@ -27,6 +25,7 @@ import {
     ButtonStates,
     getButtonStates,
 } from './associationBar/getButtonStates';
+import { getRandomName } from './getRandomName';
 import { nameIdeas } from './names/nameIdeas';
 import { nameSceneStyles } from './nameSceneStyles';
 import { NameSetDialog } from './NameSetDialog';
@@ -172,31 +171,13 @@ export class NameScene extends React.Component<
     }
 
     private rerollName() {
-        const isExcludedByPrefix = (name: string) => {
-            return this.state.oldNameParts.some(
-                (namePart) => namePart.slice(0, 5) === name.slice(0, 5)
-            );
-        };
         const probabilityForNameFilter = Math.random();
-        const possibleNames = nameIdeas.filter((nameIdea) =>
-            nameIdea.fitsToTavern(
-                this.props.fitting,
-                isExcludedByPrefix,
-                probabilityForNameFilter
-            )
+        const newName = getRandomName(
+            this.props.fitting,
+            this.state.oldNameParts,
+            probabilityForNameFilter,
+            probabilityForNameFilter
         );
-        const newNameIdea = getRandomArrayEntry(possibleNames) as NameIdea;
-        if (!newNameIdea) {
-            console.log(
-                'There was not fitting name idea which I could have chosen'
-            );
-        }
-        const newName = newNameIdea
-            ? newNameIdea.getConcreteName(
-                  this.props.fitting,
-                  isExcludedByPrefix
-              )
-            : 'Nameless Tavern';
         this.setNewName(newName);
     }
 

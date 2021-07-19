@@ -34,7 +34,6 @@ export const assetFitsToTavern = (
     }
     const necessarities = asset.needs || [];
     const misfits = asset.misfits || [];
-    const ownedPowerFits = asset.powerFits || [];
     //TODO: test if this still works, changed in first issue of #54
     const needsOne = asset.needsOne || [];
     const necessaritiesFulfilled = necessarities.every((necessaryFit) =>

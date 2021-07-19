@@ -1,4 +1,5 @@
 import { DescriptionAsset } from './DescriptionAsset';
+import { FitLevel } from './fitCalculator/FitLevel';
 import { Idea } from './Idea';
 import { PowerFitConcept } from './powerFitConcepts/PowerFitConcept';
 import { defaultPowerFitConcepts } from './powerFitConcepts/powerFitConcepts';
@@ -27,11 +28,15 @@ export class NameIdea extends Idea {
 
     public getConcreteName(
         tavernFits: StructuredTavernFits,
-        isExcludedByPrefix: (name: string) => boolean
+        isExcludedByPrefix: (name: string) => boolean,
+        minimumFitLevel: FitLevel,
+        additionFilter?: number
     ) {
         const substantive = this.chooseSubstantive(
             tavernFits,
-            isExcludedByPrefix
+            isExcludedByPrefix,
+            minimumFitLevel,
+            additionFilter
         );
         const adjective = this.main.name;
         return this.fuseNameForDisplay(adjective, substantive);
@@ -40,19 +45,28 @@ export class NameIdea extends Idea {
     private chooseSubstantive(
         tavernFits: StructuredTavernFits,
         isExcludedByPrefix: (name: string) => boolean,
+        minimumFitLevel: FitLevel,
+        additionFilter?: number,
         harmonyChance = DEFAULT_HARMONY_CHANCE
     ) {
+        console.log(minimumFitLevel);
         const fittingHarmony = this.getFittingAssetPart(
             tavernFits,
             this.additions ? this.additions[0] : undefined,
             isExcludedByPrefix,
-            true
+            true,
+            additionFilter,
+            undefined,
+            minimumFitLevel
         )?.name;
         const fittingContrast = this.getFittingAssetPart(
             tavernFits,
             this.contrastAdditions ? this.contrastAdditions[0] : undefined,
             isExcludedByPrefix,
-            true
+            true,
+            additionFilter,
+            undefined,
+            minimumFitLevel
         )?.name;
 
         return Math.random() < harmonyChance && fittingHarmony
@@ -68,6 +82,7 @@ export class NameIdea extends Idea {
             return this.main.name;
         }
         if (!substantive) {
+            console.log(this.main.name);
             return 'Nameless Tavern';
         } else {
             return this.reverseNaming
