@@ -106,7 +106,7 @@ export const artisanJobs: DescriptionAsset[] = [
         name: 'Lawyer',
         incomeRange: [a.wealthy],
         landRange: [a.city],
-        powerFits: [a.wealthy, a.gnome],
+        powerFits: [a.wealthy, a.city, a.gnome],
     },
     {
         name: 'Merchant',

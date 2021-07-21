@@ -759,7 +759,7 @@ export const specialNames: NameIdea[] = [
         worksForAssasines: true,
     }),
     new NameIdea({
-        name: 'Drunken Woodpecker',
+        name: 'Tipsy Woodpecker',
         needsOne: [a.forest],
         powerFits: [a.forest],
     }),
@@ -789,7 +789,7 @@ export const specialNames: NameIdea[] = [
         powerFits: [a.forest],
     }),
     new NameIdea({
-        name: 'Boasting Boar',
+        name: 'Drunken Boar',
         needsOne: [a.forest],
         powerFits: [a.forest],
     }),
@@ -803,7 +803,6 @@ export const specialNames: NameIdea[] = [
         name: 'Tipsy Giant',
         needsOne: [a.gnome],
         powerFits: [a.gnome],
-        misfits: [a.desert],
     }),
     new NameIdea({
         name: "Picklebilly's Pub",
