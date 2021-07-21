@@ -225,7 +225,7 @@ export const druidIndividuals: ImpressionIdea[] = [
             name: 'A group of nymphs is ',
             needsOne: [a.druid, a.barbarian],
             powerFits: [a.druid, a.forest, a.mountain],
-            worksForAllCriminals: true,
+            worksForBrothel: true,
         },
         nymphClass,
         Noticable.someCustomers
