@@ -34,7 +34,6 @@ export const assetFitsToTavern = (
     }
     const necessarities = asset.needs || [];
     const misfits = asset.misfits || [];
-    const ownedPowerFits = asset.powerFits || [];
     //TODO: test if this still works, changed in first issue of #54
     const needsOne = asset.needsOne || [];
     const necessaritiesFulfilled = necessarities.every((necessaryFit) =>
@@ -83,7 +82,7 @@ export const assetFitsToTavern = (
         !tavernFits.special ||
         !asset.specialsRange ||
         asset.specialsRange.includes(tavernFits.special);
-    const nonSpecialCondition =
+    const regularCondition =
         assetContainsTavernFits &&
         necessaritiesFulfilled &&
         needsOneFulfilled &&
@@ -94,21 +93,5 @@ export const assetFitsToTavern = (
         specialIsFitting &&
         noMisfitsInTavern &&
         strongNeedsOneFulfilled;
-    switch (tavernFits.special) {
-        case association.prostitute:
-            return asset.worksForBrothel || asset.worksForAllCriminals
-                ? nonSpecialCondition
-                : false;
-        case association.thief:
-            return asset.worksForThiefs || asset.worksForAllCriminals
-                ? nonSpecialCondition
-                : false;
-        case association.assasine:
-            return asset.worksForAssasines || asset.worksForAllCriminals
-                ? nonSpecialCondition
-                : false;
-
-        default:
-            return nonSpecialCondition;
-    }
+    return regularCondition;
 };

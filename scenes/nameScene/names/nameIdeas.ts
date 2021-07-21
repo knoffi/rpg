@@ -1,7 +1,15 @@
 import { association } from '../../../classes/association';
 import { NameIdea } from '../../../classes/idea/NameIdea';
+import { evilHumanoids } from './evilHumanoids';
+import { fruits, vegetables } from './fruitsVegetables';
 import { femaleGenitals, maleGenitals, sexyParts } from './genitals';
-import { artisanJobs, gastronomyJobs, noblesAndTitles } from './jobs';
+import {
+    allJobs,
+    artisanJobs,
+    brothelJobs,
+    gastronomyJobs,
+    noblesAndTitles,
+} from './jobs';
 import { majesticBeasts } from './majesticBeasts';
 import { materials } from './material';
 import {
@@ -28,9 +36,9 @@ const characteristics = [
             ...honorfulPredatorBeasts,
             ...criminalPredatorBeasts,
             ...majesticBeasts,
-            ...artisanJobs,
-            ...gastronomyJobs,
-            ...noblesAndTitles,
+            ...allJobs,
+            ...vegetables,
+            ...evilHumanoids,
             { name: 'Hat', needs: [a.wizard] },
             {
                 name: 'Squid',
@@ -69,7 +77,7 @@ const characteristics = [
             name: 'Thirsty',
             worksForBrothel: true,
         },
-        [...noblesAndTitles, ...artisanJobs]
+        [...noblesAndTitles, ...artisanJobs, ...brothelJobs, ...evilHumanoids]
     ),
     new NameIdea(
         {
@@ -79,14 +87,15 @@ const characteristics = [
         [
             ...noblesAndTitles,
             ...artisanJobs,
+            ...brothelJobs,
             ...honorfulPredatorBeasts,
             ...majesticBeasts,
+            ...evilHumanoids,
         ]
     ),
     new NameIdea(
         {
             name: 'Sleeping',
-            worksForBrothel: true,
         },
         [
             ...noblesAndTitles,
@@ -100,13 +109,13 @@ const characteristics = [
     new NameIdea(
         {
             name: 'Slumbering',
-            worksForBrothel: true,
         },
         [
             ...noblesAndTitles,
             ...artisanJobs,
             ...honorfulPredatorBeasts,
             ...majesticBeasts,
+            ...evilHumanoids,
             ...preyTinyAnimals,
         ]
     ),
@@ -137,7 +146,7 @@ const characteristics = [
             worksForBrothel: true,
             incomeRange: [a.rich, a.wealthy],
         },
-        [...artisanJobs, ...sexyParts, ...maleGenitals, ...femaleGenitals]
+        [...brothelJobs, ...sexyParts, ...maleGenitals, ...femaleGenitals]
     ),
     new NameIdea(
         {
@@ -145,7 +154,7 @@ const characteristics = [
             needs: [a.prostitute],
             worksForBrothel: true,
         },
-        [...artisanJobs]
+        [...brothelJobs]
     ),
     new NameIdea(
         {
@@ -154,7 +163,7 @@ const characteristics = [
             worksForBrothel: true,
             incomeRange: [a.rich, a.wealthy],
         },
-        [...artisanJobs, ...sexyParts, ...maleGenitals, ...femaleGenitals]
+        [...brothelJobs, ...sexyParts, ...maleGenitals, ...femaleGenitals]
     ),
     new NameIdea(
         {
@@ -162,7 +171,7 @@ const characteristics = [
             needs: [a.prostitute],
             worksForBrothel: true,
         },
-        [...artisanJobs, ...sexyParts, ...maleGenitals, ...femaleGenitals]
+        [...brothelJobs, ...sexyParts, ...maleGenitals, ...femaleGenitals]
     ),
     new NameIdea(
         {
@@ -170,7 +179,7 @@ const characteristics = [
             needs: [a.prostitute],
             worksForBrothel: true,
         },
-        [...artisanJobs]
+        [...brothelJobs]
     ),
     new NameIdea(
         {
@@ -178,7 +187,7 @@ const characteristics = [
             needs: [a.prostitute],
             worksForBrothel: true,
         },
-        [...artisanJobs]
+        [...brothelJobs]
     ),
     new NameIdea(
         {
@@ -187,7 +196,7 @@ const characteristics = [
             worksForBrothel: true,
             incomeRange: [a.poor, a.modest],
         },
-        [...artisanJobs, ...sexyParts]
+        [...brothelJobs, ...sexyParts]
     ),
     new NameIdea(
         {
@@ -196,7 +205,7 @@ const characteristics = [
             worksForBrothel: true,
             incomeRange: [a.poor, a.modest],
         },
-        [...maleGenitals, ...femaleGenitals]
+        [...maleGenitals, ...femaleGenitals, ...brothelJobs]
     ),
     new NameIdea(
         {
@@ -204,7 +213,7 @@ const characteristics = [
             needs: [a.prostitute],
             worksForBrothel: true,
         },
-        [...artisanJobs]
+        [...brothelJobs]
     ),
     new NameIdea(
         {
@@ -214,7 +223,7 @@ const characteristics = [
             incomeRange: [a.poor, a.modest],
             misfits: [a.elf],
         },
-        [...sexyParts, ...maleGenitals]
+        [...sexyParts, ...maleGenitals, ...fruits, ...vegetables]
     ),
     new NameIdea(
         {
@@ -253,7 +262,7 @@ const characteristics = [
             worksForBrothel: true,
             incomeRange: [a.poor, a.modest],
         },
-        [...sexyParts, ...maleGenitals, ...femaleGenitals]
+        [...sexyParts, ...maleGenitals, ...femaleGenitals, ...brothelJobs]
     ),
     new NameIdea(
         {
@@ -275,7 +284,7 @@ const characteristics = [
     ),
 ];
 
-// more ideas: Holy, Divine, Virtuous, Rightous, Honorable, Virtuous, Peaceful, Merciful, Rejoicing, Virgin, Decadent, Smiling, Giggling, Singing, Dancing, Joyful, Fierce, Ferocious, Vigorous Enraged, Vigilant, Glowing, Shining, Glorious, Nonchalant, Dapper, Marmor?, Victorious?, Triumphant?, Roaring, Sinister, Insidious?, Drunken, Spitting, Squint-Eyes, One-Eyed, Gleeful, Spiteful, Malicious, Cursed,  Flaming, Fiery, Infernal, Horned, Macabre, Squinting, Whispering, Silent, Venomous, Wrathful, Patient, Lurking,  Decadent, Hungry, Starving, Sleepy, Salty, Fishy, Sailing, Dreaming, Rotten, Savage, Gloomy, Feasting, Dining, Savoring, Chomping, Moaning, Moist, Flitrting, Lascivious, Salacious, Hammering, Forging, Weaving, Knitting,      Dried Out, Thirsty, Spicy, Silky, Cashmere, Velvet, Exhausted more oriental stuff... ,    Colorful, Fruity, Spicy,  more tropical stuff...
+// more ideas: Holy, Divine, Praying, Virtuous, Rightous, Honorable, Virtuous, Peaceful, Merciful, Rejoicing, Virgin, Decadent, Smiling, Giggling, Singing, Dancing, Joyful, Fierce, Ferocious, Vigorous Enraged, Vigilant, Glowing, Shining, Glorious, Nonchalant, Dapper, Marmor?, Victorious?, Triumphant?, Roaring, Sinister, Insidious?, Drunken, Spitting, Squint-Eyes, One-Eyed, Gleeful, Spiteful, Malicious, Cursed,  Flaming, Fiery, Infernal, Horned, Macabre, Squinting, Whispering, Silent, Venomous, Wrathful, Patient, Lurking,  Decadent, Hungry, Starving, Sleepy, Salty, Fishy, Sailing, Dreaming, Rotten, Filthy, Savage, Gloomy, Feasting, Dining, Savoring, Chomping, Moaning, Moist, Flitrting, Lascivious, Salacious, Hammering, Forging, Weaving, Knitting,      Dried Out, Thirsty, Spicy, Silky, Cashmere, Velvet, Exhausted more oriental stuff... ,    Colorful, Fruity, Spicy,  more tropical stuff...
 
 // Banquett, Spatz, Duck, Goose
 

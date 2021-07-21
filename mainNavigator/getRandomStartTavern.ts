@@ -3,7 +3,6 @@ import {
     AssociationTypes,
     getAssociationsOfType,
 } from '../classes/association';
-import { NameIdea } from '../classes/idea/NameIdea';
 import { Noticable } from '../classes/idea/Noticable';
 import {
     getStructuredFits,
@@ -11,12 +10,12 @@ import {
 } from '../classes/idea/StructuredTavernFits';
 import { Drinkable, Eatable, MenuCategory } from '../classes/TavernProduct';
 import { getProductsLeftAndBannerData } from '../editNavigator/editNavigatorFunctions';
+import { WeServe } from '../editNavigator/WeServe';
 import { getRandomArrayEntry } from '../helpingFunctions/getFittingRandom';
 import { getNewRandomDrinkOffer } from '../scenes/menuScene/addRandomDrink';
 import { BasePrice, standardBasePrice } from '../scenes/menuScene/basePrice';
 import { NothingLeftOffer, Offer } from '../scenes/menuScene/menuEnums';
-import { WeServe } from '../editNavigator/WeServe';
-import { nameIdeas } from '../scenes/nameScene/names/nameIdeas';
+import { getRandomName } from '../scenes/nameScene/getRandomName';
 import { emptyImpression } from '../scenes/questScene/impressions/emptyImpression';
 import { IImpression } from '../scenes/questScene/impressions/IImpression';
 import { getRandomImpression } from '../scenes/questScene/impressions/impressionChapters';
@@ -38,7 +37,7 @@ export const getRandomStartTavern = () => {
         fits,
         WeServe.impressions
     ) as IImpression[];
-    tavernData.name = getRandomName(fits);
+    tavernData.name = getRandomStartName(fits);
     tavernData.fitting = fits;
     tavernData.drinks = drinks;
     tavernData.dishes = dishes;
@@ -90,20 +89,14 @@ const getRandomIdeas = (fits: StructuredTavernFits, isAbout: WeServe) => {
         })
         .flat();
 };
-const getRandomName = (fits: StructuredTavernFits) => {
-    const randomNumber = Math.random();
-    const possibleNames = nameIdeas.filter((nameIdea) =>
-        nameIdea.fitsToTavern(fits, (name: string) => true, randomNumber)
+const getRandomStartName = (fits: StructuredTavernFits) => {
+    const probabilityForNameFilter = Math.random();
+    const newName = getRandomName(
+        fits,
+        [],
+        probabilityForNameFilter,
+        probabilityForNameFilter
     );
-    const newNameIdea = getRandomArrayEntry(possibleNames) as NameIdea;
-    if (!newNameIdea) {
-        console.log(
-            'no name idea fitted to tavern, thus newNameIdea was undefined'
-        );
-    }
-    const newName = newNameIdea
-        ? newNameIdea.getConcreteName(fits, () => false)
-        : 'Nameless Tavern';
     return newName;
 };
 

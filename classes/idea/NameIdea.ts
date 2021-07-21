@@ -1,6 +1,8 @@
-import { AssetStressMode } from './assetStressMode';
 import { DescriptionAsset } from './DescriptionAsset';
+import { FitLevel } from './fitCalculator/FitLevel';
 import { Idea } from './Idea';
+import { PowerFitConcept } from './powerFitConcepts/PowerFitConcept';
+import { defaultPowerFitConcepts } from './powerFitConcepts/powerFitConcepts';
 import { StructuredTavernFits } from './StructuredTavernFits';
 
 const DEFAULT_HARMONY_CHANCE = 0.9;
@@ -10,31 +12,31 @@ export class NameIdea extends Idea {
         private substantives?: DescriptionAsset[],
         private contrastSubstantives?: DescriptionAsset[],
         private reverseNaming = false,
-        private stress = AssetStressMode.harmony
+        private stress?: PowerFitConcept
     ) {
         super(
             adjective,
+            stress
+                ? stress
+                : substantives || contrastSubstantives
+                ? defaultPowerFitConcepts.nameWithAdditions
+                : defaultPowerFitConcepts.nameWithoutAdditions,
             substantives ? [substantives] : undefined,
-            contrastSubstantives ? [contrastSubstantives] : undefined,
-            {
-                main: substantives ? stress === AssetStressMode.main : true,
-                harmony: substantives
-                    ? stress === AssetStressMode.harmony
-                    : false,
-                contrast: substantives
-                    ? stress === AssetStressMode.contrast
-                    : true,
-            }
+            contrastSubstantives ? [contrastSubstantives] : undefined
         );
     }
 
     public getConcreteName(
         tavernFits: StructuredTavernFits,
-        isExcludedByPrefix: (name: string) => boolean
+        isExcludedByPrefix: (name: string) => boolean,
+        minimumFitLevel: FitLevel,
+        additionFilter?: number
     ) {
         const substantive = this.chooseSubstantive(
             tavernFits,
-            isExcludedByPrefix
+            isExcludedByPrefix,
+            minimumFitLevel,
+            additionFilter
         );
         const adjective = this.main.name;
         return this.fuseNameForDisplay(adjective, substantive);
@@ -43,19 +45,27 @@ export class NameIdea extends Idea {
     private chooseSubstantive(
         tavernFits: StructuredTavernFits,
         isExcludedByPrefix: (name: string) => boolean,
+        minimumFitLevel: FitLevel,
+        additionFilter?: number,
         harmonyChance = DEFAULT_HARMONY_CHANCE
     ) {
         const fittingHarmony = this.getFittingAssetPart(
             tavernFits,
             this.additions ? this.additions[0] : undefined,
             isExcludedByPrefix,
-            true
+            true,
+            additionFilter,
+            undefined,
+            minimumFitLevel
         )?.name;
         const fittingContrast = this.getFittingAssetPart(
             tavernFits,
             this.contrastAdditions ? this.contrastAdditions[0] : undefined,
             isExcludedByPrefix,
-            true
+            true,
+            additionFilter,
+            undefined,
+            minimumFitLevel
         )?.name;
 
         return Math.random() < harmonyChance && fittingHarmony
@@ -71,6 +81,7 @@ export class NameIdea extends Idea {
             return this.main.name;
         }
         if (!substantive) {
+            console.log(this.main.name + ' failed to get a fitting addition');
             return 'Nameless Tavern';
         } else {
             return this.reverseNaming

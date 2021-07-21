@@ -1,11 +1,11 @@
 import { splitMarker } from '../../scenes/menuScene/offerList/nameSplitter/splitMarker';
 import { IImpression } from '../../scenes/questScene/impressions/IImpression';
 import { AssetKey } from './AssetKey/AssetKey';
-import { AssetStressMode } from './assetStressMode';
 import { DescriptionAsset } from './DescriptionAsset';
 import { FitLevel } from './fitCalculator/FitLevel';
 import { Idea } from './Idea';
 import { Noticable } from './Noticable';
+import { defaultPowerFitConcepts } from './powerFitConcepts/powerFitConcepts';
 import { StructuredTavernFits } from './StructuredTavernFits';
 export class ImpressionIdea extends Idea {
     private category: Noticable;
@@ -17,13 +17,14 @@ export class ImpressionIdea extends Idea {
         category: Noticable,
         displayTextAsFurniture = false,
         reverseDisplay = false,
-        stress = AssetStressMode.main
+        stress = defaultPowerFitConcepts.main
     ) {
-        super(mainImpression, [additions], undefined, {
-            main: stress === AssetStressMode.main,
-            harmony: stress === AssetStressMode.harmony,
-            contrast: stress === AssetStressMode.contrast,
-        });
+        super(
+            mainImpression,
+            stress ? stress : defaultPowerFitConcepts.impression,
+            [additions],
+            undefined
+        );
         this.category = category;
         this.reverseDisplay = reverseDisplay;
         this.displayTextAsFurniture = displayTextAsFurniture;

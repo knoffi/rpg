@@ -1,14 +1,16 @@
 import { splitMarker } from '../../scenes/menuScene/offerList/nameSplitter/splitMarker';
 import { association } from '../association';
+import { MenuCategory, TavernProduct } from '../TavernProduct';
 import {
     DescriptionAsset,
     forCriminalsOverwrittenAsset,
 } from './DescriptionAsset';
-import { DishConcept } from './DishConcept';
+import { FitLevel } from './fitCalculator/FitLevel';
 import { Idea } from './Idea';
+import { DishConcept } from './powerFitConcepts/DishConcept';
+import { defaultPowerFitConcepts } from './powerFitConcepts/powerFitConcepts';
 import { PriceSetter } from './PriceSetter';
 import { StructuredTavernFits } from './StructuredTavernFits';
-import { MenuCategory, TavernProduct } from '../TavernProduct';
 
 const EMPTY_SIDE_DISH: DescriptionAsset = { name: '' };
 
@@ -39,6 +41,7 @@ export class DishIdea extends Idea {
 
         super(
             mainEnabledForCriminals,
+            defaultPowerFitConcepts.menu,
             sideDishesEnabledForCriminals,
             undefined
         ),
@@ -51,18 +54,34 @@ export class DishIdea extends Idea {
         tavernFits: StructuredTavernFits,
         isExcludedByPrefix: (name: string) => boolean
     ) {
-        return this.fitsToTavern(tavernFits, isExcludedByPrefix);
+        return this.fitsToTavern(
+            tavernFits,
+            isExcludedByPrefix,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            FitLevel.extremelyLow
+        );
     }
 
     public getConcreteDish(
         tavernFits: StructuredTavernFits,
-        isExcludedByPrefix: (name: string) => boolean
+        minimumFitLevel: FitLevel
     ) {
         const fittingSideDishMenu = this.additions!.map((sideDishes) => {
             const result =
                 sideDishes[0].name === EMPTY_SIDE_DISH.name
                     ? EMPTY_SIDE_DISH
-                    : this.getFittingAssetPart(tavernFits, sideDishes);
+                    : this.getFittingAssetPart(
+                          tavernFits,
+                          sideDishes,
+                          undefined,
+                          undefined,
+                          undefined,
+                          undefined,
+                          minimumFitLevel
+                      );
             return result;
         });
         const sideDishSlotHasNoFitting = fittingSideDishMenu.some(
@@ -71,7 +90,7 @@ export class DishIdea extends Idea {
         if (sideDishSlotHasNoFitting) {
             console.log(
                 this.main.name +
-                    'getConcreteDish was called, but no fitting sideDish available. Moreover, side dishes for that slot have been provided!'
+                    ': getConcreteDish was called, but no fitting sideDish available. Moreover, side dishes for that slot have been provided!'
             );
             return this.createDishFromNames(
                 this.main.name,

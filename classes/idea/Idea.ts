@@ -8,18 +8,15 @@ import {
 } from './fitCalculator/fitLevelComparing';
 import { getFitLevel } from './fitCalculator/getFitLevel';
 import { sufficesFitLevel } from './fitCalculator/sufficesFitLevel';
+import { PowerFitConcept } from './powerFitConcepts/PowerFitConcept';
 import { StructuredTavernFits } from './StructuredTavernFits';
 
 export class Idea {
     constructor(
         protected main: DescriptionAsset,
+        protected powerFitConcept: PowerFitConcept,
         protected additions?: DescriptionAsset[][],
-        protected contrastAdditions?: DescriptionAsset[][],
-        protected powerFitConcept?: {
-            main: boolean;
-            harmony: boolean;
-            contrast: boolean;
-        }
+        protected contrastAdditions?: DescriptionAsset[][]
     ) {}
 
     public countFittingChoices(
@@ -115,7 +112,7 @@ export class Idea {
             tavernFits,
             this.main,
             isExcludedByName,
-            this.powerFitConcept ? this.powerFitConcept.main : undefined,
+            this.powerFitConcept.main,
             mainFilter,
             mainIsExcludedByKey
         );
@@ -133,9 +130,8 @@ export class Idea {
                                   tavernFits,
                                   addition,
                                   isExcludedByName,
-                                  this.powerFitConcept
-                                      ? this.powerFitConcept.harmony
-                                      : undefined,
+                                  this.powerFitConcept.harmony,
+
                                   additionFilter,
                                   additionIsExcludedByKey
                               )
@@ -153,9 +149,7 @@ export class Idea {
                                   tavernFits,
                                   addition,
                                   isExcludedByName,
-                                  this.powerFitConcept
-                                      ? this.powerFitConcept.contrast
-                                      : undefined,
+                                  this.powerFitConcept.contrast,
                                   additionFilter,
                                   additionIsExcludedByKey
                               )
@@ -178,7 +172,7 @@ export class Idea {
             tavernFits,
             this.main,
             isExcludedByName,
-            this.powerFitConcept ? this.powerFitConcept.main : undefined,
+            this.powerFitConcept.main,
             mainFilter,
             mainIsExcludedByKey
         );
@@ -256,7 +250,9 @@ export class Idea {
                 tavernFits,
                 addition,
                 isExcludedByName,
-                this.powerFitConcept ? this.powerFitConcept.harmony : undefined,
+                isFor === 'harmony'
+                    ? this.powerFitConcept.harmony
+                    : this.powerFitConcept.contrast,
                 additionFilter,
                 isExcludedByKey
             );

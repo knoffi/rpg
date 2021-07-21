@@ -47,7 +47,7 @@ export const preyNormalAnimals: DescriptionAsset[] = [
     {
         name: 'Crow',
         incomeRange: [a.poor, a.modest],
-        landRange: [a.forest, a.village, a.city],
+        landRange: [a.forest, a.village, a.city, a.mountain],
         worksForThiefs: true,
         powerFits: [a.village, a.forest, a.druid],
     },
@@ -56,7 +56,7 @@ export const preyNormalAnimals: DescriptionAsset[] = [
         worksForAssasines: true,
         worksForThiefs: true,
         incomeRange: [a.poor, a.modest],
-        landRange: [a.forest, a.village, a.city],
+        landRange: [a.forest, a.village, a.city, a.mountain],
         powerFits: [a.village, a.forest, a.wizard],
     },
     {
@@ -91,6 +91,14 @@ export const preyNormalAnimals: DescriptionAsset[] = [
         incomeRange: [a.poor, a.modest],
         needsOne: [a.tropical, a.desert],
         powerFits: [a.druid, a.tropical, a.desert],
+        worksForThiefs: true,
+    },
+    {
+        name: 'Baboon',
+        incomeRange: [a.poor, a.modest],
+        needsOne: [a.tropical, a.mountain],
+        powerFits: [a.druid, a.tropical, a.mountain],
+        worksForThiefs: true,
     },
     {
         name: 'Parrot',
@@ -103,6 +111,7 @@ export const preyNormalAnimals: DescriptionAsset[] = [
         incomeRange: [a.poor, a.modest],
         needsOne: [a.tropical, a.desert],
         powerFits: [a.druid, a.tropical, a.desert],
+        worksForThiefs: true,
     },
     {
         name: 'Anchovy',
@@ -148,6 +157,12 @@ export const preyNormalAnimals: DescriptionAsset[] = [
         name: 'Gecko',
         needs: [a.desert],
         misfits: [a.rich, a.wealthy],
-        powerFits: [a.desert, a.poor, a.druid],
+        powerFits: [a.desert, a.poor, a.modest, a.druid],
+    },
+    {
+        name: 'Lizard',
+        needsOne: [a.desert, a.mountain],
+        misfits: [a.rich, a.wealthy],
+        powerFits: [a.desert, a.poor, a.modest, a.mountain, a.druid],
     },
 ];

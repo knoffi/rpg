@@ -1,8 +1,8 @@
 import { association, sophisticatedGroup } from '../../../classes/association';
-import { AssetStressMode } from '../../../classes/idea/assetStressMode';
 import { DescriptionAsset } from '../../../classes/idea/DescriptionAsset';
 import { ImpressionIdea } from '../../../classes/idea/ImpressionIdea';
 import { Noticable } from '../../../classes/idea/Noticable';
+import { defaultPowerFitConcepts } from '../../../classes/idea/powerFitConcepts/powerFitConcepts';
 
 const a = association;
 
@@ -342,7 +342,7 @@ export const bartenders: ImpressionIdea[] = [
         Noticable.bartender,
         true,
         undefined,
-        AssetStressMode.nothing
+        defaultPowerFitConcepts.nothing
     ),
     new ImpressionIdea(
         {

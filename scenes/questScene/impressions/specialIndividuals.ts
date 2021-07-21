@@ -1,9 +1,9 @@
 import { association } from '../../../classes/association';
 import { AssetKey } from '../../../classes/idea/AssetKey/AssetKey';
-import { AssetStressMode } from '../../../classes/idea/assetStressMode';
 import { emptyDescriptionAsset } from '../../../classes/idea/DescriptionAsset';
 import { ImpressionIdea } from '../../../classes/idea/ImpressionIdea';
 import { Noticable } from '../../../classes/idea/Noticable';
+import { defaultPowerFitConcepts } from '../../../classes/idea/powerFitConcepts/powerFitConcepts';
 
 const a = association;
 export const specialIndividuals: ImpressionIdea[] = [
@@ -27,7 +27,7 @@ export const specialIndividuals: ImpressionIdea[] = [
         Noticable.someCustomers,
         undefined,
         undefined,
-        AssetStressMode.nothing
+        defaultPowerFitConcepts.nothing
     ),
     new ImpressionIdea(
         {
@@ -39,7 +39,7 @@ export const specialIndividuals: ImpressionIdea[] = [
         Noticable.someCustomers,
         undefined,
         undefined,
-        AssetStressMode.nothing
+        defaultPowerFitConcepts.nothing
     ),
     new ImpressionIdea(
         {
@@ -61,7 +61,7 @@ export const specialIndividuals: ImpressionIdea[] = [
         Noticable.someCustomers,
         undefined,
         undefined,
-        AssetStressMode.nothing
+        defaultPowerFitConcepts.nothing
     ),
     new ImpressionIdea(
         {
@@ -73,7 +73,7 @@ export const specialIndividuals: ImpressionIdea[] = [
         Noticable.someCustomers,
         undefined,
         undefined,
-        AssetStressMode.nothing
+        defaultPowerFitConcepts.nothing
     ),
     new ImpressionIdea(
         { name: 'Police monitors guests', key: AssetKey.plotTwist },
@@ -81,7 +81,7 @@ export const specialIndividuals: ImpressionIdea[] = [
         Noticable.someCustomers,
         undefined,
         undefined,
-        AssetStressMode.nothing
+        defaultPowerFitConcepts.nothing
     ),
     new ImpressionIdea(
         { name: 'Guards monitor guests', worksForBrothel: true },
@@ -89,7 +89,7 @@ export const specialIndividuals: ImpressionIdea[] = [
         Noticable.someCustomers,
         undefined,
         undefined,
-        AssetStressMode.nothing
+        defaultPowerFitConcepts.nothing
     ),
     new ImpressionIdea(
         {
@@ -101,7 +101,7 @@ export const specialIndividuals: ImpressionIdea[] = [
         Noticable.someCustomers,
         undefined,
         undefined,
-        AssetStressMode.nothing
+        defaultPowerFitConcepts.nothing
     ),
     new ImpressionIdea(
         {

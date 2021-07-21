@@ -1,4 +1,4 @@
-import { DescriptionAsset } from './DescriptionAsset';
+import { DescriptionAsset } from '../DescriptionAsset';
 
 export type DishConcept = {
     mainIng: DescriptionAsset;

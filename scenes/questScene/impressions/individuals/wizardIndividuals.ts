@@ -20,7 +20,7 @@ export const wizardIndividuals: ImpressionIdea[] = [
             needsOne: [a.wizard, a.rich],
             worksForAllCriminals: true,
             powerFits: [a.wizard, a.rich],
-            key: AssetKey.servant,
+            key: AssetKey.INDIVIDUALS_servant,
         },
         [emptyDescriptionAsset],
         Noticable.someCustomers
