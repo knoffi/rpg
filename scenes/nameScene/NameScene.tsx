@@ -207,13 +207,21 @@ export class NameScene extends React.Component<
         };
         const updatedFits = getFitsFromStructure(newFitting);
         const oldPowerFit = this.props.fitting.powerFit;
-        this.setButtonState(
-            category,
-            newFitting[category] ? ButtonState.active : ButtonState.none
-        );
         newFitting.powerFit = this.getPowerFitForUpdatedFits(
             updatedFits,
             oldPowerFit
+        );
+        const newFitWasPowerfit =
+            this.state.userActivelySetPowerfit &&
+            Object.values(newFit)[0] === oldPowerFit;
+        const newFitAdded = newFitting[category];
+        this.setButtonState(
+            category,
+            newFitAdded
+                ? newFitWasPowerfit
+                    ? ButtonState.powerFit
+                    : ButtonState.active
+                : ButtonState.none
         );
 
         this.props.onDataChange({
