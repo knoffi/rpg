@@ -1,6 +1,5 @@
 import { DishIdea } from '../../../classes/idea/DishIdea';
-import { getBestIdeas } from '../../../classes/idea/fitCalculator/getBestIdeas';
-import { getSortedByFitLevel } from '../../../classes/idea/fitCalculator/getSortedByFitLevel';
+import { filterBestIdeas } from '../../../classes/idea/fitCalculator/filterBestIdea';
 import { StructuredTavernFits } from '../../../classes/idea/StructuredTavernFits';
 import { TavernProduct } from '../../../classes/TavernProduct';
 import { getRandomArrayEntry } from '../../../helpingFunctions/getFittingRandom';
@@ -21,7 +20,6 @@ export const predecideDishes = (
     );
 
     if (filteredChapters.length === 0) {
-        console.log('no dish chapter survived filtering...');
         return NothingLeftOffer.product;
     } else {
         //TODO: Extract and generalize the predeciding for breakfastChapters, dessertChapters... etc.
@@ -68,14 +66,13 @@ const getRandomTavernProduct = (
     dishes: DishIdea[],
     isExcludedByPrefix: (name: string) => boolean
 ): TavernProduct => {
-    const sortedDishIdeas = getSortedByFitLevel(
+    const bestDishes = filterBestIdeas(
         dishes,
         fitting,
         isExcludedByPrefix,
         () => false,
         () => false
     );
-    const bestDishes = getBestIdeas(sortedDishIdeas);
     if (!bestDishes) {
         console.log('no dish reached low fit level');
         return NothingLeftOffer.product;

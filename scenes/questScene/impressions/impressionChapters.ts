@@ -1,6 +1,5 @@
 import { AssetKey } from '../../../classes/idea/AssetKey/AssetKey';
-import { getBestIdeas } from '../../../classes/idea/fitCalculator/getBestIdeas';
-import { getSortedByFitLevel } from '../../../classes/idea/fitCalculator/getSortedByFitLevel';
+import { filterBestIdeas } from '../../../classes/idea/fitCalculator/filterBestIdea';
 import { Noticable } from '../../../classes/idea/Noticable';
 import { StructuredTavernFits } from '../../../classes/idea/StructuredTavernFits';
 import { WeServe } from '../../../editNavigator/WeServe';
@@ -66,7 +65,7 @@ export const getRandomImpression = (
         console.log('Impression category not found!');
         return emptyImpression;
     } else {
-        const impressions = getSortedByFitLevel(
+        const bestImpressions = filterBestIdeas(
             chapter.impressions,
             fitting,
             isExcludedByName,
@@ -75,7 +74,6 @@ export const getRandomImpression = (
             mainFilter,
             additionFilter
         );
-        const bestImpressions = getBestIdeas(impressions);
         if (!bestImpressions) {
             return emptyImpression;
         } else {

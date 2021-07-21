@@ -57,7 +57,6 @@ export const getFitLevel = (
             regularCheck
         ) {
             if (keyCheck) {
-                console.log('medium high here');
                 return FitLevel.mediumHigh;
             } else {
                 return FitLevel.low;

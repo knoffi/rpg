@@ -1,5 +1,4 @@
-import { getBestIdeas } from '../../classes/idea/fitCalculator/getBestIdeas';
-import { getSortedByFitLevel } from '../../classes/idea/fitCalculator/getSortedByFitLevel';
+import { filterBestIdeas } from '../../classes/idea/fitCalculator/filterBestIdea';
 import { StructuredTavernFits } from '../../classes/idea/StructuredTavernFits';
 import { getRandomArrayEntry } from '../../helpingFunctions/getFittingRandom';
 import { getPrefixExcluder } from '../questScene/impressions/getPrefixExcluder';
@@ -13,7 +12,7 @@ export const getRandomName = (
 ): string => {
     const isExcludedByName = getPrefixExcluder(oldNames, 'names');
 
-    const sortedNameIdeas = getSortedByFitLevel(
+    const bestNames = filterBestIdeas(
         nameIdeas,
         fitting,
         isExcludedByName,
@@ -22,7 +21,6 @@ export const getRandomName = (
         mainFilter,
         additionFilter
     );
-    const bestNames = getBestIdeas(sortedNameIdeas);
     if (!bestNames) {
         console.log('no name reached low fit level');
         return 'Nameless Tavern';
