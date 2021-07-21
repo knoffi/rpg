@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 import 'react-native-gesture-handler';
 import { Button, List } from 'react-native-paper';
 import {
@@ -31,11 +31,14 @@ import { nameSceneStyles } from './nameSceneStyles';
 import { NameSetDialog } from './NameSetDialog';
 import { TavernSign } from './TavernSign';
 
-const MAX_NAME_MEMORY = 14;
-type TextState = {
+const MAX_NAME_MEMORY = 16;
+const SECTION_FLEX = 0.2;
+type TextAndFitBoardState = {
     nameSetDialogOpen: boolean;
     dialogText: string;
     oldNameParts: string[];
+    buttons: ButtonStates;
+    userActivelySetPowerfit: boolean;
 };
 type NameProps = {
     fitting: StructuredTavernFits;
@@ -46,12 +49,10 @@ type NameProps = {
     ) => Partial<TavernData>;
 };
 
-const SECTION_FLEX = 0.2;
 export class NameScene extends React.Component<
     NameProps,
-    TextState & { buttons: ButtonStates }
+    TextAndFitBoardState
 > {
-    private userActivelySetPowerfit: boolean;
     constructor(props: any) {
         super(props);
 
@@ -60,8 +61,8 @@ export class NameScene extends React.Component<
             dialogText: '',
             oldNameParts: [],
             buttons: getButtonStates(this.props.fitting),
+            userActivelySetPowerfit: false,
         };
-        this.userActivelySetPowerfit = false;
     }
 
     public render() {
@@ -115,6 +116,7 @@ export class NameScene extends React.Component<
                             />
                         </View>
                         {this.getFittingNamesSign()}
+                        <Text>{JSON.stringify(this.props.fitting)}</Text>
                     </View>
                 </View>
             </View>
@@ -137,16 +139,16 @@ export class NameScene extends React.Component<
                 ...this.props.fitting,
             };
             if (name === oldPowerFit) {
-                if (this.userActivelySetPowerfit) {
-                    this.userActivelySetPowerfit = false;
+                if (this.state.userActivelySetPowerfit) {
+                    this.setState({ userActivelySetPowerfit: false });
                     newFits.powerFit = undefined;
                     this.setButtonState(category, ButtonState.active);
                 } else {
-                    this.userActivelySetPowerfit = true;
+                    this.setState({ userActivelySetPowerfit: true });
                     this.setButtonState(category, ButtonState.powerFit);
                 }
             } else {
-                this.userActivelySetPowerfit = true;
+                this.setState({ userActivelySetPowerfit: true });
                 newFits.powerFit = newPowerFit;
                 this.setButtonState(category, ButtonState.powerFit);
                 const oldPowerFitType = getCategoryOfAssociation(oldPowerFit);
@@ -209,17 +211,11 @@ export class NameScene extends React.Component<
             category,
             newFitting[category] ? ButtonState.active : ButtonState.none
         );
-        if (oldPowerFit && !updatedFits.includes(oldPowerFit)) {
-            newFitting.powerFit = undefined;
-            this.userActivelySetPowerfit = false;
-        }
-        if (!this.userActivelySetPowerfit) {
-            if (updatedFits.length === 1) {
-                newFitting.powerFit = updatedFits[0];
-            } else {
-                newFitting.powerFit = undefined;
-            }
-        }
+        newFitting.powerFit = this.getPowerFitForUpdatedFits(
+            updatedFits,
+            oldPowerFit
+        );
+
         this.props.onDataChange({
             fitting: newFitting,
             ...this.props.getImpliedChanges(newFitting),
@@ -243,5 +239,32 @@ export class NameScene extends React.Component<
         return nameIdeas
             .map((nameIdea) => nameIdea.countFittingChoices(this.props.fitting))
             .reduce((sum, cur) => sum + cur, 0);
+    }
+
+    private getPowerFitForUpdatedFits(
+        updatedFits: association[],
+        oldPowerFit?: association
+    ) {
+        if (oldPowerFit) {
+            if (updatedFits.includes(oldPowerFit)) {
+                if (!this.state.userActivelySetPowerfit) {
+                    if (updatedFits.length > 1) {
+                        return undefined;
+                    }
+                }
+            } else {
+                this.setState({ userActivelySetPowerfit: false });
+                if (updatedFits.length === 1) {
+                    return updatedFits[0];
+                } else {
+                    return undefined;
+                }
+            }
+        } else {
+            if (updatedFits.length === 1) {
+                return updatedFits[0];
+            }
+        }
+        return oldPowerFit;
     }
 }
