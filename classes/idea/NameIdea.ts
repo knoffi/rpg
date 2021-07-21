@@ -49,7 +49,6 @@ export class NameIdea extends Idea {
         additionFilter?: number,
         harmonyChance = DEFAULT_HARMONY_CHANCE
     ) {
-        console.log(minimumFitLevel);
         const fittingHarmony = this.getFittingAssetPart(
             tavernFits,
             this.additions ? this.additions[0] : undefined,
@@ -82,7 +81,7 @@ export class NameIdea extends Idea {
             return this.main.name;
         }
         if (!substantive) {
-            console.log(this.main.name);
+            console.log(this.main.name + ' failed to get a fitting addition');
             return 'Nameless Tavern';
         } else {
             return this.reverseNaming

@@ -75,9 +75,6 @@ const getRandomTavernProduct = (
         () => false,
         () => false
     );
-    console.log(sortedDishIdeas.high.length);
-    console.log(sortedDishIdeas.medium.length);
-    console.log(sortedDishIdeas.low.length);
     const bestDishes = getBestIdeas(sortedDishIdeas);
     if (!bestDishes) {
         console.log('no dish reached low fit level');

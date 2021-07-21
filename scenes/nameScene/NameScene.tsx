@@ -31,7 +31,7 @@ import { nameSceneStyles } from './nameSceneStyles';
 import { NameSetDialog } from './NameSetDialog';
 import { TavernSign } from './TavernSign';
 
-const MAX_NAME_MEMORY = 2;
+const MAX_NAME_MEMORY = 12;
 type TextState = {
     nameSetDialogOpen: boolean;
     dialogText: string;

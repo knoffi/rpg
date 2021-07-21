@@ -61,7 +61,7 @@ export class DishIdea extends Idea {
             undefined,
             undefined,
             undefined,
-            FitLevel.low
+            FitLevel.extremelyLow
         );
     }
 
