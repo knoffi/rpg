@@ -1,5 +1,6 @@
 import { association } from '../../../classes/association';
 import { DescriptionAsset } from '../../../classes/idea/DescriptionAsset';
+import { evilHumanoids } from './evilHumanoids';
 import { fruits, vegetables } from './fruitsVegetables';
 import { femaleGenitals, maleGenitals, sexyParts } from './genitals';
 import { instruments } from './instruments';
@@ -26,6 +27,7 @@ export const NON_HUMAN_SUBSTANTIVES_FOR_GOLD: DescriptionAsset[] = [
     ...instruments,
     ...fruits,
     ...vegetables,
+    ...evilHumanoids,
     { name: 'Temple', needsOne: [a.cleric] },
     { name: 'Mine', needsOne: [a.dwarf, a.underdark] },
     { name: 'Harem', needs: [a.prostitute], worksForBrothel: true },
