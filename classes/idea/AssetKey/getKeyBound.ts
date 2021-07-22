@@ -33,6 +33,33 @@ export const getKeyBound = (key: AssetKey) => {
     if (key === AssetKey.AVERAGE_CUSTOMER_eating) {
         return 1;
     }
+    if (key === AssetKey.BARTENDER_accessoires) {
+        return 1;
+    }
+    if (key === AssetKey.BARTENDER_actions) {
+        return 1;
+    }
+    if (key === AssetKey.BARTENDER_appearace) {
+        return 1;
+    }
+    if (key === AssetKey.BARTENDER_body) {
+        return 1;
+    }
+    if (key === AssetKey.BARTENDER_charisma) {
+        return 1;
+    }
+    if (key === AssetKey.BARTENDER_face) {
+        return 1;
+    }
+    if (key === AssetKey.BARTENDER_faceDetails) {
+        return 1;
+    }
+    if (key === AssetKey.BARTENDER_knowledge) {
+        return 1;
+    }
+    if (key === AssetKey.BARTENDER_opinion) {
+        return 1;
+    }
 
     if (key === AssetKey.AVERAGE_CUSTOMER_behavior) {
         return 1;
