@@ -86,11 +86,7 @@ export class ImpressionIdea extends Idea {
             const secondText = this.reverseDisplay
                 ? this.main.name
                 : secondDescription.name;
-            const createdName =
-                this.category === Noticable.bartender &&
-                !this.displayTextAsFurniture
-                    ? firstText + ' & ' + secondText + splitMarker
-                    : firstText + secondText + splitMarker;
+            const createdName = firstText + secondText + splitMarker;
             return {
                 name: createdName,
                 firstKey: this.main.key,
