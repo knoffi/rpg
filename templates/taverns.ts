@@ -234,7 +234,7 @@ export const taverns: tavernMinData[] = [
                 category: Noticable.someCustomers,
             },
             {
-                name: 'A male and a female Gnome seduce a merchant',
+                name: 'A married gnome couple seduces a merchant',
                 category: Noticable.someCustomers,
             },
             {
@@ -247,7 +247,7 @@ export const taverns: tavernMinData[] = [
                 category: Noticable.furniture,
             },
             {
-                name: 'Golden cups and silken Napkins',
+                name: 'Golden cups and silken napkins',
                 category: Noticable.furniture,
             },
             {
