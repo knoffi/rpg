@@ -5,7 +5,7 @@ import { StructuredTavernFits } from '../../../classes/idea/StructuredTavernFits
 import { WeServe } from '../../../editNavigator/WeServe';
 import { getRandomArrayEntry } from '../../../helpingFunctions/getFittingRandom';
 import { averageCustomers } from './averageCustomer';
-import { bartenders } from './bartender';
+import { bartenderKnowledge } from './bartenderKnowledge';
 import { emptyImpression } from './emptyImpression';
 import { furnitures } from './furniture';
 import { individuals } from './genericIndividuals';
@@ -41,7 +41,7 @@ const impressionChapters = [
         category: Noticable.someCustomers,
     },
     {
-        impressions: bartenders,
+        impressions: [...bartenderKnowledge],
         category: Noticable.bartender,
     },
 ];
