@@ -185,6 +185,7 @@ export const specialIndividuals: ImpressionIdea[] = [
             worksForBrothel: true,
             worksForThiefs: true,
             powerFits: [a.haven, a.modest],
+            sex: 'male',
         },
         [emptyDescriptionAsset],
         Noticable.someCustomers
@@ -226,6 +227,7 @@ export const specialIndividuals: ImpressionIdea[] = [
             needs: [a.haven],
             worksForAllCriminals: true,
             powerFits: [a.haven, a.modest],
+            sex: 'female',
         },
         [emptyDescriptionAsset],
         Noticable.someCustomers
