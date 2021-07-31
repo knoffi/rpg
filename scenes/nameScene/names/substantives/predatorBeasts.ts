@@ -1,5 +1,5 @@
-import { association } from '../../../classes/association';
-import { DescriptionAsset } from '../../../classes/idea/DescriptionAsset';
+import { association } from '../../../../classes/association';
+import { DescriptionAsset } from '../../../../classes/idea/DescriptionAsset';
 const a = association;
 
 const BEAR_LAND = [a.forest, a.village, a.city, a.mountain];

@@ -1,0 +1,153 @@
+import { association } from '../../../../classes/association';
+import { DescriptionAsset } from '../../../../classes/idea/DescriptionAsset';
+
+export const a = association;
+export const preyTinyAnimals: DescriptionAsset[] = [
+    {
+        name: 'Mouse',
+        worksForThiefs: true,
+        incomeRange: [a.poor, a.modest],
+        powerFits: [a.halfling, a.village, a.poor],
+    },
+    {
+        name: 'Rat',
+        worksForThiefs: true,
+        incomeRange: [a.poor],
+        powerFits: [a.poor, a.city, a.haven],
+    },
+    {
+        name: 'Cockroach',
+        worksForThiefs: true,
+        incomeRange: [a.poor],
+        powerFits: [a.poor, a.city],
+    },
+    {
+        name: 'Squirrel',
+        incomeRange: [a.poor, a.modest],
+        landRange: [a.forest, a.village],
+        powerFits: [a.village, a.forest, a.druid, a.halfling],
+    },
+    {
+        name: 'Butterfly',
+        incomeRange: [a.poor, a.modest],
+        landRange: [a.forest, a.village],
+        powerFits: [a.elf, a.druid, a.forest],
+    },
+    {
+        name: 'Rabbit',
+        incomeRange: [a.poor, a.modest],
+        landRange: [a.forest, a.village],
+        powerFits: [a.forest, a.druid, a.halfling],
+    },
+    {
+        name: 'Worm',
+        landRange: [a.underdark, a.village, a.forest],
+        incomeRange: [a.poor],
+        needsOne: [a.poor, a.underdark],
+        worksForThiefs: true,
+        powerFits: [a.underdark, a.poor],
+    },
+    {
+        name: 'Fly',
+        landRange: [a.city, a.village, a.forest],
+        incomeRange: [a.poor],
+        needsOne: [a.poor, a.city],
+        worksForThiefs: true,
+        powerFits: [a.poor],
+    },
+    {
+        name: 'Bee',
+        landRange: [a.city, a.village, a.forest],
+        incomeRange: [a.modest],
+        powerFits: [a.village, a.forest, a.modest, a.halfling, a.human],
+    },
+    {
+        name: 'Bumblebee',
+        landRange: [a.city, a.village, a.forest],
+        incomeRange: [a.modest],
+        powerFits: [a.village, a.forest, a.modest, a.halfling],
+    },
+    {
+        name: 'Ladybug',
+        landRange: [a.city, a.village, a.forest],
+        incomeRange: [a.modest],
+        powerFits: [a.village, a.forest, a.modest, a.halfling],
+    },
+    {
+        name: 'Wasp',
+        landRange: [a.city, a.village, a.forest],
+        incomeRange: [a.modest],
+        worksForAssasines: true,
+        powerFits: [a.village, a.forest, a.modest, a.soldier],
+    },
+    {
+        name: 'Hornet',
+        landRange: [a.city, a.village, a.forest],
+        incomeRange: [a.modest],
+        worksForAssasines: true,
+        powerFits: [a.village, a.forest, a.modest, a.soldier],
+    },
+    {
+        name: 'Duck',
+        landRange: [a.city, a.village, a.forest],
+        incomeRange: [a.wealthy, a.modest],
+        powerFits: [a.village, a.forest, a.modest, a.human],
+    },
+    {
+        name: 'Goose',
+        landRange: [a.city, a.village, a.forest],
+        incomeRange: [a.wealthy, a.modest],
+        powerFits: [a.village, a.forest, a.modest, a.human],
+    },
+    {
+        name: 'Sparrow',
+        landRange: [a.city, a.village, a.forest, a.mountain],
+        misfits: [a.rich],
+        worksForThiefs: true,
+        powerFits: [a.village, a.forest, a.modest, a.halfling, a.bard, a.gnome],
+    },
+    {
+        name: 'Hamster',
+        landRange: [a.city, a.village],
+        incomeRange: [a.modest, a.poor],
+        worksForThiefs: true,
+        powerFits: [a.village, a.city, a.modest, a.halfling, a.gnome],
+    },
+    {
+        name: 'Guinea Pig',
+        landRange: [a.city, a.village],
+        incomeRange: [a.modest, a.poor],
+        powerFits: [a.village, a.city, a.modest, a.halfling, a.gnome],
+    },
+    {
+        name: 'Caterpillar',
+        landRange: [a.village, a.forest],
+        incomeRange: [a.modest, a.poor],
+        powerFits: [a.village, a.forest, a.poor, a.halfling],
+    },
+    {
+        name: 'Piglet',
+        landRange: [a.city, a.village, a.forest],
+        misfits: [a.rich],
+        powerFits: [
+            a.village,
+            a.forest,
+            a.modest,
+            a.wealthy,
+            a.halfling,
+            a.gnome,
+        ],
+    },
+    {
+        name: 'Pug',
+        landRange: [a.city, a.village],
+        misfits: [a.rich],
+        powerFits: [a.village, a.modest, a.wealthy, a.halfling],
+    },
+    {
+        name: 'Dumpling',
+        landRange: [a.city, a.village],
+        misfits: [a.rich],
+        powerFits: [a.village, a.modest, a.wealthy, a.halfling, a.gnome],
+    },
+];

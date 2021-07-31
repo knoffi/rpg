@@ -1,5 +1,5 @@
-import { association } from '../../../classes/association';
-import { DescriptionAsset } from '../../../classes/idea/DescriptionAsset';
+import { association } from '../../../../classes/association';
+import { DescriptionAsset } from '../../../../classes/idea/DescriptionAsset';
 const a = association;
 //troll, stone giant, bugbear, hobgoblin, goblin, orc, gnoll, naga, ghoul, goblin, hag, witch
 export const evilHumanoids: DescriptionAsset[] = [
