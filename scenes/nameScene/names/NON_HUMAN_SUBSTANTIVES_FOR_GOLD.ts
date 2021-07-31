@@ -1,19 +1,23 @@
 import { association } from '../../../classes/association';
 import { DescriptionAsset } from '../../../classes/idea/DescriptionAsset';
-import { evilHumanoids } from './evilHumanoids';
-import { fruits, vegetables } from './fruitsVegetables';
-import { femaleGenitals, maleGenitals, sexyParts } from './genitals';
-import { instruments } from './instruments';
-import { brothelJobs, noblesAndTitles } from './jobs';
-import { majesticBeasts } from './majesticBeasts';
+import { evilHumanoids } from './substantives/evilHumanoids';
+import { fruits, vegetables } from './substantives/fruitsVegetables';
+import {
+    femaleGenitals,
+    maleGenitals,
+    sexyParts,
+} from './substantives/genitals';
+import { instruments } from './substantives/instruments';
+import { brothelJobs, noblesAndTitles } from './substantives/jobs';
+import { majesticBeasts } from './substantives/majesticBeasts';
 import {
     criminalPredatorBeasts,
     honorfulPredatorBeasts,
-} from './predatorBeasts';
-import { preyNormalAnimals } from './preyNormalAnimals';
-import { preyTinyAnimals } from './preyTinyAnimals';
-import { tools } from './tools';
-import { weapons } from './weapons';
+} from './substantives/predatorBeasts';
+import { preyNormalAnimals } from './substantives/preyNormalAnimals';
+import { preyTinyAnimals } from './substantives/preyTinyAnimals';
+import { tools } from './substantives/tools';
+import { weapons } from './substantives/weapons';
 
 const a = association;
 export const NON_HUMAN_SUBSTANTIVES_FOR_GOLD: DescriptionAsset[] = [

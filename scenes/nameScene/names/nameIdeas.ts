@@ -1,25 +1,30 @@
 import { association } from '../../../classes/association';
 import { NameIdea } from '../../../classes/idea/NameIdea';
-import { evilHumanoids } from './evilHumanoids';
-import { fruits, vegetables } from './fruitsVegetables';
-import { femaleGenitals, maleGenitals, sexyParts } from './genitals';
+import { materials } from './material';
+import { specialNames } from './specialTavernNames';
+import { evilHumanoids } from './substantives/evilHumanoids';
+import { fruits, vegetables } from './substantives/fruitsVegetables';
+import {
+    femaleGenitals,
+    maleGenitals,
+    sexyParts,
+} from './substantives/genitals';
 import {
     allJobs,
     artisanJobs,
     brothelJobs,
     gastronomyJobs,
     noblesAndTitles,
-} from './jobs';
-import { majesticBeasts } from './majesticBeasts';
-import { materials } from './material';
+} from './substantives/jobs';
+import { majesticBeasts } from './substantives/majesticBeasts';
 import {
     criminalPredatorBeasts,
     honorfulPredatorBeasts,
-} from './predatorBeasts';
-import { preyTinyAnimals } from './preyTinyAnimals';
-import { specialNames } from './specialTavernNames';
-import { tools } from './tools';
-import { weapons } from './weapons';
+} from './substantives/predatorBeasts';
+import { preyTinyAnimals } from './substantives/preyTinyAnimals';
+import { substantives } from './substantives/substantives';
+import { tools } from './substantives/tools';
+import { weapons } from './substantives/weapons';
 
 const a = association;
 const characteristics = [
@@ -281,6 +286,87 @@ const characteristics = [
             incomeRange: [a.poor, a.modest],
         },
         [...maleGenitals]
+    ),
+    new NameIdea(
+        {
+            name: 'Miserable',
+            needs: [a.poor],
+        },
+        [
+            ...substantives.tinyAnimals,
+            ...substantives.sexWorkers,
+            ...substantives.bistroJobs,
+            ...substantives.criminalPredators,
+            ...substantives.evilHumanoids,
+            ...substantives.artisans,
+            ...substantives.honorfulPredators,
+        ]
+    ),
+    new NameIdea(
+        {
+            name: 'Grumbling',
+            needs: [a.poor],
+        },
+        [
+            ...substantives.tinyAnimals,
+            ...substantives.sexWorkers,
+            ...substantives.bistroJobs,
+            ...substantives.criminalPredators,
+            ...substantives.evilHumanoids,
+            ...substantives.artisans,
+            ...substantives.honorfulPredators,
+        ]
+    ),
+    new NameIdea(
+        {
+            name: 'Filthy',
+            worksForBrothel: true,
+            needs: [a.poor],
+            worksForThiefs: true,
+        },
+        [
+            ...substantives.tinyAnimals,
+            ...substantives.sexWorkers,
+            ...substantives.bistroJobs,
+            ...substantives.criminalPredators,
+            ...substantives.evilHumanoids,
+            ...substantives.artisans,
+            ...substantives.honorfulPredators,
+        ]
+    ),
+    new NameIdea(
+        {
+            name: 'Squinting',
+            worksForBrothel: true,
+            worksForThiefs: true,
+            needs: [a.poor],
+        },
+        [
+            ...substantives.tinyAnimals,
+            ...substantives.sexWorkers,
+            ...substantives.bistroJobs,
+            ...substantives.criminalPredators,
+            ...substantives.evilHumanoids,
+            ...substantives.artisans,
+            ...substantives.honorfulPredators,
+        ]
+    ),
+    new NameIdea(
+        {
+            name: 'One-Eyed',
+            worksForBrothel: true,
+            worksForThiefs: true,
+            needs: [a.poor],
+        },
+        [
+            ...substantives.tinyAnimals,
+            ...substantives.sexWorkers,
+            ...substantives.bistroJobs,
+            ...substantives.criminalPredators,
+            ...substantives.evilHumanoids,
+            ...substantives.artisans,
+            ...substantives.honorfulPredators,
+        ]
     ),
 ];
 
