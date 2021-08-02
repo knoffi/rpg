@@ -1,6 +1,7 @@
 import { Noticable } from '../../../classes/idea/Noticable';
 import { averageCustomers } from './averageCustomer';
-import { bartenderKnowledge } from './bartenderKnowledge';
+import { bartenderAccesories } from './bartender/accesories';
+import { bartenderKnowledge } from './bartender/knowledge';
 import { furnitures } from './furniture';
 import { individuals } from './genericIndividuals';
 import { druidIndividuals } from './individuals/druidIndividuals';
@@ -32,7 +33,7 @@ export const impressionChapters = [
         category: Noticable.someCustomers,
     },
     {
-        impressions: [...bartenderKnowledge],
+        impressions: [...bartenderKnowledge, ...bartenderAccesories],
         category: Noticable.bartender,
     },
 ];
