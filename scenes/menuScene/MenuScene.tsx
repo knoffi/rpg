@@ -10,6 +10,7 @@ import {
     TavernProduct,
 } from '../../classes/TavernProduct';
 import { ListOfSaves } from '../../components/ListOfSaves/ListOfSaves';
+import { WeServe } from '../../editNavigator/WeServe';
 import { getRandomArrayEntry } from '../../helpingFunctions/getFittingRandom';
 import { TavernData } from '../../mainNavigator/TavernData';
 import { nameSceneStyles } from '../nameScene/nameSceneStyles';
@@ -18,11 +19,10 @@ import { BasePrice } from './basePrice';
 import { bannerEndings } from './menuBanner/bannerEndings';
 import { BannerData, MenuBanner } from './menuBanner/MenuBanner';
 import { NothingLeftOffer, Offer } from './menuEnums';
-import { OfferList } from './offerList/OfferList';
+import { OfferList } from './offerList/list';
 import { getAdjustedPriceString } from './priceFunctions';
 import { ProductEditor } from './productEditor/ProductEditor';
 import { createMinimalOffer, MinimalOfferData } from './userOffer';
-import { WeServe } from '../../editNavigator/WeServe';
 
 const DEFAULT_MODAL_START_DATA = {
     name: '',

@@ -2,12 +2,12 @@ import * as React from 'react';
 import { List } from 'react-native-paper';
 import { OpacitySwiperText } from '../../../components/OpacitySwiper/OpacitySwiperText';
 import { WIDTH_FACTOR } from '../../../dimensionConstants';
-import { productActions } from './productActions';
+import { IProductActions } from './actionInterfaces';
 
 const SWIPE_THRESHOLD = 70 * WIDTH_FACTOR;
-export const OfferListTopItem = (props: {
+export const OfferListItem = (props: {
     drinkName: string;
-    actions: productActions;
+    actions: IProductActions;
     noDrinkToAddLeft: boolean;
     priceString: string;
     isUserMade?: boolean;

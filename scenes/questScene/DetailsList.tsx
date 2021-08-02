@@ -8,8 +8,8 @@ import { TavernData } from '../../mainNavigator/TavernData';
 import { globalStyles } from '../globalStyles';
 import { BasePrice } from '../menuScene/basePrice';
 import { menuSceneStyles } from '../menuScene/menuStyles';
+import { OfferListItem } from '../menuScene/offerList/item';
 import { LIST_END_BUTTON_SIZE } from '../menuScene/offerList/LIST_END_BUTTON_SIZE';
-import { OfferListTopItem } from '../menuScene/offerList/OfferListTopItem';
 import { IImpression } from './impressions/IImpression';
 import { PriceAccordion } from './PriceAccordion';
 
@@ -35,6 +35,7 @@ export const DetailsList = (props: {
         return (
             <ImpressionAccordion
                 key={title}
+                isBartender={title == Noticable.bartender}
                 title={title}
                 impressions={impressionsOfTitle}
                 onDelete={props.onDelete}
@@ -62,6 +63,7 @@ export const DetailsList = (props: {
 
 const ImpressionAccordion = (props: {
     title: string;
+    isBartender: boolean;
     impressions: IImpression[];
     onDelete: (name: string) => void;
     onAdd: () => void;
@@ -71,6 +73,11 @@ const ImpressionAccordion = (props: {
     const [bartenderSex, setBartenderSex] = useState(
         'male' as 'female' | 'male'
     );
+    const toggleBartenderSex = props.isBartender
+        ? () => {
+              setBartenderSex(bartenderSex === 'male' ? 'female' : 'male');
+          }
+        : () => {};
     const impressionsFull = !props.isNotFull;
     const descriptionItems = props.impressions.map((impression) => {
         const impressionDisplay = new ImpressionDisplay(
@@ -78,13 +85,13 @@ const ImpressionAccordion = (props: {
             impression.category,
             impression.sex
         );
-        if (impression.category === Noticable.bartender) {
+        if (props.isBartender) {
             impressionDisplay.setSex(bartenderSex);
         }
         const text = impressionDisplay.getText();
         const newKey = text;
         return (
-            <OfferListTopItem
+            <OfferListItem
                 drinkName={text}
                 key={newKey}
                 priceString={''}
@@ -105,7 +112,7 @@ const ImpressionAccordion = (props: {
                     onShop: () => {},
                     onInfo: () => {},
                 }}
-            ></OfferListTopItem>
+            ></OfferListItem>
         );
     });
     const addBar = (
@@ -116,13 +123,14 @@ const ImpressionAccordion = (props: {
                 <AddButton
                     size={LIST_END_BUTTON_SIZE}
                     onPress={impressionsFull ? () => {} : props.onAdd}
+                    onLongPress={toggleBartenderSex}
                     disabled={impressionsFull}
                 />
             )}
         ></List.Item>
     );
     const title =
-        props.title === Noticable.bartender && bartenderSex === 'female'
+        props.isBartender && bartenderSex === 'female'
             ? 'Barmaid'
             : props.title;
     return (
@@ -130,9 +138,6 @@ const ImpressionAccordion = (props: {
             title={title}
             titleStyle={menuSceneStyles.accordeonListTitle}
             key={props.title}
-            onPress={() => {
-                setBartenderSex(bartenderSex === 'male' ? 'female' : 'male');
-            }}
         >
             {[...descriptionItems, addBar]}
         </List.Accordion>

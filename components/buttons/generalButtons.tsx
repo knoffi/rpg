@@ -16,6 +16,7 @@ export enum buttonEmphasis {
 
 interface ButtonProps {
     onPress: () => void;
+    onLongPress?: () => void;
     size?: number;
     color?: string;
     mode?: buttonEmphasis;
@@ -60,6 +61,7 @@ export const InfoButton = (props: ButtonProps) => {
     return (
         <Button
             onPress={props.onPress}
+            onLongPress={props.onLongPress}
             disabled={props.disabled}
             style={{ width: props.width }}
         >
@@ -80,6 +82,7 @@ export const RerollButton = (props: ButtonProps) => {
         <Button
             mode={props.mode}
             onPress={props.onPress}
+            onLongPress={props.onLongPress}
             disabled={props.disabled}
         >
             {
@@ -98,6 +101,7 @@ export const DeleteButton = (props: ButtonProps) => {
         <Button
             mode={props.mode}
             onPress={props.onPress}
+            onLongPress={props.onLongPress}
             disabled={props.disabled}
         >
             {<AntDesign name="delete" size={props.size} color={props.color} />}
@@ -109,6 +113,7 @@ export const AddButton = (props: ButtonProps) => {
         <Button
             mode={props.mode}
             onPress={props.onPress}
+            onLongPress={props.onLongPress}
             disabled={props.disabled}
         >
             {
@@ -126,6 +131,7 @@ export const ImportButton = (props: ButtonProps) => {
         <Button
             mode={props.mode}
             onPress={props.onPress}
+            onLongPress={props.onLongPress}
             disabled={props.disabled}
         >
             <Feather name="download" size={props.size} color={props.color} />
@@ -138,6 +144,7 @@ export const UploadButton = (props: ButtonProps) => {
         <Button
             mode={props.mode}
             onPress={props.onPress}
+            onLongPress={props.onLongPress}
             disabled={props.disabled}
         >
             {<FontAwesome name="save" size={props.size} color={props.color} />}
@@ -150,6 +157,7 @@ export const OkayButton = (props: ButtonProps) => {
         <Button
             mode={props.mode}
             onPress={props.onPress}
+            onLongPress={props.onLongPress}
             disabled={props.disabled}
         >
             {
@@ -168,6 +176,7 @@ export const DiceButton = (props: ButtonProps) => {
         <Button
             mode={props.mode}
             onPress={props.onPress}
+            onLongPress={props.onLongPress}
             disabled={props.disabled}
         >
             {<FontAwesome5 name="dice" size={props.size} color={props.color} />}
@@ -178,6 +187,7 @@ export const ShopButton = (props: ButtonProps) => {
     return (
         <Button
             onPress={props.onPress}
+            onLongPress={props.onLongPress}
             disabled={props.disabled}
             mode={props.mode}
         >
@@ -196,6 +206,7 @@ export const FeatherButton = (props: ButtonProps) => {
         <Button
             mode={props.mode}
             onPress={props.onPress}
+            onLongPress={props.onLongPress}
             disabled={props.disabled}
         >
             {
@@ -214,6 +225,7 @@ export const PencilButton = (props: ButtonProps) => {
         <Button
             mode={props.mode}
             onPress={props.onPress}
+            onLongPress={props.onLongPress}
             disabled={props.disabled}
         >
             {
