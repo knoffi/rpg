@@ -126,4 +126,57 @@ export const bartenderAccesories: ImpressionIdea[] = [
         undefined,
         defaultPowerFitConcepts.harmony
     ),
+    new ImpressionIdea(
+        {
+            name: ' on his shoulder',
+            worksForAllCriminals: true,
+        },
+        [
+            {
+                name: 'Monkey',
+                needsOne: [a.desert, a.tropical, a.thief],
+                worksForAllCriminals: true,
+            },
+            {
+                name: 'Rat',
+                needsOne: [a.poor, a.thief, a.underdark],
+                worksForAllCriminals: true,
+            },
+            {
+                name: 'Owl',
+                needsOne: [a.wizard, a.adventurer, a.druid],
+                worksForAllCriminals: true,
+            },
+            {
+                name: 'Cat',
+                needsOne: [a.poor, a.modest, a.village, a.prostitute],
+                worksForAllCriminals: true,
+            },
+            {
+                name: 'Parrot',
+                needsOne: [a.desert, a.tropical, a.thief, a.haven],
+                worksForAllCriminals: true,
+            },
+            {
+                name: 'Fairy',
+                needsOne: [a.adventurer, a.thief],
+                worksForAllCriminals: true,
+            },
+            {
+                name: 'Lizard',
+                needsOne: [
+                    a.desert,
+                    a.tropical,
+                    a.thief,
+                    a.underdark,
+                    a.mountain,
+                ],
+                worksForAllCriminals: true,
+            },
+        ],
+        Noticable.bartender,
+        undefined,
+        true,
+        defaultPowerFitConcepts.harmony
+    ),
 ];
