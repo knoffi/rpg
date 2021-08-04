@@ -238,7 +238,12 @@ export const bartenderAccesories: ImpressionIdea[] = [
             key: AssetKey.BARTENDER_accessoires,
         },
         [
-            { name: 'Turban', needsOne: [a.desert, a.haven] },
+            {
+                name: 'Turban',
+                needsOne: [a.desert, a.haven, a.wizard, a.cleric, a.adventurer],
+                landRange: [a.desert, a.haven],
+                classRange: [a.wizard, a.cleric, a.adventurer],
+            },
             { name: 'Tagelmust', needsOne: [a.desert] },
             { name: 'Tarbush hat', needsOne: [a.desert] },
             { name: 'Keffiyeh', needsOne: [a.desert] },
@@ -262,6 +267,7 @@ export const bartenderAccesories: ImpressionIdea[] = [
                 name: 'Cylinder hat',
                 needsOne: [a.wealthy, a.rich],
                 misfits: [a.desert, a.tropical],
+                powerFits: [a.wizard, a.rich],
             },
             {
                 name: 'Bowler hat',
@@ -279,6 +285,7 @@ export const bartenderAccesories: ImpressionIdea[] = [
                 misfits: [a.desert, a.tropical],
             },
             { name: 'Pineapple hat', needs: [a.tropical] },
+            { name: 'Witch hat', needs: [a.wizard] },
             { name: 'Mushroom hat', needs: [a.underdark] },
             {
                 name: 'Baroque wig',
