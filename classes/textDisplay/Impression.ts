@@ -2,10 +2,12 @@ import { Noticable } from '../idea/Noticable';
 
 const maleToFemale: { male: string; female: string }[] = [
     { male: 'his', female: 'her' },
+    { male: 'himself', female: 'herself' },
     { male: 'him', female: 'her' },
     { male: 'he', female: 'she' },
     { male: 'His', female: 'Her' },
     { male: 'Him', female: 'Her' },
+    { male: 'Himself', female: 'Herself' },
     { male: 'He', female: 'She' },
     { male: 'Turban', female: 'Face veil' },
     { male: 'Tagelmust', female: 'Face veil' },
