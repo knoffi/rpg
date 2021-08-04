@@ -285,7 +285,11 @@ export const bartenderAccesories: ImpressionIdea[] = [
                 misfits: [a.desert, a.tropical],
             },
             { name: 'Pineapple hat', needs: [a.tropical] },
-            { name: 'Witch hat', needs: [a.wizard] },
+            {
+                name: 'Witch hat',
+                needs: [a.wizard],
+                misfits: [a.desert, a.tropical],
+            },
             { name: 'Mushroom hat', needs: [a.underdark] },
             {
                 name: 'Baroque wig',
