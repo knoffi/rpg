@@ -7,6 +7,10 @@ const maleToFemale: { male: string; female: string }[] = [
     { male: 'His', female: 'Her' },
     { male: 'Him', female: 'Her' },
     { male: 'He', female: 'She' },
+    { male: 'Turban', female: 'Face veil' },
+    { male: 'Tagelmust', female: 'Face veil' },
+    { male: 'Tarbush hat', female: 'Face veil' },
+    { male: 'Keffiyeh', female: 'Niqab veil' },
 ];
 
 const translateMaleToFemale = (maleText: string) => {
