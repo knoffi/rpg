@@ -61,6 +61,7 @@ export const bartenderAccesories: ImpressionIdea[] = [
                 a.prostitute,
             ],
             worksForAllCriminals: true,
+            key: AssetKey.BARTENDER_accessoires,
         },
         [
             {
@@ -130,11 +131,13 @@ export const bartenderAccesories: ImpressionIdea[] = [
         {
             name: ' on his shoulder',
             worksForAllCriminals: true,
+            key: AssetKey.BARTENDER_accessoires,
         },
         [
             {
                 name: 'Monkey',
-                needsOne: [a.desert, a.tropical, a.thief],
+                needsOne: [a.desert, a.tropical, a.thief, a.haven],
+                misfits: [a.underdark],
                 worksForAllCriminals: true,
             },
             {
@@ -145,21 +148,64 @@ export const bartenderAccesories: ImpressionIdea[] = [
             {
                 name: 'Owl',
                 needsOne: [a.wizard, a.adventurer, a.druid],
+                misfits: [a.underdark, a.haven, a.tropical],
                 worksForAllCriminals: true,
             },
             {
-                name: 'Cat',
+                name: 'Kitty',
                 needsOne: [a.poor, a.modest, a.village, a.prostitute],
                 worksForAllCriminals: true,
             },
             {
                 name: 'Parrot',
-                needsOne: [a.desert, a.tropical, a.thief, a.haven],
+                needsOne: [a.desert, a.tropical, a.haven],
                 worksForAllCriminals: true,
             },
             {
-                name: 'Fairy',
-                needsOne: [a.adventurer, a.thief],
+                name: 'Pixie',
+                needsOne: [a.druid, a.wizard, a.forest, a.adventurer],
+                landRange: [a.village, a.forest, a.city, a.mountain],
+                worksForAllCriminals: true,
+            },
+            {
+                name: 'Humming-bird',
+                needsOne: [a.druid, a.tropical, a.bard, a.adventurer],
+                landRange: [a.tropical, a.desert, a.haven, a.city],
+                worksForAllCriminals: true,
+            },
+            {
+                name: 'Seagull',
+                needs: [a.haven],
+                worksForAllCriminals: true,
+            },
+            {
+                name: 'Sparrow',
+                needsOne: [a.druid, a.village, a.forest, a.adventurer, a.thief],
+                landRange: [a.village, a.forest, a.city, a.mountain],
+                worksForAllCriminals: true,
+            },
+            {
+                name: 'Raven',
+                needsOne: [a.druid, a.wizard, a.forest, a.adventurer, a.thief],
+                landRange: [a.village, a.forest, a.city, a.mountain],
+                worksForAllCriminals: true,
+            },
+            {
+                name: 'Woodpecker',
+                needsOne: [a.druid, a.forest, a.adventurer],
+                landRange: [a.village, a.forest, a.city],
+                worksForAllCriminals: true,
+            },
+            {
+                name: 'Bat',
+                needsOne: [a.thief, a.underdark],
+                landRange: [a.city, a.village, a.underdark],
+                worksForAllCriminals: true,
+            },
+            {
+                name: 'Squirrel',
+                needsOne: [a.druid, a.village, a.forest],
+                landRange: [a.village, a.forest, a.city, a.mountain],
                 worksForAllCriminals: true,
             },
             {
@@ -171,6 +217,12 @@ export const bartenderAccesories: ImpressionIdea[] = [
                     a.underdark,
                     a.mountain,
                 ],
+                landRange: [a.desert, a.tropical, a.underdark, a.mountain],
+                worksForAllCriminals: true,
+            },
+            {
+                name: 'A Hamster named Boo',
+                needsOne: [a.adventurer, a.barbarian],
                 worksForAllCriminals: true,
             },
         ],
