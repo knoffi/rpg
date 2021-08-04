@@ -231,4 +231,64 @@ export const bartenderAccesories: ImpressionIdea[] = [
         true,
         defaultPowerFitConcepts.harmony
     ),
+    new ImpressionIdea(
+        {
+            name: ' on his head',
+            worksForAllCriminals: true,
+            key: AssetKey.BARTENDER_accessoires,
+        },
+        [
+            { name: 'Turban', needsOne: [a.desert, a.haven] },
+            { name: 'Tagelmust', needsOne: [a.desert] },
+            { name: 'Tarbush hat', needsOne: [a.desert] },
+            { name: 'Keffiyeh', needsOne: [a.desert] },
+            {
+                name: 'Steel helmet',
+                needsOne: [a.knight, a.soldier, a.barbarian],
+                misfits: [a.desert, a.tropical],
+            },
+            {
+                name: 'Iron helmet',
+                needsOne: [a.knight, a.soldier, a.barbarian],
+                misfits: [a.desert, a.tropical],
+            },
+            {
+                name: 'Pickelhaube',
+                needsOne: [a.knight, a.soldier],
+                misfits: [a.desert, a.tropical],
+            },
+            { name: 'Kippah', needs: [a.desert] },
+            {
+                name: 'Cylinder hat',
+                needsOne: [a.wealthy, a.rich],
+                misfits: [a.desert, a.tropical],
+            },
+            {
+                name: 'Bowler hat',
+                needsOne: [a.wealthy, a.rich],
+                misfits: [a.desert, a.tropical],
+            },
+            {
+                name: 'Newsboy cap',
+                needsOne: [a.modest, a.poor],
+                misfits: [a.desert, a.tropical],
+            },
+            {
+                name: 'Flat cap',
+                needsOne: [a.modest, a.poor],
+                misfits: [a.desert, a.tropical],
+            },
+            { name: 'Pineapple hat', needs: [a.tropical] },
+            { name: 'Mushroom hat', needs: [a.underdark] },
+            {
+                name: 'Baroque wig',
+                needs: [a.rich],
+                misfits: [a.desert, a.tropical],
+            },
+        ],
+        Noticable.bartender,
+        undefined,
+        true,
+        defaultPowerFitConcepts.harmony
+    ),
 ];
