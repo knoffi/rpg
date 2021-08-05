@@ -133,45 +133,70 @@ export const bartenderOpinions: ImpressionIdea[] = [
         [
             {
                 name: 'male guests',
+                misfits: [a.drow],
+                powerFits: [a.desert],
             },
             {
                 name: 'female guests',
+                powerFits: [a.bard],
             },
             {
                 name: 'beardy guests',
+                powerFits: [a.dwarf, a.wizard],
+                misfits: [a.elf],
             },
             {
                 name: 'well-dressed guests',
+                powerFits: [a.elf, a.bard, a.prostitute, a.rich, a.wealthy],
+                misfits: [a.barbarian, a.dwarf, a.assasine],
             },
             {
                 name: 'muscled guests',
+                powerFits: [a.barbarian, a.assasine, a.soldier],
+                misfits: [a.wizard, a.cleric],
             },
             {
                 name: 'users of magic',
+                misfits: [a.barbarian],
+                powerFits: [a.wizard, a.adventurer],
             },
             {
                 name: 'tieflings',
+                misfits: [a.cleric, a.human],
+                powerFits: [a.tiefling],
             },
             {
                 name: 'small guests',
+                misfits: [a.drow],
+                powerFits: [a.gnome, a.halfling],
             },
             {
                 name: 'animal-loving guests',
+                powerFits: [a.druid, a.forest],
             },
             {
                 name: 'sophisticated guests',
+                powerFits: [a.rich, a.wealthy, a.knight],
             },
             {
                 name: 'virtous guests',
+                powerFits: [a.knight, a.wealthy],
+                misfits: [a.bard],
             },
             {
                 name: 'poor-looking guests',
+                powerFits: [a.cleric, a.poor, a.modest],
+                misfits: [a.rich, a.wealthy],
             },
             {
                 name: 'fancy-dressed guests',
+                powerFits: [a.rich, a.bard, a.elf],
+                misfits: [a.poor, a.modest, a.knight],
             },
             {
                 name: 'guests with manners',
+                powerFits: [a.wealthy, a.rich, a.knight],
+                misfits: [a.poor, a.barbarian, a.soldier],
             },
             {
                 name: 'wild-looking guests',
@@ -179,24 +204,51 @@ export const bartenderOpinions: ImpressionIdea[] = [
             },
             {
                 name: 'rich-looking guests',
+                powerFits: [a.wealthy, a.rich],
+                misfits: [a.cleric, a.modest, a.poor],
             },
             {
                 name: 'foreigners',
+                powerFits: [a.haven, a.adventurer],
+                misfits: [a.village],
             },
             {
                 name: 'story-sharing adventurers',
+                powerFits: [
+                    a.adventurer,
+                    a.bard,
+                    a.barbarian,
+                    a.wizard,
+                    a.druid,
+                    a.cleric,
+                    a.knight,
+                ],
             },
             {
                 name: 'experienced warriors',
+                powerFits: [
+                    a.knight,
+                    a.soldier,
+                    a.barbarian,
+                    a.adventurer,
+                    a.dwarf,
+                ],
+                misfits: [a.wizard, a.bard],
             },
             {
                 name: 'cheerful guests',
+                powerFits: [a.halfling, a.gnome, a.bard],
+                misfits: [a.drow],
             },
             {
                 name: 'guests who dance to music',
+                powerFits: [a.halfling, a.gnome, a.bard],
+                misfits: [a.drow],
             },
             {
                 name: 'guests who play instruments',
+                powerFits: [a.elf, a.human, a.bard],
+                misfits: [a.drow],
             },
         ],
         Noticable.bartender,
