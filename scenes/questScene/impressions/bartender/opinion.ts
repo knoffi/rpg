@@ -45,19 +45,14 @@ export const bartenderOpinions: ImpressionIdea[] = [
                 misfits: [a.tiefling],
             },
             {
-                name: 'gnomes',
-                powerFits: [a.drow],
-                misfits: [a.gnome],
-            },
-            {
                 name: 'drows',
                 powerFits: [a.elf, a.dwarf, a.gnome, a.human],
                 misfits: [a.drow],
             },
             {
-                name: 'halflings',
+                name: 'small guests',
                 powerFits: [a.barbarian],
-                misfits: [a.halfling],
+                misfits: [a.halfling, a.gnome],
             },
             {
                 name: 'poachers and trophy hunters',
@@ -126,6 +121,82 @@ export const bartenderOpinions: ImpressionIdea[] = [
                 name: 'weapons in his tavern',
                 classRange: [],
                 powerFits: [a.modest, a.wealthy, a.poor],
+            },
+        ],
+        Noticable.bartender,
+        undefined,
+        undefined,
+        defaultPowerFitConcepts.harmony
+    ),
+    new ImpressionIdea(
+        { name: 'Very friendly to ', worksForAllCriminals: true },
+        [
+            {
+                name: 'male guests',
+            },
+            {
+                name: 'female guests',
+            },
+            {
+                name: 'beardy guests',
+            },
+            {
+                name: 'well-dressed guests',
+            },
+            {
+                name: 'muscled guests',
+            },
+            {
+                name: 'users of magic',
+            },
+            {
+                name: 'tieflings',
+            },
+            {
+                name: 'small guests',
+            },
+            {
+                name: 'animal-loving guests',
+            },
+            {
+                name: 'sophisticated guests',
+            },
+            {
+                name: 'virtous guests',
+            },
+            {
+                name: 'poor-looking guests',
+            },
+            {
+                name: 'fancy-dressed guests',
+            },
+            {
+                name: 'guests with manners',
+            },
+            {
+                name: 'wild-looking guests',
+                needsOne: [a.barbarian, a.druid, a.assasine],
+            },
+            {
+                name: 'rich-looking guests',
+            },
+            {
+                name: 'foreigners',
+            },
+            {
+                name: 'story-sharing adventurers',
+            },
+            {
+                name: 'experienced warriors',
+            },
+            {
+                name: 'cheerful guests',
+            },
+            {
+                name: 'guests who dance to music',
+            },
+            {
+                name: 'guests who play instruments',
             },
         ],
         Noticable.bartender,
