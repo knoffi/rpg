@@ -3,19 +3,19 @@ import { ScrollView } from 'react-native';
 import { association } from '../../classes/association';
 import { Noticable } from '../../classes/idea/Noticable';
 import { StructuredTavernFits } from '../../classes/idea/StructuredTavernFits';
+import { WeServe } from '../../editNavigator/WeServe';
 import { TavernData } from '../../mainNavigator/TavernData';
 import { BasePrice } from '../menuScene/basePrice';
 import { BannerData, MenuBanner } from '../menuScene/menuBanner/MenuBanner';
-import { WeServe } from '../../editNavigator/WeServe';
 import { nameSceneStyles } from '../nameScene/nameSceneStyles';
 import { CurrencySetDialog } from './CurrencySetDialog';
 import { DetailsList } from './DetailsList';
 import { getFullKeys } from './getNamesAndFullKeys';
-import { IImpression } from './impressions/IImpression';
 import {
     getImpressionsWithOneReroll,
     getRandomImpression,
-} from './impressions/impressionChapters';
+} from './impressions/getRandomImpression';
+import { IImpression } from './impressions/IImpression';
 import { incomeExampleMap } from './incomeExampleMap';
 import { PriceExplanationDialog } from './PriceExplanationDialog';
 import { PriceSetDialog } from './PriceSetDialog';

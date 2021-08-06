@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { List } from 'react-native-paper';
 import { association } from '../../classes/association';
 import { Noticable } from '../../classes/idea/Noticable';
+import { ImpressionDisplay } from '../../classes/textDisplay/Impression';
 import { AddButton } from '../../components/buttons/generalButtons';
 import { TavernData } from '../../mainNavigator/TavernData';
 import { globalStyles } from '../globalStyles';
 import { BasePrice } from '../menuScene/basePrice';
 import { menuSceneStyles } from '../menuScene/menuStyles';
+import { OfferListItem } from '../menuScene/offerList/item';
 import { LIST_END_BUTTON_SIZE } from '../menuScene/offerList/LIST_END_BUTTON_SIZE';
-import { OfferListTopItem } from '../menuScene/offerList/OfferListTopItem';
 import { IImpression } from './impressions/IImpression';
 import { PriceAccordion } from './PriceAccordion';
 
@@ -27,13 +28,14 @@ export const DetailsList = (props: {
 }) => {
     //TODO: What about barmaids?
     const impressionTitles = Object.values(Noticable);
-    const impressionListAccordions = impressionTitles.map((title) => {
+    const impressionAccordion = impressionTitles.map((title) => {
         const impressionsOfTitle = props.impressions.filter(
             (impression) => impression.category === title
         );
         return (
-            <ImpressionListAccordion
+            <ImpressionAccordion
                 key={title}
+                isBartender={title == Noticable.bartender}
                 title={title}
                 impressions={impressionsOfTitle}
                 onDelete={props.onDelete}
@@ -42,7 +44,7 @@ export const DetailsList = (props: {
                     props.onAdd(title);
                 }}
                 isNotFull={props.noticablesLeft.get(title)!}
-            ></ImpressionListAccordion>
+            ></ImpressionAccordion>
         );
     });
 
@@ -54,25 +56,42 @@ export const DetailsList = (props: {
                 basePrice={props.basePrice}
                 onPriceSetPress={props.onPriceSetPress}
             />
-            {impressionListAccordions}
+            {impressionAccordion}
         </List.Section>
     );
 };
 
-const ImpressionListAccordion = (props: {
+const ImpressionAccordion = (props: {
     title: string;
+    isBartender: boolean;
     impressions: IImpression[];
     onDelete: (name: string) => void;
     onAdd: () => void;
     onReroll: (impression: IImpression) => void;
     isNotFull: boolean;
 }) => {
+    const [bartenderSex, setBartenderSex] = useState(
+        'male' as 'female' | 'male'
+    );
+    const toggleBartenderSex = props.isBartender
+        ? () => {
+              setBartenderSex(bartenderSex === 'male' ? 'female' : 'male');
+          }
+        : () => {};
     const impressionsFull = !props.isNotFull;
     const descriptionItems = props.impressions.map((impression) => {
-        const text = impression.name;
+        const impressionDisplay = new ImpressionDisplay(
+            impression.name,
+            impression.category,
+            impression.sex
+        );
+        if (props.isBartender) {
+            impressionDisplay.setSex(bartenderSex);
+        }
+        const text = impressionDisplay.getText();
         const newKey = text;
         return (
-            <OfferListTopItem
+            <OfferListItem
                 drinkName={text}
                 key={newKey}
                 priceString={''}
@@ -93,7 +112,7 @@ const ImpressionListAccordion = (props: {
                     onShop: () => {},
                     onInfo: () => {},
                 }}
-            ></OfferListTopItem>
+            ></OfferListItem>
         );
     });
     const addBar = (
@@ -104,14 +123,19 @@ const ImpressionListAccordion = (props: {
                 <AddButton
                     size={LIST_END_BUTTON_SIZE}
                     onPress={impressionsFull ? () => {} : props.onAdd}
+                    onLongPress={toggleBartenderSex}
                     disabled={impressionsFull}
                 />
             )}
         ></List.Item>
     );
+    const title =
+        props.isBartender && bartenderSex === 'female'
+            ? 'Barmaid'
+            : props.title;
     return (
         <List.Accordion
-            title={props.title}
+            title={title}
             titleStyle={menuSceneStyles.accordeonListTitle}
             key={props.title}
         >

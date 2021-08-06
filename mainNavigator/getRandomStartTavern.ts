@@ -17,8 +17,8 @@ import { BasePrice, standardBasePrice } from '../scenes/menuScene/basePrice';
 import { NothingLeftOffer, Offer } from '../scenes/menuScene/menuEnums';
 import { getRandomName } from '../scenes/nameScene/getRandomName';
 import { emptyImpression } from '../scenes/questScene/impressions/emptyImpression';
+import { getRandomImpression } from '../scenes/questScene/impressions/getRandomImpression';
 import { IImpression } from '../scenes/questScene/impressions/IImpression';
-import { getRandomImpression } from '../scenes/questScene/impressions/impressionChapters';
 import { getTavernHistoryInitializer } from './mainNavigatorFunctions';
 
 const CHANCE_FOR_SPECIAL_FIT = 0.2;

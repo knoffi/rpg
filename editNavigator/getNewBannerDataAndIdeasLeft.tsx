@@ -5,10 +5,10 @@ import { TavernData } from '../mainNavigator/TavernData';
 import { getNewRandomDrinkOffer } from '../scenes/menuScene/addRandomDrink';
 import { BannerData } from '../scenes/menuScene/menuBanner/MenuBanner';
 import { NothingLeftOffer, Offer } from '../scenes/menuScene/menuEnums';
-import { WeServe } from './WeServe';
 import { emptyImpression } from '../scenes/questScene/impressions/emptyImpression';
+import { getRandomImpression } from '../scenes/questScene/impressions/getRandomImpression';
 import { IImpression } from '../scenes/questScene/impressions/IImpression';
-import { getRandomImpression } from '../scenes/questScene/impressions/impressionChapters';
+import { WeServe } from './WeServe';
 export const getNewBannerDataAndIdeasLeft = (
     newFitting: StructuredTavernFits,
     newIdeas: Offer[] | IImpression[],

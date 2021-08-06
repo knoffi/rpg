@@ -9,15 +9,15 @@ import {
 } from '../../../components/buttons/generalButtons';
 import { Offer } from '../menuEnums';
 import { menuSceneStyles } from '../menuStyles';
+import { IAddingActions, IOfferActions } from './actionInterfaces';
+import { OfferListItem } from './item';
 import { LIST_END_BUTTON_SIZE } from './LIST_END_BUTTON_SIZE';
-import { OfferListTopItem } from './OfferListTopItem';
-import { addingActions, offerActions } from './productActions';
 
 export const OfferListAccordeon = (props: {
     Drinkable: MenuCategory;
     listOfOffers: Offer[];
-    offerActions: offerActions;
-    addingActions: addingActions;
+    offerActions: IOfferActions;
+    addingActions: IAddingActions;
     noDrinkToAddLeft: boolean;
     getPriceString: (offer: Offer) => string;
 }) => {
@@ -31,7 +31,7 @@ export const OfferListAccordeon = (props: {
         const name = offerOfList.product.name;
         return (
             <View key={name}>
-                <OfferListTopItem
+                <OfferListItem
                     drinkName={name}
                     actions={{
                         onDelete: () => {
@@ -61,7 +61,7 @@ export const OfferListAccordeon = (props: {
                     noDrinkToAddLeft={noDrinkToAddLeft}
                     isUserMade={offerOfList.product.isUserMade}
                     priceString={getPriceString(offerOfList)}
-                ></OfferListTopItem>
+                ></OfferListItem>
             </View>
         );
     });

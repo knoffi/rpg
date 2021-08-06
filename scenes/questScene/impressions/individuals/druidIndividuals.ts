@@ -24,6 +24,7 @@ export const druidIndividuals: ImpressionIdea[] = [
             powerFits: [a.druid, a.forest],
             worksForBrothel: true,
             worksForThiefs: true,
+            sex: 'female',
         },
         [...servantActions, ...nymphClass],
         Noticable.someCustomers
@@ -237,6 +238,7 @@ export const druidIndividuals: ImpressionIdea[] = [
             needsOne: [a.druid, a.barbarian],
             powerFits: [a.druid, a.forest, a.mountain],
             worksForAllCriminals: true,
+            sex: 'female',
         },
         [
             ...machoClass,
@@ -335,6 +337,7 @@ export const druidIndividuals: ImpressionIdea[] = [
             needs: [a.druid],
             powerFits: [a.druid, a.forest, a.mountain],
             worksForAllCriminals: true,
+            sex: 'female',
         },
         [...servantActions, ...nymphClass],
         Noticable.someCustomers
@@ -357,6 +360,7 @@ export const druidIndividuals: ImpressionIdea[] = [
             needs: [a.druid],
             powerFits: [a.druid, a.forest, a.mountain],
             worksForAllCriminals: true,
+            sex: 'female',
         },
         [...busyScholarClass, ...nymphClass],
         Noticable.someCustomers
@@ -379,6 +383,7 @@ export const druidIndividuals: ImpressionIdea[] = [
             needs: [a.druid],
             powerFits: [a.druid, a.forest, a.mountain, a.village],
             worksForAllCriminals: true,
+            sex: 'female',
         },
         [
             ...partyHermit,
@@ -395,6 +400,7 @@ export const druidIndividuals: ImpressionIdea[] = [
             needs: [a.druid],
             powerFits: [a.druid, a.tropical],
             worksForAllCriminals: true,
+            sex: 'female',
         },
         [
             ...partyHermit,
@@ -411,6 +417,7 @@ export const druidIndividuals: ImpressionIdea[] = [
             needs: [a.druid],
             powerFits: [a.druid, a.desert],
             worksForAllCriminals: true,
+            sex: 'female',
         },
         [
             ...partyHermit,
@@ -425,8 +432,20 @@ export const druidIndividuals: ImpressionIdea[] = [
             name: 'A frisky gnome is ',
             landRange: [a.underdark],
             needs: [a.druid],
-            powerFits: [a.druid, a.underdark],
+            powerFits: [a.druid, a.underdark, a.gnome],
             worksForAllCriminals: true,
+        },
+        druidGuests,
+        Noticable.someCustomers
+    ),
+    new ImpressionIdea(
+        {
+            name: 'A frisky gnome lady is ',
+            landRange: [a.underdark],
+            needs: [a.druid],
+            powerFits: [a.druid, a.underdark, a.gnome],
+            worksForAllCriminals: true,
+            sex: 'female',
         },
         druidGuests,
         Noticable.someCustomers
@@ -436,8 +455,9 @@ export const druidIndividuals: ImpressionIdea[] = [
             name: 'A frisky drow is ',
             landRange: [a.underdark],
             needs: [a.druid],
-            powerFits: [a.druid, a.underdark],
+            powerFits: [a.druid, a.underdark, a.drow],
             worksForAllCriminals: true,
+            sex: 'female',
         },
         druidGuests,
         Noticable.someCustomers
@@ -447,8 +467,20 @@ export const druidIndividuals: ImpressionIdea[] = [
             name: 'A frisky elf is ',
             landRange: [a.forest],
             needs: [a.druid],
-            powerFits: [a.druid, a.forest],
+            powerFits: [a.druid, a.forest, a.elf],
             worksForAllCriminals: true,
+        },
+        druidGuests,
+        Noticable.someCustomers
+    ),
+    new ImpressionIdea(
+        {
+            name: 'A frisky elf lady is ',
+            landRange: [a.forest],
+            needs: [a.druid],
+            powerFits: [a.druid, a.forest, a.elf],
+            worksForAllCriminals: true,
+            sex: 'female',
         },
         druidGuests,
         Noticable.someCustomers
@@ -458,8 +490,20 @@ export const druidIndividuals: ImpressionIdea[] = [
             name: 'A frisky dwarf is ',
             landRange: [a.mountain],
             needs: [a.druid],
-            powerFits: [a.druid, a.mountain],
+            powerFits: [a.druid, a.mountain, a.dwarf],
             worksForAllCriminals: true,
+        },
+        druidGuests,
+        Noticable.someCustomers
+    ),
+    new ImpressionIdea(
+        {
+            name: 'A frisky dwarf lady is ',
+            landRange: [a.mountain],
+            needs: [a.druid],
+            powerFits: [a.druid, a.mountain, a.dwarf],
+            worksForAllCriminals: true,
+            sex: 'female',
         },
         druidGuests,
         Noticable.someCustomers
@@ -469,7 +513,7 @@ export const druidIndividuals: ImpressionIdea[] = [
             name: 'A frisky halfling is ',
             landRange: [a.village],
             needs: [a.druid],
-            powerFits: [a.druid, a.village],
+            powerFits: [a.druid, a.village, a.halfling],
             worksForAllCriminals: true,
         },
         druidGuests,
@@ -477,11 +521,12 @@ export const druidIndividuals: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            name: 'A frisky human is ',
-            landRange: [a.tropical],
+            name: 'A frisky halfling lady is ',
+            landRange: [a.village],
             needs: [a.druid],
-            powerFits: [a.druid, a.tropical],
+            powerFits: [a.druid, a.village, a.halfling],
             worksForAllCriminals: true,
+            sex: 'female',
         },
         druidGuests,
         Noticable.someCustomers
@@ -491,7 +536,7 @@ export const druidIndividuals: ImpressionIdea[] = [
             name: 'A frisky tiefling is ',
             landRange: [a.desert],
             needs: [a.druid],
-            powerFits: [a.druid, a.desert],
+            powerFits: [a.druid, a.desert, a.tiefling],
             worksForAllCriminals: true,
         },
         druidGuests,
@@ -499,11 +544,35 @@ export const druidIndividuals: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            name: 'A frisky human is ',
-            landRange: [a.haven],
+            name: 'A frisky tiefling lady is ',
+            landRange: [a.desert],
             needs: [a.druid],
-            powerFits: [a.druid, a.human],
+            powerFits: [a.druid, a.desert, a.tiefling],
             worksForAllCriminals: true,
+            sex: 'female',
+        },
+        druidGuests,
+        Noticable.someCustomers
+    ),
+    new ImpressionIdea(
+        {
+            name: 'A frisky man is ',
+            landRange: [a.haven, a.tropical],
+            needs: [a.druid],
+            powerFits: [a.druid, a.human, a.haven, a.tropical],
+            worksForAllCriminals: true,
+        },
+        druidGuests,
+        Noticable.someCustomers
+    ),
+    new ImpressionIdea(
+        {
+            name: 'A frisky woman is ',
+            landRange: [a.haven, a.tropical],
+            needs: [a.druid],
+            powerFits: [a.druid, a.human, a.haven, a.tropical],
+            worksForAllCriminals: true,
+            sex: 'female',
         },
         druidGuests,
         Noticable.someCustomers

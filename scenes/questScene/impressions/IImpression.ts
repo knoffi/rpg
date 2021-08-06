@@ -6,4 +6,5 @@ export type IImpression = {
     category: Noticable;
     firstKey?: AssetKey;
     secondKey?: AssetKey;
+    sex?: 'male' | 'female';
 };

@@ -1,5 +1,5 @@
-import { association } from '../../../classes/association';
-import { DescriptionAsset } from '../../../classes/idea/DescriptionAsset';
+import { association } from '../../../../classes/association';
+import { DescriptionAsset } from '../../../../classes/idea/DescriptionAsset';
 const a = association;
 
 export const weapons: DescriptionAsset[] = [

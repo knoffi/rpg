@@ -6,11 +6,11 @@ import {
     MenuCategory,
 } from '../../../classes/TavernProduct';
 import { HEIGHT_FACTOR } from '../../../dimensionConstants';
+import { WeServe } from '../../../editNavigator/WeServe';
 import { globalStyles } from '../../globalStyles';
 import { Offer } from '../menuEnums';
-import { WeServe } from '../../../editNavigator/WeServe';
-import { OfferListAccordeon } from './OfferListAccordeon';
-import { addingActions, offerActions } from './productActions';
+import { OfferListAccordeon } from './accordeon';
+import { IAddingActions, IOfferActions } from './actionInterfaces';
 
 const BOTTOM_PADDING_DRINKS = 265 * HEIGHT_FACTOR;
 const BOTTOM_PADDING_FOOD = 188 * HEIGHT_FACTOR;
@@ -18,8 +18,8 @@ const BOTTOM_PADDING_FOOD = 188 * HEIGHT_FACTOR;
 export const OfferList = (props: {
     offers: Offer[];
     isAbout: WeServe;
-    offerActions: offerActions;
-    addingActions: addingActions;
+    offerActions: IOfferActions;
+    addingActions: IAddingActions;
     offersLeftMap: Map<MenuCategory, boolean>;
     getPriceString: (offer: Offer) => string;
 }) => {

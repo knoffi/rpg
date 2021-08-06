@@ -58,6 +58,7 @@ export const individuals: ImpressionIdea[] = [
             incomeRange: [a.rich],
             name: 'A princess is ',
             powerFits: [a.rich, a.bard],
+            sex: 'female',
         },
         leisureUpperClass,
         Noticable.someCustomers
@@ -95,6 +96,18 @@ export const individuals: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
+            incomeRange: [a.rich, a.wealthy],
+            misfits: [a.drow],
+            name: 'A well-known duchess is ',
+            worksForBrothel: true,
+            powerFits: [a.rich, a.knight],
+            sex: 'female',
+        },
+        leisureUpperClass,
+        Noticable.someCustomers
+    ),
+    new ImpressionIdea(
+        {
             incomeRange: [a.wealthy],
             landRange: [a.haven, a.city],
             name: 'A guild master is ',
@@ -112,6 +125,7 @@ export const individuals: ImpressionIdea[] = [
             worksForBrothel: true,
             raceRange: [a.drow, a.elf, a.human],
             powerFits: [a.wealthy, a.city],
+            sex: 'female',
         },
         busyUpperClass,
         Noticable.someCustomers
@@ -142,6 +156,7 @@ export const individuals: ImpressionIdea[] = [
             incomeRange: [a.wealthy],
             name: 'A baroness is ',
             powerFits: [a.wealthy],
+            sex: 'female',
         },
         leisureUpperClass,
         Noticable.someCustomers
@@ -161,6 +176,7 @@ export const individuals: ImpressionIdea[] = [
             incomeRange: [a.rich],
             name: 'A foreign princess is ',
             powerFits: [a.haven, a.rich, a.desert, a.city],
+            sex: 'female',
         },
         leisureUpperClass,
         Noticable.someCustomers
@@ -490,7 +506,11 @@ export const individuals: ImpressionIdea[] = [
         Noticable.someCustomers
     ),
     new ImpressionIdea(
-        { classRange: [a.cleric, a.knight], name: 'A priestess is ' },
+        {
+            classRange: [a.cleric, a.knight],
+            name: 'A priestess is ',
+            sex: 'female',
+        },
         busyScholarClass,
         Noticable.someCustomers
     ),
@@ -500,7 +520,7 @@ export const individuals: ImpressionIdea[] = [
         Noticable.someCustomers
     ),
     new ImpressionIdea(
-        { classRange: [a.cleric, a.knight], name: 'A nun is ' },
+        { classRange: [a.cleric, a.knight], name: 'A nun is ', sex: 'female' },
         busyUpperClass,
         Noticable.someCustomers
     ),
@@ -510,7 +530,12 @@ export const individuals: ImpressionIdea[] = [
         Noticable.someCustomers
     ),
     new ImpressionIdea(
-        { name: 'A priestess is ', needs: [a.poor], powerFits: [a.poor] },
+        {
+            name: 'A priestess is ',
+            needs: [a.poor],
+            powerFits: [a.poor],
+            sex: 'female',
+        },
         caritasWork,
         Noticable.someCustomers
     ),
@@ -520,7 +545,12 @@ export const individuals: ImpressionIdea[] = [
         Noticable.someCustomers
     ),
     new ImpressionIdea(
-        { name: 'A nun is ', needs: [a.poor], powerFits: [a.poor] },
+        {
+            name: 'A nun is ',
+            needs: [a.poor],
+            powerFits: [a.poor],
+            sex: 'female',
+        },
         caritasWork,
         Noticable.someCustomers
     ),
@@ -582,6 +612,7 @@ export const individuals: ImpressionIdea[] = [
             incomeRange: [a.poor, a.modest],
             powerFits: [a.village],
             worksForBrothel: true,
+            sex: 'female',
         },
         teenagerClass,
         Noticable.someCustomers
@@ -596,6 +627,7 @@ export const individuals: ImpressionIdea[] = [
             worksForThiefs: true,
             worksForAssasines: true,
             powerFits: [a.haven, a.thief, a.bard],
+            sex: 'female',
         },
         [...lively, ...general, ...servantActions],
         Noticable.someCustomers
@@ -609,6 +641,7 @@ export const individuals: ImpressionIdea[] = [
             worksForThiefs: true,
             worksForAssasines: true,
             powerFits: [a.city, a.thief, a.bard],
+            sex: 'female',
         },
         [...lively, ...general],
         Noticable.someCustomers
@@ -828,7 +861,7 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             needsOne: [a.haven, a.tropical],
-            name: 'A sailors is ',
+            name: 'A sailor is ',
             worksForBrothel: true,
             worksForThiefs: true,
             incomeRange: [a.poor, a.modest],
