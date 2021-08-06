@@ -20,7 +20,7 @@ export const bartenderActions: ImpressionIdea[] = [
             name: 'Is having a drink himself',
             key: AssetKey.BARTENDER_actions,
             needsOne: [a.poor, a.dwarf, a.barbarian, a.soldier],
-            misfits: [a.rich, a.wealthy],
+            misfits: [a.rich, a.wealthy, a.desert],
             worksForAllCriminals: true,
         },
         [emptyDescriptionAsset],
@@ -133,6 +133,7 @@ export const bartenderActions: ImpressionIdea[] = [
         {
             name: 'Is flirting with a beautiful lady',
             key: AssetKey.BARTENDER_actions,
+            misfits: [a.desert],
             needs: [a.bard, a.tiefling],
             worksForThiefs: true,
         },
@@ -153,7 +154,8 @@ export const bartenderActions: ImpressionIdea[] = [
         {
             name: 'Is comforting a crying woman',
             needsOne: [a.poor, a.cleric],
-            misfits: [a.rich, a.wealthy],
+
+            misfits: [a.rich, a.wealthy, a.desert],
             key: AssetKey.BARTENDER_actions,
         },
         [emptyDescriptionAsset],
@@ -163,7 +165,7 @@ export const bartenderActions: ImpressionIdea[] = [
         {
             name: 'Is comforting a crying widow',
             needsOne: [a.poor, a.cleric],
-            misfits: [a.rich, a.wealthy],
+            misfits: [a.rich, a.wealthy, a.desert],
             key: AssetKey.BARTENDER_actions,
         },
         [emptyDescriptionAsset],
@@ -193,7 +195,7 @@ export const bartenderActions: ImpressionIdea[] = [
         {
             name: 'Is opening a new barrel of wine',
             needsOne: [a.wealthy, a.rich, a.elf, a.human],
-            misfits: [a.poor],
+            misfits: [a.poor, a.desert],
             key: AssetKey.BARTENDER_actions,
             worksForAllCriminals: true,
         },
@@ -204,7 +206,7 @@ export const bartenderActions: ImpressionIdea[] = [
         {
             name: 'Is opening a new barrel of beer',
             needsOne: [a.wealthy, a.rich, a.dwarf, a.halfling],
-            misfits: [a.poor],
+            misfits: [a.poor, a.desert],
             key: AssetKey.BARTENDER_actions,
             worksForAllCriminals: true,
         },
@@ -215,7 +217,7 @@ export const bartenderActions: ImpressionIdea[] = [
         {
             name: 'Is opening a new barrel of spirit',
             needsOne: [a.wealthy, a.rich, a.gnome, a.tiefling],
-            misfits: [a.poor],
+            misfits: [a.poor, a.desert],
             key: AssetKey.BARTENDER_actions,
             worksForAllCriminals: true,
         },
@@ -239,6 +241,7 @@ export const bartenderActions: ImpressionIdea[] = [
             key: AssetKey.BARTENDER_actions,
             needsOne: [a.poor, a.barbarian],
             incomeRange: [a.poor, a.modest],
+            misfits: [a.desert],
             worksForBrothel: true,
             worksForAssasines: true,
         },
@@ -270,6 +273,7 @@ export const bartenderActions: ImpressionIdea[] = [
             name: 'Is drinking some leftover booze',
             needs: [a.poor],
             key: AssetKey.BARTENDER_actions,
+            misfits: [a.desert],
             worksForThiefs: true,
         },
         [emptyDescriptionAsset],
@@ -298,6 +302,7 @@ export const bartenderActions: ImpressionIdea[] = [
         {
             name: 'Is getting compliments for the drinks',
             powerFits: [a.rich, a.wealthy, a.dwarf, a.gnome, a.tiefling],
+            misfits: [a.desert],
             key: AssetKey.BARTENDER_actions,
         },
         [emptyDescriptionAsset],
