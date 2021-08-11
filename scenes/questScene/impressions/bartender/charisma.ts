@@ -24,6 +24,7 @@ export const bartenderCharisma: ImpressionIdea[] = [
             name: 'Warm-hearted & generous',
             powerFits: [a.dwarf, a.halfling, a.modest, a.village, a.knight],
             key: AssetKey.BARTENDER_charisma,
+            worksForBrothel: true,
         },
         [emptyImpression],
         Noticable.bartender
@@ -33,6 +34,7 @@ export const bartenderCharisma: ImpressionIdea[] = [
             name: 'Welcoming aura',
             powerFits: [a.halfling, a.adventurer, a.village, a.druid],
             key: AssetKey.BARTENDER_charisma,
+            worksForBrothel: true,
         },
         [emptyImpression],
         Noticable.bartender
@@ -43,6 +45,18 @@ export const bartenderCharisma: ImpressionIdea[] = [
             key: AssetKey.BARTENDER_charisma,
             powerFits: [a.halfling, a.adventurer, a.village],
             misfits: [a.drow],
+            worksForBrothel: true,
+        },
+        [emptyImpression],
+        Noticable.bartender
+    ),
+    new ImpressionIdea(
+        {
+            name: 'Uncomfortably smiling',
+            key: AssetKey.BARTENDER_charisma,
+            needs: [a.prostitute],
+            misfits: [a.drow],
+            worksForBrothel: true,
         },
         [emptyImpression],
         Noticable.bartender
@@ -52,6 +66,7 @@ export const bartenderCharisma: ImpressionIdea[] = [
             name: 'Unfriendly & mistrusting',
             key: AssetKey.BARTENDER_charisma,
             powerFits: [a.drow, a.thief, a.assasine, a.poor, a.village],
+            worksForThiefs: true,
         },
         [emptyImpression],
         Noticable.bartender
@@ -77,6 +92,7 @@ export const bartenderCharisma: ImpressionIdea[] = [
                 a.modest,
             ],
             key: AssetKey.BARTENDER_charisma,
+            worksForAssasines: true,
         },
         [emptyImpression],
         Noticable.bartender
@@ -85,6 +101,7 @@ export const bartenderCharisma: ImpressionIdea[] = [
         {
             name: 'Impolite, but generous',
             needsOne: [a.barbarian, a.assasine, a.dwarf],
+            worksForAllCriminals: true,
             key: AssetKey.BARTENDER_charisma,
         },
         [emptyImpression],
@@ -95,6 +112,7 @@ export const bartenderCharisma: ImpressionIdea[] = [
             name: 'Depressed & quiet',
             needs: [a.poor],
             key: AssetKey.BARTENDER_charisma,
+            worksForBrothel: true,
         },
         [emptyImpression],
         Noticable.bartender
@@ -112,6 +130,7 @@ export const bartenderCharisma: ImpressionIdea[] = [
         {
             name: 'In love & dreaming',
             powerFits: [a.modest, a.wizard, a.druid, a.bard],
+            worksForBrothel: true,
             key: AssetKey.BARTENDER_charisma,
         },
         [emptyImpression],
@@ -121,6 +140,7 @@ export const bartenderCharisma: ImpressionIdea[] = [
         {
             name: 'Organized & hard-working',
             powerFits: [a.human, a.modest, a.city],
+            worksForBrothel: true,
             key: AssetKey.BARTENDER_charisma,
         },
         [emptyImpression],
@@ -139,6 +159,7 @@ export const bartenderCharisma: ImpressionIdea[] = [
         {
             name: 'Grimly & fierce',
             needsOne: grimly,
+            worksForAssasines: true,
             key: AssetKey.BARTENDER_charisma,
         },
         [emptyImpression],
@@ -149,6 +170,7 @@ export const bartenderCharisma: ImpressionIdea[] = [
             name: 'Tipsy & lazy',
             powerFits: [a.poor, a.thief],
             misfits: [a.desert],
+            worksForBrothel: true,
             key: AssetKey.BARTENDER_charisma,
         },
         [emptyImpression],
@@ -168,6 +190,7 @@ export const bartenderCharisma: ImpressionIdea[] = [
             name: 'Die-hard attitude',
             needsOne: [a.barbarian, a.assasine, a.dwarf, a.soldier],
             key: AssetKey.BARTENDER_charisma,
+            worksForAssasines: true,
         },
         [emptyImpression],
         Noticable.bartender
@@ -177,6 +200,7 @@ export const bartenderCharisma: ImpressionIdea[] = [
             name: 'Mistrusting & careful',
             needsOne: mistrusters,
             key: AssetKey.BARTENDER_charisma,
+            worksForThiefs: true,
         },
         [emptyImpression],
         Noticable.bartender
@@ -186,6 +210,8 @@ export const bartenderCharisma: ImpressionIdea[] = [
             name: 'Macabre & witty',
             powerFits: [a.tiefling],
             key: AssetKey.BARTENDER_charisma,
+            worksForThiefs: true,
+            worksForBrothel: true,
         },
         [emptyImpression],
         Noticable.bartender
@@ -204,6 +230,7 @@ export const bartenderCharisma: ImpressionIdea[] = [
             name: 'Lazy & daydreaming',
             powerFits: [a.poor, a.village],
             key: AssetKey.BARTENDER_charisma,
+            worksForBrothel: true,
         },
         [emptyImpression],
         Noticable.bartender
@@ -213,6 +240,7 @@ export const bartenderCharisma: ImpressionIdea[] = [
             name: 'Ferocious & wild',
             powerFits: [a.barbarian, a.druid, a.forest],
             key: AssetKey.BARTENDER_charisma,
+            worksForAssasines: true,
         },
         [emptyImpression],
         Noticable.bartender
@@ -222,6 +250,8 @@ export const bartenderCharisma: ImpressionIdea[] = [
             name: 'Mysterious & shady',
             needsOne: [a.wizard, a.drow, a.thief, a.tiefling],
             key: AssetKey.BARTENDER_charisma,
+            worksForBrothel: true,
+            worksForThiefs: true,
         },
         [emptyImpression],
         Noticable.bartender
@@ -231,6 +261,8 @@ export const bartenderCharisma: ImpressionIdea[] = [
             name: 'Charming, but shady',
             needsOne: [a.wizard, a.drow, a.thief, a.tiefling],
             key: AssetKey.BARTENDER_charisma,
+            worksForBrothel: true,
+            worksForThiefs: true,
         },
         [emptyImpression],
         Noticable.bartender
@@ -249,6 +281,7 @@ export const bartenderCharisma: ImpressionIdea[] = [
             name: 'Excentric & chaotic',
             needsOne: [a.druid, a.wealthy],
             key: AssetKey.BARTENDER_charisma,
+            worksForBrothel: true,
         },
         [emptyImpression],
         Noticable.bartender
@@ -258,6 +291,7 @@ export const bartenderCharisma: ImpressionIdea[] = [
             name: 'Excentric, but organized',
             needsOne: [a.elf, a.wealthy, a.rich],
             key: AssetKey.BARTENDER_charisma,
+            worksForBrothel: true,
         },
         [emptyImpression],
         Noticable.bartender
@@ -294,6 +328,7 @@ export const bartenderCharisma: ImpressionIdea[] = [
             name: 'Joyful & singing',
             powerFits: [a.bard, a.halfling, a.elf],
             key: AssetKey.BARTENDER_charisma,
+            worksForBrothel: true,
         },
         [emptyImpression],
         Noticable.bartender
@@ -301,8 +336,10 @@ export const bartenderCharisma: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             name: 'Curious & witty',
-            powerFits: [a.gnome, a.tiefling],
+            powerFits: [a.gnome, a.tiefling, a.human],
             key: AssetKey.BARTENDER_charisma,
+            worksForBrothel: true,
+            worksForThiefs: true,
         },
         [emptyImpression],
         Noticable.bartender
@@ -321,6 +358,8 @@ export const bartenderCharisma: ImpressionIdea[] = [
             name: 'Humorous & hectic',
             powerFits: [a.gnome],
             key: AssetKey.BARTENDER_charisma,
+            worksForBrothel: true,
+            worksForThiefs: true,
         },
         [emptyImpression],
         Noticable.bartender
@@ -358,6 +397,7 @@ export const bartenderCharisma: ImpressionIdea[] = [
             name: 'Fast-working & generous',
             powerFits: [a.human, a.dwarf, a.gnome],
             key: AssetKey.BARTENDER_charisma,
+            worksForBrothel: true,
         },
         [emptyImpression],
         Noticable.bartender
@@ -367,6 +407,7 @@ export const bartenderCharisma: ImpressionIdea[] = [
             name: 'Elegant & calm',
             needsOne: [a.elf, a.wealthy],
             key: AssetKey.BARTENDER_charisma,
+            worksForBrothel: true,
         },
         [emptyImpression],
         Noticable.bartender
@@ -376,6 +417,7 @@ export const bartenderCharisma: ImpressionIdea[] = [
             name: 'Sophisticated & charming',
             needsOne: [a.elf, a.wealthy],
             key: AssetKey.BARTENDER_charisma,
+            worksForBrothel: true,
         },
         [emptyImpression],
         Noticable.bartender
@@ -385,6 +427,7 @@ export const bartenderCharisma: ImpressionIdea[] = [
             name: 'Generous & elegant',
             needsOne: [a.elf, a.wealthy],
             key: AssetKey.BARTENDER_charisma,
+            worksForBrothel: true,
         },
         [emptyImpression],
         Noticable.bartender
@@ -403,6 +446,7 @@ export const bartenderCharisma: ImpressionIdea[] = [
             name: 'Fashion-loving & witty',
             needsOne: [a.elf, a.rich, a.tiefling],
             key: AssetKey.BARTENDER_charisma,
+            worksForBrothel: true,
         },
         [emptyImpression],
         Noticable.bartender
@@ -412,6 +456,7 @@ export const bartenderCharisma: ImpressionIdea[] = [
             name: 'Fashion-loving & excentric',
             key: AssetKey.BARTENDER_charisma,
             needsOne: [a.elf, a.rich, a.tiefling],
+            worksForBrothel: true,
         },
         [emptyImpression],
         Noticable.bartender
@@ -430,6 +475,7 @@ export const bartenderCharisma: ImpressionIdea[] = [
             name: 'Music-loving & flirty',
             key: AssetKey.BARTENDER_charisma,
             needsOne: [a.bard, a.elf, a.tiefling],
+            worksForBrothel: true,
         },
         [emptyImpression],
         Noticable.bartender
@@ -439,6 +485,8 @@ export const bartenderCharisma: ImpressionIdea[] = [
             name: 'Witty & flirty',
             needsOne: [a.bard, a.elf, a.tiefling],
             key: AssetKey.BARTENDER_charisma,
+            worksForBrothel: true,
+            worksForThiefs: true,
         },
         [emptyImpression],
         Noticable.bartender
@@ -455,6 +503,8 @@ export const bartenderCharisma: ImpressionIdea[] = [
                 a.thief,
                 a.prostitute,
             ],
+            worksForBrothel: true,
+            worksForThiefs: true,
         },
         [emptyImpression],
         Noticable.bartender
@@ -470,6 +520,8 @@ export const bartenderCharisma: ImpressionIdea[] = [
                 a.thief,
                 a.prostitute,
             ],
+            worksForBrothel: true,
+            worksForThiefs: true,
             key: AssetKey.BARTENDER_charisma,
         },
         [emptyImpression],
@@ -480,6 +532,7 @@ export const bartenderCharisma: ImpressionIdea[] = [
             name: 'Quiet & careful',
             needsOne: [a.drow, a.thief],
             key: AssetKey.BARTENDER_charisma,
+            worksForThiefs: true,
         },
         [emptyImpression],
         Noticable.bartender
@@ -490,6 +543,7 @@ export const bartenderCharisma: ImpressionIdea[] = [
             needsOne: grimly,
             misfits: [a.desert],
             key: AssetKey.BARTENDER_charisma,
+            worksForAssasines: true,
         },
         [emptyImpression],
         Noticable.bartender
@@ -499,6 +553,7 @@ export const bartenderCharisma: ImpressionIdea[] = [
             name: 'Alluring & flirty',
             needsOne: [a.bard, a.prostitute],
             key: AssetKey.BARTENDER_charisma,
+            worksForBrothel: true,
         },
         [emptyImpression],
         Noticable.bartender
@@ -517,6 +572,7 @@ export const bartenderCharisma: ImpressionIdea[] = [
             name: 'Sturdy & honest',
             powerFits: [a.knight, a.barbarian, a.modest, a.dwarf],
             key: AssetKey.BARTENDER_charisma,
+            worksForAssasines: true,
         },
         [emptyImpression],
         Noticable.bartender
@@ -526,6 +582,7 @@ export const bartenderCharisma: ImpressionIdea[] = [
             name: 'Sturdy & story-telling',
             powerFits: [a.knight, a.barbarian, a.modest, a.dwarf],
             key: AssetKey.BARTENDER_charisma,
+            worksForAssasines: true,
         },
         [emptyImpression],
         Noticable.bartender
@@ -535,6 +592,8 @@ export const bartenderCharisma: ImpressionIdea[] = [
             name: 'Vicious, but charming',
             needsOne: [a.drow, a.tiefling, a.thief],
             key: AssetKey.BARTENDER_charisma,
+            worksForBrothel: true,
+            worksForThiefs: true,
         },
         [emptyImpression],
         Noticable.bartender
@@ -544,6 +603,8 @@ export const bartenderCharisma: ImpressionIdea[] = [
             name: 'Sinister, but flirty',
             needsOne: [a.drow, a.tiefling, a.thief],
             key: AssetKey.BARTENDER_charisma,
+            worksForBrothel: true,
+            worksForThiefs: true,
         },
         [emptyImpression],
         Noticable.bartender
@@ -553,6 +614,8 @@ export const bartenderCharisma: ImpressionIdea[] = [
             name: 'Smiling, but vicious',
             needsOne: [a.drow, a.tiefling, a.thief],
             key: AssetKey.BARTENDER_charisma,
+            worksForBrothel: true,
+            worksForThiefs: true,
         },
         [emptyImpression],
         Noticable.bartender
@@ -562,6 +625,8 @@ export const bartenderCharisma: ImpressionIdea[] = [
             name: 'Charming, but malicious',
             needsOne: [a.drow, a.tiefling, a.thief],
             key: AssetKey.BARTENDER_charisma,
+            worksForBrothel: true,
+            worksForThiefs: true,
         },
         [emptyImpression],
         Noticable.bartender
@@ -597,6 +662,7 @@ export const bartenderCharisma: ImpressionIdea[] = [
                 a.druid,
             ],
             misfits: [a.desert],
+            worksForBrothel: true,
             key: AssetKey.BARTENDER_charisma,
         },
         [emptyImpression],
@@ -613,6 +679,7 @@ export const bartenderCharisma: ImpressionIdea[] = [
                 a.gnome,
                 a.prostitute,
             ],
+            worksForBrothel: true,
             misfits: [a.desert],
             key: AssetKey.BARTENDER_charisma,
         },
@@ -625,6 +692,7 @@ export const bartenderCharisma: ImpressionIdea[] = [
             powerFits: [a.bard, a.prostitute],
             misfits: [a.desert],
             key: AssetKey.BARTENDER_charisma,
+            worksForBrothel: true,
         },
         [emptyImpression],
         Noticable.bartender
