@@ -30,7 +30,7 @@ export const bartenderActions: ImpressionIdea[] = [
         {
             name: 'Is throwing out a guest',
             key: AssetKey.BARTENDER_actions,
-            needsOne: [a.poor, a.modest, a.soldier, a.barbarian],
+            needsOne: [a.poor, a.modest, a.soldier, a.barbarian, a.assasine],
             worksForAllCriminals: true,
         },
         [emptyDescriptionAsset],
@@ -312,6 +312,173 @@ export const bartenderActions: ImpressionIdea[] = [
         {
             name: 'Is getting compliments for the service',
             powerFits: [a.drow, a.wealthy, a.rich],
+            key: AssetKey.BARTENDER_actions,
+            worksForBrothel: true,
+        },
+        [emptyDescriptionAsset],
+        Noticable.bartender
+    ),
+    new ImpressionIdea(
+        {
+            name: 'Is polishing some plates',
+            powerFits: [a.elf, a.wealthy],
+            key: AssetKey.BARTENDER_actions,
+            worksForBrothel: true,
+        },
+        [emptyDescriptionAsset],
+        Noticable.bartender
+    ),
+    new ImpressionIdea(
+        {
+            name: 'Is polishing some expensive cutlery',
+            powerFits: [a.wealthy, a.rich],
+            misfits: [a.poor],
+            key: AssetKey.BARTENDER_actions,
+            worksForBrothel: true,
+        },
+        [emptyDescriptionAsset],
+        Noticable.bartender
+    ),
+    new ImpressionIdea(
+        {
+            name: 'Is yelling at the cook',
+            key: AssetKey.BARTENDER_actions,
+            worksForBrothel: true,
+        },
+        [emptyDescriptionAsset],
+        Noticable.bartender
+    ),
+    new ImpressionIdea(
+        {
+            name: 'Is flirting with a prostiture',
+            key: AssetKey.BARTENDER_actions,
+            worksForBrothel: true,
+        },
+        [emptyDescriptionAsset],
+        Noticable.bartender
+    ),
+    new ImpressionIdea(
+        {
+            name: 'Is comforting a prostitute',
+            key: AssetKey.BARTENDER_actions,
+            worksForBrothel: true,
+        },
+        [emptyDescriptionAsset],
+        Noticable.bartender
+    ),
+    new ImpressionIdea(
+        {
+            name: 'Is secretly giving a letter to a guest',
+            key: AssetKey.BARTENDER_actions,
+            worksForBrothel: true,
+        },
+        [emptyDescriptionAsset],
+        Noticable.bartender
+    ),
+    new ImpressionIdea(
+        {
+            name: 'Is secretly giving a briefcase to a guest',
+            key: AssetKey.BARTENDER_actions,
+            worksForBrothel: true,
+        },
+        [emptyDescriptionAsset],
+        Noticable.bartender
+    ),
+    new ImpressionIdea(
+        {
+            name: 'Is secretly giving a flask to a guest',
+            key: AssetKey.BARTENDER_actions,
+            worksForBrothel: true,
+        },
+        [emptyDescriptionAsset],
+        Noticable.bartender
+    ),
+    new ImpressionIdea(
+        {
+            name: 'Is secretly receiving a letter from a guest',
+            key: AssetKey.BARTENDER_actions,
+            worksForBrothel: true,
+        },
+        [emptyDescriptionAsset],
+        Noticable.bartender
+    ),
+    new ImpressionIdea(
+        {
+            name: 'Is secretly receiving a flask from a guest',
+            key: AssetKey.BARTENDER_actions,
+            worksForBrothel: true,
+        },
+        [emptyDescriptionAsset],
+        Noticable.bartender
+    ),
+    new ImpressionIdea(
+        {
+            name: 'Is secretly receiving a briefcase from a guest',
+            key: AssetKey.BARTENDER_actions,
+            worksForBrothel: true,
+        },
+        [emptyDescriptionAsset],
+        Noticable.bartender
+    ),
+    new ImpressionIdea(
+        {
+            name: 'Rolls a full barrel to a group of ',
+            key: AssetKey.BARTENDER_actions,
+            worksForBrothel: true,
+        },
+        [
+            { name: 'knights' },
+            { name: 'barbarians' },
+            { name: 'fighters' },
+            { name: 'soldiers' },
+            { name: 'city guards' },
+            { name: 'pirates' },
+            { name: 'pirates' },
+            { name: 'warriors' },
+            { name: 'archers' },
+            { name: 'miners' },
+            { name: 'blacksmiths' },
+            { name: 'hunters' },
+            { name: 'druids' },
+            { name: 'wizards' },
+            { name: 'sorcerers' },
+            { name: 'bounty hunters' },
+            { name: 'sailors' },
+            { name: 'construction workers' },
+            { name: 'half-orcs' },
+        ],
+        Noticable.bartender
+    ),
+    new ImpressionIdea(
+        {
+            name: 'Carries an empty barrel to the basement',
+            key: AssetKey.BARTENDER_actions,
+            worksForBrothel: true,
+        },
+        [emptyDescriptionAsset],
+        Noticable.bartender
+    ),
+    new ImpressionIdea(
+        {
+            name: 'Hangs up new wanted posters',
+            key: AssetKey.BARTENDER_actions,
+            worksForBrothel: true,
+        },
+        [emptyDescriptionAsset],
+        Noticable.bartender
+    ),
+    new ImpressionIdea(
+        {
+            name: 'Hangs out free drinks on his birthday',
+            key: AssetKey.BARTENDER_actions,
+            worksForBrothel: true,
+        },
+        [emptyDescriptionAsset],
+        Noticable.bartender
+    ),
+    new ImpressionIdea(
+        {
+            name: 'Greets every guest at the bar personally',
             key: AssetKey.BARTENDER_actions,
             worksForBrothel: true,
         },
