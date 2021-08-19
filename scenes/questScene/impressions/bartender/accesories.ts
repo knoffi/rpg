@@ -25,6 +25,14 @@ export const bartenderAccesories: ImpressionIdea[] = [
                 misfits: [a.rich],
             },
             {
+                name: 'Emerald',
+                needs: [a.rich],
+            },
+            {
+                name: 'Ruby',
+                needs: [a.rich],
+            },
+            {
                 name: 'Blood red',
                 worksForAllCriminals: true,
                 needsOne: [a.thief, a.prostitute, a.assasine],
