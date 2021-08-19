@@ -27,10 +27,27 @@ export const bartenderAccesories: ImpressionIdea[] = [
             {
                 name: 'Emerald',
                 needs: [a.rich],
+                worksForAllCriminals: true,
+                powerFits: [a.rich, a.elf],
+            },
+            {
+                name: 'Diamond',
+                needs: [a.rich],
+                powerFits: [a.rich, a.gnome],
+                worksForAllCriminals: true,
             },
             {
                 name: 'Ruby',
-                needs: [a.rich],
+                needsOne: [a.rich, a.tiefling, a.thief, a.prostitute],
+                misfits: [a.poor],
+                worksForAllCriminals: true,
+                powerFits: [a.thief, a.rich, a.prostitute, a.tiefling],
+            },
+            {
+                name: 'Ivory',
+                needs: [a.wealthy],
+                worksForBrothel: true,
+                powerFits: [a.elf, a.wealthy],
             },
             {
                 name: 'Blood red',
