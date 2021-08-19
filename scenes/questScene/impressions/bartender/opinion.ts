@@ -1,11 +1,16 @@
 import { association } from '../../../../classes/association';
+import { AssetKey } from '../../../../classes/idea/AssetKey/AssetKey';
 import { ImpressionIdea } from '../../../../classes/idea/ImpressionIdea';
 import { Noticable } from '../../../../classes/idea/Noticable';
 import { defaultPowerFitConcepts } from '../../../../classes/idea/powerFitConcepts/powerFitConcepts';
 const a = association;
 export const bartenderOpinions: ImpressionIdea[] = [
     new ImpressionIdea(
-        { name: 'Dislikes ', worksForAllCriminals: true },
+        {
+            name: 'Dislikes ',
+            worksForAllCriminals: true,
+            key: AssetKey.BARTENDER_opinion,
+        },
         [
             {
                 name: 'male guests',
@@ -144,7 +149,11 @@ export const bartenderOpinions: ImpressionIdea[] = [
         defaultPowerFitConcepts.harmony
     ),
     new ImpressionIdea(
-        { name: 'Very friendly to ', worksForAllCriminals: true },
+        {
+            name: 'Very friendly to ',
+            worksForAllCriminals: true,
+            key: AssetKey.BARTENDER_opinion,
+        },
         [
             {
                 name: 'male guests',
