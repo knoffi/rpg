@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ScrollView } from 'react-native';
+import { ScrollView, Text } from 'react-native';
 import { association } from '../../classes/association';
 import { Noticable } from '../../classes/idea/Noticable';
 import { StructuredTavernFits } from '../../classes/idea/StructuredTavernFits';
@@ -289,6 +289,9 @@ export const QuestScene = (props: {
                 noticablesLeft={props.noticablesLeft}
                 getImpliedChanges={props.getImpliedChanges}
             ></DetailsList>
+            <Text>
+                {JSON.stringify(fullKeys.first.map((key) => key.slice(0, 8)))}
+            </Text>
         </ScrollView>
     );
 };

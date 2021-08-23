@@ -21,6 +21,7 @@ import { getRandomImpression } from '../scenes/questScene/impressions/getRandomI
 import { IImpression } from '../scenes/questScene/impressions/IImpression';
 import { getTavernHistoryInitializer } from './mainNavigatorFunctions';
 
+const CHANCE_FOR_POWERFIT = 0.9;
 const CHANCE_FOR_SPECIAL_FIT = 0.2;
 const CHANCE_FOR_ORDINARY_FIT = 0.625;
 const NO_IDEA_PROBABILITY = 0.1;
@@ -29,7 +30,7 @@ const MAX_PRICE_DERIVATION = 0.3;
 export const getRandomStartTavern = () => {
     const tavernData = getTavernHistoryInitializer();
 
-    const fits = getStructuredFits(getRandomFits());
+    const fits = getRandomStructuredFits();
     const basePrice = getRandomBasePrice();
     const drinks = getRandomIdeas(fits, WeServe.drinks) as Offer[];
     const dishes = getRandomIdeas(fits, WeServe.food) as Offer[];
@@ -64,6 +65,16 @@ const getRandomFits = () => {
             : association.empty;
     });
     return fitsWithEmptyFits.filter((fit) => fit !== association.empty);
+};
+
+const getRandomStructuredFits = () => {
+    const fits = getRandomFits();
+    const structuredFits = getStructuredFits(fits);
+    if (Math.random() < CHANCE_FOR_POWERFIT && fits.length > 0) {
+        const powerFit = getRandomArrayEntry(fits);
+        structuredFits.powerFit = powerFit;
+    }
+    return structuredFits;
 };
 const getRandomBasePrice = () => {
     const randomFactor = 1 + (2 * Math.random() - 1) * MAX_PRICE_DERIVATION;

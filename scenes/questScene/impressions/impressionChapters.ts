@@ -3,6 +3,7 @@ import { averageCustomers } from './averageCustomer';
 import { bartenderAccesories } from './bartender/accesories';
 import { bartenderActions } from './bartender/actions';
 import { bartenderPast } from './bartender/backgroundStory';
+import { bartenderCharisma } from './bartender/charisma';
 import { bartenderKnowledge } from './bartender/knowledge';
 import { bartenderOpinions } from './bartender/opinion';
 import { furnitures } from './furniture';
@@ -42,6 +43,7 @@ export const impressionChapters = [
             ...bartenderPast,
             ...bartenderOpinions,
             ...bartenderActions,
+            ...bartenderCharisma,
         ],
         category: Noticable.bartender,
     },
