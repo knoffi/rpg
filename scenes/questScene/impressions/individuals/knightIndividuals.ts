@@ -1,7 +1,11 @@
 import { ImpressionIdea } from '../../../../classes/idea/ImpressionIdea';
 import { Noticable } from '../../../../classes/idea/Noticable';
 import { defaultPowerFitConcepts } from '../../../../classes/idea/powerFitConcepts/powerFitConcepts';
-import { grownWarriorActions, warriorActions } from '../actions/warriorActions';
+import {
+    groupWarriorActions,
+    grownWarriorActions,
+    warriorActions,
+} from '../actions/warriorActions';
 
 export const knightIndividuals: ImpressionIdea[] = [
     new ImpressionIdea(
@@ -23,6 +27,22 @@ export const knightIndividuals: ImpressionIdea[] = [
     new ImpressionIdea(
         { name: 'A sturdy warrior is ' },
         [...grownWarriorActions],
+        Noticable.someCustomers,
+        undefined,
+        undefined,
+        defaultPowerFitConcepts.nameWithAdditions
+    ),
+    new ImpressionIdea(
+        { name: 'Three knights are ' },
+        [...groupWarriorActions],
+        Noticable.someCustomers,
+        undefined,
+        undefined,
+        defaultPowerFitConcepts.nameWithAdditions
+    ),
+    new ImpressionIdea(
+        { name: 'Four old knights are ' },
+        [...groupWarriorActions],
         Noticable.someCustomers,
         undefined,
         undefined,
