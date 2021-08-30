@@ -33,6 +33,22 @@ export const knightIndividuals: ImpressionIdea[] = [
         defaultPowerFitConcepts.nameWithAdditions
     ),
     new ImpressionIdea(
+        { name: 'A shield maid warrior is ' },
+        [...grownWarriorActions],
+        Noticable.someCustomers,
+        undefined,
+        undefined,
+        defaultPowerFitConcepts.nameWithAdditions
+    ),
+    new ImpressionIdea(
+        { name: 'A blond woman with a sword is ' },
+        [...grownWarriorActions],
+        Noticable.someCustomers,
+        undefined,
+        undefined,
+        defaultPowerFitConcepts.nameWithAdditions
+    ),
+    new ImpressionIdea(
         { name: 'Three knights are ' },
         [...groupWarriorActions],
         Noticable.someCustomers,
