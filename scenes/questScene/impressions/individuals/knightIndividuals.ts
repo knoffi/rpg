@@ -24,7 +24,7 @@ export const knightIndividuals: ImpressionIdea[] = [
         Noticable.someCustomers,
         undefined,
         undefined,
-        defaultPowerFitConcepts.nameWithAdditions
+        defaultPowerFitConcepts.main
     ),
     new ImpressionIdea(
         {
@@ -38,7 +38,7 @@ export const knightIndividuals: ImpressionIdea[] = [
         Noticable.someCustomers,
         undefined,
         undefined,
-        defaultPowerFitConcepts.nameWithAdditions
+        defaultPowerFitConcepts.main
     ),
     new ImpressionIdea(
         {
@@ -53,7 +53,7 @@ export const knightIndividuals: ImpressionIdea[] = [
         Noticable.someCustomers,
         undefined,
         undefined,
-        defaultPowerFitConcepts.nameWithAdditions
+        defaultPowerFitConcepts.main
     ),
     new ImpressionIdea(
         {
@@ -67,7 +67,7 @@ export const knightIndividuals: ImpressionIdea[] = [
         Noticable.someCustomers,
         undefined,
         undefined,
-        defaultPowerFitConcepts.nameWithAdditions
+        defaultPowerFitConcepts.main
     ),
     new ImpressionIdea(
         {
@@ -81,7 +81,7 @@ export const knightIndividuals: ImpressionIdea[] = [
         Noticable.someCustomers,
         undefined,
         undefined,
-        defaultPowerFitConcepts.nameWithAdditions
+        defaultPowerFitConcepts.main
     ),
     new ImpressionIdea(
         {
@@ -95,7 +95,7 @@ export const knightIndividuals: ImpressionIdea[] = [
         Noticable.someCustomers,
         undefined,
         undefined,
-        defaultPowerFitConcepts.nameWithAdditions
+        defaultPowerFitConcepts.main
     ),
     new ImpressionIdea(
         {
@@ -109,7 +109,7 @@ export const knightIndividuals: ImpressionIdea[] = [
         Noticable.someCustomers,
         undefined,
         undefined,
-        defaultPowerFitConcepts.nameWithAdditions
+        defaultPowerFitConcepts.main
     ),
     new ImpressionIdea(
         {
@@ -124,7 +124,7 @@ export const knightIndividuals: ImpressionIdea[] = [
         Noticable.someCustomers,
         undefined,
         undefined,
-        defaultPowerFitConcepts.nameWithAdditions
+        defaultPowerFitConcepts.main
     ),
     new ImpressionIdea(
         {
@@ -138,7 +138,7 @@ export const knightIndividuals: ImpressionIdea[] = [
         Noticable.someCustomers,
         undefined,
         undefined,
-        defaultPowerFitConcepts.nameWithAdditions
+        defaultPowerFitConcepts.main
     ),
     new ImpressionIdea(
         {
@@ -151,7 +151,7 @@ export const knightIndividuals: ImpressionIdea[] = [
         Noticable.someCustomers,
         undefined,
         undefined,
-        defaultPowerFitConcepts.nameWithAdditions
+        defaultPowerFitConcepts.main
     ),
     new ImpressionIdea(
         {
@@ -164,7 +164,7 @@ export const knightIndividuals: ImpressionIdea[] = [
         Noticable.someCustomers,
         undefined,
         undefined,
-        defaultPowerFitConcepts.nameWithAdditions
+        defaultPowerFitConcepts.main
     ),
     new ImpressionIdea(
         {
@@ -179,7 +179,7 @@ export const knightIndividuals: ImpressionIdea[] = [
         Noticable.someCustomers,
         undefined,
         undefined,
-        defaultPowerFitConcepts.nameWithAdditions
+        defaultPowerFitConcepts.main
     ),
     new ImpressionIdea(
         {
@@ -193,7 +193,7 @@ export const knightIndividuals: ImpressionIdea[] = [
         Noticable.someCustomers,
         undefined,
         undefined,
-        defaultPowerFitConcepts.nameWithAdditions
+        defaultPowerFitConcepts.main
     ),
     new ImpressionIdea(
         {
@@ -208,7 +208,7 @@ export const knightIndividuals: ImpressionIdea[] = [
         Noticable.someCustomers,
         undefined,
         undefined,
-        defaultPowerFitConcepts.nameWithAdditions
+        defaultPowerFitConcepts.main
     ),
 
     // key max 2 : singleWarrior , key max 1: groupOfWarriors, key max 1: protectedByKnight ?
