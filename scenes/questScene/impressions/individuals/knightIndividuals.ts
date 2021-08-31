@@ -1,4 +1,5 @@
 import { association } from '../../../../classes/association';
+import { AssetKey } from '../../../../classes/idea/AssetKey/AssetKey';
 import { ImpressionIdea } from '../../../../classes/idea/ImpressionIdea';
 import { Noticable } from '../../../../classes/idea/Noticable';
 import { defaultPowerFitConcepts } from '../../../../classes/idea/powerFitConcepts/powerFitConcepts';
@@ -83,8 +84,12 @@ export const knightIndividuals: ImpressionIdea[] = [
         defaultPowerFitConcepts.nameWithAdditions
     ),
     new ImpressionIdea(
-        { name: 'Two royal guards are ', powerFits: [a.knight, a.wealthy] },
-        [...grownWarriorActions],
+        {
+            name: 'Two royal guards are ',
+            powerFits: [a.knight, a.wealthy],
+            key: AssetKey.INDIVIDUALS_warriorGroup,
+        },
+        [...groupWarriorActions],
         Noticable.someCustomers,
         undefined,
         undefined,
@@ -121,7 +126,11 @@ export const knightIndividuals: ImpressionIdea[] = [
         defaultPowerFitConcepts.nameWithAdditions
     ),
     new ImpressionIdea(
-        { name: 'Three knights are ', powerFits: [a.knight, a.wealthy] },
+        {
+            name: 'Three knights are ',
+            powerFits: [a.knight, a.wealthy],
+            key: AssetKey.INDIVIDUALS_warriorGroup,
+        },
         [...groupWarriorActions],
         Noticable.someCustomers,
         undefined,
@@ -143,6 +152,7 @@ export const knightIndividuals: ImpressionIdea[] = [
         {
             name: 'Four old knights are ',
             powerFits: [a.knight, a.cleric, a.wealthy],
+            key: AssetKey.INDIVIDUALS_warriorGroup,
         },
         [...groupWarriorActions],
         Noticable.someCustomers,
