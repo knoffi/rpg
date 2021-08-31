@@ -13,7 +13,12 @@ const a = association;
 
 export const knightIndividuals: ImpressionIdea[] = [
     new ImpressionIdea(
-        { name: 'A knight is ', powerFits: [a.knight, a.wealthy] },
+        {
+            name: 'A knight is ',
+            powerFits: [a.knight, a.wealthy],
+            incomeRange: [a.modest, a.wealthy],
+            needsOne: [a.knight, a.soldier, a.bard],
+        },
         [...grownWarriorActions],
         Noticable.someCustomers,
         undefined,
@@ -21,7 +26,12 @@ export const knightIndividuals: ImpressionIdea[] = [
         defaultPowerFitConcepts.nameWithAdditions
     ),
     new ImpressionIdea(
-        { name: 'A squire is ', powerFits: [a.knight, a.modest] },
+        {
+            name: 'A squire is ',
+            powerFits: [a.knight, a.modest],
+            incomeRange: [a.modest, a.wealthy],
+            needsOne: [a.knight, a.soldier],
+        },
         [...warriorActions],
         Noticable.someCustomers,
         undefined,
@@ -32,6 +42,8 @@ export const knightIndividuals: ImpressionIdea[] = [
         {
             name: 'A sturdy warrior is ',
             powerFits: [a.knight, a.barbarian, a.soldier, a.adventurer],
+            incomeRange: [a.modest, a.wealthy],
+            needsOne: [a.knight, a.soldier, a.barbarian, a.adventurer],
         },
         [...grownWarriorActions],
         Noticable.someCustomers,
@@ -42,7 +54,9 @@ export const knightIndividuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             name: 'A grey-haired paladin is ',
-            powerFits: [a.knight, a.wealthy, a.adventurer],
+            powerFits: [a.knight, a.wealthy, a.adventurer, a.cleric],
+            incomeRange: [a.modest, a.poor, a.wealthy],
+            needsOne: [a.knight, a.soldier, a.adventurer, a.cleric],
         },
         [...grownWarriorActions],
         Noticable.someCustomers,
@@ -53,8 +67,11 @@ export const knightIndividuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             name: 'A charming cavalier is ',
-            powerFits: [a.knight, a.wealthy, a.adventurer],
+            powerFits: [a.knight, a.wealthy, a.adventurer, a.bard],
+            incomeRange: [a.modest, a.wealthy, a.rich],
+            needsOne: [a.knight, a.soldier, a.adventurer, a.bard],
         },
+
         [...grownWarriorActions],
         Noticable.someCustomers,
         undefined,
@@ -65,6 +82,8 @@ export const knightIndividuals: ImpressionIdea[] = [
         {
             name: 'A royal knight is ',
             powerFits: [a.knight, a.wealthy, a.city],
+            incomeRange: [a.rich, a.wealthy],
+            needsOne: [a.knight, a.soldier, a.city],
         },
         [...grownWarriorActions],
         Noticable.someCustomers,
@@ -76,6 +95,8 @@ export const knightIndividuals: ImpressionIdea[] = [
         {
             name: 'A well-known lord is ',
             powerFits: [a.knight, a.wealthy, a.rich, a.city],
+            incomeRange: [a.wealthy, a.rich],
+            needsOne: [a.knight, a.city],
         },
         [...grownWarriorActions],
         Noticable.someCustomers,
@@ -87,6 +108,8 @@ export const knightIndividuals: ImpressionIdea[] = [
         {
             name: 'Two royal guards are ',
             powerFits: [a.knight, a.wealthy],
+            incomeRange: [a.modest, a.wealthy],
+            needsOne: [a.knight, a.city],
             key: AssetKey.INDIVIDUALS_warriorGroup,
         },
         [...groupWarriorActions],
@@ -99,6 +122,8 @@ export const knightIndividuals: ImpressionIdea[] = [
         {
             name: 'A female paladin is ',
             powerFits: [a.knight, a.cleric, a.adventurer],
+            incomeRange: [a.modest, a.wealthy],
+            needsOne: [a.knight, a.cleric, a.adventurer, a.soldier],
         },
         [...grownWarriorActions],
         Noticable.someCustomers,
@@ -110,6 +135,8 @@ export const knightIndividuals: ImpressionIdea[] = [
         {
             name: 'A shield maid is ',
             powerFits: [a.knight, a.cleric, a.adventurer],
+            incomeRange: [a.modest, a.wealthy],
+            needsOne: [a.knight, a.cleric, a.adventurer],
         },
         [...grownWarriorActions],
         Noticable.someCustomers,
@@ -118,7 +145,12 @@ export const knightIndividuals: ImpressionIdea[] = [
         defaultPowerFitConcepts.nameWithAdditions
     ),
     new ImpressionIdea(
-        { name: 'A blond woman is ', powerFits: [a.knight, a.cleric] },
+        {
+            name: 'A blond woman is ',
+            powerFits: [a.knight, a.cleric],
+            incomeRange: [a.modest, a.wealthy],
+            needsOne: [a.knight, a.cleric, a.adventurer],
+        },
         [...grownWarriorActions],
         Noticable.someCustomers,
         undefined,
@@ -129,6 +161,8 @@ export const knightIndividuals: ImpressionIdea[] = [
         {
             name: 'Three knights are ',
             powerFits: [a.knight, a.wealthy],
+            incomeRange: [a.modest, a.wealthy],
+            needsOne: [a.knight, a.soldier, a.city],
             key: AssetKey.INDIVIDUALS_warriorGroup,
         },
         [...groupWarriorActions],
@@ -141,6 +175,9 @@ export const knightIndividuals: ImpressionIdea[] = [
         {
             name: 'A crusader is ',
             powerFits: [a.knight, a.cleric, a.adventurer],
+            incomeRange: [a.rich, a.wealthy],
+            needsOne: [a.knight, a.soldier, a.adventurer],
+            landRange: [a.desert],
         },
         [...groupWarriorActions],
         Noticable.someCustomers,
@@ -152,6 +189,8 @@ export const knightIndividuals: ImpressionIdea[] = [
         {
             name: 'Four old knights are ',
             powerFits: [a.knight, a.cleric, a.wealthy],
+            incomeRange: [a.rich, a.wealthy, a.modest],
+            needsOne: [a.knight, a.soldier, a.city],
             key: AssetKey.INDIVIDUALS_warriorGroup,
         },
         [...groupWarriorActions],
