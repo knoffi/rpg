@@ -2,6 +2,7 @@
 export enum AssetKey {
     plotTwist = 'plotTwist',
     INDIVIDUALS_servant = 'servant',
+    INDIVIDUALS_warriorGroup = 'group of warriors',
     FURNITURE_creatureTrophies = 'creature trophies',
     FURNITURE_barDeco = 'bar decoration',
     FURNITURE_tables = 'tables',

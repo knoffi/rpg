@@ -54,7 +54,7 @@ export const lively: DescriptionAsset[] = [
     },
     {
         needs: [a.desert],
-        name: 'smoking a shisa',
+        name: 'smoking a hookah',
         worksForAllCriminals: true,
     },
     { name: 'singing' },

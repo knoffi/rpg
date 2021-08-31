@@ -9,6 +9,9 @@ export const getKeyBound = (key: AssetKey) => {
     if (key === AssetKey.INDIVIDUALS_servant) {
         return 1;
     }
+    if (key === AssetKey.INDIVIDUALS_warriorGroup) {
+        return 1;
+    }
     if (key === AssetKey.FURNITURE_creatureTrophies) {
         return 1;
     }
