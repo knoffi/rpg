@@ -1,5 +1,6 @@
 import { association } from '../../../../classes/association';
 import { DescriptionAsset } from '../../../../classes/idea/DescriptionAsset';
+import { brothelActions } from './brothelActions';
 import { busyScholarClass } from './genericActions';
 import { magicalQuests } from './hiringActions';
 import { warningSociety } from './warningActions';
@@ -256,6 +257,7 @@ export const wizardClass = [
     ...prophecies,
     ...casting,
     ...warningSociety,
+    ...brothelActions,
 ];
 
 export const alchemistClass = [
@@ -264,6 +266,7 @@ export const alchemistClass = [
     ...advertising,
     ...magicalQuests,
     ...magicalSelling,
+    ...brothelActions,
 ];
 
 export const wizardGuest = [
@@ -288,6 +291,7 @@ export const wizardGuest = [
         name: 'getting carried by an earth elemental',
         landRange: [a.tropical, a.desert],
     },
+    ...brothelActions,
 ];
 //TODO: implement servant actions for a wizard tavern
-export const wizardSalesman = [...advertising];
+export const wizardSalesman = [...advertising, ...brothelActions];

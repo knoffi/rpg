@@ -1,4 +1,5 @@
 import { DescriptionAsset } from '../../../../classes/idea/DescriptionAsset';
+import { brothelActions } from './brothelActions';
 
 export const grownWarriorActions: DescriptionAsset[] = [
     { name: 'telling stories about a past siege' },
@@ -20,6 +21,7 @@ export const grownWarriorActions: DescriptionAsset[] = [
     { name: 'having a drink contest with his squire' },
     { name: 'searching his drunken squire' },
     { name: 'resting from a previous battle' },
+    ...brothelActions,
 ];
 
 export const warriorActions: DescriptionAsset[] = [
@@ -30,6 +32,7 @@ export const warriorActions: DescriptionAsset[] = [
     { name: 'transporting secret battle plans' },
     { name: 'showing his muscles in front of a woman' },
     { name: 'finishing a drink and then burping really loud' },
+    ...brothelActions,
 ];
 
 export const groupWarriorActions: DescriptionAsset[] = [
@@ -51,4 +54,5 @@ export const groupWarriorActions: DescriptionAsset[] = [
     { name: 'discussing which sword is best' },
     { name: 'discussing which armor is best' },
     { name: 'discussing who has slayed more monsters' },
+    ...brothelActions,
 ];

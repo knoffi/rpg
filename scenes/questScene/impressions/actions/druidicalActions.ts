@@ -1,4 +1,5 @@
 import { DescriptionAsset } from '../../../../classes/idea/DescriptionAsset';
+import { brothelActions } from './brothelActions';
 import { a, lively } from './genericActions';
 
 export const partyHermit: DescriptionAsset[] = [
@@ -14,6 +15,7 @@ export const partyHermit: DescriptionAsset[] = [
     { name: 'seeking help' },
     { name: 'giving you an ancient map' },
     { name: 'dancing with some animals' },
+    ...brothelActions,
 ];
 export const nymphClass: DescriptionAsset[] = [
     ...lively,
@@ -46,4 +48,5 @@ export const druidGuests: DescriptionAsset[] = [
         name: 'having an argument with a parrot',
         landRange: [a.tropical, a.desert],
     },
+    ...brothelActions,
 ];
