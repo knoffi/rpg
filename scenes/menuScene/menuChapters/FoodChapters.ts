@@ -19,5 +19,9 @@ export type BreakfastChapters = {
     mainSweet: WeightedChapter;
     mainBread: WeightedChapter;
 };
+export type SideDishChapters = {
+    dipAndCream: WeightedChapter;
+    salad: WeightedChapter;
+};
 
 export type FoodChapters = BreakfastChapters | MainDishChapters;

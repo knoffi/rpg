@@ -1,7 +1,6 @@
 import { association } from '../../../classes/association';
 import { Eatable, TavernProduct } from '../../../classes/TavernProduct';
 const a = association;
-const mainDishEnum = Eatable.mainDish;
 export const appetizers = [
     new TavernProduct(
         'Asparagus Creme Soup with Seasonal Spices',
