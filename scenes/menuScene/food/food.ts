@@ -18,8 +18,7 @@ import { steaks } from './mainDishes/steaks';
 
 export const foodExamples = [
     { category: Eatable.dessert, examples: desserts },
-    { category: Eatable.sideDish, examples: sideDishes },
-    { category: Eatable.appetizer, examples: appetizers },
+    { category: Eatable.sideDish, examples: [...sideDishes, ...appetizers] },
 ];
 
 const mainDishChapters: MainDishChapters = {

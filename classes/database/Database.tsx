@@ -58,7 +58,6 @@ export class SavedDataHandler {
     }
     setPrefixMap() {
         this.prefixMap = new Map([
-            [Eatable.appetizer as string, 'Appetizers'],
             [Eatable.breakfast as string, 'Breakfasts'],
             [Eatable.dessert as string, 'Desserts'],
             [Eatable.mainDish as string, 'Main Dishes'],
@@ -76,7 +75,7 @@ export class SavedDataHandler {
         } else {
             if (!this.chapter) {
                 console.log(
-                    'chapter is undefined but we re searching for saved menu products!'
+                    'chapter is undefined but we are searching for saved menu products!'
                 );
             }
             this.mainKey = this.prefixMap.get(this.chapter as string)!;

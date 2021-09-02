@@ -6,7 +6,7 @@ export const appetizers = [
         'Asparagus Creme Soup with Seasonal Spices',
         10,
         [],
-        Eatable.appetizer
+        Eatable.sideDish
     ),
 ];
 
