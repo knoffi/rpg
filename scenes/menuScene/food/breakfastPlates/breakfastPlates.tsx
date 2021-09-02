@@ -65,6 +65,10 @@ export const breakfastPlates = [
                     incomeRange: [a.wealthy],
                 },
                 {
+                    name: 'garnished with Chicken Hearts, served with Pita Bread',
+                    incomeRange: [a.wealthy],
+                },
+                {
                     name: 'garnished with Fried Egplant, served with Pita Bread',
                     incomeRange: [a.wealthy],
                 },
