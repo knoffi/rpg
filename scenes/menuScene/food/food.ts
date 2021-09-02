@@ -1,8 +1,10 @@
 import { DishIdea } from '../../../classes/idea/DishIdea';
 import { Eatable } from '../../../classes/TavernProduct';
+import { dipAndCream } from '../drinks/sideDishes/dipAndCream';
 import {
     BreakfastChapters,
     MainDishChapters,
+    SideDishChapters,
 } from '../menuChapters/FoodChapters';
 import { breakfastPlates } from './breakfastPlates/breakfastPlates';
 import { porridges } from './cereals/porridges';
@@ -39,8 +41,13 @@ const breakfastChapters: BreakfastChapters = {
     fullPlate: { weight: 1, ideas: breakfastPlates },
     panCakes: { weight: 0, ideas: [] as DishIdea[] },
 };
+const sideDishChapters: SideDishChapters = {
+    dipAndCream: { weight: 1, ideas: dipAndCream },
+    salad: { weight: 0, ideas: [] as DishIdea[] },
+};
 
 export const foodChapters = [
     { category: Eatable.mainDish, chapters: mainDishChapters },
     { category: Eatable.breakfast, chapters: breakfastChapters },
+    { category: Eatable.sideDish, chapters: sideDishChapters },
 ];
