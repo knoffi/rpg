@@ -5,7 +5,7 @@ import { foodPrices } from '../../priceSetting/foodPriceSetters';
 import { adjustPriceSetter } from '../../priceSetting/priceSetters';
 const a = association;
 const SIMPLE_BREAKFAST_FACTOR = 0.8;
-export const simpleBreakfast: DishIdea[] = [
+export const mainBreads: DishIdea[] = [
     new DishIdea(
         {
             mainIng: { name: 'Sabich', needs: [a.desert] },
