@@ -1,6 +1,5 @@
 import { DishIdea } from '../../../classes/idea/DishIdea';
-import { Drinkable, Eatable } from '../../../classes/TavernProduct';
-import { appetizers, desserts, sideDishes } from '../food/dishes';
+import { Drinkable } from '../../../classes/TavernProduct';
 import {
     BeerChapters,
     ColdChapters,
@@ -12,12 +11,6 @@ import { ales } from './beers/ales';
 import { lagers } from './beers/lagers';
 import { porters } from './beers/porter';
 import { redWines } from './wines/redWines';
-
-export const foodExamples = [
-    { category: Eatable.dessert, examples: desserts },
-    { category: Eatable.sideDish, examples: sideDishes },
-    { category: Eatable.appetizer, examples: appetizers },
-];
 
 const spiritChapters: SpiritChapters = {
     whisky: { weight: 0, ideas: [] as DishIdea[] },

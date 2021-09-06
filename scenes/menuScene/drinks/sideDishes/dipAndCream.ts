@@ -9,7 +9,7 @@ const DIP_AND_CREAM_FACTOR = 0.9;
 export const dipAndCream: DishIdea[] = [
     new DishIdea(
         {
-            mainIng: { name: 'Hummus wit Pita', needs: [a.desert] },
+            mainIng: { name: 'Traditional Hummus', needs: [a.desert] },
             firstSideDishes: [
                 {
                     name: 'Cooked & mashed Chickpeas mixed with Sesame, Lemon Juice & Garlic, served with Pita Bread',
@@ -19,5 +19,5 @@ export const dipAndCream: DishIdea[] = [
         } as DishConcept,
         adjustPriceSetter(foodPrices.sideDish, DIP_AND_CREAM_FACTOR),
         Eatable.sideDish
-    ),
+    ), //implement "Meze Plate", google it, it is pretty fitting
 ];

@@ -15,11 +15,14 @@ import { fishAndChips } from './mainDishes/fishAndChips';
 import { porkRoasts } from './mainDishes/porkRoasts';
 import { leftoverStew } from './mainDishes/simpleStews';
 import { steaks } from './mainDishes/steaks';
+import { mainBreads } from './simpelBreakfast/mainBread';
 
 export const foodExamples = [
     { category: Eatable.dessert, examples: desserts },
-    { category: Eatable.sideDish, examples: sideDishes },
-    { category: Eatable.appetizer, examples: appetizers },
+    {
+        category: Eatable.sideDish,
+        examples: [...sideDishes, ...appetizers],
+    },
 ];
 
 const mainDishChapters: MainDishChapters = {
@@ -37,7 +40,7 @@ const breakfastChapters: BreakfastChapters = {
     cereals: { weight: 1, ideas: [...porridges] },
     mainSweet: { weight: 0, ideas: [] as DishIdea[] },
     mainEgg: { weight: 0, ideas: [] as DishIdea[] },
-    mainBread: { weight: 0, ideas: [] as DishIdea[] },
+    mainBread: { weight: 1, ideas: mainBreads },
     fullPlate: { weight: 1, ideas: breakfastPlates },
     panCakes: { weight: 0, ideas: [] as DishIdea[] },
 };

@@ -11,8 +11,7 @@ export enum Drinkable {
 // so that a tavern does not only
 export enum Eatable {
     breakfast = 'Breakfast',
-    appetizer = 'Appetizer',
-    sideDish = 'Side Dish',
+    sideDish = 'Side Dishes & Starters',
     dessert = 'Dessert',
     mainDish = 'Main Dish',
 }
