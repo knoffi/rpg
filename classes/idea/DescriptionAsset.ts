@@ -21,6 +21,7 @@ export type DescriptionAsset = {
     powerFits?: association[];
     probability?: number;
     key?: AssetKey;
+    keys?: AssetKey[];
     sex?: 'male' | 'female';
 };
 
