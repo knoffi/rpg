@@ -43,6 +43,16 @@ export class Idea {
         return fittingHarmoniesAmount + fittingContrastAmount;
     }
 
+    protected static getKeyList(description: DescriptionAsset) {
+        if (!description.keys) {
+            return description.key ? [description.key] : [];
+        } else {
+            return description.key
+                ? description.keys.concat(description.key)
+                : description.keys;
+        }
+    }
+
     private countFittingIdeaConstellations(
         additions: DescriptionAsset[][],
         tavernFits: StructuredTavernFits,

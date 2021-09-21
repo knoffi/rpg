@@ -80,7 +80,7 @@ export class ImpressionIdea extends Idea {
                 }
                 return {
                     name: this.main.name,
-                    firstKeys: this.main.key ? [this.main.key] : [],
+                    firstKeys: ImpressionIdea.getKeyList(this.main),
                 };
             }
             const firstText = this.reverseDisplay
@@ -92,15 +92,13 @@ export class ImpressionIdea extends Idea {
             const createdName = firstText + secondText + splitMarker;
             return {
                 name: createdName,
-                firstKeys: this.main.key ? [this.main.key] : [],
-                secondKeys: secondDescription.key
-                    ? [secondDescription.key]
-                    : [],
+                firstKeys: ImpressionIdea.getKeyList(this.main),
+                secondKeys: ImpressionIdea.getKeyList(secondDescription),
             };
         } else {
             const defaultNameAndKey = {
                 name: this.main.name,
-                firstKeys: this.main.key ? [this.main.key] : [],
+                firstKeys: ImpressionIdea.getKeyList(this.main),
             };
             return defaultNameAndKey;
         }
