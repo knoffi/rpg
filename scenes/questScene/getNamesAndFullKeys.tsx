@@ -8,23 +8,29 @@ export function getFullKeys(impressionsOfTitle: IImpression[]) {
     const firstKeyCounting: Map<AssetKey, number> = new Map([]);
     const secondKeyCounting: Map<AssetKey, number> = new Map([]);
     impressionsOfTitle.forEach((impression) => {
-        const firstKey = impression.firstKey;
-        const secondKey = impression.secondKey;
-        if (firstKey) {
-            const oldValue = firstKeyCounting.get(firstKey) || 0;
-            const newValue = oldValue + 1;
-            if (newValue >= getKeyBound(firstKey)) {
-                fullFirstKeys.push(firstKey);
+        const firstKeys = impression.firstKeys;
+        const secondKeys = impression.secondKeys;
+        if (firstKeys) {
+            {
+                firstKeys.forEach((key) => {
+                    const oldValue = firstKeyCounting.get(key) || 0;
+                    const newValue = oldValue + 1;
+                    if (newValue >= getKeyBound(key)) {
+                        fullFirstKeys.push(key);
+                    }
+                    firstKeyCounting.set(key, newValue);
+                });
             }
-            firstKeyCounting.set(firstKey, newValue);
         }
-        if (secondKey) {
-            const oldValue = secondKeyCounting.get(secondKey) || 0;
-            const newValue = oldValue + 1;
-            if (newValue >= getKeyBound(secondKey)) {
-                fullSecondKeys.push(secondKey);
-            }
-            secondKeyCounting.set(secondKey, newValue);
+        if (secondKeys) {
+            secondKeys.forEach((key) => {
+                const oldValue = secondKeyCounting.get(key) || 0;
+                const newValue = oldValue + 1;
+                if (newValue >= getKeyBound(key)) {
+                    fullSecondKeys.push(key);
+                }
+                secondKeyCounting.set(key, newValue);
+            });
         }
     });
     return { first: fullFirstKeys, second: fullSecondKeys };
