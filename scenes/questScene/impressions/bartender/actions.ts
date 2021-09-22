@@ -113,7 +113,7 @@ export const bartenderActions: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             name: 'Is greeting an old friend',
-            key: AssetKey.BARTENDER_actions,
+            keys: [AssetKey.BARTENDER_actions, AssetKey.BARTENDER_charisma],
             needsOne: [a.halfling, a.knight, a.soldier, a.adventurer],
             worksForThiefs: true,
         },
@@ -133,7 +133,7 @@ export const bartenderActions: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             name: 'Is flirting with a beautiful lady',
-            key: AssetKey.BARTENDER_actions,
+            keys: [AssetKey.BARTENDER_actions, AssetKey.BARTENDER_charisma],
             misfits: [a.desert],
             needs: [a.bard, a.tiefling],
             worksForThiefs: true,
@@ -144,7 +144,7 @@ export const bartenderActions: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             name: 'Is comforting a crying man',
-            key: AssetKey.BARTENDER_actions,
+            keys: [AssetKey.BARTENDER_actions, AssetKey.BARTENDER_charisma],
             needsOne: [a.poor, a.cleric],
             misfits: [a.rich, a.wealthy],
         },
@@ -157,7 +157,7 @@ export const bartenderActions: ImpressionIdea[] = [
             needsOne: [a.poor, a.cleric],
 
             misfits: [a.rich, a.wealthy, a.desert],
-            key: AssetKey.BARTENDER_actions,
+            keys: [AssetKey.BARTENDER_actions, AssetKey.BARTENDER_charisma],
         },
         [emptyDescriptionAsset],
         Noticable.bartender
@@ -167,7 +167,7 @@ export const bartenderActions: ImpressionIdea[] = [
             name: 'Is comforting a crying widow',
             needsOne: [a.poor, a.cleric],
             misfits: [a.rich, a.wealthy, a.desert],
-            key: AssetKey.BARTENDER_actions,
+            keys: [AssetKey.BARTENDER_actions, AssetKey.BARTENDER_charisma],
         },
         [emptyDescriptionAsset],
         Noticable.bartender
@@ -177,7 +177,7 @@ export const bartenderActions: ImpressionIdea[] = [
             name: 'Is comforting a crying, old man',
             needsOne: [a.poor, a.cleric],
             misfits: [a.rich, a.wealthy],
-            key: AssetKey.BARTENDER_actions,
+            keys: [AssetKey.BARTENDER_actions, AssetKey.BARTENDER_charisma],
         },
         [emptyDescriptionAsset],
         Noticable.bartender
@@ -187,7 +187,7 @@ export const bartenderActions: ImpressionIdea[] = [
             name: 'Is giving a free meal to an orphan',
             needsOne: [a.poor, a.cleric],
             misfits: [a.rich, a.wealthy],
-            key: AssetKey.BARTENDER_actions,
+            keys: [AssetKey.BARTENDER_actions, AssetKey.BARTENDER_charisma],
         },
         [emptyDescriptionAsset],
         Noticable.bartender
@@ -228,7 +228,7 @@ export const bartenderActions: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             name: 'Is spitting on the ground',
-            key: AssetKey.BARTENDER_actions,
+            keys: [AssetKey.BARTENDER_actions, AssetKey.BARTENDER_charisma],
             needs: [a.poor],
             incomeRange: [a.poor, a.modest],
             worksForAllCriminals: true,
@@ -239,7 +239,7 @@ export const bartenderActions: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             name: 'Seems pretty drunk himself',
-            key: AssetKey.BARTENDER_actions,
+            keys: [AssetKey.BARTENDER_actions, AssetKey.BARTENDER_charisma],
             needsOne: [a.poor, a.barbarian],
             incomeRange: [a.poor, a.modest],
             misfits: [a.desert],
@@ -317,7 +317,7 @@ export const bartenderActions: ImpressionIdea[] = [
         {
             name: 'Is getting compliments for the service',
             powerFits: [a.drow, a.wealthy, a.rich],
-            key: AssetKey.BARTENDER_actions,
+            keys: [AssetKey.BARTENDER_actions, AssetKey.BARTENDER_charisma],
             worksForBrothel: true,
         },
         [emptyDescriptionAsset],
@@ -348,7 +348,7 @@ export const bartenderActions: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             name: 'Is flirting with a prostitute',
-            key: AssetKey.BARTENDER_actions,
+            keys: [AssetKey.BARTENDER_actions, AssetKey.BARTENDER_charisma],
             worksForBrothel: true,
             needs: [a.prostitute],
         },
@@ -358,7 +358,7 @@ export const bartenderActions: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             name: 'Is comforting a crying prostitute',
-            key: AssetKey.BARTENDER_actions,
+            keys: [AssetKey.BARTENDER_actions, AssetKey.BARTENDER_charisma],
             worksForBrothel: true,
             needs: [a.prostitute],
         },
@@ -367,7 +367,7 @@ export const bartenderActions: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            name: 'Is secretly giving a letter to a guest',
+            name: 'Secretely gives a letter to a guest',
             key: AssetKey.BARTENDER_actions,
             needsOne: [a.thief, a.wealthy],
             worksForThiefs: true,
@@ -377,7 +377,7 @@ export const bartenderActions: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            name: 'Is secretly giving a briefcase to a guest',
+            name: 'Secretely gives a briefcase to a guest',
             key: AssetKey.BARTENDER_actions,
             needsOne: [a.thief],
             worksForThiefs: true,
@@ -387,7 +387,7 @@ export const bartenderActions: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            name: 'Is secretly giving a flask to a guest',
+            name: 'Secretely gives a flask to a guest',
             key: AssetKey.BARTENDER_actions,
             needsOne: [a.thief, a.wizard],
             worksForThiefs: true,
@@ -398,7 +398,7 @@ export const bartenderActions: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            name: 'Is secretly receiving a letter from a guest',
+            name: 'Secretely receives a letter from a guest',
             key: AssetKey.BARTENDER_actions,
             needsOne: [a.thief, a.wealthy],
             worksForThiefs: true,
@@ -408,7 +408,7 @@ export const bartenderActions: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            name: 'Is secretly receiving a flask from a guest',
+            name: 'Secretely receives a flask from a guest',
             key: AssetKey.BARTENDER_actions,
             needsOne: [a.thief],
             worksForThiefs: true,
@@ -418,7 +418,7 @@ export const bartenderActions: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            name: 'Is secretly receiving a briefcase from a guest',
+            name: 'Secretely receives a briefcase from a guest',
             key: AssetKey.BARTENDER_actions,
             needsOne: [a.thief],
             worksForThiefs: true,
@@ -684,7 +684,7 @@ export const bartenderActions: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             name: 'Celebrates his birthday by handing out a free drink per costumer',
-            key: AssetKey.BARTENDER_actions,
+            keys: [AssetKey.BARTENDER_actions, AssetKey.BARTENDER_charisma],
             worksForAllCriminals: true,
             powerFits: [a.tropical, a.haven, a.village, a.dwarf, a.halfling],
             misfits: [a.desert],
@@ -695,7 +695,7 @@ export const bartenderActions: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             name: 'Welcomes every new guest personally at their table',
-            key: AssetKey.BARTENDER_actions,
+            keys: [AssetKey.BARTENDER_actions, AssetKey.BARTENDER_charisma],
             needsOne: [a.rich, a.wealthy, a.halfling, a.tropical, a.desert],
             worksForBrothel: true,
         },
