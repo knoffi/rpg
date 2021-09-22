@@ -16,7 +16,7 @@ export const getKeyBound = (key: AssetKey) => {
         return 1;
     }
     if (key === AssetKey.FURNITURE_barDeco) {
-        return 2;
+        return 1;
     }
     if (key === AssetKey.FURNITURE_cutleryPlates) {
         return 1;
