@@ -20,8 +20,8 @@ export const getFitLevel = (
     probabilityFilter?: number,
     isExcludedByKey?: (key: AssetKey) => boolean
 ) => {
-    const keyCheck =
-        !asset.key || !isExcludedByKey || !isExcludedByKey(asset.key);
+    const keyCheck = checkKey(asset.key, asset.keys, isExcludedByKey);
+
     const powerFitCheck =
         !tavernFits.powerFit ||
         !applyPowerFit ||
@@ -133,5 +133,20 @@ const checkTruelyFulfilled = (
         default:
             console.log('I wanted a special association!');
             return true;
+    }
+};
+
+const checkKey = (
+    key?: AssetKey,
+    keyList?: AssetKey[],
+    isExcludedByKey?: (key: AssetKey) => boolean
+) => {
+    if (!isExcludedByKey) {
+        return true;
+    } else {
+        const singleKeyCheck = !key || !isExcludedByKey(key);
+        const keyListCheck =
+            !keyList || !keyList.some((item) => isExcludedByKey(item));
+        return singleKeyCheck && keyListCheck;
     }
 };

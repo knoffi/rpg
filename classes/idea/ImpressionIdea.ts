@@ -78,7 +78,10 @@ export class ImpressionIdea extends Idea {
                         'no fitting, second description was found, although it was demanded and there were some additions provided'
                     );
                 }
-                return { name: this.main.name, firstKey: this.main.key };
+                return {
+                    name: this.main.name,
+                    firstKeys: ImpressionIdea.getKeyList(this.main),
+                };
             }
             const firstText = this.reverseDisplay
                 ? secondDescription.name
@@ -89,13 +92,13 @@ export class ImpressionIdea extends Idea {
             const createdName = firstText + secondText + splitMarker;
             return {
                 name: createdName,
-                firstKey: this.main.key,
-                secondKey: secondDescription.key,
+                firstKeys: ImpressionIdea.getKeyList(this.main),
+                secondKeys: ImpressionIdea.getKeyList(secondDescription),
             };
         } else {
             const defaultNameAndKey = {
                 name: this.main.name,
-                firstKey: this.main.key,
+                firstKeys: ImpressionIdea.getKeyList(this.main),
             };
             return defaultNameAndKey;
         }

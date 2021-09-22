@@ -70,7 +70,7 @@ export const bartenderPast: ImpressionIdea[] = [
                 worksForBrothel: true,
             },
             {
-                name: 'a fierce crusader',
+                name: 'a devoted crusader',
                 needsOne: [a.knight, a.soldier],
                 misfits: [a.desert],
             },

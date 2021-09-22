@@ -1,25 +1,15 @@
 import { AssetKey } from '../AssetKey/AssetKey';
+import { Idea } from '../Idea';
 import { StructuredTavernFits } from '../StructuredTavernFits';
 import { FitLevel } from './FitLevel';
 import { getMinFitLevel } from './fitLevelComparing';
 
-interface IFitLevelSortable {
-    getFitLevelForTavern: (
-        tavernFits: StructuredTavernFits,
-        isExcludedByName: (name: string) => boolean,
-        mainFilter?: number,
-        additionFilter?: number,
-        mainIsExcludedByKey?: (key: AssetKey) => boolean,
-        additionIsExcludedByKey?: (key: AssetKey) => boolean
-    ) => FitLevel;
-}
-
-export const filterBestIdeas = <Type extends IFitLevelSortable>(
+export const filterBestIdeas = <Type extends Idea>(
     ideas: Type[],
     tavernFits: StructuredTavernFits,
     isExcludedByName: (name: string) => boolean,
     mainIsExcludedByKey: (key: AssetKey) => boolean,
-    actionIsExcludedByKey: (key: AssetKey) => boolean,
+    additionIsExcludedByKey: (key: AssetKey) => boolean,
     mainFilter?: number,
     additionFilter?: number
 ) => {
@@ -41,7 +31,7 @@ export const filterBestIdeas = <Type extends IFitLevelSortable>(
             mainFilter,
             additionFilter,
             mainIsExcludedByKey,
-            actionIsExcludedByKey
+            additionIsExcludedByKey
         );
         if (
             fitLevel !== FitLevel.bad &&
