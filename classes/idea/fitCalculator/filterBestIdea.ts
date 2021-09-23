@@ -1,5 +1,6 @@
 import { AssetKey } from '../AssetKey/AssetKey';
 import { Idea } from '../Idea';
+import { Pattern } from '../Patterns/Pattern';
 import { StructuredTavernFits } from '../StructuredTavernFits';
 import { WORST_FIT_LEVEL } from './getFitLevel';
 
@@ -10,7 +11,8 @@ export const filterBestIdeas = <Type extends Idea>(
     mainIsExcludedByKey: (key: AssetKey) => boolean,
     additionIsExcludedByKey: (key: AssetKey) => boolean,
     mainFilter?: number,
-    additionFilter?: number
+    additionFilter?: number,
+    patterns?: Pattern[]
 ) => {
     let bestFittingAssets = [] as Type[];
 
@@ -23,7 +25,8 @@ export const filterBestIdeas = <Type extends Idea>(
             mainFilter,
             additionFilter,
             mainIsExcludedByKey,
-            additionIsExcludedByKey
+            additionIsExcludedByKey,
+            patterns
         );
         const betterFitLevelFound = fitLevel > bestFitLevelSoFar;
 

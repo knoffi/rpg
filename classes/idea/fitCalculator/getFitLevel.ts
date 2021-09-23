@@ -1,18 +1,23 @@
 import { association, isClassAssociation } from '../../association';
 import { AssetKey } from '../AssetKey/AssetKey';
 import { DescriptionAsset } from '../DescriptionAsset';
+import { Pattern } from '../Patterns/Pattern';
 import { StructuredTavernFits } from '../StructuredTavernFits';
 import { assetFitsToTavern } from './assetFitsToTavern';
 import { powerFitTest } from './powerFitCheck';
 
 const KEY_BONUS = 1000;
+const PATTERN_BONUS = 0.5;
 const POWER_FIT_BONUS = 100;
 const SPECIALS_TRULY_FULFILLED_BONUS = 3;
 const SPECIALS_OVERRIDE_FULFILLED_BONUS = 2;
 const SPECIALS_WEAKLY_FULFILLED_BONUS = 1;
 const NO_SPECIALS_FULFILLED_BONUS = 0;
 export const BEST_FIT_LEVEL =
-    KEY_BONUS + POWER_FIT_BONUS + SPECIALS_TRULY_FULFILLED_BONUS;
+    KEY_BONUS +
+    POWER_FIT_BONUS +
+    SPECIALS_TRULY_FULFILLED_BONUS +
+    PATTERN_BONUS;
 export const MINIMAL_PASS_FIT_LEVEL = SPECIALS_WEAKLY_FULFILLED_BONUS;
 export const WORST_FIT_LEVEL = 0;
 export const getFitLevel = (
@@ -21,19 +26,28 @@ export const getFitLevel = (
     isExcludedByName?: (name: string) => boolean,
     applyPowerFit?: boolean,
     probabilityFilter?: number,
-    isExcludedByKey?: (key: AssetKey) => boolean
+    isExcludedByKey?: (key: AssetKey) => boolean,
+    tavernPatterns?: Pattern[]
 ) => {
     //  NOTE: specialOverride and specialWeakly imply powerFitCheck!
     //
-    // HIGH         keyCheck, powerFitCheck, regularCheck, specialsTruly ,      1103
-    // MEDIUM_HIGH  keyCheck, (powerFitCheck), regularCheck, specialsOverride , 1102
-    // MEDIUM       keyCheck, regularCheck, (powerFitCheck), specialsWeakly ,   1101
-    // MEDIUM_LOW   keyCheck, regularCheck, specialsTruly ,                     1003
-    // LOW          regularCheck, powerFitCheck, specialsTruly ,                 103
-    // LOWER        regularCheck, (powerFitCheck), specialsOverride ,            102
-    // EXTREMEY_LOW regularCheck, (powerFitCheck), specialsWeakly                101
-    // VERY_LOW     regularCheck, specialsTruly                                    3
-    // BAD          !regularCheck || specialsNotFulfilled                          0
+    // A*       pattern , keyCheck, powerFitCheck, regularCheck, specialsTruly ,      1103,5
+    // A                  keyCheck, powerFitCheck, regularCheck, specialsTruly ,      1103
+    // B*       pattern , keyCheck, (powerFitCheck), regularCheck, specialsOverride , 1102,5
+    // B                  keyCheck, (powerFitCheck), regularCheck, specialsOverride , 1102
+    // C*       pattern , keyCheck, regularCheck, (powerFitCheck), specialsWeakly ,   1101,5
+    // C                  keyCheck, regularCheck, (powerFitCheck), specialsWeakly ,   1101
+    // D*       pattern , keyCheck, regularCheck, specialsTruly ,                     1003,5
+    // D                  keyCheck, regularCheck, specialsTruly ,                     1003
+    // E*       pattern , regularCheck, powerFitCheck, specialsTruly ,                 103,5
+    // E                  regularCheck, powerFitCheck, specialsTruly ,                 103
+    // F*       pattern , regularCheck, (powerFitCheck), specialsOverride ,            102,5
+    // F                  regularCheck, (powerFitCheck), specialsOverride ,            102
+    // G*       pattern , regularCheck, (powerFitCheck), specialsWeakly                101,5
+    // G                  regularCheck, (powerFitCheck), specialsWeakly                101
+    // H*       pattern , regularCheck, specialsTruly                                    3
+    // H                  regularCheck, specialsTruly                                    3
+    // I                  !regularCheck || specialsNotFulfilled                          0
     const regularCheck = assetFitsToTavern(
         tavernFits,
         asset,
@@ -57,13 +71,29 @@ export const getFitLevel = (
             return WORST_FIT_LEVEL;
         } else {
             const keyCheck = checkKey(asset.key, asset.keys, isExcludedByKey);
-
+            const patternBonus = getPatternBonus(
+                asset.patterns,
+                tavernPatterns
+            );
             const keyBonus = keyCheck ? KEY_BONUS : 0;
             const powerFitBonus = powerFitCheck ? POWER_FIT_BONUS : 0;
-            return keyBonus + powerFitBonus + specialsBonus;
+            return keyBonus + powerFitBonus + specialsBonus + patternBonus;
         }
     }
 };
+
+function getPatternBonus(
+    assetPatterns = [] as Pattern[],
+    tavernPatterns = [] as Pattern[]
+) {
+    if (tavernPatterns.length === 0 || assetPatterns.length === 0) {
+        return 0;
+    }
+    const assetPatternFits = assetPatterns.some((pattern) =>
+        tavernPatterns.includes(pattern)
+    );
+    return assetPatternFits ? 0 : PATTERN_BONUS;
+}
 function getBonusFromSpecials(
     asset: DescriptionAsset,
     powerFit?: association,

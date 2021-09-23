@@ -10,7 +10,8 @@ import { BannerData, MenuBanner } from '../menuScene/menuBanner/MenuBanner';
 import { nameSceneStyles } from '../nameScene/nameSceneStyles';
 import { CurrencySetDialog } from './CurrencySetDialog';
 import { DetailsList } from './DetailsList';
-import { getFullKeys } from './getNamesAndFullKeys';
+import { getFullKeys } from './getFullKeys';
+import { getUsedPatterns } from './getUsedPatterns';
 import {
     getImpressionsWithOneReroll,
     getRandomImpression,
@@ -36,6 +37,13 @@ const getPriceFromIncome = (income: association, basePrice: BasePrice) => {
     }
 };
 
+const DEFAULT_PRICE_SETTER = {
+    open: false,
+    income: association.poor,
+    priceText: 'Prices are important',
+    price: 12,
+};
+
 export const QuestScene = (props: {
     fitting: StructuredTavernFits;
     basePrice: BasePrice;
@@ -53,14 +61,19 @@ export const QuestScene = (props: {
         price: props.basePrice.poor,
     });
     const [fullKeys, setFullKeys] = useState(getFullKeys(props.impressions));
+    const [patterns, setPatterns] = useState(
+        getUsedPatterns(props.impressions)
+    );
     const onDelete = (name: string) => {
         const otherImpressions = props.impressions.filter(
             (impression) => impression.name !== name
         );
         const bannerChanges = props.getImpliedChanges(otherImpressions);
         setFullKeys(getFullKeys(otherImpressions));
+        setPatterns(getUsedPatterns(otherImpressions));
         props.onDataChange({ impressions: otherImpressions, ...bannerChanges });
     };
+
     const onReroll = (oldImpression: IImpression) => {
         const newImpressions = getImpressionsWithOneReroll(
             oldImpression.name,
@@ -68,13 +81,15 @@ export const QuestScene = (props: {
             props.fitting,
             oldImpression.category,
             fullKeys.first,
-            fullKeys.second
+            fullKeys.second,
+            patterns
         );
         if (!newImpressions) {
             console.log('I am undefined');
         }
         if (newImpressions) {
             setFullKeys(getFullKeys(newImpressions));
+            setPatterns(getUsedPatterns(newImpressions));
             props.onDataChange({
                 impressions: newImpressions,
             });
@@ -88,22 +103,21 @@ export const QuestScene = (props: {
             category,
             oldNames,
             fullKeys.first,
-            fullKeys.second
+            fullKeys.second,
+            undefined,
+            undefined,
+            patterns
         );
         const extendedImpressions = [...props.impressions, newImpression];
         setFullKeys(getFullKeys(extendedImpressions));
+        setPatterns(getUsedPatterns(extendedImpressions));
         const bannerChanges = props.getImpliedChanges(extendedImpressions);
         props.onDataChange({
             impressions: extendedImpressions,
             ...bannerChanges,
         });
     };
-    const [priceSetter, setPriceSetter] = useState({
-        open: false,
-        income: association.poor,
-        priceText: props.basePrice.poor.toString(),
-        price: 12,
-    });
+    const [priceSetter, setPriceSetter] = useState(DEFAULT_PRICE_SETTER);
     const [currencySetter, setCurrencySetter] = useState({
         open: false,
         currency: props.basePrice.currency,

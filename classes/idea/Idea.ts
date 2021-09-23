@@ -7,6 +7,7 @@ import {
     WORST_FIT_LEVEL,
 } from './fitCalculator/getFitLevel';
 import { sufficesFitLevel } from './fitCalculator/sufficesFitLevel';
+import { Pattern } from './Patterns/Pattern';
 import { PowerFitConcept } from './powerFitConcepts/PowerFitConcept';
 import { StructuredTavernFits } from './StructuredTavernFits';
 
@@ -175,7 +176,8 @@ export class Idea {
         mainFilter?: number,
         additionFilter?: number,
         mainIsExcludedByKey?: (key: AssetKey) => boolean,
-        additionIsExcludedByKey?: (key: AssetKey) => boolean
+        additionIsExcludedByKey?: (key: AssetKey) => boolean,
+        patterns?: Pattern[]
     ) {
         const mainFitLevel = getFitLevel(
             tavernFits,
@@ -183,7 +185,8 @@ export class Idea {
             isExcludedByName,
             this.powerFitConcept.main,
             mainFilter,
-            mainIsExcludedByKey
+            mainIsExcludedByKey,
+            patterns
         );
         if (mainFitLevel <= WORST_FIT_LEVEL) {
             return WORST_FIT_LEVEL;
@@ -199,7 +202,8 @@ export class Idea {
                               isExcludedByName,
                               'harmony',
                               additionFilter,
-                              additionIsExcludedByKey
+                              additionIsExcludedByKey,
+                              patterns
                           );
                           return Math.min(lowestRowMax, rowMaxFitLevel);
                       }, BEST_FIT_LEVEL)
@@ -217,7 +221,8 @@ export class Idea {
                                           isExcludedByName,
                                           'contrast',
                                           additionFilter,
-                                          additionIsExcludedByKey
+                                          additionIsExcludedByKey,
+                                          patterns
                                       );
                                   return Math.min(lowestRowMax, rowMaxFitLevel);
                               },
@@ -243,7 +248,8 @@ export class Idea {
         isExcludedByName: (name: string) => boolean,
         isFor: 'harmony' | 'contrast',
         additionFilter?: number,
-        isExcludedByKey?: (key: AssetKey) => boolean
+        isExcludedByKey?: (key: AssetKey) => boolean,
+        patterns?: Pattern[]
     ) {
         return additions.reduce((fitLevel, addition) => {
             const additionFitLevel = getFitLevel(
@@ -254,7 +260,8 @@ export class Idea {
                     ? this.powerFitConcept.harmony
                     : this.powerFitConcept.contrast,
                 additionFilter,
-                isExcludedByKey
+                isExcludedByKey,
+                patterns
             );
             return Math.max(fitLevel, additionFitLevel);
         }, WORST_FIT_LEVEL);
