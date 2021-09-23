@@ -1,8 +1,8 @@
 import { AssetKey } from '../AssetKey/AssetKey';
 import { Idea } from '../Idea';
+import { Pattern } from '../Patterns/Pattern';
 import { StructuredTavernFits } from '../StructuredTavernFits';
-import { FitLevel } from './FitLevel';
-import { getMinFitLevel } from './fitLevelComparing';
+import { WORST_FIT_LEVEL } from './getFitLevel';
 
 export const filterBestIdeas = <Type extends Idea>(
     ideas: Type[],
@@ -11,18 +11,12 @@ export const filterBestIdeas = <Type extends Idea>(
     mainIsExcludedByKey: (key: AssetKey) => boolean,
     additionIsExcludedByKey: (key: AssetKey) => boolean,
     mainFilter?: number,
-    additionFilter?: number
+    additionFilter?: number,
+    patterns?: Pattern[]
 ) => {
-    const fittingAssets = {
-        [FitLevel.high]: [] as Type[],
-        [FitLevel.mediumHigh]: [] as Type[],
-        [FitLevel.medium]: [] as Type[],
-        [FitLevel.mediumLow]: [] as Type[],
-        [FitLevel.low]: [] as Type[],
-        [FitLevel.veryLow]: [] as Type[],
-        [FitLevel.extremelyLow]: [] as Type[],
-    };
-    let bestFitLevel = FitLevel.bad;
+    let bestFittingAssets = [] as Type[];
+
+    let bestFitLevelSoFar = WORST_FIT_LEVEL;
 
     ideas.forEach((idea) => {
         const fitLevel = idea.getFitLevelForTavern(
@@ -31,24 +25,34 @@ export const filterBestIdeas = <Type extends Idea>(
             mainFilter,
             additionFilter,
             mainIsExcludedByKey,
-            additionIsExcludedByKey
+            additionIsExcludedByKey,
+            patterns
         );
-        if (
-            fitLevel !== FitLevel.bad &&
-            getMinFitLevel(fitLevel, bestFitLevel) === bestFitLevel
-        ) {
-            fittingAssets[fitLevel].push(idea);
-            if (fitLevel !== bestFitLevel) {
-                bestFitLevel = fitLevel;
+        const betterFitLevelFound = fitLevel > bestFitLevelSoFar;
+
+        const sameFitLevelReached =
+            fitLevel > WORST_FIT_LEVEL && fitLevel === bestFitLevelSoFar;
+
+        if (betterFitLevelFound) {
+            bestFitLevelSoFar = fitLevel;
+            bestFittingAssets = [idea];
+        } else {
+            if (sameFitLevelReached) {
+                bestFittingAssets.push(idea);
             }
         }
     });
-    if (bestFitLevel === FitLevel.bad) {
+    if (bestFitLevelSoFar === WORST_FIT_LEVEL) {
         return undefined;
     } else {
+        if (bestFittingAssets.length === 0) {
+            console.log(
+                'NO ASSETS TO USE, ALTHOUGH SUFFICIENT FIT LEVEL IS POSSIBLE'
+            );
+        }
         return {
-            ideas: fittingAssets[bestFitLevel] as Type[],
-            level: bestFitLevel as FitLevel,
+            ideas: bestFittingAssets,
+            level: bestFitLevelSoFar,
         };
     }
 };

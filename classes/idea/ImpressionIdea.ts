@@ -2,7 +2,6 @@ import { splitMarker } from '../../scenes/menuScene/offerList/nameSplitter/split
 import { IImpression } from '../../scenes/questScene/impressions/IImpression';
 import { AssetKey } from './AssetKey/AssetKey';
 import { DescriptionAsset } from './DescriptionAsset';
-import { FitLevel } from './fitCalculator/FitLevel';
 import { Idea } from './Idea';
 import { Noticable } from './Noticable';
 import { defaultPowerFitConcepts } from './powerFitConcepts/powerFitConcepts';
@@ -33,7 +32,7 @@ export class ImpressionIdea extends Idea {
         tavernFits: StructuredTavernFits,
         isExcludedByName: (name: string) => boolean,
         additionIsExcludedByKey: (key: AssetKey) => boolean,
-        minimalFitLevel: FitLevel,
+        minimalFitLevel: number,
         additionFilter?: number
     ) {
         const createdImpression: IImpression = {
@@ -53,7 +52,7 @@ export class ImpressionIdea extends Idea {
         tavernFits: StructuredTavernFits,
         isExcludedByName: (name: string) => boolean,
         isExcludedByKey: (key: AssetKey) => boolean,
-        minimalFitLevel: FitLevel,
+        minimalFitLevel: number,
         probabilityFilter?: number
     ) {
         if (this.additions) {
@@ -81,6 +80,7 @@ export class ImpressionIdea extends Idea {
                 return {
                     name: this.main.name,
                     firstKeys: ImpressionIdea.getKeyList(this.main),
+                    patterns: this.main.patterns || [],
                 };
             }
             const firstText = this.reverseDisplay
@@ -94,11 +94,15 @@ export class ImpressionIdea extends Idea {
                 name: createdName,
                 firstKeys: ImpressionIdea.getKeyList(this.main),
                 secondKeys: ImpressionIdea.getKeyList(secondDescription),
+                patterns: (this.main.patterns || []).concat(
+                    secondDescription.patterns || []
+                ),
             };
         } else {
             const defaultNameAndKey = {
                 name: this.main.name,
                 firstKeys: ImpressionIdea.getKeyList(this.main),
+                patterns: this.main.patterns || [],
             };
             return defaultNameAndKey;
         }

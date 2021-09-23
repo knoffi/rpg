@@ -5,7 +5,7 @@ import {
     DescriptionAsset,
     forCriminalsOverwrittenAsset,
 } from './DescriptionAsset';
-import { FitLevel } from './fitCalculator/FitLevel';
+import { MINIMAL_PASS_FIT_LEVEL } from './fitCalculator/getFitLevel';
 import { Idea } from './Idea';
 import { DishConcept } from './powerFitConcepts/DishConcept';
 import { defaultPowerFitConcepts } from './powerFitConcepts/powerFitConcepts';
@@ -61,13 +61,13 @@ export class DishIdea extends Idea {
             undefined,
             undefined,
             undefined,
-            FitLevel.extremelyLow
+            MINIMAL_PASS_FIT_LEVEL
         );
     }
 
     public getConcreteDish(
         tavernFits: StructuredTavernFits,
-        minimumFitLevel: FitLevel
+        minimumFitLevel: number
     ) {
         const fittingSideDishMenu = this.additions!.map((sideDishes) => {
             const result =

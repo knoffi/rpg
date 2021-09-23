@@ -1,5 +1,4 @@
 import { DescriptionAsset } from './DescriptionAsset';
-import { FitLevel } from './fitCalculator/FitLevel';
 import { Idea } from './Idea';
 import { PowerFitConcept } from './powerFitConcepts/PowerFitConcept';
 import { defaultPowerFitConcepts } from './powerFitConcepts/powerFitConcepts';
@@ -29,7 +28,7 @@ export class NameIdea extends Idea {
     public getConcreteName(
         tavernFits: StructuredTavernFits,
         isExcludedByPrefix: (name: string) => boolean,
-        minimumFitLevel: FitLevel,
+        minimumFitLevel: number,
         additionFilter?: number
     ) {
         const substantive = this.chooseSubstantive(
@@ -45,7 +44,7 @@ export class NameIdea extends Idea {
     private chooseSubstantive(
         tavernFits: StructuredTavernFits,
         isExcludedByPrefix: (name: string) => boolean,
-        minimumFitLevel: FitLevel,
+        minimumFitLevel: number,
         additionFilter?: number,
         harmonyChance = DEFAULT_HARMONY_CHANCE
     ) {

@@ -1,6 +1,7 @@
 import { AssetKey } from '../../../classes/idea/AssetKey/AssetKey';
 import { filterBestIdeas } from '../../../classes/idea/fitCalculator/filterBestIdea';
 import { Noticable } from '../../../classes/idea/Noticable';
+import { Pattern } from '../../../classes/idea/Patterns/Pattern';
 import { StructuredTavernFits } from '../../../classes/idea/StructuredTavernFits';
 import { WeServe } from '../../../editNavigator/WeServe';
 import { getRandomArrayEntry } from '../../../helpingFunctions/getFittingRandom';
@@ -17,7 +18,8 @@ export const getRandomImpression = (
     fullFirstKeys: AssetKey[],
     fullSecondKeys: AssetKey[],
     mainFilter?: number,
-    additionFilter?: number
+    additionFilter?: number,
+    patterns?: Pattern[]
 ): IImpression => {
     const isExcludedByName = getPrefixExcluder(oldNames, WeServe.impressions);
     const mainIsExcludedByKey = getKeyExcluder(fullFirstKeys);
@@ -36,7 +38,8 @@ export const getRandomImpression = (
             mainIsExcludedByKey,
             additionIsExcludedByKey,
             mainFilter,
-            additionFilter
+            additionFilter,
+            patterns
         );
         if (!bestImpressions) {
             return emptyImpression;
@@ -62,7 +65,8 @@ export const getImpressionsWithOneReroll = (
     fitting: StructuredTavernFits,
     category: Noticable,
     fullFirstKeys: AssetKey[],
-    fullSecondKeys: AssetKey[]
+    fullSecondKeys: AssetKey[],
+    patterns: Pattern[]
 ) => {
     const oldNames = impressions.map((impression) => impression.name);
     const newImpression = getRandomImpression(
@@ -70,7 +74,10 @@ export const getImpressionsWithOneReroll = (
         category,
         oldNames,
         fullFirstKeys,
-        fullSecondKeys
+        fullSecondKeys,
+        undefined,
+        undefined,
+        patterns
     );
     if (!newImpression || newImpression.name === emptyImpression.name) {
         console.log('rerolled and got an empty impression');
