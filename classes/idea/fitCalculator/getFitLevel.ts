@@ -16,6 +16,7 @@ const POWER_FIT_BONUS = 100;
 const SPECIALS_TRULY_FULFILLED_BONUS = 3;
 const SPECIALS_OVERRIDE_FULFILLED_BONUS = 2;
 const SPECIALS_WEAKLY_FULFILLED_BONUS = 1;
+const NO_SPECIALS_FULFILLED_BONUS = 0;
 export const BEST_FIT_LEVEL =
     KEY_BONUS + POWER_FIT_BONUS + SPECIALS_TRULY_FULFILLED_BONUS;
 export const MINIMAL_PASS_FIT_LEVEL = SPECIALS_WEAKLY_FULFILLED_BONUS;
@@ -52,55 +53,47 @@ export const getFitLevel = (
             !tavernFits.powerFit ||
             !applyPowerFit ||
             powerFitTest(tavernFits.powerFit, asset);
-        const specialsFulfilled = checkSpecials(
+        const specialsBonus = getBonusFromSpecials(
             asset,
             tavernFits.powerFit,
             tavernFits.special,
             powerFitCheck
         );
-        if (specialsFulfilled === SpecialsFulfilled.not) {
+        if (specialsBonus === NO_SPECIALS_FULFILLED_BONUS) {
             return WORST_FIT_LEVEL;
         } else {
             const keyCheck = checkKey(asset.key, asset.keys, isExcludedByKey);
 
             const keyBonus = keyCheck ? KEY_BONUS : 0;
             const powerFitBonus = powerFitCheck ? POWER_FIT_BONUS : 0;
-            const specialsBonus =
-                specialsFulfilled === SpecialsFulfilled.truly
-                    ? SPECIALS_TRULY_FULFILLED_BONUS
-                    : specialsFulfilled === SpecialsFulfilled.byOverride
-                    ? SPECIALS_OVERRIDE_FULFILLED_BONUS
-                    : specialsFulfilled === SpecialsFulfilled.byWeakOverride
-                    ? SPECIALS_WEAKLY_FULFILLED_BONUS
-                    : 0;
             return keyBonus + powerFitBonus + specialsBonus;
         }
     }
 };
-function checkSpecials(
+function getBonusFromSpecials(
     asset: DescriptionAsset,
     powerFit?: association,
     special?: association,
     powerFitFulfilled?: boolean
 ) {
     if (!special) {
-        return SpecialsFulfilled.truly;
+        return SPECIALS_TRULY_FULFILLED_BONUS;
     } else {
         const specialTruelyFulfilled = checkTruelyFulfilled(asset, special);
         if (specialTruelyFulfilled) {
-            return SpecialsFulfilled.truly;
+            return SPECIALS_TRULY_FULFILLED_BONUS;
         } else {
             const powerFitIsClass = powerFit && isClassAssociation(powerFit);
             const specialIsPlayerClass =
                 special === association.thief ||
                 special === association.assasine;
             if (powerFitIsClass && powerFitFulfilled && specialIsPlayerClass) {
-                return SpecialsFulfilled.byOverride;
+                return SPECIALS_OVERRIDE_FULFILLED_BONUS;
             } else {
                 if (powerFitFulfilled) {
-                    return SpecialsFulfilled.byWeakOverride;
+                    return SPECIALS_WEAKLY_FULFILLED_BONUS;
                 }
-                return SpecialsFulfilled.not;
+                return NO_SPECIALS_FULFILLED_BONUS;
             }
         }
     }
