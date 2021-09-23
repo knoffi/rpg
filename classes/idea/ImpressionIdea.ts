@@ -80,6 +80,7 @@ export class ImpressionIdea extends Idea {
                 return {
                     name: this.main.name,
                     firstKeys: ImpressionIdea.getKeyList(this.main),
+                    patterns: this.main.patterns || [],
                 };
             }
             const firstText = this.reverseDisplay
@@ -93,11 +94,15 @@ export class ImpressionIdea extends Idea {
                 name: createdName,
                 firstKeys: ImpressionIdea.getKeyList(this.main),
                 secondKeys: ImpressionIdea.getKeyList(secondDescription),
+                patterns: (this.main.patterns || []).concat(
+                    secondDescription.patterns || []
+                ),
             };
         } else {
             const defaultNameAndKey = {
                 name: this.main.name,
                 firstKeys: ImpressionIdea.getKeyList(this.main),
+                patterns: this.main.patterns || [],
             };
             return defaultNameAndKey;
         }
