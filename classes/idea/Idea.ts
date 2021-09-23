@@ -1,12 +1,11 @@
 import { getRandomArrayEntry } from '../../helpingFunctions/getFittingRandom';
 import { AssetKey } from './AssetKey/AssetKey';
 import { DescriptionAsset } from './DescriptionAsset';
-import { FitLevel } from './fitCalculator/FitLevel';
 import {
-    getMaxFitLevel,
-    getMinFitLevel,
-} from './fitCalculator/fitLevelComparing';
-import { getFitLevel } from './fitCalculator/getFitLevel';
+    BEST_FIT_LEVEL,
+    getFitLevel,
+    WORST_FIT_LEVEL,
+} from './fitCalculator/getFitLevel';
 import { sufficesFitLevel } from './fitCalculator/sufficesFitLevel';
 import { PowerFitConcept } from './powerFitConcepts/PowerFitConcept';
 import { StructuredTavernFits } from './StructuredTavernFits';
@@ -66,7 +65,7 @@ export class Idea {
             (additionCollection) =>
                 additionCollection.filter((addition) =>
                     sufficesFitLevel(
-                        FitLevel.high,
+                        BEST_FIT_LEVEL,
                         tavernFits,
                         addition,
                         isExcludedByPrefix,
@@ -88,7 +87,7 @@ export class Idea {
         applyPowerFit?: boolean,
         probabilityFilter?: number,
         isExcludedByKey?: (key: AssetKey) => boolean,
-        minimumFitLevel = FitLevel.high
+        minimumFitLevel = BEST_FIT_LEVEL
     ) {
         if (additionChoices) {
             const fittingAssetParts = additionChoices.filter((addition) =>
@@ -115,7 +114,7 @@ export class Idea {
         additionFilter?: number,
         mainIsExcludedByKey?: (key: AssetKey) => boolean,
         additionIsExcludedByKey?: (key: AssetKey) => boolean,
-        minimumFitLevel = FitLevel.high
+        minimumFitLevel = BEST_FIT_LEVEL
     ) {
         const mainFitsToTavern = sufficesFitLevel(
             minimumFitLevel,
@@ -186,8 +185,8 @@ export class Idea {
             mainFilter,
             mainIsExcludedByKey
         );
-        if (mainFitLevel === FitLevel.bad) {
-            return FitLevel.bad;
+        if (mainFitLevel <= WORST_FIT_LEVEL) {
+            return WORST_FIT_LEVEL;
         } else {
             if (!this.additions && !this.contrastAdditions) {
                 return mainFitLevel;
@@ -202,13 +201,10 @@ export class Idea {
                               additionFilter,
                               additionIsExcludedByKey
                           );
-                          return getMinFitLevel(lowestRowMax, rowMaxFitLevel);
-                      }, FitLevel.high)
-                    : FitLevel.bad;
-                if (
-                    getMinFitLevel(mainFitLevel, lowestHarmonyRowMax) ===
-                    mainFitLevel
-                ) {
+                          return Math.min(lowestRowMax, rowMaxFitLevel);
+                      }, BEST_FIT_LEVEL)
+                    : WORST_FIT_LEVEL;
+                if (mainFitLevel <= lowestHarmonyRowMax) {
                     return mainFitLevel;
                 } else {
                     const lowestContrastRowMax = this.contrastAdditions
@@ -223,22 +219,16 @@ export class Idea {
                                           additionFilter,
                                           additionIsExcludedByKey
                                       );
-                                  return getMinFitLevel(
-                                      lowestRowMax,
-                                      rowMaxFitLevel
-                                  );
+                                  return Math.min(lowestRowMax, rowMaxFitLevel);
                               },
-                              FitLevel.high
+                              BEST_FIT_LEVEL
                           )
-                        : FitLevel.bad;
-                    if (
-                        getMinFitLevel(mainFitLevel, lowestContrastRowMax) ===
-                        mainFitLevel
-                    ) {
+                        : WORST_FIT_LEVEL;
+                    if (mainFitLevel <= lowestContrastRowMax) {
                         return mainFitLevel;
                     } else {
                         //here, mainFitLevel must be higher than both rowMax-values
-                        return getMaxFitLevel(
+                        return Math.max(
                             lowestContrastRowMax,
                             lowestHarmonyRowMax
                         );
@@ -266,7 +256,7 @@ export class Idea {
                 additionFilter,
                 isExcludedByKey
             );
-            return getMaxFitLevel(fitLevel, additionFitLevel);
-        }, FitLevel.bad);
+            return Math.max(fitLevel, additionFitLevel);
+        }, WORST_FIT_LEVEL);
     }
 }

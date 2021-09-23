@@ -3,7 +3,6 @@ import { AssetKey } from '../AssetKey/AssetKey';
 import { DescriptionAsset } from '../DescriptionAsset';
 import { StructuredTavernFits } from '../StructuredTavernFits';
 import { assetFitsToTavern } from './assetFitsToTavern';
-import { FitLevel } from './FitLevel';
 import { powerFitTest } from './powerFitCheck';
 enum SpecialsFulfilled {
     truly = 'truly fulfilled',
@@ -12,6 +11,15 @@ enum SpecialsFulfilled {
     not = 'special and powerfit not fulfilled',
 }
 
+const KEY_BONUS = 1000;
+const POWER_FIT_BONUS = 100;
+const SPECIALS_TRULY_FULFILLED_BONUS = 3;
+const SPECIALS_OVERRIDE_FULFILLED_BONUS = 2;
+const SPECIALS_WEAKLY_FULFILLED_BONUS = 1;
+export const BEST_FIT_LEVEL =
+    KEY_BONUS + POWER_FIT_BONUS + SPECIALS_TRULY_FULFILLED_BONUS;
+export const MINIMAL_PASS_FIT_LEVEL = SPECIALS_WEAKLY_FULFILLED_BONUS;
+export const WORST_FIT_LEVEL = 0;
 export const getFitLevel = (
     tavernFits: StructuredTavernFits,
     asset: DescriptionAsset,
@@ -20,60 +28,52 @@ export const getFitLevel = (
     probabilityFilter?: number,
     isExcludedByKey?: (key: AssetKey) => boolean
 ) => {
-    const keyCheck = checkKey(asset.key, asset.keys, isExcludedByKey);
-
-    const powerFitCheck =
-        !tavernFits.powerFit ||
-        !applyPowerFit ||
-        powerFitTest(tavernFits.powerFit, asset);
-    const specialsFulfilled = checkSpecials(
-        asset,
-        tavernFits.powerFit,
-        tavernFits.special,
-        powerFitCheck
-    );
+    //  NOTE: specialOverride and specialWeakly imply powerFitCheck!
+    //
+    // HIGH         keyCheck, powerFitCheck, regularCheck, specialsTruly ,      1103
+    // MEDIUM_HIGH  keyCheck, (powerFitCheck), regularCheck, specialsOverride , 1102
+    // MEDIUM       keyCheck, regularCheck, (powerFitCheck), specialsWeakly ,   1101
+    // MEDIUM_LOW   keyCheck, regularCheck, specialsTruly ,                     1003
+    // LOW          regularCheck, powerFitCheck, specialsTruly ,                 103
+    // LOWER        regularCheck, (powerFitCheck), specialsOverride ,            102
+    // EXTREMEY_LOW regularCheck, (powerFitCheck), specialsWeakly                101
+    // VERY_LOW     regularCheck, specialsTruly                                    3
+    // BAD          !regularCheck || specialsNotFulfilled                          0
     const regularCheck = assetFitsToTavern(
         tavernFits,
         asset,
         isExcludedByName,
         probabilityFilter
     );
-    if (specialsFulfilled === SpecialsFulfilled.truly) {
-        if (keyCheck && powerFitCheck && regularCheck) {
-            return FitLevel.high;
-        } else {
-            if (keyCheck && regularCheck) {
-                return FitLevel.medium;
-            }
-            if (regularCheck) {
-                return FitLevel.veryLow;
-            } else {
-                return FitLevel.bad;
-            }
-        }
+    if (!regularCheck) {
+        return WORST_FIT_LEVEL;
     } else {
-        if (
-            specialsFulfilled === SpecialsFulfilled.byOverride &&
-            regularCheck
-        ) {
-            if (keyCheck) {
-                return FitLevel.mediumHigh;
-            } else {
-                return FitLevel.low;
-            }
+        const powerFitCheck =
+            !tavernFits.powerFit ||
+            !applyPowerFit ||
+            powerFitTest(tavernFits.powerFit, asset);
+        const specialsFulfilled = checkSpecials(
+            asset,
+            tavernFits.powerFit,
+            tavernFits.special,
+            powerFitCheck
+        );
+        if (specialsFulfilled === SpecialsFulfilled.not) {
+            return WORST_FIT_LEVEL;
         } else {
-            if (
-                specialsFulfilled === SpecialsFulfilled.byWeakOverride &&
-                regularCheck
-            ) {
-                if (keyCheck) {
-                    return FitLevel.mediumLow;
-                } else {
-                    return FitLevel.extremelyLow;
-                }
-            } else {
-                return FitLevel.bad;
-            }
+            const keyCheck = checkKey(asset.key, asset.keys, isExcludedByKey);
+
+            const keyBonus = keyCheck ? KEY_BONUS : 0;
+            const powerFitBonus = powerFitCheck ? POWER_FIT_BONUS : 0;
+            const specialsBonus =
+                specialsFulfilled === SpecialsFulfilled.truly
+                    ? SPECIALS_TRULY_FULFILLED_BONUS
+                    : specialsFulfilled === SpecialsFulfilled.byOverride
+                    ? SPECIALS_OVERRIDE_FULFILLED_BONUS
+                    : specialsFulfilled === SpecialsFulfilled.byWeakOverride
+                    ? SPECIALS_WEAKLY_FULFILLED_BONUS
+                    : 0;
+            return keyBonus + powerFitBonus + specialsBonus;
         }
     }
 };
@@ -90,7 +90,6 @@ function checkSpecials(
         if (specialTruelyFulfilled) {
             return SpecialsFulfilled.truly;
         } else {
-            // should this be extended to every power fit (income, land, race)?
             const powerFitIsClass = powerFit && isClassAssociation(powerFit);
             const specialIsPlayerClass =
                 special === association.thief ||
