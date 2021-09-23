@@ -1,5 +1,6 @@
 import { association } from '../association';
 import { AssetKey } from './AssetKey/AssetKey';
+import { Pattern } from './Patterns/Pattern';
 
 export type DescriptionAsset = {
     name: string;
@@ -23,6 +24,7 @@ export type DescriptionAsset = {
     key?: AssetKey;
     keys?: AssetKey[];
     sex?: 'male' | 'female';
+    patterns?: Pattern[];
 };
 
 export const emptyDescriptionAsset: DescriptionAsset = {
