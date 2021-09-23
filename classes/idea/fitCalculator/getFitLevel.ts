@@ -4,12 +4,6 @@ import { DescriptionAsset } from '../DescriptionAsset';
 import { StructuredTavernFits } from '../StructuredTavernFits';
 import { assetFitsToTavern } from './assetFitsToTavern';
 import { powerFitTest } from './powerFitCheck';
-enum SpecialsFulfilled {
-    truly = 'truly fulfilled',
-    byOverride = 'only fulfilled by class powerfit override',
-    byWeakOverride = 'only fulfilled by non-class powerfit override',
-    not = 'special and powerfit not fulfilled',
-}
 
 const KEY_BONUS = 1000;
 const POWER_FIT_BONUS = 100;
