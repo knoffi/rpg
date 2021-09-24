@@ -92,7 +92,7 @@ function getPatternBonus(
     const assetPatternFits = assetPatterns.some((pattern) =>
         tavernPatterns.includes(pattern)
     );
-    return assetPatternFits ? 0 : PATTERN_BONUS;
+    return assetPatternFits ? PATTERN_BONUS : 0;
 }
 function getBonusFromSpecials(
     asset: DescriptionAsset,
