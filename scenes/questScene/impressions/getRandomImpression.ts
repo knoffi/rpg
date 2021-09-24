@@ -52,7 +52,8 @@ export const getRandomImpression = (
                     () => false,
                     additionIsExcludedByKey,
                     bestImpressions.level,
-                    additionFilter
+                    additionFilter,
+                    patterns
                 ) || emptyImpression;
             return newImpression;
         }

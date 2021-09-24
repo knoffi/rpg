@@ -306,6 +306,9 @@ export const QuestScene = (props: {
             <Text>
                 {JSON.stringify(fullKeys.first.map((key) => key.slice(0, 8)))}
             </Text>
+            <Text>
+                {JSON.stringify(patterns.map((pattern) => pattern.slice(0, 8)))}
+            </Text>
         </ScrollView>
     );
 };

@@ -9,14 +9,16 @@ import {
 import { sufficesFitLevel } from './fitCalculator/sufficesFitLevel';
 import { Pattern } from './Patterns/Pattern';
 import { PowerFitConcept } from './powerFitConcepts/PowerFitConcept';
+import { defaultPowerFitConcepts } from './powerFitConcepts/powerFitConcepts';
 import { StructuredTavernFits } from './StructuredTavernFits';
 
 export class Idea {
     constructor(
-        protected main: DescriptionAsset,
+        public main: DescriptionAsset,
         protected powerFitConcept: PowerFitConcept,
         protected additions?: DescriptionAsset[][],
-        protected contrastAdditions?: DescriptionAsset[][]
+        protected contrastAdditions?: DescriptionAsset[][],
+        protected patternMod = defaultPowerFitConcepts.main
     ) {}
 
     public countFittingChoices(
@@ -66,7 +68,7 @@ export class Idea {
             (additionCollection) =>
                 additionCollection.filter((addition) =>
                     sufficesFitLevel(
-                        BEST_FIT_LEVEL,
+                        BEST_FIT_LEVEL(),
                         tavernFits,
                         addition,
                         isExcludedByPrefix,
@@ -88,7 +90,9 @@ export class Idea {
         applyPowerFit?: boolean,
         probabilityFilter?: number,
         isExcludedByKey?: (key: AssetKey) => boolean,
-        minimumFitLevel = BEST_FIT_LEVEL
+        minimumFitLevel = BEST_FIT_LEVEL(),
+        patterns = [] as Pattern[],
+        patternBonusForFree = false
     ) {
         if (additionChoices) {
             const fittingAssetParts = additionChoices.filter((addition) =>
@@ -99,7 +103,9 @@ export class Idea {
                     isExcludedyName,
                     applyPowerFit,
                     probabilityFilter,
-                    isExcludedByKey
+                    isExcludedByKey,
+                    patterns,
+                    patternBonusForFree
                 )
             );
             return getRandomArrayEntry(fittingAssetParts);
@@ -115,7 +121,7 @@ export class Idea {
         additionFilter?: number,
         mainIsExcludedByKey?: (key: AssetKey) => boolean,
         additionIsExcludedByKey?: (key: AssetKey) => boolean,
-        minimumFitLevel = BEST_FIT_LEVEL
+        minimumFitLevel = BEST_FIT_LEVEL()
     ) {
         const mainFitsToTavern = sufficesFitLevel(
             minimumFitLevel,
@@ -186,7 +192,8 @@ export class Idea {
             this.powerFitConcept.main,
             mainFilter,
             mainIsExcludedByKey,
-            patterns
+            patterns,
+            !this.patternMod.main
         );
         if (mainFitLevel <= WORST_FIT_LEVEL) {
             return WORST_FIT_LEVEL;
@@ -206,7 +213,7 @@ export class Idea {
                               patterns
                           );
                           return Math.min(lowestRowMax, rowMaxFitLevel);
-                      }, BEST_FIT_LEVEL)
+                      }, BEST_FIT_LEVEL(patterns?.length))
                     : WORST_FIT_LEVEL;
                 if (mainFitLevel <= lowestHarmonyRowMax) {
                     return mainFitLevel;
@@ -226,7 +233,7 @@ export class Idea {
                                       );
                                   return Math.min(lowestRowMax, rowMaxFitLevel);
                               },
-                              BEST_FIT_LEVEL
+                              BEST_FIT_LEVEL(patterns?.length)
                           )
                         : WORST_FIT_LEVEL;
                     if (mainFitLevel <= lowestContrastRowMax) {
@@ -261,7 +268,10 @@ export class Idea {
                     : this.powerFitConcept.contrast,
                 additionFilter,
                 isExcludedByKey,
-                patterns
+                patterns,
+                isFor == 'harmony'
+                    ? !this.patternMod.harmony
+                    : !this.patternMod.contrast
             );
             return Math.max(fitLevel, additionFitLevel);
         }, WORST_FIT_LEVEL);
