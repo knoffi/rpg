@@ -4,6 +4,7 @@ import { AssetKey } from './AssetKey/AssetKey';
 import { DescriptionAsset } from './DescriptionAsset';
 import { Idea } from './Idea';
 import { Noticable } from './Noticable';
+import { Pattern } from './Patterns/Pattern';
 import { defaultPowerFitConcepts } from './powerFitConcepts/powerFitConcepts';
 import { StructuredTavernFits } from './StructuredTavernFits';
 export class ImpressionIdea extends Idea {
@@ -16,13 +17,15 @@ export class ImpressionIdea extends Idea {
         category: Noticable,
         displayTextAsFurniture = false,
         reverseDisplay = false,
-        stress = defaultPowerFitConcepts.main
+        stress = defaultPowerFitConcepts.main,
+        patternMode = defaultPowerFitConcepts.main
     ) {
         super(
             mainImpression,
             stress ? stress : defaultPowerFitConcepts.impression,
             [additions],
-            undefined
+            undefined,
+            patternMode
         );
         this.category = category;
         this.reverseDisplay = reverseDisplay;
@@ -33,7 +36,8 @@ export class ImpressionIdea extends Idea {
         isExcludedByName: (name: string) => boolean,
         additionIsExcludedByKey: (key: AssetKey) => boolean,
         minimalFitLevel: number,
-        additionFilter?: number
+        additionFilter?: number,
+        patterns = [] as Pattern[]
     ) {
         const createdImpression: IImpression = {
             ...this.getNameAndKey(
@@ -41,7 +45,8 @@ export class ImpressionIdea extends Idea {
                 isExcludedByName,
                 additionIsExcludedByKey,
                 minimalFitLevel,
-                additionFilter
+                additionFilter,
+                patterns
             ),
             category: this.category,
         };
@@ -53,7 +58,8 @@ export class ImpressionIdea extends Idea {
         isExcludedByName: (name: string) => boolean,
         isExcludedByKey: (key: AssetKey) => boolean,
         minimalFitLevel: number,
-        probabilityFilter?: number
+        probabilityFilter?: number,
+        patterns = [] as Pattern[]
     ) {
         if (this.additions) {
             const possibleAdditions = this.additions[0];
@@ -64,7 +70,9 @@ export class ImpressionIdea extends Idea {
                 false,
                 probabilityFilter,
                 isExcludedByKey,
-                minimalFitLevel
+                minimalFitLevel,
+                patterns,
+                !this.patternMod.harmony
             );
             if (!secondDescription) {
                 if (possibleAdditions.length === 0) {
@@ -74,7 +82,9 @@ export class ImpressionIdea extends Idea {
                     );
                 } else {
                     console.log(
-                        'no fitting, second description was found, although it was demanded and there were some additions provided'
+                        'no fitting, second description was found for ' +
+                            this.main.name +
+                            ', although it was demanded and there were some additions provided'
                     );
                 }
                 return {
