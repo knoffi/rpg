@@ -68,7 +68,7 @@ export class Idea {
             (additionCollection) =>
                 additionCollection.filter((addition) =>
                     sufficesFitLevel(
-                        BEST_FIT_LEVEL,
+                        BEST_FIT_LEVEL(),
                         tavernFits,
                         addition,
                         isExcludedByPrefix,
@@ -90,7 +90,9 @@ export class Idea {
         applyPowerFit?: boolean,
         probabilityFilter?: number,
         isExcludedByKey?: (key: AssetKey) => boolean,
-        minimumFitLevel = BEST_FIT_LEVEL
+        minimumFitLevel = BEST_FIT_LEVEL(),
+        patterns = [] as Pattern[],
+        patternBonusForFree = false
     ) {
         if (additionChoices) {
             const fittingAssetParts = additionChoices.filter((addition) =>
@@ -101,7 +103,9 @@ export class Idea {
                     isExcludedyName,
                     applyPowerFit,
                     probabilityFilter,
-                    isExcludedByKey
+                    isExcludedByKey,
+                    patterns,
+                    patternBonusForFree
                 )
             );
             return getRandomArrayEntry(fittingAssetParts);
@@ -117,7 +121,7 @@ export class Idea {
         additionFilter?: number,
         mainIsExcludedByKey?: (key: AssetKey) => boolean,
         additionIsExcludedByKey?: (key: AssetKey) => boolean,
-        minimumFitLevel = BEST_FIT_LEVEL
+        minimumFitLevel = BEST_FIT_LEVEL()
     ) {
         const mainFitsToTavern = sufficesFitLevel(
             minimumFitLevel,
@@ -209,7 +213,7 @@ export class Idea {
                               patterns
                           );
                           return Math.min(lowestRowMax, rowMaxFitLevel);
-                      }, BEST_FIT_LEVEL)
+                      }, BEST_FIT_LEVEL(patterns?.length))
                     : WORST_FIT_LEVEL;
                 if (mainFitLevel <= lowestHarmonyRowMax) {
                     return mainFitLevel;
@@ -229,7 +233,7 @@ export class Idea {
                                       );
                                   return Math.min(lowestRowMax, rowMaxFitLevel);
                               },
-                              BEST_FIT_LEVEL
+                              BEST_FIT_LEVEL(patterns?.length)
                           )
                         : WORST_FIT_LEVEL;
                     if (mainFitLevel <= lowestContrastRowMax) {

@@ -13,11 +13,11 @@ const SPECIALS_TRULY_FULFILLED_BONUS = 3;
 const SPECIALS_OVERRIDE_FULFILLED_BONUS = 2;
 const SPECIALS_WEAKLY_FULFILLED_BONUS = 1;
 const NO_SPECIALS_FULFILLED_BONUS = 0;
-export const BEST_FIT_LEVEL =
+export const BEST_FIT_LEVEL = (tavernPatterns = 0) =>
     KEY_BONUS +
     POWER_FIT_BONUS +
     SPECIALS_TRULY_FULFILLED_BONUS +
-    PATTERN_BONUS;
+    10 * PATTERN_BONUS;
 export const MINIMAL_PASS_FIT_LEVEL = SPECIALS_WEAKLY_FULFILLED_BONUS;
 export const WORST_FIT_LEVEL = 0;
 export const getFitLevel = (
@@ -32,21 +32,21 @@ export const getFitLevel = (
 ) => {
     //  NOTE: specialOverride and specialWeakly imply powerFitCheck!
     //
-    // A*       pattern , keyCheck, powerFitCheck, regularCheck, specialsTruly ,      1103,5
+    // A*       pattern , keyCheck, powerFitCheck, regularCheck, specialsTruly ,      1103,+ x * 5
     // A                  keyCheck, powerFitCheck, regularCheck, specialsTruly ,      1103
-    // B*       pattern , keyCheck, (powerFitCheck), regularCheck, specialsOverride , 1102,5
+    // B*       pattern , keyCheck, (powerFitCheck), regularCheck, specialsOverride , 1102 + x * 5
     // B                  keyCheck, (powerFitCheck), regularCheck, specialsOverride , 1102
-    // C*       pattern , keyCheck, regularCheck, (powerFitCheck), specialsWeakly ,   1101,5
+    // C*       pattern , keyCheck, regularCheck, (powerFitCheck), specialsWeakly ,   1101 + x * 5
     // C                  keyCheck, regularCheck, (powerFitCheck), specialsWeakly ,   1101
-    // D*       pattern , keyCheck, regularCheck, specialsTruly ,                     1003,5
+    // D*       pattern , keyCheck, regularCheck, specialsTruly ,                     1003 + x * 5
     // D                  keyCheck, regularCheck, specialsTruly ,                     1003
-    // E*       pattern , regularCheck, powerFitCheck, specialsTruly ,                 103,5
+    // E*       pattern , regularCheck, powerFitCheck, specialsTruly ,                 103 + x * 5
     // E                  regularCheck, powerFitCheck, specialsTruly ,                 103
-    // F*       pattern , regularCheck, (powerFitCheck), specialsOverride ,            102,5
+    // F*       pattern , regularCheck, (powerFitCheck), specialsOverride ,            102 + x * 5
     // F                  regularCheck, (powerFitCheck), specialsOverride ,            102
-    // G*       pattern , regularCheck, (powerFitCheck), specialsWeakly                101,5
+    // G*       pattern , regularCheck, (powerFitCheck), specialsWeakly                101 + x * 5
     // G                  regularCheck, (powerFitCheck), specialsWeakly                101
-    // H*       pattern , regularCheck, specialsTruly                                    3
+    // H*       pattern , regularCheck, specialsTruly                                    3 + x * 5
     // H                  regularCheck, specialsTruly                                    3
     // I                  !regularCheck || specialsNotFulfilled                          0
     const regularCheck = assetFitsToTavern(
@@ -90,15 +90,22 @@ function getPatternBonus(
     patternBonusForFree = false
 ) {
     if (patternBonusForFree) {
-        return PATTERN_BONUS;
+        return PATTERN_BONUS * tavernPatterns.length;
     }
     if (tavernPatterns.length === 0 || assetPatterns.length === 0) {
         return 0;
     }
-    const assetPatternFits = assetPatterns.some((pattern) =>
-        tavernPatterns.includes(pattern)
+    const assetPatternFits = assetPatterns.reduce(
+        (bigSum, assetPattern) =>
+            bigSum +
+            tavernPatterns.reduce(
+                (sum, tavernPattern) =>
+                    tavernPattern === assetPattern ? sum + PATTERN_BONUS : sum,
+                0
+            ),
+        0
     );
-    return assetPatternFits ? PATTERN_BONUS : 0;
+    return assetPatternFits;
 }
 function getBonusFromSpecials(
     asset: DescriptionAsset,
