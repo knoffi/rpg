@@ -9,14 +9,16 @@ import {
 import { sufficesFitLevel } from './fitCalculator/sufficesFitLevel';
 import { Pattern } from './Patterns/Pattern';
 import { PowerFitConcept } from './powerFitConcepts/PowerFitConcept';
+import { defaultPowerFitConcepts } from './powerFitConcepts/powerFitConcepts';
 import { StructuredTavernFits } from './StructuredTavernFits';
 
 export class Idea {
     constructor(
-        protected main: DescriptionAsset,
+        public main: DescriptionAsset,
         protected powerFitConcept: PowerFitConcept,
         protected additions?: DescriptionAsset[][],
-        protected contrastAdditions?: DescriptionAsset[][]
+        protected contrastAdditions?: DescriptionAsset[][],
+        protected patternMod = defaultPowerFitConcepts.main
     ) {}
 
     public countFittingChoices(
@@ -186,7 +188,8 @@ export class Idea {
             this.powerFitConcept.main,
             mainFilter,
             mainIsExcludedByKey,
-            patterns
+            patterns,
+            !this.patternMod.main
         );
         if (mainFitLevel <= WORST_FIT_LEVEL) {
             return WORST_FIT_LEVEL;
@@ -261,7 +264,10 @@ export class Idea {
                     : this.powerFitConcept.contrast,
                 additionFilter,
                 isExcludedByKey,
-                patterns
+                patterns,
+                isFor == 'harmony'
+                    ? !this.patternMod.harmony
+                    : !this.patternMod.contrast
             );
             return Math.max(fitLevel, additionFitLevel);
         }, WORST_FIT_LEVEL);

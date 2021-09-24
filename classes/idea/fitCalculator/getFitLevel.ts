@@ -27,7 +27,8 @@ export const getFitLevel = (
     applyPowerFit?: boolean,
     probabilityFilter?: number,
     isExcludedByKey?: (key: AssetKey) => boolean,
-    tavernPatterns?: Pattern[]
+    tavernPatterns?: Pattern[],
+    patternBonusForFree?: boolean
 ) => {
     //  NOTE: specialOverride and specialWeakly imply powerFitCheck!
     //
@@ -73,7 +74,8 @@ export const getFitLevel = (
             const keyCheck = checkKey(asset.key, asset.keys, isExcludedByKey);
             const patternBonus = getPatternBonus(
                 asset.patterns,
-                tavernPatterns
+                tavernPatterns,
+                patternBonusForFree
             );
             const keyBonus = keyCheck ? KEY_BONUS : 0;
             const powerFitBonus = powerFitCheck ? POWER_FIT_BONUS : 0;
@@ -84,8 +86,12 @@ export const getFitLevel = (
 
 function getPatternBonus(
     assetPatterns = [] as Pattern[],
-    tavernPatterns = [] as Pattern[]
+    tavernPatterns = [] as Pattern[],
+    patternBonusForFree = false
 ) {
+    if (patternBonusForFree) {
+        return PATTERN_BONUS;
+    }
     if (tavernPatterns.length === 0 || assetPatterns.length === 0) {
         return 0;
     }
