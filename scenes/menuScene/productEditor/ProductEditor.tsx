@@ -8,7 +8,7 @@ import {
     UploadButton,
 } from '../../../components/buttons/generalButtons';
 import { MinimalOfferDataWithNumber } from '../../../components/ListOfSaves/ListOfSaves';
-import { MinimalOfferData } from '../userOffer';
+import { MinimalOfferData } from '../MinimalOfferData';
 import { productEditorStyles } from './productEditorStyles';
 
 export const ProductEditor = (props: {

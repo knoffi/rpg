@@ -19,10 +19,10 @@ import { BasePrice } from './basePrice';
 import { bannerEndings } from './menuBanner/bannerEndings';
 import { BannerData, MenuBanner } from './menuBanner/MenuBanner';
 import { NothingLeftOffer, Offer } from './menuEnums';
+import { createMinimalOffer, MinimalOfferData } from './MinimalOfferData';
 import { OfferList } from './offerList/list';
 import { getAdjustedPriceString } from './priceFunctions';
 import { ProductEditor } from './productEditor/ProductEditor';
-import { createMinimalOffer, MinimalOfferData } from './userOffer';
 
 const DEFAULT_MODAL_START_DATA = {
     name: '',
