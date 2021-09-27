@@ -5,10 +5,10 @@ import { TavernProduct } from '../../../classes/TavernProduct';
 import { getRandomArrayEntry } from '../../../helpingFunctions/getFittingRandom';
 import { NothingLeftOffer } from '../menuEnums';
 import { DrinkChapters } from './DrinkChapters';
-import { FoodChapters } from './FoodChapters';
+import { FoodChapters, SideDishChapters } from './FoodChapters';
 
 export const predecideDishes = (
-    bookChapters: FoodChapters | DrinkChapters,
+    bookChapters: FoodChapters | DrinkChapters | SideDishChapters,
     fitting: StructuredTavernFits,
     isExcludedByPrefix: (name: string) => boolean
 ) => {
