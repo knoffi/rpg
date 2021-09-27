@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { AppBar } from '../appBar/AppBar';
 import { SavedDataHandler, WeSave } from '../classes/database/Database';
 import { EditNavigator } from '../editNavigator/EditNavigator';
-import { Offer } from '../scenes/menuScene/menuEnums';
+import { Offer } from '../scenes/menuScene/Offer';
 import { getAdjustedPrice } from '../scenes/menuScene/priceFunctions';
 import { StartOptionsScene } from '../scenes/startOptionsScene/StartOptionsScene';
 import { TavernCollectionScene } from '../scenes/tavernCollectionScene/TavernCollectionScene';

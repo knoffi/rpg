@@ -4,7 +4,7 @@ import { Drinkable, Eatable, MenuCategory } from '../classes/TavernProduct';
 import { TavernData } from '../mainNavigator/TavernData';
 import { getNewRandomDrinkOffer } from '../scenes/menuScene/addRandomDrink';
 import { BannerData } from '../scenes/menuScene/menuBanner/MenuBanner';
-import { NothingLeftOffer, Offer } from '../scenes/menuScene/menuEnums';
+import { NothingLeftOffer, Offer } from '../scenes/menuScene/Offer';
 import { emptyImpression } from '../scenes/questScene/impressions/emptyImpression';
 import { getRandomImpression } from '../scenes/questScene/impressions/getRandomImpression';
 import { IImpression } from '../scenes/questScene/impressions/IImpression';

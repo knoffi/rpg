@@ -14,7 +14,7 @@ import { WeServe } from '../editNavigator/WeServe';
 import { getRandomArrayEntry } from '../helpingFunctions/getFittingRandom';
 import { getNewRandomDrinkOffer } from '../scenes/menuScene/addRandomDrink';
 import { BasePrice, standardBasePrice } from '../scenes/menuScene/basePrice';
-import { NothingLeftOffer, Offer } from '../scenes/menuScene/menuEnums';
+import { NothingLeftOffer, Offer } from '../scenes/menuScene/Offer';
 import { getRandomName } from '../scenes/nameScene/getRandomName';
 import { emptyImpression } from '../scenes/questScene/impressions/emptyImpression';
 import { getRandomImpression } from '../scenes/questScene/impressions/getRandomImpression';

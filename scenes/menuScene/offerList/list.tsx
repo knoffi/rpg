@@ -8,7 +8,7 @@ import {
 import { HEIGHT_FACTOR } from '../../../dimensionConstants';
 import { WeServe } from '../../../editNavigator/WeServe';
 import { globalStyles } from '../../globalStyles';
-import { Offer } from '../menuEnums';
+import { Offer } from '../Offer';
 import { OfferListAccordeon } from './accordeon';
 import { IAddingActions, IOfferActions } from './actionInterfaces';
 

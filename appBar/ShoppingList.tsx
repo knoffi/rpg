@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { List, Text } from 'react-native-paper';
 import { WIDTH_FACTOR } from '../dimensionConstants';
-import { Offer } from '../scenes/menuScene/menuEnums';
+import { Offer } from '../scenes/menuScene/Offer';
 import { appBarStyles } from './appBarStyles';
 import { getOrderListItem } from './getOrderListItem';
 

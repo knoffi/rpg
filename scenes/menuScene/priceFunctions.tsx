@@ -1,7 +1,7 @@
 import { association } from '../../classes/association';
 import { StructuredTavernFits } from '../../classes/idea/StructuredTavernFits';
 import { BasePrice, standardBasePrice } from './basePrice';
-import { Offer } from './menuEnums';
+import { Offer } from './Offer';
 export const getAdjustedPrice = (
     offer: Offer,
     fitting: StructuredTavernFits,

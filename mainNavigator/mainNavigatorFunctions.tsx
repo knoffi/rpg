@@ -2,7 +2,7 @@ import { Noticable } from '../classes/idea/Noticable';
 import { Drinkable, Eatable, TavernProduct } from '../classes/TavernProduct';
 import { getAllNewBannerDataAndOffersLeft } from '../editNavigator/getNewBannerDataAndIdeasLeft';
 import { standardBasePrice } from '../scenes/menuScene/basePrice';
-import { Offer } from '../scenes/menuScene/menuEnums';
+import { Offer } from '../scenes/menuScene/Offer';
 import { IImpression } from '../scenes/questScene/impressions/IImpression';
 import { MinimalTavernData, TavernData } from './TavernData';
 

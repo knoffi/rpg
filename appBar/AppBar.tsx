@@ -3,7 +3,7 @@ import * as React from 'react';
 import { View } from 'react-native';
 import { Appbar, Badge, Modal, Portal } from 'react-native-paper';
 import { TavernData } from '../mainNavigator/TavernData';
-import { Offer } from '../scenes/menuScene/menuEnums';
+import { Offer } from '../scenes/menuScene/Offer';
 import { appBarStyles } from './appBarStyles';
 import { ShoppingList } from './ShoppingList';
 

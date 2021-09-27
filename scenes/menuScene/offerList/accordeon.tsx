@@ -7,8 +7,8 @@ import {
     FeatherButton,
     ImportButton,
 } from '../../../components/buttons/generalButtons';
-import { Offer } from '../menuEnums';
 import { menuSceneStyles } from '../menuStyles';
+import { Offer } from '../Offer';
 import { IAddingActions, IOfferActions } from './actionInterfaces';
 import { OfferListItem } from './item';
 import { LIST_END_BUTTON_SIZE } from './LIST_END_BUTTON_SIZE';

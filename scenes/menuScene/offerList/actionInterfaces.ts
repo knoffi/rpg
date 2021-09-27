@@ -1,5 +1,5 @@
 import { MenuCategory } from '../../../classes/TavernProduct';
-import { MinimalOfferData } from '../userOffer';
+import { MinimalOfferData } from '../MinimalOfferData';
 
 export interface IProductActions {
     onDelete: () => void;
