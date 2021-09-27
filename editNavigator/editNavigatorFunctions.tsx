@@ -1,6 +1,6 @@
 import { StructuredTavernFits } from '../classes/idea/StructuredTavernFits';
 import { BannerData } from '../scenes/menuScene/menuBanner/MenuBanner';
-import { Offer } from '../scenes/menuScene/menuEnums';
+import { Offer } from '../scenes/menuScene/Offer';
 import { IImpression } from '../scenes/questScene/impressions/IImpression';
 import { getAllNewBannerDataAndOffersLeft } from './getNewBannerDataAndIdeasLeft';
 

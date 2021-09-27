@@ -4,13 +4,13 @@ import { StructuredTavernFits } from '../classes/idea/StructuredTavernFits';
 import Icon from '../components/icons';
 import { iconKeys } from '../components/icons/iconKeys';
 import { TavernData } from '../mainNavigator/TavernData';
-import { Offer } from '../scenes/menuScene/menuEnums';
 import { MenuScene } from '../scenes/menuScene/MenuScene';
-import { WeServe } from './WeServe';
+import { Offer } from '../scenes/menuScene/Offer';
 import { NameScene } from '../scenes/nameScene/NameScene';
 import { IImpression } from '../scenes/questScene/impressions/IImpression';
 import { QuestScene } from '../scenes/questScene/QuestScene';
 import { getAllNewBannerDataAndOffersLeft } from './getNewBannerDataAndIdeasLeft';
+import { WeServe } from './WeServe';
 
 const Tab = createBottomTabNavigator();
 

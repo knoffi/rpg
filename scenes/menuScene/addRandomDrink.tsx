@@ -7,7 +7,7 @@ import { drinkChapters } from './drinks/drink';
 import { drinkExamples } from './drinks/drinks';
 import { foodChapters, foodExamples } from './food/food';
 import { predecideDishes } from './menuChapters/getDrinksAndFood';
-import { NothingLeftOffer, Offer } from './menuEnums';
+import { NothingLeftOffer, Offer } from './Offer';
 
 export const offersWithOneReroll = (
     name: string,

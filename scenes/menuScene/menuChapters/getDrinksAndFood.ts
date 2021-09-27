@@ -3,7 +3,7 @@ import { filterBestIdeas } from '../../../classes/idea/fitCalculator/filterBestI
 import { StructuredTavernFits } from '../../../classes/idea/StructuredTavernFits';
 import { TavernProduct } from '../../../classes/TavernProduct';
 import { getRandomArrayEntry } from '../../../helpingFunctions/getFittingRandom';
-import { NothingLeftOffer } from '../menuEnums';
+import { NothingLeftOffer } from '../Offer';
 import { DrinkChapters } from './DrinkChapters';
 import { FoodChapters, SideDishChapters } from './FoodChapters';
 

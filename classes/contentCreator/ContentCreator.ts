@@ -1,6 +1,6 @@
 import { WeServe } from '../../editNavigator/WeServe';
 import { getRandomArrayEntry } from '../../helpingFunctions/getFittingRandom';
-import { NothingLeftOffer } from '../../scenes/menuScene/menuEnums';
+import { NothingLeftOffer, Offer } from '../../scenes/menuScene/Offer';
 import { emptyImpression } from '../../scenes/questScene/impressions/emptyImpression';
 import { getPrefixExcluder } from '../../scenes/questScene/impressions/getPrefixExcluder';
 import { getKeyExcluder } from '../../scenes/questScene/impressions/impressionExcluder/getImpressionExcluder';
@@ -136,6 +136,14 @@ export class ContentCreator {
                 return newOffer;
             }
         }
+    }
+    rerollOneDish(fitting: StructuredTavernFits,
+        rerolledName:string,
+        dishes: Offer[],
+        category: Eatable,
+        ){
+        dishes.map(dish=>dish.)
+    
     }
 }
 
