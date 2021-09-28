@@ -26,59 +26,77 @@ export const taverns: tavernMinData[] = [
         impressions: [
             {
                 name: 'Barbarian woman with red Hair',
+                patterns: [],
                 category: Noticable.bartender,
             },
             {
                 name: 'Experienced warrior, many respect her',
+                patterns: [],
                 category: Noticable.bartender,
             },
             {
                 name: 'Carries a giant axe on her back',
+                patterns: [],
                 category: Noticable.bartender,
             },
             {
                 name: 'Wears clothes made of dire wolf fur',
+                patterns: [],
                 category: Noticable.bartender,
             },
             {
                 name: 'Boots are made of a tyrannosaurus rex she once fought',
+                patterns: [],
                 category: Noticable.bartender,
             },
             {
                 name: 'Lost one eye and three fingers during the fight',
+                patterns: [],
                 category: Noticable.bartender,
             },
             {
                 name: 'Half-naked barbarians',
+                patterns: [],
                 category: Noticable.averageCustomer,
             },
             {
                 name: 'Heavily armored warriors',
+                patterns: [],
                 category: Noticable.averageCustomer,
             },
             {
                 name: 'Drinking beer and mead from horns',
+                patterns: [],
                 category: Noticable.averageCustomer,
             },
             {
                 name: 'Excessive drinking and loud laughing',
+                patterns: [],
                 category: Noticable.averageCustomer,
             },
             {
                 name: 'A bard at the bar passed out',
+                patterns: [],
                 category: Noticable.someCustomers,
             },
             {
                 name: 'The guests surrounding the bard are laughing',
+                patterns: [],
                 category: Noticable.someCustomers,
             },
-            { name: 'Heavy wooden tables', category: Noticable.furniture },
+            {
+                name: 'Heavy wooden tables',
+                patterns: [],
+                category: Noticable.furniture,
+            },
             {
                 name: 'Marks of axe slashes on the wall',
+                patterns: [],
                 category: Noticable.furniture,
             },
             {
                 name: 'Head of tyrannosaurus rex hangs from ceiling ',
+                patterns: [],
                 category: Noticable.furniture,
             },
         ],
@@ -99,44 +117,69 @@ export const taverns: tavernMinData[] = [
         note: 'When an Elvish ambassador comes to the Dwarvish capital, he usually gets invited to the Molthorium Mine, a nobel Dwarvish tavern. This masterwork of stone cutters is a symbol of the rich Dwarvish culture and craftsmanship. Marble columns decorated with beautiful, handcrafted details, cups made of the purest silver and a Dwarvish beer which even the gods could not reject: Molthorium beer. It is malty like autumn, cosy like winter, joyful like summer and refreshing like spring. Only Dwarvish expertise can make a beer of such quality.',
         boughtOffers: [],
         impressions: [
-            { name: 'Long silver beard', category: Noticable.bartender },
-            { name: 'Friendly dwarve', category: Noticable.bartender },
             {
-                name: 'Perfectionist when it comes to beer',
+                name: 'Long silver beard',
+                patterns: [],
                 category: Noticable.bartender,
             },
-            { name: 'Wealthy clothes', category: Noticable.averageCustomer },
+            {
+                name: 'Friendly dwarve',
+                patterns: [],
+                category: Noticable.bartender,
+            },
+            {
+                name: 'Perfectionist when it comes to beer',
+                patterns: [],
+                category: Noticable.bartender,
+            },
+            {
+                name: 'Wealthy clothes',
+                patterns: [],
+                category: Noticable.averageCustomer,
+            },
             {
                 name: 'Mostly Dwarvish or Gnomish',
+                patterns: [],
                 category: Noticable.averageCustomer,
             },
             {
                 name: 'Drink beer from silver cups',
+                patterns: [],
                 category: Noticable.averageCustomer,
             },
             {
                 name: 'Mostly ordering beer from Molthorium brand',
+                patterns: [],
                 category: Noticable.averageCustomer,
             },
             {
                 name: 'The royal masons discuss the defenses of the Dwarvish capital',
+                patterns: [],
                 category: Noticable.someCustomers,
             },
             {
                 name: 'A group of noble elves is lead to a VIP-Lounge',
+                patterns: [],
                 category: Noticable.someCustomers,
             },
             {
                 name: 'A band of bards plays pub music',
+                patterns: [],
                 category: Noticable.someCustomers,
             },
             {
                 name: 'Marble columns with handcrafted details',
+                patterns: [],
                 category: Noticable.furniture,
             },
-            { name: 'Mahagony tables', category: Noticable.furniture },
+            {
+                name: 'Mahagony tables',
+                patterns: [],
+                category: Noticable.furniture,
+            },
             {
                 name: 'A giant portrait of the Dwarvish royal family on the wall',
+                patterns: [],
                 category: Noticable.furniture,
             },
         ],
@@ -158,41 +201,62 @@ export const taverns: tavernMinData[] = [
         impressions: [
             {
                 name: 'Slim, old man with grey hair and eye-patch',
+                patterns: [],
                 category: Noticable.bartender,
             },
             {
                 name: 'Gruff towards unkown costumers',
+                patterns: [],
                 category: Noticable.bartender,
             },
-            { name: 'Snake tattoe on his neck', category: Noticable.bartender },
+            {
+                name: 'Snake tattoe on his neck',
+                patterns: [],
+                category: Noticable.bartender,
+            },
             {
                 name: 'Look a bit threatening',
+                patterns: [],
                 category: Noticable.averageCustomer,
             },
             {
                 name: 'Many wear sabers around their belt',
+                patterns: [],
                 category: Noticable.averageCustomer,
             },
             {
                 name: 'Silent, unfriendly atmosphere',
+                patterns: [],
                 category: Noticable.averageCustomer,
             },
             {
                 name: 'Turn silent when you walk by',
+                patterns: [],
                 category: Noticable.someCustomers,
             },
             {
                 name: 'A sailor spits on the ground',
+                patterns: [],
                 category: Noticable.someCustomers,
             },
             {
                 name: 'A captain drinks rum at the bar',
+                patterns: [],
                 category: Noticable.someCustomers,
             },
-            { name: 'Scruffy chairs', category: Noticable.furniture },
-            { name: 'Some tables have holes', category: Noticable.furniture },
+            {
+                name: 'Scruffy chairs',
+                patterns: [],
+                category: Noticable.furniture,
+            },
+            {
+                name: 'Some tables have holes',
+                patterns: [],
+                category: Noticable.furniture,
+            },
             {
                 name: 'Smell of cheap rum and ale',
+                patterns: [],
                 category: Noticable.furniture,
             },
         ],
@@ -212,46 +276,67 @@ export const taverns: tavernMinData[] = [
         note: 'The Foxy Gold Nymph is a high class tavern in the capital city, full of beautiful servants wrapped in revealing garments. The prices are expensiv, but the quality of erotic services and exotic beverages is absolute world class. Soon, a chauvinistic prince will celebrate his bachelor party right here in these halls, and the guest list for this mix of orgy and banquette is extremely exclusive.',
         boughtOffers: [],
         impressions: [
-            { name: 'Half-naked half elve', category: Noticable.bartender },
-            { name: 'Witty and entertaining', category: Noticable.bartender },
-            { name: 'Slim and alluring', category: Noticable.bartender },
+            {
+                name: 'Half-naked half elve',
+                patterns: [],
+                category: Noticable.bartender,
+            },
+            {
+                name: 'Witty and entertaining',
+                patterns: [],
+                category: Noticable.bartender,
+            },
+            {
+                name: 'Slim and alluring',
+                patterns: [],
+                category: Noticable.bartender,
+            },
 
             {
                 name: 'Decadent meals with beautiful servants on their laps',
+                patterns: [],
                 category: Noticable.averageCustomer,
             },
             {
                 name: 'Drink expensive wines and eat exotic fruits',
+                patterns: [],
                 category: Noticable.averageCustomer,
             },
             {
                 name: 'Careless, tipsy and lustful',
+                patterns: [],
                 category: Noticable.averageCustomer,
             },
 
             {
                 name: 'A halfling eats grapes from the hand of a tiefling servant',
+                patterns: [],
                 category: Noticable.someCustomers,
             },
             {
                 name: 'A married gnome couple seduces a merchant',
+                patterns: [],
                 category: Noticable.someCustomers,
             },
             {
                 name: 'A bishop comes out of the VIP-lounge',
+                patterns: [],
                 category: Noticable.someCustomers,
             },
 
             {
                 name: 'Chairs padded with soft velvet',
+                patterns: [],
                 category: Noticable.furniture,
             },
             {
                 name: 'Golden cups and silken napkins',
+                patterns: [],
                 category: Noticable.furniture,
             },
             {
                 name: 'An elf sings on the stage',
+                patterns: [],
                 category: Noticable.furniture,
             },
         ],

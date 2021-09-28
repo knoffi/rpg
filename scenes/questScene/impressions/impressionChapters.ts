@@ -1,18 +1,18 @@
 import { Noticable } from '../../../classes/idea/Noticable';
-import { averageCustomers } from './averageCustomer';
-import { bartenderAccesories } from './bartender/accesories';
-import { bartenderActions } from './bartender/actions';
-import { bartenderPast } from './bartender/backgroundStory';
-import { bartenderCharisma } from './bartender/charisma';
-import { bartenderKnowledge } from './bartender/knowledge';
-import { bartenderOpinions } from './bartender/opinion';
-import { furnitures } from './furniture';
-import { individuals } from './genericIndividuals';
-import { druidIndividuals } from './individuals/druidIndividuals';
-import { wizardIndividuals } from './individuals/wizardIndividuals';
-import { specialIndividuals } from './specialIndividuals';
-import { stuffedAnimals } from './stuffedAnimals';
-import { trapsIntriguingShockingFurniture } from './trapsSecretIntriguingFurnite';
+import { averageCustomers } from './examples/averageCustomer/averageCustomer';
+import { bartenderAccesories } from './examples/bartender/accesories';
+import { bartenderActions } from './examples/bartender/actions';
+import { bartenderPast } from './examples/bartender/backgroundStory';
+import { bartenderCharisma } from './examples/bartender/charisma';
+import { bartenderKnowledge } from './examples/bartender/knowledge';
+import { bartenderOpinions } from './examples/bartender/opinion';
+import { furnitures } from './examples/furniture/furniture';
+import { stuffedAnimals } from './examples/furniture/stuffedAnimals';
+import { trapsIntriguingShockingFurniture } from './examples/furniture/trapsSecretIntriguingFurnite';
+import { druidIndividuals } from './examples/individuals/druids';
+import { specialIndividuals } from './examples/individuals/specialPeople';
+import { wizardIndividuals } from './examples/individuals/wizards';
+import { individuals } from './examples/individuals/genericIndividuals';
 
 export const impressionChapters = [
     {

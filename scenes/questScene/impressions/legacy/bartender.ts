@@ -1,11 +1,17 @@
-import { association, sophisticatedGroup } from '../../../classes/association';
-import { DescriptionAsset } from '../../../classes/idea/DescriptionAsset';
-import { ImpressionIdea } from '../../../classes/idea/ImpressionIdea';
-import { Noticable } from '../../../classes/idea/Noticable';
-import { defaultPowerFitConcepts } from '../../../classes/idea/powerFitConcepts/powerFitConcepts';
+import { association } from '../../../../classes/association';
+import { DescriptionAsset } from '../../../../classes/idea/DescriptionAsset';
+import { ImpressionIdea } from '../../../../classes/idea/ImpressionIdea';
+import { Noticable } from '../../../../classes/idea/Noticable';
+import { defaultPowerFitConcepts } from '../../../../classes/idea/powerFitConcepts/powerFitConcepts';
 
 const a = association;
-
+const sophisticatedGroup = [
+    association.elf,
+    association.wizard,
+    association.knight,
+    association.rich,
+    association.wealthy,
+];
 const lowerClass = [
     association.poor,
     association.modest,

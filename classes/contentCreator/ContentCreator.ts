@@ -186,7 +186,6 @@ export class ContentCreator {
         fullSecondKeys: AssetKey[],
         patterns: Pattern[]
     ) {
-        const oldNames = impressions.map((impression) => impression.name);
         const newImpression = this.getRandomImpression(
             fitting,
             category,

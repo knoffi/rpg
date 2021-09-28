@@ -1,11 +1,15 @@
-import {
-    association,
-    sophisticatedGroup,
-} from '../../../../classes/association';
-import { AssetKey } from '../../../../classes/idea/AssetKey/AssetKey';
-import { DescriptionAsset } from '../../../../classes/idea/DescriptionAsset';
+import { association } from '../../../../../classes/association';
+import { AssetKey } from '../../../../../classes/idea/AssetKey/AssetKey';
+import { DescriptionAsset } from '../../../../../classes/idea/DescriptionAsset';
 //tODO: test, if f.e. all food/drink options are working for brothel, thief, ... (i.e., if mapping worked correctly)
 export const a = association;
+const sophisticatedGroup = [
+    association.elf,
+    association.wizard,
+    association.knight,
+    association.rich,
+    association.wealthy,
+];
 const getEnabledForAllCriminals = (asset: DescriptionAsset) => {
     return {
         ...asset,

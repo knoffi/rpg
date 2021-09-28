@@ -1,7 +1,7 @@
-import { association } from '../../../../classes/association';
-import { DescriptionAsset } from '../../../../classes/idea/DescriptionAsset';
-import { brothelActions } from './brothelActions';
-import { lively } from './genericActions';
+import { association } from '../../../../../classes/association';
+import { DescriptionAsset } from '../../../../../classes/idea/DescriptionAsset';
+import { brothelActions } from './brothel';
+import { lively } from './generic';
 
 const a = association;
 

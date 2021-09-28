@@ -1,8 +1,8 @@
-import { association } from '../../../classes/association';
-import { AssetKey } from '../../../classes/idea/AssetKey/AssetKey';
-import { emptyDescriptionAsset } from '../../../classes/idea/DescriptionAsset';
-import { ImpressionIdea } from '../../../classes/idea/ImpressionIdea';
-import { Noticable } from '../../../classes/idea/Noticable';
+import { association } from '../../../../../classes/association';
+import { AssetKey } from '../../../../../classes/idea/AssetKey/AssetKey';
+import { emptyDescriptionAsset } from '../../../../../classes/idea/DescriptionAsset';
+import { ImpressionIdea } from '../../../../../classes/idea/ImpressionIdea';
+import { Noticable } from '../../../../../classes/idea/Noticable';
 const a = association;
 export const weirdBarDecorations: ImpressionIdea[] = [
     new ImpressionIdea(

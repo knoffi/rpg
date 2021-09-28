@@ -1,9 +1,9 @@
-import { association, sophisticatedGroup } from '../../../classes/association';
-import { AssetKey } from '../../../classes/idea/AssetKey/AssetKey';
-import { ImpressionIdea } from '../../../classes/idea/ImpressionIdea';
-import { Noticable } from '../../../classes/idea/Noticable';
-import { defaultPowerFitConcepts } from '../../../classes/idea/powerFitConcepts/powerFitConcepts';
-import { partyHermit } from './actions/druidicalActions';
+import { association } from '../../../../../classes/association';
+import { AssetKey } from '../../../../../classes/idea/AssetKey/AssetKey';
+import { ImpressionIdea } from '../../../../../classes/idea/ImpressionIdea';
+import { Noticable } from '../../../../../classes/idea/Noticable';
+import { defaultPowerFitConcepts } from '../../../../../classes/idea/powerFitConcepts/powerFitConcepts';
+import { partyHermit } from '../actions/druidicalActions';
 import {
     busyScholarClass,
     busyUpperClass,
@@ -16,8 +16,14 @@ import {
     servantActions,
     spying,
     teenagerClass,
-} from './actions/genericActions';
-
+} from '../actions/generic';
+const sophisticatedGroup = [
+    association.elf,
+    association.wizard,
+    association.knight,
+    association.rich,
+    association.wealthy,
+];
 const a = association;
 
 export const individuals: ImpressionIdea[] = [

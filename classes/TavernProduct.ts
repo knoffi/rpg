@@ -16,7 +16,7 @@ export enum Eatable {
     mainDish = 'Main Dish',
 }
 
-export enum serviceCategory {
+export enum Servies {
     room = 'Rooms',
     pension = 'Package Deal',
     entertainment = 'Entertainment',

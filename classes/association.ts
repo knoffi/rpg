@@ -31,12 +31,6 @@ export enum association {
     wealthy = 'wealthy',
     assasine = 'bounty hunter',
 }
-export const getAssociation = (name: string) => {
-    const possibleName = Object.values(association).find((associationName) => {
-        return associationName === name;
-    });
-    return possibleName ? possibleName : association.empty;
-};
 export enum AssociationTypes {
     land = 'land',
     class = 'class',
@@ -63,7 +57,6 @@ export const getAssociationsOfType = (type: AssociationTypes) => {
             return specialAssociations;
     }
 };
-export const allAssociations = Object.values(association);
 export const landAssociations = [
     association.city,
     association.village,
@@ -92,57 +85,6 @@ export const raceAssociations = [
     association.halfling,
     association.human,
     association.tiefling,
-];
-
-export const nonEuropeanEnvironment = [
-    association.underdark,
-    association.tropical,
-    association.desert,
-    association.haven,
-];
-
-export const europeanEnvironment = [
-    association.village,
-    association.city,
-    association.mountain,
-    association.forest,
-];
-
-export const upperClass = [
-    association.knight,
-    association.rich,
-    association.wealthy,
-];
-export const sophisticatedGroup = [
-    association.elf,
-    association.wizard,
-    association.knight,
-    association.rich,
-    association.wealthy,
-];
-export const lowerClass = [
-    association.modest,
-    association.poor,
-    association.thief,
-];
-export const rudeGroup = [
-    association.modest,
-    association.poor,
-    association.thief,
-    association.dwarf,
-    association.barbarian,
-];
-export const shadyGroup = [
-    association.assasine,
-    association.prostitute,
-    association.thief,
-    association.drow,
-    association.tiefling,
-];
-export const criminalClass = [
-    association.thief,
-    association.assasine,
-    association.prostitute,
 ];
 export const incomeAssociations = [
     association.poor,

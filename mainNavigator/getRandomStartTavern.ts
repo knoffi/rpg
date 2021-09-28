@@ -1,12 +1,12 @@
 import {
     association,
     AssociationTypes,
-    getAssociationsOfType,
+    getAssociationsOfType
 } from '../classes/association';
 import { Noticable } from '../classes/idea/Noticable';
 import {
     getStructuredFits,
-    StructuredTavernFits,
+    StructuredTavernFits
 } from '../classes/idea/StructuredTavernFits';
 import { Drinkable, Eatable, MenuCategory } from '../classes/TavernProduct';
 import { getProductsLeftAndBannerData } from '../editNavigator/editNavigatorFunctions';

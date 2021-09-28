@@ -1,8 +1,8 @@
-import { association } from '../../../../classes/association';
-import { AssetKey } from '../../../../classes/idea/AssetKey/AssetKey';
-import { ImpressionIdea } from '../../../../classes/idea/ImpressionIdea';
-import { Noticable } from '../../../../classes/idea/Noticable';
-import { defaultPowerFitConcepts } from '../../../../classes/idea/powerFitConcepts/powerFitConcepts';
+import { association } from '../../../../../classes/association';
+import { AssetKey } from '../../../../../classes/idea/AssetKey/AssetKey';
+import { ImpressionIdea } from '../../../../../classes/idea/ImpressionIdea';
+import { Noticable } from '../../../../../classes/idea/Noticable';
+import { defaultPowerFitConcepts } from '../../../../../classes/idea/powerFitConcepts/powerFitConcepts';
 const a = association;
 export const bartenderOpinions: ImpressionIdea[] = [
     new ImpressionIdea(

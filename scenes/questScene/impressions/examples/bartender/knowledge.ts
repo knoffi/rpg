@@ -1,7 +1,7 @@
-import { association, landAssociations } from '../../../../classes/association';
-import { AssetKey } from '../../../../classes/idea/AssetKey/AssetKey';
-import { ImpressionIdea } from '../../../../classes/idea/ImpressionIdea';
-import { Noticable } from '../../../../classes/idea/Noticable';
+import { association, landAssociations } from '../../../../../classes/association';
+import { AssetKey } from '../../../../../classes/idea/AssetKey/AssetKey';
+import { ImpressionIdea } from '../../../../../classes/idea/ImpressionIdea';
+import { Noticable } from '../../../../../classes/idea/Noticable';
 const a = association;
 export const bartenderKnowledge: ImpressionIdea[] = [
     new ImpressionIdea(

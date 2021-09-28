@@ -1,8 +1,8 @@
-import { association } from '../../../classes/association';
-import { AssetKey } from '../../../classes/idea/AssetKey/AssetKey';
-import { emptyDescriptionAsset } from '../../../classes/idea/DescriptionAsset';
-import { ImpressionIdea } from '../../../classes/idea/ImpressionIdea';
-import { Noticable } from '../../../classes/idea/Noticable';
+import { association } from '../../../../../classes/association';
+import { AssetKey } from '../../../../../classes/idea/AssetKey/AssetKey';
+import { emptyDescriptionAsset } from '../../../../../classes/idea/DescriptionAsset';
+import { ImpressionIdea } from '../../../../../classes/idea/ImpressionIdea';
+import { Noticable } from '../../../../../classes/idea/Noticable';
 const a = association;
 export const furnitures: ImpressionIdea[] = [
     new ImpressionIdea(
@@ -18,7 +18,7 @@ export const furnitures: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            name: 'Most of the tables are dirty, one is missing a leg',
+            name: 'Many tables are dirty, one is missing a leg',
             needs: [a.poor],
             worksForAllCriminals: true,
             powerFits: [a.poor],
@@ -29,7 +29,7 @@ export const furnitures: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            name: 'Some of the tables have blade marks or holes',
+            name: 'Many tables have blade marks or holes',
             needs: [a.poor],
             worksForAllCriminals: true,
             powerFits: [a.poor],

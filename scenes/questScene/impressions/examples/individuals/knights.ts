@@ -1,13 +1,13 @@
-import { association } from '../../../../classes/association';
-import { AssetKey } from '../../../../classes/idea/AssetKey/AssetKey';
-import { ImpressionIdea } from '../../../../classes/idea/ImpressionIdea';
-import { Noticable } from '../../../../classes/idea/Noticable';
-import { defaultPowerFitConcepts } from '../../../../classes/idea/powerFitConcepts/powerFitConcepts';
+import { association } from '../../../../../classes/association';
+import { AssetKey } from '../../../../../classes/idea/AssetKey/AssetKey';
+import { ImpressionIdea } from '../../../../../classes/idea/ImpressionIdea';
+import { Noticable } from '../../../../../classes/idea/Noticable';
+import { defaultPowerFitConcepts } from '../../../../../classes/idea/powerFitConcepts/powerFitConcepts';
 import {
     groupWarriorActions,
     grownWarriorActions,
     warriorActions,
-} from '../actions/warriorActions';
+} from '../actions/warrior';
 
 const a = association;
 
