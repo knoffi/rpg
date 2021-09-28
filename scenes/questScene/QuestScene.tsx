@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ScrollView, Text } from 'react-native';
 import { association } from '../../classes/association';
+import { ContentCreator } from '../../classes/contentCreator/ContentCreator';
 import { Noticable } from '../../classes/idea/Noticable';
 import { StructuredTavernFits } from '../../classes/idea/StructuredTavernFits';
 import { WeServe } from '../../editNavigator/WeServe';
@@ -12,11 +13,8 @@ import { CurrencySetDialog } from './CurrencySetDialog';
 import { DetailsList } from './DetailsList';
 import { getFullKeys } from './getFullKeys';
 import { getUsedPatterns } from './getUsedPatterns';
-import {
-    getImpressionsWithOneReroll,
-    getRandomImpression,
-} from './impressions/getRandomImpression';
 import { IImpression } from './impressions/IImpression';
+import { impressionChapters } from './impressions/impressionChapters';
 import { incomeExampleMap } from './incomeExampleMap';
 import { PriceExplanationDialog } from './PriceExplanationDialog';
 import { PriceSetDialog } from './PriceSetDialog';
@@ -53,6 +51,7 @@ export const QuestScene = (props: {
     onDataChange: (newData: Partial<TavernData>) => void;
     getImpliedChanges: (newImpressions?: IImpression[]) => Partial<TavernData>;
 }) => {
+    const creator = new ContentCreator(impressionChapters, [], []);
     const [explanationDialog, setDialog] = useState({
         open: false,
         income: association.poor,
@@ -75,10 +74,10 @@ export const QuestScene = (props: {
     };
 
     const onReroll = (oldImpression: IImpression) => {
-        const newImpressions = getImpressionsWithOneReroll(
+        const newImpressions = creator.rerollOneImpression(
+            props.fitting,
             oldImpression.name,
             props.impressions,
-            props.fitting,
             oldImpression.category,
             fullKeys.first,
             fullKeys.second,
@@ -97,11 +96,10 @@ export const QuestScene = (props: {
     };
 
     const onAdd = (category: Noticable) => {
-        const oldNames = props.impressions.map((impression) => impression.name);
-        const newImpression = getRandomImpression(
+        const newImpression = creator.getRandomImpression(
             props.fitting,
             category,
-            oldNames,
+            props.impressions,
             fullKeys.first,
             fullKeys.second,
             undefined,
