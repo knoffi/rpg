@@ -1,4 +1,4 @@
-import { association, sophisticatedGroup } from '../../../classes/association';
+import { association } from '../../../classes/association';
 import { AssetKey } from '../../../classes/idea/AssetKey/AssetKey';
 import { ImpressionIdea } from '../../../classes/idea/ImpressionIdea';
 import { Noticable } from '../../../classes/idea/Noticable';
@@ -15,9 +15,15 @@ import {
     machoClass,
     servantActions,
     spying,
-    teenagerClass,
+    teenagerClass
 } from './actions/genericActions';
-
+const sophisticatedGroup = [
+    association.elf,
+    association.wizard,
+    association.knight,
+    association.rich,
+    association.wealthy,
+];
 const a = association;
 
 export const individuals: ImpressionIdea[] = [
