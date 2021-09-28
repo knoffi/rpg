@@ -1,4 +1,4 @@
-import { DescriptionAsset } from '../../../../classes/idea/DescriptionAsset';
+import { DescriptionAsset } from '../../../../../classes/idea/DescriptionAsset';
 import { brothelActions } from './brothelActions';
 import { a, lively } from './genericActions';
 

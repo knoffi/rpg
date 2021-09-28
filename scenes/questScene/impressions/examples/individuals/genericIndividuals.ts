@@ -1,9 +1,9 @@
-import { association } from '../../../classes/association';
-import { AssetKey } from '../../../classes/idea/AssetKey/AssetKey';
-import { ImpressionIdea } from '../../../classes/idea/ImpressionIdea';
-import { Noticable } from '../../../classes/idea/Noticable';
-import { defaultPowerFitConcepts } from '../../../classes/idea/powerFitConcepts/powerFitConcepts';
-import { partyHermit } from './actions/druidicalActions';
+import { association } from '../../../../../classes/association';
+import { AssetKey } from '../../../../../classes/idea/AssetKey/AssetKey';
+import { ImpressionIdea } from '../../../../../classes/idea/ImpressionIdea';
+import { Noticable } from '../../../../../classes/idea/Noticable';
+import { defaultPowerFitConcepts } from '../../../../../classes/idea/powerFitConcepts/powerFitConcepts';
+import { partyHermit } from '../actions/druidicalActions';
 import {
     busyScholarClass,
     busyUpperClass,
@@ -15,8 +15,8 @@ import {
     machoClass,
     servantActions,
     spying,
-    teenagerClass
-} from './actions/genericActions';
+    teenagerClass,
+} from '../actions/generic';
 const sophisticatedGroup = [
     association.elf,
     association.wizard,

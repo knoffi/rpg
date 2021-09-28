@@ -1,5 +1,5 @@
-import { association } from '../../../../classes/association';
-import { DescriptionAsset } from '../../../../classes/idea/DescriptionAsset';
+import { association } from '../../../../../classes/association';
+import { DescriptionAsset } from '../../../../../classes/idea/DescriptionAsset';
 import { brothelActions } from './brothelActions';
 import { busyScholarClass } from './genericActions';
 import { magicalQuests } from './hiringActions';
@@ -53,147 +53,147 @@ const magicalSelling: DescriptionAsset[] = [
 
 const advertising: DescriptionAsset[] = [
     {
-        name: 'advertising the scroll shop of a cousin called Herry Golderfey',
+        name: 'advertising the scroll shop of cousin Herry Golderfey',
         raceRange: [a.human],
     },
     {
-        name: 'advertising the scroll shop of a cousin called Margrid Mandaley',
+        name: 'advertising the scroll shop of cousin Margrid Mandaley',
         raceRange: [a.human],
     },
     {
-        name: 'advertising the scroll shop of a cousin called George Hufflestone',
+        name: 'advertising the scroll shop of cousin George Hufflestone',
         raceRange: [a.human],
     },
     {
-        name: 'advertising the scroll shop of a cousin called Thomas Tenderfield',
+        name: 'advertising the scroll shop of cousin Thomas Tenderfield',
         raceRange: [a.human],
     },
     {
-        name: 'advertising the scroll shop of a cousin called Elizabeth Edenfield',
+        name: 'advertising the scroll shop of cousin Elizabeth Edenfield',
         raceRange: [a.human],
     },
     {
-        name: 'advertising the scroll shop of a cousin called William Westerfold',
+        name: 'advertising the scroll shop of cousin William Westerfold',
         raceRange: [a.human],
     },
     {
-        name: 'advertising the herbal store of a cousin called Izzy Appletree',
+        name: 'advertising the herbal store of cousin Izzy Appletree',
         raceRange: [a.halfling],
     },
     {
-        name: 'advertising the herbal store of a cousin called Lily Lighterdale',
+        name: 'advertising the herbal store of cousin Lily Lighterdale',
         raceRange: [a.halfling],
     },
     {
-        name: 'advertising the herbal store of a cousin called Molly Mellowsteen',
+        name: 'advertising the herbal store of cousin Molly Mellowsteen',
         raceRange: [a.halfling],
     },
     {
-        name: 'advertising the herbal store of a cousin called Harry Horseshoe',
+        name: 'advertising the herbal store of cousin Harry Horseshoe',
         raceRange: [a.halfling],
     },
     {
-        name: 'advertising the herbal store of a cousin called Larry Lowtree',
+        name: 'advertising the herbal store of cousin Larry Lowtree',
         raceRange: [a.halfling],
     },
     {
-        name: 'advertising the herbal store of a cousin called Berry Bakerday',
+        name: 'advertising the herbal store of cousin Berry Bakerday',
         raceRange: [a.halfling],
     },
     {
-        name: 'advertising the wand shop of a cousin called Mr Picklecherry',
+        name: 'advertising the wand shop of cousin Mr Picklecherry',
         raceRange: [a.gnome],
     },
     {
-        name: 'advertising the wand shop of a cousin called Mr Nibblestone',
+        name: 'advertising the wand shop of cousin Mr Nibblestone',
         raceRange: [a.gnome],
     },
     {
-        name: 'advertising the wand shop of a cousin called Mrs Marbleball',
+        name: 'advertising the wand shop of cousin Mrs Marbleball',
         raceRange: [a.gnome],
     },
     {
-        name: 'advertising the wand shop of a cousin called Mrs Hamsterfield',
+        name: 'advertising the wand shop of cousin Mrs Hamsterfield',
         raceRange: [a.gnome],
     },
     {
-        name: 'advertising the wand shop of a cousin called Ms Wondernut',
+        name: 'advertising the wand shop of cousin Ms Wondernut',
         raceRange: [a.gnome],
     },
     {
-        name: 'advertising the wand shop of a cousin called Mrs Nubben',
+        name: 'advertising the wand shop of cousin Mrs Nubben',
         raceRange: [a.gnome],
     },
     {
-        name: 'advertising the potion shop of a cousin called Falfendir',
+        name: 'advertising the potion shop of cousin Falfendir',
         raceRange: [a.elf],
     },
     {
-        name: 'advertising the potion shop of a cousin called Melandir',
+        name: 'advertising the potion shop of cousin Melandir',
         raceRange: [a.elf],
     },
     {
-        name: 'advertising the potion shop of a cousin called Enphyra',
+        name: 'advertising the potion shop of cousin Enphyra',
         raceRange: [a.elf],
     },
     {
-        name: 'advertising the potion shop of a cousin called Sylana',
+        name: 'advertising the potion shop of cousin Sylana',
         raceRange: [a.elf],
     },
     {
-        name: 'advertising the potion shop of a cousin called Avourel',
+        name: 'advertising the potion shop of cousin Avourel',
         raceRange: [a.elf],
     },
     {
-        name: 'advertising the potion shop of a cousin called Elrenia',
+        name: 'advertising the potion shop of cousin Elrenia',
         raceRange: [a.elf],
     },
     {
-        name: 'advertising the gem store of a cousin called Murin',
+        name: 'advertising the gem store of cousin Murin',
         raceRange: [a.dwarf],
     },
     {
-        name: 'advertising the gem store of a cousin called Balron',
+        name: 'advertising the gem store of cousin Balron',
         raceRange: [a.dwarf],
     },
     {
-        name: 'advertising the gem store of a cousin called Thulor',
+        name: 'advertising the gem store of cousin Thulor',
         raceRange: [a.dwarf],
     },
     {
-        name: 'advertising the gem store of a cousin called Ingria',
+        name: 'advertising the gem store of cousin Ingria',
         raceRange: [a.dwarf],
     },
     {
-        name: 'advertising the gem store of a cousin called Tusnelda',
+        name: 'advertising the gem store of cousin Tusnelda',
         raceRange: [a.dwarf],
     },
     {
-        name: 'advertising the gem store of a cousin called Ingeborg',
+        name: 'advertising the gem store of cousin Ingeborg',
         raceRange: [a.dwarf],
     },
     {
-        name: 'advertising the trinket shop of a cousin called Anubia',
+        name: 'advertising the trinket shop of cousin Anubia',
         raceRange: [a.tiefling],
     },
     {
-        name: 'advertising the trinket shop of a cousin called Azazel',
+        name: 'advertising the trinket shop of cousin Azazel',
         raceRange: [a.tiefling],
     },
     {
-        name: 'advertising the trinket shop of a cousin called Bhaalia',
+        name: 'advertising the trinket shop of cousin Bhaalia',
         raceRange: [a.tiefling],
     },
     {
-        name: 'advertising the trinket shop of a cousin called Leviathus',
+        name: 'advertising the trinket shop of cousin Leviathus',
         raceRange: [a.tiefling],
     },
     {
-        name: 'advertising the trinket shop of a cousin called Barbazu',
+        name: 'advertising the trinket shop of cousin Barbazu',
         raceRange: [a.tiefling],
     },
     {
-        name: 'advertising the trinket shop of a cousin called Diabolius',
+        name: 'advertising the trinket shop of cousin Diabolius',
         raceRange: [a.tiefling],
     },
 ];
