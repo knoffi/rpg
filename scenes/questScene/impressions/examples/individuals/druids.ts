@@ -12,8 +12,8 @@ import {
     lively,
     machoClass,
     servantActions,
-} from '../actions/genericActions';
-import { warningMonsters, warningWeather } from '../actions/warningActions';
+} from '../actions/generic';
+import { warningMonsters, warningWeather } from '../actions/warning';
 const a = association;
 export const druidIndividuals: ImpressionIdea[] = [
     new ImpressionIdea(

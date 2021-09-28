@@ -1,5 +1,5 @@
 import { DescriptionAsset } from '../../../../../classes/idea/DescriptionAsset';
-import { a } from './genericActions';
+import { a } from './generic';
 
 export const warningMonsters: DescriptionAsset[] = [
     {

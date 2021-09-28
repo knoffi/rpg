@@ -1,6 +1,6 @@
 import { DescriptionAsset } from '../../../../../classes/idea/DescriptionAsset';
-import { brothelActions } from './brothelActions';
-import { a, lively } from './genericActions';
+import { brothelActions } from './brothel';
+import { a, lively } from './generic';
 
 export const partyHermit: DescriptionAsset[] = [
     ...lively,

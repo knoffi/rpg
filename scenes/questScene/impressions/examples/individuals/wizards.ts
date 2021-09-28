@@ -3,13 +3,13 @@ import { AssetKey } from '../../../../../classes/idea/AssetKey/AssetKey';
 import { emptyDescriptionAsset } from '../../../../../classes/idea/DescriptionAsset';
 import { ImpressionIdea } from '../../../../../classes/idea/ImpressionIdea';
 import { Noticable } from '../../../../../classes/idea/Noticable';
-import { historyQuests, magicalQuests } from '../actions/hiringActions';
+import { historyQuests, magicalQuests } from '../actions/hiring';
 import {
     alchemistClass,
     wizardClass,
     wizardGuest,
     wizardSalesman,
-} from '../actions/wizardActions';
+} from '../actions/wizard';
 
 const a = association;
 

@@ -7,7 +7,7 @@ import {
     groupWarriorActions,
     grownWarriorActions,
     warriorActions,
-} from '../actions/warriorActions';
+} from '../actions/warrior';
 
 const a = association;
 

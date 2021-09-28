@@ -1,9 +1,9 @@
 import { association } from '../../../../../classes/association';
 import { DescriptionAsset } from '../../../../../classes/idea/DescriptionAsset';
-import { brothelActions } from './brothelActions';
-import { busyScholarClass } from './genericActions';
-import { magicalQuests } from './hiringActions';
-import { warningSociety } from './warningActions';
+import { brothelActions } from './brothel';
+import { busyScholarClass } from './generic';
+import { magicalQuests } from './hiring';
+import { warningSociety } from './warning';
 
 const a = association;
 

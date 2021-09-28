@@ -7,12 +7,12 @@ import { bartenderCharisma } from './examples/bartender/charisma';
 import { bartenderKnowledge } from './examples/bartender/knowledge';
 import { bartenderOpinions } from './examples/bartender/opinion';
 import { furnitures } from './examples/furniture/furniture';
-import { individuals } from './genericIndividuals';
-import { druidIndividuals } from './examples/individuals/druidIndividuals';
-import { wizardIndividuals } from './examples/individuals/wizardIndividuals';
-import { specialIndividuals } from './examples/individuals/specialIndividuals';
 import { stuffedAnimals } from './examples/furniture/stuffedAnimals';
 import { trapsIntriguingShockingFurniture } from './examples/furniture/trapsSecretIntriguingFurnite';
+import { druidIndividuals } from './examples/individuals/druids';
+import { specialIndividuals } from './examples/individuals/specialPeople';
+import { wizardIndividuals } from './examples/individuals/wizards';
+import { individuals } from './examples/individuals/genericIndividuals';
 
 export const impressionChapters = [
     {
