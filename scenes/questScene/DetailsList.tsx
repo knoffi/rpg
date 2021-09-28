@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { List } from 'react-native-paper';
 import { association } from '../../classes/association';
 import { Noticable } from '../../classes/idea/Noticable';
-import { ImpressionDisplay } from '../../classes/textDisplay/Impression';
+import { ImpressionDisplay } from '../../classes/impressionDisplay/ImpressionDisplay';
 import { AddButton } from '../../components/buttons/generalButtons';
 import { TavernData } from '../../mainNavigator/TavernData';
 import { globalStyles } from '../globalStyles';
