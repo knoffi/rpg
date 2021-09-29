@@ -1,6 +1,6 @@
 import { DishIdea } from '../../../classes/idea/DishIdea';
 import { Eatable } from '../../../classes/TavernProduct';
-import { dipAndCream } from '../drinks/sideDishes/dipAndCream';
+import { dipAndCream } from './sideDishes/dipAndCream';
 import {
     BreakfastChapters,
     MainDishChapters,
@@ -48,7 +48,6 @@ const sideDishChapters: SideDishChapters = {
     dipAndCream: { weight: 1, ideas: dipAndCream },
     salad: { weight: 0, ideas: [] as DishIdea[] },
 };
-
 export const foodChapters = [
     { category: Eatable.mainDish, chapters: mainDishChapters },
     { category: Eatable.breakfast, chapters: breakfastChapters },
