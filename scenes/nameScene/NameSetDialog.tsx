@@ -31,7 +31,6 @@ export const NameSetDialog = (props: {
             <Dialog visible={props.open} onDismiss={props.onDismiss}>
                 <Dialog.Content>
                     <TextInput
-                        textAlign={false}
                         label="Tavern Name"
                         value={props.startText}
                         onChangeText={(text: string) => {

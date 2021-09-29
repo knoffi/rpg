@@ -20,7 +20,7 @@ import { bannerEndings } from './menuBanner/bannerEndings';
 import { BannerData, MenuBanner } from './menuBanner/MenuBanner';
 import { createMinimalOffer, MinimalOfferData } from './MinimalOfferData';
 import { NothingLeftOffer, Offer } from './Offer';
-import { OfferList } from './offerList/list';
+import { OfferList } from './offerList/OfferList';
 import { getAdjustedPriceString } from './priceFunctions';
 import { ProductEditor } from './productEditor/ProductEditor';
 
