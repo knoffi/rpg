@@ -4,6 +4,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { List, Text } from 'react-native-paper';
 import { WIDTH_FACTOR } from '../dimensionConstants';
 import { Offer } from '../scenes/menuScene/menuEnums';
+import { getDishTexts } from '../scenes/menuScene/offerList/nameSplitter/getDishTexts';
 import { appBarStyles } from './appBarStyles';
 import { getOrderListItem } from './getOrderListItem';
 
@@ -27,7 +28,7 @@ export const ShoppingList = (props: {
             return priceSum + price;
         }, 0);
     props.boughtOffers.forEach((offer) => {
-        const name = offer.product.name;
+        const name = getDishTexts(offer.product.name).name;
         const thisMap = offer.product.isFood() ? foodMap : drinkMap;
         const orderValues = thisMap.get(name);
         if (orderValues) {
