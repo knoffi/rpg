@@ -8,7 +8,7 @@ import { TavernData } from '../../mainNavigator/TavernData';
 import { globalStyles } from '../globalStyles';
 import { BasePrice } from '../menuScene/basePrice';
 import { menuSceneStyles } from '../menuScene/menuStyles';
-import { OfferListItem } from '../menuScene/offerList/item';
+import { OfferListItem } from '../menuScene/offerList/Item';
 import { LIST_END_BUTTON_SIZE } from '../menuScene/offerList/LIST_END_BUTTON_SIZE';
 import { IImpression } from './impressions/IImpression';
 import { PriceAccordion } from './PriceAccordion';
