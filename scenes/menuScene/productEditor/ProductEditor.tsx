@@ -6,7 +6,7 @@ import {
     buttonEmphasis,
     OkayButton,
     UploadButton,
-} from '../../../components/buttons/generalButtons';
+} from '../../../components/buttons/Buttons';
 import { MinimalOfferDataWithNumber } from '../../../components/ListOfSaves/ListOfSaves';
 import { MinimalOfferData } from '../MinimalOfferData';
 import { productEditorStyles } from './productEditorStyles';
@@ -54,7 +54,6 @@ export const ProductEditor = (props: {
             >
                 <View style={productEditorStyles.topTextFields}>
                     <TextInput
-                        textAlign={false}
                         label="Name"
                         value={name}
                         onChangeText={(name: string) => {
@@ -82,7 +81,6 @@ export const ProductEditor = (props: {
                 </View>
                 <View style={productEditorStyles.topTextFields}>
                     <TextInput
-                        textAlign={false}
                         label="Price"
                         value={priceText}
                         onChangeText={(text: string) => {
@@ -103,7 +101,6 @@ export const ProductEditor = (props: {
             <View style={productEditorStyles.bottomItem}>
                 <View>
                     <TextInput
-                        textAlign={false}
                         label="Description"
                         value={description}
                         onChangeText={(description: string) => {
