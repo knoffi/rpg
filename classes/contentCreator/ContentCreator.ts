@@ -73,7 +73,7 @@ export class ContentCreator {
             }
         }
     }
-    getRandomDrink(
+    private getRandomDrink(
         fitting: StructuredTavernFits,
         category: Drinkable,
         oldDrinks: Offer[]
@@ -108,7 +108,7 @@ export class ContentCreator {
             }
         }
     }
-    getRandomDish(
+    private getRandomDish(
         fitting: StructuredTavernFits,
         category: Eatable,
         oldDishes: Offer[]
@@ -143,6 +143,20 @@ export class ContentCreator {
             }
         }
     }
+
+    getRandomMenuItem(
+        fitting: StructuredTavernFits,
+        demand:
+            | { category: Eatable; isAboutFood: true }
+            | { category: Drinkable; isAboutFood: false },
+        oldMenuItems: Offer[]
+    ) {
+        if (demand.isAboutFood) {
+            return this.getRandomDish(fitting, demand.category, oldMenuItems);
+        } else {
+            return this.getRandomDrink(fitting, demand.category, oldMenuItems);
+        }
+    }
     static buildOfferFromProduct(
         product: TavernProduct,
         category: Drinkable | Eatable
@@ -157,9 +171,14 @@ export class ContentCreator {
         fitting: StructuredTavernFits,
         rerolledName: string,
         dishes: Offer[],
-        category: Eatable
+        addedDish?: Offer
     ) {
-        const newDish = this.getRandomDish(fitting, category, dishes);
+        const category =
+            dishes.find((dish) => dish.product.name === rerolledName)?.product
+                .category || Eatable.dessert;
+        const newDish =
+            addedDish ||
+            this.getRandomDish(fitting, category as Eatable, dishes);
         const rerolledDishes = dishes.map((dish) =>
             dish.product.name === rerolledName ? newDish : dish
         );
@@ -169,9 +188,14 @@ export class ContentCreator {
         fitting: StructuredTavernFits,
         rerolledName: string,
         drinks: Offer[],
-        category: Drinkable
+        addedDrink?: Offer
     ) {
-        const newDrink = this.getRandomDrink(fitting, category, drinks);
+        const category =
+            drinks.find((drink) => drink.product.name === rerolledName)?.product
+                .category || Drinkable.beer;
+        const newDrink =
+            addedDrink ||
+            this.getRandomDrink(fitting, category as Drinkable, drinks);
         const rerolledDrinks = drinks.map((drink) =>
             drink.product.name === rerolledName ? newDrink : drink
         );
@@ -207,11 +231,11 @@ interface IImpressionNote {
     impressions: ImpressionIdea[];
     category: Noticable;
 }
-interface IDishMenu {
+export interface IDishMenu {
     dishes: DishIdea[];
     category: Eatable;
 }
-interface IDrinkMenu {
+export interface IDrinkMenu {
     drinks: DishIdea[];
     category: Drinkable;
 }

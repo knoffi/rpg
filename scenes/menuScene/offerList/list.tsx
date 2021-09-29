@@ -10,7 +10,7 @@ import { WeServe } from '../../../editNavigator/WeServe';
 import { globalStyles } from '../../globalStyles';
 import { Offer } from '../Offer';
 import { OfferListAccordeon } from './accordeon';
-import { IAddingActions, IOfferActions } from './actionInterfaces';
+import { Demand, IAddingActions, IOfferActions } from './actionInterfaces';
 
 const BOTTOM_PADDING_DRINKS = 265 * HEIGHT_FACTOR;
 const BOTTOM_PADDING_FOOD = 188 * HEIGHT_FACTOR;
@@ -23,23 +23,30 @@ export const OfferList = (props: {
     offersLeftMap: Map<MenuCategory, boolean>;
     getPriceString: (offer: Offer) => string;
 }) => {
-    const categories = props.isAbout === WeServe.drinks ? Drinkable : Eatable;
-    const menu = Object.values(categories).map((category) => {
+    const demands =
+        props.isAbout === WeServe.drinks
+            ? { isAboutFood: false, categories: Drinkable }
+            : { isAboutFood: true, categories: Eatable };
+    const menu = Object.values(demands.categories).map((category) => {
         const offersOfCategory = props.offers.filter(
             (offer) => offer.product.category === category
         );
         return {
-            category: category as MenuCategory,
+            category: category,
             offers: offersOfCategory,
         };
     });
-    // Now: menu=[ {"beer", [] }, {"wine", [] }, ...
+    // Now: menu=[ {"beer", [] }, {"wine", [] }, ... ]
 
     const chapterLists = menu.map((chapter) => {
+        const demand: Demand = {
+            isAboutFood: demands.isAboutFood,
+            category: chapter.category,
+        };
         return (
             <OfferListAccordeon
                 key={chapter.category}
-                Drinkable={chapter.category}
+                demand={demand}
                 listOfOffers={chapter.offers}
                 offerActions={props.offerActions}
                 addingActions={{

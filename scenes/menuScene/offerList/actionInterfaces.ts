@@ -1,4 +1,8 @@
-import { MenuCategory } from '../../../classes/TavernProduct';
+import {
+    Drinkable,
+    Eatable,
+    MenuCategory,
+} from '../../../classes/TavernProduct';
 import { MinimalOfferData } from '../MinimalOfferData';
 
 export interface IProductActions {
@@ -8,8 +12,12 @@ export interface IProductActions {
     onEdit: () => void;
     onInfo: () => void;
 }
+
+export type Demand =
+    | { isAboutFood: true; category: Eatable }
+    | { isAboutFood: false; category: Drinkable };
 export interface IAddingActions {
-    randomAdd: (category: MenuCategory) => void;
+    randomAdd: (demand: Demand) => void;
     import: (category: MenuCategory) => void;
     edit: (category: MenuCategory) => void;
 }

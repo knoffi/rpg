@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import { Modal, Portal } from 'react-native-paper';
 import { association } from '../../classes/association';
+import { ContentCreator } from '../../classes/contentCreator/ContentCreator';
 import { SavedDataHandler, WeSave } from '../../classes/database/Database';
 import { StructuredTavernFits } from '../../classes/idea/StructuredTavernFits';
 import {
@@ -14,12 +15,14 @@ import { WeServe } from '../../editNavigator/WeServe';
 import { getRandomArrayEntry } from '../../helpingFunctions/getFittingRandom';
 import { TavernData } from '../../mainNavigator/TavernData';
 import { nameSceneStyles } from '../nameScene/nameSceneStyles';
-import { getNewRandomDrinkOffer, offersWithOneReroll } from './addRandomDrink';
 import { BasePrice } from './basePrice';
+import { drinkMenu } from './drinks/drinkMenu';
+import { foodMenu } from './food/foodMenu';
 import { bannerEndings } from './menuBanner/bannerEndings';
 import { BannerData, MenuBanner } from './menuBanner/MenuBanner';
 import { createMinimalOffer, MinimalOfferData } from './MinimalOfferData';
 import { NothingLeftOffer, Offer } from './Offer';
+import { Demand } from './offerList/actionInterfaces';
 import { OfferList } from './offerList/list';
 import { getAdjustedPriceString } from './priceFunctions';
 import { ProductEditor } from './productEditor/ProductEditor';
@@ -47,6 +50,7 @@ interface MenuProps {
 }
 
 export const MenuScene = (props: MenuProps) => {
+    const creator = new ContentCreator([], foodMenu, drinkMenu);
     const fits = props.fitting;
     const [bannerEnding, setBannerEnding] = useState(
         getRandomArrayEntry(bannerEndings.get(props.isAbout)!)
@@ -80,20 +84,20 @@ export const MenuScene = (props: MenuProps) => {
         }
     };
     const changeOffer = (nameOfChangedOffer: string, newOffer?: Offer) => {
-        const newOffers = newOffer
-            ? props.offers.map((offer) => {
-                  if (offer.product.name !== nameOfChangedOffer) {
-                      return offer;
-                  } else {
-                      return newOffer;
-                  }
-              })
-            : offersWithOneReroll(
-                  nameOfChangedOffer,
-                  props.offers,
-                  fits,
-                  props.isAbout
-              );
+        const newOffers =
+            props.isAbout === WeServe.food
+                ? creator.rerollOneDish(
+                      fits,
+                      nameOfChangedOffer,
+                      props.offers,
+                      newOffer
+                  )
+                : creator.rerollOneDrink(
+                      fits,
+                      nameOfChangedOffer,
+                      props.offers,
+                      newOffer
+                  );
         if (newOffers) {
             if (props.isAbout === WeServe.drinks) {
                 props.onDataChange({ drinks: newOffers });
@@ -122,20 +126,12 @@ export const MenuScene = (props: MenuProps) => {
             }
         });
     };
-    const addRandomOffer = (category: MenuCategory) => {
-        const newOffer = getNewRandomDrinkOffer(
-            fits,
-            category,
-            props.offers,
-            props.isAbout
-        );
+    const addRandomOffer = (demand: Demand) => {
+        const newOffer = creator.getRandomMenuItem(fits, demand, props.offers);
+
         const newOffers = [...props.offers.map((offer) => offer), newOffer];
-        const testOffer = getNewRandomDrinkOffer(
-            fits,
-            category,
-            newOffers,
-            props.isAbout
-        );
+
+        const testOffer = creator.getRandomMenuItem(fits, demand, newOffers);
         if (testOffer.product.name === NothingLeftOffer.product.name) {
             setBannerEnding(
                 getRandomArrayEntry(bannerEndings.get(props.isAbout)!)
