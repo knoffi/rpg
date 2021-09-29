@@ -6,11 +6,11 @@ import {
     AddButton,
     FeatherButton,
     ImportButton,
-} from '../../../components/buttons/generalButtons';
+} from '../../../components/buttons/Buttons';
 import { Offer } from '../menuEnums';
 import { menuSceneStyles } from '../menuStyles';
 import { IAddingActions, IOfferActions } from './actionInterfaces';
-import { OfferListItem } from './item';
+import { OfferListItem } from './Item';
 import { LIST_END_BUTTON_SIZE } from './LIST_END_BUTTON_SIZE';
 
 export const OfferListAccordeon = (props: {

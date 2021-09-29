@@ -15,7 +15,7 @@ import {
     buttonEmphasis,
     PencilButton,
     RerollButton,
-} from '../../components/buttons/generalButtons';
+} from '../../components/buttons/Buttons';
 import { checkDataDistribution } from '../../helpingFunctions/checkDataDistribution';
 import { TavernData } from '../../mainNavigator/TavernData';
 import { globalStyles } from '../globalStyles';
