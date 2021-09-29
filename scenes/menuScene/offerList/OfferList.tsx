@@ -9,7 +9,7 @@ import { HEIGHT_FACTOR } from '../../../dimensionConstants';
 import { WeServe } from '../../../editNavigator/WeServe';
 import { globalStyles } from '../../globalStyles';
 import { Offer } from '../menuEnums';
-import { OfferListAccordeon } from './accordeon';
+import { OfferListAccordeon } from './Accordeon';
 import { IAddingActions, IOfferActions } from './actionInterfaces';
 
 const BOTTOM_PADDING_DRINKS = 265 * HEIGHT_FACTOR;
