@@ -570,14 +570,20 @@ export const specialNames: NameIdea[] = [
         powerFits: [a.druid],
     }),
     new NameIdea({
+        name: 'Honey Pot',
+        needsOne: [a.druid, a.forest],
+        powerFits: [a.druid, a.forest],
+        worksForBrothel: true,
+    }),
+    new NameIdea({
         name: 'White Rabbit',
         needsOne: [a.druid],
         powerFits: [a.druid],
     }),
     new NameIdea({
-        name: 'Well-Stuffed Pipe',
-        needsOne: [a.druid],
-        powerFits: [a.druid],
+        name: 'Peppermint Pipe',
+        needsOne: [a.druid,a.forest],
+        powerFits: [a.druid,a.forest],
     }),
     new NameIdea({
         name: 'Pub Of Peacelovers',
