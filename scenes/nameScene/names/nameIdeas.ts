@@ -33,9 +33,7 @@ const characteristics = [
             name: 'Smirking',
             classRange: [a.wizard, a.bard, a.druid],
             misfits: [a.rich],
-            worksForThiefs: true,
-            worksForAssasines: true,
-            worksForBrothel: true,
+            worksForAllCriminals: true,
         },
         [
             ...honorfulPredatorBeasts,
@@ -109,6 +107,7 @@ const characteristics = [
             ...majesticBeasts,
             ...preyTinyAnimals,
             { name: 'Beauty', classRange: [a.bard, a.knight] },
+            ...substantives.normalAnimals,
         ]
     ),
     new NameIdea(
@@ -122,13 +121,20 @@ const characteristics = [
             ...majesticBeasts,
             ...evilHumanoids,
             ...preyTinyAnimals,
+            ...substantives.normalAnimals,
         ]
     ),
     new NameIdea(
         {
             name: 'Resting',
         },
-        [...noblesAndTitles, ...artisanJobs, ...weapons, ...tools]
+        [
+            ...noblesAndTitles,
+            ...artisanJobs,
+            ...weapons,
+            ...tools,
+            ...substantives.normalAnimals,
+        ]
     ),
     new NameIdea(
         {
@@ -337,9 +343,9 @@ const characteristics = [
     new NameIdea(
         {
             name: 'Squinting',
-            worksForBrothel: true,
-            worksForThiefs: true,
-            needs: [a.poor],
+            worksForAllCriminals: true,
+            needsOne: [a.poor, a.thief],
+            incomeRange: [a.poor, a.modest],
         },
         [
             ...substantives.tinyAnimals,
@@ -349,14 +355,15 @@ const characteristics = [
             ...substantives.evilHumanoids,
             ...substantives.artisans,
             ...substantives.honorfulPredators,
+            ...substantives.normalAnimals,
         ]
     ),
     new NameIdea(
         {
             name: 'One-Eyed',
-            worksForBrothel: true,
-            worksForThiefs: true,
-            needs: [a.poor],
+            worksForAllCriminals: true,
+            needsOne: [a.poor, a.thief],
+            incomeRange: [a.poor, a.modest],
         },
         [
             ...substantives.tinyAnimals,
@@ -366,11 +373,84 @@ const characteristics = [
             ...substantives.evilHumanoids,
             ...substantives.artisans,
             ...substantives.honorfulPredators,
+            ...substantives.normalAnimals,
         ]
+    ),
+    new NameIdea(
+        {
+            name: 'Roaring',
+            worksForAssasines: true,
+            needsOne: [a.barbarian, a.soldier, a.knight, a.adventurer, a.rich],
+        },
+        [...substantives.evilHumanoids, ...substantives.majesticBeasts]
+    ),
+    new NameIdea(
+        {
+            name: 'Vigilant',
+            needsOne: [a.soldier, a.knight, a.adventurer],
+            misfits: [a.rich],
+        },
+        [...substantives.honorfulPredators]
+    ),
+    new NameIdea(
+        {
+            name: 'Patient',
+            needsOne: [a.drow, a.thief, a.assasine, a.forest],
+        },
+        [...substantives.criminalPredators]
+    ),
+    new NameIdea(
+        {
+            name: 'Giggling',
+            misfits: [a.rich],
+        },
+        [
+            ...substantives.evilHumanoids,
+            ...substantives.fruits,
+            ...substantives.vegetables,
+            ...substantives.tinyAnimals,
+            ...substantives.sexWorkers,
+            ...substantives.normalAnimals,
+        ]
+    ),
+    new NameIdea(
+        {
+            name: 'Smiling',
+            misfits: [a.rich],
+        },
+        [
+            ...substantives.allJobs,
+            ...substantives.tinyAnimals,
+            ...substantives.normalAnimals,
+        ]
+    ),
+    new NameIdea(
+        {
+            name: 'Tipsy',
+            misfits: [a.rich, a.wealthy],
+        },
+        [
+            ...substantives.bistroJobs,
+            ...substantives.sexWorkers,
+            ...substantives.artisans,
+            ...substantives.evilHumanoids,
+            ...substantives.tinyAnimals,
+            ...substantives.criminalPredators,
+            ...substantives.honorfulPredators,
+            ...substantives.normalAnimals,
+        ]
+    ),
+    new NameIdea(
+        {
+            name: 'Spitting',
+            needsOne: [a.poor, a.thief],
+            incomeRange: [a.poor, a.modest],
+        },
+        [...substantives.allJobs]
     ),
 ];
 
-// more ideas: Holy, Divine, Praying, Virtuous, Rightous, Honorable, Virtuous, Peaceful, Merciful, Rejoicing, Virgin, Decadent, Smiling, Giggling, Singing, Dancing, Joyful, Fierce, Ferocious, Vigorous Enraged, Vigilant, Glowing, Shining, Glorious, Nonchalant, Dapper, Marmor?, Victorious?, Triumphant?, Roaring, Sinister, Insidious?, Drunken, Spitting, Squint-Eyes, One-Eyed, Gleeful, Spiteful, Malicious, Cursed,  Flaming, Fiery, Infernal, Horned, Macabre, Squinting, Whispering, Silent, Venomous, Wrathful, Patient, Lurking,  Decadent, Hungry, Starving, Sleepy, Salty, Fishy, Sailing, Dreaming, Rotten, Filthy, Savage, Gloomy, Feasting, Dining, Savoring, Chomping, Moaning, Moist, Flitrting, Lascivious, Salacious, Hammering, Forging, Weaving, Knitting,      Dried Out, Thirsty, Spicy, Silky, Cashmere, Velvet, Exhausted more oriental stuff... ,    Colorful, Fruity, Spicy,  more tropical stuff...
+// more ideas: Holy, Divine, Praying, Virtuous, Rightous, Honorable, Virtuous, Peaceful, Merciful, Rejoicing, Virgin, Decadent, Singing, Dancing, Joyful, Fierce, Ferocious, Vigorous, Enraged, Glowing, Shining, Glorious, Nonchalant, Dapper, Marmor?, Victorious?, Triumphant?, Sinister, Insidious?, Drunken, Gleeful, Spiteful, Malicious, Cursed,  Flaming, Fiery, Infernal, Horned, Macabre, Squinting, Whispering, Silent, Venomous, Wrathful, Patient, Lurking,  Decadent, Hungry, Starving, Sleepy, Salty, Fishy, Sailing, Dreaming, Rotten, Filthy, Savage, Gloomy, Feasting, Dining, Savoring, Chomping, Moaning, Moist, Flitrting, Lascivious, Salacious, Hammering, Forging, Weaving, Knitting,      Dried Out, Spicy, Silky, Cashmere, Velvet, Exhausted more oriental stuff... ,    Colorful, Fruity, Spicy,  more tropical stuff...
 
 // Banquett, Spatz, Duck, Goose
 
