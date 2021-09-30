@@ -1,6 +1,7 @@
 import { WeServe } from '../../editNavigator/WeServe';
 import { getRandomArrayEntry } from '../../helpingFunctions/getFittingRandom';
 import { NothingLeftOffer, Offer } from '../../scenes/menuScene/Offer';
+import { Demand } from '../../scenes/menuScene/offerList/actionInterfaces';
 import { emptyImpression } from '../../scenes/questScene/impressions/emptyImpression';
 import { getPrefixExcluder } from '../../scenes/questScene/impressions/getPrefixExcluder';
 import { IImpression } from '../../scenes/questScene/impressions/IImpression';
@@ -146,15 +147,49 @@ export class ContentCreator {
 
     getRandomMenuItem(
         fitting: StructuredTavernFits,
-        demand:
-            | { category: Eatable; isAboutFood: true }
-            | { category: Drinkable; isAboutFood: false },
+        demand: Demand,
         oldMenuItems: Offer[]
     ) {
-        if (demand.isAboutFood) {
+        if (demand.isAbout === WeServe.food) {
             return this.getRandomDish(fitting, demand.category, oldMenuItems);
         } else {
             return this.getRandomDrink(fitting, demand.category, oldMenuItems);
+        }
+    }
+    getRandomCreation(
+        fitting: StructuredTavernFits,
+        request: CreationRequest,
+        fullFirstKeys = [] as AssetKey[],
+        fullSecondKeys = [] as AssetKey[],
+        mainFilter?: number,
+        additionFilter?: number,
+        patterns?: Pattern[]
+    ) {
+        switch (request.isAbout) {
+            case WeServe.drinks:
+                return this.getRandomDrink(
+                    fitting,
+                    request.category,
+                    request.oldAssets
+                );
+            case WeServe.food:
+                return this.getRandomDish(
+                    fitting,
+                    request.category,
+                    request.oldAssets
+                );
+
+            default:
+                return this.getRandomImpression(
+                    fitting,
+                    request.category,
+                    request.oldAssets,
+                    fullFirstKeys,
+                    fullSecondKeys,
+                    mainFilter,
+                    additionFilter,
+                    patterns
+                );
         }
     }
     static buildOfferFromProduct(
@@ -226,6 +261,16 @@ export class ContentCreator {
         return rerolledImpressions;
     }
 }
+export type CreationRequest =
+    | { isAbout: WeServe.food; category: Eatable; oldAssets: Offer[] }
+    | { isAbout: WeServe.drinks; category: Drinkable; oldAssets: Offer[] }
+    | {
+          isAbout: WeServe.impressions;
+          category: Noticable;
+          oldAssets: IImpression[];
+          fullFirstKeys: AssetKey[];
+          fullSecondKeys: AssetKey[];
+      };
 
 interface IImpressionNote {
     impressions: ImpressionIdea[];
