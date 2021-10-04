@@ -6,7 +6,7 @@ import { BasePrice } from '../scenes/menuScene/basePrice';
 import { BannerData } from '../scenes/menuScene/menuBanner/MenuBanner';
 import { Offer } from '../scenes/menuScene/Offer';
 import { IImpression } from '../scenes/questScene/impressions/IImpression';
-
+export type Describable = Drinkable | Eatable | Noticable;
 export type TavernData = {
     fitting: StructuredTavernFits;
     name: string;
@@ -14,9 +14,9 @@ export type TavernData = {
     dishes: Offer[];
     prices: BasePrice;
     ideasLeft: {
-        drink: Map<Drinkable, boolean>;
-        food: Map<Eatable, boolean>;
-        impression: Map<Noticable, boolean>;
+        [WeServe.drinks]: Map<Describable, boolean>;
+        [WeServe.food]: Map<Describable, boolean>;
+        [WeServe.impressions]: Map<Describable, boolean>;
     };
     bannerData: {
         [WeServe.drinks]: BannerData;

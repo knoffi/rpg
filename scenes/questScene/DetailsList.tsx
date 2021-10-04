@@ -4,7 +4,7 @@ import { association } from '../../classes/association';
 import { Noticable } from '../../classes/idea/Noticable';
 import { ImpressionDisplay } from '../../classes/impressionDisplay/ImpressionDisplay';
 import { AddButton } from '../../components/buttons/generalButtons';
-import { TavernData } from '../../mainNavigator/TavernData';
+import { Describable, TavernData } from '../../mainNavigator/TavernData';
 import { globalStyles } from '../globalStyles';
 import { BasePrice } from '../menuScene/basePrice';
 import { menuSceneStyles } from '../menuScene/menuStyles';
@@ -22,11 +22,10 @@ export const DetailsList = (props: {
     onDelete: (name: string) => void;
     onAdd: (category: Noticable) => void;
     impressions: IImpression[];
-    noticablesLeft: Map<Noticable, boolean>;
+    noticablesLeft: Map<Describable, boolean>;
     getImpliedChanges: (newImpressions: IImpression[]) => Partial<TavernData>;
     onReroll: (impression: IImpression) => void;
 }) => {
-    //TODO: What about barmaids?
     const impressionTitles = Object.values(Noticable);
     const impressionAccordion = impressionTitles.map((title) => {
         const impressionsOfTitle = props.impressions.filter(

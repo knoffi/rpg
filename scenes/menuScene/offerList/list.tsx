@@ -1,12 +1,9 @@
 import React from 'react';
 import { List } from 'react-native-paper';
-import {
-    Drinkable,
-    Eatable,
-    MenuCategory,
-} from '../../../classes/TavernProduct';
+import { Drinkable, Eatable } from '../../../classes/TavernProduct';
 import { HEIGHT_FACTOR } from '../../../dimensionConstants';
 import { WeServe } from '../../../editNavigator/WeServe';
+import { Describable } from '../../../mainNavigator/TavernData';
 import { globalStyles } from '../../globalStyles';
 import { Offer } from '../Offer';
 import { OfferListAccordeon } from './accordeon';
@@ -20,7 +17,7 @@ export const OfferList = (props: {
     isAbout: WeServe;
     offerActions: IOfferActions;
     addingActions: IAddingActions;
-    offersLeftMap: Map<MenuCategory, boolean>;
+    offersLeftMap: Map<Describable, boolean>;
     getPriceString: (offer: Offer) => string;
 }) => {
     const demands =

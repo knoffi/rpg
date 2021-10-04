@@ -16,7 +16,7 @@ import {
 import { ListOfSaves } from '../../components/ListOfSaves/ListOfSaves';
 import { WeServe } from '../../editNavigator/WeServe';
 import { getRandomArrayEntry } from '../../helpingFunctions/getFittingRandom';
-import { TavernData } from '../../mainNavigator/TavernData';
+import { Describable, TavernData } from '../../mainNavigator/TavernData';
 import { nameSceneStyles } from '../nameScene/nameSceneStyles';
 import { BasePrice } from './basePrice';
 import { drinkMenu } from './drinks/drinkMenu';
@@ -41,7 +41,7 @@ interface MenuProps {
     isAbout: WeServe;
     offers: Offer[];
     onDataChange: (newData: Partial<TavernData>) => void;
-    offersLeft: Map<MenuCategory, boolean>;
+    offersLeft: Map<Describable, boolean>;
     offersBought: Offer[];
     basePrice: BasePrice;
     bannerData: BannerData;

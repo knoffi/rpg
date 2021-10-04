@@ -1,9 +1,11 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
+import { Noticable } from '../classes/idea/Noticable';
 import { StructuredTavernFits } from '../classes/idea/StructuredTavernFits';
+import { Drinkable, Eatable } from '../classes/TavernProduct';
 import Icon from '../components/icons';
 import { iconKeys } from '../components/icons/iconKeys';
-import { TavernData } from '../mainNavigator/TavernData';
+import { Describable, TavernData } from '../mainNavigator/TavernData';
 import { BannerData } from '../scenes/menuScene/menuBanner/MenuBanner';
 import { MenuScene } from '../scenes/menuScene/MenuScene';
 import { Offer } from '../scenes/menuScene/Offer';
@@ -46,7 +48,6 @@ export const EditNavigator = (props: {
     onDataChange: (newData: Partial<TavernData>) => void;
     tavern: TavernData;
 }) => {
-    //TODO: can be improved/made efficient
     const buyOffer = (offer: Offer) => {
         props.onDataChange({
             boughtOffers: [...props.tavern.boughtOffers, offer],
@@ -83,15 +84,20 @@ export const EditNavigator = (props: {
             add.isAbout === WeServe.food
                 ? { dishes: newOffers }
                 : { drinks: newOffers };
-        const bannerChanges = noNextOffer ? getBannersByAdd(add) : {};
+        const bannerChanges = noNextOffer ? getBannersByAdd(add, true) : {};
+        const ideaLeftMapChanges = noNextOffer
+            ? getIdeaLeftMapByAdd(add, true)
+            : {};
         const tavernChanges: Partial<TavernData> = {
             ...offerChanges,
             ...bannerChanges,
+            ...ideaLeftMapChanges,
         };
 
         props.onDataChange(tavernChanges);
     };
     const handleOfferDelete = (removedOffer: String, deleted: Demand) => {
+        //TODO: different behavior for deletes of user made ideas
         const newOffers = (
             deleted.isAbout === WeServe.food
                 ? props.tavern.dishes
@@ -107,29 +113,53 @@ export const EditNavigator = (props: {
         const bannerChanges = categoryWasFullBefore
             ? getBannersByDelete(deleted)
             : {};
-        const tavernChanges = { ...bannerChanges, ...offerChanges };
+        const ideaLeftMapChanges = categoryWasFullBefore
+            ? getIdeaLeftMapByDelete(deleted)
+            : {};
+        const tavernChanges = {
+            ...bannerChanges,
+            ...offerChanges,
+            ...ideaLeftMapChanges,
+        };
         props.onDataChange(tavernChanges);
     };
-    const getBannersByAdd = (add: Demand) => {
+    const getBannersByAdd = (add: Demand, nothingLeft: boolean) => {
         const oldBanners = { ...props.tavern.bannerData };
-        console.log(JSON.stringify(oldBanners));
         const newBanners = {
             [WeServe.drinks]: oldBanners.drink,
             [WeServe.food]: oldBanners.food,
             [WeServe.impressions]: oldBanners.impression,
         };
-        console.log(JSON.stringify(newBanners));
         const newEmptyCategories = props.tavern.bannerData[
             add.isAbout
-        ].emptyCategories.concat(add.category);
+        ].emptyCategories.concat(nothingLeft ? add.category : []);
         newBanners[add.isAbout].emptyCategories = newEmptyCategories;
-        newBanners[add.isAbout].isVisible = true;
+        newBanners[add.isAbout].isVisible = nothingLeft;
         return newBanners;
     };
     const setBannerInvisible = (isAbout: WeServe) => () => {
         const oldBanners = { ...props.tavern.bannerData };
         oldBanners[isAbout].isVisible = false;
         props.onDataChange({ bannerData: oldBanners });
+    };
+    const getIdeaLeftMapByDelete = (demand: Demand) => {
+        const newIdeaLeftMap = new Map<Describable, boolean>(
+            props.tavern.ideasLeft[demand.isAbout]
+        );
+        newIdeaLeftMap.set(demand.category, false);
+        return { [demand.isAbout]: newIdeaLeftMap };
+    };
+    const getIdeaLeftMapByAdd = (
+        demand: Demand,
+        ideaLeft: boolean
+    ): Partial<TavernData> => {
+        const oldMaps = { ...props.tavern.ideasLeft };
+        const newMap = new Map<Eatable | Drinkable | Noticable, boolean>(
+            oldMaps[demand.isAbout]
+        ); //new Map<Eatable|Drinkable|Noticable,boolean>(oldMaps[demand.isAbout]);
+        newMap.set(demand.category, ideaLeft);
+        oldMaps[demand.isAbout] = newMap;
+        return { ideasLeft: oldMaps };
     };
     const oldBanner = props.tavern.bannerData;
     const oldDrinks = props.tavern.drinks;
@@ -206,24 +236,6 @@ export const EditNavigator = (props: {
                         bannerData={oldBanner.food}
                         handleDelete={handleOfferDelete}
                         setBannerInvisible={setBannerInvisible(WeServe.drinks)}
-                        // getImpliedChanges={(
-                        //     newDrinks?: Offer[],
-                        //     newDishes?: Offer[]
-                        // ) => {
-                        //     return getAllNewBannerDataAndOffersLeft(
-                        //         props.tavern.fitting,
-                        //         {
-                        //             drinks: newDrinks || oldDrinks,
-                        //             dishes: newDishes || oldDishes,
-                        //             impressions: oldImpressions,
-                        //         },
-                        //         {
-                        //             drink: oldBanner.drink,
-                        //             food: oldBanner.food,
-                        //             impression: oldBanner.impression,
-                        //         }
-                        //     );
-                        // }}
                     ></MenuScene>
                 )}
             />
