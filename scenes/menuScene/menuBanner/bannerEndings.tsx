@@ -33,5 +33,4 @@ const serviceBannerEndings = [
 export const bannerEndings = new Map([
     [WeServe.drinks, drinkBannerEndings],
     [WeServe.food, foodBannerEndings],
-    [WeServe.service, serviceBannerEndings],
 ]);

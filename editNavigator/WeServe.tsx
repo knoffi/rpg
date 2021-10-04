@@ -1,6 +1,5 @@
 export enum WeServe {
-    drinks = 'drinks',
+    drinks = 'drink',
     food = 'food',
-    service = 'service',
-    impressions = 'impressions',
+    impressions = 'impression',
 }

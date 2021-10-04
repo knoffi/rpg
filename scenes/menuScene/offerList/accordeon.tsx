@@ -34,7 +34,7 @@ export const OfferListAccordeon = (props: {
                     drinkName={name}
                     actions={{
                         onDelete: () => {
-                            props.offerActions.deleteOffer(name);
+                            props.offerActions.deleteOffer(name, thisDemand);
                         },
                         onInfo: () => {},
                         onReroll: () => {

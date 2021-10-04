@@ -4,8 +4,10 @@ import { StructuredTavernFits } from '../classes/idea/StructuredTavernFits';
 import Icon from '../components/icons';
 import { iconKeys } from '../components/icons/iconKeys';
 import { TavernData } from '../mainNavigator/TavernData';
+import { BannerData } from '../scenes/menuScene/menuBanner/MenuBanner';
 import { MenuScene } from '../scenes/menuScene/MenuScene';
 import { Offer } from '../scenes/menuScene/Offer';
+import { Demand } from '../scenes/menuScene/offerList/actionInterfaces';
 import { NameScene } from '../scenes/nameScene/NameScene';
 import { IImpression } from '../scenes/questScene/impressions/IImpression';
 import { QuestScene } from '../scenes/questScene/QuestScene';
@@ -50,7 +52,85 @@ export const EditNavigator = (props: {
             boughtOffers: [...props.tavern.boughtOffers, offer],
         });
     };
+    const getBannersByDelete = (deleted: Demand) => {
+        const olderBanner = props.tavern.bannerData[deleted.isAbout];
 
+        const newEmptyCategories = olderBanner.emptyCategories.filter(
+            (category) => category !== deleted.category
+        );
+        const newBannerData: BannerData = {
+            ...olderBanner,
+            emptyCategories: newEmptyCategories,
+        };
+        const newBanners = {
+            ...props.tavern.bannerData,
+            [deleted.isAbout]: newBannerData,
+        };
+        return newBanners;
+    };
+
+    const handleOfferAdd = (
+        newOffer: Offer,
+        add: Demand,
+        noNextOffer: boolean
+    ) => {
+        const oldOffers =
+            add.isAbout === WeServe.food
+                ? props.tavern.dishes
+                : props.tavern.drinks;
+        const newOffers = [...oldOffers, newOffer];
+        const offerChanges =
+            add.isAbout === WeServe.food
+                ? { dishes: newOffers }
+                : { drinks: newOffers };
+        const bannerChanges = noNextOffer ? getBannersByAdd(add) : {};
+        const tavernChanges: Partial<TavernData> = {
+            ...offerChanges,
+            ...bannerChanges,
+        };
+
+        props.onDataChange(tavernChanges);
+    };
+    const handleOfferDelete = (removedOffer: String, deleted: Demand) => {
+        const newOffers = (
+            deleted.isAbout === WeServe.food
+                ? props.tavern.dishes
+                : props.tavern.drinks
+        ).filter((offer) => offer.product.name !== removedOffer);
+        const offerChanges =
+            deleted.isAbout === WeServe.food
+                ? { dishes: newOffers }
+                : { drinks: newOffers };
+        const categoryWasFullBefore = props.tavern.bannerData[
+            deleted.isAbout
+        ].emptyCategories.includes(deleted.category);
+        const bannerChanges = categoryWasFullBefore
+            ? getBannersByDelete(deleted)
+            : {};
+        const tavernChanges = { ...bannerChanges, ...offerChanges };
+        props.onDataChange(tavernChanges);
+    };
+    const getBannersByAdd = (add: Demand) => {
+        const oldBanners = { ...props.tavern.bannerData };
+        console.log(JSON.stringify(oldBanners));
+        const newBanners = {
+            [WeServe.drinks]: oldBanners.drink,
+            [WeServe.food]: oldBanners.food,
+            [WeServe.impressions]: oldBanners.impression,
+        };
+        console.log(JSON.stringify(newBanners));
+        const newEmptyCategories = props.tavern.bannerData[
+            add.isAbout
+        ].emptyCategories.concat(add.category);
+        newBanners[add.isAbout].emptyCategories = newEmptyCategories;
+        newBanners[add.isAbout].isVisible = true;
+        return newBanners;
+    };
+    const setBannerInvisible = (isAbout: WeServe) => () => {
+        const oldBanners = { ...props.tavern.bannerData };
+        oldBanners[isAbout].isVisible = false;
+        props.onDataChange({ bannerData: oldBanners });
+    };
     const oldBanner = props.tavern.bannerData;
     const oldDrinks = props.tavern.drinks;
     const oldDishes = props.tavern.dishes;
@@ -96,6 +176,7 @@ export const EditNavigator = (props: {
                 children={() => (
                     <MenuScene
                         buyOffer={buyOffer}
+                        handleAdd={handleOfferAdd}
                         offersBought={props.tavern.boughtOffers}
                         fitting={props.tavern.fitting}
                         isAbout={WeServe.drinks}
@@ -104,24 +185,8 @@ export const EditNavigator = (props: {
                         offersLeft={props.tavern.ideasLeft.drink}
                         basePrice={props.tavern.prices}
                         bannerData={oldBanner.drink}
-                        getImpliedChanges={(
-                            newDrinks?: Offer[],
-                            newDishes?: Offer[]
-                        ) => {
-                            return getAllNewBannerDataAndOffersLeft(
-                                props.tavern.fitting,
-                                {
-                                    drinks: newDrinks || oldDrinks,
-                                    dishes: newDishes || oldDishes,
-                                    impressions: oldImpressions,
-                                },
-                                {
-                                    drink: oldBanner.drink,
-                                    food: oldBanner.food,
-                                    impression: oldBanner.impression,
-                                }
-                            );
-                        }}
+                        handleDelete={handleOfferDelete}
+                        setBannerInvisible={setBannerInvisible(WeServe.drinks)}
                     ></MenuScene>
                 )}
             />
@@ -130,6 +195,7 @@ export const EditNavigator = (props: {
                 children={() => (
                     <MenuScene
                         buyOffer={buyOffer}
+                        handleAdd={handleOfferAdd}
                         offersBought={props.tavern.boughtOffers}
                         fitting={props.tavern.fitting}
                         isAbout={WeServe.food}
@@ -138,24 +204,26 @@ export const EditNavigator = (props: {
                         offersLeft={props.tavern.ideasLeft.food}
                         basePrice={props.tavern.prices}
                         bannerData={oldBanner.food}
-                        getImpliedChanges={(
-                            newDrinks?: Offer[],
-                            newDishes?: Offer[]
-                        ) => {
-                            return getAllNewBannerDataAndOffersLeft(
-                                props.tavern.fitting,
-                                {
-                                    drinks: newDrinks || oldDrinks,
-                                    dishes: newDishes || oldDishes,
-                                    impressions: oldImpressions,
-                                },
-                                {
-                                    drink: oldBanner.drink,
-                                    food: oldBanner.food,
-                                    impression: oldBanner.impression,
-                                }
-                            );
-                        }}
+                        handleDelete={handleOfferDelete}
+                        setBannerInvisible={setBannerInvisible(WeServe.drinks)}
+                        // getImpliedChanges={(
+                        //     newDrinks?: Offer[],
+                        //     newDishes?: Offer[]
+                        // ) => {
+                        //     return getAllNewBannerDataAndOffersLeft(
+                        //         props.tavern.fitting,
+                        //         {
+                        //             drinks: newDrinks || oldDrinks,
+                        //             dishes: newDishes || oldDishes,
+                        //             impressions: oldImpressions,
+                        //         },
+                        //         {
+                        //             drink: oldBanner.drink,
+                        //             food: oldBanner.food,
+                        //             impression: oldBanner.impression,
+                        //         }
+                        //     );
+                        // }}
                     ></MenuScene>
                 )}
             />

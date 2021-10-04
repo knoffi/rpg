@@ -2,7 +2,6 @@ import React from 'react';
 import { Banner } from 'react-native-paper';
 import { Noticable } from '../../../classes/idea/Noticable';
 import { MenuCategory } from '../../../classes/TavernProduct';
-import { TavernData } from '../../../mainNavigator/TavernData';
 import { WeServe } from '../../../editNavigator/WeServe';
 
 export interface BannerData {
@@ -33,8 +32,7 @@ const getEmptyCategoriesString = (names: (MenuCategory | Noticable)[]) => {
 export const MenuBanner = (props: {
     bannerData: BannerData;
     bannerEnding: string;
-    onDataChange: (change: Partial<TavernData>) => void;
-    getImpliedChanges: () => Partial<TavernData>;
+    setBannerInvsible: () => void;
     isAbout: WeServe;
 }) => {
     const beginningText =
@@ -48,20 +46,7 @@ export const MenuBanner = (props: {
                 {
                     label: 'Got it',
                     onPress: () => {
-                        const newBannerData =
-                            props.getImpliedChanges().bannerData!;
-                        if (props.isAbout === WeServe.drinks) {
-                            newBannerData.drink.isVisible = false;
-                        }
-                        if (props.isAbout === WeServe.food) {
-                            newBannerData.food.isVisible = false;
-                        }
-                        if (props.isAbout === WeServe.impressions) {
-                            newBannerData.impression.isVisible = false;
-                        }
-                        props.onDataChange({
-                            bannerData: newBannerData,
-                        });
+                        const newBannerData = props.setBannerInvsible();
                     },
                 },
             ]}

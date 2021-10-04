@@ -88,7 +88,7 @@ export class ContentCreator {
 
         if (!chapter) {
             console.log('Drink category not found!');
-            return NothingLeftOffer;
+            return undefined;
         } else {
             const bestRecipes = filterBestIdeas(
                 chapter.drinks,
@@ -98,7 +98,7 @@ export class ContentCreator {
                 () => false
             );
             if (!bestRecipes) {
-                return NothingLeftOffer;
+                return undefined;
             } else {
                 const newIdea = getRandomArrayEntry(bestRecipes.ideas);
                 const newDrink = newIdea.getConcreteDish(
@@ -123,7 +123,7 @@ export class ContentCreator {
 
         if (!chapter) {
             console.log('Food category not found!');
-            return NothingLeftOffer;
+            return undefined;
         } else {
             const bestRecipes = filterBestIdeas(
                 chapter.dishes,
@@ -133,7 +133,7 @@ export class ContentCreator {
                 () => false
             );
             if (!bestRecipes) {
-                return NothingLeftOffer;
+                return undefined;
             } else {
                 const newIdea = getRandomArrayEntry(bestRecipes.ideas);
                 const newDish = newIdea.getConcreteDish(
@@ -156,42 +156,48 @@ export class ContentCreator {
             return this.getRandomDrink(fitting, demand.category, oldMenuItems);
         }
     }
-    getRandomCreation(
+
+    public getRandomCreation(
         fitting: StructuredTavernFits,
-        request: CreationRequest,
-        fullFirstKeys = [] as AssetKey[],
-        fullSecondKeys = [] as AssetKey[],
-        mainFilter?: number,
-        additionFilter?: number,
-        patterns?: Pattern[]
-    ) {
+        request: CreationRequest
+    ): Creation {
         switch (request.isAbout) {
             case WeServe.drinks:
-                return this.getRandomDrink(
-                    fitting,
-                    request.category,
-                    request.oldAssets
-                );
+                return {
+                    new: this.getRandomDrink(
+                        fitting,
+                        request.category,
+                        request.oldAssets
+                    ),
+                    isAbout: WeServe.drinks,
+                };
             case WeServe.food:
-                return this.getRandomDish(
-                    fitting,
-                    request.category,
-                    request.oldAssets
-                );
+                return {
+                    new: this.getRandomDish(
+                        fitting,
+                        request.category,
+                        request.oldAssets
+                    ),
+                    isAbout: WeServe.food,
+                };
 
             default:
-                return this.getRandomImpression(
-                    fitting,
-                    request.category,
-                    request.oldAssets,
-                    fullFirstKeys,
-                    fullSecondKeys,
-                    mainFilter,
-                    additionFilter,
-                    patterns
-                );
+                return {
+                    new: this.getRandomImpression(
+                        fitting,
+                        request.category,
+                        request.oldAssets,
+                        request.fullFirstKeys,
+                        request.fullSecondKeys,
+                        request.mainFilter,
+                        request.additionFilter,
+                        request.patterns
+                    ),
+                    isAbout: WeServe.impressions,
+                };
         }
     }
+
     static buildOfferFromProduct(
         product: TavernProduct,
         category: Drinkable | Eatable
@@ -213,7 +219,8 @@ export class ContentCreator {
                 .category || Eatable.dessert;
         const newDish =
             addedDish ||
-            this.getRandomDish(fitting, category as Eatable, dishes);
+            this.getRandomDish(fitting, category as Eatable, dishes) ||
+            NothingLeftOffer;
         const rerolledDishes = dishes.map((dish) =>
             dish.product.name === rerolledName ? newDish : dish
         );
@@ -230,7 +237,8 @@ export class ContentCreator {
                 .category || Drinkable.beer;
         const newDrink =
             addedDrink ||
-            this.getRandomDrink(fitting, category as Drinkable, drinks);
+            this.getRandomDrink(fitting, category as Drinkable, drinks) ||
+            NothingLeftOffer;
         const rerolledDrinks = drinks.map((drink) =>
             drink.product.name === rerolledName ? newDrink : drink
         );
@@ -256,22 +264,44 @@ export class ContentCreator {
             patterns
         );
         const rerolledImpressions = impressions.map((impression) =>
-            impression.name === rerolledName ? newImpression : impression
+            impression.name === rerolledName
+                ? newImpression || emptyImpression
+                : impression
         );
         return rerolledImpressions;
     }
 }
-export type CreationRequest =
-    | { isAbout: WeServe.food; category: Eatable; oldAssets: Offer[] }
-    | { isAbout: WeServe.drinks; category: Drinkable; oldAssets: Offer[] }
+export type FoodRequest = {
+    isAbout: WeServe.food;
+    category: Eatable;
+    oldAssets: Offer[];
+};
+export type DrinkRequest = {
+    isAbout: WeServe.drinks;
+    category: Drinkable;
+    oldAssets: Offer[];
+};
+export type ImpressionRequest = {
+    isAbout: WeServe.impressions;
+    category: Noticable;
+    oldAssets: IImpression[];
+    fullFirstKeys: AssetKey[];
+    fullSecondKeys: AssetKey[];
+    mainFilter?: number;
+    additionFilter?: number;
+    patterns?: Pattern[];
+};
+export type CreationRequest = FoodRequest | DrinkRequest | ImpressionRequest;
+
+type Creation =
+    | {
+          isAbout: WeServe.drinks | WeServe.food;
+          new?: Offer;
+      }
     | {
           isAbout: WeServe.impressions;
-          category: Noticable;
-          oldAssets: IImpression[];
-          fullFirstKeys: AssetKey[];
-          fullSecondKeys: AssetKey[];
+          new?: IImpression;
       };
-
 interface IImpressionNote {
     impressions: ImpressionIdea[];
     category: Noticable;

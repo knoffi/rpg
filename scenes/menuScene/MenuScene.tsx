@@ -2,7 +2,10 @@ import React, { useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import { Modal, Portal } from 'react-native-paper';
 import { association } from '../../classes/association';
-import { ContentCreator } from '../../classes/contentCreator/ContentCreator';
+import {
+    ContentCreator,
+    CreationRequest,
+} from '../../classes/contentCreator/ContentCreator';
 import { SavedDataHandler, WeSave } from '../../classes/database/Database';
 import { StructuredTavernFits } from '../../classes/idea/StructuredTavernFits';
 import {
@@ -21,7 +24,7 @@ import { foodMenu } from './food/foodMenu';
 import { bannerEndings } from './menuBanner/bannerEndings';
 import { BannerData, MenuBanner } from './menuBanner/MenuBanner';
 import { createMinimalOffer, MinimalOfferData } from './MinimalOfferData';
-import { NothingLeftOffer, Offer } from './Offer';
+import { Offer } from './Offer';
 import { Demand } from './offerList/actionInterfaces';
 import { OfferList } from './offerList/list';
 import { getAdjustedPriceString } from './priceFunctions';
@@ -42,10 +45,9 @@ interface MenuProps {
     offersBought: Offer[];
     basePrice: BasePrice;
     bannerData: BannerData;
-    getImpliedChanges: (
-        newDrinks?: Offer[],
-        newDishes?: Offer[]
-    ) => Partial<TavernData>;
+    handleAdd: (newOffer: Offer, add: Demand, noNextOffer: boolean) => void;
+    handleDelete: (removedOffer: string, deleted: Demand) => void;
+    setBannerInvisible: () => void;
     buyOffer: (boughtOffer: Offer) => void;
 }
 
@@ -66,22 +68,8 @@ export const MenuScene = (props: MenuProps) => {
         visible: false,
         category: Drinkable.spirit as MenuCategory,
     });
-    const deleteOffer = (name: string) => {
-        const newOffers = props.offers.filter(
-            (offer) => offer.product.name !== name
-        );
-        //assuming that delete button is not clickable if props.offers is empty
-        if (props.isAbout === WeServe.drinks) {
-            props.onDataChange({
-                drinks: newOffers,
-                ...props.getImpliedChanges(newOffers, undefined),
-            });
-        } else {
-            props.onDataChange({
-                dishes: newOffers,
-                ...props.getImpliedChanges(undefined, newOffers),
-            });
-        }
+    const deleteOffer = (name: string, demand: Demand) => {
+        props.handleDelete(name, demand);
     };
     const changeOffer = (nameOfChangedOffer: string, newOffer?: Offer) => {
         const newOffers =
@@ -106,7 +94,6 @@ export const MenuScene = (props: MenuProps) => {
             }
         }
     };
-    // TODO: change this to getUserOfferAdding (category:MenuCategory)=> function
     const addUserOffer = (textData: MinimalOfferData) => {
         const newUserOffer = createMinimalOffer(textData);
         const newOffers = [...props.offers, newUserOffer];
@@ -119,7 +106,6 @@ export const MenuScene = (props: MenuProps) => {
     };
 
     const buyOffer = (name: string) => {
-        //TODO: This only works as long as drinks can be distuingished by name
         props.offers.forEach((offer) => {
             if (offer.product.name === name) {
                 props.buyOffer(offer);
@@ -127,26 +113,31 @@ export const MenuScene = (props: MenuProps) => {
         });
     };
     const addRandomOffer = (demand: Demand) => {
-        const newOffer = creator.getRandomMenuItem(fits, demand, props.offers);
-
-        const newOffers = [...props.offers.map((offer) => offer), newOffer];
-
-        const testOffer = creator.getRandomMenuItem(fits, demand, newOffers);
-        if (testOffer.product.name === NothingLeftOffer.product.name) {
-            setBannerEnding(
-                getRandomArrayEntry(bannerEndings.get(props.isAbout)!)
-            );
-        }
-        if (props.isAbout === WeServe.drinks) {
-            props.onDataChange({
-                drinks: newOffers,
-                ...props.getImpliedChanges(newOffers, undefined),
-            });
+        const request: CreationRequest =
+            demand.isAbout === WeServe.food
+                ? {
+                      oldAssets: props.offers,
+                      category: demand.category,
+                      isAbout: demand.isAbout,
+                  }
+                : {
+                      oldAssets: props.offers,
+                      category: demand.category,
+                      isAbout: demand.isAbout,
+                  };
+        const creation = creator.getRandomCreation(fits, request);
+        if (!creation.new) {
+            console.log('CREATED OFFER DOES NOT EXIST!');
+        } else if (creation.isAbout === WeServe.impressions) {
+            console.log('GOT IMPRESSION BUT NEED OFFER');
         } else {
-            props.onDataChange({
-                dishes: newOffers,
-                ...props.getImpliedChanges(undefined, newOffers),
-            });
+            const testRequest = {
+                ...request,
+                oldAssets: request.oldAssets.concat(creation.new),
+            };
+            const testResult = creator.getRandomCreation(fits, testRequest);
+            const categoryIsNowFull = !testResult.new;
+            props.handleAdd(creation.new, demand, categoryIsNowFull);
         }
     };
     const openOfferEditor = (startData: MinimalOfferData) => {
@@ -179,8 +170,7 @@ export const MenuScene = (props: MenuProps) => {
             >
                 <MenuBanner
                     bannerData={props.bannerData}
-                    onDataChange={props.onDataChange}
-                    getImpliedChanges={props.getImpliedChanges}
+                    setBannerInvsible={props.setBannerInvisible}
                     bannerEnding={bannerEnding}
                     isAbout={props.isAbout}
                 />

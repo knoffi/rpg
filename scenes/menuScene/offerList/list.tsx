@@ -40,7 +40,7 @@ export const OfferList = (props: {
 
     const chapterLists = menu.map((chapter) => {
         const demand: Demand = {
-            isAboutFood: demands.isAboutFood,
+            isAbout: demands.isAboutFood ? WeServe.food : WeServe.drinks,
             category: chapter.category,
         };
         return (

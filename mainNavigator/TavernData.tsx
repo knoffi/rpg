@@ -1,6 +1,7 @@
 import { Noticable } from '../classes/idea/Noticable';
 import { StructuredTavernFits } from '../classes/idea/StructuredTavernFits';
 import { Drinkable, Eatable } from '../classes/TavernProduct';
+import { WeServe } from '../editNavigator/WeServe';
 import { BasePrice } from '../scenes/menuScene/basePrice';
 import { BannerData } from '../scenes/menuScene/menuBanner/MenuBanner';
 import { Offer } from '../scenes/menuScene/Offer';
@@ -18,14 +19,13 @@ export type TavernData = {
         impression: Map<Noticable, boolean>;
     };
     bannerData: {
-        drink: BannerData;
-        food: BannerData;
-        impression: BannerData;
+        [WeServe.drinks]: BannerData;
+        [WeServe.food]: BannerData;
+        [WeServe.impressions]: BannerData;
     };
     boughtOffers: Offer[];
     impressions: IImpression[];
 };
-
 export interface MinimalTavernData {
     fitting: StructuredTavernFits;
     name: string;
