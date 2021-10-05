@@ -86,8 +86,9 @@ export const EditNavigator = (props: {
                 : { drinks: newOffers };
         const bannerChanges = noNextOffer ? getBannersByAdd(add, true) : {};
         const ideaLeftMapChanges = noNextOffer
-            ? getIdeaLeftMapByAdd(add, true)
+            ? getIdeaLeftMapByAdd(add, false)
             : {};
+        console.log(ideaLeftMapChanges.ideasLeft?.food.get(Eatable.breakfast));
         const tavernChanges: Partial<TavernData> = {
             ...offerChanges,
             ...bannerChanges,
