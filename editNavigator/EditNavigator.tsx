@@ -1,8 +1,6 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
-import { Noticable } from '../classes/idea/Noticable';
 import { StructuredTavernFits } from '../classes/idea/StructuredTavernFits';
-import { Drinkable, Eatable } from '../classes/TavernProduct';
 import Icon from '../components/icons';
 import { iconKeys } from '../components/icons/iconKeys';
 import { Describable, TavernData } from '../mainNavigator/TavernData';
@@ -88,7 +86,6 @@ export const EditNavigator = (props: {
         const ideaLeftMapChanges = noNextOffer
             ? getIdeaLeftMapByAdd(add, false)
             : {};
-        console.log(ideaLeftMapChanges.ideasLeft?.food.get(Eatable.breakfast));
         const tavernChanges: Partial<TavernData> = {
             ...offerChanges,
             ...bannerChanges,
@@ -144,20 +141,15 @@ export const EditNavigator = (props: {
         props.onDataChange({ bannerData: oldBanners });
     };
     const getIdeaLeftMapByDelete = (demand: Demand) => {
-        const newIdeaLeftMap = new Map<Describable, boolean>(
-            props.tavern.ideasLeft[demand.isAbout]
-        );
-        newIdeaLeftMap.set(demand.category, false);
-        return { [demand.isAbout]: newIdeaLeftMap };
-    };
-    const getIdeaLeftMapByAdd = (
-        demand: Demand,
-        ideaLeft: boolean
-    ): Partial<TavernData> => {
         const oldMaps = { ...props.tavern.ideasLeft };
-        const newMap = new Map<Eatable | Drinkable | Noticable, boolean>(
-            oldMaps[demand.isAbout]
-        ); //new Map<Eatable|Drinkable|Noticable,boolean>(oldMaps[demand.isAbout]);
+        const newMap = new Map<Describable, boolean>(oldMaps[demand.isAbout]);
+        newMap.set(demand.category, true);
+        oldMaps[demand.isAbout] = newMap;
+        return { ideasLeft: oldMaps };
+    };
+    const getIdeaLeftMapByAdd = (demand: Demand, ideaLeft: boolean) => {
+        const oldMaps = { ...props.tavern.ideasLeft };
+        const newMap = new Map<Describable, boolean>(oldMaps[demand.isAbout]);
         newMap.set(demand.category, ideaLeft);
         oldMaps[demand.isAbout] = newMap;
         return { ideasLeft: oldMaps };
