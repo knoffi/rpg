@@ -26,7 +26,7 @@ import { BannerData, MenuBanner } from './menuBanner/MenuBanner';
 import { createMinimalOffer, MinimalOfferData } from './MinimalOfferData';
 import { Offer } from './Offer';
 import { Demand } from './offerList/actionInterfaces';
-import { OfferList } from './offerList/list';
+import { OfferList } from './offerList/OfferList';
 import { getAdjustedPriceString } from './priceFunctions';
 import { ProductEditor } from './productEditor/ProductEditor';
 

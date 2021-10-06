@@ -4,7 +4,7 @@ import { Button, Modal, Paragraph, Portal, Provider } from 'react-native-paper';
 import {
     buttonEmphasis,
     InfoIconButton,
-} from '../../components/buttons/generalButtons';
+} from '../../components/buttons/Buttons';
 import { taverns } from '../../templates/taverns';
 import { editModalStyles } from './editModalStyles';
 export const EditModal = (props: {

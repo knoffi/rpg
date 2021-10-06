@@ -3,7 +3,7 @@ import { List } from 'react-native-paper';
 import { association } from '../../classes/association';
 import { Noticable } from '../../classes/idea/Noticable';
 import { ImpressionDisplay } from '../../classes/impressionDisplay/ImpressionDisplay';
-import { AddButton } from '../../components/buttons/generalButtons';
+import { AddButton } from '../../components/buttons/Buttons';
 import { Describable, TavernData } from '../../mainNavigator/TavernData';
 import { globalStyles } from '../globalStyles';
 import { BasePrice } from '../menuScene/basePrice';

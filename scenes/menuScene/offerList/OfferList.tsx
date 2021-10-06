@@ -6,7 +6,7 @@ import { WeServe } from '../../../editNavigator/WeServe';
 import { Describable } from '../../../mainNavigator/TavernData';
 import { globalStyles } from '../../globalStyles';
 import { Offer } from '../Offer';
-import { OfferListAccordeon } from './accordeon';
+import { OfferListAccordeon } from './Accordeon';
 import { Demand, IAddingActions, IOfferActions } from './actionInterfaces';
 
 const BOTTOM_PADDING_DRINKS = 265 * HEIGHT_FACTOR;

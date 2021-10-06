@@ -34,7 +34,6 @@ export const PriceSetDialog = (props: {
             >
                 <Dialog.Content>
                     <TextInput
-                        textAlign={false}
                         mode="outlined"
                         value={props.priceText}
                         label="New price"

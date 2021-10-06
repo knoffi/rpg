@@ -5,7 +5,7 @@ import {
     AddButton,
     FeatherButton,
     ImportButton,
-} from '../../../components/buttons/generalButtons';
+} from '../../../components/buttons/Buttons';
 import { menuSceneStyles } from '../menuStyles';
 import { Offer } from '../Offer';
 import { Demand, IAddingActions, IOfferActions } from './actionInterfaces';
