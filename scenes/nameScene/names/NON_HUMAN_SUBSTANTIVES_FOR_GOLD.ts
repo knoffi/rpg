@@ -16,6 +16,7 @@ import {
 } from './substantives/predatorBeasts';
 import { preyNormalAnimals } from './substantives/preyNormalAnimals';
 import { preyTinyAnimals } from './substantives/preyTinyAnimals';
+import { substantives } from './substantives/substantives';
 import { tools } from './substantives/tools';
 import { weapons } from './substantives/weapons';
 
@@ -23,15 +24,19 @@ const a = association;
 export const NON_HUMAN_SUBSTANTIVES_FOR_GOLD: DescriptionAsset[] = [
     ...honorfulPredatorBeasts,
     ...criminalPredatorBeasts,
-    ...weapons,
     ...majesticBeasts,
     ...preyNormalAnimals,
     ...preyTinyAnimals,
+    ...weapons,
     ...tools,
     ...instruments,
     ...fruits,
     ...vegetables,
     ...evilHumanoids,
+    ...substantives.allJobs,
+    ...substantives.femaleGenitals,
+    ...substantives.maleGenitals,
+    ...substantives.legsAssBreasts,
     { name: 'Temple', needsOne: [a.cleric] },
     { name: 'Mine', needsOne: [a.dwarf, a.underdark] },
     { name: 'Harem', needs: [a.prostitute], worksForBrothel: true },

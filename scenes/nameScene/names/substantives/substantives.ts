@@ -14,6 +14,7 @@ import {
     criminalPredatorBeasts,
     honorfulPredatorBeasts,
 } from './predatorBeasts';
+import { preyNormalAnimals } from './preyNormalAnimals';
 import { preyTinyAnimals } from './preyTinyAnimals';
 import { tools } from './tools';
 
@@ -35,4 +36,5 @@ export const substantives = {
     criminalPredators: criminalPredatorBeasts,
     honorfulPredators: honorfulPredatorBeasts,
     tinyAnimals: preyTinyAnimals,
+    normalAnimals: preyNormalAnimals,
 };

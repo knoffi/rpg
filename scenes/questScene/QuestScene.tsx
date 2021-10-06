@@ -5,7 +5,7 @@ import { ContentCreator } from '../../classes/contentCreator/ContentCreator';
 import { Noticable } from '../../classes/idea/Noticable';
 import { StructuredTavernFits } from '../../classes/idea/StructuredTavernFits';
 import { WeServe } from '../../editNavigator/WeServe';
-import { TavernData } from '../../mainNavigator/TavernData';
+import { Describable, TavernData } from '../../mainNavigator/TavernData';
 import { BasePrice } from '../menuScene/basePrice';
 import { BannerData, MenuBanner } from '../menuScene/menuBanner/MenuBanner';
 import { nameSceneStyles } from '../nameScene/nameSceneStyles';
@@ -47,7 +47,7 @@ export const QuestScene = (props: {
     basePrice: BasePrice;
     impressions: IImpression[];
     banner: BannerData;
-    noticablesLeft: Map<Noticable, boolean>;
+    noticablesLeft: Map<Describable, boolean>;
     onDataChange: (newData: Partial<TavernData>) => void;
     getImpliedChanges: (newImpressions?: IImpression[]) => Partial<TavernData>;
 }) => {
@@ -262,10 +262,11 @@ export const QuestScene = (props: {
         >
             <MenuBanner
                 bannerData={props.banner}
-                onDataChange={props.onDataChange}
-                getImpliedChanges={props.getImpliedChanges}
                 bannerEnding={'Let the story begin!'}
                 isAbout={WeServe.impressions}
+                setBannerInvsible={() => {
+                    console.log('METHOD NOT IMPLEMENTED!');
+                }}
             />
             <PriceExplanationDialog
                 explanationDialog={explanationDialog}

@@ -1,6 +1,7 @@
 import { WeServe } from '../../editNavigator/WeServe';
 import { getRandomArrayEntry } from '../../helpingFunctions/getFittingRandom';
 import { NothingLeftOffer, Offer } from '../../scenes/menuScene/Offer';
+import { Demand } from '../../scenes/menuScene/offerList/actionInterfaces';
 import { emptyImpression } from '../../scenes/questScene/impressions/emptyImpression';
 import { getPrefixExcluder } from '../../scenes/questScene/impressions/getPrefixExcluder';
 import { IImpression } from '../../scenes/questScene/impressions/IImpression';
@@ -73,7 +74,7 @@ export class ContentCreator {
             }
         }
     }
-    getRandomDrink(
+    private getRandomDrink(
         fitting: StructuredTavernFits,
         category: Drinkable,
         oldDrinks: Offer[]
@@ -87,7 +88,7 @@ export class ContentCreator {
 
         if (!chapter) {
             console.log('Drink category not found!');
-            return NothingLeftOffer;
+            return undefined;
         } else {
             const bestRecipes = filterBestIdeas(
                 chapter.drinks,
@@ -97,7 +98,7 @@ export class ContentCreator {
                 () => false
             );
             if (!bestRecipes) {
-                return NothingLeftOffer;
+                return undefined;
             } else {
                 const newIdea = getRandomArrayEntry(bestRecipes.ideas);
                 const newDrink = newIdea.getConcreteDish(
@@ -108,7 +109,7 @@ export class ContentCreator {
             }
         }
     }
-    getRandomDish(
+    private getRandomDish(
         fitting: StructuredTavernFits,
         category: Eatable,
         oldDishes: Offer[]
@@ -122,7 +123,7 @@ export class ContentCreator {
 
         if (!chapter) {
             console.log('Food category not found!');
-            return NothingLeftOffer;
+            return undefined;
         } else {
             const bestRecipes = filterBestIdeas(
                 chapter.dishes,
@@ -132,7 +133,7 @@ export class ContentCreator {
                 () => false
             );
             if (!bestRecipes) {
-                return NothingLeftOffer;
+                return undefined;
             } else {
                 const newIdea = getRandomArrayEntry(bestRecipes.ideas);
                 const newDish = newIdea.getConcreteDish(
@@ -143,6 +144,60 @@ export class ContentCreator {
             }
         }
     }
+
+    getRandomMenuItem(
+        fitting: StructuredTavernFits,
+        demand: Demand,
+        oldMenuItems: Offer[]
+    ) {
+        if (demand.isAbout === WeServe.food) {
+            return this.getRandomDish(fitting, demand.category, oldMenuItems);
+        } else {
+            return this.getRandomDrink(fitting, demand.category, oldMenuItems);
+        }
+    }
+
+    public getRandomCreation(
+        fitting: StructuredTavernFits,
+        request: CreationRequest
+    ): Creation {
+        switch (request.isAbout) {
+            case WeServe.drinks:
+                return {
+                    new: this.getRandomDrink(
+                        fitting,
+                        request.category,
+                        request.oldAssets
+                    ),
+                    isAbout: WeServe.drinks,
+                };
+            case WeServe.food:
+                return {
+                    new: this.getRandomDish(
+                        fitting,
+                        request.category,
+                        request.oldAssets
+                    ),
+                    isAbout: WeServe.food,
+                };
+
+            default:
+                return {
+                    new: this.getRandomImpression(
+                        fitting,
+                        request.category,
+                        request.oldAssets,
+                        request.fullFirstKeys,
+                        request.fullSecondKeys,
+                        request.mainFilter,
+                        request.additionFilter,
+                        request.patterns
+                    ),
+                    isAbout: WeServe.impressions,
+                };
+        }
+    }
+
     static buildOfferFromProduct(
         product: TavernProduct,
         category: Drinkable | Eatable
@@ -157,9 +212,15 @@ export class ContentCreator {
         fitting: StructuredTavernFits,
         rerolledName: string,
         dishes: Offer[],
-        category: Eatable
+        addedDish?: Offer
     ) {
-        const newDish = this.getRandomDish(fitting, category, dishes);
+        const category =
+            dishes.find((dish) => dish.product.name === rerolledName)?.product
+                .category || Eatable.dessert;
+        const newDish =
+            addedDish ||
+            this.getRandomDish(fitting, category as Eatable, dishes) ||
+            NothingLeftOffer;
         const rerolledDishes = dishes.map((dish) =>
             dish.product.name === rerolledName ? newDish : dish
         );
@@ -169,9 +230,15 @@ export class ContentCreator {
         fitting: StructuredTavernFits,
         rerolledName: string,
         drinks: Offer[],
-        category: Drinkable
+        addedDrink?: Offer
     ) {
-        const newDrink = this.getRandomDrink(fitting, category, drinks);
+        const category =
+            drinks.find((drink) => drink.product.name === rerolledName)?.product
+                .category || Drinkable.beer;
+        const newDrink =
+            addedDrink ||
+            this.getRandomDrink(fitting, category as Drinkable, drinks) ||
+            NothingLeftOffer;
         const rerolledDrinks = drinks.map((drink) =>
             drink.product.name === rerolledName ? newDrink : drink
         );
@@ -197,21 +264,53 @@ export class ContentCreator {
             patterns
         );
         const rerolledImpressions = impressions.map((impression) =>
-            impression.name === rerolledName ? newImpression : impression
+            impression.name === rerolledName
+                ? newImpression || emptyImpression
+                : impression
         );
         return rerolledImpressions;
     }
 }
+export type FoodRequest = {
+    isAbout: WeServe.food;
+    category: Eatable;
+    oldAssets: Offer[];
+};
+export type DrinkRequest = {
+    isAbout: WeServe.drinks;
+    category: Drinkable;
+    oldAssets: Offer[];
+};
+export type ImpressionRequest = {
+    isAbout: WeServe.impressions;
+    category: Noticable;
+    oldAssets: IImpression[];
+    fullFirstKeys: AssetKey[];
+    fullSecondKeys: AssetKey[];
+    mainFilter?: number;
+    additionFilter?: number;
+    patterns?: Pattern[];
+};
+export type CreationRequest = FoodRequest | DrinkRequest | ImpressionRequest;
 
+type Creation =
+    | {
+          isAbout: WeServe.drinks | WeServe.food;
+          new?: Offer;
+      }
+    | {
+          isAbout: WeServe.impressions;
+          new?: IImpression;
+      };
 interface IImpressionNote {
     impressions: ImpressionIdea[];
     category: Noticable;
 }
-interface IDishMenu {
+export interface IDishMenu {
     dishes: DishIdea[];
     category: Eatable;
 }
-interface IDrinkMenu {
+export interface IDrinkMenu {
     drinks: DishIdea[];
     category: Drinkable;
 }

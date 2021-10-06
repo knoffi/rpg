@@ -1,7 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
 import { List } from 'react-native-paper';
-import { MenuCategory } from '../../../classes/TavernProduct';
 import {
     AddButton,
     FeatherButton,
@@ -9,12 +8,12 @@ import {
 } from '../../../components/buttons/Buttons';
 import { menuSceneStyles } from '../menuStyles';
 import { Offer } from '../Offer';
-import { IAddingActions, IOfferActions } from './actionInterfaces';
+import { Demand, IAddingActions, IOfferActions } from './actionInterfaces';
 import { OfferListItem } from './Item';
 import { LIST_END_BUTTON_SIZE } from './LIST_END_BUTTON_SIZE';
 
 export const OfferListAccordeon = (props: {
-    Drinkable: MenuCategory;
+    demand: Demand;
     listOfOffers: Offer[];
     offerActions: IOfferActions;
     addingActions: IAddingActions;
@@ -24,7 +23,7 @@ export const OfferListAccordeon = (props: {
     const onRandomAdd = props.addingActions.randomAdd;
     const onImport = props.addingActions.import;
     const onEdit = props.addingActions.edit;
-    const thisCategory = props.Drinkable;
+    const thisDemand = props.demand;
     const noDrinkToAddLeft = props.noDrinkToAddLeft;
     const getPriceString = props.getPriceString;
     const offerItems = props.listOfOffers.map((offerOfList) => {
@@ -35,7 +34,7 @@ export const OfferListAccordeon = (props: {
                     drinkName={name}
                     actions={{
                         onDelete: () => {
-                            props.offerActions.deleteOffer(name);
+                            props.offerActions.deleteOffer(name, thisDemand);
                         },
                         onInfo: () => {},
                         onReroll: () => {
@@ -68,7 +67,7 @@ export const OfferListAccordeon = (props: {
 
     return (
         <List.Accordion
-            title={props.Drinkable}
+            title={props.demand.category}
             titleStyle={menuSceneStyles.accordeonListTitle}
         >
             {offerItems}
@@ -80,20 +79,20 @@ export const OfferListAccordeon = (props: {
                         <View style={{ flexDirection: 'row' }}>
                             <AddButton
                                 onPress={() => {
-                                    onRandomAdd(thisCategory);
+                                    onRandomAdd(thisDemand);
                                 }}
                                 size={LIST_END_BUTTON_SIZE}
                                 disabled={noDrinkToAddLeft}
                             />
                             <ImportButton
                                 onPress={() => {
-                                    onImport(thisCategory);
+                                    onImport(thisDemand.category);
                                 }}
                                 size={LIST_END_BUTTON_SIZE}
                             />
                             <FeatherButton
                                 onPress={() => {
-                                    onEdit(thisCategory);
+                                    onEdit(thisDemand.category);
                                 }}
                                 size={LIST_END_BUTTON_SIZE}
                             />
