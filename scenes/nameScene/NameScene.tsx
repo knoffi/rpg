@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import 'react-native-gesture-handler';
-import { Button, List } from 'react-native-paper';
+import { List } from 'react-native-paper';
 import {
     association,
     AssociationTypes,
@@ -16,7 +16,6 @@ import {
     PencilButton,
     RerollButton,
 } from '../../components/buttons/Buttons';
-import { checkDataDistribution } from '../../helpingFunctions/checkDataDistribution';
 import { TavernData } from '../../mainNavigator/TavernData';
 import { globalStyles } from '../globalStyles';
 import { AssociationDialogBar } from './associationBar/AssociationDialogBar';
@@ -115,7 +114,6 @@ export class NameScene extends React.Component<
                                 title={'EDIT'}
                             />
                         </View>
-                        {this.getFittingNamesSign()}
                         <Text>{JSON.stringify(this.props.fitting)}</Text>
                     </View>
                 </View>
@@ -230,19 +228,6 @@ export class NameScene extends React.Component<
         });
     }
 
-    private getFittingNamesSign() {
-        return (
-            <View style={{ flexDirection: 'row' }}>
-                <Button
-                    onPress={() => {
-                        checkDataDistribution();
-                    }}
-                >
-                    {this.totalNumberOfPossibleNames()}
-                </Button>
-            </View>
-        );
-    }
     private totalNumberOfPossibleNames() {
         return nameIdeas
             .map((nameIdea) => nameIdea.countFittingChoices(this.props.fitting))

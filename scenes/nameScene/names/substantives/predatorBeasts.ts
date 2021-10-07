@@ -115,10 +115,11 @@ export const honorfulPredatorBeasts: DescriptionAsset[] = [
 export const criminalPredatorBeasts: DescriptionAsset[] = [
     {
         name: 'Eal',
-        needs: [a.haven],
-        misfits: [a.rich],
+        needsOne: [a.haven, a.thief],
+        landRange: [a.haven, a.city, a.village],
         worksForThiefs: true,
-        powerFits: [a.haven],
+        worksForBrothel: true,
+        powerFits: [a.haven, a.thief, a.village],
     },
     {
         name: 'Hyena',
