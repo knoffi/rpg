@@ -24,6 +24,7 @@ import {
     ButtonStates,
     getButtonStates,
 } from './associationBar/getButtonStates';
+import { ContextController } from './contenShifter/ContenController';
 import { getRandomName } from './getRandomName';
 import { nameIdeas } from './names/nameIdeas';
 import { nameSceneStyles } from './nameSceneStyles';
@@ -114,6 +115,7 @@ export class NameScene extends React.Component<
                                 title={'EDIT'}
                             />
                         </View>
+                        <ContextController></ContextController>
                         <Text>{JSON.stringify(this.props.fitting)}</Text>
                     </View>
                 </View>
