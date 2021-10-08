@@ -19,8 +19,6 @@ import { getRandomArrayEntry } from '../../helpingFunctions/getFittingRandom';
 import { Describable, TavernData } from '../../mainNavigator/TavernData';
 import { nameSceneStyles } from '../nameScene/nameSceneStyles';
 import { BasePrice } from './basePrice';
-import { drinkMenu } from './drinks/drinkMenu';
-import { foodMenu } from './food/foodMenu';
 import { bannerEndings } from './menuBanner/bannerEndings';
 import { BannerData, MenuBanner } from './menuBanner/MenuBanner';
 import { createMinimalOffer, MinimalOfferData } from './MinimalOfferData';
@@ -52,7 +50,7 @@ interface MenuProps {
 }
 
 export const MenuScene = (props: MenuProps) => {
-    const creator = new ContentCreator([], foodMenu, drinkMenu);
+    const creator = new ContentCreator('standard');
     const fits = props.fitting;
     const [bannerEnding, setBannerEnding] = useState(
         getRandomArrayEntry(bannerEndings.get(props.isAbout)!)

@@ -1,10 +1,13 @@
 import { WeServe } from '../../editNavigator/WeServe';
 import { getRandomArrayEntry } from '../../helpingFunctions/getFittingRandom';
+import { drinkMenu } from '../../scenes/menuScene/drinks/drinkMenu';
+import { foodMenu } from '../../scenes/menuScene/food/foodMenu';
 import { NothingLeftOffer, Offer } from '../../scenes/menuScene/Offer';
 import { Demand } from '../../scenes/menuScene/offerList/actionInterfaces';
 import { emptyImpression } from '../../scenes/questScene/impressions/emptyImpression';
 import { getPrefixExcluder } from '../../scenes/questScene/impressions/getPrefixExcluder';
 import { IImpression } from '../../scenes/questScene/impressions/IImpression';
+import { impressionChapters } from '../../scenes/questScene/impressions/impressionChapters';
 import { getKeyExcluder } from '../../scenes/questScene/impressions/impressionExcluder/getImpressionExcluder';
 import { AssetKey } from '../idea/AssetKey/AssetKey';
 import { DishIdea } from '../idea/DishIdea';
@@ -16,11 +19,22 @@ import { StructuredTavernFits } from '../idea/StructuredTavernFits';
 import { Drinkable, Eatable, TavernProduct } from '../TavernProduct';
 
 export class ContentCreator {
-    constructor(
-        private noteBook: IImpressionNote[],
-        private dishMenu: IDishMenu[],
-        private drinkMenu: IDrinkMenu[]
-    ) {}
+    private static books = new Map<String, FantasyBook>([
+        [
+            'standard',
+            { notes: impressionChapters, drinks: drinkMenu, dishes: foodMenu },
+        ],
+    ]);
+    private noteBook: IImpressionNote[];
+    private dishMenu: IDishMenu[];
+    private drinkMenu: IDrinkMenu[];
+
+    constructor(key = 'standard') {
+        const universe = ContentCreator.books.get(key);
+        this.dishMenu = universe?.dishes || foodMenu;
+        this.drinkMenu = universe?.drinks || drinkMenu;
+        this.noteBook = universe?.notes || impressionChapters;
+    }
 
     getRandomImpression(
         fitting: StructuredTavernFits,
@@ -314,3 +328,9 @@ export interface IDrinkMenu {
     drinks: DishIdea[];
     category: Drinkable;
 }
+
+type FantasyBook = {
+    notes: IImpressionNote[];
+    drinks: IDrinkMenu[];
+    dishes: IDishMenu[];
+};

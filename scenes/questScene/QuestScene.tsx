@@ -14,7 +14,6 @@ import { DetailsList } from './DetailsList';
 import { getFullKeys } from './getFullKeys';
 import { getUsedPatterns } from './getUsedPatterns';
 import { IImpression } from './impressions/IImpression';
-import { impressionChapters } from './impressions/impressionChapters';
 import { incomeExampleMap } from './incomeExampleMap';
 import { PriceExplanationDialog } from './PriceExplanationDialog';
 import { PriceSetDialog } from './PriceSetDialog';
@@ -51,7 +50,7 @@ export const QuestScene = (props: {
     onDataChange: (newData: Partial<TavernData>) => void;
     getImpliedChanges: (newImpressions?: IImpression[]) => Partial<TavernData>;
 }) => {
-    const creator = new ContentCreator(impressionChapters, [], []);
+    const creator = new ContentCreator('standard');
     const [explanationDialog, setDialog] = useState({
         open: false,
         income: association.poor,
