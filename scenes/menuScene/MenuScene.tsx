@@ -50,7 +50,7 @@ interface MenuProps {
 }
 
 export const MenuScene = (props: MenuProps) => {
-    const creator = new ContentCreator('standard');
+    const creator = new ContentCreator();
     const fits = props.fitting;
     const [bannerEnding, setBannerEnding] = useState(
         getRandomArrayEntry(bannerEndings.get(props.isAbout)!)

@@ -17,11 +17,12 @@ import { Noticable } from '../idea/Noticable';
 import { Pattern } from '../idea/Patterns/Pattern';
 import { StructuredTavernFits } from '../idea/StructuredTavernFits';
 import { Drinkable, Eatable, TavernProduct } from '../TavernProduct';
+import { FantasyKeys } from './FantasKeys';
 
 export class ContentCreator {
-    private static books = new Map<String, FantasyBook>([
+    private static books = new Map<FantasyKeys, FantasyBook>([
         [
-            'standard',
+            FantasyKeys.standard,
             { notes: impressionChapters, drinks: drinkMenu, dishes: foodMenu },
         ],
     ]);
@@ -29,7 +30,7 @@ export class ContentCreator {
     private dishMenu: IDishMenu[];
     private drinkMenu: IDrinkMenu[];
 
-    constructor(key = 'standard') {
+    constructor(key = FantasyKeys.standard) {
         const universe = ContentCreator.books.get(key);
         this.dishMenu = universe?.dishes || foodMenu;
         this.drinkMenu = universe?.drinks || drinkMenu;
