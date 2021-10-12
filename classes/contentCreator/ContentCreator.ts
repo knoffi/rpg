@@ -3,7 +3,6 @@ import { getRandomArrayEntry } from '../../helpingFunctions/getFittingRandom';
 import { drinkMenu } from '../../scenes/menuScene/drinks/drinkMenu';
 import { foodMenu } from '../../scenes/menuScene/food/foodMenu';
 import { NothingLeftOffer, Offer } from '../../scenes/menuScene/Offer';
-import { Demand } from '../../scenes/menuScene/offerList/actionInterfaces';
 import { emptyImpression } from '../../scenes/questScene/impressions/emptyImpression';
 import { getPrefixExcluder } from '../../scenes/questScene/impressions/getPrefixExcluder';
 import { IImpression } from '../../scenes/questScene/impressions/IImpression';
@@ -37,7 +36,48 @@ export class ContentCreator {
         this.noteBook = universe?.notes || impressionChapters;
     }
 
-    getRandomImpression(
+    public getRandomCreation(
+        fitting: StructuredTavernFits,
+        request: CreationRequest
+    ): Creation {
+        switch (request.isAbout) {
+            case WeServe.drinks:
+                return {
+                    new: this.getRandomDrink(
+                        fitting,
+                        request.category,
+                        request.oldAssets
+                    ),
+                    isAbout: WeServe.drinks,
+                };
+            case WeServe.food:
+                return {
+                    new: this.getRandomDish(
+                        fitting,
+                        request.category,
+                        request.oldAssets
+                    ),
+                    isAbout: WeServe.food,
+                };
+
+            default:
+                return {
+                    new: this.getRandomImpression(
+                        fitting,
+                        request.category,
+                        request.oldAssets,
+                        request.fullFirstKeys,
+                        request.fullSecondKeys,
+                        request.mainFilter,
+                        request.additionFilter,
+                        request.patterns
+                    ),
+                    isAbout: WeServe.impressions,
+                };
+        }
+    }
+
+    private getRandomImpression(
         fitting: StructuredTavernFits,
         category: Noticable,
         oldImpressions: IImpression[],
@@ -160,60 +200,7 @@ export class ContentCreator {
         }
     }
 
-    getRandomMenuItem(
-        fitting: StructuredTavernFits,
-        demand: Demand,
-        oldMenuItems: Offer[]
-    ) {
-        if (demand.isAbout === WeServe.food) {
-            return this.getRandomDish(fitting, demand.category, oldMenuItems);
-        } else {
-            return this.getRandomDrink(fitting, demand.category, oldMenuItems);
-        }
-    }
-
-    public getRandomCreation(
-        fitting: StructuredTavernFits,
-        request: CreationRequest
-    ): Creation {
-        switch (request.isAbout) {
-            case WeServe.drinks:
-                return {
-                    new: this.getRandomDrink(
-                        fitting,
-                        request.category,
-                        request.oldAssets
-                    ),
-                    isAbout: WeServe.drinks,
-                };
-            case WeServe.food:
-                return {
-                    new: this.getRandomDish(
-                        fitting,
-                        request.category,
-                        request.oldAssets
-                    ),
-                    isAbout: WeServe.food,
-                };
-
-            default:
-                return {
-                    new: this.getRandomImpression(
-                        fitting,
-                        request.category,
-                        request.oldAssets,
-                        request.fullFirstKeys,
-                        request.fullSecondKeys,
-                        request.mainFilter,
-                        request.additionFilter,
-                        request.patterns
-                    ),
-                    isAbout: WeServe.impressions,
-                };
-        }
-    }
-
-    static buildOfferFromProduct(
+    private static buildOfferFromProduct(
         product: TavernProduct,
         category: Drinkable | Eatable
     ) {

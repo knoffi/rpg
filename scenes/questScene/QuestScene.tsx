@@ -95,16 +95,15 @@ export const QuestScene = (props: {
     };
 
     const onAdd = (category: Noticable) => {
-        const newImpression = creator.getRandomImpression(
-            props.fitting,
-            category,
-            props.impressions,
-            fullKeys.first,
-            fullKeys.second,
-            undefined,
-            undefined,
-            patterns
-        );
+        const newImpression = creator.getRandomCreation(props.fitting, {
+            isAbout: WeServe.impressions,
+            category: category,
+            fullFirstKeys: fullKeys.first,
+            fullSecondKeys: fullKeys.second,
+            oldAssets: props.impressions,
+            patterns: patterns,
+        }).new as IImpression;
+
         const extendedImpressions = [...props.impressions, newImpression];
         setFullKeys(getFullKeys(extendedImpressions));
         setPatterns(getUsedPatterns(extendedImpressions));
