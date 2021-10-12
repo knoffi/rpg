@@ -50,7 +50,7 @@ export const QuestScene = (props: {
     onDataChange: (newData: Partial<TavernData>) => void;
     getImpliedChanges: (newImpressions?: IImpression[]) => Partial<TavernData>;
 }) => {
-    const creator = new ContentCreator('standard');
+    const creator = new ContentCreator();
     const [explanationDialog, setDialog] = useState({
         open: false,
         income: association.poor,
