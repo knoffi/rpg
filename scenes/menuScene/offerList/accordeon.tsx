@@ -38,7 +38,7 @@ export const OfferListAccordeon = (props: {
                         },
                         onInfo: () => {},
                         onReroll: () => {
-                            props.offerActions.rerollOffer(name);
+                            props.offerActions.rerollOffer(name, thisDemand);
                         },
                         onShop: () => {
                             props.offerActions.shopOffer(name);

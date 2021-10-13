@@ -1,18 +1,9 @@
 import React, { useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import { Modal, Portal } from 'react-native-paper';
-import { association } from '../../classes/association';
-import {
-    ContentCreator,
-    CreationRequest,
-} from '../../classes/contentCreator/ContentCreator';
 import { SavedDataHandler, WeSave } from '../../classes/database/Database';
 import { StructuredTavernFits } from '../../classes/idea/StructuredTavernFits';
-import {
-    Drinkable,
-    MenuCategory,
-    TavernProduct,
-} from '../../classes/TavernProduct';
+import { Drinkable, MenuCategory } from '../../classes/TavernProduct';
 import { ListOfSaves } from '../../components/ListOfSaves/ListOfSaves';
 import { WeServe } from '../../editNavigator/WeServe';
 import { getRandomArrayEntry } from '../../helpingFunctions/getFittingRandom';
@@ -21,7 +12,7 @@ import { nameSceneStyles } from '../nameScene/nameSceneStyles';
 import { BasePrice } from './basePrice';
 import { bannerEndings } from './menuBanner/bannerEndings';
 import { BannerData, MenuBanner } from './menuBanner/MenuBanner';
-import { createMinimalOffer, MinimalOfferData } from './MinimalOfferData';
+import { MinimalOfferData } from './MinimalOfferData';
 import { Offer } from './Offer';
 import { Demand } from './offerList/actionInterfaces';
 import { OfferList } from './offerList/OfferList';
@@ -43,14 +34,15 @@ interface MenuProps {
     offersBought: Offer[];
     basePrice: BasePrice;
     bannerData: BannerData;
-    handleAdd: (newOffer: Offer, add: Demand, noNextOffer: boolean) => void;
-    handleDelete: (removedOffer: string, deleted: Demand) => void;
+    handleAdd: (add: Demand) => void;
+    handleDelete: (name: string, deleted: Demand) => void;
+    handleReroll: (name: string, rerolled: Demand) => void;
+    handleEdit: (offer: MinimalOfferData, isNew: boolean) => void;
     setBannerInvisible: () => void;
     buyOffer: (boughtOffer: Offer) => void;
 }
 
 export const MenuScene = (props: MenuProps) => {
-    const creator = new ContentCreator();
     const fits = props.fitting;
     const [bannerEnding, setBannerEnding] = useState(
         getRandomArrayEntry(bannerEndings.get(props.isAbout)!)
@@ -69,37 +61,13 @@ export const MenuScene = (props: MenuProps) => {
     const deleteOffer = (name: string, demand: Demand) => {
         props.handleDelete(name, demand);
     };
-    const changeOffer = (nameOfChangedOffer: string, newOffer?: Offer) => {
-        const newOffers =
-            props.isAbout === WeServe.food
-                ? creator.rerollOneDish(
-                      fits,
-                      nameOfChangedOffer,
-                      props.offers,
-                      newOffer
-                  )
-                : creator.rerollOneDrink(
-                      fits,
-                      nameOfChangedOffer,
-                      props.offers,
-                      newOffer
-                  );
-        if (newOffers) {
-            if (props.isAbout === WeServe.drinks) {
-                props.onDataChange({ drinks: newOffers });
-            } else {
-                props.onDataChange({ dishes: newOffers });
-            }
-        }
+    //TODO: further refactor into two methods with strong encapsulation
+    const addUserOffer = (offer: MinimalOfferData) => {
+        props.handleEdit(offer, true);
+        dismissEditorModal();
     };
-    const addUserOffer = (textData: MinimalOfferData) => {
-        const newUserOffer = createMinimalOffer(textData);
-        const newOffers = [...props.offers, newUserOffer];
-        if (props.isAbout === WeServe.drinks) {
-            props.onDataChange({ drinks: newOffers });
-        } else {
-            props.onDataChange({ dishes: newOffers });
-        }
+    const editUserOffer = (offer: MinimalOfferData) => {
+        props.handleEdit(offer, false);
         dismissEditorModal();
     };
 
@@ -109,34 +77,6 @@ export const MenuScene = (props: MenuProps) => {
                 props.buyOffer(offer);
             }
         });
-    };
-    const addRandomOffer = (demand: Demand) => {
-        const request: CreationRequest =
-            demand.isAbout === WeServe.food
-                ? {
-                      oldAssets: props.offers,
-                      category: demand.category,
-                      isAbout: demand.isAbout,
-                  }
-                : {
-                      oldAssets: props.offers,
-                      category: demand.category,
-                      isAbout: demand.isAbout,
-                  };
-        const creation = creator.getRandomCreation(fits, request);
-        if (!creation.new) {
-            console.log('CREATED OFFER DOES NOT EXIST!');
-        } else if (creation.isAbout === WeServe.impressions) {
-            console.log('GOT IMPRESSION BUT NEED OFFER');
-        } else {
-            const testRequest = {
-                ...request,
-                oldAssets: request.oldAssets.concat(creation.new),
-            };
-            const testResult = creator.getRandomCreation(fits, testRequest);
-            const categoryIsNowFull = !testResult.new;
-            props.handleAdd(creation.new, demand, categoryIsNowFull);
-        }
     };
     const openOfferEditor = (startData: MinimalOfferData) => {
         setEditorData({
@@ -176,7 +116,7 @@ export const MenuScene = (props: MenuProps) => {
                     offers={props.offers}
                     isAbout={props.isAbout}
                     addingActions={{
-                        randomAdd: addRandomOffer,
+                        randomAdd: props.handleAdd,
                         import: (category: MenuCategory) => {
                             setSavedListData({
                                 visible: true,
@@ -195,7 +135,7 @@ export const MenuScene = (props: MenuProps) => {
                     }}
                     offerActions={{
                         deleteOffer: deleteOffer,
-                        rerollOffer: changeOffer,
+                        rerollOffer: props.handleReroll,
                         shopOffer: buyOffer,
                         editUserOffer: openOfferEditor,
                     }}
@@ -217,22 +157,7 @@ export const MenuScene = (props: MenuProps) => {
                     <ProductEditor
                         startTexts={editorData.startData}
                         nameIsDuplicated={nameIsDuplicated}
-                        overwriteTavernProduct={(
-                            textData: MinimalOfferData
-                        ) => {
-                            changeOffer(editorData.startData.name, {
-                                product: new TavernProduct(
-                                    textData.name,
-                                    parseInt(textData.priceText),
-                                    [] as association[],
-                                    textData.category,
-                                    textData.description,
-                                    true
-                                ),
-                                price: parseInt(textData.priceText),
-                            });
-                            dismissEditorModal();
-                        }}
+                        overwriteTavernProduct={editUserOffer}
                         addTavernProduct={addUserOffer}
                     />
                 </Modal>

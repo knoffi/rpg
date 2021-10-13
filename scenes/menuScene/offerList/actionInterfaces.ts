@@ -1,3 +1,4 @@
+import { Noticable } from '../../../classes/idea/Noticable';
 import {
     Drinkable,
     Eatable,
@@ -16,7 +17,8 @@ export interface IProductActions {
 
 export type Demand =
     | { isAbout: WeServe.food; category: Eatable }
-    | { isAbout: WeServe.drinks; category: Drinkable };
+    | { isAbout: WeServe.drinks; category: Drinkable }
+    | { isAbout: WeServe.impressions; category: Noticable };
 
 export interface IAddingActions {
     randomAdd: (demand: Demand) => void;
@@ -25,7 +27,7 @@ export interface IAddingActions {
 }
 export interface IOfferActions {
     deleteOffer: (name: string, deleted: Demand) => void;
-    rerollOffer: (name: string) => void;
+    rerollOffer: (name: string, reroll: Demand) => void;
     shopOffer: (name: string) => void;
     editUserOffer: (startData: MinimalOfferData) => void;
 }
