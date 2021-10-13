@@ -1,8 +1,8 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
 import {
+    Add,
     ContentCreator,
-    Creation,
     CreationRequest,
 } from '../classes/contentCreator/ContentCreator';
 import { AssetKey } from '../classes/idea/AssetKey/AssetKey';
@@ -75,7 +75,31 @@ export const EditNavigator = (props: {
         };
         return newBanners;
     };
-    const handleReroll = (name: string, reroll: Demand) => {};
+    const handleReroll = (
+        name: string,
+        reroll: Demand,
+        fullFirstKeys = [] as AssetKey[],
+        fullSecondKeys = [] as AssetKey[],
+        patterns?: Pattern[],
+        mainFilter?: number,
+        additionFilter?: number
+    ) => {
+        const request: CreationRequest = getCreationRequest(
+            reroll,
+            props.tavern,
+            fullFirstKeys,
+            fullSecondKeys,
+            patterns,
+            mainFilter,
+            additionFilter
+        );
+        const rerolled = creator.rerollOneCreation(
+            props.tavern.fitting,
+            name,
+            request
+        );
+        props.onDataChange({ [rerolled.isAbout]: rerolled.oneRerolled });
+    };
     //TODO: extract keys into EditNavigator, build
     // keys = useState( {[WeServe.impressions]:{first:AssetKeys,second:AssetKeys}}, ... } )
     // patterns = useState( {[WeServe.drinks]:{first:AssetKeys,second:AssetKeys}}, ... )
@@ -88,18 +112,15 @@ export const EditNavigator = (props: {
         mainFilter?: number,
         additionFilter?: number
     ) => {
-        const request: CreationRequest =
-            add.isAbout === WeServe.impressions
-                ? {
-                      ...add,
-                      oldAssets: props.tavern[add.isAbout],
-                      fullFirstKeys,
-                      fullSecondKeys,
-                      patterns,
-                      mainFilter,
-                      additionFilter,
-                  }
-                : { ...add, oldAssets: props.tavern[add.isAbout] };
+        const request: CreationRequest = getCreationRequest(
+            add,
+            props.tavern,
+            fullFirstKeys,
+            fullSecondKeys,
+            patterns,
+            mainFilter,
+            additionFilter
+        );
         const creation = creator.addRandomCreation(
             props.tavern.fitting,
             request
@@ -112,7 +133,7 @@ export const EditNavigator = (props: {
         invokeAdd(creation, noNextCreation);
     };
 
-    const invokeAdd = (creation: Creation, noNextCreation: boolean) => {
+    const invokeAdd = (creation: Add, noNextCreation: boolean) => {
         if (!creation.new) {
             console.log('__ADDING WAS INVOKED WITH EMPTY CREATION___');
         }
@@ -240,7 +261,7 @@ export const EditNavigator = (props: {
                     <MenuScene
                         buyOffer={buyOffer}
                         handleAdd={handleAdd}
-                        handleReroll={}
+                        handleReroll={handleReroll}
                         offersBought={props.tavern.boughtOffers}
                         fitting={props.tavern.fitting}
                         isAbout={WeServe.drinks}
@@ -259,7 +280,8 @@ export const EditNavigator = (props: {
                 children={() => (
                     <MenuScene
                         buyOffer={buyOffer}
-                        handleAdd={handleOfferAdd}
+                        handleAdd={handleAdd}
+                        handleReroll={handleReroll}
                         offersBought={props.tavern.boughtOffers}
                         fitting={props.tavern.fitting}
                         isAbout={WeServe.food}
@@ -280,7 +302,7 @@ export const EditNavigator = (props: {
                         fitting={props.tavern.fitting}
                         basePrice={props.tavern.prices}
                         onDataChange={props.onDataChange}
-                        impressions={props.tavern.impressions}
+                        impressions={props.tavern[WeServe.impressions]}
                         banner={oldBanner.impression}
                         noticablesLeft={props.tavern.ideasLeft.impression}
                         getImpliedChanges={(newImpressions?: IImpression[]) =>
@@ -301,3 +323,24 @@ export const EditNavigator = (props: {
         </Tab.Navigator>
     );
 };
+function getCreationRequest(
+    add: Demand,
+    tavern: TavernData,
+    fullFirstKeys: AssetKey[],
+    fullSecondKeys: AssetKey[],
+    patterns: Pattern[] | undefined,
+    mainFilter: number | undefined,
+    additionFilter: number | undefined
+): CreationRequest {
+    return add.isAbout === WeServe.impressions
+        ? {
+              ...add,
+              oldAssets: tavern[add.isAbout],
+              fullFirstKeys,
+              fullSecondKeys,
+              patterns,
+              mainFilter,
+              additionFilter,
+          }
+        : { ...add, oldAssets: tavern[add.isAbout] };
+}
