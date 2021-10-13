@@ -10,8 +10,8 @@ export type Describable = Drinkable | Eatable | Noticable;
 export type TavernData = {
     fitting: StructuredTavernFits;
     name: string;
-    drinks: Offer[];
-    dishes: Offer[];
+    [WeServe.drinks]: Offer[];
+    [WeServe.food]: Offer[];
     prices: BasePrice;
     ideasLeft: {
         [WeServe.drinks]: Map<Describable, boolean>;
@@ -24,7 +24,7 @@ export type TavernData = {
         [WeServe.impressions]: BannerData;
     };
     boughtOffers: Offer[];
-    impressions: IImpression[];
+    [WeServe.impressions]: IImpression[];
 };
 export interface MinimalTavernData {
     fitting: StructuredTavernFits;

@@ -1,12 +1,12 @@
 import {
     association,
     AssociationTypes,
-    getAssociationsOfType
+    getAssociationsOfType,
 } from '../classes/association';
 import { Noticable } from '../classes/idea/Noticable';
 import {
     getStructuredFits,
-    StructuredTavernFits
+    StructuredTavernFits,
 } from '../classes/idea/StructuredTavernFits';
 import { Drinkable, Eatable, MenuCategory } from '../classes/TavernProduct';
 import { getProductsLeftAndBannerData } from '../editNavigator/editNavigatorFunctions';
@@ -40,9 +40,9 @@ export const getRandomStartTavern = () => {
     ) as IImpression[];
     tavernData.name = getRandomStartName(fits);
     tavernData.fitting = fits;
-    tavernData.drinks = drinks;
-    tavernData.dishes = dishes;
-    tavernData.impressions = impressions;
+    tavernData[WeServe.drinks] = drinks;
+    tavernData[WeServe.food] = dishes;
+    tavernData[WeServe.impressions] = impressions;
     const { bannerData, ideasLeft } = getProductsLeftAndBannerData(fits, {
         drinks,
         dishes,

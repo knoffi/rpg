@@ -1,5 +1,12 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
+import {
+    ContentCreator,
+    Creation,
+    CreationRequest,
+} from '../classes/contentCreator/ContentCreator';
+import { AssetKey } from '../classes/idea/AssetKey/AssetKey';
+import { Pattern } from '../classes/idea/Patterns/Pattern';
 import { StructuredTavernFits } from '../classes/idea/StructuredTavernFits';
 import Icon from '../components/icons';
 import { iconKeys } from '../components/icons/iconKeys';
@@ -46,6 +53,7 @@ export const EditNavigator = (props: {
     onDataChange: (newData: Partial<TavernData>) => void;
     tavern: TavernData;
 }) => {
+    const creator = new ContentCreator();
     const buyOffer = (offer: Offer) => {
         props.onDataChange({
             boughtOffers: [...props.tavern.boughtOffers, offer],
@@ -67,27 +75,58 @@ export const EditNavigator = (props: {
         };
         return newBanners;
     };
+    const handleReroll = (name: string, reroll: Demand) => {};
+    //TODO: extract keys into EditNavigator, build
+    // keys = useState( {[WeServe.impressions]:{first:AssetKeys,second:AssetKeys}}, ... } )
+    // patterns = useState( {[WeServe.drinks]:{first:AssetKeys,second:AssetKeys}}, ... )
 
-    const handleOfferAdd = (
-        newOffer: Offer,
+    const handleAdd = (
         add: Demand,
-        noNextOffer: boolean
+        fullFirstKeys = [] as AssetKey[],
+        fullSecondKeys = [] as AssetKey[],
+        patterns?: Pattern[],
+        mainFilter?: number,
+        additionFilter?: number
     ) => {
-        const oldOffers =
-            add.isAbout === WeServe.food
-                ? props.tavern.dishes
-                : props.tavern.drinks;
-        const newOffers = [...oldOffers, newOffer];
-        const offerChanges =
-            add.isAbout === WeServe.food
-                ? { dishes: newOffers }
-                : { drinks: newOffers };
-        const bannerChanges = noNextOffer ? getBannersByAdd(add, true) : {};
-        const ideaLeftMapChanges = noNextOffer
-            ? getIdeaLeftMapByAdd(add, false)
+        const request: CreationRequest =
+            add.isAbout === WeServe.impressions
+                ? {
+                      ...add,
+                      oldAssets: props.tavern[add.isAbout],
+                      fullFirstKeys,
+                      fullSecondKeys,
+                      patterns,
+                      mainFilter,
+                      additionFilter,
+                  }
+                : { ...add, oldAssets: props.tavern[add.isAbout] };
+        const creation = creator.addRandomCreation(
+            props.tavern.fitting,
+            request
+        );
+        //TODO: get updated keys and patterns from creation
+        const noNextCreation = creator.noNextCreationLeft(
+            props.tavern.fitting,
+            creation
+        );
+        invokeAdd(creation, noNextCreation);
+    };
+
+    const invokeAdd = (creation: Creation, noNextCreation: boolean) => {
+        if (!creation.new) {
+            console.log('__ADDING WAS INVOKED WITH EMPTY CREATION___');
+        }
+        const oldAssets = props.tavern[WeServe.drinks];
+        const newOffers = [...oldAssets, creation.new];
+        const assetChanges = { [creation.isAbout]: newOffers };
+        const bannerChanges = noNextCreation
+            ? getBannersByAdd(creation, true)
+            : {};
+        const ideaLeftMapChanges = noNextCreation
+            ? getIdeaLeftMapByAdd(creation, false)
             : {};
         const tavernChanges: Partial<TavernData> = {
-            ...offerChanges,
+            ...assetChanges,
             ...bannerChanges,
             ...ideaLeftMapChanges,
         };
@@ -98,13 +137,14 @@ export const EditNavigator = (props: {
         //TODO: different behavior for deletes of user made ideas
         const newOffers = (
             deleted.isAbout === WeServe.food
-                ? props.tavern.dishes
-                : props.tavern.drinks
+                ? props.tavern[WeServe.food]
+                : props.tavern[WeServe.drinks]
         ).filter((offer) => offer.product.name !== removedOffer);
         const offerChanges =
+            //TODO: more flexibelity and stronger encapsulation with offerChanges = { [creation.isAbout]:newOffers}
             deleted.isAbout === WeServe.food
-                ? { dishes: newOffers }
-                : { drinks: newOffers };
+                ? { [WeServe.food]: newOffers }
+                : { [WeServe.drinks]: newOffers };
         const categoryWasFullBefore = props.tavern.bannerData[
             deleted.isAbout
         ].emptyCategories.includes(deleted.category);
@@ -155,9 +195,9 @@ export const EditNavigator = (props: {
         return { ideasLeft: oldMaps };
     };
     const oldBanner = props.tavern.bannerData;
-    const oldDrinks = props.tavern.drinks;
-    const oldDishes = props.tavern.dishes;
-    const oldImpressions = props.tavern.impressions;
+    const oldDrinks = props.tavern[WeServe.drinks];
+    const oldDishes = props.tavern[WeServe.food];
+    const oldImpressions = props.tavern[WeServe.impressions];
 
     return (
         <Tab.Navigator
@@ -199,7 +239,8 @@ export const EditNavigator = (props: {
                 children={() => (
                     <MenuScene
                         buyOffer={buyOffer}
-                        handleAdd={handleOfferAdd}
+                        handleAdd={handleAdd}
+                        handleReroll={}
                         offersBought={props.tavern.boughtOffers}
                         fitting={props.tavern.fitting}
                         isAbout={WeServe.drinks}

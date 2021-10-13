@@ -36,43 +36,86 @@ export class ContentCreator {
         this.noteBook = universe?.notes || impressionChapters;
     }
 
-    public getRandomCreation(
+    public noNextCreationLeft(
+        fitting: StructuredTavernFits,
+        creation: Add
+    ): boolean {
+        switch (creation.isAbout) {
+            case WeServe.drinks:
+                return !this.getRandomDrink(
+                    fitting,
+                    creation.category,
+                    creation.added
+                );
+            case WeServe.food:
+                return !this.getRandomDish(
+                    fitting,
+                    creation.category,
+                    creation.added
+                );
+
+            default:
+                return !this.getRandomImpression(
+                    fitting,
+                    creation.category,
+                    creation.added,
+                    [],
+                    []
+                );
+        }
+    }
+
+    public addRandomCreation(
         fitting: StructuredTavernFits,
         request: CreationRequest
-    ): Creation {
+    ): Add {
         switch (request.isAbout) {
             case WeServe.drinks:
+                const newDrink = this.getRandomDrink(
+                    fitting,
+                    request.category,
+                    request.oldAssets
+                );
+                const extendedDrinks = request.oldAssets.concat(newDrink || []);
                 return {
-                    new: this.getRandomDrink(
-                        fitting,
-                        request.category,
-                        request.oldAssets
-                    ),
+                    new: newDrink,
+                    added: extendedDrinks,
                     isAbout: WeServe.drinks,
+                    category: request.category,
                 };
             case WeServe.food:
+                const newDish = this.getRandomDish(
+                    fitting,
+                    request.category,
+                    request.oldAssets
+                );
+                const extendedDishes = request.oldAssets.concat(newDish || []);
                 return {
-                    new: this.getRandomDish(
-                        fitting,
-                        request.category,
-                        request.oldAssets
-                    ),
+                    new: newDish,
+                    added: extendedDishes,
                     isAbout: WeServe.food,
+                    category: request.category,
                 };
 
             default:
+                const newImpression = this.getRandomImpression(
+                    fitting,
+                    request.category,
+                    request.oldAssets,
+                    request.fullFirstKeys,
+                    request.fullSecondKeys,
+                    request.mainFilter,
+                    request.additionFilter,
+                    request.patterns
+                );
+                const extendedImpressions = request.oldAssets.concat(
+                    newImpression || []
+                );
                 return {
-                    new: this.getRandomImpression(
-                        fitting,
-                        request.category,
-                        request.oldAssets,
-                        request.fullFirstKeys,
-                        request.fullSecondKeys,
-                        request.mainFilter,
-                        request.additionFilter,
-                        request.patterns
-                    ),
+                    new: newImpression,
+                    added: extendedImpressions,
                     isAbout: WeServe.impressions,
+                    category: request.category,
                 };
         }
     }
@@ -312,13 +355,23 @@ export type ImpressionRequest = {
 };
 export type CreationRequest = FoodRequest | DrinkRequest | ImpressionRequest;
 
-type Creation =
+export type Add =
     | {
-          isAbout: WeServe.drinks | WeServe.food;
+          isAbout: WeServe.drinks;
+          new?: Offer;
+          added: Offer[];
+          category: Drinkable;
+      }
+    | {
+          isAbout: WeServe.food;
+          category: Eatable;
+          added: Offer[];
           new?: Offer;
       }
     | {
           isAbout: WeServe.impressions;
+          category: Noticable;
+          added: IImpression[];
           new?: IImpression;
       };
 type Reroll =

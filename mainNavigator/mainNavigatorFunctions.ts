@@ -1,6 +1,7 @@
 import { Noticable } from '../classes/idea/Noticable';
 import { Drinkable, Eatable, TavernProduct } from '../classes/TavernProduct';
 import { getAllNewBannerDataAndOffersLeft } from '../editNavigator/getNewBannerDataAndIdeasLeft';
+import { WeServe } from '../editNavigator/WeServe';
 import { standardBasePrice } from '../scenes/menuScene/basePrice';
 import { Offer } from '../scenes/menuScene/Offer';
 import { IImpression } from '../scenes/questScene/impressions/IImpression';
@@ -12,8 +13,8 @@ export const getTavernHistoryInitializer = () => {
     return {
         fitting: {},
         name: 'Nameless Tavern',
-        drinks: [],
-        dishes: [],
+        [WeServe.drinks]: [],
+        [WeServe.food]: [],
         prices: standardBasePrice,
         ideasLeft: startIdeasLeft,
         bannerData: {
@@ -22,7 +23,7 @@ export const getTavernHistoryInitializer = () => {
             impression: startBanner,
         },
         boughtOffers: [],
-        impressions: [],
+        [WeServe.impressions]: [],
     } as TavernData;
 };
 
@@ -65,9 +66,9 @@ export const getTavernFromMinimalData = (minimalData: MinimalTavernData) => {
     return {
         ...minimalData,
         boughtOffers: newBoughtOffers,
-        drinks: newDrinks,
-        dishes: newDishes,
-        impressions: newImpressions,
+        [WeServe.drinks]: newDrinks,
+        [WeServe.food]: newDishes,
+        [WeServe.impressions]: newImpressions,
         bannerData: bannerData,
         ideasLeft: ideasLeft,
     } as TavernData;
@@ -76,11 +77,11 @@ export const getMinimalDataFromTavern = (tavern: TavernData) => {
     const minimalData: MinimalTavernData = {
         name: tavern.name,
         fitting: tavern.fitting,
-        drinks: tavern.drinks,
-        dishes: tavern.dishes,
+        drinks: tavern[WeServe.drinks],
+        dishes: tavern[WeServe.food],
         prices: tavern.prices,
         boughtOffers: tavern.boughtOffers,
-        impressions: tavern.impressions,
+        impressions: tavern[WeServe.impressions],
     };
     return minimalData;
 };
