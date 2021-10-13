@@ -291,7 +291,7 @@ export const EditNavigator = (props: {
                         basePrice={props.tavern.prices}
                         bannerData={oldBanner.food}
                         handleDelete={handleOfferDelete}
-                        setBannerInvisible={setBannerInvisible(WeServe.drinks)}
+                        setBannerInvisible={setBannerInvisible(WeServe.food)}
                     ></MenuScene>
                 )}
             />
