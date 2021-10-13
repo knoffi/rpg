@@ -213,64 +213,81 @@ export class ContentCreator {
     rerollOneDish(
         fitting: StructuredTavernFits,
         rerolledName: string,
-        dishes: Offer[],
+        request: FoodRequest,
         addedDish?: Offer
-    ) {
-        const category =
-            dishes.find((dish) => dish.product.name === rerolledName)?.product
-                .category || Eatable.dessert;
+    ): Reroll {
         const newDish =
             addedDish ||
-            this.getRandomDish(fitting, category as Eatable, dishes) ||
+            this.getRandomDish(fitting, request.category, request.oldAssets) ||
             NothingLeftOffer;
-        const rerolledDishes = dishes.map((dish) =>
+        const rerolledDishes = request.oldAssets.map((dish) =>
             dish.product.name === rerolledName ? newDish : dish
         );
-        return rerolledDishes;
+        const reroll: Reroll = {
+            isAbout: WeServe.food,
+            oneRerolled: rerolledDishes,
+        };
+        return reroll;
     }
     rerollOneDrink(
         fitting: StructuredTavernFits,
         rerolledName: string,
-        drinks: Offer[],
+        request: DrinkRequest,
         addedDrink?: Offer
-    ) {
-        const category =
-            drinks.find((drink) => drink.product.name === rerolledName)?.product
-                .category || Drinkable.beer;
+    ): Reroll {
         const newDrink =
             addedDrink ||
-            this.getRandomDrink(fitting, category as Drinkable, drinks) ||
+            this.getRandomDrink(fitting, request.category, request.oldAssets) ||
             NothingLeftOffer;
-        const rerolledDrinks = drinks.map((drink) =>
+        const rerolledDrinks = request.oldAssets.map((drink) =>
             drink.product.name === rerolledName ? newDrink : drink
         );
-        return rerolledDrinks;
+        const reroll: Reroll = {
+            isAbout: WeServe.drinks,
+            oneRerolled: rerolledDrinks,
+        };
+        return reroll;
     }
     rerollOneImpression(
         fitting: StructuredTavernFits,
         rerolledName: string,
-        impressions: IImpression[],
-        category: Noticable,
-        fullFirstKeys: AssetKey[],
-        fullSecondKeys: AssetKey[],
-        patterns: Pattern[]
-    ) {
+        request: ImpressionRequest
+    ): Reroll {
         const newImpression = this.getRandomImpression(
             fitting,
-            category,
-            impressions,
-            fullFirstKeys,
-            fullSecondKeys,
+            request.category,
+            request.oldAssets,
+            request.fullFirstKeys,
+            request.fullSecondKeys,
             undefined,
             undefined,
-            patterns
+            request.patterns
         );
-        const rerolledImpressions = impressions.map((impression) =>
+        const rerolledImpressions = request.oldAssets.map((impression) =>
             impression.name === rerolledName
                 ? newImpression || emptyImpression
                 : impression
         );
-        return rerolledImpressions;
+        const reroll: Reroll = {
+            isAbout: WeServe.impressions,
+            oneRerolled: rerolledImpressions,
+        };
+        return reroll;
+    }
+
+    rerollOneCreation(
+        fitting: StructuredTavernFits,
+        rerolledName: string,
+        request: CreationRequest
+    ) {
+        switch (request.isAbout) {
+            case WeServe.impressions:
+                return this.rerollOneImpression(fitting, rerolledName, request);
+            case WeServe.food:
+                return this.rerollOneDish(fitting, rerolledName, request);
+            default:
+                return this.rerollOneDrink(fitting, rerolledName, request);
+        }
     }
 }
 export type FoodRequest = {
@@ -303,6 +320,15 @@ type Creation =
     | {
           isAbout: WeServe.impressions;
           new?: IImpression;
+      };
+type Reroll =
+    | {
+          isAbout: WeServe.drinks | WeServe.food;
+          oneRerolled: Offer[];
+      }
+    | {
+          isAbout: WeServe.impressions;
+          oneRerolled: IImpression[];
       };
 interface IImpressionNote {
     impressions: ImpressionIdea[];
