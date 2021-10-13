@@ -154,18 +154,19 @@ export const EditNavigator = (props: {
 
         props.onDataChange(tavernChanges);
     };
-    const handleOfferDelete = (removedOffer: String, deleted: Demand) => {
+    const handleDelete = (name: string, deleted: Demand) => {
         //TODO: different behavior for deletes of user made ideas
-        const newOffers = (
-            deleted.isAbout === WeServe.food
-                ? props.tavern[WeServe.food]
-                : props.tavern[WeServe.drinks]
-        ).filter((offer) => offer.product.name !== removedOffer);
-        const offerChanges =
-            //TODO: more flexibelity and stronger encapsulation with offerChanges = { [creation.isAbout]:newOffers}
-            deleted.isAbout === WeServe.food
-                ? { [WeServe.food]: newOffers }
-                : { [WeServe.drinks]: newOffers };
+        const deleteRequest =
+            deleted.isAbout === WeServe.impressions
+                ? {
+                      isAbout: deleted.isAbout,
+                      creations: props.tavern[deleted.isAbout],
+                  }
+                : {
+                      isAbout: deleted.isAbout,
+                      creations: props.tavern[deleted.isAbout],
+                  };
+        const offerChanges = creator.deleteCreation(name, deleteRequest);
         const categoryWasFullBefore = props.tavern.bannerData[
             deleted.isAbout
         ].emptyCategories.includes(deleted.category);
@@ -270,7 +271,7 @@ export const EditNavigator = (props: {
                         offersLeft={props.tavern.ideasLeft.drink}
                         basePrice={props.tavern.prices}
                         bannerData={oldBanner.drink}
-                        handleDelete={handleOfferDelete}
+                        handleDelete={handleDelete}
                         setBannerInvisible={setBannerInvisible(WeServe.drinks)}
                     ></MenuScene>
                 )}
@@ -290,7 +291,7 @@ export const EditNavigator = (props: {
                         offersLeft={props.tavern.ideasLeft.food}
                         basePrice={props.tavern.prices}
                         bannerData={oldBanner.food}
-                        handleDelete={handleOfferDelete}
+                        handleDelete={handleDelete}
                         setBannerInvisible={setBannerInvisible(WeServe.food)}
                     ></MenuScene>
                 )}

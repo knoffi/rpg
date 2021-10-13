@@ -36,6 +36,31 @@ export class ContentCreator {
         this.noteBook = universe?.notes || impressionChapters;
     }
 
+    public deleteCreation(
+        name: string,
+        deleted:
+            | { isAbout: WeServe.impressions; creations: IImpression[] }
+            | { isAbout: WeServe.drinks | WeServe.food; creations: Offer[] }
+    ): Delete {
+        switch (deleted.isAbout) {
+            case WeServe.impressions:
+                const newImpressions = deleted.creations.filter(
+                    (impression) => impression.name !== name
+                );
+                return { [WeServe.impressions]: newImpressions };
+            case WeServe.food:
+                const newDishes = deleted.creations.filter(
+                    (offer) => offer.product.name !== name
+                );
+                return { [WeServe.food]: newDishes };
+            default:
+                const newDrinks = deleted.creations.filter(
+                    (offer) => offer.product.name !== name
+                );
+                return { [WeServe.drinks]: newDrinks };
+        }
+    }
+
     public noNextCreationLeft(
         fitting: StructuredTavernFits,
         creation: Add
@@ -373,6 +398,16 @@ export type Add =
           category: Noticable;
           added: IImpression[];
           new?: IImpression;
+      };
+export type Delete =
+    | {
+          [WeServe.food]: Offer[];
+      }
+    | {
+          [WeServe.drinks]: Offer[];
+      }
+    | {
+          [WeServe.impressions]: IImpression[];
       };
 type Reroll =
     | {
