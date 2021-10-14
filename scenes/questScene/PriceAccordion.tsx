@@ -1,15 +1,15 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import { List } from 'react-native-paper';
-import { association } from '../../classes/association';
+import { association, Income } from '../../classes/association';
 import { InfoButton, PencilButton } from '../../components/buttons/Buttons';
 import { BasePrice } from '../menuScene/basePrice';
 import { menuSceneStyles } from '../menuScene/menuStyles';
 
 export const PriceAccordion = (props: {
     basePrice: BasePrice;
-    onInfoPress: (income: association) => void;
-    onPriceSetPress: (income: association) => void;
+    onInfoPress: (income: Income) => void;
+    onPriceSetPress: (income: Income) => void;
     onCurrencySetPress: () => void;
 }) => {
     const currency = props.basePrice.currency;

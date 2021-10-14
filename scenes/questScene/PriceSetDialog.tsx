@@ -7,16 +7,16 @@ import {
     Portal,
     TextInput,
 } from 'react-native-paper';
-import { association } from '../../classes/association';
+import { Income } from '../../classes/association';
 
 export const PriceSetDialog = (props: {
     priceText: string;
     lastPrice: number;
     setPriceText: (priceText: string) => void;
-    income: association;
+    income: Income;
     open: boolean;
     onDismiss: () => void;
-    setPrice: (newPrice: number, income: association) => void;
+    setPrice: (newPrice: number, income: Income) => void;
 }) => {
     const [textIsValid, setTextIsValid] = useState(true);
 

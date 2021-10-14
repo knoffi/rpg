@@ -92,6 +92,12 @@ export const incomeAssociations = [
     association.wealthy,
     association.rich,
 ];
+
+export type Income =
+    | association.poor
+    | association.modest
+    | association.wealthy
+    | association.rich;
 export const specialAssociations = [
     association.prostitute,
     association.assasine,

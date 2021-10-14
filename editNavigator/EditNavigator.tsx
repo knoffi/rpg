@@ -283,6 +283,7 @@ export const EditNavigator = (props: {
                         buyOffer={buyOffer}
                         handleAdd={handleAdd}
                         handleReroll={handleReroll}
+                        handleDelete={handleDelete}
                         offersBought={props.tavern.boughtOffers}
                         fitting={props.tavern.fitting}
                         isAbout={WeServe.food}
@@ -291,7 +292,6 @@ export const EditNavigator = (props: {
                         offersLeft={props.tavern.ideasLeft.food}
                         basePrice={props.tavern.prices}
                         bannerData={oldBanner.food}
-                        handleDelete={handleDelete}
                         setBannerInvisible={setBannerInvisible(WeServe.food)}
                     ></MenuScene>
                 )}

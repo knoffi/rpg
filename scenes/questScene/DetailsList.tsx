@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { List } from 'react-native-paper';
-import { association } from '../../classes/association';
+import { Income } from '../../classes/association';
 import { Noticable } from '../../classes/idea/Noticable';
 import { ImpressionDisplay } from '../../classes/impressionDisplay/ImpressionDisplay';
 import { AddButton } from '../../components/buttons/Buttons';
@@ -15,8 +15,8 @@ import { PriceAccordion } from './PriceAccordion';
 
 export const DetailsList = (props: {
     basePrice: BasePrice;
-    onInfoPress: (income: association) => void;
-    onPriceSetPress: (income: association) => void;
+    onInfoPress: (income: Income) => void;
+    onPriceSetPress: (income: Income) => void;
     onCurrencySetPress: () => void;
     onDataChange: (data: Partial<TavernData>) => void;
     onDelete: (name: string) => void;
