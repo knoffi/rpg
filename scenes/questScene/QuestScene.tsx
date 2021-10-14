@@ -17,6 +17,7 @@ import { IImpression } from './impressions/IImpression';
 import { incomeExampleMap } from './incomeExampleMap';
 import { PriceExplanationDialog } from './PriceExplanationDialog';
 import { PriceSetDialog } from './PriceSetDialog';
+import { DEFAULT_PRICE_SETTER } from './PriceSetter';
 
 const getPriceFromIncome = (income: association, basePrice: BasePrice) => {
     switch (income) {
@@ -32,20 +33,6 @@ const getPriceFromIncome = (income: association, basePrice: BasePrice) => {
         default:
             return basePrice[association.rich];
     }
-};
-
-type PriceSetter = {
-    open: boolean;
-    income: Income;
-    priceText: string;
-    price: number;
-};
-
-const DEFAULT_PRICE_SETTER: PriceSetter = {
-    open: false,
-    income: association.poor,
-    priceText: 'Prices are important',
-    price: 12,
 };
 
 export const QuestScene = (props: {
