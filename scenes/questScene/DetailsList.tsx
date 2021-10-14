@@ -4,7 +4,7 @@ import { Income } from '../../classes/association';
 import { Noticable } from '../../classes/idea/Noticable';
 import { ImpressionDisplay } from '../../classes/impressionDisplay/ImpressionDisplay';
 import { AddButton } from '../../components/buttons/Buttons';
-import { Describable, TavernData } from '../../mainNavigator/TavernData';
+import { Describable } from '../../mainNavigator/TavernData';
 import { globalStyles } from '../globalStyles';
 import { BasePrice } from '../menuScene/basePrice';
 import { menuSceneStyles } from '../menuScene/menuStyles';
@@ -23,7 +23,6 @@ export const DetailsList = (props: {
     onCurrencySetPress: () => void;
     impressions: IImpression[];
     noticablesLeft: Map<Describable, boolean>;
-    getImpliedChanges: (newImpressions: IImpression[]) => Partial<TavernData>;
 }) => {
     const impressionTitles = Object.values(Noticable);
     const impressionAccordion = impressionTitles.map((title) => {

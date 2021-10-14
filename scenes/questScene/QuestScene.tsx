@@ -187,10 +187,8 @@ export const QuestScene = (props: {
                 onInfoPress={onInfoPress}
                 onPriceSetPress={onPriceSetPress}
                 onCurrencySetPress={onCurrencySetPress}
-                onDataChange={props.onDataChange}
                 impressions={props.impressions}
                 noticablesLeft={props.noticablesLeft}
-                getImpliedChanges={props.getImpliedChanges}
             ></DetailsList>
             <Text>
                 {JSON.stringify(fullKeys.first.map((key) => key.slice(0, 8)))}
