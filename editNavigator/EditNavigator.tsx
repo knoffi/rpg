@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import {
     Add,
     ContentCreator,
-    CreationRequest
+    CreationRequest,
 } from '../classes/contentCreator/ContentCreator';
 import { AssetKey } from '../classes/idea/AssetKey/AssetKey';
 import { Pattern } from '../classes/idea/Patterns/Pattern';
@@ -11,6 +11,7 @@ import { StructuredTavernFits } from '../classes/idea/StructuredTavernFits';
 import Icon from '../components/icons';
 import { iconKeys } from '../components/icons/iconKeys';
 import { Describable, TavernData } from '../mainNavigator/TavernData';
+import { BasePrice } from '../scenes/menuScene/basePrice';
 import { BannerData } from '../scenes/menuScene/menuBanner/MenuBanner';
 import { MenuScene } from '../scenes/menuScene/MenuScene';
 import { Offer } from '../scenes/menuScene/Offer';
@@ -104,6 +105,10 @@ export const EditNavigator = (props: {
         );
         props.onDataChange({ [rerolled.isAbout]: rerolled.oneRerolled });
     };
+    const handleBasePrice = (newPrices: BasePrice) => {
+        props.onDataChange({ prices: newPrices });
+    };
+
     //TODO: extract keys into EditNavigator, build
     // keys = useState( {[WeServe.impressions]:{first:AssetKeys,second:AssetKeys}}, ... } )
     // patterns = useState( {[WeServe.drinks]:{first:AssetKeys,second:AssetKeys}}, ... )
@@ -308,6 +313,7 @@ export const EditNavigator = (props: {
                         handleAdd={handleAdd}
                         handleDelete={handleDelete}
                         handleReroll={handleReroll}
+                        handleBasePrice={handleBasePrice}
                         noticablesLeft={props.tavern.ideasLeft.impression}
                     ></QuestScene>
                 )}
