@@ -1,9 +1,9 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import React from 'react';
+import React, { useState } from 'react';
 import {
     Add,
     ContentCreator,
-    CreationRequest,
+    CreationRequest
 } from '../classes/contentCreator/ContentCreator';
 import { AssetKey } from '../classes/idea/AssetKey/AssetKey';
 import { Pattern } from '../classes/idea/Patterns/Pattern';
@@ -16,7 +16,8 @@ import { MenuScene } from '../scenes/menuScene/MenuScene';
 import { Offer } from '../scenes/menuScene/Offer';
 import { Demand } from '../scenes/menuScene/offerList/actionInterfaces';
 import { NameScene } from '../scenes/nameScene/NameScene';
-import { IImpression } from '../scenes/questScene/impressions/IImpression';
+import { getFullKeys } from '../scenes/questScene/getFullKeys';
+import { getUsedPatterns } from '../scenes/questScene/getUsedPatterns';
 import { QuestScene } from '../scenes/questScene/QuestScene';
 import { getAllNewBannerDataAndOffersLeft } from './getNewBannerDataAndIdeasLeft';
 import { WeServe } from './WeServe';
@@ -54,6 +55,12 @@ export const EditNavigator = (props: {
     tavern: TavernData;
 }) => {
     const creator = new ContentCreator();
+    const [fullKeys, setFullKeys] = useState(
+        getFullKeys(props.tavern[WeServe.impressions])
+    );
+    const [patterns, setPatterns] = useState(
+        getUsedPatterns(props.tavern[WeServe.impressions])
+    );
     const buyOffer = (offer: Offer) => {
         props.onDataChange({
             boughtOffers: [...props.tavern.boughtOffers, offer],
@@ -78,17 +85,14 @@ export const EditNavigator = (props: {
     const handleReroll = (
         name: string,
         reroll: Demand,
-        fullFirstKeys = [] as AssetKey[],
-        fullSecondKeys = [] as AssetKey[],
-        patterns?: Pattern[],
         mainFilter?: number,
         additionFilter?: number
     ) => {
         const request: CreationRequest = getCreationRequest(
             reroll,
             props.tavern,
-            fullFirstKeys,
-            fullSecondKeys,
+            fullKeys.first,
+            fullKeys.second,
             patterns,
             mainFilter,
             additionFilter
@@ -106,17 +110,14 @@ export const EditNavigator = (props: {
 
     const handleAdd = (
         add: Demand,
-        fullFirstKeys = [] as AssetKey[],
-        fullSecondKeys = [] as AssetKey[],
-        patterns?: Pattern[],
         mainFilter?: number,
         additionFilter?: number
     ) => {
         const request: CreationRequest = getCreationRequest(
             add,
             props.tavern,
-            fullFirstKeys,
-            fullSecondKeys,
+            fullKeys.first,
+            fullKeys.second,
             patterns,
             mainFilter,
             additionFilter
@@ -302,22 +303,12 @@ export const EditNavigator = (props: {
                     <QuestScene
                         fitting={props.tavern.fitting}
                         basePrice={props.tavern.prices}
-                        onDataChange={props.onDataChange}
                         impressions={props.tavern[WeServe.impressions]}
                         banner={oldBanner.impression}
+                        handleAdd={handleAdd}
+                        handleDelete={handleDelete}
+                        handleReroll={handleReroll}
                         noticablesLeft={props.tavern.ideasLeft.impression}
-                        getImpliedChanges={(newImpressions?: IImpression[]) =>
-                            getAllNewBannerDataAndOffersLeft(
-                                props.tavern.fitting,
-                                {
-                                    drinks: oldDrinks,
-                                    dishes: oldDishes,
-                                    impressions:
-                                        newImpressions || oldImpressions,
-                                },
-                                oldBanner
-                            )
-                        }
                     ></QuestScene>
                 )}
             />
