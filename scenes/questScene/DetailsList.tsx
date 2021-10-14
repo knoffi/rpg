@@ -4,10 +4,12 @@ import { Income } from '../../classes/association';
 import { Noticable } from '../../classes/idea/Noticable';
 import { ImpressionDisplay } from '../../classes/impressionDisplay/ImpressionDisplay';
 import { AddButton } from '../../components/buttons/Buttons';
+import { WeServe } from '../../editNavigator/WeServe';
 import { Describable } from '../../mainNavigator/TavernData';
 import { globalStyles } from '../globalStyles';
 import { BasePrice } from '../menuScene/basePrice';
 import { menuSceneStyles } from '../menuScene/menuStyles';
+import { Demand } from '../menuScene/offerList/actionInterfaces';
 import { OfferListItem } from '../menuScene/offerList/Item';
 import { LIST_END_BUTTON_SIZE } from '../menuScene/offerList/LIST_END_BUTTON_SIZE';
 import { IImpression } from './impressions/IImpression';
@@ -17,9 +19,9 @@ export const DetailsList = (props: {
     basePrice: BasePrice;
     onInfoPress: (income: Income) => void;
     onPriceSetPress: (income: Income) => void;
-    onReroll: (impression: IImpression) => void;
-    onDelete: (name: string) => void;
-    onAdd: (category: Noticable) => void;
+    onAdd: (add: Demand) => void;
+    onDelete: (name: string, deleted: Demand) => void;
+    onReroll: (name: string, rerolled: Demand) => void;
     onCurrencySetPress: () => void;
     impressions: IImpression[];
     noticablesLeft: Map<Describable, boolean>;
@@ -29,17 +31,19 @@ export const DetailsList = (props: {
         const impressionsOfTitle = props.impressions.filter(
             (impression) => impression.category === title
         );
+        const demand: Demand = {
+            isAbout: WeServe.impressions,
+            category: title,
+        };
         return (
             <ImpressionAccordion
                 key={title}
                 isBartender={title == Noticable.bartender}
                 title={title}
                 impressions={impressionsOfTitle}
-                onDelete={props.onDelete}
-                onReroll={props.onReroll}
-                onAdd={() => {
-                    props.onAdd(title);
-                }}
+                onDelete={(name: string) => props.onDelete(name, demand)}
+                onReroll={(name: string) => props.onReroll(name, demand)}
+                onAdd={() => props.onAdd(demand)}
                 isNotFull={props.noticablesLeft.get(title)!}
             ></ImpressionAccordion>
         );
@@ -64,7 +68,7 @@ const ImpressionAccordion = (props: {
     impressions: IImpression[];
     onDelete: (name: string) => void;
     onAdd: () => void;
-    onReroll: (impression: IImpression) => void;
+    onReroll: (name: string) => void;
     isNotFull: boolean;
 }) => {
     const [bartenderSex, setBartenderSex] = useState(
@@ -100,7 +104,7 @@ const ImpressionAccordion = (props: {
                     onReroll: impressionsFull
                         ? () => {}
                         : () => {
-                              props.onReroll(impression);
+                              props.onReroll(impression.name);
                           },
                     onDelete: () => {
                         props.onDelete(text);

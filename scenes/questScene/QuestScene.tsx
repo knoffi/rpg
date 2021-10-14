@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { ScrollView, Text } from 'react-native';
+import { ScrollView } from 'react-native';
 import { association, Income } from '../../classes/association';
-import { ContentCreator } from '../../classes/contentCreator/ContentCreator';
 import { StructuredTavernFits } from '../../classes/idea/StructuredTavernFits';
 import { WeServe } from '../../editNavigator/WeServe';
 import { Describable } from '../../mainNavigator/TavernData';
@@ -11,8 +10,6 @@ import { Demand } from '../menuScene/offerList/actionInterfaces';
 import { nameSceneStyles } from '../nameScene/nameSceneStyles';
 import { CurrencySetDialog } from './CurrencySetDialog';
 import { DetailsList } from './DetailsList';
-import { getFullKeys } from './getFullKeys';
-import { getUsedPatterns } from './getUsedPatterns';
 import { IImpression } from './impressions/IImpression';
 import { incomeExampleMap } from './incomeExampleMap';
 import { PriceExplanationDialog } from './PriceExplanationDialog';
@@ -46,7 +43,6 @@ export const QuestScene = (props: {
     banner: BannerData;
     noticablesLeft: Map<Describable, boolean>;
 }) => {
-    const creator = new ContentCreator();
     const [explanationDialog, setDialog] = useState({
         open: false,
         income: association.poor,
@@ -54,10 +50,6 @@ export const QuestScene = (props: {
         currencyName: props.basePrice.currency,
         price: props.basePrice[association.poor],
     });
-    const [fullKeys, setFullKeys] = useState(getFullKeys(props.impressions));
-    const [patterns, setPatterns] = useState(
-        getUsedPatterns(props.impressions)
-    );
 
     const [priceSetter, setPriceSetter] = useState(DEFAULT_PRICE_SETTER);
     const [currencySetter, setCurrencySetter] = useState({
@@ -180,9 +172,9 @@ export const QuestScene = (props: {
                 onDismiss={onDialogDismiss}
             ></CurrencySetDialog>
             <DetailsList
-                onDelete={onDelete}
-                onReroll={onReroll}
-                onAdd={onAdd}
+                onDelete={props.handleDelete}
+                onReroll={props.handleReroll}
+                onAdd={props.handleAdd}
                 basePrice={props.basePrice}
                 onInfoPress={onInfoPress}
                 onPriceSetPress={onPriceSetPress}
@@ -190,12 +182,6 @@ export const QuestScene = (props: {
                 impressions={props.impressions}
                 noticablesLeft={props.noticablesLeft}
             ></DetailsList>
-            <Text>
-                {JSON.stringify(fullKeys.first.map((key) => key.slice(0, 8)))}
-            </Text>
-            <Text>
-                {JSON.stringify(patterns.map((pattern) => pattern.slice(0, 8)))}
-            </Text>
         </ScrollView>
     );
 };
