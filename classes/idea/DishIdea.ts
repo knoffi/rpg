@@ -170,7 +170,8 @@ export class DishIdea extends Idea {
             }
             return this.getPriceFluctuation(
                 (priceFactor *
-                    (this.averagePrice.modest + this.averagePrice.wealthy)) /
+                    (this.averagePrice[association.modest] +
+                        this.averagePrice[association.wealthy])) /
                     2
             );
         }

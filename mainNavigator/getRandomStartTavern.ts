@@ -79,10 +79,18 @@ const getRandomStructuredFits = () => {
 const getRandomBasePrice = () => {
     const randomFactor = 1 + (2 * Math.random() - 1) * MAX_PRICE_DERIVATION;
     return {
-        wealthy: Math.floor(randomFactor * standardBasePrice.wealthy),
-        rich: Math.floor(randomFactor * standardBasePrice.rich),
-        modest: Math.floor(randomFactor * standardBasePrice.modest),
-        poor: Math.floor(randomFactor * standardBasePrice.poor),
+        [association.wealthy]: Math.floor(
+            randomFactor * standardBasePrice[association.wealthy]
+        ),
+        [association.rich]: Math.floor(
+            randomFactor * standardBasePrice['vastly rich']
+        ),
+        [association.modest]: Math.floor(
+            randomFactor * standardBasePrice[association.modest]
+        ),
+        [association.poor]: Math.floor(
+            randomFactor * standardBasePrice[association.poor]
+        ),
         currency: 'copper',
     } as BasePrice;
 };

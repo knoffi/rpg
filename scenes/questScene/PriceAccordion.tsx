@@ -36,7 +36,7 @@ export const PriceAccordion = (props: {
                 onPriceSetPress={() => {
                     props.onPriceSetPress(association.poor);
                 }}
-                price={props.basePrice.poor}
+                price={props.basePrice[association.poor]}
                 income={association.poor}
                 onInfoPress={() => {
                     props.onInfoPress(association.poor);
@@ -46,7 +46,7 @@ export const PriceAccordion = (props: {
                 onPriceSetPress={() => {
                     props.onPriceSetPress(association.modest);
                 }}
-                price={props.basePrice.modest}
+                price={props.basePrice[association.modest]}
                 income={association.modest}
                 onInfoPress={() => {
                     props.onInfoPress(association.modest);
@@ -56,7 +56,7 @@ export const PriceAccordion = (props: {
                 onPriceSetPress={() => {
                     props.onPriceSetPress(association.wealthy);
                 }}
-                price={props.basePrice.wealthy}
+                price={props.basePrice[association.wealthy]}
                 income={association.wealthy}
                 onInfoPress={() => {
                     props.onInfoPress(association.wealthy);
@@ -66,7 +66,7 @@ export const PriceAccordion = (props: {
                 onPriceSetPress={() => {
                     props.onPriceSetPress(association.rich);
                 }}
-                price={props.basePrice.rich}
+                price={props.basePrice[association.rich]}
                 income={association.rich}
                 onInfoPress={() => {
                     props.onInfoPress(association.rich);

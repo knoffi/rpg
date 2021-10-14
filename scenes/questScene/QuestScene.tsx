@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { ScrollView, Text } from 'react-native';
 import { association } from '../../classes/association';
 import { ContentCreator } from '../../classes/contentCreator/ContentCreator';
-import { Noticable } from '../../classes/idea/Noticable';
 import { StructuredTavernFits } from '../../classes/idea/StructuredTavernFits';
 import { WeServe } from '../../editNavigator/WeServe';
-import { Describable, TavernData } from '../../mainNavigator/TavernData';
+import { Describable } from '../../mainNavigator/TavernData';
 import { BasePrice } from '../menuScene/basePrice';
 import { BannerData, MenuBanner } from '../menuScene/menuBanner/MenuBanner';
+import { Demand } from '../menuScene/offerList/actionInterfaces';
 import { nameSceneStyles } from '../nameScene/nameSceneStyles';
 import { CurrencySetDialog } from './CurrencySetDialog';
 import { DetailsList } from './DetailsList';
@@ -21,16 +21,16 @@ import { PriceSetDialog } from './PriceSetDialog';
 const getPriceFromIncome = (income: association, basePrice: BasePrice) => {
     switch (income) {
         case association.poor:
-            return basePrice.poor;
+            return basePrice[association.poor];
 
         case association.modest:
-            return basePrice.modest;
+            return basePrice[association.modest];
 
         case association.wealthy:
-            return basePrice.wealthy;
+            return basePrice[association.wealthy];
 
         default:
-            return basePrice.rich;
+            return basePrice[association.rich];
     }
 };
 
@@ -45,10 +45,11 @@ export const QuestScene = (props: {
     fitting: StructuredTavernFits;
     basePrice: BasePrice;
     impressions: IImpression[];
+    handleAdd: (add: Demand) => void;
+    handleDelete: (name: string, deleted: Demand) => void;
+    handleReroll: (name: string, rerolled: Demand) => void;
     banner: BannerData;
     noticablesLeft: Map<Describable, boolean>;
-    onDataChange: (newData: Partial<TavernData>) => void;
-    getImpliedChanges: (newImpressions?: IImpression[]) => Partial<TavernData>;
 }) => {
     const creator = new ContentCreator();
     const [explanationDialog, setDialog] = useState({
@@ -56,63 +57,13 @@ export const QuestScene = (props: {
         income: association.poor,
         jobExamples: '',
         currencyName: props.basePrice.currency,
-        price: props.basePrice.poor,
+        price: props.basePrice[association.poor],
     });
     const [fullKeys, setFullKeys] = useState(getFullKeys(props.impressions));
     const [patterns, setPatterns] = useState(
         getUsedPatterns(props.impressions)
     );
-    const onDelete = (name: string) => {
-        const otherImpressions = props.impressions.filter(
-            (impression) => impression.name !== name
-        );
-        const bannerChanges = props.getImpliedChanges(otherImpressions);
-        setFullKeys(getFullKeys(otherImpressions));
-        setPatterns(getUsedPatterns(otherImpressions));
-        props.onDataChange({ impressions: otherImpressions, ...bannerChanges });
-    };
 
-    const onReroll = (oldImpression: IImpression) => {
-        const newImpressions = creator.rerollOneImpression(
-            props.fitting,
-            oldImpression.name,
-            props.impressions,
-            oldImpression.category,
-            fullKeys.first,
-            fullKeys.second,
-            patterns
-        );
-        if (!newImpressions) {
-            console.log('I am undefined');
-        }
-        if (newImpressions) {
-            setFullKeys(getFullKeys(newImpressions));
-            setPatterns(getUsedPatterns(newImpressions));
-            props.onDataChange({
-                impressions: newImpressions,
-            });
-        }
-    };
-
-    const onAdd = (category: Noticable) => {
-        const newImpression = creator.getRandomCreation(props.fitting, {
-            isAbout: WeServe.impressions,
-            category: category,
-            fullFirstKeys: fullKeys.first,
-            fullSecondKeys: fullKeys.second,
-            oldAssets: props.impressions,
-            patterns: patterns,
-        }).new as IImpression;
-
-        const extendedImpressions = [...props.impressions, newImpression];
-        setFullKeys(getFullKeys(extendedImpressions));
-        setPatterns(getUsedPatterns(extendedImpressions));
-        const bannerChanges = props.getImpliedChanges(extendedImpressions);
-        props.onDataChange({
-            impressions: extendedImpressions,
-            ...bannerChanges,
-        });
-    };
     const [priceSetter, setPriceSetter] = useState(DEFAULT_PRICE_SETTER);
     const [currencySetter, setCurrencySetter] = useState({
         open: false,
@@ -162,10 +113,10 @@ export const QuestScene = (props: {
             props.onDataChange({
                 prices: {
                     currency: newCurrency,
-                    poor: props.basePrice.poor,
-                    modest: props.basePrice.modest,
-                    wealthy: props.basePrice.wealthy,
-                    rich: props.basePrice.rich,
+                    poor: props.basePrice[association.poor],
+                    modest: props.basePrice[association.modest],
+                    wealthy: props.basePrice[association.wealthy],
+                    rich: props.basePrice[association.rich],
                 },
             });
         }
@@ -177,9 +128,9 @@ export const QuestScene = (props: {
                             prices: {
                                 currency: props.basePrice.currency,
                                 poor: newPrice,
-                                modest: props.basePrice.modest,
-                                wealthy: props.basePrice.wealthy,
-                                rich: props.basePrice.rich,
+                                modest: props.basePrice[association.modest],
+                                wealthy: props.basePrice[association.wealthy],
+                                rich: props.basePrice[association.rich],
                             },
                         });
                         break;
@@ -188,10 +139,10 @@ export const QuestScene = (props: {
                         props.onDataChange({
                             prices: {
                                 currency: props.basePrice.currency,
-                                poor: props.basePrice.poor,
+                                poor: props.basePrice[association.poor],
                                 modest: newPrice,
-                                wealthy: props.basePrice.wealthy,
-                                rich: props.basePrice.rich,
+                                wealthy: props.basePrice[association.wealthy],
+                                rich: props.basePrice[association.rich],
                             },
                         });
                         break;
@@ -200,10 +151,10 @@ export const QuestScene = (props: {
                         props.onDataChange({
                             prices: {
                                 currency: props.basePrice.currency,
-                                poor: props.basePrice.poor,
-                                modest: props.basePrice.modest,
+                                poor: props.basePrice[association.poor],
+                                modest: props.basePrice[association.modest],
                                 wealthy: newPrice,
-                                rich: props.basePrice.rich,
+                                rich: props.basePrice[association.rich],
                             },
                         });
                         break;
@@ -212,9 +163,9 @@ export const QuestScene = (props: {
                         props.onDataChange({
                             prices: {
                                 currency: props.basePrice.currency,
-                                poor: props.basePrice.poor,
-                                modest: props.basePrice.modest,
-                                wealthy: props.basePrice.wealthy,
+                                poor: props.basePrice[association.poor],
+                                modest: props.basePrice[association.modest],
+                                wealthy: props.basePrice[association.wealthy],
                                 rich: newPrice,
                             },
                         });

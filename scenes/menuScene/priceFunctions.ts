@@ -47,21 +47,35 @@ const getPriceFactorFromBasePrice = (
     productAssociations: association[]
 ) => {
     const defaultPriceFactor =
-        ((basePrice.modest + basePrice.wealthy) * 1.0) /
-        (standardBasePrice.modest + standardBasePrice.wealthy);
+        ((basePrice[association.modest] + basePrice[association.wealthy]) *
+            1.0) /
+        (standardBasePrice[association.modest] +
+            standardBasePrice[association.wealthy]);
     if (productAssociations.some((fit) => fit === association.rich)) {
-        return (basePrice.rich * 1.0) / standardBasePrice.rich;
+        return (
+            (basePrice[association.rich] * 1.0) /
+            standardBasePrice[association.rich]
+        );
     } else {
         if (productAssociations.some((fit) => fit === association.wealthy)) {
-            return (basePrice.wealthy * 1.0) / standardBasePrice.wealthy;
+            return (
+                (basePrice[association.wealthy] * 1.0) /
+                standardBasePrice[association.wealthy]
+            );
         } else {
             if (productAssociations.some((fit) => fit === association.modest)) {
-                return (basePrice.modest * 1.0) / standardBasePrice.modest;
+                return (
+                    (basePrice[association.modest] * 1.0) /
+                    standardBasePrice[association.modest]
+                );
             } else {
                 if (
                     productAssociations.some((fit) => fit === association.poor)
                 ) {
-                    return (basePrice.poor * 1.0) / standardBasePrice.poor;
+                    return (
+                        (basePrice[association.poor] * 1.0) /
+                        standardBasePrice[association.poor]
+                    );
                 }
             }
         }

@@ -25,19 +25,19 @@ export const adjustPriceSetter = (priceSetter: PriceSetter, factor: number) => {
 export const getPriceByFactorFromBasePrice = (foodToDrinkFactor: number) => {
     return {
         [association.poor]: adjustPrice(
-            standardBasePrice.poor,
+            standardBasePrice[association.poor],
             foodToDrinkFactor
         ),
         [association.modest]: adjustPrice(
-            standardBasePrice.modest,
+            standardBasePrice[association.modest],
             foodToDrinkFactor
         ),
         [association.wealthy]: adjustPrice(
-            standardBasePrice.wealthy,
+            standardBasePrice[association.wealthy],
             foodToDrinkFactor
         ),
         [association.rich]: adjustPrice(
-            standardBasePrice.rich,
+            standardBasePrice[association.rich],
             foodToDrinkFactor
         ),
     };
