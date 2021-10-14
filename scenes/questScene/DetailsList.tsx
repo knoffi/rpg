@@ -17,14 +17,13 @@ export const DetailsList = (props: {
     basePrice: BasePrice;
     onInfoPress: (income: Income) => void;
     onPriceSetPress: (income: Income) => void;
-    onCurrencySetPress: () => void;
-    onDataChange: (data: Partial<TavernData>) => void;
+    onReroll: (impression: IImpression) => void;
     onDelete: (name: string) => void;
     onAdd: (category: Noticable) => void;
+    onCurrencySetPress: () => void;
     impressions: IImpression[];
     noticablesLeft: Map<Describable, boolean>;
     getImpliedChanges: (newImpressions: IImpression[]) => Partial<TavernData>;
-    onReroll: (impression: IImpression) => void;
 }) => {
     const impressionTitles = Object.values(Noticable);
     const impressionAccordion = impressionTitles.map((title) => {
