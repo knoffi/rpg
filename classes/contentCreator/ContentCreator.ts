@@ -2,6 +2,7 @@ import { WeServe } from '../../editNavigator/WeServe';
 import { getRandomArrayEntry } from '../../helpingFunctions/getFittingRandom';
 import { drinkMenu } from '../../scenes/menuScene/drinks/drinkMenu';
 import { foodMenu } from '../../scenes/menuScene/food/foodMenu';
+import { getOfferFromMinimalData } from '../../scenes/menuScene/MinimalOfferData';
 import { NothingLeftOffer, Offer } from '../../scenes/menuScene/Offer';
 import { emptyImpression } from '../../scenes/questScene/impressions/emptyImpression';
 import { getPrefixExcluder } from '../../scenes/questScene/impressions/getPrefixExcluder';
@@ -87,6 +88,39 @@ export class ContentCreator {
                     [],
                     []
                 );
+        }
+    }
+
+    public rerollOneCreation(
+        fitting: StructuredTavernFits,
+        rerolledName: string,
+        request: CreationRequest
+    ) {
+        switch (request.isAbout) {
+            case WeServe.impressions:
+                return this.rerollOneImpression(fitting, rerolledName, request);
+            case WeServe.food:
+                return this.rerollOneDish(fitting, rerolledName, request);
+            default:
+                return this.rerollOneDrink(fitting, rerolledName, request);
+        }
+    }
+
+    public createUserMade(edit: UserMade): Edit {
+        switch (edit.isAbout) {
+            case WeServe.food:
+                const food = getOfferFromMinimalData(edit);
+                return { isAbout: WeServe.food, edit: food };
+            case WeServe.drinks:
+                const drink = getOfferFromMinimalData(edit);
+                return { isAbout: WeServe.drinks, edit: drink };
+            default:
+                const impression: IImpression = {
+                    category: edit.category,
+                    name: edit.name,
+                    patterns: [],
+                };
+                return { isAbout: WeServe.impressions, edit: impression };
         }
     }
 
@@ -278,7 +312,7 @@ export class ContentCreator {
         return { product: product, price: copperPrice } as Offer;
     }
 
-    rerollOneDish(
+    private rerollOneDish(
         fitting: StructuredTavernFits,
         rerolledName: string,
         request: FoodRequest,
@@ -297,7 +331,7 @@ export class ContentCreator {
         };
         return reroll;
     }
-    rerollOneDrink(
+    private rerollOneDrink(
         fitting: StructuredTavernFits,
         rerolledName: string,
         request: DrinkRequest,
@@ -316,7 +350,7 @@ export class ContentCreator {
         };
         return reroll;
     }
-    rerollOneImpression(
+    private rerollOneImpression(
         fitting: StructuredTavernFits,
         rerolledName: string,
         request: ImpressionRequest
@@ -341,21 +375,6 @@ export class ContentCreator {
             oneRerolled: rerolledImpressions,
         };
         return reroll;
-    }
-
-    rerollOneCreation(
-        fitting: StructuredTavernFits,
-        rerolledName: string,
-        request: CreationRequest
-    ) {
-        switch (request.isAbout) {
-            case WeServe.impressions:
-                return this.rerollOneImpression(fitting, rerolledName, request);
-            case WeServe.food:
-                return this.rerollOneDish(fitting, rerolledName, request);
-            default:
-                return this.rerollOneDrink(fitting, rerolledName, request);
-        }
     }
 }
 export type FoodRequest = {
@@ -399,6 +418,39 @@ export type Add =
           added: IImpression[];
           new?: IImpression;
       };
+
+type Edit =
+    | { isAbout: WeServe.drinks; edit: Offer }
+    | { isAbout: WeServe.food; edit: Offer }
+    | { isAbout: WeServe.impressions; edit: IImpression };
+
+type UserMadeFood = {
+    isAbout: WeServe.food;
+    category: Eatable;
+    name: string;
+    priceText: string;
+    description: string;
+    isUserMade: true;
+};
+type UserMadeDrink = {
+    isAbout: WeServe.drinks;
+    category: Drinkable;
+    name: string;
+    priceText: string;
+    description: string;
+    isUserMade: true;
+};
+type UserMadeImpression = {
+    isAbout: WeServe.impressions;
+    category: Noticable;
+    name: string;
+    firstKeys?: AssetKey[];
+    secondKeys?: AssetKey[];
+    sex?: 'male' | 'female';
+    patterns: Pattern[];
+    isUserMade: true;
+};
+export type UserMade = UserMadeDrink | UserMadeImpression | UserMadeFood;
 export type Delete =
     | {
           [WeServe.food]: Offer[];

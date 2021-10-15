@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import { Modal, Portal } from 'react-native-paper';
+import { UserMade } from '../../classes/contentCreator/ContentCreator';
 import { SavedDataHandler, WeSave } from '../../classes/database/Database';
 import { StructuredTavernFits } from '../../classes/idea/StructuredTavernFits';
-import { Drinkable, MenuCategory } from '../../classes/TavernProduct';
+import { Drinkable, Eatable, MenuCategory } from '../../classes/TavernProduct';
 import { ListOfSaves } from '../../components/ListOfSaves/ListOfSaves';
 import { WeServe } from '../../editNavigator/WeServe';
 import { getRandomArrayEntry } from '../../helpingFunctions/getFittingRandom';
@@ -27,7 +28,7 @@ const DEFAULT_MODAL_START_DATA = {
 };
 interface MenuProps {
     fitting: StructuredTavernFits;
-    isAbout: WeServe;
+    isAbout: WeServe.food | WeServe.drinks;
     offers: Offer[];
     onDataChange: (newData: Partial<TavernData>) => void;
     offersLeft: Map<Describable, boolean>;
@@ -37,7 +38,7 @@ interface MenuProps {
     handleAdd: (add: Demand) => void;
     handleDelete: (name: string, deleted: Demand) => void;
     handleReroll: (name: string, rerolled: Demand) => void;
-    handleEdit: (offer: MinimalOfferData, isNew: boolean) => void;
+    handleEdit: (offer: UserMade, isNew: boolean) => void;
     setBannerInvisible: () => void;
     buyOffer: (boughtOffer: Offer) => void;
 }
@@ -54,19 +55,28 @@ export const MenuScene = (props: MenuProps) => {
             category: Drinkable.lemonade as MenuCategory,
         } as MinimalOfferData,
     });
-    const [savedListData, setSavedListData] = useState({
-        visible: false,
-        category: Drinkable.spirit as MenuCategory,
-    });
+    const [savedListData, setSavedListData] = useState(
+        props.isAbout === WeServe.food
+            ? {
+                  visible: false,
+                  category: Eatable.dessert,
+                  isAbout: props.isAbout,
+              }
+            : {
+                  visible: false,
+                  category: Drinkable.beer,
+                  isAbout: props.isAbout,
+              }
+    );
     const deleteOffer = (name: string, demand: Demand) => {
         props.handleDelete(name, demand);
     };
     //TODO: further refactor into two methods with strong encapsulation
-    const addUserOffer = (offer: MinimalOfferData) => {
+    const addUserOffer = (offer: UserMade) => {
         props.handleEdit(offer, true);
         dismissEditorModal();
     };
-    const editUserOffer = (offer: MinimalOfferData) => {
+    const editUserOffer = (offer: UserMade) => {
         props.handleEdit(offer, false);
         dismissEditorModal();
     };
@@ -176,10 +186,10 @@ export const MenuScene = (props: MenuProps) => {
                             description: string
                         ) => {
                             addUserOffer({
+                                ...savedListData,
                                 name: name,
                                 priceText: priceText,
                                 description: description,
-                                category: savedListData.category,
                                 isUserMade: true,
                             });
                         },

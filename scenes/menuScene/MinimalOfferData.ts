@@ -9,7 +9,7 @@ export interface MinimalOfferData {
     isUserMade: boolean;
 }
 
-export const createMinimalOffer = (data: MinimalOfferData) => {
+export const getOfferFromMinimalData = (data: MinimalOfferData) => {
     return {
         product: new TavernProduct(
             data.name,

@@ -14,6 +14,7 @@ import { Describable, TavernData } from '../mainNavigator/TavernData';
 import { BasePrice } from '../scenes/menuScene/basePrice';
 import { BannerData } from '../scenes/menuScene/menuBanner/MenuBanner';
 import { MenuScene } from '../scenes/menuScene/MenuScene';
+import { MinimalOfferData } from '../scenes/menuScene/MinimalOfferData';
 import { Offer } from '../scenes/menuScene/Offer';
 import { Demand } from '../scenes/menuScene/offerList/actionInterfaces';
 import { NameScene } from '../scenes/nameScene/NameScene';
@@ -189,6 +190,8 @@ export const EditNavigator = (props: {
         };
         props.onDataChange(tavernChanges);
     };
+
+    const handleEdit = (offer: MinimalOfferData, isNew: boolean) => {};
     const getBannersByAdd = (add: Demand, nothingLeft: boolean) => {
         const oldBanners = { ...props.tavern.bannerData };
         const newBanners = {
@@ -272,6 +275,7 @@ export const EditNavigator = (props: {
                         offersBought={props.tavern.boughtOffers}
                         fitting={props.tavern.fitting}
                         isAbout={WeServe.drinks}
+                        handleEdit={() => {}}
                         offers={oldDrinks}
                         onDataChange={props.onDataChange}
                         offersLeft={props.tavern.ideasLeft.drink}
