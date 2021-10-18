@@ -1,13 +1,10 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SavedData } from '../../components/ListOfSaves/SavedData';
-import { Drinkable, Eatable, MenuCategory } from '../TavernProduct';
+import { Demand } from '../../scenes/menuScene/offerList/actionInterfaces';
+import { Noticable } from '../idea/Noticable';
+import { Drinkable, Eatable } from '../TavernProduct';
 
 const TAVERN_KEY_PREIMAGE = 'tavern';
-
-export enum WeSave {
-    taverns = 'taverns',
-    menu = 'menu',
-}
 export class SavedDataHandler {
     getKeysForHandler = async () => {
         const allKeys = await AsyncStorage.getAllKeys();
@@ -24,9 +21,9 @@ export class SavedDataHandler {
         );
     }
     private getKeyFromName(name: string) {
-        return this.chapter
-            ? this.prefixMap.get(this.chapter as string) + name
-            : this.prefixMap.get(TAVERN_KEY_PREIMAGE) + name;
+        return this.saving === 'tavern'
+            ? this.prefixMap.get(TAVERN_KEY_PREIMAGE) + name
+            : this.prefixMap.get(this.saving.category as string) + name;
     }
     private getNameForSaving = async (name: string) => {
         const relevantKeys = await this.getKeysForHandler();
@@ -46,17 +43,16 @@ export class SavedDataHandler {
                 )
         )!;
     };
-    private isAbout: WeSave;
-    private chapter?: MenuCategory;
+    private saving: Demand | 'tavern';
     private mainKey!: string;
     prefixMap!: Map<string, string>;
-    constructor(isAbout: WeSave, chapter?: MenuCategory) {
-        this.isAbout = isAbout;
-        this.chapter = chapter;
+    constructor(saving: Demand | 'tavern') {
+        this.saving = saving;
         this.setPrefixMap();
         this.setMainKey();
     }
     setPrefixMap() {
+        //TODO: make more resilient code with building map by adding of key-value with help of Noticable|Eatable|Drinkable enums or go to object {["tavern"]:"Taverns", [Eatable.mainDish]: ... }
         this.prefixMap = new Map([
             [Eatable.breakfast as string, 'Breakfasts'],
             [Eatable.dessert as string, 'Desserts'],
@@ -66,19 +62,18 @@ export class SavedDataHandler {
             [Drinkable.lemonade as string, 'Lemonades'],
             [Drinkable.spirit as string, 'Spirits'],
             [Drinkable.wine as string, 'Wines'],
+            [Noticable.averageCustomer as string, 'Average'],
+            [Noticable.bartender as string, 'Bartender'],
+            [Noticable.furniture as string, 'Furniture'],
+            [Noticable.someCustomers as string, 'Individuals'],
             [TAVERN_KEY_PREIMAGE, 'Taverns'],
         ]);
     }
     private setMainKey() {
-        if (this.isAbout === WeSave.taverns) {
+        if (this.saving === 'tavern') {
             this.mainKey = this.prefixMap.get(TAVERN_KEY_PREIMAGE)!;
         } else {
-            if (!this.chapter) {
-                console.log(
-                    'chapter is undefined but we are searching for saved menu products!'
-                );
-            }
-            this.mainKey = this.prefixMap.get(this.chapter as string)!;
+            this.mainKey = this.prefixMap.get(this.saving.category)!;
         }
     }
 
