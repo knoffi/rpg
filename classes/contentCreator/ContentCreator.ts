@@ -419,12 +419,12 @@ export type Add =
           new?: IImpression;
       };
 
-type Edit =
-    | { isAbout: WeServe.drinks; edit: Offer }
-    | { isAbout: WeServe.food; edit: Offer }
-    | { isAbout: WeServe.impressions; edit: IImpression };
+export type Edit =
+    | { isAbout: WeServe.drinks; edited: Offer }
+    | { isAbout: WeServe.food; edited: Offer }
+    | { isAbout: WeServe.impressions; edited: IImpression };
 
-type UserMadeFood = {
+export type UserMadeFood = {
     isAbout: WeServe.food;
     category: Eatable;
     name: string;
@@ -432,7 +432,7 @@ type UserMadeFood = {
     description: string;
     isUserMade: true;
 };
-type UserMadeDrink = {
+export type UserMadeDrink = {
     isAbout: WeServe.drinks;
     category: Drinkable;
     name: string;

@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 import { HelperText, TextInput } from 'react-native-paper';
+import {
+    UserMadeDrink,
+    UserMadeFood,
+} from '../../../classes/contentCreator/ContentCreator';
 import { SavedDataHandler, WeSave } from '../../../classes/database/Database';
 import {
     buttonEmphasis,
@@ -8,21 +12,21 @@ import {
     UploadButton,
 } from '../../../components/buttons/Buttons';
 import { MinimalOfferDataWithNumber } from '../../../components/ListOfSaves/ListOfSaves';
-import { MinimalOfferData } from '../MinimalOfferData';
 import { productEditorStyles } from './productEditorStyles';
 
 export const ProductEditor = (props: {
-    addTavernProduct: (textData: MinimalOfferData) => void;
-    overwriteTavernProduct: (textData: MinimalOfferData) => void;
-    nameIsDuplicated: (name: string) => boolean;
-    startTexts: MinimalOfferData;
+    addEdit: (asset: UserMadeFood | UserMadeDrink) => void;
+    overwriteEdit: (
+        asset: UserMadeFood | UserMadeDrink,
+        prevName: string
+    ) => void;
+    names: string[];
+    prevData: UserMadeFood | UserMadeDrink;
 }) => {
-    const [name, setName] = useState(props.startTexts.name);
-    const [priceText, setPriceText] = useState(props.startTexts.priceText);
-    const [description, setDescription] = useState(
-        props.startTexts.description
-    );
-    const startTextIsValid = props.startTexts.name.length > 0 ? true : false;
+    const [name, setName] = useState(props.prevData.name);
+    const [priceText, setPriceText] = useState(props.prevData.priceText);
+    const [description, setDescription] = useState(props.prevData.description);
+    const startTextIsValid = props.prevData.name.length > 0 ? true : false;
     const [priceTextIsValid, setPriceTextIsValid] = useState(true);
     const [nameTextIsValid, setNameTextIsValid] = useState(startTextIsValid);
     const textIsNumber = (text: string) => {
@@ -30,13 +34,13 @@ export const ProductEditor = (props: {
     };
     const storeOffer = async () => {
         // TODO: this is not a nice piece of code
-        const minimalOfferDataWithNumber = {
+        const minimalOfferDataWithNumber: MinimalOfferDataWithNumber = {
             priceText: parseInt(priceText),
             description: description,
             name: name,
-            category: props.startTexts.category,
-        } as MinimalOfferDataWithNumber;
-        new SavedDataHandler(WeSave.menu, props.startTexts.category).saveData(
+            category: props.prevData.category,
+        };
+        new SavedDataHandler(WeSave.menu, props.prevData.category).saveData(
             minimalOfferDataWithNumber
         );
     };
@@ -44,7 +48,7 @@ export const ProductEditor = (props: {
     return (
         <ScrollView style={productEditorStyles.scrollView}>
             <Text style={productEditorStyles.title}>
-                {'CREATE ' + props.startTexts.category.toUpperCase()}
+                {'CREATE ' + props.prevData.category.toUpperCase()}
             </Text>
             <View
                 style={{
@@ -58,15 +62,12 @@ export const ProductEditor = (props: {
                         value={name}
                         onChangeText={(name: string) => {
                             setName(name);
-                            if (
-                                name.length === 0 ||
-                                (props.nameIsDuplicated(name) &&
-                                    name !== props.startTexts.name)
-                            ) {
-                                setNameTextIsValid(false);
-                            } else {
-                                setNameTextIsValid(true);
-                            }
+                            const nameIsValid =
+                                name === props.prevData.name ||
+                                props.names.every(
+                                    (name) => name !== props.prevData.name
+                                );
+                            setNameTextIsValid(nameIsValid);
                         }}
                     ></TextInput>
 
@@ -114,19 +115,15 @@ export const ProductEditor = (props: {
                             mode={buttonEmphasis.high}
                             disabled={!priceTextIsValid || !nameTextIsValid}
                             onPress={() => {
-                                const newProductData = {
-                                    name,
-                                    priceText,
-                                    description,
-                                    category: props.startTexts.category,
-                                    isUserMade: true,
-                                };
-                                if (props.startTexts.name.length > 0) {
-                                    props.overwriteTavernProduct(
-                                        newProductData
+                                const newProductData = props.prevData;
+
+                                if (props.prevData.name.length > 0) {
+                                    props.overwriteEdit(
+                                        newProductData,
+                                        props.prevData.name
                                     );
                                 } else {
-                                    props.addTavernProduct(newProductData);
+                                    props.addEdit(newProductData);
                                 }
                             }}
                             title=" TAVERN"
