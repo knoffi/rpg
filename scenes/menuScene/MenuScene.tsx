@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import { Modal, Portal } from 'react-native-paper';
-import { UserMade } from '../../classes/contentCreator/ContentCreator';
-import { SavedDataHandler, WeSave } from '../../classes/database/Database';
+import {
+    UserMade,
+    UserMadeDrink,
+    UserMadeFood,
+} from '../../classes/contentCreator/ContentCreator';
+import { Database } from '../../classes/database/Database';
 import { StructuredTavernFits } from '../../classes/idea/StructuredTavernFits';
-import { Drinkable, Eatable, MenuCategory } from '../../classes/TavernProduct';
 import { ListOfSaves } from '../../components/ListOfSaves/ListOfSaves';
 import { WeServe } from '../../editNavigator/WeServe';
 import { getRandomArrayEntry } from '../../helpingFunctions/getFittingRandom';
@@ -13,7 +16,6 @@ import { nameSceneStyles } from '../nameScene/nameSceneStyles';
 import { BasePrice } from './basePrice';
 import { bannerEndings } from './menuBanner/bannerEndings';
 import { BannerData, MenuBanner } from './menuBanner/MenuBanner';
-import { MinimalOfferData } from './MinimalOfferData';
 import { Offer } from './Offer';
 import { Demand } from './offerList/actionInterfaces';
 import { OfferList } from './offerList/OfferList';
@@ -38,46 +40,39 @@ interface MenuProps {
     handleAdd: (add: Demand) => void;
     handleDelete: (name: string, deleted: Demand) => void;
     handleReroll: (name: string, rerolled: Demand) => void;
-    handleEdit: (offer: UserMade, isNew: boolean) => void;
+    handleEdit: (offer: UserMade, previousName?: string) => void;
     setBannerInvisible: () => void;
     buyOffer: (boughtOffer: Offer) => void;
+    startEdit: UserMadeFood | UserMadeDrink;
 }
 
 export const MenuScene = (props: MenuProps) => {
+    const startDemand: Demand =
+        props.startEdit.isAbout === WeServe.drinks
+            ? props.startEdit
+            : props.startEdit;
     const fits = props.fitting;
     const [bannerEnding, setBannerEnding] = useState(
         getRandomArrayEntry(bannerEndings.get(props.isAbout)!)
     );
-    const [editorData, setEditorData] = useState({
+    const [editor, setEditor] = useState({
         visible: false,
-        startData: {
-            ...DEFAULT_MODAL_START_DATA,
-            category: Drinkable.lemonade as MenuCategory,
-        } as MinimalOfferData,
+        startData: props.startEdit,
     });
-    const [savedListData, setSavedListData] = useState(
-        props.isAbout === WeServe.food
-            ? {
-                  visible: false,
-                  category: Eatable.dessert,
-                  isAbout: props.isAbout,
-              }
-            : {
-                  visible: false,
-                  category: Drinkable.beer,
-                  isAbout: props.isAbout,
-              }
-    );
+    const [savedListData, setSavedListData] = useState({
+        visible: false,
+        demand: startDemand,
+    });
     const deleteOffer = (name: string, demand: Demand) => {
         props.handleDelete(name, demand);
     };
     //TODO: further refactor into two methods with strong encapsulation
     const addUserOffer = (offer: UserMade) => {
-        props.handleEdit(offer, true);
+        props.handleEdit(offer);
         dismissEditorModal();
     };
-    const editUserOffer = (offer: UserMade) => {
-        props.handleEdit(offer, false);
+    const editUserOffer = (offer: UserMade, previousName: string) => {
+        props.handleEdit(offer, previousName);
         dismissEditorModal();
     };
 
@@ -88,17 +83,17 @@ export const MenuScene = (props: MenuProps) => {
             }
         });
     };
-    const openOfferEditor = (startData: MinimalOfferData) => {
-        setEditorData({
+    const openOfferEditor = (startData: UserMadeFood | UserMadeDrink) => {
+        setEditor({
             visible: true,
             startData: startData,
         });
     };
 
     const dismissEditorModal = () => {
-        setEditorData({
+        setEditor({
             visible: false,
-            startData: editorData.startData,
+            startData: editor.startData,
         });
     };
 
@@ -127,20 +122,24 @@ export const MenuScene = (props: MenuProps) => {
                     isAbout={props.isAbout}
                     addingActions={{
                         randomAdd: props.handleAdd,
-                        import: (category: MenuCategory) => {
-                            setSavedListData({
-                                visible: true,
-                                category: category,
-                            });
+                        import: (demand: Demand) => {
+                            if (demand.isAbout !== WeServe.impressions) {
+                                setSavedListData({
+                                    visible: true,
+                                    demand: demand,
+                                });
+                            }
                         },
-                        edit: (category: MenuCategory) => {
-                            setEditorData({
-                                visible: true,
-                                startData: {
-                                    ...DEFAULT_MODAL_START_DATA,
-                                    category: category,
-                                },
-                            });
+                        edit: (edit: Demand) => {
+                            if (edit.isAbout === props.startEdit.isAbout) {
+                                setEditor({
+                                    visible: true,
+                                    startData: {
+                                        ...props.startEdit,
+                                        ...edit,
+                                    },
+                                });
+                            }
                         },
                     }}
                     offerActions={{
@@ -160,25 +159,18 @@ export const MenuScene = (props: MenuProps) => {
                 />
             </ScrollView>
             <Portal>
-                <Modal
-                    visible={editorData.visible}
-                    onDismiss={dismissEditorModal}
-                >
+                <Modal visible={editor.visible} onDismiss={dismissEditorModal}>
                     <ProductEditor
-                        startTexts={editorData.startData}
-                        nameIsDuplicated={nameIsDuplicated}
-                        overwriteTavernProduct={editUserOffer}
-                        addTavernProduct={addUserOffer}
+                        prevData={editor.startData}
+                        overwriteEdit={editUserOffer}
+                        addEdit={addUserOffer}
+                        names={props.offers.map((offer) => offer.product.name)}
                     />
                 </Modal>
                 <ListOfSaves
-                    title={savedListData.category.toUpperCase()}
-                    dataHandler={
-                        new SavedDataHandler(
-                            WeSave.menu,
-                            savedListData.category
-                        )
-                    }
+                    title={savedListData.demand.category.toUpperCase()}
+                    dataHandler={new Database()}
+                    saving={savedListData.demand}
                     offerHandling={{
                         addUserOffer: (
                             name: string,
@@ -186,7 +178,7 @@ export const MenuScene = (props: MenuProps) => {
                             description: string
                         ) => {
                             addUserOffer({
-                                ...savedListData,
+                                ...savedListData.demand,
                                 name: name,
                                 priceText: priceText,
                                 description: description,
@@ -199,7 +191,7 @@ export const MenuScene = (props: MenuProps) => {
                     onDismiss={() => {
                         setSavedListData({
                             visible: false,
-                            category: Drinkable.spirit,
+                            demand: startDemand,
                         });
                     }}
                 />

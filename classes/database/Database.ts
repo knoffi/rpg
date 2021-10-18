@@ -5,33 +5,42 @@ import { Noticable } from '../idea/Noticable';
 import { Drinkable, Eatable } from '../TavernProduct';
 
 const TAVERN_KEY_PREIMAGE = 'tavern';
-export class SavedDataHandler {
-    getKeysForHandler = async () => {
+export class Database {
+    private getAllKeys = async (saving: 'tavern' | Demand) => {
         const allKeys = await AsyncStorage.getAllKeys();
         return allKeys.filter((key) => {
-            return this.keyFitsToRequest(key);
+            return this.keyFitsToRequest(key, saving);
         });
     };
-    private itemFromKeyContainsName(key: string, name: string): boolean {
+    private itemFromKeyContainsName(
+        key: string,
+        name: string,
+        saving: 'tavern' | Demand
+    ): boolean {
+        const mainKey = this.getMainKey(saving);
         return (
-            key.substring(
-                this.mainKey.length,
-                this.mainKey.length + name.length
-            ) === name
+            key.substring(mainKey.length, mainKey.length + name.length) === name
         );
     }
-    private getKeyFromName(name: string) {
-        return this.saving === 'tavern'
+    private getKeyFromName(name: string, saving: 'tavern' | Demand) {
+        return saving === 'tavern'
             ? this.prefixMap.get(TAVERN_KEY_PREIMAGE) + name
-            : this.prefixMap.get(this.saving.category as string) + name;
+            : this.prefixMap.get(saving.category as string) + name;
     }
-    private getNameForSaving = async (name: string) => {
-        const relevantKeys = await this.getKeysForHandler();
-        if (!relevantKeys.some((key) => key === this.getKeyFromName(name))) {
+    private getNameForSaving = async (
+        name: string,
+        saving: 'tavern' | Demand
+    ) => {
+        const relevantKeys = await this.getAllKeys(saving);
+        if (
+            !relevantKeys.some(
+                (key) => key === this.getKeyFromName(name, saving)
+            )
+        ) {
             return name;
         }
         const keysOfNearlyDuplicates = relevantKeys.filter((key) =>
-            this.itemFromKeyContainsName(key, name)
+            this.itemFromKeyContainsName(key, name, saving)
         );
         const possibleNewNames = new Array(keysOfNearlyDuplicates.length + 1)
             .fill(1)
@@ -39,19 +48,15 @@ export class SavedDataHandler {
         return possibleNewNames.find(
             (newName) =>
                 !keysOfNearlyDuplicates.some(
-                    (key) => key === this.getKeyFromName(newName)
+                    (key) => key === this.getKeyFromName(newName, saving)
                 )
         )!;
     };
-    private saving: Demand | 'tavern';
-    private mainKey!: string;
     prefixMap!: Map<string, string>;
-    constructor(saving: Demand | 'tavern') {
-        this.saving = saving;
+    constructor() {
         this.setPrefixMap();
-        this.setMainKey();
     }
-    setPrefixMap() {
+    private setPrefixMap() {
         //TODO: make more resilient code with building map by adding of key-value with help of Noticable|Eatable|Drinkable enums or go to object {["tavern"]:"Taverns", [Eatable.mainDish]: ... }
         this.prefixMap = new Map([
             [Eatable.breakfast as string, 'Breakfasts'],
@@ -69,17 +74,17 @@ export class SavedDataHandler {
             [TAVERN_KEY_PREIMAGE, 'Taverns'],
         ]);
     }
-    private setMainKey() {
-        if (this.saving === 'tavern') {
-            this.mainKey = this.prefixMap.get(TAVERN_KEY_PREIMAGE)!;
+    private getMainKey(saving: 'tavern' | Demand) {
+        if (saving === 'tavern') {
+            return this.prefixMap.get(TAVERN_KEY_PREIMAGE)!;
         } else {
-            this.mainKey = this.prefixMap.get(this.saving.category)!;
+            return this.prefixMap.get(saving.category)!;
         }
     }
 
-    public getSaves = async () => {
+    public getSaves = async (saving: 'tavern' | Demand) => {
         try {
-            const relevantKeys = await this.getKeysForHandler();
+            const relevantKeys = await this.getAllKeys(saving);
             if (relevantKeys) {
                 try {
                     const valuePairs = await AsyncStorage.multiGet(
@@ -102,30 +107,33 @@ export class SavedDataHandler {
         }
     };
 
-    public saveData = async (data: SavedData) => {
-        const nameForSaving = await this.getNameForSaving(data.name);
+    public saveData = async (data: SavedData, saving: 'tavern' | Demand) => {
+        const nameForSaving = await this.getNameForSaving(data.name, saving);
         data.name = nameForSaving;
         const JSONdata = JSON.stringify(data);
         try {
-            AsyncStorage.setItem(this.getKeyFromName(nameForSaving), JSONdata);
+            AsyncStorage.setItem(
+                this.getKeyFromName(nameForSaving, saving),
+                JSONdata
+            );
         } catch (e) {
             console.log(e);
         }
     };
 
-    public removeData = async (name: string) => {
+    public removeData = async (name: string, saving: 'tavern' | Demand) => {
         try {
-            await AsyncStorage.removeItem(this.getKeyFromName(name));
+            await AsyncStorage.removeItem(this.getKeyFromName(name, saving));
         } catch (e) {
             console.log(e);
         }
     };
 
-    private keyFitsToRequest(key: string) {
+    private keyFitsToRequest(key: string, saving: 'tavern' | Demand) {
+        const mainKey = this.getMainKey(saving);
         const prefixStart = 0;
-        const prefixEnd = this.mainKey.length - 1;
-        const prefixMatches =
-            key.slice(prefixStart, prefixEnd + 1) === this.mainKey;
+        const prefixEnd = mainKey.length - 1;
+        const prefixMatches = key.slice(prefixStart, prefixEnd + 1) === mainKey;
         return prefixMatches;
     }
 }

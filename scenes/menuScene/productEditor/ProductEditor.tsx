@@ -5,7 +5,7 @@ import {
     UserMadeDrink,
     UserMadeFood,
 } from '../../../classes/contentCreator/ContentCreator';
-import { SavedDataHandler, WeSave } from '../../../classes/database/Database';
+import { Database } from '../../../classes/database/Database';
 import {
     buttonEmphasis,
     OkayButton,
@@ -40,9 +40,7 @@ export const ProductEditor = (props: {
             name: name,
             category: props.prevData.category,
         };
-        new SavedDataHandler(WeSave.menu, props.prevData.category).saveData(
-            minimalOfferDataWithNumber
-        );
+        new Database().saveData(minimalOfferDataWithNumber, props.prevData);
     };
 
     return (

@@ -2,13 +2,15 @@ import React from 'react';
 import { View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Button, List, Modal, Portal } from 'react-native-paper';
-import { SavedDataHandler } from '../../classes/database/Database';
+import { Database } from '../../classes/database/Database';
 import { MenuCategory } from '../../classes/TavernProduct';
 import { MinimalTavernData } from '../../mainNavigator/TavernData';
+import { Demand } from '../../scenes/menuScene/offerList/actionInterfaces';
 import { editModalStyles } from '../../scenes/startOptionsScene/editModalStyles';
 interface ListOfSavesProps {
     title: string;
-    dataHandler: SavedDataHandler;
+    dataHandler: Database;
+    saving: 'tavern' | Demand;
     offerHandling?: {
         addUserOffer: (
             name: string,
@@ -142,14 +144,14 @@ export class ListOfSaves extends React.Component<
         this.props.onDismiss();
     }
     setSavedData = async () => {
-        const data = await this.props.dataHandler.getSaves();
+        const data = await this.props.dataHandler.getSaves(this.props.saving);
         if (data) {
             this.setState({ loadedSaves: data });
         }
     };
 
     private deleteSavedItem = async (name: string) => {
-        await this.props.dataHandler.removeData(name);
+        await this.props.dataHandler.removeData(name, this.props.saving);
         this.removeItemFromList(name);
     };
 

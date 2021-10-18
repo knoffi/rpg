@@ -2,7 +2,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import React, { useState } from 'react';
 import { AppBar } from '../appBar/AppBar';
-import { SavedDataHandler, WeSave } from '../classes/database/Database';
+import { Database } from '../classes/database/Database';
 import { EditNavigator } from '../editNavigator/EditNavigator';
 import { Offer } from '../scenes/menuScene/Offer';
 import { getAdjustedPrice } from '../scenes/menuScene/priceFunctions';
@@ -57,8 +57,8 @@ export const MainNavigator = () => {
     const saveMinimalTavernData = async () => {
         const tavern = tavernHistory[historyIndex];
         const minimalData = getMinimalDataFromTavern(tavern);
-        const dataHandler = new SavedDataHandler(WeSave.taverns);
-        dataHandler.saveData(minimalData);
+        const dataHandler = new Database();
+        dataHandler.saveData(minimalData, 'tavern');
     };
 
     const buildTavernFromMinimalData = (minimalData: MinimalTavernData) => {
