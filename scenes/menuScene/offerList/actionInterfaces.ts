@@ -1,11 +1,13 @@
+import {
+    UserMadeDrink,
+    UserMadeFood
+} from '../../../classes/contentCreator/ContentCreator';
 import { Noticable } from '../../../classes/idea/Noticable';
 import {
     Drinkable,
-    Eatable,
-    MenuCategory,
+    Eatable
 } from '../../../classes/TavernProduct';
 import { WeServe } from '../../../editNavigator/WeServe';
-import { MinimalOfferData } from '../MinimalOfferData';
 
 export interface IProductActions {
     onDelete: () => void;
@@ -22,12 +24,12 @@ export type Demand =
 
 export interface IAddingActions {
     randomAdd: (demand: Demand) => void;
-    import: (category: MenuCategory) => void;
-    edit: (category: MenuCategory) => void;
+    import: (demand:Demand) => void;
+    edit: (edit: Demand) => void;
 }
 export interface IOfferActions {
     deleteOffer: (name: string, deleted: Demand) => void;
     rerollOffer: (name: string, reroll: Demand) => void;
     shopOffer: (name: string) => void;
-    editUserOffer: (startData: MinimalOfferData) => void;
+    editUserOffer: (startData: UserMadeDrink | UserMadeFood) => void;
 }

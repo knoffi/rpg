@@ -110,17 +110,17 @@ export class ContentCreator {
         switch (edit.isAbout) {
             case WeServe.food:
                 const food = getOfferFromMinimalData(edit);
-                return { isAbout: WeServe.food, edit: food };
+                return { isAbout: WeServe.food, edited: food };
             case WeServe.drinks:
                 const drink = getOfferFromMinimalData(edit);
-                return { isAbout: WeServe.drinks, edit: drink };
+                return { isAbout: WeServe.drinks, edited: drink };
             default:
                 const impression: IImpression = {
                     category: edit.category,
                     name: edit.name,
                     patterns: [],
                 };
-                return { isAbout: WeServe.impressions, edit: impression };
+                return { isAbout: WeServe.impressions, edited: impression };
         }
     }
 
@@ -157,6 +157,9 @@ export class ContentCreator {
                 };
 
             default:
+                console.log(
+                    request.fullFirstKeys.length + request.fullSecondKeys.length
+                );
                 const newImpression = this.getRandomImpression(
                     fitting,
                     request.category,
@@ -167,9 +170,8 @@ export class ContentCreator {
                     request.additionFilter,
                     request.patterns
                 );
-                const extendedImpressions = request.oldAssets.concat(
-                    newImpression || []
-                );
+                const extendedImpressions =
+                    request.oldAssets.concat(newImpression);
                 return {
                     new: newImpression,
                     added: extendedImpressions,

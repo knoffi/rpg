@@ -14,7 +14,7 @@ const BOTTOM_PADDING_FOOD = 188 * HEIGHT_FACTOR;
 
 export const OfferList = (props: {
     offers: Offer[];
-    isAbout: WeServe;
+    isAbout: WeServe.food | WeServe.drinks;
     offerActions: IOfferActions;
     addingActions: IAddingActions;
     offersLeftMap: Map<Describable, boolean>;
@@ -36,7 +36,7 @@ export const OfferList = (props: {
     // Now: menu=[ {"beer", [] }, {"wine", [] }, ... ]
 
     const chapterLists = menu.map((chapter) => {
-        const demand: Demand = {
+        const demand: Demand & { isAbout: WeServe.food | WeServe.drinks } = {
             isAbout: demands.isAboutFood ? WeServe.food : WeServe.drinks,
             category: chapter.category,
         };

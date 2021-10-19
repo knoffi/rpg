@@ -4,17 +4,19 @@ import {
     Add,
     ContentCreator,
     CreationRequest,
+    Edit,
+    UserMade,
 } from '../classes/contentCreator/ContentCreator';
 import { AssetKey } from '../classes/idea/AssetKey/AssetKey';
 import { Pattern } from '../classes/idea/Patterns/Pattern';
 import { StructuredTavernFits } from '../classes/idea/StructuredTavernFits';
+import { Drinkable, Eatable } from '../classes/TavernProduct';
 import Icon from '../components/icons';
 import { iconKeys } from '../components/icons/iconKeys';
 import { Describable, TavernData } from '../mainNavigator/TavernData';
 import { BasePrice } from '../scenes/menuScene/basePrice';
 import { BannerData } from '../scenes/menuScene/menuBanner/MenuBanner';
 import { MenuScene } from '../scenes/menuScene/MenuScene';
-import { MinimalOfferData } from '../scenes/menuScene/MinimalOfferData';
 import { Offer } from '../scenes/menuScene/Offer';
 import { Demand } from '../scenes/menuScene/offerList/actionInterfaces';
 import { NameScene } from '../scenes/nameScene/NameScene';
@@ -143,23 +145,22 @@ export const EditNavigator = (props: {
     const invokeAdd = (creation: Add, noNextCreation: boolean) => {
         if (!creation.new) {
             console.log('__ADDING WAS INVOKED WITH EMPTY CREATION___');
-        }
-        const oldAssets = props.tavern[WeServe.drinks];
-        const newOffers = [...oldAssets, creation.new];
-        const assetChanges = { [creation.isAbout]: newOffers };
-        const bannerChanges = noNextCreation
-            ? getBannersByAdd(creation, true)
-            : {};
-        const ideaLeftMapChanges = noNextCreation
-            ? getIdeaLeftMapByAdd(creation, false)
-            : {};
-        const tavernChanges: Partial<TavernData> = {
-            ...assetChanges,
-            ...bannerChanges,
-            ...ideaLeftMapChanges,
-        };
+        } else {
+            const assetChanges = { [creation.isAbout]: creation.added };
+            const bannerChanges = noNextCreation
+                ? getBannersByAdd(creation, true)
+                : {};
+            const ideaLeftMapChanges = noNextCreation
+                ? getIdeaLeftMapByAdd(creation, false)
+                : {};
+            const tavernChanges: Partial<TavernData> = {
+                ...assetChanges,
+                ...bannerChanges,
+                ...ideaLeftMapChanges,
+            };
 
-        props.onDataChange(tavernChanges);
+            props.onDataChange(tavernChanges);
+        }
     };
     const handleDelete = (name: string, deleted: Demand) => {
         //TODO: different behavior for deletes of user made ideas
@@ -191,7 +192,28 @@ export const EditNavigator = (props: {
         props.onDataChange(tavernChanges);
     };
 
-    const handleEdit = (offer: MinimalOfferData, isNew: boolean) => {};
+    const handleEdit = (request: UserMade, previousName?: string) => {
+        const newAsset = creator.createUserMade(request);
+    };
+    const addUserOffer = (change: Edit, previousName?: string) => {
+        if (change.isAbout === WeServe.impressions) {
+            const newAssets = previousName
+                ? props.tavern[change.isAbout].map((asset) =>
+                      asset.name === previousName ? change.edited : asset
+                  )
+                : [...props.tavern[change.isAbout], change.edited];
+            props.onDataChange({ [change.isAbout]: newAssets });
+        } else {
+            const newAssets = previousName
+                ? props.tavern[change.isAbout].map((asset) =>
+                      asset.product.name === previousName
+                          ? change.edited
+                          : asset
+                  )
+                : [...props.tavern[change.isAbout], change.edited];
+            props.onDataChange({ [change.isAbout]: newAssets });
+        }
+    };
     const getBannersByAdd = (add: Demand, nothingLeft: boolean) => {
         const oldBanners = { ...props.tavern.bannerData };
         const newBanners = {
@@ -269,13 +291,21 @@ export const EditNavigator = (props: {
                 name="Drinks"
                 children={() => (
                     <MenuScene
+                        startEdit={{
+                            category: Drinkable.lemonade,
+                            isAbout: WeServe.drinks,
+                            name: '',
+                            priceText: '10',
+                            description: '',
+                            isUserMade: true,
+                        }}
                         buyOffer={buyOffer}
                         handleAdd={handleAdd}
                         handleReroll={handleReroll}
                         offersBought={props.tavern.boughtOffers}
                         fitting={props.tavern.fitting}
                         isAbout={WeServe.drinks}
-                        handleEdit={() => {}}
+                        handleEdit={handleEdit}
                         offers={oldDrinks}
                         onDataChange={props.onDataChange}
                         offersLeft={props.tavern.ideasLeft.drink}
@@ -290,10 +320,19 @@ export const EditNavigator = (props: {
                 name="Food"
                 children={() => (
                     <MenuScene
+                        startEdit={{
+                            category: Eatable.mainDish,
+                            isAbout: WeServe.food,
+                            name: '',
+                            priceText: '10',
+                            description: '',
+                            isUserMade: true,
+                        }}
                         buyOffer={buyOffer}
                         handleAdd={handleAdd}
                         handleReroll={handleReroll}
                         handleDelete={handleDelete}
+                        handleEdit={handleEdit}
                         offersBought={props.tavern.boughtOffers}
                         fitting={props.tavern.fitting}
                         isAbout={WeServe.food}

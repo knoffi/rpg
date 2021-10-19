@@ -6,6 +6,7 @@ import {
     FeatherButton,
     ImportButton,
 } from '../../../components/buttons/Buttons';
+import { WeServe } from '../../../editNavigator/WeServe';
 import { menuSceneStyles } from '../menuStyles';
 import { Offer } from '../Offer';
 import { Demand, IAddingActions, IOfferActions } from './actionInterfaces';
@@ -13,7 +14,7 @@ import { OfferListItem } from './Item';
 import { LIST_END_BUTTON_SIZE } from './LIST_END_BUTTON_SIZE';
 
 export const OfferListAccordeon = (props: {
-    demand: Demand;
+    demand: Demand & { isAbout: WeServe.drinks | WeServe.food };
     listOfOffers: Offer[];
     offerActions: IOfferActions;
     addingActions: IAddingActions;
@@ -52,8 +53,8 @@ export const OfferListAccordeon = (props: {
                                 name: product.name,
                                 priceText: offerOfList.price.toString(),
                                 description: description,
-                                category: product.category,
                                 isUserMade: true,
+                                ...thisDemand,
                             });
                         },
                     }}
@@ -86,13 +87,13 @@ export const OfferListAccordeon = (props: {
                             />
                             <ImportButton
                                 onPress={() => {
-                                    onImport(thisDemand.category);
+                                    onImport(thisDemand);
                                 }}
                                 size={LIST_END_BUTTON_SIZE}
                             />
                             <FeatherButton
                                 onPress={() => {
-                                    onEdit(thisDemand.category);
+                                    onEdit(thisDemand);
                                 }}
                                 size={LIST_END_BUTTON_SIZE}
                             />
