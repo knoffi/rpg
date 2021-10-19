@@ -106,6 +106,11 @@ export const EditNavigator = (props: {
             name,
             request
         );
+        //TODO: improve by delete key of rerolled from fullKeys and eventually add key of new impression (or asset for general case)
+        if (rerolled.isAbout === WeServe.impressions) {
+            setFullKeys(getFullKeys(rerolled.oneRerolled));
+            setPatterns(getUsedPatterns(rerolled.oneRerolled));
+        }
         props.onDataChange({ [rerolled.isAbout]: rerolled.oneRerolled });
     };
     const handleBasePrice = (newPrices: BasePrice) => {
@@ -134,11 +139,15 @@ export const EditNavigator = (props: {
             props.tavern.fitting,
             request
         );
-        //TODO: get updated keys and patterns from creation
         const noNextCreation = creator.noNextCreationLeft(
             props.tavern.fitting,
             creation
         );
+        // TODO: improve by only care about keys of new impression (asset)
+        if (creation.isAbout === WeServe.impressions) {
+            setFullKeys(getFullKeys(creation.added));
+            setPatterns(getUsedPatterns(creation.added));
+        }
         invokeAdd(creation, noNextCreation);
     };
 
@@ -174,7 +183,7 @@ export const EditNavigator = (props: {
                       isAbout: deleted.isAbout,
                       creations: props.tavern[deleted.isAbout],
                   };
-        const offerChanges = creator.deleteCreation(name, deleteRequest);
+        const assetChanges = creator.deleteCreation(name, deleteRequest);
         const categoryWasFullBefore = props.tavern.bannerData[
             deleted.isAbout
         ].emptyCategories.includes(deleted.category);
@@ -186,9 +195,14 @@ export const EditNavigator = (props: {
             : {};
         const tavernChanges = {
             ...bannerChanges,
-            ...offerChanges,
+            ...assetChanges,
             ...ideaLeftMapChanges,
         };
+        if (assetChanges.isAbout === WeServe.impressions) {
+            //TODO: improve by deleting key of deleted asset from fullKeys
+            setFullKeys(getFullKeys(assetChanges.impression));
+            setPatterns(getUsedPatterns(assetChanges.impression));
+        }
         props.onDataChange(tavernChanges);
     };
 

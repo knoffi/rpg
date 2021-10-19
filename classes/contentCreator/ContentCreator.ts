@@ -48,17 +48,20 @@ export class ContentCreator {
                 const newImpressions = deleted.creations.filter(
                     (impression) => impression.name !== name
                 );
-                return { [WeServe.impressions]: newImpressions };
+                return {
+                    [WeServe.impressions]: newImpressions,
+                    isAbout: WeServe.impressions,
+                };
             case WeServe.food:
                 const newDishes = deleted.creations.filter(
                     (offer) => offer.product.name !== name
                 );
-                return { [WeServe.food]: newDishes };
+                return { [WeServe.food]: newDishes, isAbout: WeServe.food };
             default:
                 const newDrinks = deleted.creations.filter(
                     (offer) => offer.product.name !== name
                 );
-                return { [WeServe.drinks]: newDrinks };
+                return { [WeServe.drinks]: newDrinks, isAbout: WeServe.drinks };
         }
     }
 
@@ -157,9 +160,6 @@ export class ContentCreator {
                 };
 
             default:
-                console.log(
-                    request.fullFirstKeys.length + request.fullSecondKeys.length
-                );
                 const newImpression = this.getRandomImpression(
                     fitting,
                     request.category,
@@ -456,12 +456,15 @@ export type UserMade = UserMadeDrink | UserMadeImpression | UserMadeFood;
 export type Delete =
     | {
           [WeServe.food]: Offer[];
+          isAbout: WeServe.food;
       }
     | {
           [WeServe.drinks]: Offer[];
+          isAbout: WeServe.drinks;
       }
     | {
           [WeServe.impressions]: IImpression[];
+          isAbout: WeServe.impressions;
       };
 type Reroll =
     | {
