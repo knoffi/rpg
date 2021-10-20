@@ -79,10 +79,7 @@ export class ContentCreator {
                 .slice(0, indexToRemove)
                 .concat(impressions.slice(indexToRemove + 1));
             const removedEntry = impressions[indexToRemove];
-            const dissolvedKeys: Keys = {
-                ['main']: removedEntry.firstKeys || [],
-                ['addition']: removedEntry.secondKeys || [],
-            };
+            const dissolvedKeys: Keys = removedEntry.keys;
             return { reducedImpressions, keys: dissolvedKeys };
         }
     }
@@ -144,6 +141,7 @@ export class ContentCreator {
                     category: edit.category,
                     name: edit.name,
                     patterns: [],
+                    keys: emptyKeys,
                 };
                 return { isAbout: WeServe.impressions, edited: impression };
         }
@@ -199,10 +197,7 @@ export class ContentCreator {
                     added: extendedImpressions,
                     isAbout: WeServe.impressions,
                     category: request.category,
-                    newKeys: {
-                        addition: newImpression.secondKeys || [],
-                        main: newImpression.firstKeys || [],
-                    },
+                    newKeys: newImpression.keys,
                 };
         }
     }
@@ -404,18 +399,14 @@ export class ContentCreator {
         const reroll: Reroll = {
             isAbout: WeServe.impressions,
             oneRerolled: rerolledImpressions,
-            newKeys: {
-                main: newImpression.firstKeys || [],
-                addition: newImpression.secondKeys || [],
-            },
-            oldKeys: {
-                ['main']: oldImpression?.firstKeys || [],
-                ['addition']: oldImpression?.secondKeys || [],
-            },
+            newKeys: newImpression.keys,
+            oldKeys: oldImpression?.keys || emptyKeys,
         };
         return reroll;
     }
 }
+
+export const emptyKeys: Keys = { ['main']: [], ['addition']: [] };
 export type FoodRequest = {
     isAbout: WeServe.food;
     category: Eatable;

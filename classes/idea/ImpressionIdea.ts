@@ -1,5 +1,7 @@
 import { splitMarker } from '../../scenes/menuScene/offerList/nameSplitter/splitMarker';
 import { IImpression } from '../../scenes/questScene/impressions/IImpression';
+import { emptyKeys } from '../contentCreator/ContentCreator';
+import { Keys } from '../keyHandler/KeyHandler';
 import { AssetKey } from './AssetKey/AssetKey';
 import { DescriptionAsset } from './DescriptionAsset';
 import { Idea } from './Idea';
@@ -89,7 +91,10 @@ export class ImpressionIdea extends Idea {
                 }
                 return {
                     name: this.main.name,
-                    firstKeys: ImpressionIdea.getKeyList(this.main),
+                    keys: {
+                        ...emptyKeys,
+                        main: ImpressionIdea.getKeyList(this.main),
+                    } as Keys,
                     patterns: this.main.patterns || [],
                 };
             }
@@ -102,8 +107,10 @@ export class ImpressionIdea extends Idea {
             const createdName = firstText + secondText + splitMarker;
             return {
                 name: createdName,
-                firstKeys: ImpressionIdea.getKeyList(this.main),
-                secondKeys: ImpressionIdea.getKeyList(secondDescription),
+                keys: {
+                    main: ImpressionIdea.getKeyList(this.main),
+                    addition: ImpressionIdea.getKeyList(secondDescription),
+                } as Keys,
                 patterns: (this.main.patterns || []).concat(
                     secondDescription.patterns || []
                 ),
@@ -111,7 +118,10 @@ export class ImpressionIdea extends Idea {
         } else {
             const defaultNameAndKey = {
                 name: this.main.name,
-                firstKeys: ImpressionIdea.getKeyList(this.main),
+                keys: {
+                    ...emptyKeys,
+                    main: ImpressionIdea.getKeyList(this.main),
+                } as Keys,
                 patterns: this.main.patterns || [],
             };
             return defaultNameAndKey;

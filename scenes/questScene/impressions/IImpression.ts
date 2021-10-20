@@ -1,19 +1,11 @@
-import { AssetKey } from '../../../classes/idea/AssetKey/AssetKey';
 import { Noticable } from '../../../classes/idea/Noticable';
 import { Pattern } from '../../../classes/idea/Patterns/Pattern';
+import { Keys } from '../../../classes/keyHandler/KeyHandler';
 
 export type IImpression = {
     name: string;
     category: Noticable;
-    firstKeys?: AssetKey[];
-    secondKeys?: AssetKey[];
+    keys: Keys;
     sex?: 'male' | 'female';
     patterns: Pattern[];
-};
-
-export const emptImpression: IImpression = {
-    name: '',
-    category: Noticable.bartender,
-    firstKeys: [],
-    patterns: [],
 };
