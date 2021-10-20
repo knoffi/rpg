@@ -6,9 +6,9 @@ export class KeyHandler {
     private keys: KeyTable;
     public constructor() {
         this.keys = {
-            [WeServe.drinks]: { first: [], second: [] },
-            [WeServe.food]: { first: [], second: [] },
-            [WeServe.impressions]: { first: [], second: [] },
+            [WeServe.drinks]: { main: [], addition: [] },
+            [WeServe.food]: { main: [], addition: [] },
+            [WeServe.impressions]: { main: [], addition: [] },
         };
     }
     public update(change: KeyChange) {
@@ -29,11 +29,11 @@ export class KeyHandler {
     private handleDelete(deleted: Delete) {}
     private handleReroll(rerolled: Reroll) {}
     public getFullKeys(isAbout: WeServe) {
-        const keyRow = this.keys[isAbout];
-        const fullMainKeys = keyRow.first
+        const row = this.keys[isAbout];
+        const fullMainKeys = row.main
             .filter((item) => item.count > getKeyBound(item.key))
             .map((keyCounting) => keyCounting.key);
-        const fullAdditionKeys = keyRow.first
+        const fullAdditionKeys = row.addition
             .filter((item) => item.count > getKeyBound(item.key))
             .map((keyCounting) => keyCounting.key);
         return { fullMainKeys, fullAdditionKeys };
@@ -41,11 +41,21 @@ export class KeyHandler {
 }
 
 type Add = {
+    isAbout: WeServe;
     type: 'Add';
-    newKeys: KeyRow;
+    newKeys: { main: AssetKey[]; addition: AssetKey[] };
 };
-type Delete = { type: 'Delete'; oldKeys: KeyRow };
-type Reroll = { type: 'Reroll'; oldKeys: KeyRow; newKeys: KeyRow };
+type Delete = {
+    isAbout: WeServe;
+    type: 'Delete';
+    oldKeys: { main: AssetKey[]; addition: AssetKey[] };
+};
+type Reroll = {
+    isAbout: WeServe;
+    type: 'Reroll';
+    oldKeys: { main: AssetKey[]; addition: AssetKey[] };
+    newKeys: { main: AssetKey[]; addition: AssetKey[] };
+};
 
 export type KeyChange = Add | Delete | Reroll;
 
@@ -55,8 +65,8 @@ export type KeyTable = {
     [WeServe.impressions]: KeyRow;
 };
 export type KeyRow = {
-    first: KeyCount[];
-    second: KeyCount[];
+    main: KeyCount[];
+    addition: KeyCount[];
 };
 type KeyCount = {
     key: AssetKey;
