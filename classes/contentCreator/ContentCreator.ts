@@ -16,6 +16,7 @@ import { ImpressionIdea } from '../idea/ImpressionIdea';
 import { Noticable } from '../idea/Noticable';
 import { Pattern } from '../idea/Patterns/Pattern';
 import { StructuredTavernFits } from '../idea/StructuredTavernFits';
+import { Keys } from '../keyHandler/KeyHandler';
 import { Drinkable, Eatable, TavernProduct } from '../TavernProduct';
 import { FantasyKeys } from './FantasKeys';
 
@@ -45,12 +46,14 @@ export class ContentCreator {
     ): Delete {
         switch (deleted.isAbout) {
             case WeServe.impressions:
-                const newImpressions = deleted.creations.filter(
-                    (impression) => impression.name !== name
+                const dissolvingResult = this.dissolveImpression(
+                    deleted.creations,
+                    name
                 );
                 return {
-                    [WeServe.impressions]: newImpressions,
+                    [WeServe.impressions]: dissolvingResult.reducedImpressions,
                     isAbout: WeServe.impressions,
+                    oldKeys: dissolvingResult.keys,
                 };
             case WeServe.food:
                 const newDishes = deleted.creations.filter(
@@ -62,6 +65,25 @@ export class ContentCreator {
                     (offer) => offer.product.name !== name
                 );
                 return { [WeServe.drinks]: newDrinks, isAbout: WeServe.drinks };
+        }
+    }
+    private dissolveImpression(impressions: IImpression[], toRemove: string) {
+        const indexToRemove = impressions.findIndex(
+            (impression) => impression.name === toRemove
+        );
+        if (indexToRemove < 0) {
+            const dissolvedKeys: Keys = { ['main']: [], ['addition']: [] };
+            return { reducedImpressions: impressions, keys: dissolvedKeys };
+        } else {
+            const reducedImpressions = impressions
+                .slice(0, indexToRemove)
+                .concat(impressions.slice(indexToRemove + 1));
+            const removedEntry = impressions[indexToRemove];
+            const dissolvedKeys: Keys = {
+                ['main']: removedEntry.firstKeys || [],
+                ['addition']: removedEntry.secondKeys || [],
+            };
+            return { reducedImpressions, keys: dissolvedKeys };
         }
     }
 
@@ -140,7 +162,7 @@ export class ContentCreator {
                 );
                 const extendedDrinks = request.oldAssets.concat(newDrink || []);
                 return {
-                    new: newDrink,
+                    newCreationAdded: !!newDrink,
                     added: extendedDrinks,
                     isAbout: WeServe.drinks,
                     category: request.category,
@@ -153,7 +175,7 @@ export class ContentCreator {
                 );
                 const extendedDishes = request.oldAssets.concat(newDish || []);
                 return {
-                    new: newDish,
+                    newCreationAdded: !!newDish,
                     added: extendedDishes,
                     isAbout: WeServe.food,
                     category: request.category,
@@ -173,10 +195,14 @@ export class ContentCreator {
                 const extendedImpressions =
                     request.oldAssets.concat(newImpression);
                 return {
-                    new: newImpression,
+                    newCreationAdded: !!newImpression,
                     added: extendedImpressions,
                     isAbout: WeServe.impressions,
                     category: request.category,
+                    newKeys: {
+                        addition: newImpression.secondKeys || [],
+                        main: newImpression.firstKeys || [],
+                    },
                 };
         }
     }
@@ -367,6 +393,9 @@ export class ContentCreator {
             undefined,
             request.patterns
         );
+        const oldImpression = request.oldAssets.find(
+            (impression) => impression.name === rerolledName
+        );
         const rerolledImpressions = request.oldAssets.map((impression) =>
             impression.name === rerolledName
                 ? newImpression || emptyImpression
@@ -375,6 +404,14 @@ export class ContentCreator {
         const reroll: Reroll = {
             isAbout: WeServe.impressions,
             oneRerolled: rerolledImpressions,
+            newKeys: {
+                main: newImpression.firstKeys || [],
+                addition: newImpression.secondKeys || [],
+            },
+            oldKeys: {
+                ['main']: oldImpression?.firstKeys || [],
+                ['addition']: oldImpression?.secondKeys || [],
+            },
         };
         return reroll;
     }
@@ -404,21 +441,22 @@ export type CreationRequest = FoodRequest | DrinkRequest | ImpressionRequest;
 export type Add =
     | {
           isAbout: WeServe.drinks;
-          new?: Offer;
+          newCreationAdded: boolean;
           added: Offer[];
           category: Drinkable;
       }
     | {
           isAbout: WeServe.food;
+          newCreationAdded: boolean;
           category: Eatable;
           added: Offer[];
-          new?: Offer;
       }
     | {
           isAbout: WeServe.impressions;
           category: Noticable;
+          newCreationAdded: boolean;
           added: IImpression[];
-          new?: IImpression;
+          newKeys: Keys;
       };
 
 export type Edit =
@@ -465,6 +503,7 @@ export type Delete =
     | {
           [WeServe.impressions]: IImpression[];
           isAbout: WeServe.impressions;
+          oldKeys: Keys;
       };
 type Reroll =
     | {
@@ -474,6 +513,8 @@ type Reroll =
     | {
           isAbout: WeServe.impressions;
           oneRerolled: IImpression[];
+          newKeys: Keys;
+          oldKeys: Keys;
       };
 interface IImpressionNote {
     impressions: ImpressionIdea[];

@@ -10,6 +10,7 @@ import {
 import { AssetKey } from '../classes/idea/AssetKey/AssetKey';
 import { Pattern } from '../classes/idea/Patterns/Pattern';
 import { StructuredTavernFits } from '../classes/idea/StructuredTavernFits';
+import { KeyHandler } from '../classes/keyHandler/KeyHandler';
 import { Drinkable, Eatable } from '../classes/TavernProduct';
 import Icon from '../components/icons';
 import { iconKeys } from '../components/icons/iconKeys';
@@ -20,7 +21,6 @@ import { MenuScene } from '../scenes/menuScene/MenuScene';
 import { Offer } from '../scenes/menuScene/Offer';
 import { Demand } from '../scenes/menuScene/offerList/actionInterfaces';
 import { NameScene } from '../scenes/nameScene/NameScene';
-import { getFullKeys } from '../scenes/questScene/getFullKeys';
 import { getUsedPatterns } from '../scenes/questScene/getUsedPatterns';
 import { QuestScene } from '../scenes/questScene/QuestScene';
 import { getAllNewBannerDataAndOffersLeft } from './getNewBannerDataAndIdeasLeft';
@@ -59,9 +59,7 @@ export const EditNavigator = (props: {
     tavern: TavernData;
 }) => {
     const creator = new ContentCreator();
-    const [fullKeys, setFullKeys] = useState(
-        getFullKeys(props.tavern[WeServe.impressions])
-    );
+    const keyHandler = new KeyHandler();
     const [patterns, setPatterns] = useState(
         getUsedPatterns(props.tavern[WeServe.impressions])
     );
@@ -92,11 +90,12 @@ export const EditNavigator = (props: {
         mainFilter?: number,
         additionFilter?: number
     ) => {
+        const fullKeys = keyHandler.getFullKeys(reroll.isAbout);
         const request: CreationRequest = getCreationRequest(
             reroll,
             props.tavern,
-            fullKeys.first,
-            fullKeys.second,
+            fullKeys.main,
+            fullKeys.addition,
             patterns,
             mainFilter,
             additionFilter
@@ -106,9 +105,16 @@ export const EditNavigator = (props: {
             name,
             request
         );
-        //TODO: improve by delete key of rerolled from fullKeys and eventually add key of new impression (or asset for general case)
+        //TODO: give keyHandler (and patternHandler) to ContentCreator. This way, ContentCreator can delete keys of rerolled asset BEFORE choosing new asset (and then add keys of new asset)
         if (rerolled.isAbout === WeServe.impressions) {
-            setFullKeys(getFullKeys(rerolled.oneRerolled));
+            keyHandler.update({
+                ...rerolled,
+                type: 'Add',
+            });
+            keyHandler.update({
+                ...rerolled,
+                type: 'Delete',
+            });
             setPatterns(getUsedPatterns(rerolled.oneRerolled));
         }
         props.onDataChange({ [rerolled.isAbout]: rerolled.oneRerolled });
@@ -117,20 +123,17 @@ export const EditNavigator = (props: {
         props.onDataChange({ prices: newPrices });
     };
 
-    //TODO: extract keys into EditNavigator, build
-    // keys = useState( {[WeServe.impressions]:{first:AssetKeys,second:AssetKeys}}, ... } )
-    // patterns = useState( {[WeServe.drinks]:{first:AssetKeys,second:AssetKeys}}, ... )
-
     const handleAdd = (
         add: Demand,
         mainFilter?: number,
         additionFilter?: number
     ) => {
+        const fullKeys = keyHandler.getFullKeys(add.isAbout);
         const request: CreationRequest = getCreationRequest(
             add,
             props.tavern,
-            fullKeys.first,
-            fullKeys.second,
+            fullKeys.main,
+            fullKeys.addition,
             patterns,
             mainFilter,
             additionFilter
@@ -143,16 +146,19 @@ export const EditNavigator = (props: {
             props.tavern.fitting,
             creation
         );
-        // TODO: improve by only care about keys of new impression (asset)
         if (creation.isAbout === WeServe.impressions) {
-            setFullKeys(getFullKeys(creation.added));
+            keyHandler.update({
+                isAbout: add.isAbout,
+                type: 'Add',
+                newKeys: creation.newKeys,
+            });
             setPatterns(getUsedPatterns(creation.added));
         }
         invokeAdd(creation, noNextCreation);
     };
 
     const invokeAdd = (creation: Add, noNextCreation: boolean) => {
-        if (!creation.new) {
+        if (!creation.newCreationAdded) {
             console.log('__ADDING WAS INVOKED WITH EMPTY CREATION___');
         } else {
             const assetChanges = { [creation.isAbout]: creation.added };
@@ -199,8 +205,11 @@ export const EditNavigator = (props: {
             ...ideaLeftMapChanges,
         };
         if (assetChanges.isAbout === WeServe.impressions) {
-            //TODO: improve by deleting key of deleted asset from fullKeys
-            setFullKeys(getFullKeys(assetChanges.impression));
+            keyHandler.update({
+                isAbout: assetChanges.isAbout,
+                type: 'Delete',
+                oldKeys: assetChanges.oldKeys,
+            });
             setPatterns(getUsedPatterns(assetChanges.impression));
         }
         props.onDataChange(tavernChanges);

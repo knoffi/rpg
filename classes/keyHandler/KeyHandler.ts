@@ -16,12 +16,8 @@ export class KeyHandler {
             case 'Add':
                 this.handleAdd(change);
                 break;
-            case 'Delete':
-                this.handleDelete(change);
-                break;
-
             default:
-                this.handleReroll(change);
+                this.handleDelete(change);
                 break;
         }
     }
@@ -49,9 +45,15 @@ export class KeyHandler {
             }
         }
     }
-    private handleDelete(deleted: Delete) {}
-    private handleReroll(rerolled: Reroll) {}
-    public getFullKeys(isAbout: WeServe) {
+    private handleDelete(deleted: Delete) {
+        deleted.oldKeys.addition.forEach((key) => {
+            this.setKeyCount(key, 1, deleted.isAbout, 'addition');
+        });
+        deleted.oldKeys.addition.forEach((key) => {
+            this.setKeyCount(key, 1, deleted.isAbout, 'main');
+        });
+    }
+    public getFullKeys(isAbout: WeServe): Keys {
         const row = this.keys[isAbout];
         const fullMainKeys = row.main
             .filter((item) => item.count > getKeyBound(item.key))
@@ -59,7 +61,7 @@ export class KeyHandler {
         const fullAdditionKeys = row.addition
             .filter((item) => item.count > getKeyBound(item.key))
             .map((keyCounting) => keyCounting.key);
-        return { fullMainKeys, fullAdditionKeys };
+        return { ['main']: fullMainKeys, ['addition']: fullAdditionKeys };
     }
 }
 
@@ -73,14 +75,8 @@ type Delete = {
     type: 'Delete';
     oldKeys: { main: AssetKey[]; addition: AssetKey[] };
 };
-type Reroll = {
-    isAbout: WeServe;
-    type: 'Reroll';
-    oldKeys: { main: AssetKey[]; addition: AssetKey[] };
-    newKeys: { main: AssetKey[]; addition: AssetKey[] };
-};
 
-export type KeyChange = Add | Delete | Reroll;
+export type KeyChange = Add | Delete;
 
 export type KeyTable = {
     [WeServe.drinks]: KeyRow;
@@ -91,6 +87,7 @@ export type KeyRow = {
     ['main']: KeyCount[];
     ['addition']: KeyCount[];
 };
+export type Keys = { ['main']: AssetKey[]; ['addition']: AssetKey[] };
 type KeyCount = {
     key: AssetKey;
     count: number;
