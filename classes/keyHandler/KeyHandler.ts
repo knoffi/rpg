@@ -1,5 +1,6 @@
 import { WeServe } from '../../editNavigator/WeServe';
 import { AssetKey } from '../idea/AssetKey/AssetKey';
+import { getKeyBound } from '../idea/AssetKey/getKeyBound';
 
 export class KeyHandler {
     private keys: KeyTable;
@@ -27,6 +28,16 @@ export class KeyHandler {
     private handleAdd(added: Add) {}
     private handleDelete(deleted: Delete) {}
     private handleReroll(rerolled: Reroll) {}
+    public getFullKeys(isAbout: WeServe) {
+        const keyRow = this.keys[isAbout];
+        const fullMainKeys = keyRow.first
+            .filter((item) => item.count > getKeyBound(item.key))
+            .map((keyCounting) => keyCounting.key);
+        const fullAdditionKeys = keyRow.first
+            .filter((item) => item.count > getKeyBound(item.key))
+            .map((keyCounting) => keyCounting.key);
+        return { fullMainKeys, fullAdditionKeys };
+    }
 }
 
 type Add = {
@@ -44,6 +55,10 @@ export type KeyTable = {
     [WeServe.impressions]: KeyRow;
 };
 export type KeyRow = {
-    first: AssetKey[];
-    second: AssetKey[];
+    first: KeyCount[];
+    second: KeyCount[];
+};
+type KeyCount = {
+    key: AssetKey;
+    count: number;
 };
