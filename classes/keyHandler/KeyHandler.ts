@@ -25,7 +25,30 @@ export class KeyHandler {
                 break;
         }
     }
-    private handleAdd(added: Add) {}
+    private handleAdd(added: Add) {
+        added.newKeys.addition.forEach((key) => {
+            this.setKeyCount(key, 1, added.isAbout, 'addition');
+        });
+        added.newKeys.addition.forEach((key) => {
+            this.setKeyCount(key, 1, added.isAbout, 'main');
+        });
+    }
+    private setKeyCount(
+        key: AssetKey,
+        addToCounter: 1 | -1,
+        isAbout: WeServe,
+        refersTo: 'main' | 'addition'
+    ) {
+        const row = this.keys[isAbout];
+        const entryForKey = row[refersTo].find((entry) => entry.key === key);
+        if (entryForKey) {
+            entryForKey.count += addToCounter;
+        } else {
+            if (addToCounter > 0) {
+                row.addition.push({ count: addToCounter, key });
+            }
+        }
+    }
     private handleDelete(deleted: Delete) {}
     private handleReroll(rerolled: Reroll) {}
     public getFullKeys(isAbout: WeServe) {
@@ -65,8 +88,8 @@ export type KeyTable = {
     [WeServe.impressions]: KeyRow;
 };
 export type KeyRow = {
-    main: KeyCount[];
-    addition: KeyCount[];
+    ['main']: KeyCount[];
+    ['addition']: KeyCount[];
 };
 type KeyCount = {
     key: AssetKey;
