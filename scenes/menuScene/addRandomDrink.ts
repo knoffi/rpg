@@ -9,29 +9,6 @@ import { foodChapters, foodExamples } from './food/food';
 import { predecideDishes } from './menuChapters/getDrinksAndFood';
 import { NothingLeftOffer, Offer } from './Offer';
 
-export const offersWithOneReroll = (
-    name: string,
-    offers: Offer[],
-    fits: StructuredTavernFits,
-    isAbout: WeServe
-) => {
-    const category = offers.find((offer) => offer.product.name === name)!
-        .product.category;
-    const newOffer = getRandomDrinkOffer(
-        category,
-        fits,
-        offeredNames(offers),
-        isAbout
-    );
-    if (newOffer.product.name === NothingLeftOffer.product.name || !newOffer) {
-        return undefined;
-    } else {
-        return offers.map((offer) =>
-            offer.product.name === name ? newOffer : offer
-        );
-    }
-};
-
 export const getNewRandomDrinkOffer = (
     fits: StructuredTavernFits,
     category: MenuCategory,

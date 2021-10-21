@@ -16,7 +16,7 @@ import { ImpressionIdea } from '../idea/ImpressionIdea';
 import { Noticable } from '../idea/Noticable';
 import { Pattern } from '../idea/Patterns/Pattern';
 import { StructuredTavernFits } from '../idea/StructuredTavernFits';
-import { Keys } from '../keyHandler/KeyHandler';
+import { KeyHandler, Keys } from '../keyHandler/KeyHandler';
 import { Drinkable, Eatable, TavernProduct } from '../TavernProduct';
 import { FantasyKeys } from './FantasKeys';
 
@@ -30,12 +30,14 @@ export class ContentCreator {
     private noteBook: IImpressionNote[];
     private dishMenu: IDishMenu[];
     private drinkMenu: IDrinkMenu[];
+    private keys: KeyHandler;
 
     constructor(key = FantasyKeys.standard) {
         const universe = ContentCreator.books.get(key);
         this.dishMenu = universe?.dishes || foodMenu;
         this.drinkMenu = universe?.drinks || drinkMenu;
         this.noteBook = universe?.notes || impressionChapters;
+        this.keys = new KeyHandler();
     }
 
     public deleteCreation(
