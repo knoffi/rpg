@@ -10,22 +10,14 @@ export const getAdjustedPrice = (
     if (offer.isUserMade) {
         return offer.price;
     }
+    const tavernIncome = fitting.income || association.empty;
     const basePriceFactor = getPriceFactorFromBasePrice(
         basePrice,
-        offer.associations
+        tavernIncome
     );
-    const marketFits = [fitting.class, fitting.race, fitting.land].filter(
-        (fit) => fit
-    ) as association[];
-    const includedMarketFits = marketFits.filter((fit) =>
-        offer.associations.includes(fit)
-    );
-    const priceLevel = 2 * includedMarketFits.length - marketFits.length;
-    const tavernIncome = fitting.income || association.empty;
     const incomeLevel = incomePriceLevelMap.get(tavernIncome) || 0;
     const newPrice = Math.floor(
-        (offer.price * basePriceFactor * (100 + priceLevel + incomeLevel)) /
-            100.0
+        (offer.price * basePriceFactor * (100 + incomeLevel)) / 100.0
     );
     return newPrice;
 };
@@ -41,34 +33,32 @@ export const getAdjustedPriceString = (
 
 const getPriceFactorFromBasePrice = (
     basePrice: BasePrice,
-    productAssociations: association[]
+    tavernIncome: association
 ) => {
     const defaultPriceFactor =
         ((basePrice[association.modest] + basePrice[association.wealthy]) *
             1.0) /
         (standardBasePrice[association.modest] +
             standardBasePrice[association.wealthy]);
-    if (productAssociations.some((fit) => fit === association.rich)) {
+    if (tavernIncome === association.rich) {
         return (
             (basePrice[association.rich] * 1.0) /
             standardBasePrice[association.rich]
         );
     } else {
-        if (productAssociations.some((fit) => fit === association.wealthy)) {
+        if (tavernIncome === association.wealthy) {
             return (
                 (basePrice[association.wealthy] * 1.0) /
                 standardBasePrice[association.wealthy]
             );
         } else {
-            if (productAssociations.some((fit) => fit === association.modest)) {
+            if (tavernIncome === association.modest) {
                 return (
                     (basePrice[association.modest] * 1.0) /
                     standardBasePrice[association.modest]
                 );
             } else {
-                if (
-                    productAssociations.some((fit) => fit === association.poor)
-                ) {
+                if (tavernIncome === association.poor) {
                     return (
                         (basePrice[association.poor] * 1.0) /
                         standardBasePrice[association.poor]
