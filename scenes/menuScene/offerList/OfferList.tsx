@@ -26,7 +26,7 @@ export const OfferList = (props: {
             : { isAboutFood: true, categories: Eatable };
     const menu = Object.values(demands.categories).map((category) => {
         const offersOfCategory = props.offers.filter(
-            (offer) => offer.product.category === category
+            (offer) => offer.category === category
         );
         return {
             category: category,

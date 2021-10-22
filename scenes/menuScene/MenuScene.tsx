@@ -78,7 +78,7 @@ export const MenuScene = (props: MenuProps) => {
 
     const buyOffer = (name: string) => {
         props.offers.forEach((offer) => {
-            if (offer.product.name === name) {
+            if (offer.name === name) {
                 props.buyOffer(offer);
             }
         });
@@ -99,7 +99,7 @@ export const MenuScene = (props: MenuProps) => {
 
     const nameIsDuplicated = (name: string) => {
         return props.offers.some((offer) => {
-            return offer.product.name === name;
+            return offer.name === name;
         });
     };
 
@@ -164,7 +164,7 @@ export const MenuScene = (props: MenuProps) => {
                         prevData={editor.startData}
                         overwriteEdit={editUserOffer}
                         addEdit={addUserOffer}
-                        names={props.offers.map((offer) => offer.product.name)}
+                        names={props.offers.map((offer) => offer.name)}
                     />
                 </Modal>
                 <ListOfSaves

@@ -7,27 +7,24 @@ export const getAdjustedPrice = (
     fitting: StructuredTavernFits,
     basePrice: BasePrice
 ) => {
-    //TODO: Adjust this to Dish Ideas. Maybe even get rid of Offer class
-    if (offer.product.isUserMade) {
+    if (offer.isUserMade) {
         return offer.price;
     }
     const basePriceFactor = getPriceFactorFromBasePrice(
         basePrice,
-        offer.product.associations
+        offer.associations
     );
     const marketFits = [fitting.class, fitting.race, fitting.land].filter(
         (fit) => fit
     ) as association[];
     const includedMarketFits = marketFits.filter((fit) =>
-        offer.product.associations.includes(fit)
+        offer.associations.includes(fit)
     );
     const priceLevel = 2 * includedMarketFits.length - marketFits.length;
     const tavernIncome = fitting.income || association.empty;
     const incomeLevel = incomePriceLevelMap.get(tavernIncome) || 0;
     const newPrice = Math.floor(
-        (offer.product.copperPrice *
-            basePriceFactor *
-            (100 + priceLevel + incomeLevel)) /
+        (offer.price * basePriceFactor * (100 + priceLevel + incomeLevel)) /
             100.0
     );
     return newPrice;

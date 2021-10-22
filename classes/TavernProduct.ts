@@ -16,7 +16,7 @@ export enum Eatable {
     mainDish = 'Main Dish',
 }
 
-export enum Servies {
+export enum Services {
     room = 'Rooms',
     pension = 'Package Deal',
     entertainment = 'Entertainment',
@@ -25,27 +25,6 @@ export enum Servies {
 }
 
 export type MenuCategory = Eatable | Drinkable;
-
-const DRINK_BINDINGS = [
-    association.prostitute,
-    association.rich,
-    association.poor,
-    association.assasine,
-    association.thief,
-];
-const FOOD_BINDINGS = [
-    association.prostitute,
-    association.rich,
-    association.poor,
-    association.city,
-    association.village,
-    association.forest,
-    association.mountain,
-    association.underdark,
-    association.haven,
-    association.desert,
-    association.tropical,
-];
 
 export class TavernProduct implements ITavernAsset {
     public name!: string;
@@ -72,19 +51,19 @@ export class TavernProduct implements ITavernAsset {
         this.isUserMade = isUserMade;
     }
 
-    public isDrink = () => {
-        return Object.values(Drinkable).some((categoryName) => {
-            return categoryName === this.category;
-        });
-    };
+    // public isDrink = () => {
+    //     return Object.values(Drinkable).some((categoryName) => {
+    //         return categoryName === this.category;
+    //     });
+    // };
 
-    public isFood = () => {
-        return Object.values(Eatable).some((categoryName) => {
-            return categoryName === this.category;
-        });
-    };
+    // public isFood = () => {
+    //     return Object.values(Eatable).some((categoryName) => {
+    //         return categoryName === this.category;
+    //     });
+    // };
 
-    public resetCategory = (category: MenuCategory) => {
-        this.category = category;
-    };
+    // public resetCategory = (category: MenuCategory) => {
+    //     this.category = category;
+    // };
 }

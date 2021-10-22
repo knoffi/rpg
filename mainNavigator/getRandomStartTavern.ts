@@ -158,8 +158,8 @@ const getExamplesForChapter = (
     };
     const newAssets = fillIdeaPart(emptyOffers, 0, fillUp);
     return newAssets.filter((asset) =>
-        (asset as Offer).product
-            ? (asset as Offer).product.name !== NothingLeftOffer.product.name
+        (asset as Offer).price
+            ? (asset as Offer).name !== NothingLeftOffer.name
             : (asset as IImpression).name !== emptyImpression.name
     );
 };

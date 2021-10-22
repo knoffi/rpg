@@ -229,9 +229,7 @@ export const EditNavigator = (props: {
         } else {
             const newAssets = previousName
                 ? props.tavern[change.isAbout].map((asset) =>
-                      asset.product.name === previousName
-                          ? change.edited
-                          : asset
+                      asset.name === previousName ? change.edited : asset
                   )
                 : [...props.tavern[change.isAbout], change.edited];
             props.onDataChange({ [change.isAbout]: newAssets });

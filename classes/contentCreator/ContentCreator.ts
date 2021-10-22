@@ -3,7 +3,7 @@ import { getRandomArrayEntry } from '../../helpingFunctions/getFittingRandom';
 import { drinkMenu } from '../../scenes/menuScene/drinks/drinkMenu';
 import { foodMenu } from '../../scenes/menuScene/food/foodMenu';
 import { getOfferFromMinimalData } from '../../scenes/menuScene/MinimalOfferData';
-import { NothingLeftOffer, Offer } from '../../scenes/menuScene/Offer';
+import { Offer } from '../../scenes/menuScene/Offer';
 import { emptyImpression } from '../../scenes/questScene/impressions/emptyImpression';
 import { getPrefixExcluder } from '../../scenes/questScene/impressions/getPrefixExcluder';
 import { IImpression } from '../../scenes/questScene/impressions/IImpression';
@@ -59,12 +59,12 @@ export class ContentCreator {
                 };
             case WeServe.food:
                 const newDishes = deleted.creations.filter(
-                    (offer) => offer.product.name !== name
+                    (offer) => offer.name !== name
                 );
                 return { [WeServe.food]: newDishes, isAbout: WeServe.food };
             default:
                 const newDrinks = deleted.creations.filter(
-                    (offer) => offer.product.name !== name
+                    (offer) => offer.name !== name
                 );
                 return { [WeServe.drinks]: newDrinks, isAbout: WeServe.drinks };
         }
@@ -261,7 +261,7 @@ export class ContentCreator {
         category: Drinkable,
         oldDrinks: Offer[]
     ) {
-        const oldNames = oldDrinks.map((drink) => drink.product.name);
+        const oldNames = oldDrinks.map((drink) => drink.name);
         const isExcludedByName = getPrefixExcluder(oldNames, WeServe.drinks);
 
         const chapter = this.drinkMenu.find(
@@ -296,7 +296,7 @@ export class ContentCreator {
         category: Eatable,
         oldDishes: Offer[]
     ) {
-        const oldNames = oldDishes.map((dish) => dish.product.name);
+        const oldNames = oldDishes.map((dish) => dish.name);
         const isExcludedByName = getPrefixExcluder(oldNames, WeServe.drinks);
 
         const chapter = this.dishMenu.find(
@@ -345,11 +345,12 @@ export class ContentCreator {
     ): Reroll {
         const newDish =
             addedDish ||
-            this.getRandomDish(fitting, request.category, request.oldAssets) ||
-            NothingLeftOffer;
-        const rerolledDishes = request.oldAssets.map((dish) =>
-            dish.product.name === rerolledName ? newDish : dish
-        );
+            this.getRandomDish(fitting, request.category, request.oldAssets);
+        const rerolledDishes = newDish
+            ? request.oldAssets.map((dish) =>
+                  dish.name === rerolledName ? newDish : dish
+              )
+            : request.oldAssets.filter((dish) => dish.name !== rerolledName);
         const reroll: Reroll = {
             isAbout: WeServe.food,
             oneRerolled: rerolledDishes,
@@ -364,11 +365,12 @@ export class ContentCreator {
     ): Reroll {
         const newDrink =
             addedDrink ||
-            this.getRandomDrink(fitting, request.category, request.oldAssets) ||
-            NothingLeftOffer;
-        const rerolledDrinks = request.oldAssets.map((drink) =>
-            drink.product.name === rerolledName ? newDrink : drink
-        );
+            this.getRandomDrink(fitting, request.category, request.oldAssets);
+        const rerolledDrinks = newDrink
+            ? request.oldAssets.map((drink) =>
+                  drink.name === rerolledName ? newDrink : drink
+              )
+            : request.oldAssets.filter((drink) => drink.name !== rerolledName);
         const reroll: Reroll = {
             isAbout: WeServe.drinks,
             oneRerolled: rerolledDrinks,

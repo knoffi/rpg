@@ -9,12 +9,16 @@ import { emptyImpression } from '../scenes/questScene/impressions/emptyImpressio
 import { getRandomImpression } from '../scenes/questScene/impressions/getRandomImpression';
 import { IImpression } from '../scenes/questScene/impressions/IImpression';
 import { WeServe } from './WeServe';
-export const getNewBannerDataAndIdeasLeft = (
+
+type BannersAndTypesLeft = Pick<TavernData, 'ideasLeft' | 'bannerData'>;
+
+type BannerCheck = { fitting: StructuredTavernFits };
+const getNewBannerDataAndIdeasLeft = (
     newFitting: StructuredTavernFits,
     newIdeas: Offer[] | IImpression[],
     oldBannerData: BannerData,
     isAbout: WeServe
-) => {
+): BannersAndTypesLeft => {
     const fullIdeaCategories = getFullOfferCategories(
         newFitting,
         newIdeas,
@@ -73,7 +77,7 @@ export const getAllNewBannerDataAndOffersLeft = (
             food: foodData.banner,
             impression: impressionData.banner,
         },
-    } as Partial<TavernData>;
+    };
 };
 const getBannerVisibility = (
     newFullOfferCategories: (MenuCategory | Noticable)[],
@@ -116,7 +120,7 @@ const getFullOfferCategories = (
                     category,
                     newAssets as Offer[],
                     isAbout
-                ).product.name === NothingLeftOffer.product.name
+                ).name === NothingLeftOffer.name
             );
         }
     );
@@ -126,14 +130,13 @@ const getCategoryNotFullMap = (
     fullCategories: MenuCategory[] | Noticable[],
     isAbout: WeServe
 ) => {
-    if (isAbout === WeServe.impressions) {
-        return new Map(
-            Object.values(Noticable).map((category) => [
-                category,
-                !(fullCategories as Noticable[]).includes(category),
-            ])
-        );
-    }
+    const impressionsLeft = new Map(
+        Object.values(Noticable).map((category) => [
+            category,
+            !(fullCategories as Noticable[]).includes(category),
+        ])
+    );
+
     const categories = isAbout === WeServe.drinks ? Drinkable : Eatable;
     return new Map(
         Object.values(categories).map((category) => [
