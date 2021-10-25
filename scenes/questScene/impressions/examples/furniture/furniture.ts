@@ -150,6 +150,17 @@ export const furnitures: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
+            name: 'Cracked plates made of clay',
+            incomeRange: [a.poor, a.modest],
+            worksForAllCriminals: true,
+            powerFits: [a.poor],
+            key: AssetKey.FURNITURE_cutleryPlates,
+        },
+        [emptyDescriptionAsset],
+        Noticable.furniture
+    ),
+    new ImpressionIdea(
+        {
             name: 'Ceramic plates & iron cutlery',
             incomeRange: [a.modest, a.wealthy],
             worksForAllCriminals: true,

@@ -5,6 +5,7 @@ import {
 import { AssetKey } from '../../../../../classes/idea/AssetKey/AssetKey';
 import { ImpressionIdea } from '../../../../../classes/idea/ImpressionIdea';
 import { Noticable } from '../../../../../classes/idea/Noticable';
+import { defaultPowerFitConcepts } from '../../../../../classes/idea/powerFitConcepts/powerFitConcepts';
 const a = association;
 export const bartenderKnowledge: ImpressionIdea[] = [
     new ImpressionIdea(
@@ -162,32 +163,330 @@ export const bartenderKnowledge: ImpressionIdea[] = [
             keys: [AssetKey.plotTwist],
         },
         [
-            { name: ' a strong looking person was looking for you!' },
-            { name: ' a mysterious person was looking for you!' },
-            { name: ' a hooded person was looking for you!' },
-            { name: ' a rich-looking person was looking for you!' },
-            { name: ' an thankful person was looking for you!' },
-            { name: ' a group of bandits was looking for you!' },
-            { name: ' a group of bounty hunters was looking for you!' },
-            { name: ' a group of adventurers was looking for you!' },
-            { name: ' a group of creepy people was looking for you!' },
-            { name: ' a group of criminals was looking for you!' },
-            { name: ' a group of hooded people was looking for you!' },
+            {
+                name: ' a strong looking person was looking for you!',
+                powerFits: [
+                    a.adventurer,
+                    a.barbarian,
+                    a.knight,
+                    a.soldier,
+                    a.assasine,
+                ],
+            },
+            {
+                name: ' an old friend was looking for you!',
+                powerFits: [a.city, a.bard, a.adventurer, a.knight, a.haven],
+            },
+            {
+                name: ' a distant family member was looking for you!',
+                powerFits: [a.city, a.adventurer, a.haven],
+            },
+            {
+                name: ' an armored person was looking for you!',
+                powerFits: [a.adventurer, a.barbarian, a.knight, a.soldier],
+            },
+            {
+                name: ' a very beardy person was looking for you!',
+                powerFits: [a.adventurer, a.dwarf, a.wizard, a.druid],
+            },
+            {
+                name: ' a beautiful lady was looking for you!',
+                powerFits: [a.bard, a.city, a.knight, a.elf, a.knight],
+            },
+            {
+                name: ' a horned person was looking for you!',
+                powerFits: [a.tiefling, a.thief],
+            },
+            {
+                name: ' an well-dressed person was looking for you!',
+                powerFits: [
+                    a.elf,
+                    a.drow,
+                    a.tiefling,
+                    a.city,
+                    a.wealthy,
+                    a.rich,
+                    a.haven,
+                ],
+            },
+            {
+                name: ' a mysterious person was looking for you!',
+                powerFits: [a.wizard, a.cleric, a.desert],
+            },
+            {
+                name: ' a hooded person was looking for you!',
+                powerFits: [a.poor, a.thief, a.adventurer, a.cleric, a.village],
+            },
+            {
+                name: ' a rich-looking person was looking for you!',
+                powerFits: [a.rich, a.city, a.wealthy, a.haven],
+            },
+            {
+                name: ' a thankful person was looking for you!',
+                powerFits: [a.knight, a.bard, a.adventurer, a.city],
+            },
+            {
+                name: ' some bandits were looking for you!',
+                powerFits: [a.forest, a.mountain, a.thief],
+            },
+            { name: ' some bounty hunters were looking for you!' },
+            {
+                name: ' some adventurers were looking for you!',
+                powerFits: [a.adventurer, a.bard],
+            },
+            {
+                name: ' some creepy people were looking for you!',
+                powerFits: [a.prostitute, a.thief, a.desert],
+            },
+            {
+                name: ' some cult members were looking for you!',
+                powerFits: [a.city, a.tiefling],
+            },
+            {
+                needsOne: [a.thief, a.poor, a.prostitute, a.tiefling],
+                name: ' some criminals were looking for you!',
+            },
+            {
+                name: ' some hooded people were looking for you!',
+                needsOne: [a.thief, a.poor, a.prostitute, a.city],
+            },
+            {
+                name: ' a strong looking person left a letter for you!',
+                powerFits: [
+                    a.adventurer,
+                    a.barbarian,
+                    a.knight,
+                    a.soldier,
+                    a.assasine,
+                ],
+            },
+            {
+                name: ' an old friend left a letter for you!',
+                powerFits: [a.city, a.bard, a.adventurer, a.knight, a.haven],
+            },
+            {
+                name: ' a distant family member left a letter for you!',
+                powerFits: [a.city, a.adventurer, a.haven],
+            },
+            {
+                name: ' an armored person left a letter for you!',
+                powerFits: [a.adventurer, a.barbarian, a.knight, a.soldier],
+            },
+            {
+                name: ' a very beardy person left a letter for you!',
+                powerFits: [a.adventurer, a.dwarf, a.wizard, a.druid],
+            },
+            {
+                name: ' a beautiful lady left a letter for you!',
+                powerFits: [a.bard, a.city, a.knight, a.elf, a.knight],
+            },
+            {
+                name: ' a horned person left a letter for you!',
+                powerFits: [a.tiefling, a.thief],
+            },
+            {
+                name: ' an well-dressed person left a letter for you!',
+                powerFits: [
+                    a.elf,
+                    a.drow,
+                    a.tiefling,
+                    a.city,
+                    a.wealthy,
+                    a.rich,
+                    a.haven,
+                ],
+            },
+            {
+                name: ' a mysterious person left a letter for you!',
+                powerFits: [a.wizard, a.cleric, a.desert],
+            },
+            {
+                name: ' a hooded person left a letter for you!',
+                powerFits: [a.poor, a.thief, a.adventurer, a.cleric, a.village],
+            },
+            {
+                name: ' a rich-looking person left a letter for you!',
+                powerFits: [a.rich, a.city, a.wealthy, a.haven],
+            },
+            {
+                name: ' a thankful person left a letter for you!',
+                powerFits: [a.knight, a.bard, a.adventurer, a.city],
+            },
+            {
+                name: ' some bandits left a note for you!',
+                powerFits: [a.forest, a.mountain, a.thief],
+            },
+            { name: ' some bounty hunters left a note for you!' },
+            {
+                name: ' some adventurers left a note for you!',
+                powerFits: [a.adventurer, a.bard],
+            },
+            {
+                name: ' some creepy people left a note for you!',
+                powerFits: [a.prostitute, a.thief, a.desert],
+            },
+            {
+                name: ' some cult members left a note for you!',
+                powerFits: [a.city, a.tiefling],
+            },
+            {
+                needsOne: [a.thief, a.poor, a.prostitute, a.tiefling],
+                name: ' some criminals left a note for you!',
+            },
+            {
+                name: ' some hooded people left a note for you!',
+                needsOne: [a.thief, a.poor, a.prostitute, a.city],
+            },
         ],
-        Noticable.bartender
+        Noticable.bartender,
+        undefined,
+        undefined,
+        defaultPowerFitConcepts.harmony
     ),
     new ImpressionIdea(
         {
-            name: 'Knows a merchant who sells ',
+            name: 'Knows a person who wants to sell ',
             key: AssetKey.BARTENDER_knowledge,
         },
         [
-            { name: 'a haunted castle' },
-            { name: 'a haunted gold mine' },
-            { name: 'a haunted painting' },
-            { name: 'a carriage' },
-            { name: 'a cursed ship' },
+            {
+                name: ' a dragon egg',
+                misfits: [a.poor, a.modest, a.cleric, a.knight],
+                powerFits: [a.wizard, a.adventurer],
+            },
+            {
+                name: ' a gryphon egg',
+                misfits: [a.poor],
+                powerFits: [a.wizard, a.adventurer],
+            },
+            {
+                name: ' a cockatrice egg',
+                misfits: [a.poor, a.modest, a.cleric, a.knight],
+                powerFits: [a.wizard, a.adventurer],
+            },
+            {
+                name: ' a sphynx egg',
+                misfits: [a.poor, a.modest, a.cleric, a.knight],
+                powerFits: [a.wizard, a.adventurer],
+            },
+            {
+                name: 'his haunted castle',
+                misfits: [a.poor, a.modest],
+                powerFits: [a.knight, a.cleric, a.adventurer],
+            },
+            {
+                name: 'his cursed, golden necklace',
+                misfits: [a.wealthy, a.rich],
+                powerFits: [a.desert, a.prostitute, a.tiefling],
+            },
+            {
+                name: 'his cursed, but masterful sword',
+                misfits: [a.wealthy],
+                powerFits: [a.soldier, a.tiefling, a.drow, a.adventurer],
+            },
+            {
+                name: 'his silver mine',
+                misfits: [a.poor, a.modest],
+                needsOne: [a.city, a.mountain, a.dwarf],
+                powerFits: [a.rich, a.wealthy],
+            },
+            {
+                name: 'his breathtaking, but haunted painting',
+                needsOne: [a.rich, a.wealthy],
+                misfits: [a.village],
+            },
+            {
+                name: 'his old carriage',
+                misfits: [a.rich, a.wealthy],
+                powerFits: [a.poor, a.modest, a.village, a.city],
+            },
+            {
+                name: 'his cursed ship',
+                needs: [a.haven],
+            },
+            {
+                name: 'his house in the woods',
+                misfits: [a.rich, a.wealthy],
+                needs: [a.forest],
+                powerFits: [a.druid],
+            },
+            {
+                name: 'his house in the city',
+                misfits: [a.rich, a.wealthy],
+                needs: [a.city],
+                powerFits: [a.modest],
+            },
+            {
+                name: 'his luxury mansion',
+                needs: [a.city],
+                needsOne: [a.wealthy, a.rich],
+            },
+            {
+                name: 'his tower in the woods',
+                misfits: [a.rich, a.wealthy],
+                needs: [a.forest],
+            },
+            {
+                name: 'her haunted castle',
+                misfits: [a.poor, a.modest],
+                powerFits: [a.knight, a.cleric, a.adventurer],
+            },
+            {
+                name: 'her cursed, golden necklace',
+                misfits: [a.wealthy, a.rich],
+                powerFits: [a.desert, a.prostitute, a.tiefling],
+            },
+            {
+                name: 'her cursed, but masterful sword',
+                misfits: [a.wealthy],
+                powerFits: [a.soldier, a.tiefling, a.drow, a.adventurer],
+            },
+            {
+                name: 'her silver mine',
+                misfits: [a.poor, a.modest],
+                needsOne: [a.city, a.mountain, a.dwarf],
+                powerFits: [a.rich, a.wealthy],
+            },
+            {
+                name: 'her breathtaking, but haunted painting',
+                needsOne: [a.rich, a.wealthy],
+                misfits: [a.village],
+            },
+            {
+                name: 'her old carriage',
+                misfits: [a.rich, a.wealthy],
+                powerFits: [a.poor, a.modest, a.village, a.city],
+            },
+            {
+                name: 'her cursed ship',
+                needs: [a.haven],
+            },
+            {
+                name: 'her house in the woods',
+                misfits: [a.rich, a.wealthy],
+                needs: [a.forest],
+                powerFits: [a.druid],
+            },
+            {
+                name: 'her house in the city',
+                misfits: [a.rich, a.wealthy],
+                needs: [a.city],
+                powerFits: [a.modest],
+            },
+            {
+                name: 'her luxury mansion',
+                needs: [a.city],
+                needsOne: [a.wealthy, a.rich],
+            },
+            {
+                name: 'her tower in the woods',
+                misfits: [a.rich, a.wealthy],
+                needs: [a.forest],
+            },
         ],
-        Noticable.bartender
+        Noticable.bartender,
+        undefined,
+        undefined,
+        defaultPowerFitConcepts.harmony
     ),
 ];
