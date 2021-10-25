@@ -1,4 +1,7 @@
-import { association, landAssociations } from '../../../../../classes/association';
+import {
+    association,
+    landAssociations,
+} from '../../../../../classes/association';
 import { AssetKey } from '../../../../../classes/idea/AssetKey/AssetKey';
 import { ImpressionIdea } from '../../../../../classes/idea/ImpressionIdea';
 import { Noticable } from '../../../../../classes/idea/Noticable';
@@ -150,6 +153,41 @@ export const bartenderKnowledge: ImpressionIdea[] = [
             key: AssetKey.BARTENDER_knowledge,
         },
         [],
+        Noticable.bartender
+    ),
+    new ImpressionIdea(
+        {
+            name: 'Tells you that ',
+            key: AssetKey.BARTENDER_knowledge,
+            keys: [AssetKey.plotTwist],
+        },
+        [
+            { name: ' a strong looking person was looking for you!' },
+            { name: ' a mysterious person was looking for you!' },
+            { name: ' a hooded person was looking for you!' },
+            { name: ' a rich-looking person was looking for you!' },
+            { name: ' an thankful person was looking for you!' },
+            { name: ' a group of bandits was looking for you!' },
+            { name: ' a group of bounty hunters was looking for you!' },
+            { name: ' a group of adventurers was looking for you!' },
+            { name: ' a group of creepy people was looking for you!' },
+            { name: ' a group of criminals was looking for you!' },
+            { name: ' a group of hooded people was looking for you!' },
+        ],
+        Noticable.bartender
+    ),
+    new ImpressionIdea(
+        {
+            name: 'Knows a merchant who sells ',
+            key: AssetKey.BARTENDER_knowledge,
+        },
+        [
+            { name: 'a haunted castle' },
+            { name: 'a haunted gold mine' },
+            { name: 'a haunted painting' },
+            { name: 'a carriage' },
+            { name: 'a cursed ship' },
+        ],
         Noticable.bartender
     ),
 ];
