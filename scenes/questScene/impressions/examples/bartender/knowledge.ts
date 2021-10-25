@@ -164,93 +164,6 @@ export const bartenderKnowledge: ImpressionIdea[] = [
         },
         [
             {
-                name: ' a strong looking person was looking for you!',
-                powerFits: [
-                    a.adventurer,
-                    a.barbarian,
-                    a.knight,
-                    a.soldier,
-                    a.assasine,
-                ],
-            },
-            {
-                name: ' an old friend was looking for you!',
-                powerFits: [a.city, a.bard, a.adventurer, a.knight, a.haven],
-            },
-            {
-                name: ' a distant family member was looking for you!',
-                powerFits: [a.city, a.adventurer, a.haven],
-            },
-            {
-                name: ' an armored person was looking for you!',
-                powerFits: [a.adventurer, a.barbarian, a.knight, a.soldier],
-            },
-            {
-                name: ' a very beardy person was looking for you!',
-                powerFits: [a.adventurer, a.dwarf, a.wizard, a.druid],
-            },
-            {
-                name: ' a beautiful lady was looking for you!',
-                powerFits: [a.bard, a.city, a.knight, a.elf, a.knight],
-            },
-            {
-                name: ' a horned person was looking for you!',
-                powerFits: [a.tiefling, a.thief],
-            },
-            {
-                name: ' an well-dressed person was looking for you!',
-                powerFits: [
-                    a.elf,
-                    a.drow,
-                    a.tiefling,
-                    a.city,
-                    a.wealthy,
-                    a.rich,
-                    a.haven,
-                ],
-            },
-            {
-                name: ' a mysterious person was looking for you!',
-                powerFits: [a.wizard, a.cleric, a.desert],
-            },
-            {
-                name: ' a hooded person was looking for you!',
-                powerFits: [a.poor, a.thief, a.adventurer, a.cleric, a.village],
-            },
-            {
-                name: ' a rich-looking person was looking for you!',
-                powerFits: [a.rich, a.city, a.wealthy, a.haven],
-            },
-            {
-                name: ' a thankful person was looking for you!',
-                powerFits: [a.knight, a.bard, a.adventurer, a.city],
-            },
-            {
-                name: ' some bandits were looking for you!',
-                powerFits: [a.forest, a.mountain, a.thief],
-            },
-            { name: ' some bounty hunters were looking for you!' },
-            {
-                name: ' some adventurers were looking for you!',
-                powerFits: [a.adventurer, a.bard],
-            },
-            {
-                name: ' some creepy people were looking for you!',
-                powerFits: [a.prostitute, a.thief, a.desert],
-            },
-            {
-                name: ' some cult members were looking for you!',
-                powerFits: [a.city, a.tiefling],
-            },
-            {
-                needsOne: [a.thief, a.poor, a.prostitute, a.tiefling],
-                name: ' some criminals were looking for you!',
-            },
-            {
-                name: ' some hooded people were looking for you!',
-                needsOne: [a.thief, a.poor, a.prostitute, a.city],
-            },
-            {
                 name: ' a strong looking person left a letter for you!',
                 powerFits: [
                     a.adventurer,
@@ -259,10 +172,12 @@ export const bartenderKnowledge: ImpressionIdea[] = [
                     a.soldier,
                     a.assasine,
                 ],
+                worksForAllCriminals: true,
             },
             {
                 name: ' an old friend left a letter for you!',
                 powerFits: [a.city, a.bard, a.adventurer, a.knight, a.haven],
+                worksForAllCriminals: true,
             },
             {
                 name: ' a distant family member left a letter for you!',
@@ -271,18 +186,22 @@ export const bartenderKnowledge: ImpressionIdea[] = [
             {
                 name: ' an armored person left a letter for you!',
                 powerFits: [a.adventurer, a.barbarian, a.knight, a.soldier],
+                worksForAllCriminals: true,
             },
             {
                 name: ' a very beardy person left a letter for you!',
                 powerFits: [a.adventurer, a.dwarf, a.wizard, a.druid],
+                worksForAllCriminals: true,
             },
             {
                 name: ' a beautiful lady left a letter for you!',
                 powerFits: [a.bard, a.city, a.knight, a.elf, a.knight],
+                worksForAssasines: true,
             },
             {
                 name: ' a horned person left a letter for you!',
                 powerFits: [a.tiefling, a.thief],
+                worksForAllCriminals: true,
             },
             {
                 name: ' an well-dressed person left a letter for you!',
@@ -295,47 +214,178 @@ export const bartenderKnowledge: ImpressionIdea[] = [
                     a.rich,
                     a.haven,
                 ],
+                worksForAllCriminals: true,
             },
             {
                 name: ' a mysterious person left a letter for you!',
                 powerFits: [a.wizard, a.cleric, a.desert],
+                worksForAllCriminals: true,
             },
             {
                 name: ' a hooded person left a letter for you!',
                 powerFits: [a.poor, a.thief, a.adventurer, a.cleric, a.village],
+                worksForAllCriminals: true,
             },
             {
                 name: ' a rich-looking person left a letter for you!',
                 powerFits: [a.rich, a.city, a.wealthy, a.haven],
+                worksForAllCriminals: true,
             },
             {
                 name: ' a thankful person left a letter for you!',
-                powerFits: [a.knight, a.bard, a.adventurer, a.city],
+                powerFits: [a.knight, a.bard, a.adventurer, a.city, a.cleric],
+                worksForAllCriminals: true,
+            },
+            {
+                name: ' some bandits were looking for you!',
+                powerFits: [a.forest, a.mountain, a.thief],
+                classRange: [a.barbarian, a.soldier],
+                worksForThiefs: true,
+                worksForBrothel: true,
+            },
+            {
+                name: ' some bounty hunters were looking for you!',
+                worksForBrothel: true,
+                worksForAssasines: true,
+            },
+            {
+                name: ' some adventurers were looking for you!',
+                powerFits: [a.adventurer, a.bard],
+                worksForAllCriminals: true,
+            },
+            {
+                name: ' some creepy people were looking for you!',
+                powerFits: [a.prostitute, a.thief, a.desert],
+                worksForAllCriminals: true,
+            },
+            {
+                name: ' some cult members were looking for you!',
+                powerFits: [a.city, a.tiefling],
+                worksForThiefs: true,
+                worksForBrothel: true,
+            },
+            {
+                needsOne: [a.thief, a.poor, a.prostitute, a.tiefling],
+                name: ' some criminals were looking for you!',
+                worksForBrothel: true,
+                worksForThiefs: true,
+            },
+            {
+                name: ' some hooded people were looking for you!',
+                needsOne: [a.thief, a.poor, a.prostitute, a.city],
+                worksForAllCriminals: true,
+            },
+            {
+                name: ' a strong looking person left a letter for you!',
+                powerFits: [
+                    a.adventurer,
+                    a.barbarian,
+                    a.knight,
+                    a.soldier,
+                    a.assasine,
+                ],
+                worksForAllCriminals: true,
+            },
+            {
+                name: ' an old friend left a letter for you!',
+                powerFits: [a.city, a.bard, a.adventurer, a.knight, a.haven],
+                worksForAllCriminals: true,
+            },
+            {
+                name: ' a distant family member left a letter for you!',
+                powerFits: [a.city, a.adventurer, a.haven],
+            },
+            {
+                name: ' an armored person left a letter for you!',
+                powerFits: [a.adventurer, a.barbarian, a.knight, a.soldier],
+                worksForAllCriminals: true,
+            },
+            {
+                name: ' a very beardy person left a letter for you!',
+                powerFits: [a.adventurer, a.dwarf, a.wizard, a.druid],
+                worksForAllCriminals: true,
+            },
+            {
+                name: ' a beautiful lady left a letter for you!',
+                powerFits: [a.bard, a.city, a.knight, a.elf, a.knight],
+                worksForAssasines: true,
+            },
+            {
+                name: ' a horned person left a letter for you!',
+                powerFits: [a.tiefling, a.thief],
+                worksForAllCriminals: true,
+            },
+            {
+                name: ' an well-dressed person left a letter for you!',
+                powerFits: [
+                    a.elf,
+                    a.drow,
+                    a.tiefling,
+                    a.city,
+                    a.wealthy,
+                    a.rich,
+                    a.haven,
+                ],
+                worksForAllCriminals: true,
+            },
+            {
+                name: ' a mysterious person left a letter for you!',
+                powerFits: [a.wizard, a.cleric, a.desert],
+                worksForAllCriminals: true,
+            },
+            {
+                name: ' a hooded person left a letter for you!',
+                powerFits: [a.poor, a.thief, a.adventurer, a.cleric, a.village],
+                worksForAllCriminals: true,
+            },
+            {
+                name: ' a rich-looking person left a letter for you!',
+                powerFits: [a.rich, a.city, a.wealthy, a.haven],
+                worksForAllCriminals: true,
+            },
+            {
+                name: ' a thankful person left a letter for you!',
+                powerFits: [a.knight, a.bard, a.adventurer, a.city, a.cleric],
+                worksForAllCriminals: true,
             },
             {
                 name: ' some bandits left a note for you!',
                 powerFits: [a.forest, a.mountain, a.thief],
+                classRange: [a.barbarian, a.soldier],
+                worksForThiefs: true,
+                worksForBrothel: true,
             },
-            { name: ' some bounty hunters left a note for you!' },
+            {
+                name: ' some bounty hunters left a note for you!',
+                worksForBrothel: true,
+                worksForAssasines: true,
+            },
             {
                 name: ' some adventurers left a note for you!',
                 powerFits: [a.adventurer, a.bard],
+                worksForAllCriminals: true,
             },
             {
                 name: ' some creepy people left a note for you!',
                 powerFits: [a.prostitute, a.thief, a.desert],
+                worksForAllCriminals: true,
             },
             {
                 name: ' some cult members left a note for you!',
                 powerFits: [a.city, a.tiefling],
+                worksForThiefs: true,
+                worksForBrothel: true,
             },
             {
                 needsOne: [a.thief, a.poor, a.prostitute, a.tiefling],
                 name: ' some criminals left a note for you!',
+                worksForBrothel: true,
+                worksForThiefs: true,
             },
             {
                 name: ' some hooded people left a note for you!',
                 needsOne: [a.thief, a.poor, a.prostitute, a.city],
+                worksForAllCriminals: true,
             },
         ],
         Noticable.bartender,
@@ -353,56 +403,68 @@ export const bartenderKnowledge: ImpressionIdea[] = [
                 name: ' a dragon egg',
                 misfits: [a.poor, a.modest, a.cleric, a.knight],
                 powerFits: [a.wizard, a.adventurer],
+                worksForAllCriminals: true,
             },
             {
                 name: ' a gryphon egg',
                 misfits: [a.poor],
                 powerFits: [a.wizard, a.adventurer],
+                worksForAllCriminals: true,
             },
             {
                 name: ' a cockatrice egg',
                 misfits: [a.poor, a.modest, a.cleric, a.knight],
                 powerFits: [a.wizard, a.adventurer],
+                worksForAllCriminals: true,
             },
             {
                 name: ' a sphynx egg',
                 misfits: [a.poor, a.modest, a.cleric, a.knight],
                 powerFits: [a.wizard, a.adventurer],
+                worksForAllCriminals: true,
             },
             {
                 name: 'his haunted castle',
                 misfits: [a.poor, a.modest],
                 powerFits: [a.knight, a.cleric, a.adventurer],
+                worksForBrothel: true,
             },
             {
                 name: 'his cursed, golden necklace',
                 misfits: [a.wealthy, a.rich],
                 powerFits: [a.desert, a.prostitute, a.tiefling],
+                worksForBrothel: true,
+                worksForAssasines: true,
             },
             {
                 name: 'his cursed, but masterful sword',
                 misfits: [a.wealthy],
                 powerFits: [a.soldier, a.tiefling, a.drow, a.adventurer],
+                worksForAssasines: true,
             },
             {
                 name: 'his silver mine',
                 misfits: [a.poor, a.modest],
                 needsOne: [a.city, a.mountain, a.dwarf],
                 powerFits: [a.rich, a.wealthy],
+                worksForBrothel: true,
             },
             {
                 name: 'his breathtaking, but haunted painting',
                 needsOne: [a.rich, a.wealthy],
                 misfits: [a.village],
+                worksForThiefs: true,
             },
             {
                 name: 'his old carriage',
                 misfits: [a.rich, a.wealthy],
                 powerFits: [a.poor, a.modest, a.village, a.city],
+                worksForAssasines: true,
             },
             {
                 name: 'his cursed ship',
                 needs: [a.haven],
+                worksForThiefs: true,
             },
             {
                 name: 'his house in the woods',
@@ -420,6 +482,7 @@ export const bartenderKnowledge: ImpressionIdea[] = [
                 name: 'his luxury mansion',
                 needs: [a.city],
                 needsOne: [a.wealthy, a.rich],
+                worksForBrothel: true,
             },
             {
                 name: 'his tower in the woods',
@@ -430,36 +493,44 @@ export const bartenderKnowledge: ImpressionIdea[] = [
                 name: 'her haunted castle',
                 misfits: [a.poor, a.modest],
                 powerFits: [a.knight, a.cleric, a.adventurer],
+                worksForBrothel: true,
             },
             {
                 name: 'her cursed, golden necklace',
                 misfits: [a.wealthy, a.rich],
                 powerFits: [a.desert, a.prostitute, a.tiefling],
+                worksForBrothel: true,
+                worksForAssasines: true,
             },
             {
                 name: 'her cursed, but masterful sword',
                 misfits: [a.wealthy],
                 powerFits: [a.soldier, a.tiefling, a.drow, a.adventurer],
+                worksForAssasines: true,
             },
             {
                 name: 'her silver mine',
                 misfits: [a.poor, a.modest],
                 needsOne: [a.city, a.mountain, a.dwarf],
                 powerFits: [a.rich, a.wealthy],
+                worksForBrothel: true,
             },
             {
                 name: 'her breathtaking, but haunted painting',
                 needsOne: [a.rich, a.wealthy],
                 misfits: [a.village],
+                worksForThiefs: true,
             },
             {
                 name: 'her old carriage',
                 misfits: [a.rich, a.wealthy],
                 powerFits: [a.poor, a.modest, a.village, a.city],
+                worksForAssasines: true,
             },
             {
                 name: 'her cursed ship',
                 needs: [a.haven],
+                worksForThiefs: true,
             },
             {
                 name: 'her house in the woods',
@@ -477,6 +548,7 @@ export const bartenderKnowledge: ImpressionIdea[] = [
                 name: 'her luxury mansion',
                 needs: [a.city],
                 needsOne: [a.wealthy, a.rich],
+                worksForBrothel: true,
             },
             {
                 name: 'her tower in the woods',
