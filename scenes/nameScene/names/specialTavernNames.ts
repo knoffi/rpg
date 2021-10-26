@@ -6,13 +6,19 @@ const a = association;
 const VERY_SPECIAL_NAME_PROB = 0.2;
 export const specialNames: NameIdea[] = [
     new NameIdea({
-        name: 'Wrathful Axe',
+        name: 'Bloody Axe',
         needs: [a.barbarian],
         powerFits: [a.barbarian],
         worksForAssasines: true,
     }),
     new NameIdea({
         name: 'BARbarians',
+        needs: [a.barbarian],
+        powerFits: [a.barbarian],
+        probability: VERY_SPECIAL_NAME_PROB,
+    }),
+    new NameIdea({
+        name: 'Highlander',
         needs: [a.barbarian],
         powerFits: [a.barbarian],
         probability: VERY_SPECIAL_NAME_PROB,
@@ -164,6 +170,11 @@ export const specialNames: NameIdea[] = [
         name: 'Joyful Judge',
         needsOne: [a.city, a.wealthy],
         powerFits: [a.city, a.wealthy],
+    }),
+    new NameIdea({
+        name: 'Pergamon & Pencils',
+        needsOne: [a.wizard, a.wealthy],
+        powerFits: [a.wizard, a.wealthy],
     }),
     new NameIdea({
         name: 'Incest Hillbilly',
@@ -1379,6 +1390,11 @@ export const specialNames: NameIdea[] = [
         needs: [a.rich],
         powerFits: [a.rich],
     }),
+    new NameIdea({
+        name: 'Duke Of Drinks',
+        needs: [a.rich],
+        powerFits: [a.rich],
+    }),
     new NameIdea({ name: 'Proud Lion', needs: [a.rich], powerFits: [a.rich] }),
     new NameIdea({
         name: 'Hall Of Decadence',
@@ -1744,9 +1760,25 @@ export const specialNames: NameIdea[] = [
         probability: VERY_SPECIAL_NAME_PROB,
     }),
     new NameIdea({
+        name: 'Scared Potter',
+        needs: [a.wizard],
+        powerFits: [a.wizard],
+        probability: VERY_SPECIAL_NAME_PROB,
+    }),
+    new NameIdea({
         name: 'Resting Anvil',
         needs: [a.modest],
         powerFits: [a.modest],
+    }),
+    new NameIdea({
+        name: 'Cooking Kettle',
+        needs: [a.modest],
+        powerFits: [a.modest],
+    }),
+    new NameIdea({
+        name: 'Boiling Pot',
+        needsOne: [a.modest, a.wizard],
+        powerFits: [a.modest, a.wizard],
     }),
     new NameIdea({
         name: 'Beer Fountain',
