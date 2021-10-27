@@ -26,12 +26,4 @@ export type TavernData = {
     boughtOffers: Offer[];
     [WeServe.impressions]: IImpression[];
 };
-export interface MinimalTavernData {
-    fitting: StructuredTavernFits;
-    name: string;
-    drinks: Offer[];
-    dishes: Offer[];
-    prices: BasePrice;
-    boughtOffers: Offer[];
-    impressions: IImpression[];
-}
+export type MinimalTavernData = Omit<TavernData, 'ideasLeft' | 'bannerData'>;
