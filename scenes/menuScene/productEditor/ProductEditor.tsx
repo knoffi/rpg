@@ -11,7 +11,7 @@ import {
     OkayButton,
     UploadButton,
 } from '../../../components/buttons/Buttons';
-import { MinimalOfferDataWithNumber } from '../../../components/ListOfSaves/ListOfSaves';
+import { Offer } from '../Offer';
 import { productEditorStyles } from './productEditorStyles';
 
 export const ProductEditor = (props: {
@@ -33,12 +33,12 @@ export const ProductEditor = (props: {
         return text.match(/^[0-9]+$/) != null && text !== '0';
     };
     const storeOffer = async () => {
-        // TODO: this is not a nice piece of code
-        const minimalOfferDataWithNumber: MinimalOfferDataWithNumber = {
-            priceText: parseInt(priceText),
+        const minimalOfferDataWithNumber: Offer = {
+            ...props.prevData,
+            price: parseInt(priceText),
             description: description,
             name: name,
-            category: props.prevData.category,
+            isUserMade: true,
         };
         new Database().saveData(minimalOfferDataWithNumber, props.prevData);
     };

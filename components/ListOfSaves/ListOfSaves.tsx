@@ -3,8 +3,8 @@ import { View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Button, List, Modal, Portal } from 'react-native-paper';
 import { Database } from '../../classes/database/Database';
-import { MenuCategory } from '../../classes/TavernProduct';
 import { MinimalTavernData } from '../../mainNavigator/TavernData';
+import { Offer } from '../../scenes/menuScene/Offer';
 import { Demand } from '../../scenes/menuScene/offerList/actionInterfaces';
 import { editModalStyles } from '../../scenes/startOptionsScene/editModalStyles';
 interface ListOfSavesProps {
@@ -26,14 +26,7 @@ interface ListOfSavesProps {
     onDismiss: () => void;
 }
 interface ListOfSavesState {
-    loadedSaves: (MinimalTavernData | MinimalOfferDataWithNumber)[];
-}
-
-export interface MinimalOfferDataWithNumber {
-    name: string;
-    priceText: number;
-    description: string;
-    category: MenuCategory;
+    loadedSaves: (MinimalTavernData | Offer)[];
 }
 
 export class ListOfSaves extends React.Component<
@@ -41,7 +34,7 @@ export class ListOfSaves extends React.Component<
     ListOfSavesState
 > {
     state = {
-        loadedSaves: [] as (MinimalTavernData | MinimalOfferDataWithNumber)[],
+        loadedSaves: [] as (MinimalTavernData | Offer)[],
     };
     constructor(props: any) {
         super(props);
@@ -78,12 +71,11 @@ export class ListOfSaves extends React.Component<
                                 style={{ marginHorizontal: 5 }}
                                 onPress={() => {
                                     if (this.props.offerHandling) {
-                                        const offerData =
-                                            save as MinimalOfferDataWithNumber;
+                                        const offerData = save as Offer;
                                         this.props.offerHandling.addUserOffer(
                                             offerData.name,
-                                            offerData.priceText.toString(),
-                                            offerData.description
+                                            offerData.price.toString(),
+                                            offerData.description || ''
                                         );
                                     }
                                     if (this.props.tavernHandling) {
