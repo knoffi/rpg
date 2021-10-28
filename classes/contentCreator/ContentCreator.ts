@@ -2,7 +2,6 @@ import { WeServe } from '../../editNavigator/WeServe';
 import { getRandomArrayEntry } from '../../helpingFunctions/getFittingRandom';
 import { drinkMenu } from '../../scenes/menuScene/drinks/drinkMenu';
 import { foodMenu } from '../../scenes/menuScene/food/foodMenu';
-import { getOfferFromMinimalData } from '../../scenes/menuScene/MinimalOfferData';
 import { Offer } from '../../scenes/menuScene/Offer';
 import { emptyImpression } from '../../scenes/questScene/impressions/emptyImpression';
 import { getPrefixExcluder } from '../../scenes/questScene/impressions/getPrefixExcluder';
@@ -17,7 +16,7 @@ import { Noticable } from '../idea/Noticable';
 import { Pattern } from '../idea/Patterns/Pattern';
 import { StructuredTavernFits } from '../idea/StructuredTavernFits';
 import { KeyHandler, Keys } from '../keyHandler/KeyHandler';
-import { Drinkable, Eatable, TavernProduct } from '../TavernProduct';
+import { Drinkable, Eatable } from '../TavernProduct';
 import { FantasyKeys } from './FantasKeys';
 
 export class ContentCreator {
@@ -133,10 +132,13 @@ export class ContentCreator {
     public createUserMade(edit: UserMade): Edit {
         switch (edit.isAbout) {
             case WeServe.food:
-                const food = getOfferFromMinimalData(edit);
+                const food: Offer = {
+                    ...edit,
+                    price: parseInt(edit.priceText),
+                };
                 return { isAbout: WeServe.food, edited: food };
             case WeServe.drinks:
-                const drink = getOfferFromMinimalData(edit);
+                const drink = { ...edit, price: parseInt(edit.priceText) };
                 return { isAbout: WeServe.drinks, edited: drink };
             default:
                 const impression: IImpression = {
@@ -287,7 +289,7 @@ export class ContentCreator {
                     fitting,
                     bestRecipes.level
                 );
-                return ContentCreator.buildOfferFromProduct(newDrink, category);
+                return newDrink;
             }
         }
     }
@@ -322,19 +324,9 @@ export class ContentCreator {
                     fitting,
                     bestRecipes.level
                 );
-                return ContentCreator.buildOfferFromProduct(newDish, category);
+                return newDish;
             }
         }
-    }
-
-    private static buildOfferFromProduct(
-        product: TavernProduct,
-        category: Drinkable | Eatable
-    ) {
-        const copperPrice = product.copperPrice;
-        //TODO: is the resetCategory still necessary?
-        product.resetCategory(category);
-        return { product: product, price: copperPrice } as Offer;
     }
 
     private rerollOneDish(
