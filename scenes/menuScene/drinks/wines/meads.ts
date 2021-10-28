@@ -486,7 +486,7 @@ export const meads: DishIdea[] = [
             mainIng: { name: 'Hammer Mead' },
             firstSideDishes: [
                 {
-                    name: "Mead - golden-brown, exquisite Dwarvish expertise. Can't touch this!",
+                    name: "Mead - golden-brown, a delicate Dwarvish brew. Can't touch this!",
                 },
             ],
         },

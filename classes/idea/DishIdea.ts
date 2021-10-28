@@ -1,6 +1,8 @@
+import { WeServe } from '../../editNavigator/WeServe';
+import { Offer } from '../../scenes/menuScene/Offer';
 import { splitMarker } from '../../scenes/menuScene/offerList/nameSplitter/splitMarker';
 import { association } from '../association';
-import { MenuCategory, TavernProduct } from '../TavernProduct';
+import { Eatable, MenuCategory } from '../TavernProduct';
 import {
     DescriptionAsset,
     forCriminalsOverwrittenAsset,
@@ -123,25 +125,26 @@ export class DishIdea extends Idea {
         thirdSideIngredient: string,
         tavernFits: StructuredTavernFits,
         priceFactor?: number
-    ) {
+    ): Offer {
         const name =
             mainIngredient +
             splitMarker +
             firstSideIngredient +
             secondSideIngredient +
             thirdSideIngredient;
-        //only works as long as fits of tavern equal fits of build tavern product
-        const filteredTavernFits = Object.values(tavernFits).filter(
-            (fit) => fit
-        ) as association[];
         const price = this.getPriceFromFits(tavernFits.income, priceFactor);
-        const newDish = new TavernProduct(
+        const isAbout = Object.values(Eatable).some(
+            (category) => category === this.category
+        )
+            ? WeServe.food
+            : WeServe.drinks;
+        return {
+            category: this.category,
             name,
             price,
-            filteredTavernFits,
-            this.category
-        );
-        return newDish;
+            isUserMade: false,
+            isAbout,
+        } as Offer;
     }
 
     private getPriceFromFits(income?: association, priceFactor = 1) {
