@@ -87,7 +87,7 @@ export class ContentCreator {
 
     public noNextCreationLeft(
         fitting: StructuredTavernFits,
-        creation: Add
+        creation: AddCheck
     ): boolean {
         switch (creation.isAbout) {
             case WeServe.drinks:
@@ -444,6 +444,22 @@ export type Add =
           newCreationAdded: boolean;
           added: IImpression[];
           newKeys: Keys;
+      };
+export type AddCheck =
+    | {
+          isAbout: WeServe.drinks;
+          added: Offer[];
+          category: Drinkable;
+      }
+    | {
+          isAbout: WeServe.food;
+          added: Offer[];
+          category: Eatable;
+      }
+    | {
+          isAbout: WeServe.impressions;
+          category: Noticable;
+          added: IImpression[];
       };
 
 export type Edit =

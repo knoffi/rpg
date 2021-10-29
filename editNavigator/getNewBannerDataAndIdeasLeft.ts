@@ -1,71 +1,47 @@
 import { Noticable } from '../classes/idea/Noticable';
-import { StructuredTavernFits } from '../classes/idea/StructuredTavernFits';
 import { Drinkable, Eatable, MenuCategory } from '../classes/TavernProduct';
 import { TavernData } from '../mainNavigator/TavernData';
-import { getNewRandomDrinkOffer } from '../scenes/menuScene/addRandomDrink';
 import { BannerData } from '../scenes/menuScene/menuBanner/MenuBanner';
-import { NothingLeftOffer, Offer } from '../scenes/menuScene/Offer';
-import { emptyImpression } from '../scenes/questScene/impressions/emptyImpression';
-import { getRandomImpression } from '../scenes/questScene/impressions/getRandomImpression';
-import { IImpression } from '../scenes/questScene/impressions/IImpression';
 import { WeServe } from './WeServe';
 
-type BannersAndTypesLeft = Pick<TavernData, 'ideasLeft' | 'bannerData'>;
+export type BannersAndTypesLeft = Pick<TavernData, 'ideasLeft' | 'bannerData'>;
 
-type BannerCheck = { fitting: StructuredTavernFits };
-const getNewBannerDataAndIdeasLeft = (
-    newFitting: StructuredTavernFits,
-    newIdeas: Offer[] | IImpression[],
-    oldBannerData: BannerData,
-    isAbout: WeServe
-): BannersAndTypesLeft => {
-    const fullIdeaCategories = getFullOfferCategories(
-        newFitting,
-        newIdeas,
-        isAbout
-    );
-    const ideaCategoriesLeft = getCategoryNotFullMap(
-        fullIdeaCategories,
-        isAbout
-    );
-    const newBannerVisibility = getBannerVisibility(
-        fullIdeaCategories,
-        oldBannerData
-    );
-    const newBanner: BannerData = {
-        emptyCategories: fullIdeaCategories,
-        isVisible: newBannerVisibility,
-    };
-    return { ideasLeft: ideaCategoriesLeft, banner: newBanner };
-};
+type TavernCheck =
+    | {
+          isAbout: WeServe.impressions;
+          impressionIsLeft: (category: Noticable) => boolean;
+      }
+    | {
+          isAbout: WeServe.drinks;
+          drinkIsLeft: (category: Drinkable) => boolean;
+      }
+    | {
+          isAbout: WeServe.food;
+          foodIsLeft: (category: Eatable) => boolean;
+      };
+
 export const getAllNewBannerDataAndOffersLeft = (
-    newFitting: StructuredTavernFits,
-    newIdeas: { drinks: Offer[]; dishes: Offer[]; impressions: IImpression[] },
     completeBanner: {
         drink: BannerData;
         food: BannerData;
         impression: BannerData;
-    }
-) => {
-    const drinkData = getNewBannerDataAndIdeasLeft(
-        newFitting,
-        newIdeas.drinks,
-        completeBanner.drink,
-        WeServe.drinks
-    );
-    const foodData = getNewBannerDataAndIdeasLeft(
-        newFitting,
-        newIdeas.dishes,
-        completeBanner.food,
-        WeServe.food
-    );
+    },
+    impressionIsLeft: (category: Noticable) => boolean,
+    foodIsLeft: (category: Eatable) => boolean,
+    drinkIsLeft: (category: Drinkable) => boolean
+): BannersAndTypesLeft => {
+    const drinkData = getNewBannerDataAndIdeasLeft(completeBanner.drink, {
+        isAbout: WeServe.drinks,
+        drinkIsLeft,
+    });
+    const foodData = getNewBannerDataAndIdeasLeft(completeBanner.food, {
+        isAbout: WeServe.food,
+        foodIsLeft,
+    });
     const impressionData = getNewBannerDataAndIdeasLeft(
-        newFitting,
-        newIdeas.impressions,
         completeBanner.impression,
-        WeServe.impressions
+        { isAbout: WeServe.impressions, impressionIsLeft }
     );
-
     return {
         ideasLeft: {
             drink: drinkData.ideasLeft,
@@ -79,6 +55,26 @@ export const getAllNewBannerDataAndOffersLeft = (
         },
     };
 };
+const getNewBannerDataAndIdeasLeft = (
+    oldBannerData: BannerData,
+    check: TavernCheck
+) => {
+    const fullIdeaCategories = getFullCategories(check);
+    const ideaCategoriesLeft = getCategoryNotFullMap(
+        fullIdeaCategories,
+        check.isAbout
+    );
+    const newBannerVisibility = getBannerVisibility(
+        fullIdeaCategories,
+        oldBannerData
+    );
+    const newBanner: BannerData = {
+        emptyCategories: fullIdeaCategories,
+        isVisible: newBannerVisibility,
+    };
+    return { ideasLeft: ideaCategoriesLeft, banner: newBanner };
+};
+
 const getBannerVisibility = (
     newFullOfferCategories: (MenuCategory | Noticable)[],
     oldBannerData: BannerData
@@ -95,36 +91,22 @@ const getBannerVisibility = (
     }
     return oldBannerData.isVisible;
 };
-const getFullOfferCategories = (
-    fitting: StructuredTavernFits,
-    newAssets: Offer[] | IImpression[],
-    isAbout: WeServe
-) => {
-    if (isAbout === WeServe.impressions) {
-        const alreadyUsedNames = (newAssets as IImpression[]).map(
-            (asset) => asset.name
-        );
-
-        return Object.values(Noticable).filter(
-            (category) =>
-                getRandomImpression(fitting, category, alreadyUsedNames, [], [])
-                    .name === emptyImpression.name
-        );
-    }
-    const categories = isAbout === WeServe.drinks ? Drinkable : Eatable;
-    const result = (Object.values(categories) as MenuCategory[]).filter(
-        (category) => {
-            return (
-                getNewRandomDrinkOffer(
-                    fitting,
-                    category,
-                    newAssets as Offer[],
-                    isAbout
-                ).name === NothingLeftOffer.name
+const getFullCategories = (check: TavernCheck) => {
+    switch (check.isAbout) {
+        case WeServe.food:
+            return Object.values(Eatable).filter(
+                (category) => !check.foodIsLeft(category)
             );
-        }
-    );
-    return result;
+        case WeServe.drinks:
+            return Object.values(Drinkable).filter(
+                (category) => !check.drinkIsLeft(category)
+            );
+
+        default:
+            return Object.values(Noticable).filter(
+                (category) => !check.impressionIsLeft(category)
+            );
+    }
 };
 const getCategoryNotFullMap = (
     fullCategories: MenuCategory[] | Noticable[],
