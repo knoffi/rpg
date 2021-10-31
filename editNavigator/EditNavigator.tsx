@@ -180,6 +180,13 @@ export const EditNavigator = (props: {
             props.onDataChange(tavernChanges);
         }
     };
+    const handleNewFits = (newFitting: StructuredTavernFits) => {
+        const bannerChanges = getNewIdeasLeft(newFitting);
+        props.onDataChange({ ...bannerChanges, fitting: newFitting });
+    };
+    const handleNewName = (name: string) => {
+        props.onDataChange({ name: name });
+    };
     const getNewIdeasLeft = (
         newFitting = props.tavern.fitting
     ): BannersAndTypesLeft => {
@@ -192,13 +199,13 @@ export const EditNavigator = (props: {
                     added: props.tavern[WeServe.impressions],
                 }),
             (category: Eatable) =>
-                creator.noNextCreationLeft(props.tavern.fitting, {
+                !creator.noNextCreationLeft(props.tavern.fitting, {
                     isAbout: WeServe.food,
                     category,
                     added: props.tavern[WeServe.food],
                 }),
             (category: Drinkable) =>
-                creator.noNextCreationLeft(newFitting, {
+                !creator.noNextCreationLeft(newFitting, {
                     isAbout: WeServe.drinks,
                     category,
                     added: props.tavern[WeServe.drinks],
@@ -279,7 +286,6 @@ export const EditNavigator = (props: {
         oldMaps[demand.isAbout] = newMap;
         return { ideasLeft: oldMaps };
     };
-    const oldBanner = props.tavern.bannerData;
     const oldDrinks = props.tavern[WeServe.drinks];
     const oldDishes = props.tavern[WeServe.food];
     const oldImpressions = props.tavern[WeServe.impressions];
@@ -299,23 +305,9 @@ export const EditNavigator = (props: {
                 children={() => (
                     <NameScene
                         name={props.tavern.name}
-                        onDataChange={props.onDataChange}
                         fitting={props.tavern.fitting}
-                        getImpliedChanges={(newFitting: StructuredTavernFits) =>
-                            getAllNewBannerDataAndOffersLeft(
-                                newFitting,
-                                {
-                                    drinks: oldDrinks,
-                                    dishes: oldDishes,
-                                    impressions: oldImpressions,
-                                },
-                                {
-                                    drink: oldBanner.drink,
-                                    food: oldBanner.food,
-                                    impression: oldBanner.impression,
-                                }
-                            )
-                        }
+                        handleNewName={handleNewName}
+                        handleNewFits={handleNewFits}
                     ></NameScene>
                 )}
             />
@@ -342,7 +334,7 @@ export const EditNavigator = (props: {
                         onDataChange={props.onDataChange}
                         offersLeft={props.tavern.ideasLeft.drink}
                         basePrice={props.tavern.prices}
-                        bannerData={oldBanner.drink}
+                        bannerData={props.tavern.bannerData[WeServe.drinks]}
                         handleDelete={handleDelete}
                         setBannerInvisible={setBannerInvisible(WeServe.drinks)}
                     ></MenuScene>
@@ -372,7 +364,7 @@ export const EditNavigator = (props: {
                         onDataChange={props.onDataChange}
                         offersLeft={props.tavern.ideasLeft.food}
                         basePrice={props.tavern.prices}
-                        bannerData={oldBanner.food}
+                        bannerData={props.tavern.bannerData[WeServe.food]}
                         setBannerInvisible={setBannerInvisible(WeServe.food)}
                     ></MenuScene>
                 )}
@@ -384,7 +376,7 @@ export const EditNavigator = (props: {
                         fitting={props.tavern.fitting}
                         basePrice={props.tavern.prices}
                         impressions={props.tavern[WeServe.impressions]}
-                        banner={oldBanner.impression}
+                        banner={props.tavern.bannerData[WeServe.impressions]}
                         handleAdd={handleAdd}
                         handleDelete={handleDelete}
                         handleReroll={handleReroll}
