@@ -286,9 +286,6 @@ export const EditNavigator = (props: {
         oldMaps[demand.isAbout] = newMap;
         return { ideasLeft: oldMaps };
     };
-    const oldDrinks = props.tavern[WeServe.drinks];
-    const oldDishes = props.tavern[WeServe.food];
-    const oldImpressions = props.tavern[WeServe.impressions];
 
     return (
         <Tab.Navigator
@@ -330,7 +327,7 @@ export const EditNavigator = (props: {
                         fitting={props.tavern.fitting}
                         isAbout={WeServe.drinks}
                         handleEdit={handleEdit}
-                        offers={oldDrinks}
+                        offers={props.tavern[WeServe.drinks]}
                         onDataChange={props.onDataChange}
                         offersLeft={contentLeft.ideasLeft.drink}
                         basePrice={props.tavern.prices}
@@ -360,7 +357,7 @@ export const EditNavigator = (props: {
                         offersBought={props.tavern.boughtOffers}
                         fitting={props.tavern.fitting}
                         isAbout={WeServe.food}
-                        offers={oldDishes}
+                        offers={props.tavern[WeServe.food]}
                         onDataChange={props.onDataChange}
                         offersLeft={contentLeft.ideasLeft.food}
                         basePrice={props.tavern.prices}
