@@ -4,7 +4,7 @@ import { TavernData } from '../mainNavigator/TavernData';
 import { BannerData } from '../scenes/menuScene/menuBanner/MenuBanner';
 import { WeServe } from './WeServe';
 
-export type BannersAndTypesLeft = Pick<TavernData, 'ideasLeft' | 'bannerData'>;
+export type ContentLeftTest = Pick<TavernData, 'ideasLeft' | 'bannerData'>;
 
 type TavernCheck =
     | {
@@ -29,7 +29,7 @@ export const getAllNewBannerDataAndOffersLeft = (
     impressionIsLeft: (category: Noticable) => boolean,
     foodIsLeft: (category: Eatable) => boolean,
     drinkIsLeft: (category: Drinkable) => boolean
-): BannersAndTypesLeft => {
+): ContentLeftTest => {
     const drinkData = getNewBannerDataAndIdeasLeft(completeBanner.drink, {
         isAbout: WeServe.drinks,
         drinkIsLeft,

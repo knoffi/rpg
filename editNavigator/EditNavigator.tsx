@@ -7,14 +7,17 @@ import {
     UserMade,
 } from '../classes/contentCreator/ContentCreator';
 import { AssetKey } from '../classes/idea/AssetKey/AssetKey';
-import { Noticable } from '../classes/idea/Noticable';
 import { Pattern } from '../classes/idea/Patterns/Pattern';
 import { StructuredTavernFits } from '../classes/idea/StructuredTavernFits';
 import { KeyHandler } from '../classes/keyHandler/KeyHandler';
 import { Drinkable, Eatable } from '../classes/TavernProduct';
 import Icon from '../components/icons';
 import { iconKeys } from '../components/icons/iconKeys';
-import { Describable, TavernData } from '../mainNavigator/TavernData';
+import {
+    Describable,
+    MinimalTavernData,
+    TavernData,
+} from '../mainNavigator/TavernData';
 import { BasePrice } from '../scenes/menuScene/basePrice';
 import { BannerData } from '../scenes/menuScene/menuBanner/MenuBanner';
 import { MenuScene } from '../scenes/menuScene/MenuScene';
@@ -23,10 +26,7 @@ import { Demand } from '../scenes/menuScene/offerList/actionInterfaces';
 import { NameScene } from '../scenes/nameScene/NameScene';
 import { getUsedPatterns } from '../scenes/questScene/getUsedPatterns';
 import { QuestScene } from '../scenes/questScene/QuestScene';
-import {
-    BannersAndTypesLeft,
-    getAllNewBannerDataAndOffersLeft,
-} from './getNewBannerDataAndIdeasLeft';
+import { testContentLeft } from './testContentLeft';
 import { WeServe } from './WeServe';
 
 const Tab = createBottomTabNavigator();
@@ -57,12 +57,32 @@ const getIconKey = (routeName: string) => {
         }
     }
 };
+
+export interface IBanners {
+    [WeServe.food]: BannerData;
+    [WeServe.drinks]: BannerData;
+    [WeServe.impressions]: BannerData;
+}
+const DEFAULT_BANNER: BannerData = { emptyCategories: [], isVisible: false };
+const DEFAULT_BANNERS: IBanners = {
+    [WeServe.food]: DEFAULT_BANNER,
+    [WeServe.drinks]: DEFAULT_BANNER,
+    [WeServe.impressions]: DEFAULT_BANNER,
+};
 export const EditNavigator = (props: {
-    onDataChange: (newData: Partial<TavernData>) => void;
-    tavern: TavernData;
+    onDataChange: (newData: Partial<MinimalTavernData>) => void;
+    tavern: MinimalTavernData;
 }) => {
     const creator = new ContentCreator();
     const keyHandler = new KeyHandler();
+    //TODO: If bannerData state gets initialized, will the initialization be repeated when props of EditNavigator change?
+    const startNotifications = testContentLeft(
+        DEFAULT_BANNERS,
+        props.tavern.fitting,
+        creator,
+        props.tavern
+    );
+    const [notifications, setNotifications] = useState(startNotifications);
     const [patterns, setPatterns] = useState(
         getUsedPatterns(props.tavern[WeServe.impressions])
     );
@@ -186,31 +206,6 @@ export const EditNavigator = (props: {
     };
     const handleNewName = (name: string) => {
         props.onDataChange({ name: name });
-    };
-    const getNewIdeasLeft = (
-        newFitting = props.tavern.fitting
-    ): BannersAndTypesLeft => {
-        return getAllNewBannerDataAndOffersLeft(
-            props.tavern.bannerData,
-            (category: Noticable) =>
-                !creator.noNextCreationLeft(newFitting, {
-                    isAbout: WeServe.impressions,
-                    category,
-                    added: props.tavern[WeServe.impressions],
-                }),
-            (category: Eatable) =>
-                !creator.noNextCreationLeft(props.tavern.fitting, {
-                    isAbout: WeServe.food,
-                    category,
-                    added: props.tavern[WeServe.food],
-                }),
-            (category: Drinkable) =>
-                !creator.noNextCreationLeft(newFitting, {
-                    isAbout: WeServe.drinks,
-                    category,
-                    added: props.tavern[WeServe.drinks],
-                })
-        );
     };
     const handleDelete = (name: string, deleted: Demand) => {
         //TODO: different behavior for deletes of user made ideas
