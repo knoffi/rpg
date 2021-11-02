@@ -6,8 +6,6 @@ import {
     CreationRequest,
     UserMade,
 } from '../classes/contentCreator/ContentCreator';
-import { AssetKey } from '../classes/idea/AssetKey/AssetKey';
-import { Pattern } from '../classes/idea/Patterns/Pattern';
 import { StructuredTavernFits } from '../classes/idea/StructuredTavernFits';
 import { KeyHandler } from '../classes/keyHandler/KeyHandler';
 import { Drinkable, Eatable } from '../classes/TavernProduct';
@@ -22,6 +20,7 @@ import { Demand } from '../scenes/menuScene/offerList/actionInterfaces';
 import { NameScene } from '../scenes/nameScene/NameScene';
 import { getUsedPatterns } from '../scenes/questScene/getUsedPatterns';
 import { QuestScene } from '../scenes/questScene/QuestScene';
+import { getCreationRequest } from './getCreationRequest';
 import { testContentLeft } from './testContentLeft';
 import { WeServe } from './WeServe';
 
@@ -233,6 +232,7 @@ export const EditNavigator = (props: {
             ? getIdeasLeftByDelete(deleted)
             : {};
         const tavernChanges = assetChanges;
+        //TODO: add .newKeys and .newPatterns to DrinkAdd and FoodAdd
         if (assetChanges.isAbout === WeServe.impressions) {
             keyHandler.update({
                 isAbout: assetChanges.isAbout,
@@ -385,24 +385,3 @@ export const EditNavigator = (props: {
         </Tab.Navigator>
     );
 };
-function getCreationRequest(
-    add: Demand,
-    tavern: MinimalTavernData,
-    fullFirstKeys: AssetKey[],
-    fullSecondKeys: AssetKey[],
-    patterns: Pattern[] | undefined,
-    mainFilter: number | undefined,
-    additionFilter: number | undefined
-): CreationRequest {
-    return add.isAbout === WeServe.impressions
-        ? {
-              ...add,
-              oldAssets: tavern[add.isAbout],
-              fullFirstKeys,
-              fullSecondKeys,
-              patterns,
-              mainFilter,
-              additionFilter,
-          }
-        : { ...add, oldAssets: tavern[add.isAbout] };
-}
