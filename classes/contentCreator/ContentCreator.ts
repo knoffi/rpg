@@ -15,7 +15,7 @@ import { ImpressionIdea } from '../idea/ImpressionIdea';
 import { Noticable } from '../idea/Noticable';
 import { Pattern } from '../idea/Patterns/Pattern';
 import { StructuredTavernFits } from '../idea/StructuredTavernFits';
-import { KeyHandler, Keys } from '../keyHandler/KeyHandler';
+import { Keys } from '../keyHandler/KeyHandler';
 import { Drinkable, Eatable } from '../TavernProduct';
 import { FantasyKeys } from './FantasKeys';
 
@@ -29,14 +29,12 @@ export class ContentCreator {
     private noteBook: IImpressionNote[];
     private dishMenu: IDishMenu[];
     private drinkMenu: IDrinkMenu[];
-    private keys: KeyHandler;
 
     constructor(key = FantasyKeys.standard) {
         const universe = ContentCreator.books.get(key);
         this.dishMenu = universe?.dishes || foodMenu;
         this.drinkMenu = universe?.drinks || drinkMenu;
         this.noteBook = universe?.notes || impressionChapters;
-        this.keys = new KeyHandler();
     }
 
     public deleteCreation(
@@ -168,6 +166,7 @@ export class ContentCreator {
                     added: extendedDrinks,
                     isAbout: WeServe.drinks,
                     category: request.category,
+                    newKeys: { main: [], addition: [] },
                 };
             case WeServe.food:
                 const newDish = this.getRandomDish(
@@ -181,6 +180,7 @@ export class ContentCreator {
                     added: extendedDishes,
                     isAbout: WeServe.food,
                     category: request.category,
+                    newKeys: { main: [], addition: [] },
                 };
 
             default:
@@ -424,19 +424,21 @@ export type ImpressionRequest = {
     patterns?: Pattern[];
 };
 export type CreationRequest = FoodRequest | DrinkRequest | ImpressionRequest;
-
+type AddEssentials = { newCreationAdded: boolean; newKeys: Keys };
 export type Add =
     | {
           isAbout: WeServe.drinks;
           newCreationAdded: boolean;
           added: Offer[];
           category: Drinkable;
+          newKeys: Keys;
       }
     | {
           isAbout: WeServe.food;
           newCreationAdded: boolean;
           category: Eatable;
           added: Offer[];
+          newKeys: Keys;
       }
     | {
           isAbout: WeServe.impressions;
