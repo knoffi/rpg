@@ -1,6 +1,6 @@
 import { splitMarker } from '../../scenes/menuScene/offerList/nameSplitter/splitMarker';
 import { IImpression } from '../../scenes/questScene/impressions/IImpression';
-import { emptyKeys } from '../contentCreator/ContentCreator';
+import { emptyKeys } from '../contentCreator/emptyKeys';
 import { Keys } from '../keyHandler/KeyHandler';
 import { AssetKey } from './AssetKey/AssetKey';
 import { DescriptionAsset } from './DescriptionAsset';

@@ -17,6 +17,7 @@ import { Pattern } from '../idea/Patterns/Pattern';
 import { StructuredTavernFits } from '../idea/StructuredTavernFits';
 import { Keys } from '../keyHandler/KeyHandler';
 import { Drinkable, Eatable } from '../TavernProduct';
+import { emptyKeys } from './emptyKeys';
 import { FantasyKeys } from './FantasKeys';
 
 export class ContentCreator {
@@ -71,7 +72,7 @@ export class ContentCreator {
             (impression) => impression.name === toRemove
         );
         if (indexToRemove < 0) {
-            const dissolvedKeys: Keys = { ['main']: [], ['addition']: [] };
+            const dissolvedKeys: Keys = emptyKeys;
             return { reducedImpressions: impressions, keys: dissolvedKeys };
         } else {
             const reducedImpressions = impressions
@@ -402,7 +403,6 @@ export class ContentCreator {
     }
 }
 
-export const emptyKeys: Keys = { ['main']: [], ['addition']: [] };
 export type FoodRequest = {
     isAbout: WeServe.food;
     category: Eatable;

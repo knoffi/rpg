@@ -8,6 +8,7 @@ import {
     ContentCreator,
     CreationRequest,
 } from '../classes/contentCreator/ContentCreator';
+import { emptyKeys } from '../classes/contentCreator/emptyKeys';
 import { Noticable } from '../classes/idea/Noticable';
 import {
     getStructuredFits,
@@ -139,10 +140,10 @@ const getContentForCategory = (
     const contentLength = Math.floor(
         Math.random() * MAX_IDEA + (1 - NO_IDEA_PROBABILITY)
     );
-    //TODO: random tavern uses random key for content creator
+    //TODO: random tavern uses random FantasyKey for content creator
     const creator = new ContentCreator();
     const keyHandler = new KeyHandler();
-    const newKeys = { main: [], addition: [] };
+    const newKeys = emptyKeys;
     const startAdd: Add = {
         ...demand,
         added: [],
