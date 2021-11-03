@@ -228,7 +228,7 @@ export class ContentCreator {
             (chapter) => chapter.category === category
         );
         if (!chapter) {
-            console.log('Impression category not found!');
+            console.log('Impression category not found' + category + '!');
             return emptyImpression;
         } else {
             const bestNotes = filterBestIdeas(
@@ -272,7 +272,7 @@ export class ContentCreator {
         );
 
         if (!chapter) {
-            console.log('Drink category not found!');
+            console.log('Drink category not found' + category + '!');
             return undefined;
         } else {
             const bestRecipes = filterBestIdeas(
@@ -307,7 +307,7 @@ export class ContentCreator {
         );
 
         if (!chapter) {
-            console.log('Food category not found!');
+            console.log('Food category not found' + category + '!');
             return undefined;
         } else {
             const bestRecipes = filterBestIdeas(
