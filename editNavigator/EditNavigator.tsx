@@ -21,6 +21,7 @@ import { NameScene } from '../scenes/nameScene/NameScene';
 import { getUsedPatterns } from '../scenes/questScene/getUsedPatterns';
 import { QuestScene } from '../scenes/questScene/QuestScene';
 import { getCreationRequest } from './getCreationRequest';
+import { ContentLeftTest } from './getNewBannerDataAndIdeasLeft';
 import { testContentLeft } from './testContentLeft';
 import { WeServe } from './WeServe';
 
@@ -64,6 +65,7 @@ const DEFAULT_BANNERS: IBanners = {
     [WeServe.drinks]: DEFAULT_BANNER,
     [WeServe.impressions]: DEFAULT_BANNER,
 };
+
 export const EditNavigator = (props: {
     onDataChange: (newData: Partial<MinimalTavernData>) => void;
     tavern: MinimalTavernData;
@@ -86,7 +88,9 @@ export const EditNavigator = (props: {
             boughtOffers: [...props.tavern.boughtOffers, offer],
         });
     };
-    const getBannersByDelete = (deleted: Demand) => {
+    const getBannersByDelete = (
+        deleted: Demand
+    ): Pick<ContentLeftTest, 'bannerData'> => {
         const olderBanner = contentLeft.bannerData[deleted.isAbout];
 
         const newEmptyCategories = olderBanner.emptyCategories.filter(
@@ -100,7 +104,7 @@ export const EditNavigator = (props: {
             ...contentLeft.bannerData,
             [deleted.isAbout]: newBannerData,
         };
-        return newBanners;
+        return { bannerData: newBanners };
     };
     const handleReroll = (
         name: string,
@@ -241,18 +245,32 @@ export const EditNavigator = (props: {
             });
             setPatterns(getUsedPatterns(assetChanges.impression));
         }
+        if (deleted.category === Eatable.breakfast) {
+            const reallyNewBannerStuff = {
+                ...contentLeft,
+                ...bannerChanges,
+                ...ideaLeftChanges,
+            };
+            console.log('The real heat, yo man!');
+            console.log(JSON.stringify(reallyNewBannerStuff));
+            console.log('Observe!');
+            console.log(JSON.stringify(bannerChanges));
+        }
+        props.onDataChange(tavernChanges);
         setContentLeft({
             ...contentLeft,
             ...bannerChanges,
             ...ideaLeftChanges,
         });
-        props.onDataChange(tavernChanges);
     };
 
     const handleEdit = (request: UserMade, previousName?: string) => {
         const newAsset = creator.createUserMade(request);
     };
-    const getBannersByAdd = (add: Demand, nothingLeft: boolean) => {
+    const getBannersByAdd = (
+        add: Demand,
+        nothingLeft: boolean
+    ): Pick<ContentLeftTest, 'bannerData'> => {
         const oldBanners = { ...contentLeft.bannerData };
         const newBanners = {
             [WeServe.drinks]: oldBanners.drink,
@@ -264,7 +282,7 @@ export const EditNavigator = (props: {
         ].emptyCategories.concat(nothingLeft ? add.category : []);
         newBanners[add.isAbout].emptyCategories = newEmptyCategories;
         newBanners[add.isAbout].isVisible = nothingLeft;
-        return newBanners;
+        return { bannerData: newBanners };
     };
     const setBannerInvisible = (isAbout: WeServe) => () => {
         const oldBanners = { ...contentLeft.bannerData };
@@ -272,14 +290,19 @@ export const EditNavigator = (props: {
         const newContentLeft = { ...contentLeft, bannerData: oldBanners };
         setContentLeft(newContentLeft);
     };
-    const getIdeasLeftByDelete = (demand: Demand) => {
+    const getIdeasLeftByDelete = (
+        demand: Demand
+    ): Pick<ContentLeftTest, 'ideasLeft'> => {
         const oldMaps = { ...contentLeft.ideasLeft };
         const newMap = new Map<Describable, boolean>(oldMaps[demand.isAbout]);
         newMap.set(demand.category, true);
         oldMaps[demand.isAbout] = newMap;
         return { ideasLeft: oldMaps };
     };
-    const getIdeasLeftByAdd = (demand: Demand, ideaLeft: boolean) => {
+    const getIdeasLeftByAdd = (
+        demand: Demand,
+        ideaLeft: boolean
+    ): Pick<ContentLeftTest, 'ideasLeft'> => {
         const oldMaps = { ...contentLeft.ideasLeft };
         const newMap = new Map<Describable, boolean>(oldMaps[demand.isAbout]);
         newMap.set(demand.category, ideaLeft);

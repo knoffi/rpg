@@ -45,9 +45,7 @@ export const MenuBanner = (props: {
             actions={[
                 {
                     label: 'Got it',
-                    onPress: () => {
-                        const newBannerData = props.setBannerInvsible();
-                    },
+                    onPress: props.setBannerInvsible,
                 },
             ]}
         >
