@@ -28,7 +28,7 @@ export const OfferListAccordeon = (props: {
     const noDrinkToAddLeft = props.noDrinkToAddLeft;
     const getPriceString = props.getPriceString;
     const offerItems = props.listOfOffers.map((offerOfList) => {
-        const name = offerOfList.product.name;
+        const name = offerOfList.name;
         return (
             <View key={name}>
                 <OfferListItem
@@ -45,12 +45,11 @@ export const OfferListAccordeon = (props: {
                             props.offerActions.shopOffer(name);
                         },
                         onEdit: () => {
-                            const product = offerOfList.product;
-                            const description = product.description
-                                ? product.description
+                            const description = offerOfList.description
+                                ? offerOfList.description
                                 : '';
                             props.offerActions.editUserOffer({
-                                name: product.name,
+                                name: offerOfList.name,
                                 priceText: offerOfList.price.toString(),
                                 description: description,
                                 isUserMade: true,
@@ -59,7 +58,7 @@ export const OfferListAccordeon = (props: {
                         },
                     }}
                     noDrinkToAddLeft={noDrinkToAddLeft}
-                    isUserMade={offerOfList.product.isUserMade}
+                    isUserMade={offerOfList.isUserMade}
                     priceString={getPriceString(offerOfList)}
                 ></OfferListItem>
             </View>
