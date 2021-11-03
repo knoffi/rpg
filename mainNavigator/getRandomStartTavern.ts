@@ -172,6 +172,9 @@ const getContentArray = (
         return creator.addRandomCreation(fits, request);
     } else {
         const add = creator.addRandomCreation(fits, request);
+        if (!add.newCreationAdded) {
+            return add;
+        }
         if (add.isAbout === WeServe.impressions) {
             keys.update({ ...add, type: 'Add' });
         }
