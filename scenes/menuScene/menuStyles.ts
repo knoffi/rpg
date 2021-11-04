@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 import { HEIGHT_FACTOR, WIDTH_FACTOR } from '../../dimensionConstants';
 
 export const menuSceneStyles = StyleSheet.create({
-    accordeonListTitle: {
+    accordionListTitle: {
         fontSize: 30 * WIDTH_FACTOR,
         fontWeight: 'bold',
         textDecorationLine: 'underline',

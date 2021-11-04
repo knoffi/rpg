@@ -17,7 +17,7 @@ export const PriceAccordion = (props: {
     return (
         <List.Accordion
             title="Currency &amp; Prices"
-            titleStyle={menuSceneStyles.accordeonListTitle}
+            titleStyle={menuSceneStyles.accordionListTitle}
         >
             <List.Item
                 title=""

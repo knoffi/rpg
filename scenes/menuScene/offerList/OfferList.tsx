@@ -6,7 +6,7 @@ import { WeServe } from '../../../editNavigator/WeServe';
 import { Describable } from '../../../mainNavigator/TavernData';
 import { globalStyles } from '../../globalStyles';
 import { Offer } from '../Offer';
-import { OfferListAccordeon } from './Accordeon';
+import { OfferAccordion } from './Accordion';
 import { Demand, IAddingActions, IOfferActions } from './actionInterfaces';
 
 const BOTTOM_PADDING_DRINKS = 265 * HEIGHT_FACTOR;
@@ -41,7 +41,7 @@ export const OfferList = (props: {
             category: chapter.category,
         };
         return (
-            <OfferListAccordeon
+            <OfferAccordion
                 key={chapter.category}
                 demand={demand}
                 listOfOffers={chapter.offers}

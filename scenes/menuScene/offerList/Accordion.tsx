@@ -13,7 +13,7 @@ import { Demand, IAddingActions, IOfferActions } from './actionInterfaces';
 import { OfferListItem } from './Item';
 import { LIST_END_BUTTON_SIZE } from './LIST_END_BUTTON_SIZE';
 
-export const OfferListAccordeon = (props: {
+export const OfferAccordion = (props: {
     demand: Demand & { isAbout: WeServe.drinks | WeServe.food };
     listOfOffers: Offer[];
     offerActions: IOfferActions;
@@ -68,7 +68,7 @@ export const OfferListAccordeon = (props: {
     return (
         <List.Accordion
             title={props.demand.category}
-            titleStyle={menuSceneStyles.accordeonListTitle}
+            titleStyle={menuSceneStyles.accordionListTitle}
         >
             {offerItems}
             <List.Item

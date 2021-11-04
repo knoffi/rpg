@@ -137,7 +137,7 @@ const ImpressionAccordion = (props: {
     return (
         <List.Accordion
             title={title}
-            titleStyle={menuSceneStyles.accordeonListTitle}
+            titleStyle={menuSceneStyles.accordionListTitle}
             key={props.title}
         >
             {[...descriptionItems, addBar]}
