@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 import { HelperText, TextInput } from 'react-native-paper';
+import { association } from '../../../classes/association';
 import {
     UserMadeDrink,
     UserMadeFood,
@@ -39,6 +40,7 @@ export const ProductEditor = (props: {
             description: description,
             name: name,
             isUserMade: true,
+            income: association.empty,
         };
         new Database().saveData(minimalOfferDataWithNumber, props.prevData);
     };

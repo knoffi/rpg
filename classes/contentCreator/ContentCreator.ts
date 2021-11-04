@@ -8,6 +8,7 @@ import { getPrefixExcluder } from '../../scenes/questScene/impressions/getPrefix
 import { IImpression } from '../../scenes/questScene/impressions/IImpression';
 import { impressionChapters } from '../../scenes/questScene/impressions/impressionChapters';
 import { getKeyExcluder } from '../../scenes/questScene/impressions/impressionExcluder/getImpressionExcluder';
+import { association } from '../association';
 import { AssetKey } from '../idea/AssetKey/AssetKey';
 import { DishIdea } from '../idea/DishIdea';
 import { filterBestIdeas } from '../idea/fitCalculator/filterBestIdea';
@@ -134,10 +135,15 @@ export class ContentCreator {
                 const food: Offer = {
                     ...edit,
                     price: parseInt(edit.priceText),
+                    income: association.empty,
                 };
                 return { isAbout: WeServe.food, edited: food };
             case WeServe.drinks:
-                const drink = { ...edit, price: parseInt(edit.priceText) };
+                const drink: Offer = {
+                    ...edit,
+                    price: parseInt(edit.priceText),
+                    income: association.empty,
+                };
                 return { isAbout: WeServe.drinks, edited: drink };
             default:
                 const impression: IImpression = {
