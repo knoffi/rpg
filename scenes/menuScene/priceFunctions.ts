@@ -2,20 +2,29 @@ import { association } from '../../classes/association';
 import { StructuredTavernFits } from '../../classes/idea/StructuredTavernFits';
 import { BasePrice, standardBasePrice } from './basePrice';
 import { Offer } from './Offer';
+const DEFAULT_INCOME_LEVEL = 0;
+const INCOME_TO_PRICE_LEVEL = new Map([
+    [association.poor, -2],
+    [association.modest, -1],
+    [association.wealthy, 1],
+    [association.rich, 2],
+    [association.empty, DEFAULT_INCOME_LEVEL],
+]);
 export const getAdjustedPrice = (
     offer: Offer,
-    fitting: StructuredTavernFits,
-    basePrice: BasePrice
+    basePrice: BasePrice,
+    tavernIncome?: association
 ) => {
     if (offer.isUserMade) {
         return offer.price;
     }
-    const tavernIncome = fitting.income || association.empty;
     const basePriceFactor = getPriceFactorFromBasePrice(
         basePrice,
-        tavernIncome
+        offer.income || association.empty
     );
-    const incomeLevel = incomePriceLevelMap.get(tavernIncome) || 0;
+    const incomeLevel =
+        INCOME_TO_PRICE_LEVEL.get(tavernIncome || association.empty) ||
+        DEFAULT_INCOME_LEVEL;
     const newPrice = Math.floor(
         (offer.price * basePriceFactor * (100 + incomeLevel)) / 100.0
     );
@@ -26,7 +35,7 @@ export const getAdjustedPriceString = (
     fitting: StructuredTavernFits,
     basePrice: BasePrice
 ) => {
-    const calculatedPrice = getAdjustedPrice(offer, fitting, basePrice);
+    const calculatedPrice = getAdjustedPrice(offer, basePrice, fitting.income);
     const economicPrice = calculatedPrice > 0 ? calculatedPrice : 1;
     return economicPrice.toString() + ' ' + basePrice.currency;
 };
@@ -69,11 +78,3 @@ const getPriceFactorFromBasePrice = (
     }
     return defaultPriceFactor;
 };
-
-const incomePriceLevelMap = new Map([
-    [association.poor, -2],
-    [association.modest, -1],
-    [association.wealthy, 1],
-    [association.rich, 2],
-    [association.empty, 0],
-]);
