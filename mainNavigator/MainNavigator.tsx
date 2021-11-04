@@ -61,7 +61,7 @@ export const MainNavigator = () => {
 
     const getOfferPrice = (offer: Offer) => {
         const tavern = tavernHistory[historyIndex];
-        return getAdjustedPrice(offer, tavern.fitting, tavern.prices);
+        return getAdjustedPrice(offer, tavern.prices, tavern.fitting.income);
     };
 
     return (
