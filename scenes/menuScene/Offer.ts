@@ -1,4 +1,4 @@
-import { Drinkable, Eatable, TavernProduct } from '../../classes/TavernProduct';
+import { Drinkable, Eatable } from '../../classes/TavernProduct';
 import { WeServe } from '../../editNavigator/WeServe';
 
 export type Offer = {
@@ -18,15 +18,3 @@ export type Offer = {
           category: Drinkable;
       }
 );
-
-export const NothingLeftOffer:Offer = {
-    name:'NothingABCDEFGWinnie_The_PuH_SUcKs',
-    category:Drinkable.spirit
-    product: new TavernProduct(
-        'NothingABCDEFGWinnie_The_PuH_SUcKs',
-        0,
-        [],
-        Drinkable.spirit
-    ),
-    price: 0,
-};
