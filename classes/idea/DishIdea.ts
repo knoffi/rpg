@@ -1,8 +1,9 @@
 import { WeServe } from '../../editNavigator/WeServe';
 import { Offer } from '../../scenes/menuScene/Offer';
+import { Demand } from '../../scenes/menuScene/offerList/actionInterfaces';
 import { splitMarker } from '../../scenes/menuScene/offerList/nameSplitter/splitMarker';
-import { association } from '../association';
-import { Eatable, MenuCategory } from '../TavernProduct';
+import { association, Income } from '../association';
+import { Drinkable, Eatable, MenuCategory } from '../TavernProduct';
 import {
     DescriptionAsset,
     forCriminalsOverwrittenAsset,
@@ -15,6 +16,8 @@ import { PriceSetter } from './PriceSetter';
 import { StructuredTavernFits } from './StructuredTavernFits';
 
 const EMPTY_SIDE_DISH: DescriptionAsset = { name: '' };
+
+type Pricing = { price: number; income: Income | association.empty };
 
 export class DishIdea extends Idea {
     private averagePrice: number | PriceSetter;
@@ -70,7 +73,7 @@ export class DishIdea extends Idea {
     public getConcreteDish(
         tavernFits: StructuredTavernFits,
         minimumFitLevel: number
-    ) {
+    ): Offer {
         const fittingSideDishMenu = this.additions!.map((sideDishes) => {
             const result =
                 sideDishes[0].name === EMPTY_SIDE_DISH.name
@@ -132,51 +135,62 @@ export class DishIdea extends Idea {
             firstSideIngredient +
             secondSideIngredient +
             thirdSideIngredient;
-        const price = this.getPriceFromFits(tavernFits.income, priceFactor);
-        const isAbout = Object.values(Eatable).some(
+        const pricing = this.getPricing(tavernFits.income, priceFactor);
+
+        const demand = this.getDemand();
+        return {
+            name,
+            isUserMade: false,
+            ...pricing,
+            ...demand,
+        };
+    }
+    private getDemand(): Demand & { isAbout: WeServe.drinks | WeServe.food } {
+        return Object.values(Eatable).some(
             (category) => category === this.category
         )
-            ? WeServe.food
-            : WeServe.drinks;
-        return {
-            category: this.category,
-            name,
-            price,
-            isUserMade: false,
-            isAbout,
-        } as Offer;
+            ? { isAbout: WeServe.food, category: this.category as Eatable }
+            : { isAbout: WeServe.drinks, category: this.category as Drinkable };
     }
 
-    private getPriceFromFits(income?: association, priceFactor = 1) {
+    private getPricing(income?: association, priceFactor = 1): Pricing {
         if (typeof this.averagePrice === 'number') {
-            return this.getPriceFluctuation(priceFactor * this.averagePrice);
+            const price = this.getPriceFluctuation(
+                priceFactor * this.averagePrice
+            );
+            return { price, income: association.empty };
         } else {
             if (income === association.poor) {
-                return this.getPriceFluctuation(
+                const price = this.getPriceFluctuation(
                     priceFactor * this.averagePrice[income]
                 );
+                return { price, income };
             }
             if (income === association.modest) {
-                return this.getPriceFluctuation(
+                const price = this.getPriceFluctuation(
                     priceFactor * this.averagePrice[income]
                 );
+                return { price, income };
             }
             if (income === association.wealthy) {
-                return this.getPriceFluctuation(
+                const price = this.getPriceFluctuation(
                     priceFactor * this.averagePrice[income]
                 );
+                return { price, income };
             }
             if (income === association.rich) {
-                return this.getPriceFluctuation(
+                const price = this.getPriceFluctuation(
                     priceFactor * this.averagePrice[income]
                 );
+                return { price, income };
             }
-            return this.getPriceFluctuation(
+            const price = this.getPriceFluctuation(
                 (priceFactor *
                     (this.averagePrice[association.modest] +
                         this.averagePrice[association.wealthy])) /
                     2
             );
+            return { price, income: association.empty };
         }
     }
     private getPriceFluctuation(price: number) {
