@@ -6,13 +6,13 @@ import { bartenderPast } from './bartender/backgroundStory';
 import { bartenderCharisma } from './bartender/charisma';
 import { bartenderKnowledge } from './bartender/knowledge';
 import { bartenderOpinions } from './bartender/opinion';
+import { druidIndividuals } from './individuals/druids';
+import { individuals } from './individuals/genericIndividuals';
+import { specialIndividuals } from './individuals/specialPeople';
+import { wizardIndividuals } from './individuals/wizards';
 import { furnitures } from './objects/furniture';
 import { stuffedAnimals } from './objects/stuffedAnimals';
 import { trapsIntriguingShockingFurniture } from './objects/trapsSecretIntriguingFurnite';
-import { druidIndividuals } from './individuals/druids';
-import { specialIndividuals } from './individuals/specialPeople';
-import { wizardIndividuals } from './individuals/wizards';
-import { individuals } from './individuals/genericIndividuals';
 
 export const impressionChapters = [
     {
@@ -24,7 +24,7 @@ export const impressionChapters = [
         category: Noticable.furniture,
     },
     {
-        impressions: averageCustomers,
+        impressions: [...averageCustomers],
         category: Noticable.averageCustomer,
     },
     {

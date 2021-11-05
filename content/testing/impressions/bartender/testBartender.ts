@@ -4,7 +4,7 @@ import { Noticable } from '../../../../classes/idea/Noticable';
 import { Pattern } from '../../../../classes/idea/Patterns/Pattern';
 import { defaultPowerFitConcepts } from '../../../../classes/idea/powerFitConcepts/powerFitConcepts';
 
-export const patternTest: ImpressionIdea[] = [
+export const patternTestBartender: ImpressionIdea[] = [
     new ImpressionIdea(
         { name: 'Kind person', patterns: [Pattern.BARTENDER_UncleBen] },
         [emptyDescriptionAsset],

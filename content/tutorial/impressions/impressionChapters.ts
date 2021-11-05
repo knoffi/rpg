@@ -10,7 +10,7 @@ export const impressionChapters = [
         category: Noticable.furniture,
     },
     {
-        impressions: averageCustomers,
+        impressions: [...averageCustomers],
         category: Noticable.averageCustomer,
     },
     {
