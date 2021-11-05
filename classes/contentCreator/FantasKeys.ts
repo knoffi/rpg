@@ -1,3 +1,6 @@
 export enum FantasyKeys {
-    standard = 'standard',
+    standard = 'Standard',
+    dragonik = 'Dragonik',
+    ar_kenji = "Ar'kenji",
+    testing = 'UI Tests',
 }

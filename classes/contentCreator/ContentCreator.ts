@@ -1,12 +1,13 @@
+import { drinkMenu } from '../../content/numentor/drinks/drinkMenu';
+import { foodMenu } from '../../content/numentor/food/foodMenu';
+import { impressionChapters } from '../../content/numentor/impressions/impressionChapters';
+import { numentor } from '../../content/numentor/numentor';
 import { WeServe } from '../../editNavigator/WeServe';
 import { getRandomArrayEntry } from '../../helpingFunctions/getFittingRandom';
-import { drinkMenu } from '../../scenes/menuScene/drinks/drinkMenu';
-import { foodMenu } from '../../scenes/menuScene/food/foodMenu';
 import { Offer } from '../../scenes/menuScene/Offer';
 import { emptyImpression } from '../../scenes/questScene/impressions/emptyImpression';
 import { getPrefixExcluder } from '../../scenes/questScene/impressions/getPrefixExcluder';
 import { IImpression } from '../../scenes/questScene/impressions/IImpression';
-import { impressionChapters } from '../../scenes/questScene/impressions/impressionChapters';
 import { getKeyExcluder } from '../../scenes/questScene/impressions/impressionExcluder/getImpressionExcluder';
 import { association } from '../association';
 import { AssetKey } from '../idea/AssetKey/AssetKey';
@@ -20,13 +21,11 @@ import { Keys } from '../keyHandler/KeyHandler';
 import { Drinkable, Eatable } from '../TavernProduct';
 import { emptyKeys } from './emptyKeys';
 import { FantasyKeys } from './FantasKeys';
+import { FantasyBook } from './FantasyBook';
 
 export class ContentCreator {
     private static books = new Map<FantasyKeys, FantasyBook>([
-        [
-            FantasyKeys.standard,
-            { notes: impressionChapters, drinks: drinkMenu, dishes: foodMenu },
-        ],
+        [FantasyKeys.standard, numentor],
     ]);
     private noteBook: IImpressionNote[];
     private dishMenu: IDishMenu[];
@@ -430,7 +429,6 @@ export type ImpressionRequest = {
     patterns?: Pattern[];
 };
 export type CreationRequest = FoodRequest | DrinkRequest | ImpressionRequest;
-type AddEssentials = { newCreationAdded: boolean; newKeys: Keys };
 export type Add =
     | {
           isAbout: WeServe.drinks;
@@ -527,7 +525,7 @@ type Reroll =
           newKeys: Keys;
           oldKeys: Keys;
       };
-interface IImpressionNote {
+export interface IImpressionNote {
     impressions: ImpressionIdea[];
     category: Noticable;
 }
@@ -539,9 +537,3 @@ export interface IDrinkMenu {
     drinks: DishIdea[];
     category: Drinkable;
 }
-
-type FantasyBook = {
-    notes: IImpressionNote[];
-    drinks: IDrinkMenu[];
-    dishes: IDishMenu[];
-};
