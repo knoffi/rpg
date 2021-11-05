@@ -1,7 +1,10 @@
+import { ar_kenji } from "../../content/ar'kenji/ar'kenji";
+import { dragonik } from '../../content/dragonik/dragonik';
 import { drinkMenu } from '../../content/numentor/drinks/drinkMenu';
 import { foodMenu } from '../../content/numentor/food/foodMenu';
 import { impressionChapters } from '../../content/numentor/impressions/impressionChapters';
 import { numentor } from '../../content/numentor/numentor';
+import { UI_TEST_CONTENT } from '../../content/testing/testing';
 import { WeServe } from '../../editNavigator/WeServe';
 import { getRandomArrayEntry } from '../../helpingFunctions/getFittingRandom';
 import { Offer } from '../../scenes/menuScene/Offer';
@@ -26,6 +29,9 @@ import { FantasyBook } from './FantasyBook';
 export class ContentCreator {
     private static books = new Map<FantasyKeys, FantasyBook>([
         [FantasyKeys.standard, numentor],
+        [FantasyKeys.testing, UI_TEST_CONTENT],
+        [FantasyKeys.dragonik, dragonik],
+        [FantasyKeys.ar_kenji, ar_kenji],
     ]);
     private noteBook: IImpressionNote[];
     private dishMenu: IDishMenu[];

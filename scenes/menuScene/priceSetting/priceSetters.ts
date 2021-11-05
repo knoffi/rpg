@@ -6,7 +6,7 @@ export const adjustPrice = (price: number, factor: number) => {
     const adjustedPrice = Math.floor(price * factor);
     return adjustedPrice > 0 ? adjustedPrice : 1;
 };
-export const adjustPriceSetter = (priceSetter: PriceSetter, factor: number) => {
+export const adjustPriceSetter = (priceSetter: PriceSetter, factor = 1.0) => {
     const adjustedPriceSetter = {
         [association.poor]: adjustPrice(priceSetter[association.poor], factor),
         [association.modest]: adjustPrice(
