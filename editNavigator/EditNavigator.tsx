@@ -310,6 +310,17 @@ export const EditNavigator = (props: {
         return { ideasLeft: oldMaps };
     };
 
+    const incrementContent = () => {
+        creator.incrementContent();
+        const newContentLeft = testContentLeft(
+            contentLeft.bannerData,
+            props.tavern.fitting,
+            creator,
+            props.tavern
+        );
+        setContentLeft(newContentLeft);
+    };
+
     return (
         <Tab.Navigator
             tabBarOptions={tabBarOptions}
@@ -329,7 +340,7 @@ export const EditNavigator = (props: {
                         handleNewName={handleNewName}
                         handleNewFits={handleNewFits}
                         contentName={creator.getUniverseName()}
-                        incrementContent={() => creator.incrementContent()}
+                        incrementContent={incrementContent}
                     ></NameScene>
                 )}
             />
