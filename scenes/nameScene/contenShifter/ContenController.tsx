@@ -1,17 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button } from 'react-native-paper';
 
-export const ContextController = (props: {}) => {
+export const ContextController = (props: {
+    onPress: () => void;
+    text: string;
+}) => {
     //TODO: Get content list by static method from ContentCreator
-    const content = ['Standard'];
-    const [contentIndex, setContentIndex] = useState(0);
-    return (
-        <Button
-            onPress={() => {
-                setContentIndex(contentIndex + 1);
-            }}
-        >
-            {content[contentIndex]}
-        </Button>
-    );
+    return <Button onPress={props.onPress}>{props.text}</Button>;
 };

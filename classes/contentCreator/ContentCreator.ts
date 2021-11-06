@@ -1,8 +1,5 @@
 import { ar_kenji } from "../../content/ar'kenji/ar'kenji";
 import { dragonik } from '../../content/dragonik/dragonik';
-import { drinkMenu } from '../../content/numentor/drinks/drinkMenu';
-import { foodMenu } from '../../content/numentor/food/foodMenu';
-import { impressionChapters } from '../../content/numentor/impressions/impressionChapters';
 import { numentor } from '../../content/numentor/numentor';
 import { UI_TEST_CONTENT } from '../../content/testing/testing';
 import { WeServe } from '../../editNavigator/WeServe';
@@ -24,24 +21,49 @@ import { Keys } from '../keyHandler/KeyHandler';
 import { Drinkable, Eatable } from '../TavernProduct';
 import { emptyKeys } from './emptyKeys';
 import { FantasyKeys } from './FantasKeys';
-import { FantasyBook } from './FantasyBook';
 
 export class ContentCreator {
-    private static books = new Map<FantasyKeys, FantasyBook>([
-        [FantasyKeys.standard, numentor],
-        [FantasyKeys.testing, UI_TEST_CONTENT],
-        [FantasyKeys.dragonik, dragonik],
-        [FantasyKeys.ar_kenji, ar_kenji],
-    ]);
+    private static books = [
+        { key: FantasyKeys.standard, book: numentor },
+        { key: FantasyKeys.testing, book: UI_TEST_CONTENT },
+        { key: FantasyKeys.dragonik, book: dragonik },
+        { key: FantasyKeys.ar_kenji, book: ar_kenji },
+    ];
     private noteBook: IImpressionNote[];
     private dishMenu: IDishMenu[];
     private drinkMenu: IDrinkMenu[];
+    private bookIndex: number;
 
     constructor(key = FantasyKeys.standard) {
-        const universe = ContentCreator.books.get(key);
-        this.dishMenu = universe?.dishes || foodMenu;
-        this.drinkMenu = universe?.drinks || drinkMenu;
-        this.noteBook = universe?.notes || impressionChapters;
+        const universeIndex = ContentCreator.books.findIndex(
+            (book) => book.key === key
+        );
+        const universeFoundByKey = universeIndex >= 0;
+
+        if (!universeFoundByKey) {
+            console.log('___FANTASY KEY NOT FOUND FOR CONSTRUCTION___');
+        }
+
+        this.bookIndex = universeFoundByKey ? universeIndex : 0;
+        const universe = universeFoundByKey
+            ? ContentCreator.books[universeIndex].book
+            : ContentCreator.books[0].book;
+        this.dishMenu = universe.dishes;
+        this.drinkMenu = universe.drinks;
+        this.noteBook = universe.notes;
+    }
+
+    public incrementContent() {
+        const newIndex = (this.bookIndex + 1) % ContentCreator.books.length;
+        this.bookIndex = newIndex;
+        const newUniverse = ContentCreator.books[newIndex].book;
+        this.dishMenu = newUniverse.dishes;
+        this.drinkMenu = newUniverse.drinks;
+        this.noteBook = newUniverse.notes;
+    }
+
+    public getUniverseName() {
+        return ContentCreator.books[this.bookIndex].key;
     }
 
     public deleteCreation(

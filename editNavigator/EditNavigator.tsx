@@ -328,6 +328,8 @@ export const EditNavigator = (props: {
                         fitting={props.tavern.fitting}
                         handleNewName={handleNewName}
                         handleNewFits={handleNewFits}
+                        contentName={creator.getUniverseName()}
+                        incrementContent={() => creator.incrementContent()}
                     ></NameScene>
                 )}
             />

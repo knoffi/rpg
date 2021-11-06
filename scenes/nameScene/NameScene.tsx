@@ -43,6 +43,8 @@ type NameProps = {
     name: string;
     handleNewFits: (newFits: StructuredTavernFits) => void;
     handleNewName: (name: string) => void;
+    incrementContent: () => void;
+    contentName: string;
 };
 
 export class NameScene extends React.Component<
@@ -109,7 +111,10 @@ export class NameScene extends React.Component<
                                 title={'EDIT'}
                             />
                         </View>
-                        <ContextController></ContextController>
+                        <ContextController
+                            onPress={this.props.incrementContent}
+                            text={this.props.contentName}
+                        ></ContextController>
                         <Text>{JSON.stringify(this.props.fitting)}</Text>
                     </View>
                 </View>
