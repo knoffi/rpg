@@ -112,18 +112,23 @@ const getCategoryNotFullMap = (
     fullCategories: MenuCategory[] | Noticable[],
     isAbout: WeServe
 ) => {
-    const impressionsLeft = new Map(
-        Object.values(Noticable).map((category) => [
-            category,
-            !(fullCategories as Noticable[]).includes(category),
-        ])
-    );
+    let categories;
+    switch (isAbout) {
+        case WeServe.drinks:
+            categories = Drinkable;
+            break;
+        case WeServe.drinks:
+            categories = Eatable;
+            break;
 
-    const categories = isAbout === WeServe.drinks ? Drinkable : Eatable;
+        default:
+            categories = Noticable;
+            break;
+    }
     return new Map(
         Object.values(categories).map((category) => [
             category,
-            !(fullCategories as MenuCategory[]).includes(category),
+            !(fullCategories as Noticable[]).includes(category),
         ])
     );
 };
