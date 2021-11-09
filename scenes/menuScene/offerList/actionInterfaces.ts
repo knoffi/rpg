@@ -1,12 +1,10 @@
 import {
     UserMadeDrink,
-    UserMadeFood
+    UserMadeFood,
 } from '../../../classes/contentCreator/ContentCreator';
+import { FantasyKeys } from '../../../classes/contentCreator/FantasKeys';
 import { Noticable } from '../../../classes/idea/Noticable';
-import {
-    Drinkable,
-    Eatable
-} from '../../../classes/TavernProduct';
+import { Drinkable, Eatable } from '../../../classes/TavernProduct';
 import { WeServe } from '../../../editNavigator/WeServe';
 
 export interface IProductActions {
@@ -24,11 +22,15 @@ export type Demand =
 
 export interface IAddingActions {
     randomAdd: (demand: Demand) => void;
-    import: (demand:Demand) => void;
+    import: (demand: Demand) => void;
     edit: (edit: Demand) => void;
 }
 export interface IOfferActions {
-    deleteOffer: (name: string, deleted: Demand) => void;
+    deleteOffer: (
+        name: string,
+        deleted: Demand,
+        key: FantasyKeys | 'isUserMade'
+    ) => void;
     rerollOffer: (name: string, reroll: Demand) => void;
     shopOffer: (name: string) => void;
     editUserOffer: (startData: UserMadeDrink | UserMadeFood) => void;

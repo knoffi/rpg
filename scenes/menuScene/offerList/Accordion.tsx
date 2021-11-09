@@ -27,15 +27,19 @@ export const OfferAccordion = (props: {
     const thisDemand = props.demand;
     const noDrinkToAddLeft = props.noDrinkToAddLeft;
     const getPriceString = props.getPriceString;
-    const offerItems = props.listOfOffers.map((offerOfList) => {
-        const name = offerOfList.name;
+    const offerItems = props.listOfOffers.map((offer) => {
+        const name = offer.name;
         return (
             <View key={name}>
                 <OfferListItem
                     drinkName={name}
                     actions={{
                         onDelete: () => {
-                            props.offerActions.deleteOffer(name, thisDemand);
+                            props.offerActions.deleteOffer(
+                                name,
+                                thisDemand,
+                                offer.universe
+                            );
                         },
                         onInfo: () => {},
                         onReroll: () => {
@@ -45,12 +49,12 @@ export const OfferAccordion = (props: {
                             props.offerActions.shopOffer(name);
                         },
                         onEdit: () => {
-                            const description = offerOfList.description
-                                ? offerOfList.description
+                            const description = offer.description
+                                ? offer.description
                                 : '';
                             props.offerActions.editUserOffer({
-                                name: offerOfList.name,
-                                priceText: offerOfList.price.toString(),
+                                name: offer.name,
+                                priceText: offer.price.toString(),
                                 description: description,
                                 isUserMade: true,
                                 ...thisDemand,
@@ -58,8 +62,8 @@ export const OfferAccordion = (props: {
                         },
                     }}
                     noDrinkToAddLeft={noDrinkToAddLeft}
-                    isUserMade={offerOfList.isUserMade}
-                    priceString={getPriceString(offerOfList)}
+                    isUserMade={offer.isUserMade}
+                    priceString={getPriceString(offer)}
                 ></OfferListItem>
             </View>
         );

@@ -1,7 +1,7 @@
-import { IDishMenu, IDrinkMenu, IImpressionNote } from './ContentCreator';
+import { IDishMenu, IDrinkMenu, ImpressionNote } from './ContentCreator';
 
 export type FantasyBook = {
-    notes: IImpressionNote[];
+    notes: ImpressionNote[];
     drinks: IDrinkMenu[];
     dishes: IDishMenu[];
 };

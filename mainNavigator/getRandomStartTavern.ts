@@ -22,7 +22,7 @@ import { BasePrice, standardBasePrice } from '../scenes/menuScene/basePrice';
 import { Offer } from '../scenes/menuScene/Offer';
 import { Demand } from '../scenes/menuScene/offerList/actionInterfaces';
 import { getRandomName } from '../scenes/nameScene/getRandomName';
-import { IImpression } from '../scenes/questScene/impressions/IImpression';
+import { Impression } from '../scenes/questScene/impressions/Impression';
 import { getCreationRequest } from './getCreationRequest';
 import { getTavernHistoryInitializer } from './mainNavigatorFunctions';
 import { MinimalTavernData } from './TavernData';
@@ -115,7 +115,7 @@ const getContent = (fits: StructuredTavernFits): Content => {
                     category,
                 }).added
         )
-        .flat() as IImpression[];
+        .flat() as Impression[];
     return {
         [WeServe.drinks]: drinks,
         [WeServe.food]: food,

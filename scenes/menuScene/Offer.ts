@@ -1,4 +1,5 @@
 import { association } from '../../classes/association';
+import { FantasyKeys } from '../../classes/contentCreator/FantasKeys';
 import { Drinkable, Eatable } from '../../classes/TavernProduct';
 import { WeServe } from '../../editNavigator/WeServe';
 
@@ -7,6 +8,7 @@ export type Offer = {
     isUserMade: boolean;
     description?: string;
     price: number;
+    universe: FantasyKeys | 'isUserMade';
     income:
         | association.rich
         | association.poor

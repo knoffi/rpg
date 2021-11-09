@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ScrollView } from 'react-native';
 import { association, Income } from '../../classes/association';
+import { FantasyKeys } from '../../classes/contentCreator/FantasKeys';
 import { StructuredTavernFits } from '../../classes/idea/StructuredTavernFits';
 import { WeServe } from '../../editNavigator/WeServe';
 import { Describable } from '../../mainNavigator/TavernData';
@@ -10,7 +11,7 @@ import { Demand } from '../menuScene/offerList/actionInterfaces';
 import { nameSceneStyles } from '../nameScene/nameSceneStyles';
 import { CurrencySetDialog } from './CurrencySetDialog';
 import { DetailsList } from './DetailsList';
-import { IImpression } from './impressions/IImpression';
+import { Impression } from './impressions/Impression';
 import { incomeExampleMap } from './incomeExampleMap';
 import { PriceExplanationDialog } from './PriceExplanationDialog';
 import { PriceSetDialog } from './PriceSetDialog';
@@ -35,9 +36,13 @@ const getPriceFromIncome = (income: association, basePrice: BasePrice) => {
 export const QuestScene = (props: {
     fitting: StructuredTavernFits;
     basePrice: BasePrice;
-    impressions: IImpression[];
+    impressions: Impression[];
     handleAdd: (add: Demand) => void;
-    handleDelete: (name: string, deleted: Demand) => void;
+    handleDelete: (
+        name: string,
+        deleted: Demand,
+        key: FantasyKeys | 'isUserMade'
+    ) => void;
     handleReroll: (name: string, rerolled: Demand) => void;
     handleBasePrice: (change: BasePrice) => void;
     banner: BannerData;

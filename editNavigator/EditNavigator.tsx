@@ -94,7 +94,6 @@ export const EditNavigator = (props: {
         deleted: Demand
     ): Pick<ContentLeftTest, 'bannerData'> => {
         const olderBanner = contentLeft.bannerData[deleted.isAbout];
-
         const newEmptyCategories = olderBanner.emptyCategories.filter(
             (category) => category !== deleted.category
         );
@@ -215,7 +214,11 @@ export const EditNavigator = (props: {
     const handleNewName = (name: string) => {
         props.onDataChange({ name: name });
     };
-    const handleDelete = (name: string, deleted: Demand) => {
+    const handleDelete = (
+        name: string,
+        deleted: Demand,
+        key: FantasyKeys | 'isUserMade'
+    ) => {
         //TODO: different behavior for deletes of user made ideas
         const deleteRequest =
             deleted.isAbout === WeServe.impressions
@@ -234,10 +237,14 @@ export const EditNavigator = (props: {
         const categoryWasFullBefore = contentLeft.bannerData[
             deleted.isAbout
         ].emptyCategories.includes(deleted.category);
-        const bannerChanges = categoryWasFullBefore
+
+        //TODO: refactor into getContentLeft({"delete",deleted,fullBefore}|{"add",added})
+        const contentNeedsUpdate =
+            categoryWasFullBefore && key === content.creator.getUniverseName();
+        const bannerChanges = contentNeedsUpdate
             ? getBannersByDelete(deleted)
             : {};
-        const ideaLeftChanges = categoryWasFullBefore
+        const ideaLeftChanges = contentNeedsUpdate
             ? getIdeasLeftByDelete(deleted)
             : {};
         const tavernChanges = assetChanges;
@@ -249,17 +256,6 @@ export const EditNavigator = (props: {
                 oldKeys: assetChanges.oldKeys,
             });
             setPatterns(getUsedPatterns(assetChanges.impression));
-        }
-        if (deleted.category === Eatable.breakfast) {
-            const reallyNewBannerStuff = {
-                ...contentLeft,
-                ...bannerChanges,
-                ...ideaLeftChanges,
-            };
-            console.log('The real heat, yo man!');
-            console.log(JSON.stringify(reallyNewBannerStuff));
-            console.log('Observe!');
-            console.log(JSON.stringify(bannerChanges));
         }
         props.onDataChange(tavernChanges);
         setContentLeft({

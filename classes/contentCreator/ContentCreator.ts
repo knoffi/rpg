@@ -7,7 +7,7 @@ import { getRandomArrayEntry } from '../../helpingFunctions/getFittingRandom';
 import { Offer } from '../../scenes/menuScene/Offer';
 import { emptyImpression } from '../../scenes/questScene/impressions/emptyImpression';
 import { getPrefixExcluder } from '../../scenes/questScene/impressions/getPrefixExcluder';
-import { IImpression } from '../../scenes/questScene/impressions/IImpression';
+import { Impression } from '../../scenes/questScene/impressions/Impression';
 import { getKeyExcluder } from '../../scenes/questScene/impressions/impressionExcluder/getImpressionExcluder';
 import { association } from '../association';
 import { AssetKey } from '../idea/AssetKey/AssetKey';
@@ -35,47 +35,36 @@ export class ContentCreator {
         const nextIndex = (prevIndex + 1) % allKeys.length;
         return allKeys[nextIndex];
     }
-    private noteBook: IImpressionNote[];
+    private noteBook: ImpressionNote[];
     private dishMenu: IDishMenu[];
     private drinkMenu: IDrinkMenu[];
-    private bookIndex: number;
+    private key: FantasyKeys;
 
     constructor(key = FantasyKeys.standard) {
-        const universeIndex = ContentCreator.books.findIndex(
-            (book) => book.key === key
-        );
-        const universeFoundByKey = universeIndex >= 0;
-
-        if (!universeFoundByKey) {
+        const universe = ContentCreator.books.find((book) => book.key === key);
+        if (universe) {
+            this.key = universe.key;
+            this.dishMenu = universe.book.dishes;
+            this.drinkMenu = universe.book.drinks;
+            this.noteBook = universe.book.notes;
+        } else {
+            const DEFAULT_UNIVERSE = ContentCreator.books[0];
+            this.key = DEFAULT_UNIVERSE.key;
+            this.dishMenu = DEFAULT_UNIVERSE.book.dishes;
+            this.drinkMenu = DEFAULT_UNIVERSE.book.drinks;
+            this.noteBook = DEFAULT_UNIVERSE.book.notes;
             console.log('___FANTASY KEY NOT FOUND FOR CONSTRUCTION___');
         }
-
-        this.bookIndex = universeFoundByKey ? universeIndex : 0;
-        const universe = universeFoundByKey
-            ? ContentCreator.books[universeIndex].book
-            : ContentCreator.books[0].book;
-        this.dishMenu = universe.dishes;
-        this.drinkMenu = universe.drinks;
-        this.noteBook = universe.notes;
-    }
-
-    public incrementContent() {
-        const newIndex = (this.bookIndex + 1) % ContentCreator.books.length;
-        this.bookIndex = newIndex;
-        const newUniverse = ContentCreator.books[newIndex].book;
-        this.dishMenu = newUniverse.dishes;
-        this.drinkMenu = newUniverse.drinks;
-        this.noteBook = newUniverse.notes;
     }
 
     public getUniverseName() {
-        return ContentCreator.books[this.bookIndex].key;
+        return this.key;
     }
 
     public deleteCreation(
         name: string,
         deleted:
-            | { isAbout: WeServe.impressions; creations: IImpression[] }
+            | { isAbout: WeServe.impressions; creations: Impression[] }
             | { isAbout: WeServe.drinks | WeServe.food; creations: Offer[] }
     ): Delete {
         switch (deleted.isAbout) {
@@ -101,7 +90,7 @@ export class ContentCreator {
                 return { [WeServe.drinks]: newDrinks, isAbout: WeServe.drinks };
         }
     }
-    private dissolveImpression(impressions: IImpression[], toRemove: string) {
+    private dissolveImpression(impressions: Impression[], toRemove: string) {
         const indexToRemove = impressions.findIndex(
             (impression) => impression.name === toRemove
         );
@@ -169,6 +158,7 @@ export class ContentCreator {
                     ...edit,
                     price: parseInt(edit.priceText),
                     income: association.empty,
+                    universe: 'isUserMade',
                 };
                 return { isAbout: WeServe.food, edited: food };
             case WeServe.drinks:
@@ -176,14 +166,16 @@ export class ContentCreator {
                     ...edit,
                     price: parseInt(edit.priceText),
                     income: association.empty,
+                    universe: 'isUserMade',
                 };
                 return { isAbout: WeServe.drinks, edited: drink };
             default:
-                const impression: IImpression = {
+                const impression: Impression = {
                     category: edit.category,
                     name: edit.name,
                     patterns: [],
                     keys: emptyKeys,
+                    universe: 'isUserMade',
                 };
                 return { isAbout: WeServe.impressions, edited: impression };
         }
@@ -249,7 +241,7 @@ export class ContentCreator {
     private getRandomImpression(
         fitting: StructuredTavernFits,
         category: Noticable,
-        oldImpressions: IImpression[],
+        oldImpressions: Impression[],
         fullFirstKeys: AssetKey[],
         fullSecondKeys: AssetKey[],
         mainFilter?: number,
@@ -291,6 +283,7 @@ export class ContentCreator {
                         () => false,
                         additionIsExcludedByKey,
                         bestNotes.level,
+                        this.key,
                         additionFilter,
                         patterns
                     ) || emptyImpression;
@@ -327,7 +320,8 @@ export class ContentCreator {
                 const newIdea = getRandomArrayEntry(bestRecipes.ideas);
                 const newDrink = newIdea.getConcreteDish(
                     fitting,
-                    bestRecipes.level
+                    bestRecipes.level,
+                    this.key
                 );
                 return newDrink;
             }
@@ -362,7 +356,8 @@ export class ContentCreator {
                 const newIdea = getRandomArrayEntry(bestRecipes.ideas);
                 const newDish = newIdea.getConcreteDish(
                     fitting,
-                    bestRecipes.level
+                    bestRecipes.level,
+                    this.key
                 );
                 return newDish;
             }
@@ -455,7 +450,7 @@ export type DrinkRequest = {
 export type ImpressionRequest = {
     isAbout: WeServe.impressions;
     category: Noticable;
-    oldAssets: IImpression[];
+    oldAssets: Impression[];
     fullFirstKeys: AssetKey[];
     fullSecondKeys: AssetKey[];
     mainFilter?: number;
@@ -482,7 +477,7 @@ export type Add =
           isAbout: WeServe.impressions;
           category: Noticable;
           newCreationAdded: boolean;
-          added: IImpression[];
+          added: Impression[];
           newKeys: Keys;
       };
 export type AddCheck =
@@ -499,13 +494,13 @@ export type AddCheck =
     | {
           isAbout: WeServe.impressions;
           category: Noticable;
-          added: IImpression[];
+          added: Impression[];
       };
 
 export type Edit =
     | { isAbout: WeServe.drinks; edited: Offer }
     | { isAbout: WeServe.food; edited: Offer }
-    | { isAbout: WeServe.impressions; edited: IImpression };
+    | { isAbout: WeServe.impressions; edited: Impression };
 
 export type UserMadeFood = {
     isAbout: WeServe.food;
@@ -544,7 +539,7 @@ export type Delete =
           isAbout: WeServe.drinks;
       }
     | {
-          [WeServe.impressions]: IImpression[];
+          [WeServe.impressions]: Impression[];
           isAbout: WeServe.impressions;
           oldKeys: Keys;
       };
@@ -555,11 +550,11 @@ type Reroll =
       }
     | {
           isAbout: WeServe.impressions;
-          oneRerolled: IImpression[];
+          oneRerolled: Impression[];
           newKeys: Keys;
           oldKeys: Keys;
       };
-export interface IImpressionNote {
+export interface ImpressionNote {
     impressions: ImpressionIdea[];
     category: Noticable;
 }

@@ -3,6 +3,7 @@ import { Offer } from '../../scenes/menuScene/Offer';
 import { Demand } from '../../scenes/menuScene/offerList/actionInterfaces';
 import { splitMarker } from '../../scenes/menuScene/offerList/nameSplitter/splitMarker';
 import { association, Income } from '../association';
+import { FantasyKeys } from '../contentCreator/FantasKeys';
 import { Drinkable, Eatable, MenuCategory } from '../TavernProduct';
 import {
     DescriptionAsset,
@@ -72,7 +73,8 @@ export class DishIdea extends Idea {
 
     public getConcreteDish(
         tavernFits: StructuredTavernFits,
-        minimumFitLevel: number
+        minimumFitLevel: number,
+        universe: FantasyKeys
     ): Offer {
         const fittingSideDishMenu = this.additions!.map((sideDishes) => {
             const result =
@@ -102,7 +104,8 @@ export class DishIdea extends Idea {
                 '',
                 '',
                 '',
-                tavernFits
+                tavernFits,
+                universe
             );
         } else {
             const sideDishNames = fittingSideDishMenu.map(
@@ -117,6 +120,7 @@ export class DishIdea extends Idea {
                 sideDishNames[1],
                 sideDishNames[2],
                 tavernFits,
+                universe,
                 priceFactor
             );
         }
@@ -127,6 +131,7 @@ export class DishIdea extends Idea {
         secondSideIngredient: string,
         thirdSideIngredient: string,
         tavernFits: StructuredTavernFits,
+        universe: FantasyKeys,
         priceFactor?: number
     ): Offer {
         const name =
@@ -143,6 +148,7 @@ export class DishIdea extends Idea {
             isUserMade: false,
             ...pricing,
             ...demand,
+            universe,
         };
     }
     private getDemand(): Demand & { isAbout: WeServe.drinks | WeServe.food } {

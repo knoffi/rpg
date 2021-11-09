@@ -6,6 +6,7 @@ import {
     UserMadeDrink,
     UserMadeFood,
 } from '../../classes/contentCreator/ContentCreator';
+import { FantasyKeys } from '../../classes/contentCreator/FantasKeys';
 import { Database } from '../../classes/database/Database';
 import { StructuredTavernFits } from '../../classes/idea/StructuredTavernFits';
 import { ListOfSaves } from '../../components/ListOfSaves/ListOfSaves';
@@ -38,7 +39,11 @@ interface MenuProps {
     basePrice: BasePrice;
     bannerData: BannerData;
     handleAdd: (add: Demand) => void;
-    handleDelete: (name: string, deleted: Demand) => void;
+    handleDelete: (
+        name: string,
+        deleted: Demand,
+        key: FantasyKeys | 'isUserMade'
+    ) => void;
     handleReroll: (name: string, rerolled: Demand) => void;
     handleEdit: (offer: UserMade, previousName?: string) => void;
     setBannerInvisible: () => void;
@@ -63,8 +68,12 @@ export const MenuScene = (props: MenuProps) => {
         visible: false,
         demand: startDemand,
     });
-    const deleteOffer = (name: string, demand: Demand) => {
-        props.handleDelete(name, demand);
+    const deleteOffer = (
+        name: string,
+        demand: Demand,
+        key: FantasyKeys | 'isUserMade'
+    ) => {
+        props.handleDelete(name, demand, key);
     };
     //TODO: further refactor into two methods with strong encapsulation
     const addUserOffer = (offer: UserMade) => {

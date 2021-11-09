@@ -1,6 +1,7 @@
 import { splitMarker } from '../../scenes/menuScene/offerList/nameSplitter/splitMarker';
-import { IImpression } from '../../scenes/questScene/impressions/IImpression';
+import { Impression } from '../../scenes/questScene/impressions/Impression';
 import { emptyKeys } from '../contentCreator/emptyKeys';
+import { FantasyKeys } from '../contentCreator/FantasKeys';
 import { Keys } from '../keyHandler/KeyHandler';
 import { AssetKey } from './AssetKey/AssetKey';
 import { DescriptionAsset } from './DescriptionAsset';
@@ -38,10 +39,11 @@ export class ImpressionIdea extends Idea {
         isExcludedByName: (name: string) => boolean,
         additionIsExcludedByKey: (key: AssetKey) => boolean,
         minimalFitLevel: number,
+        universe: FantasyKeys,
         additionFilter?: number,
         patterns = [] as Pattern[]
     ) {
-        const createdImpression: IImpression = {
+        const createdImpression: Impression = {
             ...this.getNameAndKey(
                 tavernFits,
                 isExcludedByName,
@@ -51,6 +53,7 @@ export class ImpressionIdea extends Idea {
                 patterns
             ),
             category: this.category,
+            universe,
         };
         return createdImpression;
     }
