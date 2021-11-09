@@ -12,7 +12,11 @@ import { KeyHandler } from '../classes/keyHandler/KeyHandler';
 import { Drinkable, Eatable } from '../classes/TavernProduct';
 import Icon from '../components/icons';
 import { iconKeys } from '../components/icons/iconKeys';
-import { Describable, MinimalTavernData } from '../mainNavigator/TavernData';
+import {
+    Describable,
+    MinimalTavernData,
+    TavernData,
+} from '../mainNavigator/TavernData';
 import { BasePrice } from '../scenes/menuScene/basePrice';
 import { BannerData } from '../scenes/menuScene/menuBanner/MenuBanner';
 import { MenuScene } from '../scenes/menuScene/MenuScene';
@@ -267,6 +271,23 @@ export const EditNavigator = (props: {
 
     const handleEdit = (request: UserMade, previousName?: string) => {
         const newAsset = content.creator.createUserMade(request);
+        if (previousName) {
+            const newContent: Partial<TavernData> = {
+                [newAsset.isAbout]: props.tavern[newAsset.isAbout].map(
+                    (asset: { name: string }) =>
+                        asset.name === previousName ? newAsset.edited : asset
+                ),
+            };
+            props.onDataChange(newContent);
+        } else {
+            const newContent: Partial<TavernData> = {
+                [newAsset.isAbout]: [
+                    ...props.tavern[newAsset.isAbout],
+                    newAsset.edited,
+                ],
+            };
+            props.onDataChange(newContent);
+        }
     };
     const getBannersByAdd = (
         add: Demand,
