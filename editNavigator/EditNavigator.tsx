@@ -285,7 +285,7 @@ export const EditNavigator = (props: {
         newBanners[add.isAbout].isVisible = nothingLeft;
         return { bannerData: newBanners };
     };
-    const setBannerInvisible = (isAbout: WeServe) => () => {
+    const getBannerClosing = (isAbout: WeServe) => () => {
         const oldBanners = { ...contentLeft.bannerData };
         oldBanners[isAbout].isVisible = false;
         const newContentLeft = { ...contentLeft, bannerData: oldBanners };
@@ -371,7 +371,7 @@ export const EditNavigator = (props: {
                         basePrice={props.tavern.prices}
                         bannerData={contentLeft.bannerData[WeServe.drinks]}
                         handleDelete={handleDelete}
-                        setBannerInvisible={setBannerInvisible(WeServe.drinks)}
+                        closeBanner={getBannerClosing(WeServe.drinks)}
                     ></MenuScene>
                 )}
             />
@@ -400,7 +400,7 @@ export const EditNavigator = (props: {
                         offersLeft={contentLeft.ideasLeft.food}
                         basePrice={props.tavern.prices}
                         bannerData={contentLeft.bannerData[WeServe.food]}
-                        setBannerInvisible={setBannerInvisible(WeServe.food)}
+                        closeBanner={getBannerClosing(WeServe.food)}
                     ></MenuScene>
                 )}
             />
@@ -417,6 +417,7 @@ export const EditNavigator = (props: {
                         handleReroll={handleReroll}
                         handleBasePrice={handleBasePrice}
                         noticablesLeft={contentLeft.ideasLeft.impression}
+                        closeBanner={getBannerClosing(WeServe.food)}
                     ></QuestScene>
                 )}
             />

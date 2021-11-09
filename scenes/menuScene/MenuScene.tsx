@@ -46,7 +46,7 @@ interface MenuProps {
     ) => void;
     handleReroll: (name: string, rerolled: Demand) => void;
     handleEdit: (offer: UserMade, previousName?: string) => void;
-    setBannerInvisible: () => void;
+    closeBanner: () => void;
     buyOffer: (boughtOffer: Offer) => void;
     startEdit: UserMadeFood | UserMadeDrink;
 }
@@ -122,7 +122,7 @@ export const MenuScene = (props: MenuProps) => {
             >
                 <MenuBanner
                     bannerData={props.bannerData}
-                    setBannerInvsible={props.setBannerInvisible}
+                    onDismiss={props.closeBanner}
                     bannerEnding={bannerEnding}
                     isAbout={props.isAbout}
                 />

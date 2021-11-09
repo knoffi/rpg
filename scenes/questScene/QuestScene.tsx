@@ -46,6 +46,7 @@ export const QuestScene = (props: {
     handleReroll: (name: string, rerolled: Demand) => void;
     handleBasePrice: (change: BasePrice) => void;
     banner: BannerData;
+    closeBanner: () => void;
     noticablesLeft: Map<Describable, boolean>;
 }) => {
     const [explanationDialog, setDialog] = useState({
@@ -151,9 +152,7 @@ export const QuestScene = (props: {
                 bannerData={props.banner}
                 bannerEnding={'Let the story begin!'}
                 isAbout={WeServe.impressions}
-                setBannerInvsible={() => {
-                    console.log('METHOD NOT IMPLEMENTED!');
-                }}
+                onDismiss={props.closeBanner}
             />
             <PriceExplanationDialog
                 explanationDialog={explanationDialog}
