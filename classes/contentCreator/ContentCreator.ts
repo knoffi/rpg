@@ -5,7 +5,6 @@ import { UI_TEST_CONTENT } from '../../content/testing/testing';
 import { WeServe } from '../../editNavigator/WeServe';
 import { getRandomArrayEntry } from '../../helpingFunctions/getFittingRandom';
 import { Offer } from '../../scenes/menuScene/Offer';
-import { emptyImpression } from '../../scenes/questScene/impressions/emptyImpression';
 import { getPrefixExcluder } from '../../scenes/questScene/impressions/getPrefixExcluder';
 import { Impression } from '../../scenes/questScene/impressions/Impression';
 import { getKeyExcluder } from '../../scenes/questScene/impressions/impressionExcluder/getImpressionExcluder';
@@ -226,14 +225,15 @@ export class ContentCreator {
                     request.additionFilter,
                     request.patterns
                 );
-                const extendedImpressions =
-                    request.oldAssets.concat(newImpression);
+                const extendedImpressions = request.oldAssets.concat(
+                    newImpression || []
+                );
                 return {
                     newCreationAdded: !!newImpression,
                     added: extendedImpressions,
                     isAbout: WeServe.impressions,
                     category: request.category,
-                    newKeys: newImpression.keys,
+                    newKeys: emptyKeys,
                 };
         }
     }
@@ -260,7 +260,7 @@ export class ContentCreator {
         );
         if (!chapter) {
             console.log('Impression category not found' + category + '!');
-            return emptyImpression;
+            return undefined;
         } else {
             const bestNotes = filterBestIdeas(
                 chapter.impressions,
@@ -273,20 +273,19 @@ export class ContentCreator {
                 patterns
             );
             if (!bestNotes) {
-                return emptyImpression;
+                return undefined;
             } else {
                 const newIdea = getRandomArrayEntry(bestNotes.ideas);
-                const newImpression =
-                    newIdea.createImpression(
-                        fitting,
-                        //additions for impression do not get filtered by name because it seems more realistic
-                        () => false,
-                        additionIsExcludedByKey,
-                        bestNotes.level,
-                        this.key,
-                        additionFilter,
-                        patterns
-                    ) || emptyImpression;
+                const newImpression = newIdea.createImpression(
+                    fitting,
+                    //additions for impression do not get filtered by name because it seems more realistic
+                    () => false,
+                    additionIsExcludedByKey,
+                    bestNotes.level,
+                    this.key,
+                    additionFilter,
+                    patterns
+                );
                 return newImpression;
             }
         }
@@ -422,15 +421,17 @@ export class ContentCreator {
         const oldImpression = request.oldAssets.find(
             (impression) => impression.name === rerolledName
         );
-        const rerolledImpressions = request.oldAssets.map((impression) =>
-            impression.name === rerolledName
-                ? newImpression || emptyImpression
-                : impression
-        );
+        const rerolledImpressions = newImpression
+            ? request.oldAssets.map((impression) =>
+                  impression.name === rerolledName ? newImpression : impression
+              )
+            : request.oldAssets.filter(
+                  (impression) => impression.name !== rerolledName
+              );
         const reroll: Reroll = {
             isAbout: WeServe.impressions,
             oneRerolled: rerolledImpressions,
-            newKeys: newImpression.keys,
+            newKeys: newImpression?.keys || emptyKeys,
             oldKeys: oldImpression?.keys || emptyKeys,
         };
         return reroll;
