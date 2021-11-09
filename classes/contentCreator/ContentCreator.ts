@@ -29,6 +29,12 @@ export class ContentCreator {
         { key: FantasyKeys.dragonik, book: dragonik },
         { key: FantasyKeys.ar_kenji, book: ar_kenji },
     ];
+    public static getNextKey(prevKey: FantasyKeys) {
+        const allKeys = Object.values(FantasyKeys);
+        const prevIndex = allKeys.findIndex((key) => key === prevKey);
+        const nextIndex = (prevIndex + 1) % allKeys.length;
+        return allKeys[nextIndex];
+    }
     private noteBook: IImpressionNote[];
     private dishMenu: IDishMenu[];
     private drinkMenu: IDrinkMenu[];

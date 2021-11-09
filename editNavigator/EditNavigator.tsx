@@ -6,6 +6,7 @@ import {
     CreationRequest,
     UserMade,
 } from '../classes/contentCreator/ContentCreator';
+import { FantasyKeys } from '../classes/contentCreator/FantasKeys';
 import { StructuredTavernFits } from '../classes/idea/StructuredTavernFits';
 import { KeyHandler } from '../classes/keyHandler/KeyHandler';
 import { Drinkable, Eatable } from '../classes/TavernProduct';
@@ -70,13 +71,14 @@ export const EditNavigator = (props: {
     onDataChange: (newData: Partial<MinimalTavernData>) => void;
     tavern: MinimalTavernData;
 }) => {
-    const creator = new ContentCreator();
+    const startCreator = new ContentCreator();
+    const [content, setContent] = useState({ creator: startCreator });
     const keyHandler = new KeyHandler();
     //TODO: If bannerData state gets initialized, will the initialization be repeated when props of EditNavigator change?
     const startNotifications = testContentLeft(
         DEFAULT_BANNERS,
         props.tavern.fitting,
-        creator,
+        startCreator,
         props.tavern
     );
     const [contentLeft, setContentLeft] = useState(startNotifications);
@@ -122,7 +124,7 @@ export const EditNavigator = (props: {
             mainFilter,
             additionFilter
         );
-        const rerolled = creator.rerollOneCreation(
+        const rerolled = content.creator.rerollOneCreation(
             props.tavern.fitting,
             name,
             request
@@ -160,11 +162,11 @@ export const EditNavigator = (props: {
             mainFilter,
             additionFilter
         );
-        const creation = creator.addRandomCreation(
+        const creation = content.creator.addRandomCreation(
             props.tavern.fitting,
             request
         );
-        const noNextCreation = creator.noNextCreationLeft(
+        const noNextCreation = content.creator.noNextCreationLeft(
             props.tavern.fitting,
             creation
         );
@@ -204,7 +206,7 @@ export const EditNavigator = (props: {
         const newContentLeft = testContentLeft(
             contentLeft.bannerData,
             newFitting,
-            creator,
+            content.creator,
             props.tavern
         );
         setContentLeft(newContentLeft);
@@ -225,7 +227,10 @@ export const EditNavigator = (props: {
                       isAbout: deleted.isAbout,
                       creations: props.tavern[deleted.isAbout],
                   };
-        const assetChanges = creator.deleteCreation(name, deleteRequest);
+        const assetChanges = content.creator.deleteCreation(
+            name,
+            deleteRequest
+        );
         const categoryWasFullBefore = contentLeft.bannerData[
             deleted.isAbout
         ].emptyCategories.includes(deleted.category);
@@ -265,7 +270,7 @@ export const EditNavigator = (props: {
     };
 
     const handleEdit = (request: UserMade, previousName?: string) => {
-        const newAsset = creator.createUserMade(request);
+        const newAsset = content.creator.createUserMade(request);
     };
     const getBannersByAdd = (
         add: Demand,
@@ -310,12 +315,13 @@ export const EditNavigator = (props: {
         return { ideasLeft: oldMaps };
     };
 
-    const incrementContent = () => {
-        creator.incrementContent();
+    const setContentByKey = (key: FantasyKeys) => {
+        const newCreator = new ContentCreator(key);
+        setContent({ creator: newCreator });
         const newContentLeft = testContentLeft(
             contentLeft.bannerData,
             props.tavern.fitting,
-            creator,
+            newCreator,
             props.tavern
         );
         setContentLeft(newContentLeft);
@@ -339,8 +345,8 @@ export const EditNavigator = (props: {
                         fitting={props.tavern.fitting}
                         handleNewName={handleNewName}
                         handleNewFits={handleNewFits}
-                        contentName={creator.getUniverseName()}
-                        incrementContent={incrementContent}
+                        contentName={content.creator.getUniverseName()}
+                        setContent={setContentByKey}
                     ></NameScene>
                 )}
             />

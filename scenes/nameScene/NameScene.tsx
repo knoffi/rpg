@@ -7,6 +7,7 @@ import {
     AssociationTypes,
     getCategoryOfAssociation,
 } from '../../classes/association';
+import { FantasyKeys } from '../../classes/contentCreator/FantasKeys';
 import {
     getFitsFromStructure,
     StructuredTavernFits,
@@ -43,8 +44,8 @@ type NameProps = {
     name: string;
     handleNewFits: (newFits: StructuredTavernFits) => void;
     handleNewName: (name: string) => void;
-    incrementContent: () => void;
-    contentName: string;
+    setContent: (key: FantasyKeys) => void;
+    contentName: FantasyKeys;
 };
 
 export class NameScene extends React.Component<
@@ -112,7 +113,7 @@ export class NameScene extends React.Component<
                             />
                         </View>
                         <ContextController
-                            onPress={this.props.incrementContent}
+                            setText={this.props.setContent}
                             text={this.props.contentName}
                         ></ContextController>
                         <Text>{JSON.stringify(this.props.fitting)}</Text>
