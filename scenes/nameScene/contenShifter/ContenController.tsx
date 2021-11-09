@@ -7,14 +7,6 @@ export const ContextController = (props: {
     setText: (text: FantasyKeys) => void;
     text: FantasyKeys;
 }) => {
-    // const texts = Object.values(FantasyKeys);
-    // const startIndex = texts.findIndex(key=>key===FantasyKeys.standard);
-    // const [index,setIndex]=useState(startIndex);
-    // const incrementText = ()=>{
-    //     const newIndex =
-    //     setIndex(index+1);
-
-    // }
     const onPress = () => {
         const nextKey = ContentCreator.getNextKey(props.text);
         props.setText(nextKey);
