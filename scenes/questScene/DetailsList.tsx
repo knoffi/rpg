@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View } from 'react-native';
 import { List } from 'react-native-paper';
 import { Income } from '../../classes/association';
-import { UserMade } from '../../classes/contentCreator/ContentCreator';
+import { UserMadeImpression } from '../../classes/contentCreator/ContentCreator';
 import { FantasyKeys } from '../../classes/contentCreator/FantasKeys';
 import { Noticable } from '../../classes/idea/Noticable';
 import { ImpressionDisplay } from '../../classes/impressionDisplay/ImpressionDisplay';
@@ -36,7 +36,7 @@ export const DetailsList = (props: {
         key: FantasyKeys | 'isUserMade'
     ) => void;
     onReroll: (name: string, rerolled: Demand) => void;
-    onEdit: (edit: UserMade, previousName: string) => void;
+    onEdit: (startData: UserMadeImpression) => void;
     onCurrencySetPress: () => void;
     impressions: Impression[];
     noticablesLeft: Map<Describable, boolean>;
@@ -61,7 +61,8 @@ export const DetailsList = (props: {
                 }
                 onReroll={(name: string) => props.onReroll(name, demand)}
                 onAdd={() => props.addingAcions.randomAdd(demand)}
-                onEdit={() => props.addingAcions.edit(demand)}
+                onEdit={props.onEdit}
+                onCreate={() => props.addingAcions.edit(demand)}
                 onImport={() => props.addingAcions.import(demand)}
                 isNotFull={props.noticablesLeft.get(title)!}
             ></ImpressionAccordion>
@@ -87,23 +88,16 @@ const ImpressionAccordion = (props: {
     impressions: Impression[];
     onDelete: (name: string, key: FantasyKeys | 'isUserMade') => void;
     onAdd: () => void;
+    onEdit: (data: UserMadeImpression) => void;
     onReroll: (name: string) => void;
-    onEdit: () => void;
+    onCreate: () => void;
     onImport: () => void;
     isNotFull: boolean;
 }) => {
     const [bartenderSex, setBartenderSex] = useState(
         'male' as 'female' | 'male'
     );
-    const toggleBartenderSex = props.isBartender
-        ? () => {
-              setBartenderSex(bartenderSex === 'male' ? 'female' : 'male');
-          }
-        : () => {};
-    const onEdit = props.onEdit;
-    const onImport = props.onImport;
-    const impressionsFull = !props.isNotFull;
-    const descriptionItems = props.impressions.map((impression) => {
+    const adjustDisplayText = (impression: Impression) => {
         const impressionDisplay = new ImpressionDisplay(
             impression.name,
             impression.category,
@@ -112,16 +106,30 @@ const ImpressionAccordion = (props: {
         if (props.isBartender) {
             impressionDisplay.setSex(bartenderSex);
         }
-        const text = impressionDisplay.getText();
+        return impressionDisplay.getText();
+    };
+    const toggleBartenderSex = props.isBartender
+        ? () => {
+              setBartenderSex(bartenderSex === 'male' ? 'female' : 'male');
+          }
+        : () => {};
+    const onCreate = props.onCreate;
+    const onImport = props.onImport;
+    const impressionsFull = !props.isNotFull;
+    const descriptionItems = props.impressions.map((impression) => {
+        const isUserMade = impression.universe === 'isUserMade';
+        const text =
+            isUserMade || impression.category !== Noticable.bartender
+                ? impression.name
+                : adjustDisplayText(impression);
         const newKey = text;
         return (
             <OfferListItem
                 drinkName={text}
                 key={newKey}
                 priceString={''}
-                //TODO: make this adjustable, so that instead of reroll user can edit
                 //TODO: also, do use "NO DESCRIPTION LEFT" instead of "MENU FULL!"
-                isUserMade={false}
+                isUserMade={isUserMade}
                 noDrinkToAddLeft={impressionsFull}
                 actions={{
                     onReroll: impressionsFull
@@ -132,7 +140,13 @@ const ImpressionAccordion = (props: {
                     onDelete: () => {
                         props.onDelete(text, impression.universe);
                     },
-                    onEdit: props.onEdit,
+                    onEdit: () =>
+                        props.onEdit({
+                            ...impression,
+                            isAbout: WeServe.impressions,
+                            isUserMade: true,
+                            name: text,
+                        }),
                     onShop: () => {},
                     onInfo: () => {},
                 }}
@@ -156,7 +170,7 @@ const ImpressionAccordion = (props: {
                         size={LIST_END_BUTTON_SIZE}
                     />
                     <FeatherButton
-                        onPress={onEdit}
+                        onPress={onCreate}
                         size={LIST_END_BUTTON_SIZE}
                     />
                 </View>

@@ -182,8 +182,10 @@ export const QuestScene = (props: {
         props.handleEdit(offer, previousName);
         dismissEditorModal();
     };
-
-    const onEdit = (edit: Demand) => {
+    const onEdit = (startData: UserMadeImpression) => {
+        setEditor({ startData, visible: true });
+    };
+    const onCreate = (edit: Demand) => {
         if (edit.isAbout === WeServe.impressions) {
             setEditor({
                 visible: true,
@@ -243,11 +245,11 @@ export const QuestScene = (props: {
             <DetailsList
                 onDelete={props.handleDelete}
                 onReroll={props.handleReroll}
-                onEdit={props.handleEdit}
+                onEdit={onEdit}
                 addingAcions={{
                     randomAdd: props.handleAdd,
                     import: onImport,
-                    edit: onEdit,
+                    edit: onCreate,
                 }}
                 basePrice={props.basePrice}
                 onInfoPress={onInfoPress}
