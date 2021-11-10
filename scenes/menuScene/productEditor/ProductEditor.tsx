@@ -41,6 +41,7 @@ export const ProductEditor = (props: {
             name: name,
             isUserMade: true,
             income: association.empty,
+            universe: 'isUserMade',
         };
         new Database().saveData(minimalOfferDataWithNumber, props.prevData);
     };
@@ -64,9 +65,7 @@ export const ProductEditor = (props: {
                             setName(name);
                             const nameIsValid =
                                 name === props.prevData.name ||
-                                props.names.every(
-                                    (name) => name !== props.prevData.name
-                                );
+                                props.names.every((text) => text !== name);
                             setNameTextIsValid(nameIsValid);
                         }}
                     ></TextInput>
@@ -77,7 +76,7 @@ export const ProductEditor = (props: {
                         onTextLayout={() => {}}
                         dataDetectorType={'none'}
                     >
-                        Please enter a name which does not exist on your menu!
+                        This name exist already in your menu!
                     </HelperText>
                 </View>
                 <View style={productEditorStyles.topTextFields}>
@@ -113,9 +112,21 @@ export const ProductEditor = (props: {
                     <View style={productEditorStyles.buttonView}>
                         <OkayButton
                             mode={buttonEmphasis.high}
-                            disabled={!priceTextIsValid || !nameTextIsValid}
+                            disabled={
+                                name.length === 0 ||
+                                !priceTextIsValid ||
+                                !nameTextIsValid
+                            }
                             onPress={() => {
-                                const newProductData = props.prevData;
+                                const newProductData:
+                                    | UserMadeDrink
+                                    | UserMadeFood = {
+                                    ...props.prevData,
+                                    name,
+                                    priceText,
+                                    description,
+                                    isUserMade: true,
+                                };
 
                                 if (props.prevData.name.length > 0) {
                                     props.overwriteEdit(

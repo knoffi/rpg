@@ -1,16 +1,25 @@
 import React, { useState } from 'react';
+import { View } from 'react-native';
 import { List } from 'react-native-paper';
 import { Income } from '../../classes/association';
+import { UserMade } from '../../classes/contentCreator/ContentCreator';
 import { FantasyKeys } from '../../classes/contentCreator/FantasKeys';
 import { Noticable } from '../../classes/idea/Noticable';
 import { ImpressionDisplay } from '../../classes/impressionDisplay/ImpressionDisplay';
-import { AddButton } from '../../components/buttons/Buttons';
+import {
+    AddButton,
+    FeatherButton,
+    ImportButton,
+} from '../../components/buttons/Buttons';
 import { WeServe } from '../../editNavigator/WeServe';
 import { Describable } from '../../mainNavigator/TavernData';
 import { globalStyles } from '../globalStyles';
 import { BasePrice } from '../menuScene/basePrice';
 import { menuSceneStyles } from '../menuScene/menuStyles';
-import { Demand } from '../menuScene/offerList/actionInterfaces';
+import {
+    Demand,
+    IAddingActions,
+} from '../menuScene/offerList/actionInterfaces';
 import { OfferListItem } from '../menuScene/offerList/Item';
 import { LIST_END_BUTTON_SIZE } from '../menuScene/offerList/LIST_END_BUTTON_SIZE';
 import { Impression } from './impressions/Impression';
@@ -20,13 +29,14 @@ export const DetailsList = (props: {
     basePrice: BasePrice;
     onInfoPress: (income: Income) => void;
     onPriceSetPress: (income: Income) => void;
-    onAdd: (add: Demand) => void;
+    addingAcions: IAddingActions;
     onDelete: (
         name: string,
         deleted: Demand,
         key: FantasyKeys | 'isUserMade'
     ) => void;
     onReroll: (name: string, rerolled: Demand) => void;
+    onEdit: (edit: UserMade, previousName: string) => void;
     onCurrencySetPress: () => void;
     impressions: Impression[];
     noticablesLeft: Map<Describable, boolean>;
@@ -50,7 +60,9 @@ export const DetailsList = (props: {
                     props.onDelete(name, demand, key)
                 }
                 onReroll={(name: string) => props.onReroll(name, demand)}
-                onAdd={() => props.onAdd(demand)}
+                onAdd={() => props.addingAcions.randomAdd(demand)}
+                onEdit={() => props.addingAcions.edit(demand)}
+                onImport={() => props.addingAcions.import(demand)}
                 isNotFull={props.noticablesLeft.get(title)!}
             ></ImpressionAccordion>
         );
@@ -76,6 +88,8 @@ const ImpressionAccordion = (props: {
     onDelete: (name: string, key: FantasyKeys | 'isUserMade') => void;
     onAdd: () => void;
     onReroll: (name: string) => void;
+    onEdit: () => void;
+    onImport: () => void;
     isNotFull: boolean;
 }) => {
     const [bartenderSex, setBartenderSex] = useState(
@@ -86,6 +100,8 @@ const ImpressionAccordion = (props: {
               setBartenderSex(bartenderSex === 'male' ? 'female' : 'male');
           }
         : () => {};
+    const onEdit = props.onEdit;
+    const onImport = props.onImport;
     const impressionsFull = !props.isNotFull;
     const descriptionItems = props.impressions.map((impression) => {
         const impressionDisplay = new ImpressionDisplay(
@@ -116,7 +132,7 @@ const ImpressionAccordion = (props: {
                     onDelete: () => {
                         props.onDelete(text, impression.universe);
                     },
-                    onEdit: () => {},
+                    onEdit: props.onEdit,
                     onShop: () => {},
                     onInfo: () => {},
                 }}
@@ -128,12 +144,22 @@ const ImpressionAccordion = (props: {
             title=""
             key={+'addBar'}
             left={() => (
-                <AddButton
-                    size={LIST_END_BUTTON_SIZE}
-                    onPress={impressionsFull ? () => {} : props.onAdd}
-                    onLongPress={toggleBartenderSex}
-                    disabled={impressionsFull}
-                />
+                <View style={{ flexDirection: 'row' }}>
+                    <AddButton
+                        size={LIST_END_BUTTON_SIZE}
+                        onPress={impressionsFull ? () => {} : props.onAdd}
+                        onLongPress={toggleBartenderSex}
+                        disabled={impressionsFull}
+                    />
+                    <ImportButton
+                        onPress={onImport}
+                        size={LIST_END_BUTTON_SIZE}
+                    />
+                    <FeatherButton
+                        onPress={onEdit}
+                        size={LIST_END_BUTTON_SIZE}
+                    />
+                </View>
             )}
         ></List.Item>
     );

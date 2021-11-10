@@ -23,12 +23,6 @@ import { OfferList } from './offerList/OfferList';
 import { getAdjustedPriceString } from './priceFunctions';
 import { ProductEditor } from './productEditor/ProductEditor';
 
-const DEFAULT_MODAL_START_DATA = {
-    name: '',
-    priceText: '10',
-    description: '',
-    isUserMade: true,
-};
 interface MenuProps {
     fitting: StructuredTavernFits;
     isAbout: WeServe.food | WeServe.drinks;
@@ -48,6 +42,7 @@ interface MenuProps {
     handleEdit: (offer: UserMade, previousName?: string) => void;
     closeBanner: () => void;
     buyOffer: (boughtOffer: Offer) => void;
+    // startEdit determines whether is menu for drinks or menu for food
     startEdit: UserMadeFood | UserMadeDrink;
 }
 
@@ -75,7 +70,6 @@ export const MenuScene = (props: MenuProps) => {
     ) => {
         props.handleDelete(name, demand, key);
     };
-    //TODO: further refactor into two methods with strong encapsulation
     const addUserOffer = (offer: UserMade) => {
         props.handleEdit(offer);
         dismissEditorModal();
@@ -112,6 +106,27 @@ export const MenuScene = (props: MenuProps) => {
         });
     };
 
+    const onEdit = (edit: Demand) => {
+        if (edit.isAbout === props.startEdit.isAbout) {
+            setEditor({
+                visible: true,
+                startData: {
+                    ...props.startEdit,
+                    ...edit,
+                },
+            });
+        }
+    };
+
+    const onImport = (demand: Demand) => {
+        if (demand.isAbout === props.startEdit.isAbout) {
+            setSavedListData({
+                visible: true,
+                demand: demand,
+            });
+        }
+    };
+
     return (
         <View>
             <ScrollView
@@ -131,25 +146,8 @@ export const MenuScene = (props: MenuProps) => {
                     isAbout={props.isAbout}
                     addingActions={{
                         randomAdd: props.handleAdd,
-                        import: (demand: Demand) => {
-                            if (demand.isAbout !== WeServe.impressions) {
-                                setSavedListData({
-                                    visible: true,
-                                    demand: demand,
-                                });
-                            }
-                        },
-                        edit: (edit: Demand) => {
-                            if (edit.isAbout === props.startEdit.isAbout) {
-                                setEditor({
-                                    visible: true,
-                                    startData: {
-                                        ...props.startEdit,
-                                        ...edit,
-                                    },
-                                });
-                            }
-                        },
+                        import: onImport,
+                        edit: onEdit,
                     }}
                     offerActions={{
                         deleteOffer: deleteOffer,
@@ -179,9 +177,9 @@ export const MenuScene = (props: MenuProps) => {
                 <ListOfSaves
                     title={savedListData.demand.category.toUpperCase()}
                     dataHandler={new Database()}
-                    saving={savedListData.demand}
-                    offerHandling={{
-                        addUserOffer: (
+                    building={{
+                        ...savedListData.demand,
+                        build: (
                             name: string,
                             priceText: string,
                             description: string
@@ -194,7 +192,7 @@ export const MenuScene = (props: MenuProps) => {
                                 isUserMade: true,
                             });
                         },
-                        nameIsDuplicated: nameIsDuplicated,
+                        nameIsDuplicated,
                     }}
                     visible={savedListData.visible}
                     onDismiss={() => {

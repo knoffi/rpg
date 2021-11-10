@@ -1,8 +1,16 @@
 import React, { useState } from 'react';
 import { ScrollView } from 'react-native';
+import { Modal, Portal } from 'react-native-paper';
 import { association, Income } from '../../classes/association';
+import {
+    UserMade,
+    UserMadeImpression,
+} from '../../classes/contentCreator/ContentCreator';
 import { FantasyKeys } from '../../classes/contentCreator/FantasKeys';
+import { Database } from '../../classes/database/Database';
+import { Noticable } from '../../classes/idea/Noticable';
 import { StructuredTavernFits } from '../../classes/idea/StructuredTavernFits';
+import { ListOfSaves } from '../../components/ListOfSaves/ListOfSaves';
 import { WeServe } from '../../editNavigator/WeServe';
 import { Describable } from '../../mainNavigator/TavernData';
 import { BasePrice } from '../menuScene/basePrice';
@@ -11,6 +19,7 @@ import { Demand } from '../menuScene/offerList/actionInterfaces';
 import { nameSceneStyles } from '../nameScene/nameSceneStyles';
 import { CurrencySetDialog } from './CurrencySetDialog';
 import { DetailsList } from './DetailsList';
+import { ImpressionEditor } from './editor/ImpressionEditor';
 import { Impression } from './impressions/Impression';
 import { incomeExampleMap } from './incomeExampleMap';
 import { PriceExplanationDialog } from './PriceExplanationDialog';
@@ -33,6 +42,14 @@ const getPriceFromIncome = (income: association, basePrice: BasePrice) => {
     }
 };
 
+const START_EDIT: UserMadeImpression = {
+    isAbout: WeServe.impressions,
+    category: Noticable.bartender,
+    isUserMade: true,
+    name: '',
+    patterns: [],
+};
+
 export const QuestScene = (props: {
     fitting: StructuredTavernFits;
     basePrice: BasePrice;
@@ -44,6 +61,7 @@ export const QuestScene = (props: {
         key: FantasyKeys | 'isUserMade'
     ) => void;
     handleReroll: (name: string, rerolled: Demand) => void;
+    handleEdit: (edit: UserMade, previousName?: string) => void;
     handleBasePrice: (change: BasePrice) => void;
     banner: BannerData;
     closeBanner: () => void;
@@ -61,6 +79,14 @@ export const QuestScene = (props: {
     const [currencySetter, setCurrencySetter] = useState({
         open: false,
         currency: props.basePrice.currency,
+    });
+    const [editor, setEditor] = useState({
+        visible: false,
+        startData: START_EDIT,
+    });
+    const [savedListData, setSavedListData] = useState({
+        visible: false,
+        demand: { isAbout: START_EDIT.isAbout, category: START_EDIT.category },
     });
 
     const onInfoPress = (income: Income) => {
@@ -142,6 +168,45 @@ export const QuestScene = (props: {
             currency: props.basePrice.currency,
         });
     };
+    const dismissEditorModal = () => {
+        setEditor({ ...editor, visible: false });
+    };
+    const addUserImpression = (offer: UserMadeImpression) => {
+        props.handleEdit(offer);
+        dismissEditorModal();
+    };
+    const editUserImpression = (
+        offer: UserMadeImpression,
+        previousName: string
+    ) => {
+        props.handleEdit(offer, previousName);
+        dismissEditorModal();
+    };
+
+    const onEdit = (edit: Demand) => {
+        if (edit.isAbout === WeServe.impressions) {
+            setEditor({
+                visible: true,
+                startData: {
+                    ...START_EDIT,
+                    ...edit,
+                },
+            });
+        }
+    };
+
+    const onImport = (demand: Demand) => {
+        if (demand.isAbout === WeServe.impressions) {
+            setSavedListData({
+                visible: true,
+                demand: demand,
+            });
+        }
+    };
+
+    const nameIsDuplicated = (name: string) => {
+        return props.impressions.some((impression) => impression.name === name);
+    };
     return (
         <ScrollView
             style={{
@@ -178,7 +243,12 @@ export const QuestScene = (props: {
             <DetailsList
                 onDelete={props.handleDelete}
                 onReroll={props.handleReroll}
-                onAdd={props.handleAdd}
+                onEdit={props.handleEdit}
+                addingAcions={{
+                    randomAdd: props.handleAdd,
+                    import: onImport,
+                    edit: onEdit,
+                }}
                 basePrice={props.basePrice}
                 onInfoPress={onInfoPress}
                 onPriceSetPress={onPriceSetPress}
@@ -186,6 +256,41 @@ export const QuestScene = (props: {
                 impressions={props.impressions}
                 noticablesLeft={props.noticablesLeft}
             ></DetailsList>
+            <Portal>
+                <Modal visible={editor.visible} onDismiss={dismissEditorModal}>
+                    <ImpressionEditor
+                        prevData={editor.startData}
+                        overwriteEdit={editUserImpression}
+                        addEdit={addUserImpression}
+                        names={props.impressions.map(
+                            (impression) => impression.name
+                        )}
+                    />
+                </Modal>
+                <ListOfSaves
+                    title={savedListData.demand.category.toUpperCase()}
+                    dataHandler={new Database()}
+                    building={{
+                        ...savedListData.demand,
+                        build: (name: string) => {
+                            addUserImpression({
+                                ...savedListData.demand,
+                                name: name,
+                                isUserMade: true,
+                                patterns: [],
+                            });
+                        },
+                        nameIsDuplicated,
+                    }}
+                    visible={savedListData.visible}
+                    onDismiss={() => {
+                        setSavedListData({
+                            visible: false,
+                            demand: START_EDIT,
+                        });
+                    }}
+                />
+            </Portal>
         </ScrollView>
     );
 };

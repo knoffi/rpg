@@ -519,7 +519,7 @@ export type UserMadeDrink = {
     description: string;
     isUserMade: true;
 };
-type UserMadeImpression = {
+export type UserMadeImpression = {
     isAbout: WeServe.impressions;
     category: Noticable;
     name: string;

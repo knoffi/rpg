@@ -436,6 +436,7 @@ export const EditNavigator = (props: {
                         handleAdd={handleAdd}
                         handleDelete={handleDelete}
                         handleReroll={handleReroll}
+                        handleEdit={handleEdit}
                         handleBasePrice={handleBasePrice}
                         noticablesLeft={contentLeft.ideasLeft.impression}
                         closeBanner={getBannerClosing(WeServe.food)}

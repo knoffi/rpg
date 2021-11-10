@@ -12,17 +12,17 @@ export const TavernCollectionScene = (props: {
         <View style={nameSceneStyles.backgroundView}>
             <ListOfSaves
                 visible={listIsVisible}
-                saving={'tavern'}
+                building={{
+                    isAbout: 'tavern',
+                    build: (minimalData: MinimalTavernData) => {
+                        props.buildTavern(minimalData);
+                        setListVisible(false);
+                    },
+                }}
                 dataHandler={new Database()}
                 title={'TAVERNS'}
                 onDismiss={() => {
                     setListVisible(false);
-                }}
-                tavernHandling={{
-                    buildTavern: (minimalData: MinimalTavernData) => {
-                        props.buildTavern(minimalData);
-                        setListVisible(false);
-                    },
                 }}
             ></ListOfSaves>
         </View>

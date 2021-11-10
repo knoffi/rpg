@@ -3,30 +3,33 @@ import { View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Button, List, Modal, Portal } from 'react-native-paper';
 import { Database } from '../../classes/database/Database';
+import { WeServe } from '../../editNavigator/WeServe';
 import { MinimalTavernData } from '../../mainNavigator/TavernData';
 import { Offer } from '../../scenes/menuScene/Offer';
 import { Demand } from '../../scenes/menuScene/offerList/actionInterfaces';
+import { Impression } from '../../scenes/questScene/impressions/Impression';
 import { editModalStyles } from '../../scenes/startOptionsScene/editModalStyles';
+type TavernBuild = {
+    isAbout: 'tavern';
+    build: (minimalTavernData: MinimalTavernData) => void;
+};
+type OfferBuild = Demand & { isAbout: WeServe.food | WeServe.drinks } & {
+    build: (name: string, priceText: string, description: string) => void;
+    nameIsDuplicated: (name: string) => boolean;
+};
+type ImpressionBuild = Demand & { isAbout: WeServe.impressions } & {
+    build: (name: string) => void;
+    nameIsDuplicated: (name: string) => boolean;
+};
 interface ListOfSavesProps {
     title: string;
     dataHandler: Database;
-    saving: 'tavern' | Demand;
-    offerHandling?: {
-        addUserOffer: (
-            name: string,
-            priceText: string,
-            description: string
-        ) => void;
-        nameIsDuplicated: (name: string) => boolean;
-    };
-    tavernHandling?: {
-        buildTavern: (minimalTavernData: MinimalTavernData) => void;
-    };
+    building: TavernBuild | OfferBuild | ImpressionBuild;
     visible: boolean;
     onDismiss: () => void;
 }
 interface ListOfSavesState {
-    loadedSaves: (MinimalTavernData | Offer)[];
+    loadedSaves: (MinimalTavernData | Offer | Impression)[];
 }
 
 export class ListOfSaves extends React.Component<
@@ -34,7 +37,7 @@ export class ListOfSaves extends React.Component<
     ListOfSavesState
 > {
     state = {
-        loadedSaves: [] as (MinimalTavernData | Offer)[],
+        loadedSaves: [] as (MinimalTavernData | Offer | Impression)[],
     };
     constructor(props: any) {
         super(props);
@@ -70,25 +73,36 @@ export class ListOfSaves extends React.Component<
                             <Button
                                 style={{ marginHorizontal: 5 }}
                                 onPress={() => {
-                                    if (this.props.offerHandling) {
-                                        const offerData = save as Offer;
-                                        this.props.offerHandling.addUserOffer(
-                                            offerData.name,
-                                            offerData.price.toString(),
-                                            offerData.description || ''
-                                        );
-                                    }
-                                    if (this.props.tavernHandling) {
-                                        const offerData =
-                                            save as MinimalTavernData;
-                                        this.props.tavernHandling.buildTavern(
-                                            offerData
-                                        );
+                                    switch (this.props.building.isAbout) {
+                                        case 'tavern':
+                                            const tavern =
+                                                save as MinimalTavernData;
+                                            this.props.building.build(tavern);
+                                            break;
+                                        case WeServe.impressions:
+                                            const impression =
+                                                save as Impression;
+                                            this.props.building.build(
+                                                impression.name
+                                            );
+                                            break;
+
+                                        default:
+                                            const offer = save as Offer;
+                                            this.props.building.build(
+                                                offer.name,
+                                                offer.price.toString(),
+                                                offer.description || ''
+                                            );
+                                            break;
                                     }
                                 }}
-                                disabled={this.props.offerHandling?.nameIsDuplicated(
-                                    save.name
-                                )}
+                                disabled={
+                                    this.props.building.isAbout !== 'tavern' &&
+                                    this.props.building.nameIsDuplicated(
+                                        save.name
+                                    )
+                                }
                             >
                                 {'ADD'}
                             </Button>
@@ -136,14 +150,22 @@ export class ListOfSaves extends React.Component<
         this.props.onDismiss();
     }
     setSavedData = async () => {
-        const data = await this.props.dataHandler.getSaves(this.props.saving);
+        const demand =
+            this.props.building.isAbout === 'tavern'
+                ? 'tavern'
+                : this.props.building;
+        const data = await this.props.dataHandler.getSaves(demand);
         if (data) {
             this.setState({ loadedSaves: data });
         }
     };
 
     private deleteSavedItem = async (name: string) => {
-        await this.props.dataHandler.removeData(name, this.props.saving);
+        const demand =
+            this.props.building.isAbout === 'tavern'
+                ? 'tavern'
+                : this.props.building;
+        await this.props.dataHandler.removeData(name, demand);
         this.removeItemFromList(name);
     };
 
