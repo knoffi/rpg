@@ -1,15 +1,15 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import { List } from 'react-native-paper';
-import { association } from '../../classes/association';
+import { association, Income } from '../../classes/association';
 import { InfoButton, PencilButton } from '../../components/buttons/Buttons';
 import { BasePrice } from '../menuScene/basePrice';
 import { menuSceneStyles } from '../menuScene/menuStyles';
 
 export const PriceAccordion = (props: {
     basePrice: BasePrice;
-    onInfoPress: (income: association) => void;
-    onPriceSetPress: (income: association) => void;
+    onInfoPress: (income: Income) => void;
+    onPriceSetPress: (income: Income) => void;
     onCurrencySetPress: () => void;
 }) => {
     const currency = props.basePrice.currency;
@@ -17,7 +17,7 @@ export const PriceAccordion = (props: {
     return (
         <List.Accordion
             title="Currency &amp; Prices"
-            titleStyle={menuSceneStyles.accordeonListTitle}
+            titleStyle={menuSceneStyles.accordionListTitle}
         >
             <List.Item
                 title=""
@@ -36,7 +36,7 @@ export const PriceAccordion = (props: {
                 onPriceSetPress={() => {
                     props.onPriceSetPress(association.poor);
                 }}
-                price={props.basePrice.poor}
+                price={props.basePrice[association.poor]}
                 income={association.poor}
                 onInfoPress={() => {
                     props.onInfoPress(association.poor);
@@ -46,7 +46,7 @@ export const PriceAccordion = (props: {
                 onPriceSetPress={() => {
                     props.onPriceSetPress(association.modest);
                 }}
-                price={props.basePrice.modest}
+                price={props.basePrice[association.modest]}
                 income={association.modest}
                 onInfoPress={() => {
                     props.onInfoPress(association.modest);
@@ -56,7 +56,7 @@ export const PriceAccordion = (props: {
                 onPriceSetPress={() => {
                     props.onPriceSetPress(association.wealthy);
                 }}
-                price={props.basePrice.wealthy}
+                price={props.basePrice[association.wealthy]}
                 income={association.wealthy}
                 onInfoPress={() => {
                     props.onInfoPress(association.wealthy);
@@ -66,7 +66,7 @@ export const PriceAccordion = (props: {
                 onPriceSetPress={() => {
                     props.onPriceSetPress(association.rich);
                 }}
-                price={props.basePrice.rich}
+                price={props.basePrice[association.rich]}
                 income={association.rich}
                 onInfoPress={() => {
                     props.onInfoPress(association.rich);

@@ -2,7 +2,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import React, { useState } from 'react';
 import { AppBar } from '../appBar/AppBar';
-import { SavedDataHandler, WeSave } from '../classes/database/Database';
+import { Database } from '../classes/database/Database';
 import { EditNavigator } from '../editNavigator/EditNavigator';
 import { Offer } from '../scenes/menuScene/Offer';
 import { getAdjustedPrice } from '../scenes/menuScene/priceFunctions';
@@ -11,12 +11,8 @@ import { TavernCollectionScene } from '../scenes/tavernCollectionScene/TavernCol
 import { TitleScene } from '../scenes/titleScene/TitleScene';
 import { taverns } from '../templates/taverns';
 import { getRandomStartTavern } from './getRandomStartTavern';
-import {
-    getMinimalDataFromTavern,
-    getTavernFromMinimalData,
-    getTavernHistoryInitializer,
-} from './mainNavigatorFunctions';
-import { MinimalTavernData, TavernData } from './TavernData';
+import { getTavernHistoryInitializer } from './mainNavigatorFunctions';
+import { MinimalTavernData } from './TavernData';
 
 const Stack = createStackNavigator();
 export const MainNavigator = () => {
@@ -25,7 +21,7 @@ export const MainNavigator = () => {
     ]);
     const [historyIndex, setHistoryIndex] = useState(0);
 
-    const onDataChange = (newData: Partial<TavernData>) => {
+    const onDataChange = (newData: Partial<MinimalTavernData>) => {
         if (newData) {
             const newTavernData = {
                 ...tavernHistory[historyIndex],
@@ -47,29 +43,25 @@ export const MainNavigator = () => {
         const minTavernDataByID = taverns.find(
             (tavern) => tavern.key === templateKey
         );
-        const tavernData = minTavernDataByID
-            ? getTavernFromMinimalData(minTavernDataByID)
-            : getTavernHistoryInitializer();
+        const tavernData = minTavernDataByID || getTavernHistoryInitializer();
         setHistoryIndex(0);
         setTavernHistory([tavernData]);
     };
-    //TODO: Here continue
     const saveMinimalTavernData = async () => {
         const tavern = tavernHistory[historyIndex];
-        const minimalData = getMinimalDataFromTavern(tavern);
-        const dataHandler = new SavedDataHandler(WeSave.taverns);
-        dataHandler.saveData(minimalData);
+        const minimalData: MinimalTavernData = tavern;
+        const dataHandler = new Database();
+        dataHandler.saveData(minimalData, 'tavern');
     };
 
     const buildTavernFromMinimalData = (minimalData: MinimalTavernData) => {
-        const buildTavern = getTavernFromMinimalData(minimalData);
         setHistoryIndex(0);
-        setTavernHistory([buildTavern]);
+        setTavernHistory([minimalData]);
     };
 
     const getOfferPrice = (offer: Offer) => {
         const tavern = tavernHistory[historyIndex];
-        return getAdjustedPrice(offer, tavern.fitting, tavern.prices);
+        return getAdjustedPrice(offer, tavern.prices, tavern.fitting.income);
     };
 
     return (

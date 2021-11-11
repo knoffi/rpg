@@ -1,127 +1,95 @@
 import React, { useState } from 'react';
-import { ScrollView, Text } from 'react-native';
-import { association } from '../../classes/association';
-import { ContentCreator } from '../../classes/contentCreator/ContentCreator';
+import { ScrollView } from 'react-native';
+import { Modal, Portal } from 'react-native-paper';
+import { association, Income } from '../../classes/association';
+import {
+    UserMade,
+    UserMadeImpression,
+} from '../../classes/contentCreator/ContentCreator';
+import { FantasyKeys } from '../../classes/contentCreator/FantasKeys';
+import { Database } from '../../classes/database/Database';
 import { Noticable } from '../../classes/idea/Noticable';
 import { StructuredTavernFits } from '../../classes/idea/StructuredTavernFits';
+import { ListOfSaves } from '../../components/ListOfSaves/ListOfSaves';
 import { WeServe } from '../../editNavigator/WeServe';
-import { Describable, TavernData } from '../../mainNavigator/TavernData';
+import { Describable } from '../../mainNavigator/TavernData';
 import { BasePrice } from '../menuScene/basePrice';
 import { BannerData, MenuBanner } from '../menuScene/menuBanner/MenuBanner';
+import { Demand } from '../menuScene/offerList/actionInterfaces';
 import { nameSceneStyles } from '../nameScene/nameSceneStyles';
 import { CurrencySetDialog } from './CurrencySetDialog';
 import { DetailsList } from './DetailsList';
-import { getFullKeys } from './getFullKeys';
-import { getUsedPatterns } from './getUsedPatterns';
-import { IImpression } from './impressions/IImpression';
-import { impressionChapters } from './impressions/impressionChapters';
+import { ImpressionEditor } from './editor/ImpressionEditor';
+import { Impression } from './impressions/Impression';
 import { incomeExampleMap } from './incomeExampleMap';
 import { PriceExplanationDialog } from './PriceExplanationDialog';
 import { PriceSetDialog } from './PriceSetDialog';
+import { DEFAULT_PRICE_SETTER } from './PriceSetter';
 
 const getPriceFromIncome = (income: association, basePrice: BasePrice) => {
     switch (income) {
         case association.poor:
-            return basePrice.poor;
+            return basePrice[association.poor];
 
         case association.modest:
-            return basePrice.modest;
+            return basePrice[association.modest];
 
         case association.wealthy:
-            return basePrice.wealthy;
+            return basePrice[association.wealthy];
 
         default:
-            return basePrice.rich;
+            return basePrice[association.rich];
     }
 };
 
-const DEFAULT_PRICE_SETTER = {
-    open: false,
-    income: association.poor,
-    priceText: 'Prices are important',
-    price: 12,
+const START_EDIT: UserMadeImpression = {
+    isAbout: WeServe.impressions,
+    category: Noticable.bartender,
+    isUserMade: true,
+    name: '',
+    patterns: [],
 };
 
 export const QuestScene = (props: {
     fitting: StructuredTavernFits;
     basePrice: BasePrice;
-    impressions: IImpression[];
+    impressions: Impression[];
+    handleAdd: (add: Demand) => void;
+    handleDelete: (
+        name: string,
+        deleted: Demand,
+        key: FantasyKeys | 'isUserMade'
+    ) => void;
+    handleReroll: (name: string, rerolled: Demand) => void;
+    handleEdit: (edit: UserMade, previousName?: string) => void;
+    handleBasePrice: (change: BasePrice) => void;
     banner: BannerData;
+    closeBanner: () => void;
     noticablesLeft: Map<Describable, boolean>;
-    onDataChange: (newData: Partial<TavernData>) => void;
-    getImpliedChanges: (newImpressions?: IImpression[]) => Partial<TavernData>;
 }) => {
-    const creator = new ContentCreator(impressionChapters, [], []);
     const [explanationDialog, setDialog] = useState({
         open: false,
         income: association.poor,
         jobExamples: '',
         currencyName: props.basePrice.currency,
-        price: props.basePrice.poor,
+        price: props.basePrice[association.poor],
     });
-    const [fullKeys, setFullKeys] = useState(getFullKeys(props.impressions));
-    const [patterns, setPatterns] = useState(
-        getUsedPatterns(props.impressions)
-    );
-    const onDelete = (name: string) => {
-        const otherImpressions = props.impressions.filter(
-            (impression) => impression.name !== name
-        );
-        const bannerChanges = props.getImpliedChanges(otherImpressions);
-        setFullKeys(getFullKeys(otherImpressions));
-        setPatterns(getUsedPatterns(otherImpressions));
-        props.onDataChange({ impressions: otherImpressions, ...bannerChanges });
-    };
 
-    const onReroll = (oldImpression: IImpression) => {
-        const newImpressions = creator.rerollOneImpression(
-            props.fitting,
-            oldImpression.name,
-            props.impressions,
-            oldImpression.category,
-            fullKeys.first,
-            fullKeys.second,
-            patterns
-        );
-        if (!newImpressions) {
-            console.log('I am undefined');
-        }
-        if (newImpressions) {
-            setFullKeys(getFullKeys(newImpressions));
-            setPatterns(getUsedPatterns(newImpressions));
-            props.onDataChange({
-                impressions: newImpressions,
-            });
-        }
-    };
-
-    const onAdd = (category: Noticable) => {
-        const newImpression = creator.getRandomImpression(
-            props.fitting,
-            category,
-            props.impressions,
-            fullKeys.first,
-            fullKeys.second,
-            undefined,
-            undefined,
-            patterns
-        );
-        const extendedImpressions = [...props.impressions, newImpression];
-        setFullKeys(getFullKeys(extendedImpressions));
-        setPatterns(getUsedPatterns(extendedImpressions));
-        const bannerChanges = props.getImpliedChanges(extendedImpressions);
-        props.onDataChange({
-            impressions: extendedImpressions,
-            ...bannerChanges,
-        });
-    };
     const [priceSetter, setPriceSetter] = useState(DEFAULT_PRICE_SETTER);
     const [currencySetter, setCurrencySetter] = useState({
         open: false,
         currency: props.basePrice.currency,
     });
+    const [editor, setEditor] = useState({
+        visible: false,
+        startData: START_EDIT,
+    });
+    const [savedListData, setSavedListData] = useState({
+        visible: false,
+        demand: { isAbout: START_EDIT.isAbout, category: START_EDIT.category },
+    });
 
-    const onInfoPress = (income: association) => {
+    const onInfoPress = (income: Income) => {
         const price = getPriceFromIncome(income, props.basePrice);
         setDialog({
             open: true,
@@ -131,7 +99,7 @@ export const QuestScene = (props: {
             price: price,
         });
     };
-    const onPriceSetPress = (income: association) => {
+    const onPriceSetPress = (income: Income) => {
         const price = getPriceFromIncome(income, props.basePrice);
         setPriceSetter({
             open: false,
@@ -157,73 +125,19 @@ export const QuestScene = (props: {
 
     const onPriceSet = (
         newPrice?: number,
-        income?: association,
+        income?: Income,
         newCurrency?: string
     ) => {
-        if (newCurrency) {
-            props.onDataChange({
-                prices: {
-                    currency: newCurrency,
-                    poor: props.basePrice.poor,
-                    modest: props.basePrice.modest,
-                    wealthy: props.basePrice.wealthy,
-                    rich: props.basePrice.rich,
-                },
-            });
-        }
-        if (income) {
-            if (newPrice) {
-                switch (income) {
-                    case association.poor:
-                        props.onDataChange({
-                            prices: {
-                                currency: props.basePrice.currency,
-                                poor: newPrice,
-                                modest: props.basePrice.modest,
-                                wealthy: props.basePrice.wealthy,
-                                rich: props.basePrice.rich,
-                            },
-                        });
-                        break;
-
-                    case association.modest:
-                        props.onDataChange({
-                            prices: {
-                                currency: props.basePrice.currency,
-                                poor: props.basePrice.poor,
-                                modest: newPrice,
-                                wealthy: props.basePrice.wealthy,
-                                rich: props.basePrice.rich,
-                            },
-                        });
-                        break;
-
-                    case association.wealthy:
-                        props.onDataChange({
-                            prices: {
-                                currency: props.basePrice.currency,
-                                poor: props.basePrice.poor,
-                                modest: props.basePrice.modest,
-                                wealthy: newPrice,
-                                rich: props.basePrice.rich,
-                            },
-                        });
-                        break;
-
-                    default:
-                        props.onDataChange({
-                            prices: {
-                                currency: props.basePrice.currency,
-                                poor: props.basePrice.poor,
-                                modest: props.basePrice.modest,
-                                wealthy: props.basePrice.wealthy,
-                                rich: newPrice,
-                            },
-                        });
-                        break;
-                }
-            }
-        }
+        const basePriceChange = newCurrency
+            ? { currency: newCurrency }
+            : newPrice && income
+            ? { [income]: newPrice }
+            : {};
+        const newBasePrice: BasePrice = {
+            ...props.basePrice,
+            ...basePriceChange,
+        };
+        props.handleBasePrice(newBasePrice);
     };
 
     const setPriceText = (text: string) => {
@@ -254,6 +168,47 @@ export const QuestScene = (props: {
             currency: props.basePrice.currency,
         });
     };
+    const dismissEditorModal = () => {
+        setEditor({ ...editor, visible: false });
+    };
+    const addUserImpression = (offer: UserMadeImpression) => {
+        props.handleEdit(offer);
+        dismissEditorModal();
+    };
+    const editUserImpression = (
+        offer: UserMadeImpression,
+        previousName: string
+    ) => {
+        props.handleEdit(offer, previousName);
+        dismissEditorModal();
+    };
+    const onEdit = (startData: UserMadeImpression) => {
+        setEditor({ startData, visible: true });
+    };
+    const onCreate = (edit: Demand) => {
+        if (edit.isAbout === WeServe.impressions) {
+            setEditor({
+                visible: true,
+                startData: {
+                    ...START_EDIT,
+                    ...edit,
+                },
+            });
+        }
+    };
+
+    const onImport = (demand: Demand) => {
+        if (demand.isAbout === WeServe.impressions) {
+            setSavedListData({
+                visible: true,
+                demand: demand,
+            });
+        }
+    };
+
+    const nameIsDuplicated = (name: string) => {
+        return props.impressions.some((impression) => impression.name === name);
+    };
     return (
         <ScrollView
             style={{
@@ -264,9 +219,7 @@ export const QuestScene = (props: {
                 bannerData={props.banner}
                 bannerEnding={'Let the story begin!'}
                 isAbout={WeServe.impressions}
-                setBannerInvsible={() => {
-                    console.log('METHOD NOT IMPLEMENTED!');
-                }}
+                onDismiss={props.closeBanner}
             />
             <PriceExplanationDialog
                 explanationDialog={explanationDialog}
@@ -290,24 +243,56 @@ export const QuestScene = (props: {
                 onDismiss={onDialogDismiss}
             ></CurrencySetDialog>
             <DetailsList
-                onDelete={onDelete}
-                onReroll={onReroll}
-                onAdd={onAdd}
+                onDelete={props.handleDelete}
+                onReroll={props.handleReroll}
+                onEdit={onEdit}
+                addingAcions={{
+                    randomAdd: props.handleAdd,
+                    import: onImport,
+                    edit: onCreate,
+                }}
                 basePrice={props.basePrice}
                 onInfoPress={onInfoPress}
                 onPriceSetPress={onPriceSetPress}
                 onCurrencySetPress={onCurrencySetPress}
-                onDataChange={props.onDataChange}
                 impressions={props.impressions}
                 noticablesLeft={props.noticablesLeft}
-                getImpliedChanges={props.getImpliedChanges}
             ></DetailsList>
-            <Text>
-                {JSON.stringify(fullKeys.first.map((key) => key.slice(0, 8)))}
-            </Text>
-            <Text>
-                {JSON.stringify(patterns.map((pattern) => pattern.slice(0, 8)))}
-            </Text>
+            <Portal>
+                <Modal visible={editor.visible} onDismiss={dismissEditorModal}>
+                    <ImpressionEditor
+                        prevData={editor.startData}
+                        overwriteEdit={editUserImpression}
+                        addEdit={addUserImpression}
+                        names={props.impressions.map(
+                            (impression) => impression.name
+                        )}
+                    />
+                </Modal>
+                <ListOfSaves
+                    title={savedListData.demand.category.toUpperCase()}
+                    dataHandler={new Database()}
+                    building={{
+                        ...savedListData.demand,
+                        build: (name: string) => {
+                            addUserImpression({
+                                ...savedListData.demand,
+                                name: name,
+                                isUserMade: true,
+                                patterns: [],
+                            });
+                        },
+                        nameIsDuplicated,
+                    }}
+                    visible={savedListData.visible}
+                    onDismiss={() => {
+                        setSavedListData({
+                            visible: false,
+                            demand: START_EDIT,
+                        });
+                    }}
+                />
+            </Portal>
         </ScrollView>
     );
 };

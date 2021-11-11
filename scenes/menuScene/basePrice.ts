@@ -1,14 +1,16 @@
+import { association } from "../../classes/association";
+
 export interface BasePrice {
-    poor: number;
-    modest: number;
-    wealthy: number;
-    rich: number;
+    [association.poor]: number;
+    [association.modest]: number;
+    [association.wealthy]: number;
+    [association.rich]: number;
     currency: string;
 }
 
-export const standardBasePrice = {
+export const standardBasePrice:BasePrice = {
     currency: 'copper',
-    rich: 80,
+    [association.rich]: 80,
     wealthy: 40,
     poor: 5,
     modest: 15,

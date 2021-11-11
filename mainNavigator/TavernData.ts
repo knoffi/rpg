@@ -5,13 +5,13 @@ import { WeServe } from '../editNavigator/WeServe';
 import { BasePrice } from '../scenes/menuScene/basePrice';
 import { BannerData } from '../scenes/menuScene/menuBanner/MenuBanner';
 import { Offer } from '../scenes/menuScene/Offer';
-import { IImpression } from '../scenes/questScene/impressions/IImpression';
+import { Impression } from '../scenes/questScene/impressions/Impression';
 export type Describable = Drinkable | Eatable | Noticable;
 export type TavernData = {
     fitting: StructuredTavernFits;
     name: string;
-    drinks: Offer[];
-    dishes: Offer[];
+    [WeServe.drinks]: Offer[];
+    [WeServe.food]: Offer[];
     prices: BasePrice;
     ideasLeft: {
         [WeServe.drinks]: Map<Describable, boolean>;
@@ -24,14 +24,6 @@ export type TavernData = {
         [WeServe.impressions]: BannerData;
     };
     boughtOffers: Offer[];
-    impressions: IImpression[];
+    [WeServe.impressions]: Impression[];
 };
-export interface MinimalTavernData {
-    fitting: StructuredTavernFits;
-    name: string;
-    drinks: Offer[];
-    dishes: Offer[];
-    prices: BasePrice;
-    boughtOffers: Offer[];
-    impressions: IImpression[];
-}
+export type MinimalTavernData = Omit<TavernData, 'ideasLeft' | 'bannerData'>;

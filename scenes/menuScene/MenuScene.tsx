@@ -1,163 +1,130 @@
 import React, { useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import { Modal, Portal } from 'react-native-paper';
-import { association } from '../../classes/association';
 import {
-    ContentCreator,
-    CreationRequest,
+    UserMade,
+    UserMadeDrink,
+    UserMadeFood,
 } from '../../classes/contentCreator/ContentCreator';
-import { SavedDataHandler, WeSave } from '../../classes/database/Database';
+import { FantasyKeys } from '../../classes/contentCreator/FantasKeys';
+import { Database } from '../../classes/database/Database';
 import { StructuredTavernFits } from '../../classes/idea/StructuredTavernFits';
-import {
-    Drinkable,
-    MenuCategory,
-    TavernProduct,
-} from '../../classes/TavernProduct';
 import { ListOfSaves } from '../../components/ListOfSaves/ListOfSaves';
 import { WeServe } from '../../editNavigator/WeServe';
 import { getRandomArrayEntry } from '../../helpingFunctions/getFittingRandom';
 import { Describable, TavernData } from '../../mainNavigator/TavernData';
 import { nameSceneStyles } from '../nameScene/nameSceneStyles';
 import { BasePrice } from './basePrice';
-import { drinkMenu } from './drinks/drinkMenu';
-import { foodMenu } from './food/foodMenu';
 import { bannerEndings } from './menuBanner/bannerEndings';
 import { BannerData, MenuBanner } from './menuBanner/MenuBanner';
-import { createMinimalOffer, MinimalOfferData } from './MinimalOfferData';
 import { Offer } from './Offer';
 import { Demand } from './offerList/actionInterfaces';
 import { OfferList } from './offerList/OfferList';
 import { getAdjustedPriceString } from './priceFunctions';
 import { ProductEditor } from './productEditor/ProductEditor';
 
-const DEFAULT_MODAL_START_DATA = {
-    name: '',
-    priceText: '10',
-    description: '',
-    isUserMade: true,
-};
 interface MenuProps {
     fitting: StructuredTavernFits;
-    isAbout: WeServe;
+    isAbout: WeServe.food | WeServe.drinks;
     offers: Offer[];
     onDataChange: (newData: Partial<TavernData>) => void;
     offersLeft: Map<Describable, boolean>;
     offersBought: Offer[];
     basePrice: BasePrice;
     bannerData: BannerData;
-    handleAdd: (newOffer: Offer, add: Demand, noNextOffer: boolean) => void;
-    handleDelete: (removedOffer: string, deleted: Demand) => void;
-    setBannerInvisible: () => void;
+    handleAdd: (add: Demand) => void;
+    handleDelete: (
+        name: string,
+        deleted: Demand,
+        key: FantasyKeys | 'isUserMade'
+    ) => void;
+    handleReroll: (name: string, rerolled: Demand) => void;
+    handleEdit: (offer: UserMade, previousName?: string) => void;
+    closeBanner: () => void;
     buyOffer: (boughtOffer: Offer) => void;
+    // startEdit determines whether is menu for drinks or menu for food
+    startEdit: UserMadeFood | UserMadeDrink;
 }
 
 export const MenuScene = (props: MenuProps) => {
-    const creator = new ContentCreator([], foodMenu, drinkMenu);
+    const startDemand: Demand =
+        props.startEdit.isAbout === WeServe.drinks
+            ? props.startEdit
+            : props.startEdit;
     const fits = props.fitting;
     const [bannerEnding, setBannerEnding] = useState(
         getRandomArrayEntry(bannerEndings.get(props.isAbout)!)
     );
-    const [editorData, setEditorData] = useState({
+    const [editor, setEditor] = useState({
         visible: false,
-        startData: {
-            ...DEFAULT_MODAL_START_DATA,
-            category: Drinkable.lemonade as MenuCategory,
-        } as MinimalOfferData,
+        startData: props.startEdit,
     });
     const [savedListData, setSavedListData] = useState({
         visible: false,
-        category: Drinkable.spirit as MenuCategory,
+        demand: startDemand,
     });
-    const deleteOffer = (name: string, demand: Demand) => {
-        props.handleDelete(name, demand);
+    const deleteOffer = (
+        name: string,
+        demand: Demand,
+        key: FantasyKeys | 'isUserMade'
+    ) => {
+        props.handleDelete(name, demand, key);
     };
-    const changeOffer = (nameOfChangedOffer: string, newOffer?: Offer) => {
-        const newOffers =
-            props.isAbout === WeServe.food
-                ? creator.rerollOneDish(
-                      fits,
-                      nameOfChangedOffer,
-                      props.offers,
-                      newOffer
-                  )
-                : creator.rerollOneDrink(
-                      fits,
-                      nameOfChangedOffer,
-                      props.offers,
-                      newOffer
-                  );
-        if (newOffers) {
-            if (props.isAbout === WeServe.drinks) {
-                props.onDataChange({ drinks: newOffers });
-            } else {
-                props.onDataChange({ dishes: newOffers });
-            }
-        }
+    const addUserOffer = (offer: UserMade) => {
+        props.handleEdit(offer);
+        dismissEditorModal();
     };
-    const addUserOffer = (textData: MinimalOfferData) => {
-        const newUserOffer = createMinimalOffer(textData);
-        const newOffers = [...props.offers, newUserOffer];
-        if (props.isAbout === WeServe.drinks) {
-            props.onDataChange({ drinks: newOffers });
-        } else {
-            props.onDataChange({ dishes: newOffers });
-        }
+    const editUserOffer = (offer: UserMade, previousName: string) => {
+        props.handleEdit(offer, previousName);
         dismissEditorModal();
     };
 
     const buyOffer = (name: string) => {
         props.offers.forEach((offer) => {
-            if (offer.product.name === name) {
+            if (offer.name === name) {
                 props.buyOffer(offer);
             }
         });
     };
-    const addRandomOffer = (demand: Demand) => {
-        const request: CreationRequest =
-            demand.isAbout === WeServe.food
-                ? {
-                      oldAssets: props.offers,
-                      category: demand.category,
-                      isAbout: demand.isAbout,
-                  }
-                : {
-                      oldAssets: props.offers,
-                      category: demand.category,
-                      isAbout: demand.isAbout,
-                  };
-        const creation = creator.getRandomCreation(fits, request);
-        if (!creation.new) {
-            console.log('CREATED OFFER DOES NOT EXIST!');
-        } else if (creation.isAbout === WeServe.impressions) {
-            console.log('GOT IMPRESSION BUT NEED OFFER');
-        } else {
-            const testRequest = {
-                ...request,
-                oldAssets: request.oldAssets.concat(creation.new),
-            };
-            const testResult = creator.getRandomCreation(fits, testRequest);
-            const categoryIsNowFull = !testResult.new;
-            props.handleAdd(creation.new, demand, categoryIsNowFull);
-        }
-    };
-    const openOfferEditor = (startData: MinimalOfferData) => {
-        setEditorData({
+    const openOfferEditor = (startData: UserMadeFood | UserMadeDrink) => {
+        setEditor({
             visible: true,
             startData: startData,
         });
     };
 
     const dismissEditorModal = () => {
-        setEditorData({
+        setEditor({
             visible: false,
-            startData: editorData.startData,
+            startData: editor.startData,
         });
     };
 
     const nameIsDuplicated = (name: string) => {
         return props.offers.some((offer) => {
-            return offer.product.name === name;
+            return offer.name === name;
         });
+    };
+
+    const onEdit = (edit: Demand) => {
+        if (edit.isAbout === props.startEdit.isAbout) {
+            setEditor({
+                visible: true,
+                startData: {
+                    ...props.startEdit,
+                    ...edit,
+                },
+            });
+        }
+    };
+
+    const onImport = (demand: Demand) => {
+        if (demand.isAbout === props.startEdit.isAbout) {
+            setSavedListData({
+                visible: true,
+                demand: demand,
+            });
+        }
     };
 
     return (
@@ -170,7 +137,7 @@ export const MenuScene = (props: MenuProps) => {
             >
                 <MenuBanner
                     bannerData={props.bannerData}
-                    setBannerInvsible={props.setBannerInvisible}
+                    onDismiss={props.closeBanner}
                     bannerEnding={bannerEnding}
                     isAbout={props.isAbout}
                 />
@@ -178,26 +145,13 @@ export const MenuScene = (props: MenuProps) => {
                     offers={props.offers}
                     isAbout={props.isAbout}
                     addingActions={{
-                        randomAdd: addRandomOffer,
-                        import: (category: MenuCategory) => {
-                            setSavedListData({
-                                visible: true,
-                                category: category,
-                            });
-                        },
-                        edit: (category: MenuCategory) => {
-                            setEditorData({
-                                visible: true,
-                                startData: {
-                                    ...DEFAULT_MODAL_START_DATA,
-                                    category: category,
-                                },
-                            });
-                        },
+                        randomAdd: props.handleAdd,
+                        import: onImport,
+                        edit: onEdit,
                     }}
                     offerActions={{
                         deleteOffer: deleteOffer,
-                        rerollOffer: changeOffer,
+                        rerollOffer: props.handleReroll,
                         shopOffer: buyOffer,
                         editUserOffer: openOfferEditor,
                     }}
@@ -212,61 +166,39 @@ export const MenuScene = (props: MenuProps) => {
                 />
             </ScrollView>
             <Portal>
-                <Modal
-                    visible={editorData.visible}
-                    onDismiss={dismissEditorModal}
-                >
+                <Modal visible={editor.visible} onDismiss={dismissEditorModal}>
                     <ProductEditor
-                        startTexts={editorData.startData}
-                        nameIsDuplicated={nameIsDuplicated}
-                        overwriteTavernProduct={(
-                            textData: MinimalOfferData
-                        ) => {
-                            changeOffer(editorData.startData.name, {
-                                product: new TavernProduct(
-                                    textData.name,
-                                    parseInt(textData.priceText),
-                                    [] as association[],
-                                    textData.category,
-                                    textData.description,
-                                    true
-                                ),
-                                price: parseInt(textData.priceText),
-                            });
-                            dismissEditorModal();
-                        }}
-                        addTavernProduct={addUserOffer}
+                        prevData={editor.startData}
+                        overwriteEdit={editUserOffer}
+                        addEdit={addUserOffer}
+                        names={props.offers.map((offer) => offer.name)}
                     />
                 </Modal>
                 <ListOfSaves
-                    title={savedListData.category.toUpperCase()}
-                    dataHandler={
-                        new SavedDataHandler(
-                            WeSave.menu,
-                            savedListData.category
-                        )
-                    }
-                    offerHandling={{
-                        addUserOffer: (
+                    title={savedListData.demand.category.toUpperCase()}
+                    dataHandler={new Database()}
+                    building={{
+                        ...savedListData.demand,
+                        build: (
                             name: string,
                             priceText: string,
                             description: string
                         ) => {
                             addUserOffer({
+                                ...savedListData.demand,
                                 name: name,
                                 priceText: priceText,
                                 description: description,
-                                category: savedListData.category,
                                 isUserMade: true,
                             });
                         },
-                        nameIsDuplicated: nameIsDuplicated,
+                        nameIsDuplicated,
                     }}
                     visible={savedListData.visible}
                     onDismiss={() => {
                         setSavedListData({
                             visible: false,
-                            category: Drinkable.spirit,
+                            demand: startDemand,
                         });
                     }}
                 />

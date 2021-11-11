@@ -1,5 +1,8 @@
 import { splitMarker } from '../../scenes/menuScene/offerList/nameSplitter/splitMarker';
-import { IImpression } from '../../scenes/questScene/impressions/IImpression';
+import { Impression } from '../../scenes/questScene/impressions/Impression';
+import { emptyKeys } from '../contentCreator/emptyKeys';
+import { FantasyKeys } from '../contentCreator/FantasKeys';
+import { Keys } from '../keyHandler/KeyHandler';
 import { AssetKey } from './AssetKey/AssetKey';
 import { DescriptionAsset } from './DescriptionAsset';
 import { Idea } from './Idea';
@@ -36,10 +39,11 @@ export class ImpressionIdea extends Idea {
         isExcludedByName: (name: string) => boolean,
         additionIsExcludedByKey: (key: AssetKey) => boolean,
         minimalFitLevel: number,
+        universe: FantasyKeys,
         additionFilter?: number,
         patterns = [] as Pattern[]
     ) {
-        const createdImpression: IImpression = {
+        const createdImpression: Impression = {
             ...this.getNameAndKey(
                 tavernFits,
                 isExcludedByName,
@@ -49,6 +53,7 @@ export class ImpressionIdea extends Idea {
                 patterns
             ),
             category: this.category,
+            universe,
         };
         return createdImpression;
     }
@@ -89,7 +94,10 @@ export class ImpressionIdea extends Idea {
                 }
                 return {
                     name: this.main.name,
-                    firstKeys: ImpressionIdea.getKeyList(this.main),
+                    keys: {
+                        ...emptyKeys,
+                        main: ImpressionIdea.getKeyList(this.main),
+                    } as Keys,
                     patterns: this.main.patterns || [],
                 };
             }
@@ -102,8 +110,10 @@ export class ImpressionIdea extends Idea {
             const createdName = firstText + secondText + splitMarker;
             return {
                 name: createdName,
-                firstKeys: ImpressionIdea.getKeyList(this.main),
-                secondKeys: ImpressionIdea.getKeyList(secondDescription),
+                keys: {
+                    main: ImpressionIdea.getKeyList(this.main),
+                    addition: ImpressionIdea.getKeyList(secondDescription),
+                } as Keys,
                 patterns: (this.main.patterns || []).concat(
                     secondDescription.patterns || []
                 ),
@@ -111,7 +121,10 @@ export class ImpressionIdea extends Idea {
         } else {
             const defaultNameAndKey = {
                 name: this.main.name,
-                firstKeys: ImpressionIdea.getKeyList(this.main),
+                keys: {
+                    ...emptyKeys,
+                    main: ImpressionIdea.getKeyList(this.main),
+                } as Keys,
                 patterns: this.main.patterns || [],
             };
             return defaultNameAndKey;

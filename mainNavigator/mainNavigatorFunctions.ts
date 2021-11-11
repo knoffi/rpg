@@ -1,19 +1,18 @@
 import { Noticable } from '../classes/idea/Noticable';
-import { Drinkable, Eatable, TavernProduct } from '../classes/TavernProduct';
+import { Drinkable, Eatable } from '../classes/TavernProduct';
 import { getAllNewBannerDataAndOffersLeft } from '../editNavigator/getNewBannerDataAndIdeasLeft';
+import { WeServe } from '../editNavigator/WeServe';
 import { standardBasePrice } from '../scenes/menuScene/basePrice';
-import { Offer } from '../scenes/menuScene/Offer';
-import { IImpression } from '../scenes/questScene/impressions/IImpression';
 import { MinimalTavernData, TavernData } from './TavernData';
 
-export const getTavernHistoryInitializer = () => {
+export const getTavernHistoryInitializer = (): MinimalTavernData => {
     const startIdeasLeft = getDefaultIdeasLeft();
     const startBanner = { isVisible: false, emptyCategories: [] };
     return {
         fitting: {},
         name: 'Nameless Tavern',
-        drinks: [],
-        dishes: [],
+        [WeServe.drinks]: [],
+        [WeServe.food]: [],
         prices: standardBasePrice,
         ideasLeft: startIdeasLeft,
         bannerData: {
@@ -22,67 +21,33 @@ export const getTavernHistoryInitializer = () => {
             impression: startBanner,
         },
         boughtOffers: [],
-        impressions: [],
+        [WeServe.impressions]: [],
     } as TavernData;
 };
 
-const rebuildOffers = (offers: Offer[]) => {
-    return offers.map((offer) => {
-        return {
-            price: offer.price,
-            product: new TavernProduct(
-                offer.product.name,
-                offer.product.copperPrice,
-                offer.product.associations,
-                offer.product.category,
-                offer.product.description,
-                offer.product.isUserMade
-            ),
-        } as Offer;
-    });
-};
-const rebuildImpressions = (impressions: IImpression[]) => {
-    return impressions.map((impression) => {
-        return {
-            name: impression.name,
-            category: impression.category,
-        } as IImpression;
-    });
-};
-
-export const getTavernFromMinimalData = (minimalData: MinimalTavernData) => {
-    const newDrinks = rebuildOffers(minimalData.drinks);
-    const newDishes = rebuildOffers(minimalData.dishes);
-    const newBoughtOffers = rebuildOffers(minimalData.boughtOffers);
-    const newImpressions = rebuildImpressions(minimalData.impressions);
-    const { drinks, dishes, impressions } = minimalData;
+export const getTavernFromMinimalData = (
+    minimalData: MinimalTavernData,
+    impressionIsLeft: (category: Noticable) => boolean,
+    drinkIsLeft: (category: Drinkable) => boolean,
+    foodIsLeft: (category: Eatable) => boolean
+): TavernData => {
     const startBanner = { isVisible: false, emptyCategories: [] };
     const { bannerData, ideasLeft } = getAllNewBannerDataAndOffersLeft(
-        minimalData.fitting,
-        { drinks, dishes, impressions },
-        { drink: startBanner, food: startBanner, impression: startBanner }
+        {
+            drink: startBanner,
+            food: startBanner,
+            impression: startBanner,
+        },
+        impressionIsLeft,
+        foodIsLeft,
+        drinkIsLeft
     );
     return {
         ...minimalData,
-        boughtOffers: newBoughtOffers,
-        drinks: newDrinks,
-        dishes: newDishes,
-        impressions: newImpressions,
+        boughtOffers: minimalData.boughtOffers,
         bannerData: bannerData,
         ideasLeft: ideasLeft,
-    } as TavernData;
-};
-export const getMinimalDataFromTavern = (tavern: TavernData) => {
-    const minimalData: MinimalTavernData = {
-        name: tavern.name,
-        fitting: tavern.fitting,
-        drinks: tavern.drinks,
-        dishes: tavern.dishes,
-        prices: tavern.prices,
-        boughtOffers: tavern.boughtOffers,
-        impressions: tavern.impressions,
     };
-    return minimalData;
 };
 
 const getDefaultIdeasLeft = () => {

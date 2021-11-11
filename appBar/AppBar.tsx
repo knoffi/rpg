@@ -123,7 +123,7 @@ export const AppBar = (props: {
                         increaseOrder={(offerName: string) => {
                             const reorderedOffer = props.boughtOffers.find(
                                 (order) => {
-                                    return order.product.name === offerName;
+                                    return order.name === offerName;
                                 }
                             );
                             props.onDataChange({
@@ -136,7 +136,7 @@ export const AppBar = (props: {
                         decreaseOrder={(offerName: string) => {
                             const cancelledOffer = props.boughtOffers.find(
                                 (order) => {
-                                    return order.product.name === offerName;
+                                    return order.name === offerName;
                                 }
                             );
                             const cancelIndex = props.boughtOffers.lastIndexOf(

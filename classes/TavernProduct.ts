@@ -11,12 +11,12 @@ export enum Drinkable {
 // so that a tavern does not only
 export enum Eatable {
     breakfast = 'Breakfast',
-    sideDish = 'Side Dishes & Starters',
+    sideDish = 'Small Dish',
     dessert = 'Dessert',
     mainDish = 'Main Dish',
 }
 
-export enum Servies {
+export enum Services {
     room = 'Rooms',
     pension = 'Package Deal',
     entertainment = 'Entertainment',
@@ -25,27 +25,6 @@ export enum Servies {
 }
 
 export type MenuCategory = Eatable | Drinkable;
-
-const DRINK_BINDINGS = [
-    association.prostitute,
-    association.rich,
-    association.poor,
-    association.assasine,
-    association.thief,
-];
-const FOOD_BINDINGS = [
-    association.prostitute,
-    association.rich,
-    association.poor,
-    association.city,
-    association.village,
-    association.forest,
-    association.mountain,
-    association.underdark,
-    association.haven,
-    association.desert,
-    association.tropical,
-];
 
 export class TavernProduct implements ITavernAsset {
     public name!: string;
@@ -72,64 +51,19 @@ export class TavernProduct implements ITavernAsset {
         this.isUserMade = isUserMade;
     }
 
-    public getNumberOfHits(associationChecklist: association[]) {
-        return associationChecklist.filter((association) => {
-            return this.associations.includes(association);
-        }).length;
-    }
+    // public isDrink = () => {
+    //     return Object.values(Drinkable).some((categoryName) => {
+    //         return categoryName === this.category;
+    //     });
+    // };
 
-    public isFit(
-        fits: association[],
-        misfits: association[],
-        fitsBound: number,
-        misfitsBound: number
-    ) {
-        const proCount = this.associations.filter((association) => {
-            return misfits.includes(association);
-        }).length;
-        const conCount = this.associations.filter((association) => {
-            return fits.includes(association);
-        }).length;
+    // public isFood = () => {
+    //     return Object.values(Eatable).some((categoryName) => {
+    //         return categoryName === this.category;
+    //     });
+    // };
 
-        return proCount >= fitsBound && conCount <= misfitsBound;
-    }
-    public getCopperPrice = (factor: any) => {
-        return Math.round(this.copperPrice * (1 + factor / 10));
-    };
-
-    public getAssociationOverwrite(association: association) {
-        return new TavernProduct(
-            this.name,
-            this.copperPrice,
-            [association],
-            this.category,
-            this.description
-        );
-    }
-
-    public isDrink = () => {
-        return Object.values(Drinkable).some((categoryName) => {
-            return categoryName === this.category;
-        });
-    };
-
-    public isFood = () => {
-        return Object.values(Eatable).some((categoryName) => {
-            return categoryName === this.category;
-        });
-    };
-
-    public resetCategory = (category: MenuCategory) => {
-        this.category = category;
-    };
-
-    public getNecessarities() {
-        // needs to improved so that taverns with not association can be filled with food and drinks
-        const extremeAssociations = this.isDrink()
-            ? DRINK_BINDINGS
-            : FOOD_BINDINGS;
-        return this.associations
-            .slice()
-            .filter((association) => extremeAssociations.includes(association));
-    }
+    // public resetCategory = (category: MenuCategory) => {
+    //     this.category = category;
+    // };
 }

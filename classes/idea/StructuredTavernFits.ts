@@ -16,8 +16,6 @@ export type StructuredTavernFits = {
     [AssociationTypes.special]?: association;
     powerFit?: association;
 };
-const myAssociation = association.empty;
-const fitting: StructuredTavernFits = { class: association.empty };
 export const getFitsFromStructure = (fitting: StructuredTavernFits) => {
     const fits = [
         fitting.class || association.empty,

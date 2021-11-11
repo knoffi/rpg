@@ -1,17 +1,33 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import React from 'react';
+import React, { useState } from 'react';
+import {
+    Add,
+    ContentCreator,
+    CreationRequest,
+    UserMade,
+} from '../classes/contentCreator/ContentCreator';
+import { FantasyKeys } from '../classes/contentCreator/FantasKeys';
 import { StructuredTavernFits } from '../classes/idea/StructuredTavernFits';
+import { KeyChange, KeyHandler } from '../classes/keyHandler/KeyHandler';
+import { Drinkable, Eatable } from '../classes/TavernProduct';
 import Icon from '../components/icons';
 import { iconKeys } from '../components/icons/iconKeys';
-import { Describable, TavernData } from '../mainNavigator/TavernData';
+import {
+    Describable,
+    MinimalTavernData,
+    TavernData,
+} from '../mainNavigator/TavernData';
+import { BasePrice } from '../scenes/menuScene/basePrice';
 import { BannerData } from '../scenes/menuScene/menuBanner/MenuBanner';
 import { MenuScene } from '../scenes/menuScene/MenuScene';
 import { Offer } from '../scenes/menuScene/Offer';
 import { Demand } from '../scenes/menuScene/offerList/actionInterfaces';
 import { NameScene } from '../scenes/nameScene/NameScene';
-import { IImpression } from '../scenes/questScene/impressions/IImpression';
+import { getUsedPatterns } from '../scenes/questScene/getUsedPatterns';
 import { QuestScene } from '../scenes/questScene/QuestScene';
-import { getAllNewBannerDataAndOffersLeft } from './getNewBannerDataAndIdeasLeft';
+import { getCreationRequest } from './getCreationRequest';
+import { ContentLeftTest } from './getNewBannerDataAndIdeasLeft';
+import { testContentLeft } from './testContentLeft';
 import { WeServe } from './WeServe';
 
 const Tab = createBottomTabNavigator();
@@ -42,18 +58,45 @@ const getIconKey = (routeName: string) => {
         }
     }
 };
+
+export interface IBanners {
+    [WeServe.food]: BannerData;
+    [WeServe.drinks]: BannerData;
+    [WeServe.impressions]: BannerData;
+}
+const DEFAULT_BANNER: BannerData = { emptyCategories: [], isVisible: false };
+const DEFAULT_BANNERS: IBanners = {
+    [WeServe.food]: DEFAULT_BANNER,
+    [WeServe.drinks]: DEFAULT_BANNER,
+    [WeServe.impressions]: DEFAULT_BANNER,
+};
+
 export const EditNavigator = (props: {
-    onDataChange: (newData: Partial<TavernData>) => void;
-    tavern: TavernData;
+    onDataChange: (newData: Partial<MinimalTavernData>) => void;
+    tavern: MinimalTavernData;
 }) => {
+    const startCreator = new ContentCreator();
+    const [content, setContent] = useState({ creator: startCreator });
+    const [keys, setKeys] = useState({ handler: new KeyHandler() });
+    const startNotifications = testContentLeft(
+        DEFAULT_BANNERS,
+        props.tavern.fitting,
+        startCreator,
+        props.tavern
+    );
+    const [contentLeft, setContentLeft] = useState(startNotifications);
+    const [patterns, setPatterns] = useState(
+        getUsedPatterns(props.tavern[WeServe.impressions])
+    );
     const buyOffer = (offer: Offer) => {
         props.onDataChange({
             boughtOffers: [...props.tavern.boughtOffers, offer],
         });
     };
-    const getBannersByDelete = (deleted: Demand) => {
-        const olderBanner = props.tavern.bannerData[deleted.isAbout];
-
+    const getBannersByDelete = (
+        deleted: Demand
+    ): Pick<ContentLeftTest, 'bannerData'> => {
+        const olderBanner = contentLeft.bannerData[deleted.isAbout];
         const newEmptyCategories = olderBanner.emptyCategories.filter(
             (category) => category !== deleted.category
         );
@@ -62,102 +105,253 @@ export const EditNavigator = (props: {
             emptyCategories: newEmptyCategories,
         };
         const newBanners = {
-            ...props.tavern.bannerData,
+            ...contentLeft.bannerData,
             [deleted.isAbout]: newBannerData,
         };
-        return newBanners;
+        return { bannerData: newBanners };
     };
-
-    const handleOfferAdd = (
-        newOffer: Offer,
-        add: Demand,
-        noNextOffer: boolean
+    const handleReroll = (
+        name: string,
+        reroll: Demand,
+        mainFilter?: number,
+        additionFilter?: number
     ) => {
-        const oldOffers =
-            add.isAbout === WeServe.food
-                ? props.tavern.dishes
-                : props.tavern.drinks;
-        const newOffers = [...oldOffers, newOffer];
-        const offerChanges =
-            add.isAbout === WeServe.food
-                ? { dishes: newOffers }
-                : { drinks: newOffers };
-        const bannerChanges = noNextOffer ? getBannersByAdd(add, true) : {};
-        const ideaLeftMapChanges = noNextOffer
-            ? getIdeaLeftMapByAdd(add, false)
-            : {};
-        const tavernChanges: Partial<TavernData> = {
-            ...offerChanges,
-            ...bannerChanges,
-            ...ideaLeftMapChanges,
-        };
-
-        props.onDataChange(tavernChanges);
+        const fullKeys = keys.handler.getFullKeys(reroll.isAbout);
+        const request: CreationRequest = getCreationRequest(
+            reroll,
+            props.tavern,
+            fullKeys.main,
+            fullKeys.addition,
+            patterns,
+            mainFilter,
+            additionFilter
+        );
+        const rerolled = content.creator.rerollOneCreation(
+            props.tavern.fitting,
+            name,
+            request
+        );
+        //TODO: give keyHandler (and patternHandler) to ContentCreator. This way, ContentCreator can delete keys (and patterns) of rerolled asset BEFORE choosing new asset (and then add keys of new asset)
+        if (rerolled.isAbout === WeServe.impressions) {
+            const adding: KeyChange = {
+                ...rerolled,
+                type: 'Add',
+            };
+            const deleting: KeyChange = {
+                ...rerolled,
+                type: 'Delete',
+            };
+            const newKeys = {
+                handler: keys.handler.multiUpdateClone([adding, deleting]),
+            };
+            setKeys(newKeys);
+            setPatterns(getUsedPatterns(rerolled.oneRerolled));
+        }
+        props.onDataChange({ [rerolled.isAbout]: rerolled.oneRerolled });
     };
-    const handleOfferDelete = (removedOffer: String, deleted: Demand) => {
+    const handleBasePrice = (newPrices: BasePrice) => {
+        props.onDataChange({ prices: newPrices });
+    };
+
+    const handleAdd = (
+        add: Demand,
+        mainFilter?: number,
+        additionFilter?: number
+    ) => {
+        const fullKeys = keys.handler.getFullKeys(add.isAbout);
+        const request: CreationRequest = getCreationRequest(
+            add,
+            props.tavern,
+            fullKeys.main,
+            fullKeys.addition,
+            patterns,
+            mainFilter,
+            additionFilter
+        );
+        const creation = content.creator.addRandomCreation(
+            props.tavern.fitting,
+            request
+        );
+        const noNextCreation = content.creator.noNextCreationLeft(
+            props.tavern.fitting,
+            creation
+        );
+        if (creation.isAbout === WeServe.impressions) {
+            const adding: KeyChange = {
+                isAbout: add.isAbout,
+                type: 'Add',
+                newKeys: creation.newKeys,
+            };
+            const newHandler = keys.handler.updateClone(adding);
+            const newKeys = { handler: newHandler };
+            newHandler.print();
+            setKeys(newKeys);
+            setPatterns(getUsedPatterns(creation.added));
+        }
+        invokeAdd(creation, noNextCreation);
+    };
+
+    const invokeAdd = (creation: Add, noNextCreation: boolean) => {
+        if (!creation.newCreationAdded) {
+            console.log('__ADDING WAS INVOKED WITH EMPTY CREATION___');
+        } else {
+            const assetChanges = { [creation.isAbout]: creation.added };
+            const bannerChanges = noNextCreation
+                ? getBannersByAdd(creation, true)
+                : {};
+            const ideaLeftChanges = noNextCreation
+                ? getIdeasLeftByAdd(creation, false)
+                : {};
+            const tavernChanges: Partial<MinimalTavernData> = assetChanges;
+            setContentLeft({
+                ...contentLeft,
+                ...bannerChanges,
+                ...ideaLeftChanges,
+            });
+
+            props.onDataChange(tavernChanges);
+        }
+    };
+    const handleNewFits = (newFitting: StructuredTavernFits) => {
+        const newContentLeft = testContentLeft(
+            contentLeft.bannerData,
+            newFitting,
+            content.creator,
+            props.tavern
+        );
+        setContentLeft(newContentLeft);
+        props.onDataChange({ fitting: newFitting });
+    };
+    const handleNewName = (name: string) => {
+        props.onDataChange({ name: name });
+    };
+    const handleDelete = (
+        name: string,
+        deleted: Demand,
+        key: FantasyKeys | 'isUserMade'
+    ) => {
         //TODO: different behavior for deletes of user made ideas
-        const newOffers = (
-            deleted.isAbout === WeServe.food
-                ? props.tavern.dishes
-                : props.tavern.drinks
-        ).filter((offer) => offer.product.name !== removedOffer);
-        const offerChanges =
-            deleted.isAbout === WeServe.food
-                ? { dishes: newOffers }
-                : { drinks: newOffers };
-        const categoryWasFullBefore = props.tavern.bannerData[
+        const deleteRequest =
+            deleted.isAbout === WeServe.impressions
+                ? {
+                      isAbout: deleted.isAbout,
+                      creations: props.tavern[deleted.isAbout],
+                  }
+                : {
+                      isAbout: deleted.isAbout,
+                      creations: props.tavern[deleted.isAbout],
+                  };
+        const assetChanges = content.creator.deleteCreation(
+            name,
+            deleteRequest
+        );
+        const categoryWasFullBefore = contentLeft.bannerData[
             deleted.isAbout
         ].emptyCategories.includes(deleted.category);
-        const bannerChanges = categoryWasFullBefore
+
+        //TODO: refactor into getContentLeft({"delete",deleted,fullBefore}|{"add",added})
+        const contentNeedsUpdate =
+            categoryWasFullBefore && key === content.creator.getUniverseName();
+        const bannerChanges = contentNeedsUpdate
             ? getBannersByDelete(deleted)
             : {};
-        const ideaLeftMapChanges = categoryWasFullBefore
-            ? getIdeaLeftMapByDelete(deleted)
+        const ideaLeftChanges = contentNeedsUpdate
+            ? getIdeasLeftByDelete(deleted)
             : {};
-        const tavernChanges = {
-            ...bannerChanges,
-            ...offerChanges,
-            ...ideaLeftMapChanges,
-        };
+        const tavernChanges = assetChanges;
+        //TODO: add .newKeys and .newPatterns to DrinkAdd and FoodAdd
+        if (assetChanges.isAbout === WeServe.impressions) {
+            const deleting: KeyChange = {
+                isAbout: assetChanges.isAbout,
+                type: 'Delete',
+                oldKeys: assetChanges.oldKeys,
+            };
+            const newKeys = { handler: keys.handler.updateClone(deleting) };
+            setKeys(newKeys);
+            setPatterns(getUsedPatterns(assetChanges.impression));
+        }
         props.onDataChange(tavernChanges);
+        setContentLeft({
+            ...contentLeft,
+            ...bannerChanges,
+            ...ideaLeftChanges,
+        });
     };
-    const getBannersByAdd = (add: Demand, nothingLeft: boolean) => {
-        const oldBanners = { ...props.tavern.bannerData };
+
+    const handleEdit = (request: UserMade, previousName?: string) => {
+        const newAsset = content.creator.createUserMade(request);
+        if (previousName) {
+            const newContent: Partial<TavernData> = {
+                [newAsset.isAbout]: props.tavern[newAsset.isAbout].map(
+                    (asset: { name: string }) =>
+                        asset.name === previousName ? newAsset.edited : asset
+                ),
+            };
+            props.onDataChange(newContent);
+        } else {
+            const newContent: Partial<TavernData> = {
+                [newAsset.isAbout]: [
+                    ...props.tavern[newAsset.isAbout],
+                    newAsset.edited,
+                ],
+            };
+            props.onDataChange(newContent);
+        }
+    };
+    const getBannersByAdd = (
+        add: Demand,
+        nothingLeft: boolean
+    ): Pick<ContentLeftTest, 'bannerData'> => {
+        const oldBanners = { ...contentLeft.bannerData };
         const newBanners = {
             [WeServe.drinks]: oldBanners.drink,
             [WeServe.food]: oldBanners.food,
             [WeServe.impressions]: oldBanners.impression,
         };
-        const newEmptyCategories = props.tavern.bannerData[
+        const newEmptyCategories = contentLeft.bannerData[
             add.isAbout
         ].emptyCategories.concat(nothingLeft ? add.category : []);
         newBanners[add.isAbout].emptyCategories = newEmptyCategories;
         newBanners[add.isAbout].isVisible = nothingLeft;
-        return newBanners;
+        return { bannerData: newBanners };
     };
-    const setBannerInvisible = (isAbout: WeServe) => () => {
-        const oldBanners = { ...props.tavern.bannerData };
+    const getBannerClosing = (isAbout: WeServe) => () => {
+        const oldBanners = { ...contentLeft.bannerData };
         oldBanners[isAbout].isVisible = false;
-        props.onDataChange({ bannerData: oldBanners });
+        const newContentLeft = { ...contentLeft, bannerData: oldBanners };
+        setContentLeft(newContentLeft);
     };
-    const getIdeaLeftMapByDelete = (demand: Demand) => {
-        const oldMaps = { ...props.tavern.ideasLeft };
+    const getIdeasLeftByDelete = (
+        demand: Demand
+    ): Pick<ContentLeftTest, 'ideasLeft'> => {
+        const oldMaps = { ...contentLeft.ideasLeft };
         const newMap = new Map<Describable, boolean>(oldMaps[demand.isAbout]);
         newMap.set(demand.category, true);
         oldMaps[demand.isAbout] = newMap;
         return { ideasLeft: oldMaps };
     };
-    const getIdeaLeftMapByAdd = (demand: Demand, ideaLeft: boolean) => {
-        const oldMaps = { ...props.tavern.ideasLeft };
+    const getIdeasLeftByAdd = (
+        demand: Demand,
+        ideaLeft: boolean
+    ): Pick<ContentLeftTest, 'ideasLeft'> => {
+        const oldMaps = { ...contentLeft.ideasLeft };
         const newMap = new Map<Describable, boolean>(oldMaps[demand.isAbout]);
         newMap.set(demand.category, ideaLeft);
         oldMaps[demand.isAbout] = newMap;
         return { ideasLeft: oldMaps };
     };
-    const oldBanner = props.tavern.bannerData;
-    const oldDrinks = props.tavern.drinks;
-    const oldDishes = props.tavern.dishes;
-    const oldImpressions = props.tavern.impressions;
+
+    const setContentByKey = (key: FantasyKeys) => {
+        const newCreator = new ContentCreator(key);
+        setContent({ creator: newCreator });
+        const newContentLeft = testContentLeft(
+            contentLeft.bannerData,
+            props.tavern.fitting,
+            newCreator,
+            props.tavern
+        );
+        setContentLeft(newContentLeft);
+    };
 
     return (
         <Tab.Navigator
@@ -174,23 +368,11 @@ export const EditNavigator = (props: {
                 children={() => (
                     <NameScene
                         name={props.tavern.name}
-                        onDataChange={props.onDataChange}
                         fitting={props.tavern.fitting}
-                        getImpliedChanges={(newFitting: StructuredTavernFits) =>
-                            getAllNewBannerDataAndOffersLeft(
-                                newFitting,
-                                {
-                                    drinks: oldDrinks,
-                                    dishes: oldDishes,
-                                    impressions: oldImpressions,
-                                },
-                                {
-                                    drink: oldBanner.drink,
-                                    food: oldBanner.food,
-                                    impression: oldBanner.impression,
-                                }
-                            )
-                        }
+                        handleNewName={handleNewName}
+                        handleNewFits={handleNewFits}
+                        contentName={content.creator.getUniverseName()}
+                        setContent={setContentByKey}
                     ></NameScene>
                 )}
             />
@@ -198,18 +380,28 @@ export const EditNavigator = (props: {
                 name="Drinks"
                 children={() => (
                     <MenuScene
+                        startEdit={{
+                            category: Drinkable.lemonade,
+                            isAbout: WeServe.drinks,
+                            name: '',
+                            priceText: '10',
+                            description: '',
+                            isUserMade: true,
+                        }}
                         buyOffer={buyOffer}
-                        handleAdd={handleOfferAdd}
+                        handleAdd={handleAdd}
+                        handleReroll={handleReroll}
                         offersBought={props.tavern.boughtOffers}
                         fitting={props.tavern.fitting}
                         isAbout={WeServe.drinks}
-                        offers={oldDrinks}
+                        handleEdit={handleEdit}
+                        offers={props.tavern[WeServe.drinks]}
                         onDataChange={props.onDataChange}
-                        offersLeft={props.tavern.ideasLeft.drink}
+                        offersLeft={contentLeft.ideasLeft.drink}
                         basePrice={props.tavern.prices}
-                        bannerData={oldBanner.drink}
-                        handleDelete={handleOfferDelete}
-                        setBannerInvisible={setBannerInvisible(WeServe.drinks)}
+                        bannerData={contentLeft.bannerData[WeServe.drinks]}
+                        handleDelete={handleDelete}
+                        closeBanner={getBannerClosing(WeServe.drinks)}
                     ></MenuScene>
                 )}
             />
@@ -217,18 +409,28 @@ export const EditNavigator = (props: {
                 name="Food"
                 children={() => (
                     <MenuScene
+                        startEdit={{
+                            category: Eatable.mainDish,
+                            isAbout: WeServe.food,
+                            name: '',
+                            priceText: '10',
+                            description: '',
+                            isUserMade: true,
+                        }}
                         buyOffer={buyOffer}
-                        handleAdd={handleOfferAdd}
+                        handleAdd={handleAdd}
+                        handleReroll={handleReroll}
+                        handleDelete={handleDelete}
+                        handleEdit={handleEdit}
                         offersBought={props.tavern.boughtOffers}
                         fitting={props.tavern.fitting}
                         isAbout={WeServe.food}
-                        offers={oldDishes}
+                        offers={props.tavern[WeServe.food]}
                         onDataChange={props.onDataChange}
-                        offersLeft={props.tavern.ideasLeft.food}
+                        offersLeft={contentLeft.ideasLeft.food}
                         basePrice={props.tavern.prices}
-                        bannerData={oldBanner.food}
-                        handleDelete={handleOfferDelete}
-                        setBannerInvisible={setBannerInvisible(WeServe.drinks)}
+                        bannerData={contentLeft.bannerData[WeServe.food]}
+                        closeBanner={getBannerClosing(WeServe.food)}
                     ></MenuScene>
                 )}
             />
@@ -238,22 +440,15 @@ export const EditNavigator = (props: {
                     <QuestScene
                         fitting={props.tavern.fitting}
                         basePrice={props.tavern.prices}
-                        onDataChange={props.onDataChange}
-                        impressions={props.tavern.impressions}
-                        banner={oldBanner.impression}
-                        noticablesLeft={props.tavern.ideasLeft.impression}
-                        getImpliedChanges={(newImpressions?: IImpression[]) =>
-                            getAllNewBannerDataAndOffersLeft(
-                                props.tavern.fitting,
-                                {
-                                    drinks: oldDrinks,
-                                    dishes: oldDishes,
-                                    impressions:
-                                        newImpressions || oldImpressions,
-                                },
-                                oldBanner
-                            )
-                        }
+                        impressions={props.tavern[WeServe.impressions]}
+                        banner={contentLeft.bannerData[WeServe.impressions]}
+                        handleAdd={handleAdd}
+                        handleDelete={handleDelete}
+                        handleReroll={handleReroll}
+                        handleEdit={handleEdit}
+                        handleBasePrice={handleBasePrice}
+                        noticablesLeft={contentLeft.ideasLeft.impression}
+                        closeBanner={getBannerClosing(WeServe.food)}
                     ></QuestScene>
                 )}
             />

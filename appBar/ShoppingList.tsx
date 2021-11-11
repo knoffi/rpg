@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { List, Text } from 'react-native-paper';
 import { WIDTH_FACTOR } from '../dimensionConstants';
+import { WeServe } from '../editNavigator/WeServe';
 import { Offer } from '../scenes/menuScene/Offer';
 import { getDishTexts } from '../scenes/menuScene/offerList/nameSplitter/getDishTexts';
 import { appBarStyles } from './appBarStyles';
@@ -28,8 +29,8 @@ export const ShoppingList = (props: {
             return priceSum + price;
         }, 0);
     props.boughtOffers.forEach((offer) => {
-        const name = getDishTexts(offer.product.name).name;
-        const thisMap = offer.product.isFood() ? foodMap : drinkMap;
+        const name = getDishTexts(offer.name).name;
+        const thisMap = offer.isAbout === WeServe.food ? foodMap : drinkMap;
         const orderValues = thisMap.get(name);
         if (orderValues) {
             //thisMap.delete(name);

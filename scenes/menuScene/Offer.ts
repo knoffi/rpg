@@ -1,16 +1,29 @@
-import { Drinkable, TavernProduct } from '../../classes/TavernProduct';
+import { association } from '../../classes/association';
+import { FantasyKeys } from '../../classes/contentCreator/FantasKeys';
+import { Drinkable, Eatable } from '../../classes/TavernProduct';
+import { WeServe } from '../../editNavigator/WeServe';
 
-export interface Offer {
-    product: TavernProduct;
+export type Offer = {
+    name: string;
+    isUserMade: boolean;
+    description?: string;
     price: number;
-}
+    universe: FantasyKeys | 'isUserMade';
+    income:
+        | association.rich
+        | association.poor
+        | association.wealthy
+        | association.modest
+        | association.empty;
+} & (
+    | {
+          isAbout: WeServe.food;
 
-export const NothingLeftOffer = {
-    product: new TavernProduct(
-        'NothingABCDEFGWinnie_The_PuH_SUcKs',
-        0,
-        [],
-        Drinkable.spirit
-    ),
-    price: 0,
-};
+          category: Eatable;
+      }
+    | {
+          isAbout: WeServe.drinks;
+
+          category: Drinkable;
+      }
+);

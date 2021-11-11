@@ -6,7 +6,7 @@ import { WeServe } from '../../../editNavigator/WeServe';
 import { Describable } from '../../../mainNavigator/TavernData';
 import { globalStyles } from '../../globalStyles';
 import { Offer } from '../Offer';
-import { OfferListAccordeon } from './Accordeon';
+import { OfferAccordion } from './Accordion';
 import { Demand, IAddingActions, IOfferActions } from './actionInterfaces';
 
 const BOTTOM_PADDING_DRINKS = 265 * HEIGHT_FACTOR;
@@ -14,7 +14,7 @@ const BOTTOM_PADDING_FOOD = 188 * HEIGHT_FACTOR;
 
 export const OfferList = (props: {
     offers: Offer[];
-    isAbout: WeServe;
+    isAbout: WeServe.food | WeServe.drinks;
     offerActions: IOfferActions;
     addingActions: IAddingActions;
     offersLeftMap: Map<Describable, boolean>;
@@ -26,7 +26,7 @@ export const OfferList = (props: {
             : { isAboutFood: true, categories: Eatable };
     const menu = Object.values(demands.categories).map((category) => {
         const offersOfCategory = props.offers.filter(
-            (offer) => offer.product.category === category
+            (offer) => offer.category === category
         );
         return {
             category: category,
@@ -36,12 +36,12 @@ export const OfferList = (props: {
     // Now: menu=[ {"beer", [] }, {"wine", [] }, ... ]
 
     const chapterLists = menu.map((chapter) => {
-        const demand: Demand = {
+        const demand: Demand & { isAbout: WeServe.food | WeServe.drinks } = {
             isAbout: demands.isAboutFood ? WeServe.food : WeServe.drinks,
             category: chapter.category,
         };
         return (
-            <OfferListAccordeon
+            <OfferAccordion
                 key={chapter.category}
                 demand={demand}
                 listOfOffers={chapter.offers}

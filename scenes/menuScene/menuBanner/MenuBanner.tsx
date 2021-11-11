@@ -32,7 +32,7 @@ const getEmptyCategoriesString = (names: (MenuCategory | Noticable)[]) => {
 export const MenuBanner = (props: {
     bannerData: BannerData;
     bannerEnding: string;
-    setBannerInvsible: () => void;
+    onDismiss: () => void;
     isAbout: WeServe;
 }) => {
     const beginningText =
@@ -45,9 +45,7 @@ export const MenuBanner = (props: {
             actions={[
                 {
                     label: 'Got it',
-                    onPress: () => {
-                        const newBannerData = props.setBannerInvsible();
-                    },
+                    onPress: props.onDismiss,
                 },
             ]}
         >

@@ -92,6 +92,43 @@ export const incomeAssociations = [
     association.wealthy,
     association.rich,
 ];
+
+export type Income =
+    | association.poor
+    | association.modest
+    | association.wealthy
+    | association.rich;
+export type Land =
+    | association.city
+    | association.village
+    | association.forest
+    | association.tropical
+    | association.desert
+    | association.mountain
+    | association.haven
+    | association.underdark;
+export type Class =
+    | association.adventurer
+    | association.knight
+    | association.cleric
+    | association.soldier
+    | association.wizard
+    | association.bard
+    | association.barbarian
+    | association.druid;
+export type Race =
+    | association.human
+    | association.elf
+    | association.dwarf
+    | association.drow
+    | association.halfling
+    | association.gnome
+    | association.tiefling;
+export type Special =
+    | association.prostitute
+    | association.assasine
+    | association.thief;
+
 export const specialAssociations = [
     association.prostitute,
     association.assasine,
@@ -111,21 +148,6 @@ export const isRaceAssociation = (association: association) => {
 };
 export const isSpecialAssociation = (association: association) => {
     return specialAssociations.includes(association);
-};
-export const landChosen = (fits: association[]) => {
-    return fits.some((fit) => landAssociations.includes(fit));
-};
-export const incomeChosen = (fits: association[]) => {
-    return fits.some((fit) => incomeAssociations.includes(fit));
-};
-export const specialsChosen = (fits: association[]) => {
-    return fits.some((fit) => specialAssociations.includes(fit));
-};
-export const classChosen = (fits: association[]) => {
-    return fits.some((fit) => classAssociations.includes(fit));
-};
-export const raceChosen = (fits: association[]) => {
-    return fits.some((fit) => raceAssociations.includes(fit));
 };
 
 export const getCategoryOfAssociation = (fit?: association) => {

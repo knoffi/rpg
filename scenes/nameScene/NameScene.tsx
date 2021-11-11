@@ -1,12 +1,13 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import 'react-native-gesture-handler';
-import { Button, List } from 'react-native-paper';
+import { List } from 'react-native-paper';
 import {
     association,
     AssociationTypes,
     getCategoryOfAssociation,
 } from '../../classes/association';
+import { FantasyKeys } from '../../classes/contentCreator/FantasKeys';
 import {
     getFitsFromStructure,
     StructuredTavernFits,
@@ -16,8 +17,6 @@ import {
     PencilButton,
     RerollButton,
 } from '../../components/buttons/Buttons';
-import { checkDataDistribution } from '../../helpingFunctions/checkDataDistribution';
-import { TavernData } from '../../mainNavigator/TavernData';
 import { globalStyles } from '../globalStyles';
 import { AssociationDialogBar } from './associationBar/AssociationDialogBar';
 import {
@@ -25,8 +24,8 @@ import {
     ButtonStates,
     getButtonStates,
 } from './associationBar/getButtonStates';
+import { ContextController } from './contenShifter/ContenController';
 import { getRandomName } from './getRandomName';
-import { nameIdeas } from './names/nameIdeas';
 import { nameSceneStyles } from './nameSceneStyles';
 import { NameSetDialog } from './NameSetDialog';
 import { TavernSign } from './TavernSign';
@@ -43,10 +42,10 @@ type TextAndFitBoardState = {
 type NameProps = {
     fitting: StructuredTavernFits;
     name: string;
-    onDataChange: (newData: Partial<TavernData>) => void;
-    getImpliedChanges: (
-        newFitting: StructuredTavernFits
-    ) => Partial<TavernData>;
+    handleNewFits: (newFits: StructuredTavernFits) => void;
+    handleNewName: (name: string) => void;
+    setContent: (key: FantasyKeys) => void;
+    contentName: FantasyKeys;
 };
 
 export class NameScene extends React.Component<
@@ -87,9 +86,7 @@ export class NameScene extends React.Component<
                     <View style={nameSceneStyles.signView}>
                         <NameSetDialog
                             tavernName={this.props.name}
-                            setTavernName={(name: string) => {
-                                this.props.onDataChange({ name: name });
-                            }}
+                            setTavernName={this.props.handleNewName}
                             open={this.state.nameSetDialogOpen}
                             startText={this.state.dialogText}
                             setStartText={(text: string) => {
@@ -115,7 +112,10 @@ export class NameScene extends React.Component<
                                 title={'EDIT'}
                             />
                         </View>
-                        {this.getFittingNamesSign()}
+                        <ContextController
+                            setText={this.props.setContent}
+                            text={this.props.contentName}
+                        ></ContextController>
                         <Text>{JSON.stringify(this.props.fitting)}</Text>
                     </View>
                 </View>
@@ -156,10 +156,7 @@ export class NameScene extends React.Component<
                     this.setButtonState(oldPowerFitType, ButtonState.active);
                 }
             }
-            this.props.onDataChange({
-                fitting: newFits,
-                ...this.props.getImpliedChanges(newFits),
-            });
+            this.props.handleNewFits(newFits);
         }
     }
     private renderRerollButton() {
@@ -184,7 +181,7 @@ export class NameScene extends React.Component<
     }
 
     private setNewName(newName: string) {
-        this.props.onDataChange({ name: newName });
+        this.props.handleNewName(newName);
         const incomingNameParts = newName.split(' ');
         const newOldNameParts = [
             ...this.state.oldNameParts,
@@ -224,29 +221,7 @@ export class NameScene extends React.Component<
                 : ButtonState.none
         );
 
-        this.props.onDataChange({
-            fitting: newFitting,
-            ...this.props.getImpliedChanges(newFitting),
-        });
-    }
-
-    private getFittingNamesSign() {
-        return (
-            <View style={{ flexDirection: 'row' }}>
-                <Button
-                    onPress={() => {
-                        checkDataDistribution();
-                    }}
-                >
-                    {this.totalNumberOfPossibleNames()}
-                </Button>
-            </View>
-        );
-    }
-    private totalNumberOfPossibleNames() {
-        return nameIdeas
-            .map((nameIdea) => nameIdea.countFittingChoices(this.props.fitting))
-            .reduce((sum, cur) => sum + cur, 0);
+        this.props.handleNewFits(newFitting);
     }
 
     private getPowerFitForUpdatedFits(
