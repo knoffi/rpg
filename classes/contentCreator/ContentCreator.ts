@@ -228,12 +228,13 @@ export class ContentCreator {
                 const extendedImpressions = request.oldAssets.concat(
                     newImpression || []
                 );
+
                 return {
                     newCreationAdded: !!newImpression,
                     added: extendedImpressions,
                     isAbout: WeServe.impressions,
                     category: request.category,
-                    newKeys: emptyKeys,
+                    newKeys: newImpression?.keys || emptyKeys,
                 };
         }
     }
@@ -470,8 +471,8 @@ export type Add =
     | {
           isAbout: WeServe.food;
           newCreationAdded: boolean;
-          category: Eatable;
           added: Offer[];
+          category: Eatable;
           newKeys: Keys;
       }
     | {
