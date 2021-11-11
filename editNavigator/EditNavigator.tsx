@@ -9,6 +9,10 @@ import {
 import { FantasyKeys } from '../classes/contentCreator/FantasKeys';
 import { StructuredTavernFits } from '../classes/idea/StructuredTavernFits';
 import { KeyChange, KeyHandler } from '../classes/keyHandler/KeyHandler';
+import {
+    PatternChange,
+    PatternHandler,
+} from '../classes/patternHandler/PatternHandler';
 import { Drinkable, Eatable } from '../classes/TavernProduct';
 import Icon from '../components/icons';
 import { iconKeys } from '../components/icons/iconKeys';
@@ -23,7 +27,6 @@ import { MenuScene } from '../scenes/menuScene/MenuScene';
 import { Offer } from '../scenes/menuScene/Offer';
 import { Demand } from '../scenes/menuScene/offerList/actionInterfaces';
 import { NameScene } from '../scenes/nameScene/NameScene';
-import { getUsedPatterns } from '../scenes/questScene/getUsedPatterns';
 import { QuestScene } from '../scenes/questScene/QuestScene';
 import { getCreationRequest } from './getCreationRequest';
 import { ContentLeftTest } from './getNewBannerDataAndIdeasLeft';
@@ -85,9 +88,9 @@ export const EditNavigator = (props: {
         props.tavern
     );
     const [contentLeft, setContentLeft] = useState(startNotifications);
-    const [patterns, setPatterns] = useState(
-        getUsedPatterns(props.tavern[WeServe.impressions])
-    );
+    const [patterns, setPatterns] = useState({
+        handler: new PatternHandler(props.tavern),
+    });
     const buyOffer = (offer: Offer) => {
         props.onDataChange({
             boughtOffers: [...props.tavern.boughtOffers, offer],
@@ -117,12 +120,13 @@ export const EditNavigator = (props: {
         additionFilter?: number
     ) => {
         const fullKeys = keys.handler.getFullKeys(reroll.isAbout);
+        const usedPatterns = patterns.handler.getPatterns(reroll.isAbout);
         const request: CreationRequest = getCreationRequest(
             reroll,
             props.tavern,
             fullKeys.main,
             fullKeys.addition,
-            patterns,
+            usedPatterns,
             mainFilter,
             additionFilter
         );
@@ -133,19 +137,22 @@ export const EditNavigator = (props: {
         );
         //TODO: give keyHandler (and patternHandler) to ContentCreator. This way, ContentCreator can delete keys (and patterns) of rerolled asset BEFORE choosing new asset (and then add keys of new asset)
         if (rerolled.isAbout === WeServe.impressions) {
-            const adding: KeyChange = {
+            const adding: KeyChange & PatternChange = {
                 ...rerolled,
                 type: 'Add',
             };
-            const deleting: KeyChange = {
+            const deleting: KeyChange & PatternChange = {
                 ...rerolled,
                 type: 'Delete',
             };
             const newKeys = {
                 handler: keys.handler.multiUpdateClone([adding, deleting]),
             };
+            const newPatterns = {
+                handler: patterns.handler.multiUpdateClone([adding, deleting]),
+            };
             setKeys(newKeys);
-            setPatterns(getUsedPatterns(rerolled.oneRerolled));
+            setPatterns(newPatterns);
         }
         props.onDataChange({ [rerolled.isAbout]: rerolled.oneRerolled });
     };
@@ -159,12 +166,13 @@ export const EditNavigator = (props: {
         additionFilter?: number
     ) => {
         const fullKeys = keys.handler.getFullKeys(add.isAbout);
+        const usedPatterns = patterns.handler.getPatterns(add.isAbout);
         const request: CreationRequest = getCreationRequest(
             add,
             props.tavern,
             fullKeys.main,
             fullKeys.addition,
-            patterns,
+            usedPatterns,
             mainFilter,
             additionFilter
         );
@@ -177,16 +185,16 @@ export const EditNavigator = (props: {
             creation
         );
         if (creation.isAbout === WeServe.impressions) {
-            const adding: KeyChange = {
-                isAbout: add.isAbout,
+            const adding: KeyChange & PatternChange = {
+                ...creation,
                 type: 'Add',
-                newKeys: creation.newKeys,
             };
-            const newHandler = keys.handler.updateClone(adding);
-            const newKeys = { handler: newHandler };
-            newHandler.print();
+            const newKeys = { handler: keys.handler.updateClone(adding) };
+            const newPatterns = {
+                handler: patterns.handler.updateClone(adding),
+            };
             setKeys(newKeys);
-            setPatterns(getUsedPatterns(creation.added));
+            setPatterns(newPatterns);
         }
         invokeAdd(creation, noNextCreation);
     };
@@ -261,14 +269,16 @@ export const EditNavigator = (props: {
         const tavernChanges = assetChanges;
         //TODO: add .newKeys and .newPatterns to DrinkAdd and FoodAdd
         if (assetChanges.isAbout === WeServe.impressions) {
-            const deleting: KeyChange = {
-                isAbout: assetChanges.isAbout,
+            const deleting: KeyChange & PatternChange = {
+                ...assetChanges,
                 type: 'Delete',
-                oldKeys: assetChanges.oldKeys,
             };
             const newKeys = { handler: keys.handler.updateClone(deleting) };
+            const newPatterns = {
+                handler: patterns.handler.updateClone(deleting),
+            };
             setKeys(newKeys);
-            setPatterns(getUsedPatterns(assetChanges.impression));
+            setPatterns(newPatterns);
         }
         props.onDataChange(tavernChanges);
         setContentLeft({

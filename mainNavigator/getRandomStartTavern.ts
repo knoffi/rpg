@@ -150,6 +150,7 @@ const getContentForCategory = (
         added: [],
         newKeys,
         newCreationAdded: false,
+        newPatterns: [],
     };
     const startRequest = getCreationRequest(startAdd, [], []);
     const content = getContentArray(

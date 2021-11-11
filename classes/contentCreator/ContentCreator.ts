@@ -76,6 +76,7 @@ export class ContentCreator {
                     [WeServe.impressions]: dissolvingResult.reducedImpressions,
                     isAbout: WeServe.impressions,
                     oldKeys: dissolvingResult.keys,
+                    oldPatterns: dissolvingResult.patterns,
                 };
             case WeServe.food:
                 const newDishes = deleted.creations.filter(
@@ -95,14 +96,29 @@ export class ContentCreator {
         );
         if (indexToRemove < 0) {
             const dissolvedKeys: Keys = emptyKeys;
-            return { reducedImpressions: impressions, keys: dissolvedKeys };
+            const dissolvedPatterns: Pattern[] = [];
+            console.log(
+                '___COULD NOT FIND CREATION TO REMOVE: ' + toRemove + '___'
+            );
+            return {
+                reducedImpressions: impressions,
+                keys: dissolvedKeys,
+                patterns: dissolvedPatterns,
+            };
         } else {
             const reducedImpressions = impressions
                 .slice(0, indexToRemove)
                 .concat(impressions.slice(indexToRemove + 1));
             const removedEntry = impressions[indexToRemove];
+
             const dissolvedKeys: Keys = removedEntry.keys;
-            return { reducedImpressions, keys: dissolvedKeys };
+            const dissolvedPatterns: Pattern[] = removedEntry.patterns;
+
+            return {
+                reducedImpressions,
+                keys: dissolvedKeys,
+                patterns: dissolvedPatterns,
+            };
         }
     }
 
@@ -198,6 +214,7 @@ export class ContentCreator {
                     isAbout: WeServe.drinks,
                     category: request.category,
                     newKeys: { main: [], addition: [] },
+                    newPatterns: [],
                 };
             case WeServe.food:
                 const newDish = this.getRandomDish(
@@ -212,6 +229,7 @@ export class ContentCreator {
                     isAbout: WeServe.food,
                     category: request.category,
                     newKeys: { main: [], addition: [] },
+                    newPatterns: [],
                 };
 
             default:
@@ -235,6 +253,7 @@ export class ContentCreator {
                     isAbout: WeServe.impressions,
                     category: request.category,
                     newKeys: newImpression?.keys || emptyKeys,
+                    newPatterns: newImpression?.patterns || [],
                 };
         }
     }
@@ -434,6 +453,8 @@ export class ContentCreator {
             oneRerolled: rerolledImpressions,
             newKeys: newImpression?.keys || emptyKeys,
             oldKeys: oldImpression?.keys || emptyKeys,
+            oldPatterns: oldImpression?.patterns || [],
+            newPatterns: newImpression?.patterns || [],
         };
         return reroll;
     }
@@ -467,6 +488,7 @@ export type Add =
           added: Offer[];
           category: Drinkable;
           newKeys: Keys;
+          newPatterns: Pattern[];
       }
     | {
           isAbout: WeServe.food;
@@ -474,6 +496,7 @@ export type Add =
           added: Offer[];
           category: Eatable;
           newKeys: Keys;
+          newPatterns: Pattern[];
       }
     | {
           isAbout: WeServe.impressions;
@@ -481,6 +504,7 @@ export type Add =
           newCreationAdded: boolean;
           added: Impression[];
           newKeys: Keys;
+          newPatterns: Pattern[];
       };
 export type AddCheck =
     | {
@@ -544,6 +568,7 @@ export type Delete =
           [WeServe.impressions]: Impression[];
           isAbout: WeServe.impressions;
           oldKeys: Keys;
+          oldPatterns: Pattern[];
       };
 type Reroll =
     | {
@@ -555,6 +580,8 @@ type Reroll =
           oneRerolled: Impression[];
           newKeys: Keys;
           oldKeys: Keys;
+          oldPatterns: Pattern[];
+          newPatterns: Pattern[];
       };
 export interface ImpressionNote {
     impressions: ImpressionIdea[];
