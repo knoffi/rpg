@@ -21,45 +21,67 @@ export class KeyHandler {
                 break;
         }
     }
+    public print() {
+        const test = this.keys.impression.main.map((key) => {
+            return { text: key.key.slice(0, 5), count: key.count };
+        });
+        const test2 = this.keys.impression.addition.map((key) => {
+            return { text: key.key.slice(0, 5), count: key.count };
+        });
+        console.log('main:' + JSON.stringify(test));
+        console.log(JSON.stringify(test2));
+    }
+    public updateClone(change: KeyChange) {
+        const newHandler = new KeyHandler();
+        newHandler.keys = this.keys;
+        newHandler.update(change);
+        return newHandler;
+    }
+    public multiUpdateClone(changes: KeyChange[]) {
+        const newHandler = new KeyHandler();
+        newHandler.keys = this.keys;
+        changes.forEach((change) => newHandler.update(change));
+        return newHandler;
+    }
     private handleAdd(added: Add) {
         added.newKeys.addition.forEach((key) => {
-            this.setKeyCount(key, 1, added.isAbout, 'addition');
+            this.addKeyCount(key, 1, added.isAbout, 'addition');
         });
-        added.newKeys.addition.forEach((key) => {
-            this.setKeyCount(key, 1, added.isAbout, 'main');
+        added.newKeys.main.forEach((key) => {
+            this.addKeyCount(key, 1, added.isAbout, 'main');
         });
     }
-    private setKeyCount(
-        key: AssetKey,
+    private addKeyCount(
+        newKey: AssetKey,
         addToCounter: 1 | -1,
         isAbout: WeServe,
         refersTo: 'main' | 'addition'
     ) {
         const row = this.keys[isAbout];
-        const entryForKey = row[refersTo].find((entry) => entry.key === key);
+        const entryForKey = row[refersTo].find((entry) => entry.key === newKey);
         if (entryForKey) {
             entryForKey.count += addToCounter;
         } else {
             if (addToCounter > 0) {
-                row.addition.push({ count: addToCounter, key });
+                row[refersTo].push({ count: addToCounter, key: newKey });
             }
         }
     }
     private handleDelete(deleted: Delete) {
         deleted.oldKeys.addition.forEach((key) => {
-            this.setKeyCount(key, 1, deleted.isAbout, 'addition');
+            this.addKeyCount(key, -1, deleted.isAbout, 'addition');
         });
-        deleted.oldKeys.addition.forEach((key) => {
-            this.setKeyCount(key, 1, deleted.isAbout, 'main');
+        deleted.oldKeys.main.forEach((key) => {
+            this.addKeyCount(key, -1, deleted.isAbout, 'main');
         });
     }
     public getFullKeys(isAbout: WeServe): Keys {
         const row = this.keys[isAbout];
         const fullMainKeys = row.main
-            .filter((item) => item.count > getKeyBound(item.key))
+            .filter((item) => item.count >= getKeyBound(item.key))
             .map((keyCounting) => keyCounting.key);
         const fullAdditionKeys = row.addition
-            .filter((item) => item.count > getKeyBound(item.key))
+            .filter((item) => item.count >= getKeyBound(item.key))
             .map((keyCounting) => keyCounting.key);
         return { ['main']: fullMainKeys, ['addition']: fullAdditionKeys };
     }
