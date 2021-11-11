@@ -137,9 +137,10 @@ const getContentForCategory = (
     fits: StructuredTavernFits,
     demand: Demand
 ): Add => {
-    const contentLength = Math.floor(
-        Math.random() * MAX_IDEA + (1 - NO_IDEA_PROBABILITY)
-    );
+    const contentLength =
+        demand.category === Noticable.bartender
+            ? 5
+            : Math.floor(Math.random() * MAX_IDEA + (1 - NO_IDEA_PROBABILITY));
     //TODO: random tavern uses random FantasyKey for content creator
     const creator = new ContentCreator();
     const keyHandler = new KeyHandler();
