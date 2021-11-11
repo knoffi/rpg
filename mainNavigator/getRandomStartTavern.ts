@@ -85,7 +85,7 @@ const getRandomBasePrice = () => {
     } as BasePrice;
 };
 
-type Content = Pick<
+export type Content = Pick<
     MinimalTavernData,
     WeServe.drinks | WeServe.food | WeServe.impressions
 >;
@@ -143,7 +143,7 @@ const getContentForCategory = (
             : Math.floor(Math.random() * MAX_IDEA + (1 - NO_IDEA_PROBABILITY));
     //TODO: random tavern uses random FantasyKey for content creator
     const creator = new ContentCreator();
-    const keyHandler = new KeyHandler();
+    const keyHandler = new KeyHandler('noPreviousContent');
     const newKeys = emptyKeys;
     const startAdd: Add = {
         ...demand,

@@ -77,7 +77,7 @@ export const EditNavigator = (props: {
 }) => {
     const startCreator = new ContentCreator();
     const [content, setContent] = useState({ creator: startCreator });
-    const [keys, setKeys] = useState({ handler: new KeyHandler() });
+    const [keys, setKeys] = useState({ handler: new KeyHandler(props.tavern) });
     const startNotifications = testContentLeft(
         DEFAULT_BANNERS,
         props.tavern.fitting,
