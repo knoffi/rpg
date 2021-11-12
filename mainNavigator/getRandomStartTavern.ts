@@ -31,20 +31,22 @@ import { Content } from './Content';
 import { getCreationRequest } from './getCreationRequest';
 import { getTavernHistoryInitializer } from './mainNavigatorFunctions';
 import { MinimalTavernData } from './TavernData';
-
+import { UniverseMap } from './UniverseMap';
 const CHANCE_FOR_POWERFIT = 0.9;
 const CHANCE_FOR_SPECIAL_FIT = 0.2;
 const CHANCE_FOR_ORDINARY_FIT = 0.625;
 const NO_IDEA_PROBABILITY = 0.1;
 const MAX_IDEA = 3;
 const MAX_PRICE_DERIVATION = 0.3;
-export const getRandomStartTavern = (): MinimalTavernData => {
+export const getRandomStartTavern = (
+    universeMap: UniverseMap
+): MinimalTavernData => {
     const tavernData = getTavernHistoryInitializer();
     const fitting = getRandomStructuredFits();
     const prices = getRandomBasePrice();
     const name = getRandomStartName(fitting);
     //TODO: use PatternHandler to get better content
-    const content = getContent(fitting);
+    const content = getContent(fitting, universeMap);
 
     return { ...tavernData, name, prices, fitting, ...content };
 };
@@ -90,30 +92,44 @@ const getRandomBasePrice = () => {
     } as BasePrice;
 };
 
-const getContent = (fits: StructuredTavernFits): Content => {
+const getContent = (
+    fits: StructuredTavernFits,
+    universeMap: UniverseMap
+): Content => {
     const drinks = Object.values(Drinkable)
         .map(
             (category) =>
-                getContentForCategory(fits, {
-                    isAbout: WeServe.drinks,
-                    category,
-                }).added
+                getContentForCategory(
+                    fits,
+                    {
+                        isAbout: WeServe.drinks,
+                        category,
+                    },
+                    universeMap
+                ).added
         )
         .flat() as Offer[];
     const food = Object.values(Eatable)
         .map(
             (category) =>
-                getContentForCategory(fits, { isAbout: WeServe.food, category })
-                    .added
+                getContentForCategory(
+                    fits,
+                    { isAbout: WeServe.food, category },
+                    universeMap
+                ).added
         )
         .flat() as Offer[];
     const impressions = Object.values(Noticable)
         .map(
             (category) =>
-                getContentForCategory(fits, {
-                    isAbout: WeServe.impressions,
-                    category,
-                }).added
+                getContentForCategory(
+                    fits,
+                    {
+                        isAbout: WeServe.impressions,
+                        category,
+                    },
+                    universeMap
+                ).added
         )
         .flat() as Impression[];
     return {
@@ -135,14 +151,20 @@ const getRandomStartName = (fits: StructuredTavernFits) => {
 };
 const getContentForCategory = (
     fits: StructuredTavernFits,
-    demand: Demand
+    demand: Demand,
+    universeMap: UniverseMap
 ): Add => {
+    const universe = universeMap[demand.category];
+    if (!universe) {
+        console.log(
+            '___UNIVERSE KEY NOT FOUND FOR RANDOM TAVERN - USING DEFAULT CREATOR___'
+        );
+    }
     const contentLength =
         demand.category === Noticable.bartender
             ? 5
             : Math.floor(Math.random() * MAX_IDEA + (1 - NO_IDEA_PROBABILITY));
-    //TODO: random tavern uses Map category -> FantasyKey for content creator
-    const creator = new ContentCreator();
+    const creator = new ContentCreator(universe);
     const keyHandler = new KeyHandler('noPreviousContent');
     const patternHandler = new PatternHandler('noContent');
     const newKeys = emptyKeys;

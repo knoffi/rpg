@@ -1,11 +1,12 @@
 import React from 'react';
 import { View } from 'react-native';
+import { UniverseMap } from '../../mainNavigator/UniverseMap';
 import { nameSceneStyles } from '../nameScene/nameSceneStyles';
 import { EditModal } from './EditModal';
 
 export const StartOptionsScene = (props: {
     onTavernTemplate: (key: string) => void;
-    onRandomGenerator: () => void;
+    onRandomGenerator: (map: UniverseMap) => void;
     onNextScene: () => void;
 }) => {
     return (
@@ -15,8 +16,8 @@ export const StartOptionsScene = (props: {
                     props.onTavernTemplate(key);
                     props.onNextScene();
                 }}
-                buildRandomTavern={() => {
-                    props.onRandomGenerator();
+                buildRandomTavern={(map: UniverseMap) => {
+                    props.onRandomGenerator(map);
                     props.onNextScene();
                 }}
             />

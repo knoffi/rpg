@@ -13,17 +13,10 @@ export type TavernData = {
     [WeServe.drinks]: Offer[];
     [WeServe.food]: Offer[];
     prices: BasePrice;
-    ideasLeft: {
-        [WeServe.drinks]: Map<Describable, boolean>;
-        [WeServe.food]: Map<Describable, boolean>;
-        [WeServe.impressions]: Map<Describable, boolean>;
-    };
-    bannerData: {
-        [WeServe.drinks]: BannerData;
-        [WeServe.food]: BannerData;
-        [WeServe.impressions]: BannerData;
-    };
+    ideasLeft: Record<WeServe, DescriptionCheck>;
+    bannerData: Record<WeServe, BannerData>;
     boughtOffers: Offer[];
     [WeServe.impressions]: Impression[];
 };
 export type MinimalTavernData = Omit<TavernData, 'ideasLeft' | 'bannerData'>;
+type DescriptionCheck = Map<Describable, boolean>;
