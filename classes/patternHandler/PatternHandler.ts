@@ -1,5 +1,5 @@
 import { WeServe } from '../../editNavigator/WeServe';
-import { Content } from '../../mainNavigator/getRandomStartTavern';
+import { Content } from '../../mainNavigator/Content';
 import { Offer } from '../../scenes/menuScene/Offer';
 import { Impression } from '../../scenes/questScene/impressions/Impression';
 import { Pattern } from '../idea/Patterns/Pattern';

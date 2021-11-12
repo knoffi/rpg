@@ -27,6 +27,7 @@ import { Offer } from '../scenes/menuScene/Offer';
 import { Demand } from '../scenes/menuScene/offerList/actionInterfaces';
 import { getRandomName } from '../scenes/nameScene/getRandomName';
 import { Impression } from '../scenes/questScene/impressions/Impression';
+import { Content } from './Content';
 import { getCreationRequest } from './getCreationRequest';
 import { getTavernHistoryInitializer } from './mainNavigatorFunctions';
 import { MinimalTavernData } from './TavernData';
@@ -88,11 +89,6 @@ const getRandomBasePrice = () => {
         currency: 'copper',
     } as BasePrice;
 };
-
-export type Content = Pick<
-    MinimalTavernData,
-    WeServe.drinks | WeServe.food | WeServe.impressions
->;
 
 const getContent = (fits: StructuredTavernFits): Content => {
     const drinks = Object.values(Drinkable)
