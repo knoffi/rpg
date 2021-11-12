@@ -14,7 +14,11 @@ import {
     getStructuredFits,
     StructuredTavernFits,
 } from '../classes/idea/StructuredTavernFits';
-import { KeyHandler } from '../classes/keyHandler/KeyHandler';
+import { KeyChange, KeyHandler } from '../classes/keyHandler/KeyHandler';
+import {
+    PatternChange,
+    PatternHandler,
+} from '../classes/patternHandler/PatternHandler';
 import { Drinkable, Eatable } from '../classes/TavernProduct';
 import { WeServe } from '../editNavigator/WeServe';
 import { getRandomArrayEntry } from '../helpingFunctions/getFittingRandom';
@@ -35,10 +39,10 @@ const MAX_IDEA = 3;
 const MAX_PRICE_DERIVATION = 0.3;
 export const getRandomStartTavern = (): MinimalTavernData => {
     const tavernData = getTavernHistoryInitializer();
-
     const fitting = getRandomStructuredFits();
     const prices = getRandomBasePrice();
     const name = getRandomStartName(fitting);
+    //TODO: use PatternHandler to get better content
     const content = getContent(fitting);
 
     return { ...tavernData, name, prices, fitting, ...content };
@@ -141,9 +145,10 @@ const getContentForCategory = (
         demand.category === Noticable.bartender
             ? 5
             : Math.floor(Math.random() * MAX_IDEA + (1 - NO_IDEA_PROBABILITY));
-    //TODO: random tavern uses random FantasyKey for content creator
+    //TODO: random tavern uses Map category -> FantasyKey for content creator
     const creator = new ContentCreator();
     const keyHandler = new KeyHandler('noPreviousContent');
+    const patternHandler = new PatternHandler('noContent');
     const newKeys = emptyKeys;
     const startAdd: Add = {
         ...demand,
@@ -158,6 +163,7 @@ const getContentForCategory = (
         contentLength,
         startRequest,
         keyHandler,
+        patternHandler,
         creator
     );
     return { ...content };
@@ -168,6 +174,7 @@ const getContentArray = (
     length: number,
     request: CreationRequest,
     keys: KeyHandler,
+    patterns: PatternHandler,
     creator: ContentCreator
 ): Add => {
     if (request.oldAssets.length + 1 >= length) {
@@ -178,7 +185,12 @@ const getContentArray = (
             return add;
         }
         if (add.isAbout === WeServe.impressions) {
-            keys.update({ ...add, type: 'Add' });
+            const handlerUpdate: KeyChange & PatternChange = {
+                ...add,
+                type: 'Add',
+            };
+            keys.update(handlerUpdate);
+            patterns.update(handlerUpdate);
         }
         const fullKeys = keys.getFullKeys(add.isAbout);
         const newRequst = getCreationRequest(
@@ -186,6 +198,13 @@ const getContentArray = (
             fullKeys.main,
             fullKeys.addition
         );
-        return getContentArray(fits, length, newRequst, keys, creator);
+        return getContentArray(
+            fits,
+            length,
+            newRequst,
+            keys,
+            patterns,
+            creator
+        );
     }
 };
