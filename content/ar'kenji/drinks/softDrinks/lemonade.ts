@@ -18,6 +18,6 @@ export const lemonades: DishIdea[] = [
             ],
         },
         adjustPriceSetter(drinkPrices.softDrink, 1.1),
-        Drinkable.wine
+        Drinkable.lemonade
     ),
 ];

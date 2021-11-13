@@ -23,6 +23,6 @@ export const water: DishIdea[] = [
             ],
         },
         adjustPriceSetter(drinkPrices.softDrink, WATER_FACTOR),
-        Drinkable.wine
+        Drinkable.lemonade
     ),
 ];
