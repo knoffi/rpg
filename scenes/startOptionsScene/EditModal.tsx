@@ -139,10 +139,11 @@ export const EditModal = (props: {
                     ) : undefined}
                     {visibility['universeSetting'] ? (
                         <UniverseSetting
-                            startUniverse={(map: UniverseMap) => {
+                            onAccept={(map: UniverseMap) => {
                                 props.buildRandomTavern(map);
                                 hideModal();
                             }}
+                            acceptText={'Generate Tavern'}
                         ></UniverseSetting>
                     ) : undefined}
                 </Modal>
@@ -152,7 +153,8 @@ export const EditModal = (props: {
 };
 
 const UniverseSetting = (props: {
-    startUniverse: (map: UniverseMap) => void;
+    onAccept: (map: UniverseMap) => void;
+    acceptText: string;
 }) => {
     const [map, setMap] = React.useState(DEFAULT_LAZY_UNIVERSE_MAP);
 
@@ -174,11 +176,11 @@ const UniverseSetting = (props: {
         <ScrollView style={{ alignContent: 'flex-start' }}>
             {buttons}
             <Button
-                onPress={() => props.startUniverse(getUniverseMap(map))}
+                onPress={() => props.onAccept(getUniverseMap(map))}
                 style={{ margin: 10 }}
                 mode="contained"
             >
-                Generate Tavern
+                {props.acceptText}
             </Button>
         </ScrollView>
     );
