@@ -4,16 +4,15 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { Button, Modal, Paragraph, Portal, Provider } from 'react-native-paper';
 import { ContentCreator } from '../../classes/contentCreator/ContentCreator';
 import { FantasyKeys } from '../../classes/contentCreator/FantasKeys';
-import { Noticable } from '../../classes/idea/Noticable';
-import { Drinkable, Eatable } from '../../classes/TavernProduct';
 import {
     buttonEmphasis,
     InfoIconButton,
 } from '../../components/buttons/Buttons';
 import { HEIGHT_FACTOR, WIDTH_FACTOR } from '../../dimensionConstants';
-import { Describable } from '../../mainNavigator/TavernData';
+import { WeServe } from '../../editNavigator/WeServe';
 import {
-    DEFAULT_UNIVERSE_MAP,
+    DEFAULT_LAZY_UNIVERSE_MAP,
+    getUniverseMap,
     UniverseMap,
 } from '../../mainNavigator/UniverseMap';
 import { taverns } from '../../templates/taverns';
@@ -67,8 +66,8 @@ export const EditModal = (props: {
                             onPress={() => {
                                 setVisibility({
                                     ...visibility,
-                                    thisModal: false,
                                     universeSetting: true,
+                                    menu: false,
                                 });
                             }}
                         >
@@ -105,7 +104,6 @@ export const EditModal = (props: {
                             Tavern Templates
                         </Button>
                     ) : undefined}
-                    //{' '}
                     {visibility['templates'] ? (
                         <TavernsFlatList
                             onTavernInfoClick={(note: string, key: string) => {
@@ -152,32 +150,31 @@ export const EditModal = (props: {
         </Provider>
     );
 };
+
 const UniverseSetting = (props: {
     startUniverse: (map: UniverseMap) => void;
 }) => {
-    const [map, setMap] = React.useState(DEFAULT_UNIVERSE_MAP);
-    const allCategories: Describable[] = Object.values(
-        Noticable || Drinkable || Eatable
-    );
-    const getUniverseIncrementer = (category: Describable) => () => {
-        const oldUniverse = map[category];
+    const [map, setMap] = React.useState(DEFAULT_LAZY_UNIVERSE_MAP);
+
+    const getUniverseIncrementer = (isAbout: WeServe) => () => {
+        const oldUniverse = map[isAbout];
         const newUniverse = ContentCreator.getNextKey(oldUniverse);
-        setMap({ ...map, [category]: newUniverse });
+        setMap({ ...map, [isAbout]: newUniverse });
     };
 
-    const buttons = allCategories.map((category) => (
+    const buttons = Object.values(WeServe).map((isAbout) => (
         <UniverseButton
-            category={category}
-            key={category}
-            universe={map[category]}
-            onPress={getUniverseIncrementer(category)}
+            category={isAbout}
+            key={isAbout}
+            universe={map[isAbout]}
+            onPress={getUniverseIncrementer(isAbout)}
         ></UniverseButton>
     ));
     return (
         <ScrollView style={{ alignContent: 'flex-start' }}>
             {buttons}
             <Button
-                onPress={() => props.startUniverse(map)}
+                onPress={() => props.startUniverse(getUniverseMap(map))}
                 style={{ margin: 10 }}
                 mode="contained"
             >
@@ -188,7 +185,7 @@ const UniverseSetting = (props: {
 };
 
 const UniverseButton = (props: {
-    category: Describable;
+    category: string;
     universe: FantasyKeys;
     onPress: () => void;
 }) => {
@@ -198,10 +195,12 @@ const UniverseButton = (props: {
                 flexDirection: 'row',
                 marginHorizontal: 10 * WIDTH_FACTOR,
                 marginTop: 10 * HEIGHT_FACTOR,
-                alignContent: 'center',
+                justifyContent: 'space-between',
             }}
         >
-            <Text>{props.category + ':'}</Text>
+            <Text style={{ fontWeight: 'bold' }}>
+                {props.category.toUpperCase() + ':'}
+            </Text>
             <Button onPress={props.onPress} mode="contained">
                 {props.universe}
             </Button>
