@@ -2,13 +2,8 @@ import { association } from '../../../classes/association';
 import { DescriptionAsset } from '../../../classes/idea/DescriptionAsset';
 import { evilHumanoids } from './substantives/evilHumanoids';
 import { fruits, vegetables } from './substantives/fruitsVegetables';
-import {
-    femaleGenitals,
-    maleGenitals,
-    sexyParts,
-} from './substantives/genitals';
 import { instruments } from './substantives/instruments';
-import { brothelJobs, noblesAndTitles } from './substantives/jobs';
+import { noblesAndTitles } from './substantives/jobs';
 import { majesticBeasts } from './substantives/majesticBeasts';
 import {
     criminalPredatorBeasts,
@@ -33,10 +28,6 @@ export const NON_HUMAN_SUBSTANTIVES_FOR_GOLD: DescriptionAsset[] = [
     ...fruits,
     ...vegetables,
     ...evilHumanoids,
-    ...substantives.allJobs,
-    ...substantives.femaleGenitals,
-    ...substantives.maleGenitals,
-    ...substantives.legsAssBreasts,
     { name: 'Temple', needsOne: [a.cleric] },
     { name: 'Mine', needsOne: [a.dwarf, a.underdark] },
     { name: 'Harem', needs: [a.prostitute], worksForBrothel: true },
@@ -71,8 +62,8 @@ export const NON_HUMAN_SUBSTANTIVES_FOR_GOLD: DescriptionAsset[] = [
 export const SUBSTANTIVES_FOR_GOLD: DescriptionAsset[] = [
     ...NON_HUMAN_SUBSTANTIVES_FOR_GOLD,
     ...noblesAndTitles,
-    ...sexyParts,
-    ...maleGenitals,
-    ...femaleGenitals,
-    ...brothelJobs,
+    ...substantives.allJobs,
+    ...substantives.legsAssBreasts,
+    ...substantives.femaleGenitals,
+    ...substantives.maleGenitals,
 ];
