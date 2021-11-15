@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import 'react-native-gesture-handler';
-import { Button, List } from 'react-native-paper';
+import { List } from 'react-native-paper';
 import {
     association,
     AssociationTypes,
@@ -12,6 +12,7 @@ import {
     StructuredTavernFits,
 } from '../../classes/idea/StructuredTavernFits';
 import {
+    BookButton,
     buttonEmphasis,
     PencilButton,
     RerollButton,
@@ -103,21 +104,9 @@ export class NameScene extends React.Component<Props, State> {
                             }}
                         >
                             {this.renderRerollButton()}
-                            <PencilButton
-                                onPress={() => {
-                                    this.setState({ nameSetDialogOpen: true });
-                                }}
-                                mode={buttonEmphasis.high}
-                                title={'EDIT'}
-                            />
+                            {this.renderUniverseButton()}
+                            {this.renderEditButton()}
                         </View>
-                        <Button
-                            onPress={() =>
-                                this.setState({ settingUniverse: true })
-                            }
-                        >
-                            Set Content
-                        </Button>
                         <UniverseModal
                             onConentSet={this.props.setUniverse}
                             isVisible={this.state.settingUniverse}
@@ -175,6 +164,26 @@ export class NameScene extends React.Component<Props, State> {
                 onPress={() => this.rerollName()}
                 title=" NAME"
             ></RerollButton>
+        );
+    }
+    private renderEditButton() {
+        return (
+            <PencilButton
+                onPress={() => {
+                    this.setState({ nameSetDialogOpen: true });
+                }}
+                mode={buttonEmphasis.high}
+                title={' NAME'}
+            />
+        );
+    }
+    private renderUniverseButton() {
+        return (
+            <BookButton
+                onPress={() => this.setState({ settingUniverse: true })}
+                mode={buttonEmphasis.high}
+                title={' Set'}
+            />
         );
     }
 
