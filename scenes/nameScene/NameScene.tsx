@@ -25,11 +25,11 @@ import {
     ButtonStates,
     getButtonStates,
 } from './associationBar/getButtonStates';
-import { UniverseModal } from './contenShifter/UniverseModal';
 import { getRandomName } from './getRandomName';
 import { nameSceneStyles } from './nameSceneStyles';
 import { NameSetDialog } from './NameSetDialog';
 import { TavernSign } from './TavernSign';
+import { UniverseDialog } from './UniverseDialog/UniverseDialog';
 
 const MAX_NAME_MEMORY = 16;
 const SECTION_FLEX = 0.2;
@@ -107,14 +107,14 @@ export class NameScene extends React.Component<Props, State> {
                             {this.renderUniverseButton()}
                             {this.renderEditButton()}
                         </View>
-                        <UniverseModal
+                        <UniverseDialog
                             onConentSet={this.props.setUniverse}
                             isVisible={this.state.settingUniverse}
                             onDismiss={() =>
                                 this.setState({ settingUniverse: false })
                             }
                             universe={this.props.universe}
-                        ></UniverseModal>
+                        ></UniverseDialog>
                     </View>
                 </View>
             </View>
