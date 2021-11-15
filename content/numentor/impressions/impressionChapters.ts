@@ -16,7 +16,7 @@ import { trapsIntriguingShockingFurniture } from './objects/trapsSecretIntriguin
 
 export const impressionChapters = [
     {
-        impressions: [
+        ideas: [
             ...furnitures,
             ...stuffedAnimals,
             ...trapsIntriguingShockingFurniture,
@@ -24,11 +24,11 @@ export const impressionChapters = [
         category: Noticable.furniture,
     },
     {
-        impressions: [...averageCustomers],
+        ideas: [...averageCustomers],
         category: Noticable.averageCustomer,
     },
     {
-        impressions: [
+        ideas: [
             ...individuals,
             ...specialIndividuals,
             ...druidIndividuals,
@@ -37,7 +37,7 @@ export const impressionChapters = [
         category: Noticable.someCustomers,
     },
     {
-        impressions: [
+        ideas: [
             ...bartenderKnowledge,
             ...bartenderAccesories,
             ...bartenderPast,

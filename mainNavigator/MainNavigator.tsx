@@ -13,12 +13,12 @@ import { taverns } from '../templates/taverns';
 import { getRandomStartTavern } from './getRandomStartTavern';
 import { getTavernHistoryInitializer } from './mainNavigatorFunctions';
 import { MinimalTavernData } from './TavernData';
-import { UniverseMap } from './UniverseMap';
+import { DEFAULT_UNIVERSE_MAP, UniverseMap } from './UniverseMap';
 
 const Stack = createStackNavigator();
 export const MainNavigator = () => {
     const [tavernHistory, setTavernHistory] = useState([
-        getTavernHistoryInitializer(),
+        getTavernHistoryInitializer(DEFAULT_UNIVERSE_MAP),
     ]);
     const [historyIndex, setHistoryIndex] = useState(0);
 
@@ -44,7 +44,9 @@ export const MainNavigator = () => {
         const minTavernDataByID = taverns.find(
             (tavern) => tavern.key === templateKey
         );
-        const tavernData = minTavernDataByID || getTavernHistoryInitializer();
+        const tavernData =
+            minTavernDataByID ||
+            getTavernHistoryInitializer(DEFAULT_UNIVERSE_MAP);
         setHistoryIndex(0);
         setTavernHistory([tavernData]);
     };

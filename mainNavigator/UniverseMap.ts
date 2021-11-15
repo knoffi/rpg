@@ -40,9 +40,10 @@ export const DEFAULT_UNIVERSE_MAP = Object.values(allCategories).reduce(
     },
     {}
 ) as UniverseMap;
-export const DEFAULT_LAZY_UNIVERSE_MAP = Object.values(WeServe).reduce(
-    (map, category) => {
-        return { ...map, [category]: FantasyKeys.standard };
-    },
-    {}
-) as LazyUniverseMap;
+export const getLazyUniverseMap = (universe: UniverseMap): LazyUniverseMap => {
+    return {
+        [WeServe.drinks]: universe[Drinkable.beer],
+        [WeServe.food]: universe[Eatable.mainDish],
+        [WeServe.impressions]: universe[Noticable.bartender],
+    };
+};

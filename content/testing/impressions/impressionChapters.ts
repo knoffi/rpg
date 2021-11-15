@@ -6,19 +6,19 @@ import { keyTestFurnitures } from './objects/testFurniture';
 
 export const impressionChapters = [
     {
-        impressions: [...keyTestFurnitures],
+        ideas: [...keyTestFurnitures],
         category: Noticable.furniture,
     },
     {
-        impressions: [...averageCustomers],
+        ideas: [...averageCustomers],
         category: Noticable.averageCustomer,
     },
     {
-        impressions: [...specialIndividuals],
+        ideas: [...specialIndividuals],
         category: Noticable.someCustomers,
     },
     {
-        impressions: [...patternTestBartender],
+        ideas: [...patternTestBartender],
         category: Noticable.bartender,
     },
 ];

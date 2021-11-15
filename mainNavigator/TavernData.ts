@@ -6,6 +6,7 @@ import { BasePrice } from '../scenes/menuScene/basePrice';
 import { BannerData } from '../scenes/menuScene/menuBanner/MenuBanner';
 import { Offer } from '../scenes/menuScene/Offer';
 import { Impression } from '../scenes/questScene/impressions/Impression';
+import { UniverseMap } from './UniverseMap';
 export type Describable = Drinkable | Eatable | Noticable;
 export type TavernData = {
     fitting: StructuredTavernFits;
@@ -17,6 +18,7 @@ export type TavernData = {
     bannerData: Record<WeServe, BannerData>;
     boughtOffers: Offer[];
     [WeServe.impressions]: Impression[];
+    universe: UniverseMap;
 };
 export type MinimalTavernData = Omit<TavernData, 'ideasLeft' | 'bannerData'>;
 type DescriptionCheck = Map<Describable, boolean>;

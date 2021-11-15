@@ -7,6 +7,6 @@ import { meads } from './wine/meads';
 import { redWines } from './wine/redWines';
 
 export const drinkMenu: IDrinkMenu[] = [
-    { category: Drinkable.beer, drinks: [...ales, ...lagers, ...porters] },
-    { category: Drinkable.wine, drinks: [...redWines, ...meads] },
+    { category: Drinkable.beer, ideas: [...ales, ...lagers, ...porters] },
+    { category: Drinkable.wine, ideas: [...redWines, ...meads] },
 ];

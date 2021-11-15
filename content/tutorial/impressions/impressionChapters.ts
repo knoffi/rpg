@@ -6,19 +6,19 @@ import { furnitures } from './objects/furniture';
 
 export const impressionChapters = [
     {
-        impressions: [...furnitures],
+        ideas: [...furnitures],
         category: Noticable.furniture,
     },
     {
-        impressions: [...averageCustomers],
+        ideas: [...averageCustomers],
         category: Noticable.averageCustomer,
     },
     {
-        impressions: [...specialIndividuals],
+        ideas: [...specialIndividuals],
         category: Noticable.someCustomers,
     },
     {
-        impressions: [...hats],
+        ideas: [...hats],
         category: Noticable.bartender,
     },
 ];

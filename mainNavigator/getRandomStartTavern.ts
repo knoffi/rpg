@@ -41,7 +41,7 @@ const MAX_PRICE_DERIVATION = 0.3;
 export const getRandomStartTavern = (
     universeMap: UniverseMap
 ): MinimalTavernData => {
-    const tavernData = getTavernHistoryInitializer();
+    const tavernData = getTavernHistoryInitializer(universeMap);
     const fitting = getRandomStructuredFits();
     const prices = getRandomBasePrice();
     const name = getRandomStartName(fitting);
@@ -96,6 +96,7 @@ const getContent = (
     fits: StructuredTavernFits,
     universeMap: UniverseMap
 ): Content => {
+    const creator = new ContentCreator(universeMap);
     const drinks = Object.values(Drinkable)
         .map(
             (category) =>
@@ -105,7 +106,7 @@ const getContent = (
                         isAbout: WeServe.drinks,
                         category,
                     },
-                    universeMap
+                    creator
                 ).added
         )
         .flat() as Offer[];
@@ -115,7 +116,7 @@ const getContent = (
                 getContentForCategory(
                     fits,
                     { isAbout: WeServe.food, category },
-                    universeMap
+                    creator
                 ).added
         )
         .flat() as Offer[];
@@ -128,7 +129,7 @@ const getContent = (
                         isAbout: WeServe.impressions,
                         category,
                     },
-                    universeMap
+                    creator
                 ).added
         )
         .flat() as Impression[];
@@ -152,19 +153,12 @@ const getRandomStartName = (fits: StructuredTavernFits) => {
 const getContentForCategory = (
     fits: StructuredTavernFits,
     demand: Demand,
-    universeMap: UniverseMap
+    creator: ContentCreator
 ): Add => {
-    const universe = universeMap[demand.category];
-    if (!universe) {
-        console.log(
-            '___UNIVERSE KEY NOT FOUND FOR RANDOM TAVERN - USING DEFAULT CREATOR___'
-        );
-    }
     const contentLength =
         demand.category === Noticable.bartender
             ? 5
             : Math.floor(Math.random() * MAX_IDEA + (1 - NO_IDEA_PROBABILITY));
-    const creator = new ContentCreator(universe);
     const keyHandler = new KeyHandler('noPreviousContent');
     const patternHandler = new PatternHandler('noContent');
     const newKeys = emptyKeys;

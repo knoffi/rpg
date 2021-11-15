@@ -14,30 +14,31 @@ export const testContentLeft = (
     oldBanners: IBanners,
     newFitting: StructuredTavernFits,
     creator: ContentCreator,
-    content: Pick<
+    oldContent: Pick<
         MinimalTavernData,
         WeServe.drinks | WeServe.food | WeServe.impressions
     >
 ): ContentLeftTest => {
-    return getAllNewBannerDataAndOffersLeft(
+    const result = getAllNewBannerDataAndOffersLeft(
         oldBanners,
         (category: Noticable) =>
             !creator.noNextCreationLeft(newFitting, {
                 isAbout: WeServe.impressions,
                 category,
-                added: content[WeServe.impressions],
+                added: oldContent[WeServe.impressions],
             }),
         (category: Eatable) =>
             !creator.noNextCreationLeft(newFitting, {
                 isAbout: WeServe.food,
                 category,
-                added: content[WeServe.food],
+                added: oldContent[WeServe.food],
             }),
         (category: Drinkable) =>
             !creator.noNextCreationLeft(newFitting, {
                 isAbout: WeServe.drinks,
                 category,
-                added: content[WeServe.drinks],
+                added: oldContent[WeServe.drinks],
             })
     );
+    return result;
 };

@@ -1,13 +1,12 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import 'react-native-gesture-handler';
-import { List } from 'react-native-paper';
+import { Button, List } from 'react-native-paper';
 import {
     association,
     AssociationTypes,
     getCategoryOfAssociation,
 } from '../../classes/association';
-import { FantasyKeys } from '../../classes/contentCreator/FantasKeys';
 import {
     getFitsFromStructure,
     StructuredTavernFits,
@@ -17,6 +16,7 @@ import {
     PencilButton,
     RerollButton,
 } from '../../components/buttons/Buttons';
+import { UniverseMap } from '../../mainNavigator/UniverseMap';
 import { globalStyles } from '../globalStyles';
 import { AssociationDialogBar } from './associationBar/AssociationDialogBar';
 import {
@@ -24,7 +24,7 @@ import {
     ButtonStates,
     getButtonStates,
 } from './associationBar/getButtonStates';
-import { ContextController } from './contenShifter/ContenController';
+import { UniverseModal } from './contenShifter/UniverseModal';
 import { getRandomName } from './getRandomName';
 import { nameSceneStyles } from './nameSceneStyles';
 import { NameSetDialog } from './NameSetDialog';
@@ -32,26 +32,24 @@ import { TavernSign } from './TavernSign';
 
 const MAX_NAME_MEMORY = 16;
 const SECTION_FLEX = 0.2;
-type TextAndFitBoardState = {
+type State = {
     nameSetDialogOpen: boolean;
     dialogText: string;
     oldNameParts: string[];
     buttons: ButtonStates;
     userActivelySetPowerfit: boolean;
+    settingUniverse: boolean;
 };
-type NameProps = {
+type Props = {
     fitting: StructuredTavernFits;
     name: string;
     handleNewFits: (newFits: StructuredTavernFits) => void;
     handleNewName: (name: string) => void;
-    setContent: (key: FantasyKeys) => void;
-    contentName: FantasyKeys;
+    setUniverse: (map: UniverseMap) => void;
+    universe: UniverseMap;
 };
 
-export class NameScene extends React.Component<
-    NameProps,
-    TextAndFitBoardState
-> {
+export class NameScene extends React.Component<Props, State> {
     constructor(props: any) {
         super(props);
 
@@ -61,6 +59,7 @@ export class NameScene extends React.Component<
             oldNameParts: [],
             buttons: getButtonStates(this.props.fitting),
             userActivelySetPowerfit: false,
+            settingUniverse: false,
         };
     }
 
@@ -112,11 +111,21 @@ export class NameScene extends React.Component<
                                 title={'EDIT'}
                             />
                         </View>
-                        <ContextController
-                            setText={this.props.setContent}
-                            text={this.props.contentName}
-                        ></ContextController>
-                        <Text>{JSON.stringify(this.props.fitting)}</Text>
+                        <Button
+                            onPress={() =>
+                                this.setState({ settingUniverse: true })
+                            }
+                        >
+                            Set Content
+                        </Button>
+                        <UniverseModal
+                            onConentSet={this.props.setUniverse}
+                            isVisible={this.state.settingUniverse}
+                            onDismiss={() =>
+                                this.setState({ settingUniverse: false })
+                            }
+                            universe={this.props.universe}
+                        ></UniverseModal>
                     </View>
                 </View>
             </View>

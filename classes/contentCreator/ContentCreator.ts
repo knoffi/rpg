@@ -4,6 +4,8 @@ import { numentor } from '../../content/numentor/numentor';
 import { UI_TEST_CONTENT } from '../../content/testing/testing';
 import { WeServe } from '../../editNavigator/WeServe';
 import { getRandomArrayEntry } from '../../helpingFunctions/getFittingRandom';
+import { Describable } from '../../mainNavigator/TavernData';
+import { allCategories, UniverseMap } from '../../mainNavigator/UniverseMap';
 import { Offer } from '../../scenes/menuScene/Offer';
 import { getPrefixExcluder } from '../../scenes/questScene/impressions/getPrefixExcluder';
 import { Impression } from '../../scenes/questScene/impressions/Impression';
@@ -21,6 +23,11 @@ import { Drinkable, Eatable } from '../TavernProduct';
 import { emptyKeys } from './emptyKeys';
 import { FantasyKeys } from './FantasKeys';
 
+type Cook = Record<Eatable, DishIdea[]>;
+type Bartender = Record<Drinkable, DishIdea[]>;
+type Author = Record<Noticable, ImpressionIdea[]>;
+type DungeonMaster = Cook & Bartender & Author;
+
 export class ContentCreator {
     private static books = [
         { key: FantasyKeys.standard, book: numentor },
@@ -34,30 +41,29 @@ export class ContentCreator {
         const nextIndex = (prevIndex + 1) % allKeys.length;
         return allKeys[nextIndex];
     }
-    private noteBook: ImpressionNote[];
-    private dishMenu: IDishMenu[];
-    private drinkMenu: IDrinkMenu[];
-    private key: FantasyKeys;
 
-    constructor(key = FantasyKeys.standard) {
-        const universe = ContentCreator.books.find((book) => book.key === key);
-        if (universe) {
-            this.key = universe.key;
-            this.dishMenu = universe.book.dishes;
-            this.drinkMenu = universe.book.drinks;
-            this.noteBook = universe.book.notes;
-        } else {
-            const DEFAULT_UNIVERSE = ContentCreator.books[0];
-            this.key = DEFAULT_UNIVERSE.key;
-            this.dishMenu = DEFAULT_UNIVERSE.book.dishes;
-            this.drinkMenu = DEFAULT_UNIVERSE.book.drinks;
-            this.noteBook = DEFAULT_UNIVERSE.book.notes;
-            console.log('___FANTASY KEY NOT FOUND FOR CONSTRUCTION___');
-        }
+    private dungeonMaster: DungeonMaster;
+    private universe: UniverseMap;
+
+    constructor(universe: UniverseMap) {
+        // TODO: I am ashamed of this piece of code
+        this.dungeonMaster = Object.values(allCategories).reduce(
+            (object, category) => {
+                return {
+                    ...object,
+                    [category]: ContentCreator.getIdeas(
+                        universe[category],
+                        category
+                    ),
+                };
+            },
+            {} as DungeonMaster
+        );
+        this.universe = universe;
     }
 
-    public getUniverseName() {
-        return this.key;
+    public getUniverseName(category: Describable) {
+        return this.universe[category];
     }
 
     public deleteCreation(
@@ -275,39 +281,33 @@ export class ContentCreator {
         );
         const mainIsExcludedByKey = getKeyExcluder(fullFirstKeys);
         const additionIsExcludedByKey = getKeyExcluder(fullSecondKeys);
-        const chapter = this.noteBook.find(
-            (chapter) => chapter.category === category
+        const ideas = this.dungeonMaster[category];
+
+        const bestNotes = filterBestIdeas(
+            ideas,
+            fitting,
+            isExcludedByName,
+            mainIsExcludedByKey,
+            additionIsExcludedByKey,
+            mainFilter,
+            additionFilter,
+            patterns
         );
-        if (!chapter) {
-            console.log('Impression category not found' + category + '!');
+        if (!bestNotes) {
             return undefined;
         } else {
-            const bestNotes = filterBestIdeas(
-                chapter.impressions,
+            const newIdea = getRandomArrayEntry(bestNotes.ideas);
+            const newImpression = newIdea.createImpression(
                 fitting,
-                isExcludedByName,
-                mainIsExcludedByKey,
+                //additions for impression do not get filtered by name because it seems more realistic
+                () => false,
                 additionIsExcludedByKey,
-                mainFilter,
+                bestNotes.level,
+                this.universe[category],
                 additionFilter,
                 patterns
             );
-            if (!bestNotes) {
-                return undefined;
-            } else {
-                const newIdea = getRandomArrayEntry(bestNotes.ideas);
-                const newImpression = newIdea.createImpression(
-                    fitting,
-                    //additions for impression do not get filtered by name because it seems more realistic
-                    () => false,
-                    additionIsExcludedByKey,
-                    bestNotes.level,
-                    this.key,
-                    additionFilter,
-                    patterns
-                );
-                return newImpression;
-            }
+            return newImpression;
         }
     }
     private getRandomDrink(
@@ -318,32 +318,24 @@ export class ContentCreator {
         const oldNames = oldDrinks.map((drink) => drink.name);
         const isExcludedByName = getPrefixExcluder(oldNames, WeServe.drinks);
 
-        const chapter = this.drinkMenu.find(
-            (chapter) => chapter.category === category
+        const ideas = this.dungeonMaster[category];
+        const bestRecipes = filterBestIdeas(
+            ideas,
+            fitting,
+            isExcludedByName,
+            () => false,
+            () => false
         );
-
-        if (!chapter) {
-            console.log('Drink category not found' + category + '!');
+        if (!bestRecipes) {
             return undefined;
         } else {
-            const bestRecipes = filterBestIdeas(
-                chapter.drinks,
+            const newIdea = getRandomArrayEntry(bestRecipes.ideas);
+            const newDrink = newIdea.getConcreteDish(
                 fitting,
-                isExcludedByName,
-                () => false,
-                () => false
+                bestRecipes.level,
+                this.universe[category]
             );
-            if (!bestRecipes) {
-                return undefined;
-            } else {
-                const newIdea = getRandomArrayEntry(bestRecipes.ideas);
-                const newDrink = newIdea.getConcreteDish(
-                    fitting,
-                    bestRecipes.level,
-                    this.key
-                );
-                return newDrink;
-            }
+            return newDrink;
         }
     }
     private getRandomDish(
@@ -354,32 +346,25 @@ export class ContentCreator {
         const oldNames = oldDishes.map((dish) => dish.name);
         const isExcludedByName = getPrefixExcluder(oldNames, WeServe.drinks);
 
-        const chapter = this.dishMenu.find(
-            (chapter) => chapter.category === category
-        );
+        const ideas = this.dungeonMaster[category];
 
-        if (!chapter) {
-            console.log('Food category not found' + category + '!');
+        const bestRecipes = filterBestIdeas(
+            ideas,
+            fitting,
+            isExcludedByName,
+            () => false,
+            () => false
+        );
+        if (!bestRecipes) {
             return undefined;
         } else {
-            const bestRecipes = filterBestIdeas(
-                chapter.dishes,
+            const newIdea = getRandomArrayEntry(bestRecipes.ideas);
+            const newDish = newIdea.getConcreteDish(
                 fitting,
-                isExcludedByName,
-                () => false,
-                () => false
+                bestRecipes.level,
+                this.universe[category]
             );
-            if (!bestRecipes) {
-                return undefined;
-            } else {
-                const newIdea = getRandomArrayEntry(bestRecipes.ideas);
-                const newDish = newIdea.getConcreteDish(
-                    fitting,
-                    bestRecipes.level,
-                    this.key
-                );
-                return newDish;
-            }
+            return newDish;
         }
     }
 
@@ -457,6 +442,19 @@ export class ContentCreator {
             newPatterns: newImpression?.patterns || [],
         };
         return reroll;
+    }
+
+    private static getIdeas(universeKey: FantasyKeys, category: Describable) {
+        const universe = ContentCreator.books.find(
+            (book) => book.key === universeKey
+        );
+        const book = universe ? universe.book : ContentCreator.books[0].book;
+        const ideas = Object.values(book)
+            .flat()
+            .filter((chapter) => chapter.category === category)
+            .map((chapter) => chapter.ideas)
+            .flat();
+        return ideas;
     }
 }
 
@@ -584,14 +582,14 @@ type Reroll =
           newPatterns: Pattern[];
       };
 export interface ImpressionNote {
-    impressions: ImpressionIdea[];
+    ideas: ImpressionIdea[];
     category: Noticable;
 }
 export interface IDishMenu {
-    dishes: DishIdea[];
+    ideas: DishIdea[];
     category: Eatable;
 }
 export interface IDrinkMenu {
-    drinks: DishIdea[];
+    ideas: DishIdea[];
     category: Drinkable;
 }

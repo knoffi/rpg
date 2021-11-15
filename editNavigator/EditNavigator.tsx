@@ -21,6 +21,7 @@ import {
     MinimalTavernData,
     TavernData,
 } from '../mainNavigator/TavernData';
+import { UniverseMap } from '../mainNavigator/UniverseMap';
 import { BasePrice } from '../scenes/menuScene/basePrice';
 import { BannerData } from '../scenes/menuScene/menuBanner/MenuBanner';
 import { MenuScene } from '../scenes/menuScene/MenuScene';
@@ -78,16 +79,17 @@ export const EditNavigator = (props: {
     onDataChange: (newData: Partial<MinimalTavernData>) => void;
     tavern: MinimalTavernData;
 }) => {
-    const startCreator = new ContentCreator();
-    const [content, setContent] = useState({ creator: startCreator });
-    const [keys, setKeys] = useState({ handler: new KeyHandler(props.tavern) });
-    const startNotifications = testContentLeft(
-        DEFAULT_BANNERS,
-        props.tavern.fitting,
-        startCreator,
-        props.tavern
+    const creator = new ContentCreator(props.tavern.universe);
+
+    const [contentLeft, setContentLeft] = useState(
+        testContentLeft(
+            DEFAULT_BANNERS,
+            props.tavern.fitting,
+            creator,
+            props.tavern
+        )
     );
-    const [contentLeft, setContentLeft] = useState(startNotifications);
+    const [keys, setKeys] = useState({ handler: new KeyHandler(props.tavern) });
     const [patterns, setPatterns] = useState({
         handler: new PatternHandler(props.tavern),
     });
@@ -130,7 +132,7 @@ export const EditNavigator = (props: {
             mainFilter,
             additionFilter
         );
-        const rerolled = content.creator.rerollOneCreation(
+        const rerolled = creator.rerollOneCreation(
             props.tavern.fitting,
             name,
             request
@@ -176,11 +178,11 @@ export const EditNavigator = (props: {
             mainFilter,
             additionFilter
         );
-        const creation = content.creator.addRandomCreation(
+        const creation = creator.addRandomCreation(
             props.tavern.fitting,
             request
         );
-        const noNextCreation = content.creator.noNextCreationLeft(
+        const noNextCreation = creator.noNextCreationLeft(
             props.tavern.fitting,
             creation
         );
@@ -224,7 +226,7 @@ export const EditNavigator = (props: {
         const newContentLeft = testContentLeft(
             contentLeft.bannerData,
             newFitting,
-            content.creator,
+            creator,
             props.tavern
         );
         setContentLeft(newContentLeft);
@@ -249,17 +251,15 @@ export const EditNavigator = (props: {
                       isAbout: deleted.isAbout,
                       creations: props.tavern[deleted.isAbout],
                   };
-        const assetChanges = content.creator.deleteCreation(
-            name,
-            deleteRequest
-        );
+        const assetChanges = creator.deleteCreation(name, deleteRequest);
         const categoryWasFullBefore = contentLeft.bannerData[
             deleted.isAbout
         ].emptyCategories.includes(deleted.category);
 
         //TODO: refactor into getContentLeft({"delete",deleted,fullBefore}|{"add",added})
         const contentNeedsUpdate =
-            categoryWasFullBefore && key === content.creator.getUniverseName();
+            categoryWasFullBefore &&
+            key === props.tavern.universe[deleted.category];
         const bannerChanges = contentNeedsUpdate
             ? getBannersByDelete(deleted)
             : {};
@@ -289,7 +289,7 @@ export const EditNavigator = (props: {
     };
 
     const handleEdit = (request: UserMade, previousName?: string) => {
-        const newAsset = content.creator.createUserMade(request);
+        const newAsset = creator.createUserMade(request);
         if (previousName) {
             const newContent: Partial<TavernData> = {
                 [newAsset.isAbout]: props.tavern[newAsset.isAbout].map(
@@ -351,16 +351,17 @@ export const EditNavigator = (props: {
         return { ideasLeft: oldMaps };
     };
 
-    const setContentByKey = (key: FantasyKeys) => {
-        const newCreator = new ContentCreator(key);
-        setContent({ creator: newCreator });
-        const newContentLeft = testContentLeft(
-            contentLeft.bannerData,
-            props.tavern.fitting,
-            newCreator,
-            props.tavern
+    const setUniverse = (universe: UniverseMap) => {
+        const newCreator = new ContentCreator(universe);
+        setContentLeft(
+            testContentLeft(
+                contentLeft.bannerData,
+                props.tavern.fitting,
+                newCreator,
+                props.tavern
+            )
         );
-        setContentLeft(newContentLeft);
+        props.onDataChange({ universe });
     };
 
     return (
@@ -381,8 +382,8 @@ export const EditNavigator = (props: {
                         fitting={props.tavern.fitting}
                         handleNewName={handleNewName}
                         handleNewFits={handleNewFits}
-                        contentName={content.creator.getUniverseName()}
-                        setContent={setContentByKey}
+                        setUniverse={setUniverse}
+                        universe={props.tavern.universe}
                     ></NameScene>
                 )}
             />
