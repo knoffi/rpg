@@ -37,7 +37,7 @@ export const MenuBanner = (props: {
 }) => {
     const beginningText =
         props.isAbout === WeServe.impressions
-            ? 'You have added every fitting description for '
+            ? 'You have added every fitting notes about '
             : 'Your tavern offers every fitting ';
     return (
         <Banner
