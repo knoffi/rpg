@@ -448,7 +448,7 @@ export const EditNavigator = (props: {
                         handleEdit={handleEdit}
                         handleBasePrice={handleBasePrice}
                         noticablesLeft={contentLeft.ideasLeft.impression}
-                        closeBanner={getBannerClosing(WeServe.food)}
+                        closeBanner={getBannerClosing(WeServe.impressions)}
                     ></QuestScene>
                 )}
             />
