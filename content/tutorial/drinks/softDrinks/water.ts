@@ -14,11 +14,11 @@ export const water: DishIdea[] = [
             firstSideDishes: [
                 {
                     name: 'A glass of water from the nearest well.',
-                    landRange: [a.desert, a.city, a.haven],
+                    landRange: [a.desert, a.city, a.haven, a.village],
                 },
                 {
                     name: 'A glass of water from the nearest river.',
-                    landRange: [a.tropical, a.forest, a.village],
+                    landRange: [a.tropical, a.forest, a.mountain],
                 },
             ],
         },
