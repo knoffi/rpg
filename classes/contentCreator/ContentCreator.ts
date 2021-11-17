@@ -18,7 +18,7 @@ import { ImpressionIdea } from '../idea/ImpressionIdea';
 import { Noticable } from '../idea/Noticable';
 import { Pattern } from '../idea/Patterns/Pattern';
 import { StructuredTavernFits } from '../idea/StructuredTavernFits';
-import { Keys } from '../keyHandler/KeyHandler';
+import { Keys } from '../keyHandler/EMPTY_KEY_COUNT_ROW';
 import { Drinkable, Eatable } from '../TavernProduct';
 import { emptyKeys } from './emptyKeys';
 import { FantasyKeys } from './FantasKeys';
@@ -88,12 +88,22 @@ export class ContentCreator {
                 const newDishes = deleted.creations.filter(
                     (offer) => offer.name !== name
                 );
-                return { [WeServe.food]: newDishes, isAbout: WeServe.food };
+                return {
+                    [WeServe.food]: newDishes,
+                    isAbout: WeServe.food,
+                    oldKeys: emptyKeys,
+                    oldPatterns: [],
+                };
             default:
                 const newDrinks = deleted.creations.filter(
                     (offer) => offer.name !== name
                 );
-                return { [WeServe.drinks]: newDrinks, isAbout: WeServe.drinks };
+                return {
+                    [WeServe.drinks]: newDrinks,
+                    isAbout: WeServe.drinks,
+                    oldKeys: emptyKeys,
+                    oldPatterns: [],
+                };
         }
     }
     private dissolveImpression(impressions: Impression[], toRemove: string) {
@@ -385,6 +395,10 @@ export class ContentCreator {
         const reroll: Reroll = {
             isAbout: WeServe.food,
             oneRerolled: rerolledDishes,
+            oldKeys: emptyKeys,
+            newKeys: emptyKeys,
+            oldPatterns: [],
+            newPatterns: [],
         };
         return reroll;
     }
@@ -405,6 +419,10 @@ export class ContentCreator {
         const reroll: Reroll = {
             isAbout: WeServe.drinks,
             oneRerolled: rerolledDrinks,
+            oldKeys: emptyKeys,
+            newKeys: emptyKeys,
+            oldPatterns: [],
+            newPatterns: [],
         };
         return reroll;
     }
@@ -557,10 +575,14 @@ export type Delete =
     | {
           [WeServe.food]: Offer[];
           isAbout: WeServe.food;
+          oldKeys: Keys;
+          oldPatterns: Pattern[];
       }
     | {
           [WeServe.drinks]: Offer[];
           isAbout: WeServe.drinks;
+          oldKeys: Keys;
+          oldPatterns: Pattern[];
       }
     | {
           [WeServe.impressions]: Impression[];
@@ -568,10 +590,14 @@ export type Delete =
           oldKeys: Keys;
           oldPatterns: Pattern[];
       };
-type Reroll =
+export type Reroll =
     | {
           isAbout: WeServe.drinks | WeServe.food;
           oneRerolled: Offer[];
+          newKeys: Keys;
+          oldKeys: Keys;
+          oldPatterns: Pattern[];
+          newPatterns: Pattern[];
       }
     | {
           isAbout: WeServe.impressions;

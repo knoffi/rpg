@@ -1,7 +1,7 @@
 import { association } from '../../classes/association';
 import { FantasyKeys } from '../../classes/contentCreator/FantasKeys';
 import { Pattern } from '../../classes/idea/Patterns/Pattern';
-import { Keys } from '../../classes/keyHandler/KeyHandler';
+import { Keys } from '../../classes/keyHandler/EMPTY_KEY_COUNT_ROW';
 import { Drinkable, Eatable } from '../../classes/TavernProduct';
 import { WeServe } from '../../editNavigator/WeServe';
 

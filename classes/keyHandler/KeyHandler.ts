@@ -1,33 +1,17 @@
 import { WeServe } from '../../editNavigator/WeServe';
 import { Content } from '../../mainNavigator/Content';
-import { Offer } from '../../scenes/menuScene/Offer';
-import { Impression } from '../../scenes/questScene/impressions/Impression';
-import { emptyKeys } from '../contentCreator/emptyKeys';
 import { AssetKey } from '../idea/AssetKey/AssetKey';
 import { getKeyBound } from '../idea/AssetKey/getKeyBound';
-const EMPTY_KEY_COUNT_ROW = { main: [], addition: [] };
-export class KeyHandler {
-    private keys: KeyTable;
+import { Add, Delete, KeyChange, Keys, KeyTable } from './EMPTY_KEY_COUNT_ROW';
+import { getKeysFromContent } from './getKeysFromContent';
+export class ContentKeyHandler {
+    private contentKeys: KeyTable;
 
     public constructor(content: Content | 'noPreviousContent') {
-        const newKeys: KeyTable = {
-            [WeServe.drinks]: EMPTY_KEY_COUNT_ROW,
-            [WeServe.food]: EMPTY_KEY_COUNT_ROW,
-            [WeServe.impressions]: EMPTY_KEY_COUNT_ROW,
-        };
-        if (content !== 'noPreviousContent') {
-            Object.values(WeServe).forEach((isAbout) => {
-                const assets: (Offer | Impression)[] = content[isAbout];
-                assets.forEach((asset) =>
-                    KeyHandler.propagateTable(
-                        newKeys,
-                        isAbout,
-                        asset.keys || emptyKeys
-                    )
-                );
-            });
-        }
-        this.keys = newKeys;
+        this.contentKeys =
+            content === 'noPreviousContent'
+                ? getKeysFromContent()
+                : getKeysFromContent(content);
     }
     public update(change: KeyChange) {
         switch (change.type) {
@@ -40,28 +24,29 @@ export class KeyHandler {
         }
     }
     public print() {
-        const test = this.keys.impression.main.map((key) => {
+        const test = this.contentKeys.impression.main.map((key) => {
             return { text: key.key.slice(0, 5), count: key.count };
         });
-        const test2 = this.keys.impression.addition.map((key) => {
+        const test2 = this.contentKeys.impression.addition.map((key) => {
             return { text: key.key.slice(0, 5), count: key.count };
         });
         console.log('main:' + JSON.stringify(test));
         console.log(JSON.stringify(test2));
     }
     public updateClone(change: KeyChange) {
-        const newHandler = new KeyHandler('noPreviousContent');
-        newHandler.keys = this.keys;
+        const newHandler = new ContentKeyHandler('noPreviousContent');
+        newHandler.contentKeys = { ...this.contentKeys };
         newHandler.update(change);
         return newHandler;
     }
     public multiUpdateClone(changes: KeyChange[]) {
-        const newHandler = new KeyHandler('noPreviousContent');
-        newHandler.keys = this.keys;
+        const newHandler = new ContentKeyHandler('noPreviousContent');
+        newHandler.contentKeys = { ...this.contentKeys };
         changes.forEach((change) => newHandler.update(change));
         return newHandler;
     }
     private handleAdd(added: Add) {
+        console.log('updater added');
         added.newKeys.addition.forEach((key) => {
             this.addKeyCount(key, 1, added.isAbout, 'addition');
         });
@@ -75,7 +60,7 @@ export class KeyHandler {
         isAbout: WeServe,
         refersTo: 'main' | 'addition'
     ) {
-        const row = this.keys[isAbout];
+        const row = this.contentKeys[isAbout];
         const entryForKey = row[refersTo].find((entry) => entry.key === newKey);
         if (entryForKey) {
             entryForKey.count += addToCounter;
@@ -94,7 +79,7 @@ export class KeyHandler {
         });
     }
     public getFullKeys(isAbout: WeServe): Keys {
-        const row = this.keys[isAbout];
+        const row = this.contentKeys[isAbout];
         const fullMainKeys = row.main
             .filter((item) => item.count >= getKeyBound(item.key))
             .map((keyCounting) => keyCounting.key);
@@ -103,18 +88,20 @@ export class KeyHandler {
             .map((keyCounting) => keyCounting.key);
         return { ['main']: fullMainKeys, ['addition']: fullAdditionKeys };
     }
-    private static propagateTable(
-        table: KeyTable,
+    private propagateTable(
+        newTable: KeyTable,
         isAbout: WeServe,
         newKeys: Keys
     ) {
-        const row = table[isAbout];
+        const row = newTable[isAbout];
         newKeys.main.forEach((key) => {
             const counter = row.main.find((entry) => entry.key === key);
             if (counter) {
                 counter.count += 1;
+                console.log('PROPA incremented!' + key.slice(0, 3));
             } else {
                 row.main.push({ key, count: 1 });
+                console.log('PROPA added!' + key.slice(0, 3));
             }
         });
         newKeys.addition.forEach((key) => {
@@ -127,29 +114,3 @@ export class KeyHandler {
         });
     }
 }
-
-type Add = {
-    isAbout: WeServe;
-    type: 'Add';
-    newKeys: { main: AssetKey[]; addition: AssetKey[] };
-};
-type Delete = {
-    isAbout: WeServe;
-    type: 'Delete';
-    oldKeys: { main: AssetKey[]; addition: AssetKey[] };
-};
-
-export type KeyChange = Add | Delete;
-
-type ContentToKeyRow<Type> = { [property in keyof Type]: KeyRow };
-
-export type KeyTable = ContentToKeyRow<Content>;
-export type KeyRow = {
-    ['main']: KeyCount[];
-    ['addition']: KeyCount[];
-};
-export type Keys = { ['main']: AssetKey[]; ['addition']: AssetKey[] };
-type KeyCount = {
-    key: AssetKey;
-    count: number;
-};
