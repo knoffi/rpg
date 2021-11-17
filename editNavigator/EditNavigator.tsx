@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
     Add,
     ContentCreator,
@@ -83,9 +83,6 @@ export const EditNavigator = (props: {
     tavern: MinimalTavernData;
 }) => {
     const creator = new ContentCreator(props.tavern.universe);
-    useEffect(() => {
-        tracker.keys.print();
-    }, [props.tavern]);
 
     const [contentLeft, setContentLeft] = useState(
         testContentLeft(
