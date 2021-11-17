@@ -53,9 +53,8 @@ export const MenuScene = (props: MenuProps) => {
             : props.startEdit;
     const fits = props.fitting;
     //TODO: does this really need to be a state?
-    const [bannerEnding, setBannerEnding] = useState(
-        getRandomArrayEntry(bannerEndings.get(props.isAbout)!)
-    );
+
+    const bannerEnding = getRandomArrayEntry(bannerEndings.get(props.isAbout)!);
     const [editor, setEditor] = useState({
         visible: false,
         startData: props.startEdit,
