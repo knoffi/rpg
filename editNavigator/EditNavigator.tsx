@@ -83,7 +83,6 @@ export const EditNavigator = (props: {
     tavern: MinimalTavernData;
 }) => {
     const creator = new ContentCreator(props.tavern.universe);
-
     const [contentLeft, setContentLeft] = useState(
         testContentLeft(
             DEFAULT_BANNERS,
@@ -92,6 +91,7 @@ export const EditNavigator = (props: {
             props.tavern
         )
     );
+
     const [tracker, setTracker] = useState({
         keys: new KeyHandler(props.tavern),
         patterns: new PatternHandler(props.tavern),

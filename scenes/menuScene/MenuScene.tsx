@@ -9,7 +9,6 @@ import {
 import { FantasyKeys } from '../../classes/contentCreator/FantasKeys';
 import { Database } from '../../classes/database/Database';
 import { StructuredTavernFits } from '../../classes/idea/StructuredTavernFits';
-import { Drinkable } from '../../classes/TavernProduct';
 import { ListOfSaves } from '../../components/ListOfSaves/ListOfSaves';
 import { WeServe } from '../../editNavigator/WeServe';
 import { getRandomArrayEntry } from '../../helpingFunctions/getFittingRandom';
@@ -48,17 +47,12 @@ interface MenuProps {
 }
 
 export const MenuScene = (props: MenuProps) => {
-    if (props.startEdit.isAbout === WeServe.drinks) {
-        console.log(
-            'Menu says we have beer left:' +
-                props.offersLeft.get(Drinkable.beer)
-        );
-    }
     const startDemand: Demand =
         props.startEdit.isAbout === WeServe.drinks
             ? props.startEdit
             : props.startEdit;
     const fits = props.fitting;
+    //TODO: does this really need to be a state?
     const [bannerEnding, setBannerEnding] = useState(
         getRandomArrayEntry(bannerEndings.get(props.isAbout)!)
     );
