@@ -1,7 +1,7 @@
 import { FantasyKeys } from '../../../classes/contentCreator/FantasKeys';
 import { Noticable } from '../../../classes/idea/Noticable';
 import { Pattern } from '../../../classes/idea/Patterns/Pattern';
-import { Keys } from '../../../classes/keyHandler/EMPTY_KEY_COUNT_ROW';
+import { Keys } from '../../../classes/keyHandler/KeyHandlingTypes';
 
 export type Impression = {
     name: string;

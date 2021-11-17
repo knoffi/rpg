@@ -2,7 +2,6 @@ import { WeServe } from '../../editNavigator/WeServe';
 import { Content } from '../../mainNavigator/Content';
 import { AssetKey } from '../idea/AssetKey/AssetKey';
 
-export const EMPTY_KEY_COUNT_ROW = { main: [], addition: [] };
 export type Add = {
     isAbout: WeServe;
     type: 'Add';

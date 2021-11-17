@@ -14,8 +14,8 @@ import {
     getStructuredFits,
     StructuredTavernFits,
 } from '../classes/idea/StructuredTavernFits';
-import { KeyChange } from '../classes/keyHandler/EMPTY_KEY_COUNT_ROW';
 import { KeyHandler } from '../classes/keyHandler/KeyHandler';
+import { KeyChange } from '../classes/keyHandler/KeyHandlingTypes';
 import {
     PatternChange,
     PatternHandler,

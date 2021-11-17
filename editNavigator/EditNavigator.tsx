@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Add,
     ContentCreator,
@@ -8,11 +8,10 @@ import {
     Reroll,
     UserMade,
 } from '../classes/contentCreator/ContentCreator';
-import { emptyKeys } from '../classes/contentCreator/emptyKeys';
 import { FantasyKeys } from '../classes/contentCreator/FantasKeys';
 import { StructuredTavernFits } from '../classes/idea/StructuredTavernFits';
-import { KeyChange, Keys } from '../classes/keyHandler/EMPTY_KEY_COUNT_ROW';
-import { getFullKeys } from '../classes/keyHandler/getKeysFromContent';
+import { KeyHandler } from '../classes/keyHandler/KeyHandler';
+import { KeyChange } from '../classes/keyHandler/KeyHandlingTypes';
 import {
     PatternChange,
     PatternHandler,
@@ -84,11 +83,9 @@ export const EditNavigator = (props: {
     tavern: MinimalTavernData;
 }) => {
     const creator = new ContentCreator(props.tavern.universe);
-    const fullKeys: Record<WeServe, Keys> = {
-        [WeServe.drinks]: emptyKeys,
-        [WeServe.food]: emptyKeys,
-        [WeServe.impressions]: getFullKeys(props.tavern, WeServe.impressions),
-    };
+    useEffect(() => {
+        tracker.keys.print();
+    }, [props.tavern]);
 
     const [contentLeft, setContentLeft] = useState(
         testContentLeft(
@@ -99,6 +96,7 @@ export const EditNavigator = (props: {
         )
     );
     const [tracker, setTracker] = useState({
+        keys: new KeyHandler(props.tavern),
         patterns: new PatternHandler(props.tavern),
     });
 
@@ -119,7 +117,8 @@ export const EditNavigator = (props: {
             changes.push(changeByDelete);
         }
         const patterns = tracker.patterns.multiUpdateClone(changes);
-        setTracker({ patterns });
+        const keys = tracker.keys.multiUpdateClone(changes);
+        setTracker({ patterns, keys });
     };
 
     const buyOffer = (offer: Offer) => {
@@ -151,11 +150,12 @@ export const EditNavigator = (props: {
         additionFilter?: number
     ) => {
         const usedPatterns = tracker.patterns.getPatterns(reroll.isAbout);
+        const fullKeys = tracker.keys.getFullKeys(reroll.isAbout);
         const request: CreationRequest = getCreationRequest(
             reroll,
             props.tavern,
-            fullKeys[reroll.isAbout].main,
-            fullKeys[reroll.isAbout].addition,
+            fullKeys.main,
+            fullKeys.addition,
             usedPatterns,
             mainFilter,
             additionFilter
@@ -165,10 +165,8 @@ export const EditNavigator = (props: {
             name,
             request
         );
-        //TODO: give keyHandler (and patternHandler) to ContentCreator. This way, ContentCreator can delete keys (and patterns) of rerolled asset BEFORE choosing new asset (and then add keys of new asset)
-        if (rerolled.isAbout === WeServe.impressions) {
-            updateTracker(rerolled, rerolled);
-        }
+
+        updateTracker(rerolled, rerolled);
         props.onDataChange({ [rerolled.isAbout]: rerolled.oneRerolled });
     };
     const handleBasePrice = (newPrices: BasePrice) => {
@@ -181,11 +179,12 @@ export const EditNavigator = (props: {
         additionFilter?: number
     ) => {
         const usedPatterns = tracker.patterns.getPatterns(add.isAbout);
+        const fullKeys = tracker.keys.getFullKeys(add.isAbout);
         const request: CreationRequest = getCreationRequest(
             add,
             props.tavern,
-            fullKeys[add.isAbout].main,
-            fullKeys[add.isAbout].addition,
+            fullKeys.main,
+            fullKeys.addition,
             usedPatterns,
             mainFilter,
             additionFilter
@@ -198,6 +197,7 @@ export const EditNavigator = (props: {
             props.tavern.fitting,
             creation
         );
+        updateTracker(creation);
         invokeAdd(creation, noNextCreation);
     };
 
@@ -267,10 +267,8 @@ export const EditNavigator = (props: {
             ? getIdeasLeftByDelete(deleted)
             : {};
         const tavernChanges = deletion;
-        //TODO: add .newKeys and .newPatterns to DrinkAdd and FoodAdd
-        if (deletion.isAbout === WeServe.impressions) {
-            updateTracker(undefined, deletion);
-        }
+
+        updateTracker(undefined, deletion);
         props.onDataChange(tavernChanges);
         setContentLeft({
             ...contentLeft,

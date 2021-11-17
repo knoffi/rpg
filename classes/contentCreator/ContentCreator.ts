@@ -18,7 +18,7 @@ import { ImpressionIdea } from '../idea/ImpressionIdea';
 import { Noticable } from '../idea/Noticable';
 import { Pattern } from '../idea/Patterns/Pattern';
 import { StructuredTavernFits } from '../idea/StructuredTavernFits';
-import { Keys } from '../keyHandler/EMPTY_KEY_COUNT_ROW';
+import { Keys } from '../keyHandler/KeyHandlingTypes';
 import { Drinkable, Eatable } from '../TavernProduct';
 import { emptyKeys } from './emptyKeys';
 import { FantasyKeys } from './FantasKeys';

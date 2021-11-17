@@ -1,3 +1,3 @@
-import { Keys } from '../keyHandler/EMPTY_KEY_COUNT_ROW';
+import { Keys } from '../keyHandler/KeyHandlingTypes';
 
 export const emptyKeys: Keys = { ['main']: [], ['addition']: [] };

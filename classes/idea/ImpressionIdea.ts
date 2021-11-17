@@ -2,7 +2,7 @@ import { splitMarker } from '../../scenes/menuScene/offerList/nameSplitter/split
 import { Impression } from '../../scenes/questScene/impressions/Impression';
 import { emptyKeys } from '../contentCreator/emptyKeys';
 import { FantasyKeys } from '../contentCreator/FantasKeys';
-import { Keys } from '../keyHandler/EMPTY_KEY_COUNT_ROW';
+import { Keys } from '../keyHandler/KeyHandlingTypes';
 import { AssetKey } from './AssetKey/AssetKey';
 import { DescriptionAsset } from './DescriptionAsset';
 import { Idea } from './Idea';
