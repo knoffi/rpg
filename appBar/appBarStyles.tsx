@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { WIDTH_FACTOR } from '../dimensionConstants';
 
-const BADGE_POSITION = { top: -35, right: -4 };
+const BADGE_POSITION = { top: -32, right: -3 };
 const moneyColor = '#996515';
 
 export const appBarStyles = StyleSheet.create({

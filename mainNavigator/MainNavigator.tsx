@@ -106,7 +106,7 @@ export const MainNavigator = () => {
                                         'YOU ALL MEET IN A TAVERN!'
                                     );
                                 }}
-                                sceneTitle="EDIT TAVERN"
+                                sceneTitle=""
                                 boughtOffers={[] as Offer[]}
                                 currencyName={
                                     tavernHistory[historyIndex].prices.currency
@@ -138,7 +138,7 @@ export const MainNavigator = () => {
                                         'YOU ALL MEET IN A TAVERN!'
                                     );
                                 }}
-                                sceneTitle="EDIT TAVERN"
+                                sceneTitle=""
                                 boughtOffers={
                                     tavernHistory[historyIndex].boughtOffers
                                 }

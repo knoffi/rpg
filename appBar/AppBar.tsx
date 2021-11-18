@@ -1,4 +1,4 @@
-import { AntDesign, FontAwesome } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
 import * as React from 'react';
 import { View } from 'react-native';
 import { Appbar, Badge, Modal, Portal } from 'react-native-paper';
@@ -12,7 +12,7 @@ const ACTIVE_BUTTON_COLOR = 'white';
 const INACTIVE_BUTTON_COLOR = 'grey';
 
 const BADGE_SIZE_DIVIDER = 2.3;
-const SHOPPING_ICON_SIZE = 32;
+const SHOPPING_ICON_SIZE = 30;
 
 export const AppBar = (props: {
     onUndo: () => void;
@@ -36,6 +36,7 @@ export const AppBar = (props: {
                 <Appbar.BackAction onPress={props.onBackNavigation} />
                 <Appbar.Content title={props.sceneTitle} />
                 <Appbar.Action
+                    animated={false}
                     color={ACTIVE_BUTTON_COLOR}
                     icon={(props) => (
                         <FontAwesome
@@ -47,6 +48,7 @@ export const AppBar = (props: {
                     onPress={props.onSave}
                 />
                 <Appbar.Action
+                    animated={false}
                     color={
                         props.undoDisabled
                             ? INACTIVE_BUTTON_COLOR
@@ -66,6 +68,7 @@ export const AppBar = (props: {
                     }}
                 />
                 <Appbar.Action
+                    animated={false}
                     color={
                         props.redoDisabled
                             ? INACTIVE_BUTTON_COLOR
@@ -90,14 +93,15 @@ export const AppBar = (props: {
                             ? INACTIVE_BUTTON_COLOR
                             : ACTIVE_BUTTON_COLOR
                     }
+                    animated={false}
                     size={SHOPPING_ICON_SIZE}
                     icon={(props) => (
-                        <View>
-                            <AntDesign
-                                name="shoppingcart"
+                        <View style={{ top: 6, right: 2 }}>
+                            <FontAwesome
+                                name="shopping-cart"
                                 size={props.size}
                                 color={props.color}
-                            ></AntDesign>
+                            ></FontAwesome>
                             <Badge
                                 visible={numberOfBoughtItems !== 0}
                                 style={appBarStyles.badge}
