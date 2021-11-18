@@ -62,7 +62,7 @@ export const ImpressionEditor = (props: {
                         onTextLayout={() => {}}
                         dataDetectorType={'none'}
                     >
-                        Please enter a name which does not exist on your menu!
+                        Please enter a name which does not exist in your notes!
                     </HelperText>
                 </View>
             </View>
