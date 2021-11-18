@@ -117,7 +117,7 @@ const getCategoryNotFullMap = (
         case WeServe.drinks:
             categories = Drinkable;
             break;
-        case WeServe.drinks:
+        case WeServe.food:
             categories = Eatable;
             break;
 

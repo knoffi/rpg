@@ -4,11 +4,18 @@ import {
     Add,
     ContentCreator,
     CreationRequest,
+    Delete,
+    Reroll,
     UserMade,
 } from '../classes/contentCreator/ContentCreator';
 import { FantasyKeys } from '../classes/contentCreator/FantasKeys';
 import { StructuredTavernFits } from '../classes/idea/StructuredTavernFits';
-import { KeyChange, KeyHandler } from '../classes/keyHandler/KeyHandler';
+import { KeyHandler } from '../classes/keyHandler/KeyHandler';
+import { KeyChange } from '../classes/keyHandler/KeyHandlingTypes';
+import {
+    PatternChange,
+    PatternHandler,
+} from '../classes/patternHandler/PatternHandler';
 import { Drinkable, Eatable } from '../classes/TavernProduct';
 import Icon from '../components/icons';
 import { iconKeys } from '../components/icons/iconKeys';
@@ -17,13 +24,13 @@ import {
     MinimalTavernData,
     TavernData,
 } from '../mainNavigator/TavernData';
+import { UniverseMap } from '../mainNavigator/UniverseMap';
 import { BasePrice } from '../scenes/menuScene/basePrice';
 import { BannerData } from '../scenes/menuScene/menuBanner/MenuBanner';
 import { MenuScene } from '../scenes/menuScene/MenuScene';
 import { Offer } from '../scenes/menuScene/Offer';
 import { Demand } from '../scenes/menuScene/offerList/actionInterfaces';
 import { NameScene } from '../scenes/nameScene/NameScene';
-import { getUsedPatterns } from '../scenes/questScene/getUsedPatterns';
 import { QuestScene } from '../scenes/questScene/QuestScene';
 import { getCreationRequest } from './getCreationRequest';
 import { ContentLeftTest } from './getNewBannerDataAndIdeasLeft';
@@ -75,19 +82,42 @@ export const EditNavigator = (props: {
     onDataChange: (newData: Partial<MinimalTavernData>) => void;
     tavern: MinimalTavernData;
 }) => {
-    const startCreator = new ContentCreator();
-    const [content, setContent] = useState({ creator: startCreator });
-    const [keys, setKeys] = useState({ handler: new KeyHandler() });
-    const startNotifications = testContentLeft(
-        DEFAULT_BANNERS,
-        props.tavern.fitting,
-        startCreator,
-        props.tavern
+    const creator = new ContentCreator(props.tavern.universe);
+    const [contentLeft, setContentLeft] = useState(
+        testContentLeft(
+            DEFAULT_BANNERS,
+            props.tavern.fitting,
+            creator,
+            props.tavern
+        )
     );
-    const [contentLeft, setContentLeft] = useState(startNotifications);
-    const [patterns, setPatterns] = useState(
-        getUsedPatterns(props.tavern[WeServe.impressions])
-    );
+
+    const [tracker, setTracker] = useState({
+        keys: new KeyHandler(props.tavern),
+        patterns: new PatternHandler(props.tavern),
+    });
+
+    const updateTracker = (add?: Add | Reroll, deletion?: Delete | Reroll) => {
+        const changes = [] as (KeyChange & PatternChange)[];
+        if (add) {
+            const changeByAdd: KeyChange & PatternChange = {
+                ...add,
+                type: 'Add',
+            };
+            changes.push(changeByAdd);
+        }
+        if (deletion) {
+            const changeByDelete: KeyChange & PatternChange = {
+                ...deletion,
+                type: 'Delete',
+            };
+            changes.push(changeByDelete);
+        }
+        const patterns = tracker.patterns.multiUpdateClone(changes);
+        const keys = tracker.keys.multiUpdateClone(changes);
+        setTracker({ patterns, keys });
+    };
+
     const buyOffer = (offer: Offer) => {
         props.onDataChange({
             boughtOffers: [...props.tavern.boughtOffers, offer],
@@ -116,37 +146,24 @@ export const EditNavigator = (props: {
         mainFilter?: number,
         additionFilter?: number
     ) => {
-        const fullKeys = keys.handler.getFullKeys(reroll.isAbout);
+        const usedPatterns = tracker.patterns.getPatterns(reroll.isAbout);
+        const fullKeys = tracker.keys.getFullKeys(reroll.isAbout);
         const request: CreationRequest = getCreationRequest(
             reroll,
             props.tavern,
             fullKeys.main,
             fullKeys.addition,
-            patterns,
+            usedPatterns,
             mainFilter,
             additionFilter
         );
-        const rerolled = content.creator.rerollOneCreation(
+        const rerolled = creator.rerollOneCreation(
             props.tavern.fitting,
             name,
             request
         );
-        //TODO: give keyHandler (and patternHandler) to ContentCreator. This way, ContentCreator can delete keys (and patterns) of rerolled asset BEFORE choosing new asset (and then add keys of new asset)
-        if (rerolled.isAbout === WeServe.impressions) {
-            const adding: KeyChange = {
-                ...rerolled,
-                type: 'Add',
-            };
-            const deleting: KeyChange = {
-                ...rerolled,
-                type: 'Delete',
-            };
-            const newKeys = {
-                handler: keys.handler.multiUpdateClone([adding, deleting]),
-            };
-            setKeys(newKeys);
-            setPatterns(getUsedPatterns(rerolled.oneRerolled));
-        }
+
+        updateTracker(rerolled, rerolled);
         props.onDataChange({ [rerolled.isAbout]: rerolled.oneRerolled });
     };
     const handleBasePrice = (newPrices: BasePrice) => {
@@ -158,36 +175,26 @@ export const EditNavigator = (props: {
         mainFilter?: number,
         additionFilter?: number
     ) => {
-        const fullKeys = keys.handler.getFullKeys(add.isAbout);
+        const usedPatterns = tracker.patterns.getPatterns(add.isAbout);
+        const fullKeys = tracker.keys.getFullKeys(add.isAbout);
         const request: CreationRequest = getCreationRequest(
             add,
             props.tavern,
             fullKeys.main,
             fullKeys.addition,
-            patterns,
+            usedPatterns,
             mainFilter,
             additionFilter
         );
-        const creation = content.creator.addRandomCreation(
+        const creation = creator.addRandomCreation(
             props.tavern.fitting,
             request
         );
-        const noNextCreation = content.creator.noNextCreationLeft(
+        const noNextCreation = creator.noNextCreationLeft(
             props.tavern.fitting,
             creation
         );
-        if (creation.isAbout === WeServe.impressions) {
-            const adding: KeyChange = {
-                isAbout: add.isAbout,
-                type: 'Add',
-                newKeys: creation.newKeys,
-            };
-            const newHandler = keys.handler.updateClone(adding);
-            const newKeys = { handler: newHandler };
-            newHandler.print();
-            setKeys(newKeys);
-            setPatterns(getUsedPatterns(creation.added));
-        }
+        updateTracker(creation);
         invokeAdd(creation, noNextCreation);
     };
 
@@ -216,7 +223,7 @@ export const EditNavigator = (props: {
         const newContentLeft = testContentLeft(
             contentLeft.bannerData,
             newFitting,
-            content.creator,
+            creator,
             props.tavern
         );
         setContentLeft(newContentLeft);
@@ -241,35 +248,24 @@ export const EditNavigator = (props: {
                       isAbout: deleted.isAbout,
                       creations: props.tavern[deleted.isAbout],
                   };
-        const assetChanges = content.creator.deleteCreation(
-            name,
-            deleteRequest
-        );
+        const deletion = creator.deleteCreation(name, deleteRequest);
         const categoryWasFullBefore = contentLeft.bannerData[
             deleted.isAbout
         ].emptyCategories.includes(deleted.category);
 
         //TODO: refactor into getContentLeft({"delete",deleted,fullBefore}|{"add",added})
         const contentNeedsUpdate =
-            categoryWasFullBefore && key === content.creator.getUniverseName();
+            categoryWasFullBefore &&
+            key === props.tavern.universe[deleted.category];
         const bannerChanges = contentNeedsUpdate
             ? getBannersByDelete(deleted)
             : {};
         const ideaLeftChanges = contentNeedsUpdate
             ? getIdeasLeftByDelete(deleted)
             : {};
-        const tavernChanges = assetChanges;
-        //TODO: add .newKeys and .newPatterns to DrinkAdd and FoodAdd
-        if (assetChanges.isAbout === WeServe.impressions) {
-            const deleting: KeyChange = {
-                isAbout: assetChanges.isAbout,
-                type: 'Delete',
-                oldKeys: assetChanges.oldKeys,
-            };
-            const newKeys = { handler: keys.handler.updateClone(deleting) };
-            setKeys(newKeys);
-            setPatterns(getUsedPatterns(assetChanges.impression));
-        }
+        const tavernChanges = deletion;
+
+        updateTracker(undefined, deletion);
         props.onDataChange(tavernChanges);
         setContentLeft({
             ...contentLeft,
@@ -279,7 +275,7 @@ export const EditNavigator = (props: {
     };
 
     const handleEdit = (request: UserMade, previousName?: string) => {
-        const newAsset = content.creator.createUserMade(request);
+        const newAsset = creator.createUserMade(request);
         if (previousName) {
             const newContent: Partial<TavernData> = {
                 [newAsset.isAbout]: props.tavern[newAsset.isAbout].map(
@@ -341,16 +337,17 @@ export const EditNavigator = (props: {
         return { ideasLeft: oldMaps };
     };
 
-    const setContentByKey = (key: FantasyKeys) => {
-        const newCreator = new ContentCreator(key);
-        setContent({ creator: newCreator });
-        const newContentLeft = testContentLeft(
-            contentLeft.bannerData,
-            props.tavern.fitting,
-            newCreator,
-            props.tavern
+    const setUniverse = (universe: UniverseMap) => {
+        const newCreator = new ContentCreator(universe);
+        setContentLeft(
+            testContentLeft(
+                contentLeft.bannerData,
+                props.tavern.fitting,
+                newCreator,
+                props.tavern
+            )
         );
-        setContentLeft(newContentLeft);
+        props.onDataChange({ universe });
     };
 
     return (
@@ -371,8 +368,8 @@ export const EditNavigator = (props: {
                         fitting={props.tavern.fitting}
                         handleNewName={handleNewName}
                         handleNewFits={handleNewFits}
-                        contentName={content.creator.getUniverseName()}
-                        setContent={setContentByKey}
+                        setUniverse={setUniverse}
+                        universe={props.tavern.universe}
                     ></NameScene>
                 )}
             />
@@ -448,7 +445,7 @@ export const EditNavigator = (props: {
                         handleEdit={handleEdit}
                         handleBasePrice={handleBasePrice}
                         noticablesLeft={contentLeft.ideasLeft.impression}
-                        closeBanner={getBannerClosing(WeServe.food)}
+                        closeBanner={getBannerClosing(WeServe.impressions)}
                     ></QuestScene>
                 )}
             />

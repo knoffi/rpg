@@ -1,5 +1,7 @@
 import { association } from '../../classes/association';
 import { FantasyKeys } from '../../classes/contentCreator/FantasKeys';
+import { Pattern } from '../../classes/idea/Patterns/Pattern';
+import { Keys } from '../../classes/keyHandler/KeyHandlingTypes';
 import { Drinkable, Eatable } from '../../classes/TavernProduct';
 import { WeServe } from '../../editNavigator/WeServe';
 
@@ -8,6 +10,8 @@ export type Offer = {
     isUserMade: boolean;
     description?: string;
     price: number;
+    keys?: Keys;
+    patterns?: Pattern[];
     universe: FantasyKeys | 'isUserMade';
     income:
         | association.rich

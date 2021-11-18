@@ -4,25 +4,21 @@ import { getAllNewBannerDataAndOffersLeft } from '../editNavigator/getNewBannerD
 import { WeServe } from '../editNavigator/WeServe';
 import { standardBasePrice } from '../scenes/menuScene/basePrice';
 import { MinimalTavernData, TavernData } from './TavernData';
+import { UniverseMap } from './UniverseMap';
 
-export const getTavernHistoryInitializer = (): MinimalTavernData => {
-    const startIdeasLeft = getDefaultIdeasLeft();
-    const startBanner = { isVisible: false, emptyCategories: [] };
+export const getTavernHistoryInitializer = (
+    universe: UniverseMap
+): MinimalTavernData => {
     return {
         fitting: {},
         name: 'Nameless Tavern',
         [WeServe.drinks]: [],
         [WeServe.food]: [],
         prices: standardBasePrice,
-        ideasLeft: startIdeasLeft,
-        bannerData: {
-            drink: startBanner,
-            food: startBanner,
-            impression: startBanner,
-        },
         boughtOffers: [],
         [WeServe.impressions]: [],
-    } as TavernData;
+        universe,
+    };
 };
 
 export const getTavernFromMinimalData = (
@@ -47,22 +43,5 @@ export const getTavernFromMinimalData = (
         boughtOffers: minimalData.boughtOffers,
         bannerData: bannerData,
         ideasLeft: ideasLeft,
-    };
-};
-
-const getDefaultIdeasLeft = () => {
-    const startDrinksLeft = new Map(
-        Object.values(Drinkable).map((category) => [category, true])
-    );
-    const startFoodLeft = new Map(
-        Object.values(Eatable).map((category) => [category, true])
-    );
-    const startImpressionsLeft = new Map(
-        Object.values(Noticable).map((category) => [category, true])
-    );
-    return {
-        drink: startDrinksLeft,
-        food: startFoodLeft,
-        impression: startImpressionsLeft,
     };
 };

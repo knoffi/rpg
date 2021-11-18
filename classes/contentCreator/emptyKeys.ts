@@ -1,3 +1,3 @@
-import { Keys } from '../keyHandler/KeyHandler';
+import { Keys } from '../keyHandler/KeyHandlingTypes';
 
 export const emptyKeys: Keys = { ['main']: [], ['addition']: [] };

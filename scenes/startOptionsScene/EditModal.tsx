@@ -5,20 +5,31 @@ import {
     buttonEmphasis,
     InfoIconButton,
 } from '../../components/buttons/Buttons';
+import {
+    DEFAULT_UNIVERSE_MAP,
+    UniverseMap,
+} from '../../mainNavigator/UniverseMap';
 import { taverns } from '../../templates/taverns';
 import { editModalStyles } from './editModalStyles';
+import { UniverseSetting } from './UniverseSetting';
 export const EditModal = (props: {
     buildTavernTemplate: (name: string) => void;
-    buildRandomTavern: () => void;
+    buildRandomTavern: (map: UniverseMap) => void;
 }) => {
-    const [visible, setVisible] = React.useState(true);
-    const [onButtonView, setOnButtonView] = React.useState(true);
-    const [onTavernListView, setOnTavernListView] = React.useState(false);
-    const [onTavernInfoView, setOnTavernInfoView] = React.useState(false);
+    const [visibility, setVisibility] = React.useState({
+        ['thisModal']: true,
+        ['menu']: true,
+        ['templates']: false,
+        ['tavernInfo']: false,
+        ['universeSetting']: false,
+    });
     const [tavernInfoText, setTavernInfoText] = React.useState('');
     const [templateKey, setTempletKey] = React.useState('');
     const hideModal = () => {
-        setVisible(false);
+        setVisibility({ ...visibility, thisModal: false });
+    };
+    const onCancel = () => {
+        hideModal();
         props.buildTavernTemplate('default');
     };
 
@@ -26,88 +37,110 @@ export const EditModal = (props: {
         <Provider>
             <Portal>
                 <Modal
-                    visible={visible}
-                    onDismiss={hideModal}
+                    visible={visibility.thisModal}
+                    onDismiss={onCancel}
                     dismissable={false}
                     contentContainerStyle={editModalStyles.containerStyle}
                 >
                     <Paragraph style={editModalStyles.paragraph}>
                         START OPTIONS
                     </Paragraph>
-                    {onButtonView ? (
+                    {visibility['menu'] ? (
                         <Button
                             style={editModalStyles.button}
                             mode="contained"
-                            onPress={() => {
-                                props.buildTavernTemplate('default');
-                                setVisible(false);
-                            }}
+                            onPress={onCancel}
                         >
                             New Tavern
                         </Button>
                     ) : undefined}
-                    {onButtonView ? (
+                    {visibility['menu'] ? (
                         <Button
                             style={editModalStyles.button}
                             mode="contained"
                             onPress={() => {
-                                props.buildRandomTavern();
-                                setVisible(false);
+                                setVisibility({
+                                    ...visibility,
+                                    universeSetting: true,
+                                    menu: false,
+                                });
                             }}
                         >
                             Random Tavern
                         </Button>
                     ) : undefined}
-                    {onButtonView ? (
+                    {visibility['menu'] ? (
                         <Button
                             style={editModalStyles.button}
                             mode="contained"
                             onPress={() => {
-                                setOnButtonView(false);
-                                setOnTavernListView(true);
+                                setVisibility({
+                                    ...visibility,
+                                    templates: true,
+                                    menu: false,
+                                });
                             }}
                         >
                             Saved Taverns
                         </Button>
                     ) : undefined}
-                    {onButtonView ? (
+                    {visibility['menu'] ? (
                         <Button
                             style={editModalStyles.button}
                             mode="contained"
                             onPress={() => {
-                                setOnButtonView(false);
-                                setOnTavernListView(true);
+                                setVisibility({
+                                    ...visibility,
+                                    menu: false,
+                                    templates: true,
+                                });
                             }}
                         >
                             Tavern Templates
                         </Button>
                     ) : undefined}
-                    {onTavernListView ? (
+                    {visibility['templates'] ? (
                         <TavernsFlatList
                             onTavernInfoClick={(note: string, key: string) => {
-                                setOnTavernListView(false);
-                                setOnTavernInfoView(true);
+                                setVisibility({
+                                    ...visibility,
+                                    tavernInfo: true,
+                                    templates: false,
+                                });
                                 setTavernInfoText(note);
                                 setTempletKey(key);
                             }}
                             onTavernClick={(key: string) => {
                                 props.buildTavernTemplate(key);
-                                setVisible(false);
+                                hideModal();
                             }}
                         ></TavernsFlatList>
                     ) : undefined}
-                    {onTavernInfoView ? (
+                    {visibility['tavernInfo'] ? (
                         <TavernInfo
                             onStartButton={() => {
                                 props.buildTavernTemplate(templateKey);
-                                setVisible(false);
+                                hideModal();
                             }}
                             note={tavernInfoText}
                             onBackButton={() => {
-                                setOnTavernInfoView(false);
-                                setOnTavernListView(true);
+                                setVisibility({
+                                    ...visibility,
+                                    tavernInfo: false,
+                                    templates: true,
+                                });
                             }}
                         ></TavernInfo>
+                    ) : undefined}
+                    {visibility['universeSetting'] ? (
+                        <UniverseSetting
+                            universe={DEFAULT_UNIVERSE_MAP}
+                            onAccept={(map: UniverseMap) => {
+                                props.buildRandomTavern(map);
+                                hideModal();
+                            }}
+                            acceptText={'Generate Tavern'}
+                        ></UniverseSetting>
                     ) : undefined}
                 </Modal>
             </Portal>

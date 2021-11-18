@@ -8,12 +8,12 @@ import { dipAndCream } from './smallDish/dipAndCream';
 export const foodMenu: IDishMenu[] = [
     {
         category: Eatable.mainDish,
-        dishes: [...steaks],
+        ideas: [...steaks],
     },
     {
         category: Eatable.breakfast,
-        dishes: [...mainBreads],
+        ideas: [...mainBreads],
     },
-    { category: Eatable.sideDish, dishes: [...dipAndCream] },
-    { category: Eatable.dessert, dishes: [...simpleCakes] },
+    { category: Eatable.sideDish, ideas: [...dipAndCream] },
+    { category: Eatable.dessert, ideas: [...simpleCakes] },
 ];

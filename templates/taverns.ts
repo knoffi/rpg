@@ -3,6 +3,7 @@ import { AssetKey } from '../classes/idea/AssetKey/AssetKey';
 import { Noticable } from '../classes/idea/Noticable';
 import { WeServe } from '../editNavigator/WeServe';
 import { MinimalTavernData } from '../mainNavigator/TavernData';
+import { DEFAULT_UNIVERSE_MAP } from '../mainNavigator/UniverseMap';
 import { standardBasePrice } from '../scenes/menuScene/basePrice';
 
 type tavernMinData = MinimalTavernData & {
@@ -31,28 +32,33 @@ export const taverns: tavernMinData[] = [
                 patterns: [],
                 category: Noticable.bartender,
                 keys: { main: [AssetKey.BARTENDER_appearace], addition: [] },
+                universe: 'isUserMade',
             },
             {
                 name: 'Experienced warrior, many respect her',
                 patterns: [],
                 category: Noticable.bartender,
                 keys: { main: [AssetKey.BARTENDER_knowledge], addition: [] },
+                universe: 'isUserMade',
             },
             {
                 name: 'Carries a giant axe on her back',
                 patterns: [],
                 category: Noticable.bartender,
                 keys: { main: [AssetKey.BARTENDER_accessoires], addition: [] },
+                universe: 'isUserMade',
             },
             {
                 name: 'Wears clothes made of dire wolf fur',
                 patterns: [],
                 category: Noticable.bartender,
                 keys: { main: [AssetKey.BARTENDER_accessoires], addition: [] },
+                universe: 'isUserMade',
             },
             {
                 name: 'Boots are made of a tyrannosaurus rex she once fought',
                 patterns: [],
+                universe: 'isUserMade',
                 category: Noticable.bartender,
                 keys: {
                     main: [
@@ -67,6 +73,7 @@ export const taverns: tavernMinData[] = [
                 patterns: [],
                 category: Noticable.bartender,
                 keys: { main: [AssetKey.BARTENDER_accessoires], addition: [] },
+                universe: 'isUserMade',
             },
             {
                 name: 'Half-naked barbarians',
@@ -76,6 +83,7 @@ export const taverns: tavernMinData[] = [
                     main: [AssetKey.AVERAGE_CUSTOMER_behavior],
                     addition: [],
                 },
+                universe: 'isUserMade',
             },
             {
                 name: 'Heavily armored warriors',
@@ -85,6 +93,7 @@ export const taverns: tavernMinData[] = [
                     main: [AssetKey.AVERAGE_CUSTOMER_behavior],
                     addition: [],
                 },
+                universe: 'isUserMade',
             },
             {
                 name: 'Drinking beer and mead from horns',
@@ -94,6 +103,7 @@ export const taverns: tavernMinData[] = [
                     main: [AssetKey.AVERAGE_CUSTOMER_drinking],
                     addition: [],
                 },
+                universe: 'isUserMade',
             },
             {
                 name: 'Excessive drinking and loud laughing',
@@ -103,34 +113,40 @@ export const taverns: tavernMinData[] = [
                     main: [AssetKey.AVERAGE_CUSTOMER_behavior],
                     addition: [],
                 },
+                universe: 'isUserMade',
             },
             {
                 name: 'A bard at the bar passed out',
                 patterns: [],
                 category: Noticable.someCustomers,
                 keys: { main: [], addition: [] },
+                universe: 'isUserMade',
             },
             {
                 name: 'The guests surrounding the bard are laughing',
                 patterns: [],
                 category: Noticable.someCustomers,
                 keys: { main: [], addition: [] },
+                universe: 'isUserMade',
             },
             {
                 name: 'Heavy wooden tables',
                 patterns: [],
                 category: Noticable.furniture,
                 keys: { main: [AssetKey.FURNITURE_tables], addition: [] },
+                universe: 'isUserMade',
             },
             {
                 name: 'Marks of axe slashes on the wall',
                 patterns: [],
                 category: Noticable.furniture,
                 keys: { main: [], addition: [] },
+                universe: 'isUserMade',
             },
             {
                 name: 'Head of tyrannosaurus rex hangs from ceiling ',
                 patterns: [],
+                universe: 'isUserMade',
                 category: Noticable.furniture,
                 keys: {
                     main: [AssetKey.FURNITURE_creatureTrophies],
@@ -138,6 +154,7 @@ export const taverns: tavernMinData[] = [
                 },
             },
         ],
+        universe: DEFAULT_UNIVERSE_MAP,
     },
     {
         key: 'dwarf_rich',
@@ -160,30 +177,35 @@ export const taverns: tavernMinData[] = [
                 patterns: [],
                 category: Noticable.bartender,
                 keys: { main: [AssetKey.BARTENDER_faceDetails], addition: [] },
+                universe: 'isUserMade',
             },
             {
                 name: 'Friendly dwarve',
                 patterns: [],
                 category: Noticable.bartender,
                 keys: { main: [AssetKey.BARTENDER_charisma], addition: [] },
+                universe: 'isUserMade',
             },
             {
                 name: 'Perfectionist when it comes to beer',
                 patterns: [],
                 category: Noticable.bartender,
                 keys: { main: [AssetKey.BARTENDER_knowledge], addition: [] },
+                universe: 'isUserMade',
             },
             {
                 name: 'Wealthy clothes',
                 patterns: [],
                 category: Noticable.averageCustomer,
                 keys: { main: [AssetKey.BARTENDER_appearace], addition: [] },
+                universe: 'isUserMade',
             },
             {
                 name: 'Mostly Dwarvish or Gnomish',
                 patterns: [],
                 category: Noticable.averageCustomer,
                 keys: { main: [], addition: [] },
+                universe: 'isUserMade',
             },
             {
                 name: 'Drink beer from silver cups',
@@ -196,6 +218,7 @@ export const taverns: tavernMinData[] = [
                     ],
                     addition: [],
                 },
+                universe: 'isUserMade',
             },
             {
                 name: 'Mostly ordering beer from Molthorium brand',
@@ -205,44 +228,52 @@ export const taverns: tavernMinData[] = [
                     main: [AssetKey.AVERAGE_CUSTOMER_drinking],
                     addition: [],
                 },
+                universe: 'isUserMade',
             },
             {
                 name: 'The royal masons discuss the defenses of the Dwarvish capital',
                 patterns: [],
                 category: Noticable.someCustomers,
                 keys: { main: [], addition: [] },
+                universe: 'isUserMade',
             },
             {
                 name: 'A group of noble elves is lead to a VIP-Lounge',
                 patterns: [],
                 category: Noticable.someCustomers,
                 keys: { main: [], addition: [] },
+                universe: 'isUserMade',
             },
             {
                 name: 'A band of bards plays pub music',
                 patterns: [],
                 category: Noticable.someCustomers,
                 keys: { main: [], addition: [] },
+                universe: 'isUserMade',
             },
             {
                 name: 'Marble columns with handcrafted details',
                 patterns: [],
                 category: Noticable.furniture,
                 keys: { main: [], addition: [] },
+                universe: 'isUserMade',
             },
             {
                 name: 'Mahagony tables',
                 patterns: [],
                 category: Noticable.furniture,
                 keys: { main: [AssetKey.FURNITURE_tables], addition: [] },
+                universe: 'isUserMade',
             },
             {
                 name: 'A giant portrait of the Dwarvish royal family on the wall',
                 patterns: [],
                 category: Noticable.furniture,
                 keys: { main: [AssetKey.FURNITURE_barDeco], addition: [] },
+                universe: 'isUserMade',
             },
         ],
+        universe: DEFAULT_UNIVERSE_MAP,
     },
     {
         key: 'haven_criminal_poor',
@@ -270,18 +301,21 @@ export const taverns: tavernMinData[] = [
                     ],
                     addition: [],
                 },
+                universe: 'isUserMade',
             },
             {
                 name: 'Gruff towards unkown costumers',
                 patterns: [],
                 category: Noticable.bartender,
                 keys: { main: [AssetKey.BARTENDER_opinion], addition: [] },
+                universe: 'isUserMade',
             },
             {
                 name: 'Snake tattoe on his neck',
                 patterns: [],
                 category: Noticable.bartender,
                 keys: { main: [AssetKey.BARTENDER_accessoires], addition: [] },
+                universe: 'isUserMade',
             },
             {
                 name: 'Seem quite threatening',
@@ -291,18 +325,21 @@ export const taverns: tavernMinData[] = [
                     main: [AssetKey.AVERAGE_CUSTOMER_behavior],
                     addition: [],
                 },
+                universe: 'isUserMade',
             },
             {
                 name: 'Many wear sabers around their belt',
                 patterns: [],
                 category: Noticable.averageCustomer,
                 keys: { main: [], addition: [] },
+                universe: 'isUserMade',
             },
             {
                 name: 'Silent, unfriendly atmosphere',
                 patterns: [],
                 category: Noticable.averageCustomer,
                 keys: { main: [], addition: [] },
+                universe: 'isUserMade',
             },
             {
                 name: 'Turn silent when you walk by',
@@ -312,38 +349,45 @@ export const taverns: tavernMinData[] = [
                     main: [AssetKey.AVERAGE_CUSTOMER_behavior],
                     addition: [],
                 },
+                universe: 'isUserMade',
             },
             {
                 name: 'A sailor spits on the ground',
                 patterns: [],
                 category: Noticable.someCustomers,
                 keys: { main: [], addition: [] },
+                universe: 'isUserMade',
             },
             {
                 name: 'A captain drinks rum at the bar',
                 patterns: [],
                 category: Noticable.someCustomers,
                 keys: { main: [], addition: [] },
+                universe: 'isUserMade',
             },
             {
                 name: 'Scruffy chairs',
                 patterns: [],
                 category: Noticable.furniture,
                 keys: { main: [AssetKey.FURNITURE_tables], addition: [] },
+                universe: 'isUserMade',
             },
             {
                 name: 'Some tables have holes',
                 patterns: [],
                 category: Noticable.furniture,
                 keys: { main: [AssetKey.FURNITURE_tables], addition: [] },
+                universe: 'isUserMade',
             },
             {
                 name: 'Smell of cheap rum and ale',
                 patterns: [],
                 category: Noticable.furniture,
                 keys: { main: [], addition: [] },
+                universe: 'isUserMade',
             },
         ],
+        universe: DEFAULT_UNIVERSE_MAP,
     },
     {
         key: 'brothel_city_rich',
@@ -365,18 +409,21 @@ export const taverns: tavernMinData[] = [
                 patterns: [],
                 category: Noticable.bartender,
                 keys: { main: [AssetKey.BARTENDER_appearace], addition: [] },
+                universe: 'isUserMade',
             },
             {
                 name: 'Witty and entertaining',
                 patterns: [],
                 category: Noticable.bartender,
                 keys: { main: [AssetKey.BARTENDER_charisma], addition: [] },
+                universe: 'isUserMade',
             },
             {
                 name: 'Slim and alluring',
                 patterns: [],
                 category: Noticable.bartender,
                 keys: { main: [AssetKey.BARTENDER_body], addition: [] },
+                universe: 'isUserMade',
             },
 
             {
@@ -387,6 +434,7 @@ export const taverns: tavernMinData[] = [
                     main: [AssetKey.AVERAGE_CUSTOMER_eating],
                     addition: [],
                 },
+                universe: 'isUserMade',
             },
             {
                 name: 'Drink expensive wines and eat exotic fruits',
@@ -399,6 +447,7 @@ export const taverns: tavernMinData[] = [
                     ],
                     addition: [],
                 },
+                universe: 'isUserMade',
             },
             {
                 name: 'Careless, tipsy and lustful',
@@ -408,6 +457,7 @@ export const taverns: tavernMinData[] = [
                     main: [AssetKey.AVERAGE_CUSTOMER_behavior],
                     addition: [],
                 },
+                universe: 'isUserMade',
             },
 
             {
@@ -415,18 +465,21 @@ export const taverns: tavernMinData[] = [
                 patterns: [],
                 category: Noticable.someCustomers,
                 keys: { main: [], addition: [] },
+                universe: 'isUserMade',
             },
             {
                 name: 'A married gnome couple seduces a merchant',
                 patterns: [],
                 category: Noticable.someCustomers,
                 keys: { main: [], addition: [] },
+                universe: 'isUserMade',
             },
             {
                 name: 'A bishop comes out of the VIP-lounge',
                 patterns: [],
                 category: Noticable.someCustomers,
                 keys: { main: [], addition: [] },
+                universe: 'isUserMade',
             },
 
             {
@@ -434,19 +487,23 @@ export const taverns: tavernMinData[] = [
                 patterns: [],
                 category: Noticable.furniture,
                 keys: { main: [AssetKey.FURNITURE_tables], addition: [] },
+                universe: 'isUserMade',
             },
             {
                 name: 'Golden cups and silken napkins',
                 patterns: [],
                 category: Noticable.furniture,
                 keys: { main: [AssetKey.FURNITURE_drinkHolder], addition: [] },
+                universe: 'isUserMade',
             },
             {
                 name: 'An elf sings on the stage',
                 patterns: [],
                 category: Noticable.furniture,
                 keys: { main: [], addition: [] },
+                universe: 'isUserMade',
             },
         ],
+        universe: DEFAULT_UNIVERSE_MAP,
     },
 ];

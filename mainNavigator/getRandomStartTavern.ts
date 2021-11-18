@@ -15,6 +15,11 @@ import {
     StructuredTavernFits,
 } from '../classes/idea/StructuredTavernFits';
 import { KeyHandler } from '../classes/keyHandler/KeyHandler';
+import { KeyChange } from '../classes/keyHandler/KeyHandlingTypes';
+import {
+    PatternChange,
+    PatternHandler,
+} from '../classes/patternHandler/PatternHandler';
 import { Drinkable, Eatable } from '../classes/TavernProduct';
 import { WeServe } from '../editNavigator/WeServe';
 import { getRandomArrayEntry } from '../helpingFunctions/getFittingRandom';
@@ -23,23 +28,26 @@ import { Offer } from '../scenes/menuScene/Offer';
 import { Demand } from '../scenes/menuScene/offerList/actionInterfaces';
 import { getRandomName } from '../scenes/nameScene/getRandomName';
 import { Impression } from '../scenes/questScene/impressions/Impression';
+import { Content } from './Content';
 import { getCreationRequest } from './getCreationRequest';
 import { getTavernHistoryInitializer } from './mainNavigatorFunctions';
 import { MinimalTavernData } from './TavernData';
-
+import { UniverseMap } from './UniverseMap';
 const CHANCE_FOR_POWERFIT = 0.9;
 const CHANCE_FOR_SPECIAL_FIT = 0.2;
 const CHANCE_FOR_ORDINARY_FIT = 0.625;
 const NO_IDEA_PROBABILITY = 0.1;
 const MAX_IDEA = 3;
 const MAX_PRICE_DERIVATION = 0.3;
-export const getRandomStartTavern = (): MinimalTavernData => {
-    const tavernData = getTavernHistoryInitializer();
-
+export const getRandomStartTavern = (
+    universeMap: UniverseMap
+): MinimalTavernData => {
+    const tavernData = getTavernHistoryInitializer(universeMap);
     const fitting = getRandomStructuredFits();
     const prices = getRandomBasePrice();
     const name = getRandomStartName(fitting);
-    const content = getContent(fitting);
+    //TODO: use PatternHandler to get better content
+    const content = getContent(fitting, universeMap);
 
     return { ...tavernData, name, prices, fitting, ...content };
 };
@@ -85,35 +93,45 @@ const getRandomBasePrice = () => {
     } as BasePrice;
 };
 
-type Content = Pick<
-    MinimalTavernData,
-    WeServe.drinks | WeServe.food | WeServe.impressions
->;
-
-const getContent = (fits: StructuredTavernFits): Content => {
+const getContent = (
+    fits: StructuredTavernFits,
+    universeMap: UniverseMap
+): Content => {
+    const creator = new ContentCreator(universeMap);
     const drinks = Object.values(Drinkable)
         .map(
             (category) =>
-                getContentForCategory(fits, {
-                    isAbout: WeServe.drinks,
-                    category,
-                }).added
+                getContentForCategory(
+                    fits,
+                    {
+                        isAbout: WeServe.drinks,
+                        category,
+                    },
+                    creator
+                ).added
         )
         .flat() as Offer[];
     const food = Object.values(Eatable)
         .map(
             (category) =>
-                getContentForCategory(fits, { isAbout: WeServe.food, category })
-                    .added
+                getContentForCategory(
+                    fits,
+                    { isAbout: WeServe.food, category },
+                    creator
+                ).added
         )
         .flat() as Offer[];
     const impressions = Object.values(Noticable)
         .map(
             (category) =>
-                getContentForCategory(fits, {
-                    isAbout: WeServe.impressions,
-                    category,
-                }).added
+                getContentForCategory(
+                    fits,
+                    {
+                        isAbout: WeServe.impressions,
+                        category,
+                    },
+                    creator
+                ).added
         )
         .flat() as Impression[];
     return {
@@ -135,21 +153,22 @@ const getRandomStartName = (fits: StructuredTavernFits) => {
 };
 const getContentForCategory = (
     fits: StructuredTavernFits,
-    demand: Demand
+    demand: Demand,
+    creator: ContentCreator
 ): Add => {
     const contentLength =
         demand.category === Noticable.bartender
             ? 5
             : Math.floor(Math.random() * MAX_IDEA + (1 - NO_IDEA_PROBABILITY));
-    //TODO: random tavern uses random FantasyKey for content creator
-    const creator = new ContentCreator();
-    const keyHandler = new KeyHandler();
+    const keyHandler = new KeyHandler('noPreviousContent');
+    const patternHandler = new PatternHandler('noContent');
     const newKeys = emptyKeys;
     const startAdd: Add = {
         ...demand,
         added: [],
         newKeys,
         newCreationAdded: false,
+        newPatterns: [],
     };
     const startRequest = getCreationRequest(startAdd, [], []);
     const content = getContentArray(
@@ -157,6 +176,7 @@ const getContentForCategory = (
         contentLength,
         startRequest,
         keyHandler,
+        patternHandler,
         creator
     );
     return { ...content };
@@ -167,6 +187,7 @@ const getContentArray = (
     length: number,
     request: CreationRequest,
     keys: KeyHandler,
+    patterns: PatternHandler,
     creator: ContentCreator
 ): Add => {
     if (request.oldAssets.length + 1 >= length) {
@@ -177,7 +198,12 @@ const getContentArray = (
             return add;
         }
         if (add.isAbout === WeServe.impressions) {
-            keys.update({ ...add, type: 'Add' });
+            const handlerUpdate: KeyChange & PatternChange = {
+                ...add,
+                type: 'Add',
+            };
+            keys.update(handlerUpdate);
+            patterns.update(handlerUpdate);
         }
         const fullKeys = keys.getFullKeys(add.isAbout);
         const newRequst = getCreationRequest(
@@ -185,6 +211,13 @@ const getContentArray = (
             fullKeys.main,
             fullKeys.addition
         );
-        return getContentArray(fits, length, newRequst, keys, creator);
+        return getContentArray(
+            fits,
+            length,
+            newRequst,
+            keys,
+            patterns,
+            creator
+        );
     }
 };

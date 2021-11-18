@@ -96,6 +96,19 @@ export const RerollButton = (props: ButtonProps) => {
         </Button>
     );
 };
+export const BookButton = (props: ButtonProps) => {
+    return (
+        <Button
+            mode={props.mode}
+            onPress={props.onPress}
+            onLongPress={props.onLongPress}
+            disabled={props.disabled}
+        >
+            {<FontAwesome name="book" size={props.size} color={props.color} />}
+            {props.title}
+        </Button>
+    );
+};
 export const DeleteButton = (props: ButtonProps) => {
     return (
         <Button
@@ -235,6 +248,7 @@ export const PencilButton = (props: ButtonProps) => {
                     color={props.color}
                 />
             }
+            {props.title}
         </Button>
     );
 };
