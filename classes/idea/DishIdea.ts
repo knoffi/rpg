@@ -1,7 +1,6 @@
 import { WeServe } from '../../editNavigator/WeServe';
 import { Offer } from '../../scenes/menuScene/Offer';
 import { Demand } from '../../scenes/menuScene/offerList/actionInterfaces';
-import { splitMarker } from '../../scenes/menuScene/offerList/nameSplitter/splitMarker';
 import { association, Income } from '../association';
 import { FantasyKeys } from '../contentCreator/FantasKeys';
 import { Drinkable, Eatable, MenuCategory } from '../TavernProduct';
@@ -134,17 +133,15 @@ export class DishIdea extends Idea {
         universe: FantasyKeys,
         priceFactor?: number
     ): Offer {
-        const name =
-            mainIngredient +
-            splitMarker +
-            firstSideIngredient +
-            secondSideIngredient +
-            thirdSideIngredient;
+        const name = mainIngredient;
+        const description =
+            firstSideIngredient + secondSideIngredient + thirdSideIngredient;
         const pricing = this.getPricing(tavernFits.income, priceFactor);
 
         const demand = this.getDemand();
         return {
             name,
+            description,
             isUserMade: false,
             ...pricing,
             ...demand,

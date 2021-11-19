@@ -1,13 +1,11 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import { menuSceneStyles } from '../../scenes/menuScene/menuStyles';
-import { getDishTexts } from '../../scenes/menuScene/offerList/nameSplitter/getDishTexts';
 import { AppearingView } from './AppearingView';
 
 export const MemoizedSwiperText = React.memo(
-    (props: { drinkName: string; priceString: string }) => {
-        const { name, description } = getDishTexts(props.drinkName);
-        const isNotForDishes = props.priceString === '';
+    (props: { title: string; description: string; price: string }) => {
+        const isNotForDishes = props.price === '';
         return (
             <View
                 style={{
@@ -25,14 +23,14 @@ export const MemoizedSwiperText = React.memo(
                             }
                         >
                             <Text style={menuSceneStyles.drinkName}>
-                                {name}
+                                {props.title}
                             </Text>
                             <Text style={menuSceneStyles.drinkDescription}>
-                                {description}
+                                {props.description}
                             </Text>
                             {isNotForDishes ? undefined : (
                                 <Text style={menuSceneStyles.drinkPrice}>
-                                    {props.priceString}
+                                    {props.price}
                                 </Text>
                             )}
                         </View>

@@ -10,10 +10,10 @@ const LIST_ITEM_MARGIN = 5 * WIDTH_FACTOR;
 
 export const getOrderListItem = (
     orderValues: { price: number; count: number },
-    name: string,
+    offerTitle: string,
     currencyName: string,
-    increaseOrder: (offerName: string) => void,
-    decreaseOrder: (offerName: string) => void
+    increaseOrder: () => void,
+    decreaseOrder: () => void
 ) => {
     return (
         <List.Item
@@ -28,7 +28,10 @@ export const getOrderListItem = (
                 >
                     <View style={appBarStyles.listItemView}>
                         <Text style={appBarStyles.orderName}>
-                            {orderValues.count.toString() + 'x ' + ' ' + name}
+                            {orderValues.count.toString() +
+                                'x ' +
+                                ' ' +
+                                offerTitle}
                         </Text>
                         <View style={appBarStyles.orderPriceView}>
                             <Text style={appBarStyles.orderPriceText}>
@@ -48,7 +51,7 @@ export const getOrderListItem = (
                                 />
                             )}
                             onPress={() => {
-                                increaseOrder(name);
+                                increaseOrder();
                             }}
                         />
                         <IconButton
@@ -58,7 +61,7 @@ export const getOrderListItem = (
                                     size={props.size + BUTTON_SIZE_INCREASE}
                                     color={props.color}
                                     onPress={() => {
-                                        decreaseOrder(name);
+                                        decreaseOrder();
                                     }}
                                 />
                             )}
@@ -66,7 +69,7 @@ export const getOrderListItem = (
                     </View>
                 </View>
             )}
-            key={name + orderValues.price.toString()}
+            key={offerTitle + orderValues.price.toString()}
         ></List.Item>
     );
 };

@@ -5,7 +5,6 @@ import { List, Text } from 'react-native-paper';
 import { WIDTH_FACTOR } from '../dimensionConstants';
 import { WeServe } from '../editNavigator/WeServe';
 import { Offer } from '../scenes/menuScene/Offer';
-import { getDishTexts } from '../scenes/menuScene/offerList/nameSplitter/getDishTexts';
 import { appBarStyles } from './appBarStyles';
 import { getOrderListItem } from './getOrderListItem';
 
@@ -20,6 +19,9 @@ export const ShoppingList = (props: {
 }) => {
     const boughtDrinks = [] as JSX.Element[];
     const boughtFood = [] as JSX.Element[];
+    const getOrderChanger = (name: string, change: 1 | -1) => () => {
+        change === 1 ? props.increaseOrder(name) : props.decreaseOrder(name);
+    };
 
     const drinkMap = new Map<string, { price: number; count: number }>([]);
     const foodMap = new Map<string, { price: number; count: number }>([]);
@@ -29,7 +31,7 @@ export const ShoppingList = (props: {
             return priceSum + price;
         }, 0);
     props.boughtOffers.forEach((offer) => {
-        const name = getDishTexts(offer.name).name;
+        const name = offer.name;
         const thisMap = offer.isAbout === WeServe.food ? foodMap : drinkMap;
         const orderValues = thisMap.get(name);
         if (orderValues) {
@@ -51,8 +53,8 @@ export const ShoppingList = (props: {
                 orderValues,
                 name,
                 props.currencyName,
-                props.increaseOrder,
-                props.decreaseOrder
+                getOrderChanger(name, 1),
+                getOrderChanger(name, -1)
             )
         );
     });
@@ -62,8 +64,8 @@ export const ShoppingList = (props: {
                 orderValues,
                 name,
                 props.currencyName,
-                props.increaseOrder,
-                props.decreaseOrder
+                getOrderChanger(name, 1),
+                getOrderChanger(name, -1)
             )
         );
     });
