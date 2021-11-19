@@ -1,17 +1,13 @@
 import React from 'react';
 import { List } from 'react-native-paper';
 import { Drinkable, Eatable } from '../../../classes/TavernProduct';
-import { HEIGHT_FACTOR } from '../../../dimensionConstants';
 import { WeServe } from '../../../editNavigator/WeServe';
 import { Describable } from '../../../mainNavigator/TavernData';
 import { globalStyles } from '../../globalStyles';
 import { Offer } from '../Offer';
 import { OfferAccordion } from './Accordion';
 import { Demand, IAddingActions, IOfferActions } from './actionInterfaces';
-
-const BOTTOM_PADDING_DRINKS = 265 * HEIGHT_FACTOR;
-const BOTTOM_PADDING_FOOD = 188 * HEIGHT_FACTOR;
-
+import { getListBottomOffset } from './getListBottomOffset';
 export const OfferList = (props: {
     offers: Offer[];
     isAbout: WeServe.food | WeServe.drinks;
@@ -65,10 +61,7 @@ export const OfferList = (props: {
             title={props.isAbout.toUpperCase()}
             titleStyle={globalStyles.title}
             style={{
-                paddingBottom:
-                    props.isAbout === WeServe.drinks
-                        ? BOTTOM_PADDING_DRINKS
-                        : BOTTOM_PADDING_FOOD,
+                paddingBottom: getListBottomOffset(chapterLists.length),
             }}
         >
             {chapterLists}

@@ -42,7 +42,7 @@ export const DetailsList = (props: {
     noticablesLeft: Map<Describable, boolean>;
 }) => {
     const impressionTitles = Object.values(Noticable);
-    const impressionAccordion = impressionTitles.map((title) => {
+    const impressionAccordions = impressionTitles.map((title) => {
         const impressionsOfTitle = props.impressions.filter(
             (impression) => impression.category === title
         );
@@ -69,15 +69,19 @@ export const DetailsList = (props: {
         );
     });
 
+    const priceAccordion = (
+        <PriceAccordion
+            onCurrencySetPress={props.onCurrencySetPress}
+            onInfoPress={props.onInfoPress}
+            basePrice={props.basePrice}
+            onPriceSetPress={props.onPriceSetPress}
+        />
+    );
+    const accordions = [priceAccordion, ...impressionAccordions];
+
     return (
         <List.Section title={'NOTES'} titleStyle={globalStyles.title}>
-            <PriceAccordion
-                onCurrencySetPress={props.onCurrencySetPress}
-                onInfoPress={props.onInfoPress}
-                basePrice={props.basePrice}
-                onPriceSetPress={props.onPriceSetPress}
-            />
-            {impressionAccordion}
+            {accordions}
         </List.Section>
     );
 };
@@ -129,7 +133,6 @@ const ImpressionAccordion = (props: {
                 key={newKey}
                 description={''}
                 price={''}
-                //TODO: also, do use "NO DESCRIPTION LEFT" instead of "MENU FULL!"
                 isUserMade={isUserMade}
                 noDrinkToAddLeft={impressionsFull}
                 actions={{
