@@ -1,4 +1,3 @@
-import { splitMarker } from '../../scenes/menuScene/offerList/nameSplitter/splitMarker';
 import { Impression } from '../../scenes/questScene/impressions/Impression';
 import { emptyKeys } from '../contentCreator/emptyKeys';
 import { FantasyKeys } from '../contentCreator/FantasKeys';
@@ -97,7 +96,7 @@ export class ImpressionIdea extends Idea {
                     keys: {
                         ...emptyKeys,
                         main: ImpressionIdea.getKeyList(this.main),
-                    } as Keys,
+                    },
                     patterns: this.main.patterns || [],
                 };
             }
@@ -107,7 +106,7 @@ export class ImpressionIdea extends Idea {
             const secondText = this.reverseDisplay
                 ? this.main.name
                 : secondDescription.name;
-            const createdName = firstText + secondText + splitMarker;
+            const createdName = firstText + secondText;
             return {
                 name: createdName,
                 keys: {

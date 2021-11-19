@@ -26,8 +26,9 @@ type OpacitySwiperTextProps = {
     onSwipeLeft: () => void;
     onClick: () => void;
     swipeThreshold: number;
-    descriptionText: string;
-    priceString: string;
+    title: string;
+    description: string;
+    price: string;
     isUserMade: boolean;
     leftSwipePossible: boolean;
     rightSwipePossible: boolean;
@@ -300,8 +301,9 @@ export class OpacitySwiperText extends React.Component<
                                     }
                                 </Animated.Code>
                                 <MemoizedSwiperText
-                                    drinkName={this.props.descriptionText}
-                                    priceString={this.props.priceString}
+                                    title={this.props.title}
+                                    description={this.props.description}
+                                    price={this.props.price}
                                 />
                             </Animated.View>
                         </Animated.View>

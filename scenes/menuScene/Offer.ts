@@ -8,7 +8,7 @@ import { WeServe } from '../../editNavigator/WeServe';
 export type Offer = {
     name: string;
     isUserMade: boolean;
-    description?: string;
+    description: string;
     price: number;
     keys?: Keys;
     patterns?: Pattern[];

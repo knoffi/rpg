@@ -32,7 +32,8 @@ export const OfferAccordion = (props: {
         return (
             <View key={name}>
                 <OfferListItem
-                    drinkName={name}
+                    title={name}
+                    description={offer.description}
                     actions={{
                         onDelete: () => {
                             props.offerActions.deleteOffer(
@@ -63,7 +64,7 @@ export const OfferAccordion = (props: {
                     }}
                     noDrinkToAddLeft={noDrinkToAddLeft}
                     isUserMade={offer.isUserMade}
-                    priceString={getPriceString(offer)}
+                    price={getPriceString(offer)}
                 ></OfferListItem>
             </View>
         );

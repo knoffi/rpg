@@ -6,17 +6,19 @@ import { IProductActions } from './actionInterfaces';
 
 const SWIPE_THRESHOLD = 70 * WIDTH_FACTOR;
 export const OfferListItem = (props: {
-    drinkName: string;
+    title: string;
+    description: string;
     actions: IProductActions;
     noDrinkToAddLeft: boolean;
-    priceString: string;
+    price: string;
     isUserMade?: boolean;
 }) => {
     const actions = props.actions;
-    const drinkName = props.drinkName;
+    const title = props.title;
     const editPossible = props.isUserMade || false;
     const rerollPossible = !editPossible && !props.noDrinkToAddLeft;
-    const priceString = props.priceString;
+    const price = props.price;
+    const description = props.description;
     return (
         <List.Item
             title=""
@@ -35,8 +37,9 @@ export const OfferListItem = (props: {
                         }
                         onSwipeLeft={actions.onDelete}
                         onClick={actions.onShop}
-                        descriptionText={drinkName}
-                        priceString={priceString}
+                        title={title}
+                        description={description}
+                        price={price}
                         leftSwipePossible={true}
                         rightSwipePossible={
                             editPossible ? true : rerollPossible

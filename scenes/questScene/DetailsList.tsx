@@ -125,9 +125,10 @@ const ImpressionAccordion = (props: {
         const newKey = text;
         return (
             <OfferListItem
-                drinkName={text}
+                title={text}
                 key={newKey}
-                priceString={''}
+                description={''}
+                price={''}
                 //TODO: also, do use "NO DESCRIPTION LEFT" instead of "MENU FULL!"
                 isUserMade={isUserMade}
                 noDrinkToAddLeft={impressionsFull}

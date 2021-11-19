@@ -5,7 +5,6 @@ import { List, Text } from 'react-native-paper';
 import { WIDTH_FACTOR } from '../dimensionConstants';
 import { WeServe } from '../editNavigator/WeServe';
 import { Offer } from '../scenes/menuScene/Offer';
-import { getDishTexts } from '../scenes/menuScene/offerList/nameSplitter/getDishTexts';
 import { appBarStyles } from './appBarStyles';
 import { getOrderListItem } from './getOrderListItem';
 
@@ -52,7 +51,7 @@ export const ShoppingList = (props: {
         boughtDrinks.push(
             getOrderListItem(
                 orderValues,
-                getDishTexts(name).name,
+                name,
                 props.currencyName,
                 getOrderChanger(name, 1),
                 getOrderChanger(name, -1)
@@ -63,7 +62,7 @@ export const ShoppingList = (props: {
         boughtFood.push(
             getOrderListItem(
                 orderValues,
-                getDishTexts(name).name,
+                name,
                 props.currencyName,
                 getOrderChanger(name, 1),
                 getOrderChanger(name, -1)
