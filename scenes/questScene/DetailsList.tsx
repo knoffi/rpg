@@ -20,7 +20,7 @@ import {
     Demand,
     IAddingActions,
 } from '../menuScene/offerList/actionInterfaces';
-import { OfferListItem } from '../menuScene/offerList/ListItem';
+import { OfferListItem } from '../menuScene/offerList/Item';
 import { LIST_END_BUTTON_SIZE } from '../menuScene/offerList/LIST_END_BUTTON_SIZE';
 import { Impression } from './impressions/Impression';
 import { PriceAccordion } from './PriceAccordion';

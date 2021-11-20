@@ -10,7 +10,7 @@ import { WeServe } from '../../../editNavigator/WeServe';
 import { menuSceneStyles } from '../menuStyles';
 import { Offer } from '../Offer';
 import { Demand, IAddingActions, IOfferActions } from './actionInterfaces';
-import { OfferListItem } from './ListItem';
+import { OfferListItem } from './Item';
 import { LIST_END_BUTTON_SIZE } from './LIST_END_BUTTON_SIZE';
 
 export const OfferAccordion = (props: {
