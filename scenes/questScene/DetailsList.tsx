@@ -20,7 +20,7 @@ import {
     Demand,
     IAddingActions,
 } from '../menuScene/offerList/actionInterfaces';
-import { OfferListItem } from '../menuScene/offerList/Item';
+import { OfferListItem } from '../menuScene/offerList/ListItem';
 import { LIST_END_BUTTON_SIZE } from '../menuScene/offerList/LIST_END_BUTTON_SIZE';
 import { Impression } from './impressions/Impression';
 import { PriceAccordion } from './PriceAccordion';
@@ -75,6 +75,7 @@ export const DetailsList = (props: {
             onInfoPress={props.onInfoPress}
             basePrice={props.basePrice}
             onPriceSetPress={props.onPriceSetPress}
+            key={'prices'}
         />
     );
     const accordions = [priceAccordion, ...impressionAccordions];
