@@ -139,7 +139,8 @@ const characteristics = [
     new NameIdea(
         {
             name: 'Humble',
-            misfits: [a.rich],
+            misfits: [a.rich, a.drow, a.tiefling],
+            classRange: [a.cleric, a.knight],
         },
         [...noblesAndTitles, ...artisanJobs]
     ),

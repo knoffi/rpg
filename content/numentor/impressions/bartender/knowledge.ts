@@ -1,7 +1,4 @@
-import {
-    association,
-    landAssociations,
-} from '../../../../classes/association';
+import { association, landAssociations } from '../../../../classes/association';
 import { AssetKey } from '../../../../classes/idea/AssetKey/AssetKey';
 import { ImpressionIdea } from '../../../../classes/idea/ImpressionIdea';
 import { Noticable } from '../../../../classes/idea/Noticable';
@@ -73,7 +70,7 @@ export const bartenderKnowledge: ImpressionIdea[] = [
         [
             { name: 'in the sewers', landRange: [a.haven, a.city] },
             {
-                name: 'in an abandoned tower nearby',
+                name: 'in an abandoned village nearby',
                 landRange: [a.village, a.forest],
             },
             { name: 'at the nearby lake', landRange: [a.village, a.forest] },
