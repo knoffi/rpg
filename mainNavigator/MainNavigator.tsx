@@ -10,7 +10,7 @@ import { StartOptionsScene } from '../scenes/startOptionsScene/StartOptionsScene
 import { TavernCollectionScene } from '../scenes/tavernCollectionScene/TavernCollectionScene';
 import { TitleScene } from '../scenes/titleScene/TitleScene';
 import { taverns } from '../templates/taverns';
-import { getRandomStartTavern } from './getRandomStartTavern';
+import { getRandomStartTavern } from './randomTavern/getRandomStartTavern';
 import { getTavernHistoryInitializer } from './mainNavigatorFunctions';
 import { MinimalTavernData } from './TavernData';
 import { DEFAULT_UNIVERSE_MAP, UniverseMap } from './UniverseMap';
