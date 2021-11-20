@@ -75,6 +75,7 @@ export const DetailsList = (props: {
             onInfoPress={props.onInfoPress}
             basePrice={props.basePrice}
             onPriceSetPress={props.onPriceSetPress}
+            key={'prices'}
         />
     );
     const accordions = [priceAccordion, ...impressionAccordions];

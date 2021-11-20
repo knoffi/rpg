@@ -2,38 +2,39 @@ import {
     association,
     AssociationTypes,
     getAssociationsOfType,
-} from '../classes/association';
+} from '../../classes/association';
 import {
     Add,
     ContentCreator,
     CreationRequest,
-} from '../classes/contentCreator/ContentCreator';
-import { emptyKeys } from '../classes/contentCreator/emptyKeys';
-import { Noticable } from '../classes/idea/Noticable';
+} from '../../classes/contentCreator/ContentCreator';
+import { emptyKeys } from '../../classes/contentCreator/emptyKeys';
+import { Noticable } from '../../classes/idea/Noticable';
 import {
     getStructuredFits,
     StructuredTavernFits,
-} from '../classes/idea/StructuredTavernFits';
-import { KeyHandler } from '../classes/keyHandler/KeyHandler';
-import { KeyChange } from '../classes/keyHandler/KeyHandlingTypes';
+} from '../../classes/idea/StructuredTavernFits';
+import { KeyHandler } from '../../classes/keyHandler/KeyHandler';
+import { KeyChange } from '../../classes/keyHandler/KeyHandlingTypes';
 import {
     PatternChange,
     PatternHandler,
-} from '../classes/patternHandler/PatternHandler';
-import { Drinkable, Eatable } from '../classes/TavernProduct';
-import { WeServe } from '../editNavigator/WeServe';
-import { getRandomArrayEntry } from '../helpingFunctions/getFittingRandom';
-import { BasePrice, standardBasePrice } from '../scenes/menuScene/basePrice';
-import { Offer } from '../scenes/menuScene/Offer';
-import { Demand } from '../scenes/menuScene/offerList/actionInterfaces';
-import { getRandomName } from '../scenes/nameScene/getRandomName';
-import { Impression } from '../scenes/questScene/impressions/Impression';
-import { Content } from './Content';
-import { getCreationRequest } from './getCreationRequest';
-import { getTavernHistoryInitializer } from './mainNavigatorFunctions';
-import { MinimalTavernData } from './TavernData';
-import { UniverseMap } from './UniverseMap';
-const CHANCE_FOR_POWERFIT = 0.9;
+} from '../../classes/patternHandler/PatternHandler';
+import { Drinkable, Eatable } from '../../classes/TavernProduct';
+import { WeServe } from '../../editNavigator/WeServe';
+import { getRandomArrayEntry } from '../../helpingFunctions/getFittingRandom';
+import { BasePrice, standardBasePrice } from '../../scenes/menuScene/basePrice';
+import { Offer } from '../../scenes/menuScene/Offer';
+import { Demand } from '../../scenes/menuScene/offerList/actionInterfaces';
+import { getRandomName } from '../../scenes/nameScene/getRandomName';
+import { Impression } from '../../scenes/questScene/impressions/Impression';
+import { Content } from '../Content';
+import { getCreationRequest } from '../getCreationRequest';
+import { getTavernHistoryInitializer } from '../mainNavigatorFunctions';
+import { MinimalTavernData } from '../TavernData';
+import { UniverseMap } from '../UniverseMap';
+import { iconicFittings } from './iconicFittings';
+const CHANCE_FOR_ICONIC_FITTING = 0.8;
 const CHANCE_FOR_SPECIAL_FIT = 0.2;
 const CHANCE_FOR_ORDINARY_FIT = 0.625;
 const NO_IDEA_PROBABILITY = 0.1;
@@ -65,14 +66,29 @@ const getRandomFits = () => {
     return fitsWithEmptyFits.filter((fit) => fit !== association.empty);
 };
 
-const getRandomStructuredFits = () => {
-    const fits = getRandomFits();
-    const structuredFits = getStructuredFits(fits);
-    if (Math.random() < CHANCE_FOR_POWERFIT && fits.length > 0) {
-        const powerFit = getRandomArrayEntry(fits);
-        structuredFits.powerFit = powerFit;
+const getRandomPowerFit = (
+    fitting: StructuredTavernFits
+): association | undefined => {
+    if (fitting.class) {
+        return fitting.class;
+    } else {
+        const fits = Object.values(fitting)
+            .map((fit) => fit || association.empty)
+            .filter((fit) => fit !== association.empty && fit);
+        if (fits.length === 0) {
+            return undefined;
+        }
+        return getRandomArrayEntry(fits);
     }
-    return structuredFits;
+};
+
+const getRandomStructuredFits = (): StructuredTavernFits => {
+    const fitting =
+        Math.random() < CHANCE_FOR_ICONIC_FITTING
+            ? getRandomArrayEntry(iconicFittings)
+            : getStructuredFits(getRandomFits());
+    fitting.powerFit = getRandomPowerFit(fitting);
+    return fitting;
 };
 const getRandomBasePrice = () => {
     const randomFactor = 1 + (2 * Math.random() - 1) * MAX_PRICE_DERIVATION;
