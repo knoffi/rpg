@@ -12,7 +12,7 @@ export const dipAndCream: DishIdea[] = [
             mainIng: { name: 'Traditional Hummus', needs: [a.desert] },
             firstSideDishes: [
                 {
-                    name: 'Cooked & mashed Chickpeas mixed with Sesame, Lemon Juice & Garlic, served with Pita Bread',
+                    name: 'Cooked Chickpeas mashed with Sesame, Lemon Juice and Garlic, served with Pita Bread',
                     incomeRange: [a.poor, a.wealthy, a.modest],
                 },
             ],
