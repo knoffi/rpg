@@ -22,4 +22,9 @@ export enum AssetKey {
     BARTENDER_accessoires = 'weapons, juwelry, hats, wounds/missing body parts, tattooes, pets',
     BARTENDER_actions = 'typical bartender work, interactions with guests, with tavern staff, with musicians',
     BARTENDER_knowledge = 'storys, connections, quests, rumors, warnings, information',
+
+    // DRINKS
+    WINE_mead = 'meads',
+    WINE_red = 'red wine',
+    WINE_white = 'white wine',
 }

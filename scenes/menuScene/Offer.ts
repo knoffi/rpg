@@ -10,8 +10,8 @@ export type Offer = {
     isUserMade: boolean;
     description: string;
     price: number;
-    keys?: Keys;
-    patterns?: Pattern[];
+    keys: Keys;
+    patterns: Pattern[];
     universe: FantasyKeys | 'isUserMade';
     income:
         | association.rich

@@ -27,5 +27,10 @@ export function getCreationRequest(
               mainFilter,
               additionFilter,
           }
-        : { ...add, oldAssets: tavern[add.isAbout] };
+        : {
+              ...add,
+              oldAssets: tavern[add.isAbout],
+              fullFirstKeys,
+              fullSecondKeys,
+          };
 }

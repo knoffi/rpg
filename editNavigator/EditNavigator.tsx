@@ -242,11 +242,11 @@ export const EditNavigator = (props: {
             deleted.isAbout === WeServe.impressions
                 ? {
                       isAbout: deleted.isAbout,
-                      creations: props.tavern[deleted.isAbout],
+                      oldAssets: props.tavern[deleted.isAbout],
                   }
                 : {
                       isAbout: deleted.isAbout,
-                      creations: props.tavern[deleted.isAbout],
+                      oldAssets: props.tavern[deleted.isAbout],
                   };
         const deletion = creator.deleteCreation(name, deleteRequest);
         const categoryWasFullBefore = contentLeft.bannerData[

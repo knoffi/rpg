@@ -146,6 +146,8 @@ export class DishIdea extends Idea {
             ...pricing,
             ...demand,
             universe,
+            keys: { main: DishIdea.getKeyList(this.main), addition: [] },
+            patterns: this.main.patterns || [],
         };
     }
     private getDemand(): Demand & { isAbout: WeServe.drinks | WeServe.food } {
