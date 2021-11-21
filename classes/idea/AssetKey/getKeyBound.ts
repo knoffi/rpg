@@ -67,6 +67,15 @@ export const getKeyBound = (key: AssetKey) => {
     if (key === AssetKey.AVERAGE_CUSTOMER_behavior) {
         return 1;
     }
+    if (key === AssetKey.WINE_mead) {
+        return 2;
+    }
+    if (key === AssetKey.WINE_red) {
+        return 1;
+    }
+    if (key === AssetKey.WINE_white) {
+        return 1;
+    }
 
     console.log('key is missing');
     return 3.5;
