@@ -10,7 +10,18 @@ const TYPICAL_MEAD_LANDS = [a.city, a.village, a.forest, a.mountain];
 export const meads: DishIdea[] = [
     new DishIdea(
         {
-            mainIng: { name: 'Grizzly Mead' },
+            mainIng: {
+                name: 'Grizzly Mead',
+                classRange: [
+                    a.barbarian,
+                    a.soldier,
+                    a.knight,
+                    a.druid,
+                    a.adventurer,
+                ],
+                landRange: [a.forest, a.village, a.mountain],
+                incomeRange: [a.modest, a.wealthy],
+            },
             firstSideDishes: [
                 { name: 'Mead - strong flavors of honey and cinnamon' },
             ],
@@ -20,7 +31,12 @@ export const meads: DishIdea[] = [
     ),
     new DishIdea(
         {
-            mainIng: { name: "Hog's Mead" },
+            mainIng: {
+                name: "Hog's Mead",
+                needsOne: [a.wizard, a.bard, a.adventurer, a.druid],
+                incomeRange: [a.modest, a.wealthy],
+                misfits: [a.desert, a.underdark, a.haven, a.tropical],
+            },
             firstSideDishes: [
                 {
                     name: 'Mead - sweet, brown in color, favored by magic users',
@@ -34,6 +50,15 @@ export const meads: DishIdea[] = [
         {
             mainIng: {
                 name: 'Bumble Mead',
+                incomeRange: [a.modest, a.wealthy],
+                misfits: [
+                    a.desert,
+                    a.underdark,
+                    a.haven,
+                    a.tropical,
+                    a.barbarian,
+                    a.soldier,
+                ],
             },
             firstSideDishes: [
                 {
@@ -48,6 +73,8 @@ export const meads: DishIdea[] = [
         {
             mainIng: {
                 name: 'Blackberry Mead',
+                incomeRange: [a.modest, a.wealthy],
+                misfits: [a.desert, a.underdark, a.haven, a.tropical],
             },
             firstSideDishes: [
                 { name: 'Mead - dark purple color, notes of blackberry' },
@@ -60,6 +87,8 @@ export const meads: DishIdea[] = [
         {
             mainIng: {
                 name: 'Strawberry Mead',
+                incomeRange: [a.modest, a.wealthy],
+                misfits: [a.desert, a.underdark, a.haven, a.tropical],
             },
             firstSideDishes: [
                 { name: 'Mead - light pink color, notes of strawberry' },
@@ -72,6 +101,8 @@ export const meads: DishIdea[] = [
         {
             mainIng: {
                 name: 'Blueberry Mead',
+                incomeRange: [a.modest, a.wealthy],
+                misfits: [a.desert, a.underdark, a.haven, a.tropical],
             },
             firstSideDishes: [
                 { name: 'Mead - purple-blue color, notes of blueberry' },
@@ -84,6 +115,8 @@ export const meads: DishIdea[] = [
         {
             mainIng: {
                 name: 'Raspberry Mead',
+                incomeRange: [a.modest, a.wealthy],
+                misfits: [a.desert, a.underdark, a.haven, a.tropical],
             },
             firstSideDishes: [
                 { name: 'Mead - pink-red color, notes of raspberry' },
@@ -94,7 +127,12 @@ export const meads: DishIdea[] = [
     ),
     new DishIdea(
         {
-            mainIng: { name: 'Amber Mead' },
+            mainIng: {
+                name: 'Amber Mead',
+                incomeRange: [a.rich, a.wealthy],
+                misfits: [a.desert, a.underdark, a.haven, a.tropical],
+            },
+
             firstSideDishes: [
                 {
                     name: 'Mead - golden color, dazzling sweetness, superb taste',
@@ -108,6 +146,8 @@ export const meads: DishIdea[] = [
         {
             mainIng: {
                 name: 'Hornet Mead',
+                incomeRange: [a.modest, a.poor],
+                misfits: [a.desert, a.underdark, a.haven, a.tropical],
             },
             firstSideDishes: [
                 { name: 'Mead - sweet taste, but strong like liquor' },
@@ -120,6 +160,9 @@ export const meads: DishIdea[] = [
         {
             mainIng: {
                 name: 'Wasp Mead',
+                needsOne: [a.barbarian, a.poor],
+                incomeRange: [a.modest, a.poor],
+                misfits: [a.desert, a.underdark, a.haven, a.tropical],
             },
             firstSideDishes: [
                 { name: 'Mead - sweet, slightly bitter and stings a bit' },
@@ -130,7 +173,11 @@ export const meads: DishIdea[] = [
     ),
     new DishIdea(
         {
-            mainIng: { name: 'Apple Mead' },
+            mainIng: {
+                name: 'Apple Mead',
+                incomeRange: [a.poor, a.modest],
+                misfits: [a.desert, a.underdark, a.haven, a.tropical],
+            },
             firstSideDishes: [
                 {
                     name: 'Mead - light green color, slightly sour notes of apple',
@@ -146,9 +193,13 @@ export const meads: DishIdea[] = [
     ),
     new DishIdea(
         {
-            mainIng: { name: 'Oaken Mead' },
+            mainIng: {
+                name: 'Oaken Mead',
+                incomeRange: [a.modest, a.poor],
+                landRange: [a.forest, a.village],
+            },
             firstSideDishes: [
-                { name: 'Mead - light brown color, sweet and nutty notes' },
+                { name: 'Mead - light brown color, sweet and notes of wood' },
             ],
         },
         MEAD_WINE_PRICE_SETTER,
@@ -156,7 +207,11 @@ export const meads: DishIdea[] = [
     ),
     new DishIdea(
         {
-            mainIng: { name: 'Hazel Mead' },
+            mainIng: {
+                name: 'Hazel Mead',
+                incomeRange: [a.modest, a.poor, a.wealthy],
+                landRange: [a.forest, a.village],
+            },
             firstSideDishes: [
                 { name: 'Mead - brown color, very sweet and nutty taste' },
             ],
@@ -166,7 +221,12 @@ export const meads: DishIdea[] = [
     ),
     new DishIdea(
         {
-            mainIng: { name: 'Squirrel Mead' },
+            mainIng: {
+                name: 'Squirrel Mead',
+                incomeRange: [a.modest, a.poor],
+                landRange: [a.forest, a.village],
+                classRange: [a.druid, a.adventurer],
+            },
             firstSideDishes: [
                 {
                     name: 'Mead - brown color, slightly nutty and favored by animal lovers',
@@ -178,7 +238,7 @@ export const meads: DishIdea[] = [
     ),
     new DishIdea(
         {
-            mainIng: { name: 'Three Herbs Mead' },
+            mainIng: { name: 'Three Herbs Mead', needs: [a.druid] },
             firstSideDishes: [
                 {
                     name: 'Mead - notes of oregano, thyme and rosemary, favored by druids',
@@ -190,7 +250,7 @@ export const meads: DishIdea[] = [
     ),
     new DishIdea(
         {
-            mainIng: { name: 'Shamrock Mead' },
+            mainIng: { name: 'Shamrock Mead', needs: [a.halfling] },
             firstSideDishes: [
                 {
                     name: 'Mead - green color, makes you feel lucky, favored by halflings',
@@ -210,7 +270,7 @@ export const meads: DishIdea[] = [
     ),
     new DishIdea(
         {
-            mainIng: { name: 'Sparrow Mead' },
+            mainIng: { name: 'Sparrow Mead', needs: [a.bard] },
             firstSideDishes: [
                 {
                     name: 'Mead - mellow taste, is said to make voices more melodic',
@@ -222,7 +282,11 @@ export const meads: DishIdea[] = [
     ),
     new DishIdea(
         {
-            mainIng: { name: 'Currant Mead' },
+            mainIng: {
+                name: 'Currant Mead',
+                incomeRange: [a.wealthy, a.modest],
+                landRange: [a.forest, a.mountain, a.village, a.city],
+            },
             firstSideDishes: [
                 { name: 'Mead - red color, sweet and slightly sour taste' },
                 { name: 'Mead - black color, sweet and slightly bitter taste' },
@@ -233,7 +297,10 @@ export const meads: DishIdea[] = [
     ),
     new DishIdea(
         {
-            mainIng: { name: 'Elderberry Mead' },
+            mainIng: {
+                name: 'Elderberry Mead',
+                needsOne: [a.wizard, a.druid, a.bard, a.adventurer],
+            },
             firstSideDishes: [
                 {
                     name: 'Mead - blue-purple color, notes of elderberry, favored by magic users',
@@ -245,7 +312,10 @@ export const meads: DishIdea[] = [
     ),
     new DishIdea(
         {
-            mainIng: { name: 'Goldberry Mead' },
+            mainIng: {
+                name: 'Goldberry Mead',
+                incomeRange: [a.wealthy, a.rich],
+            },
             firstSideDishes: [
                 { name: 'Mead - golden color, shiny, mellow, sweet' },
             ],
@@ -255,7 +325,10 @@ export const meads: DishIdea[] = [
     ),
     new DishIdea(
         {
-            mainIng: { name: 'Golden Rose Mead' },
+            mainIng: {
+                name: 'Golden Rose Mead',
+                incomeRange: [a.wealthy, a.rich],
+            },
             firstSideDishes: [
                 {
                     name: 'Mead - red-golden color, softly sweet with notes of roses',
@@ -267,18 +340,25 @@ export const meads: DishIdea[] = [
     ),
     new DishIdea(
         {
-            mainIng: { name: 'Ginger Mead' },
+            mainIng: {
+                name: 'Ginger Mead',
+                incomeRange: [a.poor, a.modest],
+                landRange: [a.city, a.village],
+            },
             firstSideDishes: [
-                { name: 'Mead - light brown color, tastes like gingerbread ' },
+                { name: 'Mead - light brown color, tastes like gingerbread' },
             ],
         },
-        //tastes loike gingerbread? with cinamon, cloves, anis etc. : )
         MEAD_WINE_PRICE_SETTER,
         Drinkable.wine
     ),
     new DishIdea(
         {
-            mainIng: { name: 'Rhubarb Mead' },
+            mainIng: {
+                name: 'Rhubarb Mead',
+                incomeRange: [a.poor, a.modest],
+                landRange: [a.village, a.forest],
+            },
             firstSideDishes: [
                 {
                     name: 'Mead - light pink color, lightly sweet and quite sour',
@@ -290,7 +370,10 @@ export const meads: DishIdea[] = [
     ),
     new DishIdea(
         {
-            mainIng: { name: 'White Owl Mead' },
+            mainIng: {
+                name: 'White Owl Mead',
+                needsOne: [a.cleric, a.adventurer],
+            },
             firstSideDishes: [
                 {
                     name: 'Mead - white color, calms the mind, favored by monks and clerics',
@@ -302,7 +385,10 @@ export const meads: DishIdea[] = [
     ),
     new DishIdea(
         {
-            mainIng: { name: 'Grey Owl Mead' },
+            mainIng: {
+                name: 'Grey Owl Mead',
+                needsOne: [a.cleric, a.adventurer],
+            },
             firstSideDishes: [
                 {
                     name: 'Mead - light grey color, peaceful taste, favored by wisdom seekers',
@@ -314,7 +400,7 @@ export const meads: DishIdea[] = [
     ),
     new DishIdea(
         {
-            mainIng: { name: 'Hellberry Mead' },
+            mainIng: { name: 'Hellberry Mead', needs: [a.tiefling] },
             firstSideDishes: [
                 {
                     name: 'Mead - dark red color, sweet and spicy taste, favored by tieflings',
@@ -326,7 +412,7 @@ export const meads: DishIdea[] = [
     ),
     new DishIdea(
         {
-            mainIng: { name: 'Spitfire Mead' },
+            mainIng: { name: 'Spitfire Mead', needs: [a.tiefling] },
             firstSideDishes: [
                 {
                     name: 'Mead - red-brown color, sweet taste, strengthens the inner fire',
@@ -338,7 +424,7 @@ export const meads: DishIdea[] = [
     ),
     new DishIdea(
         {
-            mainIng: { name: 'Infernal Mead' },
+            mainIng: { name: 'Infernal Mead', needs: [a.tiefling] },
             firstSideDishes: [
                 {
                     name: 'Mead - flame-like color, sweet and hot, favored by tieflings',
@@ -350,7 +436,7 @@ export const meads: DishIdea[] = [
     ),
     new DishIdea(
         {
-            mainIng: { name: 'Black Mead' },
+            mainIng: { name: 'Black Mead', needs: [a.drow] },
             firstSideDishes: [
                 {
                     name: 'Mead - midnight blue, sweet, notes of roasted sesame',
@@ -362,7 +448,7 @@ export const meads: DishIdea[] = [
     ),
     new DishIdea(
         {
-            mainIng: { name: 'Gentian Mead' },
+            mainIng: { name: 'Gentian Mead', needsOne: [a.barbarian, a.druid] },
             firstSideDishes: [
                 {
                     name: 'Mead - blue color, notes of gentian, favored by natur lovers',
@@ -374,7 +460,10 @@ export const meads: DishIdea[] = [
     ),
     new DishIdea(
         {
-            mainIng: { name: 'Dire Wolve Mead' },
+            mainIng: {
+                name: 'Dire Wolve Mead',
+                needsOne: [a.soldier, a.barbarian, a.knight, a.assasine],
+            },
             firstSideDishes: [
                 {
                     name: 'Mead - bittersweet, fierce spicyness, favored by sturdy fighters',
@@ -386,7 +475,16 @@ export const meads: DishIdea[] = [
     ),
     new DishIdea(
         {
-            mainIng: { name: 'Blood Mead' },
+            mainIng: {
+                name: 'Blood Mead',
+                needsOne: [
+                    a.drow,
+                    a.tiefling,
+                    a.assasine,
+                    a.thief,
+                    a.prostitute,
+                ],
+            },
             firstSideDishes: [
                 {
                     name: 'Mead - blood red color, tastes suprisingly sweet and tempting',
@@ -398,7 +496,11 @@ export const meads: DishIdea[] = [
     ),
     new DishIdea(
         {
-            mainIng: { name: 'Fairy Mead' },
+            mainIng: {
+                name: 'Fairy Mead',
+                needsOne: [a.halfling, a.gnome],
+                misfits: [a.underdark],
+            },
             firstSideDishes: [
                 {
                     name: 'Mead - graslike color, sweet, but makes consumer a bit sassy',
@@ -410,7 +512,7 @@ export const meads: DishIdea[] = [
     ),
     new DishIdea(
         {
-            mainIng: { name: 'Ivory Mead' },
+            mainIng: { name: 'Ivory Mead', needsOne: [a.elf, a.bard] },
             firstSideDishes: [
                 {
                     name: 'Mead - looks like eggnoc, elegantly sweet, favored by art-lovers',
@@ -422,7 +524,13 @@ export const meads: DishIdea[] = [
     ),
     new DishIdea(
         {
-            mainIng: { name: 'Silver Mead' },
+            mainIng: {
+                name: 'Silver Mead',
+                needsOne: [a.wealthy, a.knight, a.cleric],
+                specialsRange: [],
+                classRange: [a.knight, a.cleric],
+                misfits: [a.poor],
+            },
             firstSideDishes: [
                 {
                     name: 'Mead - moon-like, silky apperance, favored by virtuous people',
@@ -435,7 +543,10 @@ export const meads: DishIdea[] = [
     ),
     new DishIdea(
         {
-            mainIng: { name: 'Marble Mead' },
+            mainIng: {
+                name: 'Marble Mead',
+                needsOne: [a.elf, a.wealthy, a.rich],
+            },
             firstSideDishes: [
                 {
                     name: 'Mead - marble-like apperance, refreshes and cultivates consumer',
@@ -447,7 +558,12 @@ export const meads: DishIdea[] = [
     ),
     new DishIdea(
         {
-            mainIng: { name: 'Coal Mead' },
+            mainIng: {
+                name: 'Coal Mead',
+                raceRange: [a.dwarf, a.gnome],
+                landRange: [a.underdark, a.mountain],
+                needsOne: [a.underdark, a.gnome, a.dwarf],
+            },
             firstSideDishes: [
                 {
                     name: 'Mead - dark grey color, but sweet and warming, favored by underdark folk',
@@ -459,7 +575,11 @@ export const meads: DishIdea[] = [
     ),
     new DishIdea(
         {
-            mainIng: { name: 'Quartz Mead' },
+            mainIng: {
+                name: 'Quartz Mead',
+                raceRange: [a.dwarf, a.gnome],
+                landRange: [a.underdark, a.mountain],
+            },
             firstSideDishes: [
                 {
                     name: 'Mead - silver-grey color, tastes sweet with notes of anis',
@@ -471,7 +591,11 @@ export const meads: DishIdea[] = [
     ),
     new DishIdea(
         {
-            mainIng: { name: 'Fungus Mead' },
+            mainIng: {
+                name: 'Fungus Mead',
+                classRange: [a.druid],
+                landRange: [a.underdark, a.forest],
+            },
             firstSideDishes: [
                 {
                     name: 'Mead - green-brown color, smells a bit moldy, but tastes sweet',
@@ -483,7 +607,11 @@ export const meads: DishIdea[] = [
     ),
     new DishIdea(
         {
-            mainIng: { name: 'Hammer Mead' },
+            mainIng: {
+                name: 'Hammer Mead',
+                needs: [a.dwarf],
+                misfits: [a.poor],
+            },
             firstSideDishes: [
                 {
                     name: "Mead - golden-brown, a delicate Dwarvish brew. Can't touch this!",
@@ -496,10 +624,60 @@ export const meads: DishIdea[] = [
     ),
     new DishIdea(
         {
-            mainIng: { name: 'Broadsword Mead' },
+            mainIng: {
+                name: 'Broadsword Mead',
+                needsOne: [a.barbarian, a.knight, a.soldier, a.assasine],
+            },
             firstSideDishes: [
                 {
                     name: 'Mead - copper color, strong notes of nutmeg, favored by warriors',
+                },
+            ],
+        },
+        MEAD_WINE_PRICE_SETTER,
+        Drinkable.wine
+    ),
+    new DishIdea(
+        {
+            mainIng: {
+                name: 'Dawn Mead',
+                needsOne: [a.knight, a.cleric],
+                incomeRange: [a.modest, a.rich, a.wealthy],
+            },
+            firstSideDishes: [
+                {
+                    name: 'Mead - goldenly brownish color, it tastes like a new morning',
+                },
+            ],
+        },
+        MEAD_WINE_PRICE_SETTER,
+        Drinkable.wine
+    ),
+    new DishIdea(
+        {
+            mainIng: {
+                name: 'Thunder Mead',
+                needsOne: [a.druid, a.cleric],
+                incomeRange: [a.modest, a.rich, a.wealthy],
+            },
+            firstSideDishes: [
+                {
+                    name: 'Mead - cloud-like foam on top, goldenly shiny liquid below',
+                },
+            ],
+        },
+        MEAD_WINE_PRICE_SETTER,
+        Drinkable.wine
+    ),
+    new DishIdea(
+        {
+            mainIng: {
+                name: 'Canary Mead',
+                needsOne: [a.gnome, a.halfling, a.bard],
+            },
+            firstSideDishes: [
+                {
+                    name: 'Mead - it tastes sweet, loosens your tongue and makes you gossipy',
                 },
             ],
         },
