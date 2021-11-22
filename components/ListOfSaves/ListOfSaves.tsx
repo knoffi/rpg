@@ -105,7 +105,9 @@ export class ListOfSaves extends React.Component<
                                     )
                                 }
                             >
-                                {'ADD'}
+                                {this.props.building.isAbout === 'tavern'
+                                    ? 'START'
+                                    : 'ADD'}
                             </Button>
 
                             <Button
