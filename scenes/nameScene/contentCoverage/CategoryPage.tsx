@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
-import { Button, Text } from 'react-native-paper';
-import { Noticable } from '../../../classes/idea/Noticable';
-import { Drinkable, Eatable } from '../../../classes/TavernProduct';
-import { WeServe } from '../../../editNavigator/WeServe';
-import { Describable } from '../../../mainNavigator/TavernData';
+import { Text } from 'react-native-paper';
+import { association } from '../../../classes/association';
+import { HEIGHT_FACTOR, WIDTH_FACTOR } from '../../../dimensionConstants';
+import {
+    Describable,
+    getDescribables,
+} from '../../../mainNavigator/TavernData';
+import { CategoryButton } from './CategoryButton';
+import { CategoryButtonsProps, CategoryHandling } from './CategoryHandling';
 import { CoverageTest } from './CoverageTest';
 type PageState = { showResult: CoverageTest | false };
 
@@ -27,60 +31,62 @@ export const CategoryPage = (props: { handling: CategoryHandling }) => {
     );
 };
 const getResultDisplay = (props: CoverageTest) => {
-    return <Text>{JSON.stringify(props)}</Text>;
+    return (
+        <View style={{ justifyContent: 'center' }}>
+            <DataRow result={props.fewestPowerfits} title="Single Power Fits" />
+            <DataRow
+                result={props.fewestRegularFits}
+                title="Single Regular Fits"
+            />
+        </View>
+    );
+};
+const DataRow = (props: {
+    title: string;
+    result: { fits: association[]; value: number };
+}) => {
+    const associationText = props.result.fits.reduce(
+        (prev, cur) => prev + cur + ', ',
+        ''
+    );
+    return (
+        <View
+            style={{
+                marginBottom: 15 * HEIGHT_FACTOR,
+                marginHorizontal: 5 * WIDTH_FACTOR,
+            }}
+        >
+            <Text
+                style={{
+                    fontWeight: 'bold',
+                    borderBottomWidth: 4 * WIDTH_FACTOR,
+                    borderBottomColor: 'black',
+                    marginBottom: 5 * HEIGHT_FACTOR,
+                    maxWidth: 140 * WIDTH_FACTOR,
+                }}
+            >
+                {props.title}
+            </Text>
+            <Text>
+                {'Counted ' +
+                    props.result.value +
+                    ' ideas for ' +
+                    props.result.fits.length +
+                    ' associations: \n\n'}
+                <Text style={{ fontStyle: 'italic' }}>{associationText}</Text>
+            </Text>
+        </View>
+    );
 };
 const getCategoryButtons = (props: CategoryButtonsProps) => {
-    switch (props.isAbout) {
-        case WeServe.impressions:
-            const impressionButtons = Object.values(Noticable).map(
-                (category) => (
-                    <Button
-                        key={category}
-                        onPress={() =>
-                            props.showResult(props.onCategory(category))
-                        }
-                    >
-                        {category}
-                    </Button>
-                )
-            );
-            return impressionButtons;
-        case WeServe.drinks:
-            const drinkButtons = Object.values(Drinkable).map((category) => (
-                <Button
-                    key={category}
-                    onPress={() => props.showResult(props.onCategory(category))}
-                >
-                    {category}
-                </Button>
-            ));
-            return drinkButtons;
-
-        default:
-            const foodButtons = Object.values(Eatable).map((category) => (
-                <Button
-                    key={category}
-                    onPress={() => props.showResult(props.onCategory(category))}
-                >
-                    {category}
-                </Button>
-            ));
-            return foodButtons;
-    }
+    const getOnPress = (category: Describable) => () =>
+        props.showResult(props.onCategory(category));
+    const categories = getDescribables(props.isAbout);
+    return categories.map((category) => (
+        <CategoryButton
+            category={category}
+            onPress={getOnPress(category)}
+            key={category}
+        />
+    ));
 };
-export type CategoryHandling =
-    | {
-          isAbout: WeServe.impressions;
-          onCategory: (category: Describable) => CoverageTest;
-      }
-    | {
-          isAbout: WeServe.drinks;
-          onCategory: (category: Describable) => CoverageTest;
-      }
-    | {
-          isAbout: WeServe.food;
-          onCategory: (category: Describable) => CoverageTest;
-      };
-type CategoryButtonsProps = {
-    showResult: (data: CoverageTest) => void;
-} & CategoryHandling;

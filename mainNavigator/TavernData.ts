@@ -8,6 +8,24 @@ import { Offer } from '../scenes/menuScene/Offer';
 import { Impression } from '../scenes/questScene/impressions/Impression';
 import { UniverseMap } from './UniverseMap';
 export type Describable = Drinkable | Eatable | Noticable;
+export const getDescribables = (isAbout: WeServe | 'all') => {
+    if (isAbout === 'all') {
+        const allDescribables: Describable[] = [
+            ...Object.values(Noticable),
+            ...Object.values(Eatable),
+            ...Object.values(Drinkable),
+        ];
+        return allDescribables;
+    } else {
+        const categories: Describable[] =
+            isAbout === WeServe.impressions
+                ? Object.values(Noticable)
+                : isAbout === WeServe.food
+                ? Object.values(Eatable)
+                : Object.values(Drinkable);
+        return categories;
+    }
+};
 export type TavernData = {
     fitting: StructuredTavernFits;
     name: string;

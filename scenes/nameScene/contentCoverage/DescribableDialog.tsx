@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
 import { Button, Dialog, Portal } from 'react-native-paper';
+import { HEIGHT_FACTOR, WIDTH_FACTOR } from '../../../dimensionConstants';
 import { WeServe } from '../../../editNavigator/WeServe';
 import { Describable } from '../../../mainNavigator/TavernData';
-import { CategoryHandling, CategoryPage } from './CategoryPage';
+import { CategoryHandling } from './CategoryHandling';
+import { CategoryPage } from './CategoryPage';
 import { CoverageTest } from './CoverageTest';
 
 type PageState = { show: WeServe | 'services' };
@@ -19,12 +21,16 @@ export const CoverageTestDialog = (props: {
     const getCategoryHandling = (isAbout: WeServe): CategoryHandling => {
         return { isAbout, onCategory: props.onTest };
     };
+    const onDismiss = () => {
+        props.onDismiss();
+        setPage({ show: 'services' });
+    };
     return (
         <Portal>
             <Dialog
                 dismissable={true}
                 visible={props.isVisible}
-                onDismiss={props.onDismiss}
+                onDismiss={onDismiss}
             >
                 {page.show === 'services' ? (
                     <ServicePage onService={onService}></ServicePage>
@@ -40,7 +46,15 @@ export const CoverageTestDialog = (props: {
 
 const ServicePage = (props: { onService: (category: WeServe) => void }) => {
     const serviceButtons = Object.values(WeServe).map((service) => (
-        <Button key={service} onPress={() => props.onService(service)}>
+        <Button
+            key={service}
+            onPress={() => props.onService(service)}
+            style={{
+                marginVertical: 10 * HEIGHT_FACTOR,
+                marginHorizontal: 50 * WIDTH_FACTOR,
+            }}
+            mode="contained"
+        >
             {service}
         </Button>
     ));
