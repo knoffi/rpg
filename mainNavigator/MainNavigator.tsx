@@ -84,6 +84,9 @@ export const MainNavigator = () => {
                             onNextScene={() => {
                                 navigation.navigate('EDIT TAVERN');
                             }}
+                            onTavernCollection={() =>
+                                navigation.navigate('TAVERN COLLECTIO')
+                            }
                         ></StartOptionsScene>
                     )}
                     options={{
