@@ -15,6 +15,7 @@ import { UniverseSetting } from './UniverseSetting';
 export const EditModal = (props: {
     buildTavernTemplate: (name: string) => void;
     buildRandomTavern: (map: UniverseMap) => void;
+    onTavernCollection: () => void;
 }) => {
     const [visibility, setVisibility] = React.useState({
         ['thisModal']: true,
@@ -73,13 +74,7 @@ export const EditModal = (props: {
                         <Button
                             style={editModalStyles.button}
                             mode="contained"
-                            onPress={() => {
-                                setVisibility({
-                                    ...visibility,
-                                    templates: true,
-                                    menu: false,
-                                });
-                            }}
+                            onPress={props.onTavernCollection}
                         >
                             Saved Taverns
                         </Button>

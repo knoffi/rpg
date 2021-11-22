@@ -8,6 +8,7 @@ export const StartOptionsScene = (props: {
     onTavernTemplate: (key: string) => void;
     onRandomGenerator: (map: UniverseMap) => void;
     onNextScene: () => void;
+    onTavernCollection: () => void;
 }) => {
     return (
         <View style={nameSceneStyles.backgroundView}>
@@ -20,6 +21,7 @@ export const StartOptionsScene = (props: {
                     props.onRandomGenerator(map);
                     props.onNextScene();
                 }}
+                onTavernCollection={props.onTavernCollection}
             />
         </View>
     );

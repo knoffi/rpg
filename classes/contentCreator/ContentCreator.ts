@@ -7,6 +7,7 @@ import { getRandomArrayEntry } from '../../helpingFunctions/getFittingRandom';
 import { Describable } from '../../mainNavigator/TavernData';
 import { allCategories, UniverseMap } from '../../mainNavigator/UniverseMap';
 import { Offer } from '../../scenes/menuScene/Offer';
+import { CoverageTest } from '../../scenes/nameScene/contentCoverage/CoverageTest';
 import { getPrefixExcluder } from '../../scenes/questScene/impressions/getPrefixExcluder';
 import { Impression } from '../../scenes/questScene/impressions/Impression';
 import { getKeyExcluder } from '../../scenes/questScene/impressions/impressionExcluder/getImpressionExcluder';
@@ -14,10 +15,15 @@ import { association } from '../association';
 import { AssetKey } from '../idea/AssetKey/AssetKey';
 import { DishIdea } from '../idea/DishIdea';
 import { filterBestIdeas } from '../idea/fitCalculator/filterBestIdea';
+import { BEST_FIT_LEVEL } from '../idea/fitCalculator/getFitLevel';
+import { Idea } from '../idea/Idea';
 import { ImpressionIdea } from '../idea/ImpressionIdea';
 import { Noticable } from '../idea/Noticable';
 import { Pattern } from '../idea/Patterns/Pattern';
-import { StructuredTavernFits } from '../idea/StructuredTavernFits';
+import {
+    getStructuredFits,
+    StructuredTavernFits,
+} from '../idea/StructuredTavernFits';
 import { Keys } from '../keyHandler/KeyHandlingTypes';
 import { Drinkable, Eatable } from '../TavernProduct';
 import { emptyKeys } from './emptyKeys';
@@ -66,75 +72,106 @@ export class ContentCreator {
         return this.universe[category];
     }
 
-    public deleteCreation(
-        name: string,
-        deleted:
-            | { isAbout: WeServe.impressions; creations: Impression[] }
-            | { isAbout: WeServe.drinks | WeServe.food; creations: Offer[] }
-    ): Delete {
-        switch (deleted.isAbout) {
+    public deleteCreation(name: string, toReduce: ReduceTarget): Delete {
+        const dissolve = this.dissolveCreation(toReduce, name);
+        switch (dissolve.isAbout) {
             case WeServe.impressions:
-                const dissolvingResult = this.dissolveImpression(
-                    deleted.creations,
-                    name
-                );
                 return {
-                    [WeServe.impressions]: dissolvingResult.reducedImpressions,
-                    isAbout: WeServe.impressions,
-                    oldKeys: dissolvingResult.keys,
-                    oldPatterns: dissolvingResult.patterns,
+                    ...dissolve,
+                    impression: dissolve.reduced,
+                    oldKeys: dissolve.keys,
+                    oldPatterns: dissolve.patterns,
                 };
-            case WeServe.food:
-                const newDishes = deleted.creations.filter(
-                    (offer) => offer.name !== name
-                );
+            case WeServe.drinks:
                 return {
-                    [WeServe.food]: newDishes,
-                    isAbout: WeServe.food,
-                    oldKeys: emptyKeys,
-                    oldPatterns: [],
+                    ...dissolve,
+                    drink: dissolve.reduced,
+                    oldKeys: dissolve.keys,
+                    oldPatterns: dissolve.patterns,
                 };
             default:
-                const newDrinks = deleted.creations.filter(
-                    (offer) => offer.name !== name
-                );
                 return {
-                    [WeServe.drinks]: newDrinks,
-                    isAbout: WeServe.drinks,
-                    oldKeys: emptyKeys,
-                    oldPatterns: [],
+                    ...dissolve,
+                    food: dissolve.reduced,
+                    oldKeys: dissolve.keys,
+                    oldPatterns: dissolve.patterns,
                 };
         }
     }
-    private dissolveImpression(impressions: Impression[], toRemove: string) {
-        const indexToRemove = impressions.findIndex(
-            (impression) => impression.name === toRemove
+    private dissolveCreation(
+        toReduce: ReduceTarget,
+        toRemove: string
+    ): Dissolve {
+        const indexToRemove = (toReduce.oldAssets as Asset[]).findIndex(
+            (asset) => asset.name === toRemove
         );
         if (indexToRemove < 0) {
-            const dissolvedKeys: Keys = emptyKeys;
-            const dissolvedPatterns: Pattern[] = [];
+            const keys: Keys = emptyKeys;
+            const patterns: Pattern[] = [];
             console.log(
                 '___COULD NOT FIND CREATION TO REMOVE: ' + toRemove + '___'
             );
-            return {
-                reducedImpressions: impressions,
-                keys: dissolvedKeys,
-                patterns: dissolvedPatterns,
-            };
+            switch (toReduce.isAbout) {
+                case WeServe.impressions:
+                    return {
+                        ...toReduce,
+                        reduced: toReduce.oldAssets,
+                        keys,
+                        patterns,
+                    };
+                case WeServe.food:
+                    return {
+                        ...toReduce,
+                        reduced: toReduce.oldAssets,
+                        keys,
+                        patterns,
+                    };
+                default:
+                    return {
+                        ...toReduce,
+                        reduced: toReduce.oldAssets,
+                        keys,
+                        patterns,
+                    };
+            }
         } else {
-            const reducedImpressions = impressions
-                .slice(0, indexToRemove)
-                .concat(impressions.slice(indexToRemove + 1));
-            const removedEntry = impressions[indexToRemove];
+            const removedEntry = toReduce.oldAssets[indexToRemove];
 
-            const dissolvedKeys: Keys = removedEntry.keys;
-            const dissolvedPatterns: Pattern[] = removedEntry.patterns;
+            const keys: Keys = removedEntry.keys;
+            const patterns: Pattern[] = removedEntry.patterns;
+            switch (toReduce.isAbout) {
+                case WeServe.impressions:
+                    const reducedImpressions = toReduce.oldAssets.filter(
+                        (asset, index) => index !== indexToRemove
+                    );
+                    return {
+                        ...toReduce,
+                        reduced: reducedImpressions,
+                        keys,
+                        patterns,
+                    };
+                case WeServe.drinks:
+                    const reducedDrinks = toReduce.oldAssets.filter(
+                        (asset, index) => index !== indexToRemove
+                    );
+                    return {
+                        ...toReduce,
+                        reduced: reducedDrinks,
+                        keys,
+                        patterns,
+                    };
 
-            return {
-                reducedImpressions,
-                keys: dissolvedKeys,
-                patterns: dissolvedPatterns,
-            };
+                default:
+                    const reducedDishes = toReduce.oldAssets.filter(
+                        (asset, index) => index !== indexToRemove
+                    );
+                    return {
+                        ...toReduce,
+                        reduced: reducedDishes,
+                        keys,
+                        patterns,
+                    };
+            }
         }
     }
 
@@ -144,17 +181,19 @@ export class ContentCreator {
     ): boolean {
         switch (creation.isAbout) {
             case WeServe.drinks:
-                return !this.getRandomDrink(
-                    fitting,
-                    creation.category,
-                    creation.added
-                );
+                return !this.getRandomDrink(fitting, {
+                    ...creation,
+                    oldAssets: creation.added,
+                    fullFirstKeys: [],
+                    fullSecondKeys: [],
+                });
             case WeServe.food:
-                return !this.getRandomDish(
-                    fitting,
-                    creation.category,
-                    creation.added
-                );
+                return !this.getRandomDish(fitting, {
+                    ...creation,
+                    oldAssets: creation.added,
+                    fullFirstKeys: [],
+                    fullSecondKeys: [],
+                });
 
             default:
                 return !this.getRandomImpression(
@@ -190,6 +229,8 @@ export class ContentCreator {
                     price: parseInt(edit.priceText),
                     income: association.empty,
                     universe: 'isUserMade',
+                    keys: emptyKeys,
+                    patterns: [],
                 };
                 return { isAbout: WeServe.food, edited: food };
             case WeServe.drinks:
@@ -198,6 +239,8 @@ export class ContentCreator {
                     price: parseInt(edit.priceText),
                     income: association.empty,
                     universe: 'isUserMade',
+                    keys: emptyKeys,
+                    patterns: [],
                 };
                 return { isAbout: WeServe.drinks, edited: drink };
             default:
@@ -212,39 +255,135 @@ export class ContentCreator {
         }
     }
 
+    public testCoverage(category: Describable): CoverageTest {
+        const reducer = this.getCoverageReducer(category);
+        const minimizationAnchor: CoverageTest = {
+            category,
+            fewestPowerfits: { fits: [], value: BEST_FIT_LEVEL() },
+            fewestRegularFits: { fits: [], value: BEST_FIT_LEVEL() },
+        };
+        return Object.values(association).reduce(reducer, minimizationAnchor);
+    }
+    private getCoverageReducer(category: Describable) {
+        return (prev: CoverageTest, newFit: association): CoverageTest => {
+            if (newFit === association.empty) {
+                return prev;
+            }
+            const testCounting = this.testFittingCoverage(
+                this.getPowerFitting(newFit),
+                category
+            );
+            const powerFitTest: Pick<CoverageTest, 'fewestPowerfits'> =
+                testCounting.powerFit < prev.fewestPowerfits.value
+                    ? {
+                          fewestPowerfits: {
+                              value: testCounting.powerFit,
+                              fits: [newFit],
+                          },
+                      }
+                    : testCounting.powerFit === prev.fewestPowerfits.value
+                    ? {
+                          fewestPowerfits: {
+                              value: testCounting.powerFit,
+                              fits: [...prev.fewestPowerfits.fits, newFit],
+                          },
+                      }
+                    : { fewestPowerfits: prev.fewestPowerfits };
+            const regularTest: Pick<CoverageTest, 'fewestRegularFits'> =
+                testCounting.reulgarFit < prev.fewestRegularFits.value
+                    ? {
+                          fewestRegularFits: {
+                              value: testCounting.reulgarFit,
+                              fits: [newFit],
+                          },
+                      }
+                    : testCounting.reulgarFit === prev.fewestRegularFits.value
+                    ? {
+                          fewestRegularFits: {
+                              value: testCounting.reulgarFit,
+                              fits: [...prev.fewestRegularFits.fits, newFit],
+                          },
+                      }
+                    : { fewestRegularFits: prev.fewestRegularFits };
+            return { ...prev, ...powerFitTest, ...regularTest };
+        };
+    }
+    private getPowerFitting(fit: association) {
+        const fitting = getStructuredFits([fit]);
+        fitting.powerFit = fit;
+        return fitting;
+    }
+    private testFittingCoverage(
+        fitting: StructuredTavernFits,
+        category: Describable
+    ) {
+        const regularFulfillers = (
+            this.dungeonMaster[category] as Idea[]
+        ).filter((idea) =>
+            idea.fitsToTavern(
+                { ...fitting, powerFit: undefined },
+                () => false,
+                undefined,
+                undefined,
+                undefined,
+                undefined,
+                1003
+            )
+        );
+        const powerFitFulfillers = regularFulfillers.filter((idea) =>
+            idea.fitsToTavern(
+                fitting,
+                () => false,
+                undefined,
+                undefined,
+                undefined,
+                undefined,
+                1101
+            )
+        );
+        const regularFitCount = (this.dungeonMaster[category] as Idea[]).filter(
+            (idea) =>
+                idea.fitsToTavern(
+                    { ...fitting, powerFit: undefined },
+                    () => false,
+                    undefined,
+                    undefined,
+                    undefined,
+                    undefined,
+                    1003
+                )
+        ).length;
+        return {
+            powerFit: powerFitFulfillers.length,
+            reulgarFit: regularFulfillers.length,
+        };
+    }
+
     public addRandomCreation(
         fitting: StructuredTavernFits,
         request: CreationRequest
     ): Add {
         switch (request.isAbout) {
             case WeServe.drinks:
-                const newDrink = this.getRandomDrink(
-                    fitting,
-                    request.category,
-                    request.oldAssets
-                );
+                const newDrink = this.getRandomDrink(fitting, request);
                 const extendedDrinks = request.oldAssets.concat(newDrink || []);
                 return {
                     newCreationAdded: !!newDrink,
                     added: extendedDrinks,
                     isAbout: WeServe.drinks,
                     category: request.category,
-                    newKeys: { main: [], addition: [] },
+                    newKeys: newDrink?.keys || emptyKeys,
                     newPatterns: [],
                 };
             case WeServe.food:
-                const newDish = this.getRandomDish(
-                    fitting,
-                    request.category,
-                    request.oldAssets
-                );
+                const newDish = this.getRandomDish(fitting, request);
                 const extendedDishes = request.oldAssets.concat(newDish || []);
                 return {
                     newCreationAdded: !!newDish,
                     added: extendedDishes,
                     isAbout: WeServe.food,
                     category: request.category,
-                    newKeys: { main: [], addition: [] },
+                    newKeys: newDish?.keys || emptyKeys,
                     newPatterns: [],
                 };
 
@@ -322,19 +461,18 @@ export class ContentCreator {
     }
     private getRandomDrink(
         fitting: StructuredTavernFits,
-        category: Drinkable,
-        oldDrinks: Offer[]
+        request: DrinkRequest
     ) {
-        const oldNames = oldDrinks.map((drink) => drink.name);
+        const oldNames = request.oldAssets.map((drink) => drink.name);
         const isExcludedByName = getPrefixExcluder(oldNames, WeServe.drinks);
 
-        const ideas = this.dungeonMaster[category];
+        const ideas = this.dungeonMaster[request.category];
         const bestRecipes = filterBestIdeas(
             ideas,
             fitting,
             isExcludedByName,
-            () => false,
-            () => false
+            getKeyExcluder(request.fullFirstKeys),
+            getKeyExcluder(request.fullSecondKeys)
         );
         if (!bestRecipes) {
             return undefined;
@@ -343,27 +481,23 @@ export class ContentCreator {
             const newDrink = newIdea.getConcreteDish(
                 fitting,
                 bestRecipes.level,
-                this.universe[category]
+                this.universe[request.category]
             );
             return newDrink;
         }
     }
-    private getRandomDish(
-        fitting: StructuredTavernFits,
-        category: Eatable,
-        oldDishes: Offer[]
-    ) {
-        const oldNames = oldDishes.map((dish) => dish.name);
+    private getRandomDish(fitting: StructuredTavernFits, request: FoodRequest) {
+        const oldNames = request.oldAssets.map((dish) => dish.name);
         const isExcludedByName = getPrefixExcluder(oldNames, WeServe.drinks);
 
-        const ideas = this.dungeonMaster[category];
+        const ideas = this.dungeonMaster[request.category];
 
         const bestRecipes = filterBestIdeas(
             ideas,
             fitting,
             isExcludedByName,
-            () => false,
-            () => false
+            getKeyExcluder(request.fullFirstKeys),
+            getKeyExcluder(request.fullSecondKeys)
         );
         if (!bestRecipes) {
             return undefined;
@@ -372,7 +506,7 @@ export class ContentCreator {
             const newDish = newIdea.getConcreteDish(
                 fitting,
                 bestRecipes.level,
-                this.universe[category]
+                this.universe[request.category]
             );
             return newDish;
         }
@@ -384,9 +518,10 @@ export class ContentCreator {
         request: FoodRequest,
         addedDish?: Offer
     ): Reroll {
-        const newDish =
-            addedDish ||
-            this.getRandomDish(fitting, request.category, request.oldAssets);
+        const newDish = addedDish || this.getRandomDish(fitting, request);
+        const oldDish = request.oldAssets.find(
+            (dish) => dish.name === rerolledName
+        );
         const rerolledDishes = newDish
             ? request.oldAssets.map((dish) =>
                   dish.name === rerolledName ? newDish : dish
@@ -395,8 +530,8 @@ export class ContentCreator {
         const reroll: Reroll = {
             isAbout: WeServe.food,
             oneRerolled: rerolledDishes,
-            oldKeys: emptyKeys,
-            newKeys: emptyKeys,
+            oldKeys: oldDish?.keys || emptyKeys,
+            newKeys: newDish?.keys || emptyKeys,
             oldPatterns: [],
             newPatterns: [],
         };
@@ -408,9 +543,10 @@ export class ContentCreator {
         request: DrinkRequest,
         addedDrink?: Offer
     ): Reroll {
-        const newDrink =
-            addedDrink ||
-            this.getRandomDrink(fitting, request.category, request.oldAssets);
+        const newDrink = addedDrink || this.getRandomDrink(fitting, request);
+        const oldDrink = request.oldAssets.find(
+            (drink) => drink.name === rerolledName
+        );
         const rerolledDrinks = newDrink
             ? request.oldAssets.map((drink) =>
                   drink.name === rerolledName ? newDrink : drink
@@ -419,8 +555,8 @@ export class ContentCreator {
         const reroll: Reroll = {
             isAbout: WeServe.drinks,
             oneRerolled: rerolledDrinks,
-            oldKeys: emptyKeys,
-            newKeys: emptyKeys,
+            oldKeys: oldDrink?.keys || emptyKeys,
+            newKeys: newDrink?.keys || emptyKeys,
             oldPatterns: [],
             newPatterns: [],
         };
@@ -480,11 +616,15 @@ export type FoodRequest = {
     isAbout: WeServe.food;
     category: Eatable;
     oldAssets: Offer[];
+    fullFirstKeys: AssetKey[];
+    fullSecondKeys: AssetKey[];
 };
 export type DrinkRequest = {
     isAbout: WeServe.drinks;
     category: Drinkable;
     oldAssets: Offer[];
+    fullFirstKeys: AssetKey[];
+    fullSecondKeys: AssetKey[];
 };
 export type ImpressionRequest = {
     isAbout: WeServe.impressions;
@@ -607,6 +747,16 @@ export type Reroll =
           oldPatterns: Pattern[];
           newPatterns: Pattern[];
       };
+type Asset = { name: string; keys: Keys; patterns: Pattern[] };
+type ReduceTarget =
+    | { oldAssets: Impression[]; isAbout: WeServe.impressions }
+    | { oldAssets: Offer[]; isAbout: WeServe.drinks }
+    | { oldAssets: Offer[]; isAbout: WeServe.food };
+type Dissolve = { keys: Keys; patterns: Pattern[] } & (
+    | { reduced: Impression[]; isAbout: WeServe.impressions }
+    | { reduced: Offer[]; isAbout: WeServe.food }
+    | { reduced: Offer[]; isAbout: WeServe.drinks }
+);
 export interface ImpressionNote {
     ideas: ImpressionIdea[];
     category: Noticable;

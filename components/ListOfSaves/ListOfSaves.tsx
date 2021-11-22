@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Button, List, Modal, Portal } from 'react-native-paper';
 import { Database } from '../../classes/database/Database';
+import { WIDTH_FACTOR } from '../../dimensionConstants';
 import { WeServe } from '../../editNavigator/WeServe';
 import { MinimalTavernData } from '../../mainNavigator/TavernData';
 import { Offer } from '../../scenes/menuScene/Offer';
@@ -104,11 +105,13 @@ export class ListOfSaves extends React.Component<
                                     )
                                 }
                             >
-                                {'ADD'}
+                                {this.props.building.isAbout === 'tavern'
+                                    ? 'START'
+                                    : 'ADD'}
                             </Button>
 
                             <Button
-                                style={{ marginHorizontal: 5 }}
+                                style={{ marginHorizontal: 5 * WIDTH_FACTOR }}
                                 disabled={true}
                             >
                                 EDIT
