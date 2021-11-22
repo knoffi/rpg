@@ -1,6 +1,7 @@
 import { association } from '../../../classes/association';
-import { Demand } from '../../menuScene/offerList/actionInterfaces';
+import { Describable } from '../../../mainNavigator/TavernData';
 
-export type CoverageTest = Demand & {
-    lowCover: { fits: association[]; cover: number };
+export type CoverageTest = {
+    category: Describable;
+    lowestResult: { fits: association[]; value: number };
 };

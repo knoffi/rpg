@@ -7,6 +7,7 @@ import { getRandomArrayEntry } from '../../helpingFunctions/getFittingRandom';
 import { Describable } from '../../mainNavigator/TavernData';
 import { allCategories, UniverseMap } from '../../mainNavigator/UniverseMap';
 import { Offer } from '../../scenes/menuScene/Offer';
+import { CoverageTest } from '../../scenes/nameScene/contentCoverage/CoverageTest';
 import { getPrefixExcluder } from '../../scenes/questScene/impressions/getPrefixExcluder';
 import { Impression } from '../../scenes/questScene/impressions/Impression';
 import { getKeyExcluder } from '../../scenes/questScene/impressions/impressionExcluder/getImpressionExcluder';
@@ -14,10 +15,15 @@ import { association } from '../association';
 import { AssetKey } from '../idea/AssetKey/AssetKey';
 import { DishIdea } from '../idea/DishIdea';
 import { filterBestIdeas } from '../idea/fitCalculator/filterBestIdea';
+import { BEST_FIT_LEVEL } from '../idea/fitCalculator/getFitLevel';
+import { Idea } from '../idea/Idea';
 import { ImpressionIdea } from '../idea/ImpressionIdea';
 import { Noticable } from '../idea/Noticable';
 import { Pattern } from '../idea/Patterns/Pattern';
-import { StructuredTavernFits } from '../idea/StructuredTavernFits';
+import {
+    getStructuredFits,
+    StructuredTavernFits,
+} from '../idea/StructuredTavernFits';
 import { Keys } from '../keyHandler/KeyHandlingTypes';
 import { Drinkable, Eatable } from '../TavernProduct';
 import { emptyKeys } from './emptyKeys';
@@ -247,6 +253,63 @@ export class ContentCreator {
                 };
                 return { isAbout: WeServe.impressions, edited: impression };
         }
+    }
+
+    public testCoverage(category: Describable): CoverageTest {
+        const reducer = this.getCoverageReducer(category);
+        const minimizationAnchor: CoverageTest = {
+            category,
+            lowestResult: { fits: [], value: BEST_FIT_LEVEL() },
+        };
+        return Object.values(association).reduce(reducer, minimizationAnchor);
+    }
+    private getCoverageReducer(category: Describable) {
+        return (prev: CoverageTest, newFit: association): CoverageTest => {
+            if (newFit === association.empty) {
+                return prev;
+            }
+            const newValue = this.testFittingCoverage(
+                this.getPowerFitting(newFit),
+                category
+            );
+            if (newValue < prev.lowestResult.value) {
+                return {
+                    ...prev,
+                    lowestResult: { value: newValue, fits: [newFit] },
+                };
+            } else if (newValue === prev.lowestResult.value) {
+                return {
+                    ...prev,
+                    lowestResult: {
+                        value: newValue,
+                        fits: [...prev.lowestResult.fits, newFit],
+                    },
+                };
+            } else {
+                return prev;
+            }
+        };
+    }
+    private getPowerFitting(fit: association) {
+        const fitting = getStructuredFits([fit]);
+        fitting.powerFit = fit;
+        return fitting;
+    }
+    private testFittingCoverage(
+        fitting: StructuredTavernFits,
+        category: Describable
+    ) {
+        return (this.dungeonMaster[category] as Idea[]).filter((idea) =>
+            idea.fitsToTavern(
+                fitting,
+                () => false,
+                undefined,
+                undefined,
+                undefined,
+                undefined,
+                1101
+            )
+        ).length;
     }
 
     public addRandomCreation(
