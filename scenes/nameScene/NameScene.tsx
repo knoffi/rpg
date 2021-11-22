@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import 'react-native-gesture-handler';
-import { List } from 'react-native-paper';
+import { Button, List } from 'react-native-paper';
 import {
     association,
     AssociationTypes,
@@ -17,6 +17,7 @@ import {
     PencilButton,
     RerollButton,
 } from '../../components/buttons/Buttons';
+import { Describable } from '../../mainNavigator/TavernData';
 import { UniverseMap } from '../../mainNavigator/UniverseMap';
 import { globalStyles } from '../globalStyles';
 import { AssociationDialogBar } from './associationBar/AssociationDialogBar';
@@ -25,21 +26,24 @@ import {
     ButtonStates,
     getButtonStates,
 } from './associationBar/getButtonStates';
+import { CoverageTest } from './contentCoverage/CoverageTest';
+import { CoverageTestDialog } from './contentCoverage/DescribableDialog';
 import { getRandomName } from './getRandomName';
 import { nameSceneStyles } from './nameSceneStyles';
 import { NameSetDialog } from './NameSetDialog';
 import { TavernSign } from './TavernSign';
-import { UniverseDialog } from './UniverseDialog/UniverseDialog';
+import { UniverseDialog } from './universeDialog/UniverseDialog';
 
 const MAX_NAME_MEMORY = 16;
 const SECTION_FLEX = 0.2;
 type State = {
-    nameSetDialogOpen: boolean;
+    settingNameByUser: boolean;
     dialogText: string;
     oldNameParts: string[];
     buttons: ButtonStates;
     userActivelySetPowerfit: boolean;
     settingUniverse: boolean;
+    makingCoverageTest: boolean;
 };
 type Props = {
     fitting: StructuredTavernFits;
@@ -47,6 +51,7 @@ type Props = {
     handleNewFits: (newFits: StructuredTavernFits) => void;
     handleNewName: (name: string) => void;
     setUniverse: (map: UniverseMap) => void;
+    onCoverageTest: (category: Describable) => CoverageTest;
     universe: UniverseMap;
 };
 
@@ -55,12 +60,13 @@ export class NameScene extends React.Component<Props, State> {
         super(props);
 
         this.state = {
-            nameSetDialogOpen: false,
+            settingNameByUser: false,
             dialogText: '',
             oldNameParts: [],
             buttons: getButtonStates(this.props.fitting),
             userActivelySetPowerfit: false,
             settingUniverse: false,
+            makingCoverageTest: false,
         };
     }
 
@@ -87,13 +93,13 @@ export class NameScene extends React.Component<Props, State> {
                         <NameSetDialog
                             tavernName={this.props.name}
                             setTavernName={this.props.handleNewName}
-                            open={this.state.nameSetDialogOpen}
+                            open={this.state.settingNameByUser}
                             startText={this.state.dialogText}
                             setStartText={(text: string) => {
                                 this.setState({ dialogText: text });
                             }}
                             onDismiss={() => {
-                                this.setState({ nameSetDialogOpen: false });
+                                this.setState({ settingNameByUser: false });
                             }}
                         />
                         <TavernSign nameText={this.props.name}></TavernSign>
@@ -107,6 +113,22 @@ export class NameScene extends React.Component<Props, State> {
                             {this.renderUniverseButton()}
                             {this.renderEditButton()}
                         </View>
+                        <View
+                            style={{
+                                flexDirection: 'row',
+                                justifyContent: 'center',
+                                marginTop: 20,
+                            }}
+                        >
+                            <Button
+                                onPress={() =>
+                                    this.setState({ makingCoverageTest: true })
+                                }
+                                mode={'contained'}
+                            >
+                                Content Coverage
+                            </Button>
+                        </View>
                         <UniverseDialog
                             onConentSet={this.props.setUniverse}
                             isVisible={this.state.settingUniverse}
@@ -115,6 +137,13 @@ export class NameScene extends React.Component<Props, State> {
                             }
                             universe={this.props.universe}
                         ></UniverseDialog>
+                        <CoverageTestDialog
+                            isVisible={this.state.makingCoverageTest}
+                            onDismiss={() =>
+                                this.setState({ makingCoverageTest: false })
+                            }
+                            onTest={this.props.onCoverageTest}
+                        ></CoverageTestDialog>
                     </View>
                 </View>
             </View>
@@ -170,7 +199,7 @@ export class NameScene extends React.Component<Props, State> {
         return (
             <PencilButton
                 onPress={() => {
-                    this.setState({ nameSetDialogOpen: true });
+                    this.setState({ settingNameByUser: true });
                 }}
                 mode={buttonEmphasis.high}
                 title={' NAME'}

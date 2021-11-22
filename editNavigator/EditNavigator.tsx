@@ -370,6 +370,9 @@ export const EditNavigator = (props: {
                         handleNewFits={handleNewFits}
                         setUniverse={setUniverse}
                         universe={props.tavern.universe}
+                        onCoverageTest={(category: Describable) =>
+                            creator.testCoverage(category)
+                        }
                     ></NameScene>
                 )}
             />

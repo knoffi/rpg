@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
 import { Button, Dialog, Portal } from 'react-native-paper';
-import { Noticable } from '../../../classes/idea/Noticable';
-import { Drinkable, Eatable } from '../../../classes/TavernProduct';
 import { WeServe } from '../../../editNavigator/WeServe';
-import { Demand } from '../../menuScene/offerList/actionInterfaces';
+import { Describable } from '../../../mainNavigator/TavernData';
 import { CategoryHandling, CategoryPage } from './CategoryPage';
 import { CoverageTest } from './CoverageTest';
 
 type PageState = { show: WeServe | 'services' };
 export const CoverageTestDialog = (props: {
-    onTest: (demand: Demand) => CoverageTest;
+    onTest: (categor: Describable) => CoverageTest;
     isVisible: boolean;
     onDismiss: () => void;
 }) => {
@@ -19,21 +17,7 @@ export const CoverageTestDialog = (props: {
         setPage({ show: chosenService });
     };
     const getCategoryHandling = (isAbout: WeServe): CategoryHandling => {
-        switch (isAbout) {
-            case WeServe.food:
-                const onFood = (category: Eatable) =>
-                    props.onTest({ isAbout, category });
-                return { isAbout, onCategory: onFood };
-            case WeServe.drinks:
-                const onDrink = (category: Drinkable) =>
-                    props.onTest({ isAbout, category });
-                return { isAbout, onCategory: onDrink };
-
-            default:
-                const onImpression = (category: Noticable) =>
-                    props.onTest({ isAbout, category });
-                return { isAbout, onCategory: onImpression };
-        }
+        return { isAbout, onCategory: props.onTest };
     };
     return (
         <Portal>

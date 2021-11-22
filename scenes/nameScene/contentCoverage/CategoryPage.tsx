@@ -4,6 +4,7 @@ import { Button, Text } from 'react-native-paper';
 import { Noticable } from '../../../classes/idea/Noticable';
 import { Drinkable, Eatable } from '../../../classes/TavernProduct';
 import { WeServe } from '../../../editNavigator/WeServe';
+import { Describable } from '../../../mainNavigator/TavernData';
 import { CoverageTest } from './CoverageTest';
 type PageState = { showResult: CoverageTest | false };
 
@@ -70,15 +71,15 @@ const getCategoryButtons = (props: CategoryButtonsProps) => {
 export type CategoryHandling =
     | {
           isAbout: WeServe.impressions;
-          onCategory: (category: Noticable) => CoverageTest;
+          onCategory: (category: Describable) => CoverageTest;
       }
     | {
           isAbout: WeServe.drinks;
-          onCategory: (category: Drinkable) => CoverageTest;
+          onCategory: (category: Describable) => CoverageTest;
       }
     | {
           isAbout: WeServe.food;
-          onCategory: (category: Eatable) => CoverageTest;
+          onCategory: (category: Describable) => CoverageTest;
       };
 type CategoryButtonsProps = {
     showResult: (data: CoverageTest) => void;
