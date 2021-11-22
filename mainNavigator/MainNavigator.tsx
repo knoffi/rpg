@@ -10,8 +10,8 @@ import { StartOptionsScene } from '../scenes/startOptionsScene/StartOptionsScene
 import { TavernCollectionScene } from '../scenes/tavernCollectionScene/TavernCollectionScene';
 import { TitleScene } from '../scenes/titleScene/TitleScene';
 import { taverns } from '../templates/taverns';
-import { getRandomStartTavern } from './randomTavern/getRandomStartTavern';
 import { getTavernHistoryInitializer } from './mainNavigatorFunctions';
+import { getRandomStartTavern } from './randomTavern/getRandomStartTavern';
 import { MinimalTavernData } from './TavernData';
 import { DEFAULT_UNIVERSE_MAP, UniverseMap } from './UniverseMap';
 
@@ -163,6 +163,11 @@ export const MainNavigator = () => {
                             buildTavern={(minimalData: MinimalTavernData) => {
                                 buildTavernFromMinimalData(minimalData);
                                 navigation.navigate('EDIT TAVERN');
+                            }}
+                            onCancel={() => {
+                                navigation.navigate(
+                                    'YOU ALL MEET IN A TAVERN!'
+                                );
                             }}
                         ></TavernCollectionScene>
                     )}

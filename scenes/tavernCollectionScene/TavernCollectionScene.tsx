@@ -6,6 +6,7 @@ import { MinimalTavernData } from '../../mainNavigator/TavernData';
 import { nameSceneStyles } from '../nameScene/nameSceneStyles';
 export const TavernCollectionScene = (props: {
     buildTavern: (minimalTavernData: MinimalTavernData) => void;
+    onCancel: () => void;
 }) => {
     const [listIsVisible, setListVisible] = useState(true);
     return (
@@ -23,6 +24,7 @@ export const TavernCollectionScene = (props: {
                 title={'TAVERNS'}
                 onDismiss={() => {
                     setListVisible(false);
+                    props.onCancel();
                 }}
             ></ListOfSaves>
         </View>
