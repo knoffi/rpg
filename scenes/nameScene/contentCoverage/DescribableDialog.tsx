@@ -9,8 +9,8 @@ import { CategoryHandling, CategoryPage } from './CategoryPage';
 import { CoverageTest } from './CoverageTest';
 
 type PageState = { show: WeServe | 'services' };
-export const DescribableDialog = (props: {
-    onCoverTest: (demand: Demand) => CoverageTest;
+export const CoverageTestDialog = (props: {
+    onTest: (demand: Demand) => CoverageTest;
     isVisible: boolean;
     onDismiss: () => void;
 }) => {
@@ -22,16 +22,16 @@ export const DescribableDialog = (props: {
         switch (isAbout) {
             case WeServe.food:
                 const onFood = (category: Eatable) =>
-                    props.onCoverTest({ isAbout, category });
+                    props.onTest({ isAbout, category });
                 return { isAbout, onCategory: onFood };
             case WeServe.drinks:
                 const onDrink = (category: Drinkable) =>
-                    props.onCoverTest({ isAbout, category });
+                    props.onTest({ isAbout, category });
                 return { isAbout, onCategory: onDrink };
 
             default:
                 const onImpression = (category: Noticable) =>
-                    props.onCoverTest({ isAbout, category });
+                    props.onTest({ isAbout, category });
                 return { isAbout, onCategory: onImpression };
         }
     };
