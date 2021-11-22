@@ -222,7 +222,7 @@ const getContentArray = (
             patterns.update(handlerUpdate);
         }
         const fullKeys = keys.getFullKeys(add.isAbout);
-        const newRequst = getCreationRequest(
+        const newRequest = getCreationRequest(
             add,
             fullKeys.main,
             fullKeys.addition
@@ -230,7 +230,7 @@ const getContentArray = (
         return getContentArray(
             fits,
             length,
-            newRequst,
+            newRequest,
             keys,
             patterns,
             creator
