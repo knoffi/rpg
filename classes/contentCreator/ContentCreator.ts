@@ -259,7 +259,8 @@ export class ContentCreator {
         const reducer = this.getCoverageReducer(category);
         const minimizationAnchor: CoverageTest = {
             category,
-            lowestResult: { fits: [], value: BEST_FIT_LEVEL() },
+            fewestPowerfits: { fits: [], value: BEST_FIT_LEVEL() },
+            fewestRegularFits: { fits: [], value: BEST_FIT_LEVEL() },
         };
         return Object.values(association).reduce(reducer, minimizationAnchor);
     }
@@ -268,26 +269,43 @@ export class ContentCreator {
             if (newFit === association.empty) {
                 return prev;
             }
-            const newValue = this.testFittingCoverage(
+            const testCounting = this.testFittingCoverage(
                 this.getPowerFitting(newFit),
                 category
             );
-            if (newValue < prev.lowestResult.value) {
-                return {
-                    ...prev,
-                    lowestResult: { value: newValue, fits: [newFit] },
-                };
-            } else if (newValue === prev.lowestResult.value) {
-                return {
-                    ...prev,
-                    lowestResult: {
-                        value: newValue,
-                        fits: [...prev.lowestResult.fits, newFit],
-                    },
-                };
-            } else {
-                return prev;
-            }
+            const powerFitTest: Pick<CoverageTest, 'fewestPowerfits'> =
+                testCounting.powerFit < prev.fewestPowerfits.value
+                    ? {
+                          fewestPowerfits: {
+                              value: testCounting.powerFit,
+                              fits: [newFit],
+                          },
+                      }
+                    : testCounting.powerFit === prev.fewestPowerfits.value
+                    ? {
+                          fewestPowerfits: {
+                              value: testCounting.powerFit,
+                              fits: [...prev.fewestPowerfits.fits, newFit],
+                          },
+                      }
+                    : { fewestPowerfits: prev.fewestPowerfits };
+            const regularTest: Pick<CoverageTest, 'fewestRegularFits'> =
+                testCounting.reulgarFit < prev.fewestRegularFits.value
+                    ? {
+                          fewestRegularFits: {
+                              value: testCounting.reulgarFit,
+                              fits: [newFit],
+                          },
+                      }
+                    : testCounting.reulgarFit === prev.fewestRegularFits.value
+                    ? {
+                          fewestRegularFits: {
+                              value: testCounting.reulgarFit,
+                              fits: [...prev.fewestRegularFits.fits, newFit],
+                          },
+                      }
+                    : { fewestRegularFits: prev.fewestRegularFits };
+            return { ...prev, ...powerFitTest, ...regularTest };
         };
     }
     private getPowerFitting(fit: association) {
@@ -299,7 +317,20 @@ export class ContentCreator {
         fitting: StructuredTavernFits,
         category: Describable
     ) {
-        return (this.dungeonMaster[category] as Idea[]).filter((idea) =>
+        const regularFulfillers = (
+            this.dungeonMaster[category] as Idea[]
+        ).filter((idea) =>
+            idea.fitsToTavern(
+                { ...fitting, powerFit: undefined },
+                () => false,
+                undefined,
+                undefined,
+                undefined,
+                undefined,
+                1003
+            )
+        );
+        const powerFitFulfillers = regularFulfillers.filter((idea) =>
             idea.fitsToTavern(
                 fitting,
                 () => false,
@@ -309,7 +340,23 @@ export class ContentCreator {
                 undefined,
                 1101
             )
+        );
+        const regularFitCount = (this.dungeonMaster[category] as Idea[]).filter(
+            (idea) =>
+                idea.fitsToTavern(
+                    { ...fitting, powerFit: undefined },
+                    () => false,
+                    undefined,
+                    undefined,
+                    undefined,
+                    undefined,
+                    1003
+                )
         ).length;
+        return {
+            powerFit: powerFitFulfillers.length,
+            reulgarFit: regularFulfillers.length,
+        };
     }
 
     public addRandomCreation(
