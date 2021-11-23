@@ -681,11 +681,10 @@ export const meads: DishIdea[] = [
             },
             firstSideDishes: [
                 {
-                    name: 'Mead - moon-like apperance, soft sweetness, favored by virtuous people',
+                    name: 'Mead - moon-like appearance, soft sweetness, favored by virtuous people',
                 },
             ],
         },
-        // the taste of Dwarvish expertise. Can't touch this!
         MEAD_WINE_PRICE_SETTER,
         Drinkable.wine
     ),
@@ -699,7 +698,7 @@ export const meads: DishIdea[] = [
             },
             firstSideDishes: [
                 {
-                    name: 'Mead - marble-like apperance, refreshes and cultivates consumer',
+                    name: 'Mead - marble-like appearance, refreshes and cultivates consumer',
                 },
             ],
         },
