@@ -143,6 +143,7 @@ export const individuals: ImpressionIdea[] = [
             worksForBrothel: true,
             misfits: [a.drow],
             powerFits: [a.wealthy],
+            landRange: [a.city, a.village],
         },
         leisureUpperClass,
         Noticable.someCustomers
@@ -160,6 +161,7 @@ export const individuals: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             incomeRange: [a.wealthy],
+            landRange: [a.city, a.village],
             name: 'A baroness is ',
             powerFits: [a.wealthy],
             sex: 'female',
@@ -189,10 +191,11 @@ export const individuals: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            classRange: [a.soldier, a.adventurer],
+            needs: [a.soldier],
+            incomeRange: [a.modest, a.wealthy],
             name: 'A mercenary is ',
             worksForBrothel: true,
-            landRange: [a.city, a.haven],
+            worksForAssasines: true,
             powerFits: [a.soldier],
         },
         machoClass,
@@ -200,10 +203,35 @@ export const individuals: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            classRange: [a.soldier, a.adventurer],
+            needs: [a.soldier],
+            incomeRange: [a.modest, a.poor],
+            name: 'An old-looking mercenary is ',
+            worksForBrothel: true,
+            worksForAssasines: true,
+            powerFits: [a.soldier],
+        },
+        machoClass,
+        Noticable.someCustomers
+    ),
+    new ImpressionIdea(
+        {
+            needs: [a.soldier],
+            incomeRange: [a.poor],
+            name: 'A one-legged mercenary is ',
+            worksForBrothel: true,
+            worksForAssasines: true,
+            powerFits: [a.soldier],
+        },
+        machoClass,
+        Noticable.someCustomers
+    ),
+    new ImpressionIdea(
+        {
+            needs: [a.soldier],
+            incomeRange: [a.modest, a.wealthy],
             name: 'Some mercenaries are ',
             worksForBrothel: true,
-            landRange: [a.city, a.haven],
+            worksForAssasines: true,
             powerFits: [a.soldier],
         },
         machoClass,
@@ -211,10 +239,11 @@ export const individuals: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            classRange: [a.soldier, a.adventurer],
-            name: 'A soldier is ',
+            needs: [a.soldier],
+            incomeRange: [a.modest, a.poor],
+            name: 'A grey-haired soldier is ',
             worksForBrothel: true,
-            landRange: [a.forest, a.city],
+            misfits: [a.haven],
             powerFits: [a.soldier],
         },
         machoClass,
@@ -222,10 +251,68 @@ export const individuals: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            classRange: [a.soldier, a.adventurer],
+            needs: [a.soldier],
+            incomeRange: [a.poor],
+            name: 'A one-armed soldier is ',
+            worksForBrothel: true,
+            misfits: [a.haven],
+            powerFits: [a.soldier],
+        },
+        machoClass,
+        Noticable.someCustomers
+    ),
+    new ImpressionIdea(
+        {
+            needs: [a.soldier],
+            incomeRange: [a.modest],
+            name: 'A soldier is ',
+            misfits: [a.haven],
+            worksForBrothel: true,
+            powerFits: [a.soldier],
+        },
+        machoClass,
+        Noticable.someCustomers
+    ),
+    new ImpressionIdea(
+        {
+            needs: [a.soldier],
+            incomeRange: [a.modest],
             name: 'Some soldiers are ',
             worksForBrothel: true,
-            landRange: [a.forest, a.city],
+            misfits: [a.haven],
+            powerFits: [a.soldier],
+        },
+        machoClass,
+        Noticable.someCustomers
+    ),
+    new ImpressionIdea(
+        {
+            needs: [a.soldier, a.haven],
+            incomeRange: [a.modest, a.poor],
+            name: 'A grey-haired marine is ',
+            worksForBrothel: true,
+            powerFits: [a.soldier],
+        },
+        machoClass,
+        Noticable.someCustomers
+    ),
+    new ImpressionIdea(
+        {
+            needs: [a.soldier, a.haven],
+            incomeRange: [a.modest],
+            name: 'A marine is ',
+            worksForBrothel: true,
+            powerFits: [a.soldier],
+        },
+        machoClass,
+        Noticable.someCustomers
+    ),
+    new ImpressionIdea(
+        {
+            needs: [a.soldier, a.haven],
+            incomeRange: [a.modest],
+            name: 'Some marines are ',
+            worksForBrothel: true,
             powerFits: [a.soldier],
         },
         machoClass,
