@@ -253,6 +253,7 @@ export const meads: DishIdea[] = [
                 landRange: [a.forest, a.village],
                 classRange: [a.druid, a.adventurer],
                 powerFits: [a.halfling, a.forest, a.druid],
+                needsOne: [a.forest, a.druid],
                 key: AssetKey.WINE_mead,
             },
             firstSideDishes: [
@@ -354,7 +355,7 @@ export const meads: DishIdea[] = [
         {
             mainIng: {
                 name: 'Elderberry Mead',
-                classRange: [a.wizard, a.druid, a.adventurer],
+                needsOne: [a.wizard, a.druid, a.adventurer],
                 powerFits: [a.wizard, a.druid],
                 key: AssetKey.WINE_mead,
             },
@@ -437,9 +438,10 @@ export const meads: DishIdea[] = [
         {
             mainIng: {
                 name: 'White Owl Mead',
-                classRange: [a.cleric, a.adventurer],
+                needsOne: [a.cleric, a.adventurer],
                 powerFits: [a.cleric],
                 key: AssetKey.WINE_mead,
+                misfits: [a.prostitute, a.thief],
             },
             firstSideDishes: [
                 {
@@ -453,10 +455,30 @@ export const meads: DishIdea[] = [
     new DishIdea(
         {
             mainIng: {
+                name: 'Black Owl Mead',
+                needs: [a.cleric],
+                needsOne: [a.prostitute, a.thief],
+                powerFits: [a.cleric],
+                key: AssetKey.WINE_mead,
+                misfits: [a.prostitute, a.thief],
+            },
+            firstSideDishes: [
+                {
+                    name: 'Mead - black color, calms the mind, favored by monks and clerics',
+                },
+            ],
+        },
+        MEAD_WINE_PRICE_SETTER,
+        Drinkable.wine
+    ),
+    new DishIdea(
+        {
+            mainIng: {
                 name: 'Grey Owl Mead',
-                classRange: [a.cleric, a.druid, a.adventurer],
+                needsOne: [a.cleric, a.druid, a.adventurer],
                 powerFits: [a.cleric, a.druid],
                 key: AssetKey.WINE_mead,
+                misfits: [a.prostitute],
             },
             firstSideDishes: [
                 {
@@ -675,7 +697,7 @@ export const meads: DishIdea[] = [
                 needsOne: [a.wealthy, a.knight, a.cleric],
                 specialsRange: [],
                 classRange: [a.knight, a.cleric],
-                misfits: [a.poor],
+                misfits: [a.poor, a.prostitute, a.assasine, a.thief],
                 powerFits: [a.cleric, a.knight, a.wealthy],
                 key: AssetKey.WINE_mead,
             },
@@ -806,6 +828,7 @@ export const meads: DishIdea[] = [
                 incomeRange: [a.modest, a.rich, a.wealthy],
                 powerFits: [a.knight, a.cleric],
                 key: AssetKey.WINE_mead,
+                misfits: [a.thief, a.prostitute],
             },
             firstSideDishes: [
                 {
