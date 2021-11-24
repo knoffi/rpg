@@ -58,6 +58,9 @@ export class KeyHandler {
         const entryForKey = row[refersTo].find((entry) => entry.key === newKey);
         if (entryForKey) {
             entryForKey.count += addToCounter;
+            if (entryForKey.count < 0) {
+                throw new Error('Key counters can not be negative');
+            }
         } else {
             if (addToCounter > 0) {
                 row[refersTo].push({ count: addToCounter, key: newKey });
