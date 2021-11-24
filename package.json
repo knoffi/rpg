@@ -5,7 +5,8 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "test": "set TS_NODE_COMPILER_OPTIONS={\"module\": \"commonjs\" } && mocha -r ts-node/register 'tests/*.ts'"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.13.2",
@@ -36,8 +37,13 @@
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",
+    "@types/chai": "^4.2.22",
+    "@types/mocha": "^9.0.0",
     "@types/react": "~16.9.35",
     "@types/react-native": "~0.63.2",
+    "chai": "^4.3.4",
+    "mocha": "^9.1.3",
+    "ts-node": "^10.4.0",
     "tslint": "^6.1.3",
     "typescript": "~4.0.0"
   },
