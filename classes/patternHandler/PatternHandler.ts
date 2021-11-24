@@ -31,17 +31,6 @@ export class PatternHandler {
         return this.patterns[isAbout];
     }
 
-    public updateClone(update: PatternChange) {
-        const newHandler = new PatternHandler('noContent');
-        newHandler.update(update);
-        return newHandler;
-    }
-    public multiUpdateClone(updates: PatternChange[]) {
-        const newHandler = new PatternHandler('noContent');
-        updates.forEach((update) => newHandler.update(update));
-        return newHandler;
-    }
-
     public update(update: PatternChange) {
         switch (update.type) {
             case 'Add':
