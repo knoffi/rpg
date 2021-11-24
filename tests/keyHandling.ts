@@ -95,7 +95,7 @@ describe('KeyHandler tests', () => {
         expect(keys.getFullKeys(WeServe.drinks)).to.have.property('main').to.be
             .empty;
     });
-    it('double add', () => {
+    it('add twice', () => {
         const keys = new KeyHandler('noPreviousContent');
         keys.update(ADD);
         keys.update(ADD);
