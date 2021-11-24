@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+import { assert, expect } from 'chai';
 import { AssetKey } from '../classes/idea/AssetKey/AssetKey';
 import { KeyHandler } from '../classes/keyHandler/KeyHandler';
 import { WeServe } from '../editNavigator/WeServe';
@@ -17,13 +17,14 @@ describe('KeyHandler tests', () => {
         type: 'Delete' as const,
         oldKeys: KEY_CHANGE,
     };
-    it('default constructing', () => {
+    it('construct by default', () => {
         const keys = new KeyHandler('noPreviousContent');
         expect(keys.getFullKeys(WeServe.impressions).main)
             .to.have.property('length')
             .to.equal(0);
     });
-    it('adding', () => {
+
+    it('add', () => {
         const keys = new KeyHandler('noPreviousContent');
         keys.update(ADD);
 
@@ -35,7 +36,7 @@ describe('KeyHandler tests', () => {
             .to.equal(2);
         expect(keys.getFullKeys(WeServe.drinks).main).to.be.empty;
     });
-    it('double adding', () => {
+    it('double add', () => {
         const keys = new KeyHandler('noPreviousContent');
         keys.update(ADD);
         keys.update(ADD);
@@ -47,7 +48,7 @@ describe('KeyHandler tests', () => {
             .to.equal(2);
         expect(keys.getFullKeys(WeServe.drinks).main).to.be.empty;
     });
-    it('deleting', () => {
+    it('delete after double add', () => {
         const keys = new KeyHandler('noPreviousContent');
         keys.update(ADD);
         keys.update(ADD);
@@ -59,5 +60,23 @@ describe('KeyHandler tests', () => {
             .to.have.property('length')
             .to.equal(2);
         expect(keys.getFullKeys(WeServe.drinks).main).to.be.empty;
+    });
+    it('delete', () => {
+        const keys = new KeyHandler('noPreviousContent');
+        keys.update(ADD);
+        keys.update(DELETE);
+        expect(keys.getFullKeys(WeServe.impressions).main)
+            .to.have.property('length')
+            .to.equal(0);
+        expect(keys.getFullKeys(WeServe.impressions).addition)
+            .to.have.property('length')
+            .to.equal(0);
+        expect(keys.getFullKeys(WeServe.drinks).main).to.be.empty;
+    });
+    it('delete twice after one add', () => {
+        const keys = new KeyHandler('noPreviousContent');
+        keys.update(ADD);
+        keys.update(DELETE);
+        assert.throws(() => keys.update(DELETE), /negative/);
     });
 });
