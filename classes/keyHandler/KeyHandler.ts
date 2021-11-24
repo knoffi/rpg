@@ -1,7 +1,10 @@
+import { DeepReadonly } from 'ts-essentials';
 import { WeServe } from '../../editNavigator/WeServe';
-import { Content } from '../../mainNavigator/Content';
-import { Offer } from '../../scenes/menuScene/Offer';
-import { Impression } from '../../scenes/questScene/impressions/Impression';
+import {
+    DeeplyReadonlyContent,
+    DeeplyReadonlyImpression,
+    DeeplyReadonlyOffer,
+} from '../../mainNavigator/Content';
 import { emptyKeys } from '../contentCreator/emptyKeys';
 import { AssetKey } from '../idea/AssetKey/AssetKey';
 import { getKeyBound } from '../idea/AssetKey/getKeyBound';
@@ -9,13 +12,13 @@ import { Add, Delete, KeyChange, Keys, KeyTable } from './KeyHandlingTypes';
 export class KeyHandler {
     private table: KeyTable;
 
-    public constructor(content: Content | 'noPreviousContent') {
+    public constructor(content: DeeplyReadonlyContent | 'noPreviousContent') {
         this.table =
             content === 'noPreviousContent'
                 ? KeyHandler.getKeysFromContent()
                 : KeyHandler.getKeysFromContent(content);
     }
-    public update(change: KeyChange) {
+    public update(change: DeepReadonly<KeyChange>) {
         switch (change.type) {
             case 'Add':
                 this.handleAdd(change);
@@ -46,7 +49,7 @@ export class KeyHandler {
         return newHandler;
     }
 
-    private handleAdd(added: Add) {
+    private handleAdd(added: DeepReadonly<Add>) {
         added.newKeys.addition.forEach((key) => {
             this.addKeyCount(key, 1, added.isAbout, 'addition');
         });
@@ -73,7 +76,7 @@ export class KeyHandler {
             }
         }
     }
-    private handleDelete(deleted: Delete) {
+    private handleDelete(deleted: DeepReadonly<Delete>) {
         deleted.oldKeys.addition.forEach((key) => {
             this.addKeyCount(key, -1, deleted.isAbout, 'addition');
         });
@@ -92,7 +95,7 @@ export class KeyHandler {
         return { ['main']: fullMainKeys, ['addition']: fullAdditionKeys };
     }
 
-    private static getKeysFromContent(content?: Content) {
+    private static getKeysFromContent(content?: DeeplyReadonlyContent) {
         const newTable: KeyTable = {
             [WeServe.drinks]: { main: [], addition: [] },
             [WeServe.food]: { main: [], addition: [] },
@@ -102,7 +105,8 @@ export class KeyHandler {
             return { ...newTable };
         } else {
             Object.values(WeServe).forEach((isAbout) => {
-                const assets: (Offer | Impression)[] = content[isAbout];
+                const test = content[isAbout];
+                const assets: KeyHolders = content[isAbout];
                 assets.forEach((asset) => {
                     const row = newTable[isAbout];
                     const newKeys = asset.keys || emptyKeys;
@@ -133,3 +137,4 @@ export class KeyHandler {
         }
     }
 }
+type KeyHolders = readonly (DeeplyReadonlyOffer | DeeplyReadonlyImpression)[];

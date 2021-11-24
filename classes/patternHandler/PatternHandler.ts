@@ -1,7 +1,11 @@
+import { DeepReadonly } from 'ts-essentials';
 import { WeServe } from '../../editNavigator/WeServe';
-import { Content } from '../../mainNavigator/Content';
-import { Offer } from '../../scenes/menuScene/Offer';
-import { Impression } from '../../scenes/questScene/impressions/Impression';
+import {
+    Content,
+    DeeplyReadonlyContent,
+    DeeplyReadonlyImpression,
+    DeeplyReadonlyOffer,
+} from '../../mainNavigator/Content';
 import { Pattern } from '../idea/Patterns/Pattern';
 type KeyToPattern<Type> = { [Property in keyof Type]: Pattern[] };
 export type PatternTable = KeyToPattern<Content>;
@@ -9,7 +13,7 @@ export type PatternTable = KeyToPattern<Content>;
 export class PatternHandler {
     private patterns: PatternTable;
 
-    constructor(content: Content | 'noContent') {
+    constructor(content: DeeplyReadonlyContent | 'noContent') {
         const newPatterns: PatternTable = {
             drink: [],
             food: [],
@@ -17,7 +21,7 @@ export class PatternHandler {
         };
         if (content !== 'noContent') {
             Object.values(WeServe).forEach((isAbout) => {
-                const assets: (Offer | Impression)[] = content[isAbout];
+                const assets: PatternHolders = content[isAbout];
                 const patterns = assets.flatMap(
                     (asset) => asset.patterns || []
                 );
@@ -31,7 +35,7 @@ export class PatternHandler {
         return this.patterns[isAbout];
     }
 
-    public update(update: PatternChange) {
+    public update(update: DeepReadonly<PatternChange>) {
         switch (update.type) {
             case 'Add':
                 this.addPattern(update);
@@ -48,7 +52,7 @@ export class PatternHandler {
         changes.forEach((change) => newHandler.update(change));
         return newHandler;
     }
-    private removePattern(update: Delete) {
+    private removePattern(update: DeepReadonly<Delete>) {
         const targetRow = this.patterns[update.isAbout];
         update.oldPatterns.forEach((pattern) => {
             const patternIndex = targetRow.findIndex(
@@ -61,7 +65,7 @@ export class PatternHandler {
             }
         });
     }
-    private addPattern(update: Add) {
+    private addPattern(update: DeepReadonly<Add>) {
         const targetRow = this.patterns[update.isAbout];
         const newRow = targetRow.concat(update.newPatterns);
         this.patterns[update.isAbout] = newRow;
@@ -71,3 +75,7 @@ export class PatternHandler {
 export type PatternChange = Add | Delete;
 type Add = { isAbout: WeServe; type: 'Add'; newPatterns: Pattern[] };
 type Delete = { isAbout: WeServe; type: 'Delete'; oldPatterns: Pattern[] };
+type PatternHolders = readonly (
+    | DeeplyReadonlyOffer
+    | DeeplyReadonlyImpression
+)[];
