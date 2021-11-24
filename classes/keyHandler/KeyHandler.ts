@@ -34,18 +34,13 @@ export class KeyHandler {
         });
         console.log('main:' + JSON.stringify(test));
     }
-    public updateClone(change: KeyChange) {
-        const newHandler = new KeyHandler('noPreviousContent');
-        newHandler.table = { ...this.table };
-        newHandler.update(change);
-        return newHandler;
-    }
     public multiUpdateClone(changes: KeyChange[]) {
         const newHandler = new KeyHandler('noPreviousContent');
         newHandler.table = { ...this.table };
         changes.forEach((change) => newHandler.update(change));
         return newHandler;
     }
+
     private handleAdd(added: Add) {
         added.newKeys.addition.forEach((key) => {
             this.addKeyCount(key, 1, added.isAbout, 'addition');
