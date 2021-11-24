@@ -24,7 +24,8 @@ describe('KeyHandler tests', () => {
     };
     it('construct by default', () => {
         const keys = new KeyHandler('noPreviousContent');
-        expect(keys.getFullKeys(WeServe.impressions).main)
+        expect(keys.getFullKeys(WeServe.impressions))
+            .to.have.property('main')
             .to.have.property('length')
             .to.equal(0);
     });
@@ -66,13 +67,16 @@ describe('KeyHandler tests', () => {
             ],
         };
         const keys = new KeyHandler(content);
-        expect(keys.getFullKeys(WeServe.impressions).main)
+        expect(keys.getFullKeys(WeServe.impressions))
+            .to.have.property('main')
             .to.have.property('length')
             .to.equal(2);
-        expect(keys.getFullKeys(WeServe.drinks).addition)
+        expect(keys.getFullKeys(WeServe.drinks))
+            .to.have.property('addition')
             .to.have.property('length')
             .to.equal(1);
-        expect(keys.getFullKeys(WeServe.food).main)
+        expect(keys.getFullKeys(WeServe.food))
+            .to.have.property('main')
             .to.have.property('length')
             .to.equal(0);
     });
@@ -80,50 +84,62 @@ describe('KeyHandler tests', () => {
         const keys = new KeyHandler('noPreviousContent');
         keys.update(ADD);
 
-        expect(keys.getFullKeys(WeServe.impressions).main)
+        expect(keys.getFullKeys(WeServe.impressions))
+            .to.have.property('main')
             .to.have.property('length')
             .to.equal(1);
-        expect(keys.getFullKeys(WeServe.impressions).addition)
+        expect(keys.getFullKeys(WeServe.impressions))
+            .to.have.property('addition')
             .to.have.property('length')
             .to.equal(2);
-        expect(keys.getFullKeys(WeServe.drinks).main).to.be.empty;
+        expect(keys.getFullKeys(WeServe.drinks)).to.have.property('main').to.be
+            .empty;
     });
     it('double add', () => {
         const keys = new KeyHandler('noPreviousContent');
         keys.update(ADD);
         keys.update(ADD);
-        expect(keys.getFullKeys(WeServe.impressions).main)
+        expect(keys.getFullKeys(WeServe.impressions))
+            .to.have.property('main')
             .to.have.property('length')
             .to.equal(1);
-        expect(keys.getFullKeys(WeServe.impressions).addition)
+        expect(keys.getFullKeys(WeServe.impressions))
+            .to.have.property('addition')
             .to.have.property('length')
             .to.equal(2);
-        expect(keys.getFullKeys(WeServe.drinks).main).to.be.empty;
+        expect(keys.getFullKeys(WeServe.drinks)).to.have.property('main').to.be
+            .empty;
     });
     it('delete after double add', () => {
         const keys = new KeyHandler('noPreviousContent');
         keys.update(ADD);
         keys.update(ADD);
         keys.update(DELETE);
-        expect(keys.getFullKeys(WeServe.impressions).main)
+        expect(keys.getFullKeys(WeServe.impressions))
+            .to.have.property('main')
             .to.have.property('length')
             .to.equal(1);
-        expect(keys.getFullKeys(WeServe.impressions).addition)
+        expect(keys.getFullKeys(WeServe.impressions))
+            .to.have.property('addition')
             .to.have.property('length')
             .to.equal(2);
-        expect(keys.getFullKeys(WeServe.drinks).main).to.be.empty;
+        expect(keys.getFullKeys(WeServe.drinks)).to.have.property('main').to.be
+            .empty;
     });
     it('delete', () => {
         const keys = new KeyHandler('noPreviousContent');
         keys.update(ADD);
         keys.update(DELETE);
-        expect(keys.getFullKeys(WeServe.impressions).main)
+        expect(keys.getFullKeys(WeServe.impressions))
+            .to.have.property('main')
             .to.have.property('length')
             .to.equal(0);
-        expect(keys.getFullKeys(WeServe.impressions).addition)
+        expect(keys.getFullKeys(WeServe.impressions))
+            .to.have.property('addition')
             .to.have.property('length')
             .to.equal(0);
-        expect(keys.getFullKeys(WeServe.drinks).main).to.be.empty;
+        expect(keys.getFullKeys(WeServe.drinks)).to.have.property('main').to.be
+            .empty;
     });
     it('delete twice after one add', () => {
         const keys = new KeyHandler('noPreviousContent');
