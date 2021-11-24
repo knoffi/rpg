@@ -45,15 +45,13 @@ export class PatternHandler {
     private removePattern(update: Delete) {
         const targetRow = this.patterns[update.isAbout];
         update.oldPatterns.forEach((pattern) => {
-            const patternAppears = targetRow.findIndex(
+            const patternIndex = targetRow.findIndex(
                 (entry) => entry === pattern
             );
-            if (patternAppears < 0) {
-                console.log(
-                    '___COULD NOT FIND PATTERN TO REMOVE: ' + pattern + '___'
-                );
+            if (patternIndex < 0) {
+                throw new Error('PatternNotFound');
             } else {
-                targetRow.splice(patternAppears, 1);
+                targetRow.splice(patternIndex, 1);
             }
         });
     }
