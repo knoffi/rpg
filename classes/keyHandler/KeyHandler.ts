@@ -90,11 +90,10 @@ export class KeyHandler {
     }
 
     private static getKeysFromContent(content?: Content) {
-        const startRow = { main: [], addition: [] };
         const newTable: KeyTable = {
-            [WeServe.drinks]: { ...startRow },
-            [WeServe.food]: { ...startRow },
-            [WeServe.impressions]: { ...startRow },
+            [WeServe.drinks]: { main: [], addition: [] },
+            [WeServe.food]: { main: [], addition: [] },
+            [WeServe.impressions]: { main: [], addition: [] },
         };
         if (!content) {
             return { ...newTable };
