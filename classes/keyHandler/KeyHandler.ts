@@ -25,14 +25,19 @@ export class KeyHandler {
                 break;
         }
     }
-    public print() {
-        const test = this.table.impression.main.map((key) => {
+    public print(isAbout = WeServe.impressions, only?: 'main' | 'addition') {
+        const printMain = this.table[isAbout].main.map((key) => {
             return { text: key.key.slice(0, 5), count: key.count };
         });
-        const test2 = this.table.impression.addition.map((key) => {
+        const printAddition = this.table[isAbout].addition.map((key) => {
             return { text: key.key.slice(0, 5), count: key.count };
         });
-        console.log('main:' + JSON.stringify(test));
+        if (!only || only === 'main') {
+            console.log('main:' + JSON.stringify(printMain));
+        }
+        if (!only || only === 'addition') {
+            console.log('addition:' + JSON.stringify(printAddition));
+        }
     }
 
     private handleAdd(added: Add) {
