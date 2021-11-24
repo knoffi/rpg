@@ -1,27 +1,11 @@
 import { assert, expect } from 'chai';
-import { association } from '../classes/association';
-import { AssetKey } from '../classes/idea/AssetKey/AssetKey';
-import { Noticable } from '../classes/idea/Noticable';
-import { Pattern } from '../classes/idea/Patterns/Pattern';
 import { KeyHandler } from '../classes/keyHandler/KeyHandler';
-import { Drinkable } from '../classes/TavernProduct';
 import { WeServe } from '../editNavigator/WeServe';
-import { Content } from '../mainNavigator/Content';
+import { Constants } from './Constants';
 describe('KeyHandler tests', () => {
-    const KEY_CHANGE = {
-        main: [AssetKey.BARTENDER_knowledge],
-        addition: [AssetKey.BARTENDER_opinion, AssetKey.BARTENDER_face],
-    };
-    const ADD = {
-        isAbout: WeServe.impressions,
-        type: 'Add' as const,
-        newKeys: KEY_CHANGE,
-    };
-    const DELETE = {
-        isAbout: WeServe.impressions,
-        type: 'Delete' as const,
-        oldKeys: KEY_CHANGE,
-    };
+    const ADD = Constants.keyAdd;
+    const DELETE = Constants.keyDelete;
+
     it('construct by default', () => {
         const keys = new KeyHandler('noPreviousContent');
         expect(keys.getFullKeys(WeServe.impressions))
@@ -30,42 +14,7 @@ describe('KeyHandler tests', () => {
             .to.equal(0);
     });
     it('construct from content', () => {
-        const content: Content = {
-            food: [],
-            drink: [
-                {
-                    name: 'Red Wine',
-                    isAbout: WeServe.drinks,
-                    isUserMade: true,
-                    income: association.poor,
-                    category: Drinkable.wine,
-                    price: 10,
-                    description: '',
-                    patterns: [],
-                    keys: {
-                        main: [],
-                        addition: [AssetKey.WINE_red],
-                    },
-                    universe: 'isUserMade',
-                },
-            ],
-            impression: [
-                {
-                    name: 'Uncle Ben',
-                    category: Noticable.bartender,
-                    universe: 'isUserMade',
-                    patterns: [Pattern.BARTENDER_UncleBen],
-                    keys: { main: [AssetKey.BARTENDER_charisma], addition: [] },
-                },
-                {
-                    name: 'Talks about power and responsibility',
-                    category: Noticable.bartender,
-                    universe: 'isUserMade',
-                    patterns: [Pattern.BARTENDER_UncleBen],
-                    keys: { main: [AssetKey.BARTENDER_actions], addition: [] },
-                },
-            ],
-        };
+        const content = Constants.content;
         const keys = new KeyHandler(content);
         expect(keys.getFullKeys(WeServe.impressions))
             .to.have.property('main')
