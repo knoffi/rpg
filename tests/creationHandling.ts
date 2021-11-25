@@ -1,8 +1,12 @@
 import { expect } from 'chai';
 import { association } from '../classes/association';
-import { CreationRequest } from '../classes/contentCreator/ContentCreator';
+import {
+    AddCheck,
+    CreationRequest,
+} from '../classes/contentCreator/ContentCreator';
 import { FantasyKeys } from '../classes/contentCreator/FantasKeys';
 import { AssetKey } from '../classes/idea/AssetKey/AssetKey';
+import { Noticable } from '../classes/idea/Noticable';
 import { Pattern } from '../classes/idea/Patterns/Pattern';
 import { StructuredTavernFits } from '../classes/idea/StructuredTavernFits';
 import { Drinkable } from '../classes/TavernProduct';
@@ -149,5 +153,21 @@ describe('ContentCreator tests', () => {
         expect(reducedMenu)
             .to.have.property('oldPatterns')
             .to.eql(addedPatterns);
+    });
+    it('nothing left: true', () => {
+        const fitting = {};
+        const checkData: AddCheck = {
+            isAbout: WeServe.impressions,
+            category: Noticable.someCustomers,
+            added: [],
+        };
+        const checkResult = creator.noNextCreationLeft(fitting, checkData);
+        expect(checkResult).is.true;
+    });
+    it('nothing left: false', () => {
+        const fitting = {};
+        const checkData: AddCheck = { ...impressionRequest, added: [] };
+        const checkResult = creator.noNextCreationLeft(fitting, checkData);
+        expect(checkResult).is.false;
     });
 });
