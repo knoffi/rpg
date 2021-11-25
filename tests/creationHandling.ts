@@ -1,17 +1,29 @@
 import { expect } from 'chai';
 import { association } from '../classes/association';
+import { CreationRequest } from '../classes/contentCreator/ContentCreator';
 import { FantasyKeys } from '../classes/contentCreator/FantasKeys';
 import { AssetKey } from '../classes/idea/AssetKey/AssetKey';
 import { Pattern } from '../classes/idea/Patterns/Pattern';
 import { StructuredTavernFits } from '../classes/idea/StructuredTavernFits';
 import { Drinkable } from '../classes/TavernProduct';
+import { WeServe } from '../editNavigator/WeServe';
 import { Offer } from '../scenes/menuScene/Offer';
+import { Impression } from '../scenes/questScene/impressions/Impression';
 import { Constants } from './Constants';
+
 describe('ContentCreator tests', () => {
-    const foodRequest = Constants.foodRequest;
-    const drinkRequest = Constants.drinkRequest;
-    const impressionRequest = Constants.impressionRequest;
+    //TODO: use own deep cloner in abstracted "Constants" class, then Constants.get("food_request") to get mutable clone
+    const foodRequest: CreationRequest = JSON.parse(
+        JSON.stringify(Constants.foodRequest)
+    );
+    const drinkRequest: CreationRequest = JSON.parse(
+        JSON.stringify(Constants.drinkRequest)
+    );
+    const impressionRequest: CreationRequest = JSON.parse(
+        JSON.stringify(Constants.impressionRequest)
+    );
     const creator = Constants.creator;
+
     it('construct', () => {
         expect(creator).not.to.be.undefined;
     });
@@ -34,13 +46,13 @@ describe('ContentCreator tests', () => {
         const firstCreation = creator.addRandomCreation(empty, foodRequest);
         const secondRequest = {
             ...foodRequest,
-            oldAssets: firstCreation.added as Offer[],
-        };
+            oldAssets: firstCreation.added,
+        } as CreationRequest;
         const secondCreation = creator.addRandomCreation(empty, secondRequest);
         const thirdRequest = {
             ...foodRequest,
-            oldAssets: secondCreation.added as Offer[],
-        };
+            oldAssets: secondCreation.added,
+        } as CreationRequest;
         const thirdCreation = creator.addRandomCreation(empty, thirdRequest);
         const offerNames = (thirdCreation.added as Offer[]).map(
             (offer) => offer.name
@@ -70,5 +82,72 @@ describe('ContentCreator tests', () => {
         expect(creation)
             .to.have.property('newPatterns')
             .to.deep.include(Pattern.BARTENDER_UncleBen);
+    });
+    it('delete', () => {
+        const empty: StructuredTavernFits = {};
+        const creation = creator.addRandomCreation(empty, drinkRequest);
+        const createdOffers = creation.added as Offer[];
+        expect(createdOffers).has.property('length').is.equal(1);
+
+        const firstDrink = createdOffers[0];
+        const reducedMenu = creator.deleteCreation(firstDrink.name, {
+            isAbout: WeServe.drinks,
+            oldAssets: createdOffers,
+        });
+
+        expect(reducedMenu)
+            .to.have.property('isAbout')
+            .to.equal(WeServe.drinks);
+
+        expect(reducedMenu).to.have.property(WeServe.drinks).to.eql([]);
+    });
+    it('delete with key', () => {
+        const empty: StructuredTavernFits = {};
+        const creation = creator.addRandomCreation(empty, drinkRequest);
+        const createdOffers = creation.added as Offer[];
+
+        expect(createdOffers).has.property('length').is.equal(1);
+        const firstDrink = createdOffers[0];
+
+        expect(firstDrink)
+            .has.property('keys')
+            .has.property('main')
+            .has.property('length')
+            .is.greaterThanOrEqual(
+                1,
+                'test useless, no previously added main keys to remove from ' +
+                    firstDrink.name
+            );
+        const addedKeys = firstDrink.keys;
+        const reducedMenu = creator.deleteCreation(firstDrink.name, {
+            isAbout: WeServe.drinks,
+            oldAssets: createdOffers,
+        });
+        expect(reducedMenu).to.have.property('oldKeys').to.eql(addedKeys);
+    });
+    it('delete with pattern', () => {
+        const empty: StructuredTavernFits = {};
+        const creation = creator.addRandomCreation(empty, impressionRequest);
+        const createdNotes = creation.added as Impression[];
+
+        expect(createdNotes).has.property('length').is.equal(1);
+        const firstNote = createdNotes[0];
+
+        expect(firstNote)
+            .has.property('patterns')
+            .has.property('length')
+            .is.greaterThanOrEqual(
+                1,
+                'test useless, no previously added patterns to remove from ' +
+                    firstNote.name
+            );
+        const addedPatterns = firstNote.patterns;
+        const reducedMenu = creator.deleteCreation(firstNote.name, {
+            isAbout: WeServe.impressions,
+            oldAssets: createdNotes,
+        });
+        expect(reducedMenu)
+            .to.have.property('oldPatterns')
+            .to.eql(addedPatterns);
     });
 });
