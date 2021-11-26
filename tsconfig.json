@@ -13,7 +13,7 @@
     "strict": true,
   },
   "exclude": [
-    "./tests/",
+    "logicTests",
     "./node_modules/",
     "./dist/"
   ],
