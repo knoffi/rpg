@@ -17,6 +17,12 @@ export const OfferListItem = (props: {
     const title = props.title;
     const editPossible = props.isUserMade || false;
     const rerollPossible = !editPossible && !props.noDrinkToAddLeft;
+    const onRightSwipe = props.isUserMade
+        ? actions.onEdit
+        : props.noDrinkToAddLeft
+        ? () => {}
+        : actions.onReroll;
+    const onLeftSwipe = props.actions.onDelete;
     const price = props.price;
     const description = props.description;
     return (
@@ -28,14 +34,8 @@ export const OfferListItem = (props: {
                 return (
                     <OpacitySwiperText
                         swipeThreshold={SWIPE_THRESHOLD}
-                        onSwipeRight={
-                            editPossible
-                                ? () => {
-                                      actions.onEdit();
-                                  }
-                                : actions.onReroll
-                        }
-                        onSwipeLeft={actions.onDelete}
+                        onSwipeRight={onRightSwipe}
+                        onSwipeLeft={onLeftSwipe}
                         onClick={actions.onShop}
                         title={title}
                         description={description}

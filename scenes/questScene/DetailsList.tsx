@@ -137,11 +137,9 @@ const ImpressionAccordion = (props: {
                 isUserMade={isUserMade}
                 noDrinkToAddLeft={impressionsFull}
                 actions={{
-                    onReroll: impressionsFull
-                        ? () => {}
-                        : () => {
-                              props.onReroll(impression.name);
-                          },
+                    onReroll: () => {
+                        props.onReroll(impression.name);
+                    },
                     onDelete: () => {
                         props.onDelete(text, impression.universe);
                     },
