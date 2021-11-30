@@ -2,13 +2,13 @@ import * as React from 'react';
 import { Text, View } from 'react-native';
 import { Button, Dialog, Portal } from 'react-native-paper';
 import { association, AssociationTypes } from '../../../classes/association';
-import { StructuredTavernFits } from '../../../classes/idea/StructuredTavernFits';
+import { FitPick } from '../../../classes/FitPick';
 import { ButtonState } from './getButtonStates';
 
 export const AssociationDialog = (props: {
     pickAssociationList: association[];
     startText: string;
-    onPick: (newFit: Partial<StructuredTavernFits>) => void;
+    onPick: (newFit: FitPick) => void;
     onLongPress: () => void;
     color: string;
     type: AssociationTypes;

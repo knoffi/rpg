@@ -9,7 +9,10 @@ import {
     UserMade,
 } from '../classes/contentCreator/ContentCreator';
 import { FantasyKeys } from '../classes/contentCreator/FantasKeys';
-import { StructuredTavernFits } from '../classes/idea/StructuredTavernFits';
+import {
+    getFitsFromStructure,
+    StructuredTavernFits,
+} from '../classes/idea/StructuredTavernFits';
 import { KeyHandler } from '../classes/keyHandler/KeyHandler';
 import { KeyChange } from '../classes/keyHandler/KeyHandlingTypes';
 import {
@@ -77,19 +80,28 @@ const DEFAULT_BANNERS: IBanners = {
     [WeServe.drinks]: DEFAULT_BANNER,
     [WeServe.impressions]: DEFAULT_BANNER,
 };
+const getPowerFitAdjustment = (
+    fitting: StructuredTavernFits
+): StructuredTavernFits => {
+    if (fitting.powerFit) {
+        return fitting;
+    } else {
+        const allFits = getFitsFromStructure(fitting);
+        const powerFitIsImplied = allFits.length === 1;
+        const powerFitChange: Pick<StructuredTavernFits, 'powerFit'> =
+            powerFitIsImplied ? { powerFit: allFits[0] } : {};
+        return { ...fitting, ...powerFitChange };
+    }
+};
 
 export const EditNavigator = (props: {
     onDataChange: (newData: Partial<MinimalTavernData>) => void;
     tavern: MinimalTavernData;
 }) => {
+    const impliedFitting = getPowerFitAdjustment(props.tavern.fitting);
     const creator = new ContentCreator(props.tavern.universe);
     const [contentLeft, setContentLeft] = useState(
-        testContentLeft(
-            DEFAULT_BANNERS,
-            props.tavern.fitting,
-            creator,
-            props.tavern
-        )
+        testContentLeft(DEFAULT_BANNERS, impliedFitting, creator, props.tavern)
     );
 
     const [tracker, setTracker] = useState({
@@ -158,7 +170,7 @@ export const EditNavigator = (props: {
             additionFilter
         );
         const rerolled = creator.rerollOneCreation(
-            props.tavern.fitting,
+            impliedFitting,
             name,
             request
         );
@@ -186,12 +198,9 @@ export const EditNavigator = (props: {
             mainFilter,
             additionFilter
         );
-        const creation = creator.addRandomCreation(
-            props.tavern.fitting,
-            request
-        );
+        const creation = creator.addRandomCreation(impliedFitting, request);
         const noNextCreation = creator.noNextCreationLeft(
-            props.tavern.fitting,
+            impliedFitting,
             creation
         );
         updateTracker(creation);
@@ -342,7 +351,7 @@ export const EditNavigator = (props: {
         setContentLeft(
             testContentLeft(
                 contentLeft.bannerData,
-                props.tavern.fitting,
+                impliedFitting,
                 newCreator,
                 props.tavern
             )
@@ -365,7 +374,8 @@ export const EditNavigator = (props: {
                 children={() => (
                     <NameScene
                         name={props.tavern.name}
-                        fitting={props.tavern.fitting}
+                        fitsForDisplay={props.tavern.fitting}
+                        fitsForReroll={impliedFitting}
                         handleNewName={handleNewName}
                         handleNewFits={handleNewFits}
                         setUniverse={setUniverse}
@@ -438,7 +448,6 @@ export const EditNavigator = (props: {
                 name="Notes"
                 children={() => (
                     <QuestScene
-                        fitting={props.tavern.fitting}
                         basePrice={props.tavern.prices}
                         impressions={props.tavern[WeServe.impressions]}
                         banner={contentLeft.bannerData[WeServe.impressions]}

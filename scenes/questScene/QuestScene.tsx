@@ -9,7 +9,6 @@ import {
 import { FantasyKeys } from '../../classes/contentCreator/FantasKeys';
 import { Database } from '../../classes/database/Database';
 import { Noticable } from '../../classes/idea/Noticable';
-import { StructuredTavernFits } from '../../classes/idea/StructuredTavernFits';
 import { ListOfSaves } from '../../components/ListOfSaves/ListOfSaves';
 import { WeServe } from '../../editNavigator/WeServe';
 import { Describable } from '../../mainNavigator/TavernData';
@@ -51,7 +50,6 @@ const START_EDIT: UserMadeImpression = {
 };
 
 export const QuestScene = (props: {
-    fitting: StructuredTavernFits;
     basePrice: BasePrice;
     impressions: Impression[];
     handleAdd: (add: Demand) => void;

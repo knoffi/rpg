@@ -597,7 +597,6 @@ export class ContentCreator {
         };
         return reroll;
     }
-
     private static getIdeas(universeKey: FantasyKeys, category: Describable) {
         const universe = ContentCreator.books.find(
             (book) => book.key === universeKey
