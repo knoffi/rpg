@@ -26,6 +26,9 @@ describe('ContentCreator tests', () => {
     const impressionRequest: CreationRequest = JSON.parse(
         JSON.stringify(Constants.impressionRequest)
     );
+    const rerollRequest: CreationRequest = JSON.parse(
+        JSON.stringify(Constants.rerollRequest)
+    );
     const creator = Constants.creator;
 
     it('construct', () => {
@@ -169,5 +172,35 @@ describe('ContentCreator tests', () => {
         const checkData: AddCheck = { ...impressionRequest, added: [] };
         const checkResult = creator.noNextCreationLeft(fitting, checkData);
         expect(checkResult).is.false;
+    });
+    it('reroll:', () => {
+        const fitting = {};
+        expect(rerollRequest).to.have.property('oldAssets').to.have.length(1);
+        const oldAsset = rerollRequest.oldAssets[0];
+        const nameForReroll = oldAsset.name;
+        expect(oldAsset).to.have.property('patterns').to.have.length(1);
+        const oldPattern = oldAsset.patterns[0];
+        expect(oldAsset)
+            .to.have.property('keys')
+            .to.have.property('main')
+            .to.have.length(1);
+        const oldMainKey = oldAsset.keys.main[0];
+        const reroll = creator.rerollOneCreation(
+            fitting,
+            nameForReroll,
+            rerollRequest
+        );
+        expect(reroll).to.have.property('isAbout').to.eql(WeServe.impressions);
+        expect(reroll).to.have.property('oneRerolled').to.have.length(1);
+        expect(reroll)
+            .to.have.property('oldKeys')
+            .to.have.property('main')
+            .eql([oldMainKey]);
+        expect(reroll).to.have.property('oldPatterns').to.eql([oldPattern]);
+        const newAsset = reroll.oneRerolled[0];
+        expect(newAsset)
+            .to.have.property('category')
+            .to.eql(rerollRequest.category);
+        expect(newAsset).to.have.property('name').to.not.eql(nameForReroll);
     });
 });

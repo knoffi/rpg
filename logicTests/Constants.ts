@@ -33,6 +33,17 @@ export class Constants {
         fullSecondKeys: [] as AssetKey[],
         oldAssets: [] as Impression[],
     } as const;
+    private static oldImpression: Impression = {
+        name: 'Is super duper kind',
+        category: Noticable.bartender,
+        keys: { main: [AssetKey.BARTENDER_charisma], addition: [] },
+        patterns: [Pattern.BARTENDER_UncleBen],
+        universe: FantasyKeys.unitTest,
+    };
+    public static rerollRequest = {
+        ...Constants.impressionRequest,
+        oldAssets: [Constants.oldImpression] as Impression[],
+    } as const;
     private static patterns = [Pattern.BARTENDER_Kleinfinger] as const;
     public static patternAdd = {
         isAbout: WeServe.impressions,
