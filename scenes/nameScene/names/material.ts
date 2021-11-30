@@ -85,7 +85,24 @@ export const materials: NameIdea[] = [
     ),
     new NameIdea(
         {
+            name: 'Blue',
+            misfits: moneyOrHonor,
+            worksForAllCriminals: true,
+        },
+        SUBSTANTIVES_FOR_GOLD
+    ),
+    new NameIdea(
+        {
             name: 'Purple',
+            misfits: [a.poor, a.modest],
+            worksForAllCriminals: true,
+        },
+        SUBSTANTIVES_FOR_GOLD
+    ),
+    new NameIdea(
+        {
+            name: 'Grey',
+            needs: [a.poor],
             worksForAllCriminals: true,
         },
         SUBSTANTIVES_FOR_GOLD
