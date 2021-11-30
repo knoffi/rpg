@@ -1,6 +1,7 @@
 import { association } from '../../../../classes/association';
 import { DishIdea } from '../../../../classes/idea/DishIdea';
 import { Drinkable } from '../../../../classes/TavernProduct';
+import { getBeerPrice } from './getBeerPrice';
 const a = association;
 export const lagers: DishIdea[] = [
     new DishIdea(
@@ -13,7 +14,40 @@ export const lagers: DishIdea[] = [
             },
             firstSideDishes: [{ name: 'Lager  -  fierce and malty' }],
         },
-        4,
+        getBeerPrice(),
+        Drinkable.beer
+    ),
+    new DishIdea(
+        {
+            mainIng: {
+                name: 'Root Beer',
+                landRange: [a.village, a.forest],
+                needsOne: [a.poor, a.druid],
+                incomeRange: [a.poor, a.modest],
+                powerFits: [a.poor, a.druid, a.forest],
+            },
+            firstSideDishes: [
+                {
+                    name: 'Lager  -  brown color, nutritious, slightly earthy taste',
+                },
+            ],
+        },
+        getBeerPrice(),
+        Drinkable.beer
+    ),
+    new DishIdea(
+        {
+            mainIng: {
+                name: 'Red Beet Beer',
+                landRange: [a.village, a.city],
+                incomeRange: [a.poor, a.modest],
+                powerFits: [a.poor, a.village],
+            },
+            firstSideDishes: [
+                { name: 'Lager  -  light red, nutrituous, slightly sweet' },
+            ],
+        },
+        getBeerPrice(),
         Drinkable.beer
     ),
     new DishIdea(
@@ -26,19 +60,19 @@ export const lagers: DishIdea[] = [
             },
             firstSideDishes: [{ name: 'Lager  -  green, malty and fruity' }],
         },
-        38,
+        getBeerPrice(),
         Drinkable.beer
     ),
     new DishIdea(
         {
-            mainIng: { name: "Aiven's Golden Malt", incomeRange: [a.rich] },
+            mainIng: { name: "Aiven's Golden Malt", needs: [a.rich] },
             firstSideDishes: [
                 {
                     name: 'Lager  -  very malty with a sweet note and golden foam',
                 },
             ],
         },
-        58,
+        getBeerPrice(0.9),
         Drinkable.beer
     ),
     new DishIdea(
@@ -46,13 +80,14 @@ export const lagers: DishIdea[] = [
             mainIng: {
                 name: 'Molderoy, Diamond Label',
                 misfits: [a.elf, a.drow, a.dwarf],
-                incomeRange: [a.rich],
+                needs: [a.rich],
+                powerFits: [a.rich],
             },
             firstSideDishes: [
                 { name: 'Lager  -  the best lager beer brewed by humans' },
             ],
         },
-        140,
+        getBeerPrice(2.4),
         Drinkable.beer
     ),
     new DishIdea(
@@ -60,7 +95,8 @@ export const lagers: DishIdea[] = [
             mainIng: {
                 name: 'Molderoy, Platinum Label',
                 misfits: [a.elf, a.drow, a.dwarf],
-                incomeRange: [a.rich],
+                needs: [a.rich],
+                powerFits: [a.rich],
             },
             firstSideDishes: [
                 {
@@ -68,15 +104,15 @@ export const lagers: DishIdea[] = [
                 },
             ],
         },
-        100,
+        getBeerPrice(1.8),
         Drinkable.beer
     ),
     new DishIdea(
         {
             mainIng: {
                 name: 'Molderoy, Gold Label',
-                misfits: [a.elf, a.drow, a.dwarf],
-                incomeRange: [a.rich],
+                misfits: [a.drow, a.dwarf],
+                needs: [a.rich],
             },
             firstSideDishes: [
                 {
@@ -84,15 +120,15 @@ export const lagers: DishIdea[] = [
                 },
             ],
         },
-        85,
+        getBeerPrice(1.4),
         Drinkable.beer
     ),
     new DishIdea(
         {
             mainIng: {
                 name: 'Molderoy, Silver Label',
-                misfits: [a.elf, a.drow, a.dwarf],
-                incomeRange: [a.rich],
+                misfits: [a.drow, a.dwarf],
+                needs: [a.rich],
             },
             firstSideDishes: [
                 {
@@ -100,14 +136,14 @@ export const lagers: DishIdea[] = [
                 },
             ],
         },
-        70,
+        getBeerPrice(),
         Drinkable.beer
     ),
     new DishIdea(
         {
             mainIng: {
                 name: 'Molderoy, Copper Label',
-                misfits: [a.elf, a.drow, a.dwarf],
+                misfits: [a.drow, a.dwarf],
                 incomeRange: [a.wealthy],
             },
             firstSideDishes: [
@@ -116,29 +152,31 @@ export const lagers: DishIdea[] = [
                 },
             ],
         },
-        40,
+        getBeerPrice(1.3),
         Drinkable.beer
     ),
     new DishIdea(
         {
             mainIng: {
                 name: 'Molderoy, Emerald Label',
-                incomeRange: [a.rich],
+                needs: [a.rich],
                 raceRange: [a.elf],
+                powerFits: [a.elf],
             },
             firstSideDishes: [
                 { name: 'Lager  -  soft maltyness and mild notes of grapes' },
             ],
         },
-        70,
+        getBeerPrice(1.2),
         Drinkable.beer
     ),
     new DishIdea(
         {
             mainIng: {
                 name: "Sir Weatherstone's Loveliest",
-                incomeRange: [a.rich],
+                needs: [a.rich],
                 raceRange: [a.elf],
+                powerFits: [a.elf],
             },
             firstSideDishes: [
                 {
@@ -146,43 +184,46 @@ export const lagers: DishIdea[] = [
                 },
             ],
         },
-        70,
+        getBeerPrice(),
         Drinkable.beer
     ),
     new DishIdea(
         {
             mainIng: {
                 name: "Sir Weatherstone's Mildest",
-                incomeRange: [a.rich],
+                needs: [a.rich],
                 raceRange: [a.gnome, a.human, a.halfling],
+                powerFits: [a.gnome, a.human, a.halfling],
             },
             firstSideDishes: [
                 { name: 'Lager  -  embracing maltnyess with a fruity aroma' },
             ],
         },
-        80,
+        getBeerPrice(),
         Drinkable.beer
     ),
     new DishIdea(
         {
             mainIng: {
                 name: "Sir Weatherstone's Finest",
-                incomeRange: [a.rich],
+                needs: [a.rich],
                 raceRange: [a.gnome, a.human, a.halfling],
+                powerFits: [a.gnome, a.human, a.halfling],
             },
             firstSideDishes: [
                 { name: 'Lager  -  exquisite maltyness with a crisp finish' },
             ],
         },
-        100,
+        getBeerPrice(),
         Drinkable.beer
     ),
     new DishIdea(
         {
             mainIng: {
                 name: "Sir Weatherstone's Highest",
-                incomeRange: [a.rich],
+                needs: [a.rich],
                 raceRange: [a.gnome, a.human, a.halfling],
+                powerFits: [a.gnome, a.human, a.halfling],
             },
             firstSideDishes: [
                 {
@@ -190,14 +231,14 @@ export const lagers: DishIdea[] = [
                 },
             ],
         },
-        125,
+        getBeerPrice(),
         Drinkable.beer
     ),
     new DishIdea(
         {
             mainIng: {
                 name: 'Molthorium Pilsner',
-                incomeRange: [a.rich],
+                needs: [a.rich],
                 misfits: [a.drow, a.elf],
                 needsOne: [a.city, a.dwarf, a.mountain, a.underdark, a.haven],
             },
@@ -207,7 +248,7 @@ export const lagers: DishIdea[] = [
                 },
             ],
         },
-        100,
+        getBeerPrice(1.3),
         Drinkable.beer
     ),
     new DishIdea(
@@ -215,7 +256,7 @@ export const lagers: DishIdea[] = [
             mainIng: {
                 name: 'Molthorium Bock Beer',
                 misfits: [a.elf, a.drow],
-                incomeRange: [a.rich],
+                needs: [a.rich],
                 needsOne: [a.city, a.dwarf, a.mountain, a.underdark, a.haven],
             },
             firstSideDishes: [
@@ -224,14 +265,14 @@ export const lagers: DishIdea[] = [
                 },
             ],
         },
-        100,
+        getBeerPrice(1.4),
         Drinkable.beer
     ),
     new DishIdea(
         {
             mainIng: {
                 name: 'Molthorium Pale Lager',
-                incomeRange: [a.rich],
+                needs: [a.rich],
                 misfits: [a.elf, a.drow],
                 needsOne: [a.city, a.dwarf, a.mountain, a.underdark, a.haven],
             },
@@ -241,14 +282,14 @@ export const lagers: DishIdea[] = [
                 },
             ],
         },
-        100,
+        getBeerPrice(1.2),
         Drinkable.beer
     ),
     new DishIdea(
         {
             mainIng: {
                 name: 'Molthorium Zwickel Beer',
-                incomeRange: [a.rich],
+                needs: [a.rich],
                 misfits: [a.elf, a.drow],
                 needsOne: [a.city, a.dwarf, a.mountain, a.underdark, a.haven],
             },
@@ -258,7 +299,7 @@ export const lagers: DishIdea[] = [
                 },
             ],
         },
-        100,
+        getBeerPrice(),
         Drinkable.beer
     ),
     new DishIdea(
@@ -275,7 +316,7 @@ export const lagers: DishIdea[] = [
                 },
             ],
         },
-        80,
+        getBeerPrice(),
         Drinkable.beer
     ),
     new DishIdea(
@@ -291,7 +332,7 @@ export const lagers: DishIdea[] = [
                 },
             ],
         },
-        22,
+        getBeerPrice(),
         Drinkable.beer
     ),
     new DishIdea(
@@ -307,7 +348,7 @@ export const lagers: DishIdea[] = [
                 },
             ],
         },
-        21,
+        getBeerPrice(),
         Drinkable.beer
     ),
     new DishIdea(
@@ -323,7 +364,7 @@ export const lagers: DishIdea[] = [
                 },
             ],
         },
-        23,
+        getBeerPrice(),
         Drinkable.beer
     ),
     new DishIdea(
@@ -339,7 +380,7 @@ export const lagers: DishIdea[] = [
                 },
             ],
         },
-        23,
+        getBeerPrice(1.5),
         Drinkable.beer
     ),
     new DishIdea(
@@ -357,7 +398,7 @@ export const lagers: DishIdea[] = [
                 },
             ],
         },
-        29,
+        getBeerPrice(),
         Drinkable.beer
     ),
     new DishIdea(
@@ -375,7 +416,7 @@ export const lagers: DishIdea[] = [
                 },
             ],
         },
-        29,
+        getBeerPrice(),
         Drinkable.beer
     ),
     new DishIdea(
@@ -393,7 +434,7 @@ export const lagers: DishIdea[] = [
                 },
             ],
         },
-        29,
+        getBeerPrice(),
         Drinkable.beer
     ),
     new DishIdea(
@@ -411,7 +452,7 @@ export const lagers: DishIdea[] = [
                 },
             ],
         },
-        29,
+        getBeerPrice(),
         Drinkable.beer
     ),
     new DishIdea(
@@ -429,7 +470,7 @@ export const lagers: DishIdea[] = [
                 },
             ],
         },
-        29,
+        getBeerPrice(),
         Drinkable.beer
     ),
     new DishIdea(
@@ -447,7 +488,7 @@ export const lagers: DishIdea[] = [
                 },
             ],
         },
-        29,
+        getBeerPrice(),
         Drinkable.beer
     ),
     new DishIdea(
@@ -465,7 +506,7 @@ export const lagers: DishIdea[] = [
                 },
             ],
         },
-        29,
+        getBeerPrice(),
         Drinkable.beer
     ),
 ];

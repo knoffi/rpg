@@ -1,6 +1,7 @@
 import { association } from '../../../../classes/association';
 import { DishIdea } from '../../../../classes/idea/DishIdea';
 import { Drinkable } from '../../../../classes/TavernProduct';
+import { getBeerPrice } from './getBeerPrice';
 const a = association;
 export const ales: DishIdea[] = [
     new DishIdea(
@@ -8,7 +9,7 @@ export const ales: DishIdea[] = [
             mainIng: { name: 'Ale for Sale', needs: [a.poor, a.haven] },
             firstSideDishes: [{ name: 'Ale  -  harsh and bitter' }],
         },
-        1,
+        getBeerPrice(0.3),
         Drinkable.beer
     ),
     new DishIdea(
@@ -21,7 +22,7 @@ export const ales: DishIdea[] = [
             },
             firstSideDishes: [{ name: 'Ale  -  dark and roasty taste' }],
         },
-        16,
+        getBeerPrice(0.6),
         Drinkable.beer
     ),
     new DishIdea(
@@ -33,7 +34,7 @@ export const ales: DishIdea[] = [
             },
             firstSideDishes: [{ name: 'Ale  -  hoppy and bitter' }],
         },
-        14,
+        getBeerPrice(),
         Drinkable.beer
     ),
     new DishIdea(
@@ -47,7 +48,7 @@ export const ales: DishIdea[] = [
                 { name: 'Ale  -  full bodied, malty and refreshing' },
             ],
         },
-        35,
+        getBeerPrice(),
         Drinkable.beer
     ),
     new DishIdea(
@@ -64,22 +65,22 @@ export const ales: DishIdea[] = [
                 },
             ],
         },
-        100,
+        getBeerPrice(1.3),
         Drinkable.beer
     ),
     new DishIdea(
         {
             mainIng: {
                 name: 'Spidermothers Midnight Ale',
-                needsOne: [a.underdark, a.drow, a.assasine],
+                needsOne: [a.underdark, a.drow, a.thief],
                 incomeRange: [a.wealthy, a.rich],
-                misfits: [a.elf, a.dwarf, a.gnome],
+                raceRange: [a.drow],
             },
             firstSideDishes: [
                 { name: 'Ale  -   black in color and delicately bitter' },
             ],
         },
-        85,
+        getBeerPrice(1.1),
         Drinkable.beer
     ),
     new DishIdea(
@@ -93,46 +94,45 @@ export const ales: DishIdea[] = [
                 { name: 'Ale  -   dark red and notes of cherry' },
             ],
         },
-        18,
+        getBeerPrice(),
         Drinkable.beer
     ),
     new DishIdea(
         {
             mainIng: {
                 name: 'Ivory Ale',
-                needsOne: [a.elf, a.haven],
+                needs: [a.elf],
+                landRange: [a.haven],
                 incomeRange: [a.modest, a.poor],
-                misfits: [a.dwarf, a.drow],
+                powerFits: [a.haven, a.elf],
             },
             firstSideDishes: [{ name: 'Ale  -   slightly yellow and fruity' }],
         },
-        14,
+        getBeerPrice(),
         Drinkable.beer
     ),
     new DishIdea(
         {
             mainIng: {
                 name: "Aredhel's Almond Ale",
-                needs: [a.elf, a.city],
+                needs: [a.elf],
                 incomeRange: [a.wealthy],
-                misfits: [a.dwarf, a.drow],
             },
             firstSideDishes: [{ name: 'Ale  -   light brown and nutty' }],
         },
-        38,
+        getBeerPrice(1.2),
         Drinkable.beer
     ),
     new DishIdea(
         {
             mainIng: {
                 name: "Aredhel's Maple Ale",
-                needs: [a.elf, a.city],
+                needs: [a.elf],
                 incomeRange: [a.wealthy, a.rich],
-                misfits: [a.dwarf, a.drow],
             },
             firstSideDishes: [{ name: 'Ale  -   malty, light and sweet' }],
         },
-        58,
+        getBeerPrice(1.2),
         Drinkable.beer
     ),
     new DishIdea(
@@ -147,7 +147,7 @@ export const ales: DishIdea[] = [
                 { name: 'Ale  -   sturdy malt with a sweet accent' },
             ],
         },
-        23,
+        getBeerPrice(1.3),
         Drinkable.beer
     ),
     new DishIdea(
@@ -162,7 +162,7 @@ export const ales: DishIdea[] = [
                 { name: 'Ale  -   sturdy malt with a nutty accent' },
             ],
         },
-        24,
+        getBeerPrice(1.3),
         Drinkable.beer
     ),
 ];
