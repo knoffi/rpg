@@ -38,7 +38,6 @@ export enum AssociationTypes {
     income = 'income',
     special = 'special',
 }
-
 export const getAssociationsOfType = (type: AssociationTypes) => {
     switch (type) {
         case AssociationTypes.class:
