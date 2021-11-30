@@ -1,30 +1,31 @@
 import { association } from '../../../../classes/association';
 import { DishIdea } from '../../../../classes/idea/DishIdea';
 import { Drinkable } from '../../../../classes/TavernProduct';
+import { getBeerPrice } from './getBeerPrice';
 const a = association;
 export const porters: DishIdea[] = [
     new DishIdea(
         {
             mainIng: {
                 name: 'Black-Bearded Brew',
-                incomeRange: [a.poor],
+                needs: [a.poor],
                 landRange: [a.haven, a.city],
             },
             firstSideDishes: [{ name: 'Stout  -  black, roasty, bitter' }],
         },
-        5,
+        getBeerPrice(0.9),
         Drinkable.beer
     ),
     new DishIdea(
         {
             mainIng: {
                 name: "Stanley's Last",
-                incomeRange: [a.poor],
+                needs: [a.poor],
                 landRange: [a.haven, a.city],
             },
             firstSideDishes: [{ name: 'Stout  -  black, sturdy, bitter' }],
         },
-        2,
+        getBeerPrice(0.5),
         Drinkable.beer
     ),
     new DishIdea(
@@ -38,7 +39,7 @@ export const porters: DishIdea[] = [
                 { name: 'Stout  -  dark, slightly bitter, roasty note' },
             ],
         },
-        18,
+        getBeerPrice(),
         Drinkable.beer
     ),
     new DishIdea(
@@ -53,7 +54,7 @@ export const porters: DishIdea[] = [
                 { name: 'Porter  -  dark, fruity, slightly bitter' },
             ],
         },
-        12,
+        getBeerPrice(0.9),
         Drinkable.beer
     ),
     new DishIdea(
@@ -70,7 +71,7 @@ export const porters: DishIdea[] = [
                 },
             ],
         },
-        80,
+        getBeerPrice(),
         Drinkable.beer
     ),
     new DishIdea(
@@ -87,7 +88,7 @@ export const porters: DishIdea[] = [
                 },
             ],
         },
-        89,
+        getBeerPrice(1.2),
         Drinkable.beer
     ),
     new DishIdea(
@@ -100,7 +101,7 @@ export const porters: DishIdea[] = [
             },
             firstSideDishes: [{ name: 'Porter  -  dark brown, malty, nutty' }],
         },
-        29,
+        getBeerPrice(),
         Drinkable.beer
     ),
 ];
