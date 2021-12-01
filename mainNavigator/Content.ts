@@ -1,5 +1,5 @@
-import { DeepReadonly } from 'ts-essentials';
 import { WeServe } from '../editNavigator/WeServe';
+import { DeepReadonly } from '../logicTests/Cloner';
 import { Offer } from '../scenes/menuScene/Offer';
 import { Impression } from '../scenes/questScene/impressions/Impression';
 import { MinimalTavernData } from './TavernData';

@@ -1,5 +1,5 @@
-import { DeepReadonly } from 'ts-essentials';
 import { WeServe } from '../../editNavigator/WeServe';
+import { DeepReadonly } from '../../logicTests/Cloner';
 import {
     Content,
     DeeplyReadonlyContent,

@@ -3,9 +3,6 @@ import { KeyHandler } from '../classes/keyHandler/KeyHandler';
 import { WeServe } from '../editNavigator/WeServe';
 import { Constants } from './Constants';
 describe('KeyHandler tests', () => {
-    const ADD = Constants.keyAdd;
-    const DELETE = Constants.keyDelete;
-
     it('construct by default', () => {
         const keys = new KeyHandler('noPreviousContent');
         expect(keys.getFullKeys(WeServe.impressions))
@@ -14,7 +11,7 @@ describe('KeyHandler tests', () => {
             .to.equal(0);
     });
     it('construct from content', () => {
-        const content = Constants.content;
+        const content = Constants.content();
         const keys = new KeyHandler(content);
         expect(keys.getFullKeys(WeServe.impressions))
             .to.have.property('main')
@@ -30,6 +27,7 @@ describe('KeyHandler tests', () => {
             .to.equal(0);
     });
     it('add', () => {
+        const ADD = Constants.keyAdd();
         const keys = new KeyHandler('noPreviousContent');
         keys.update(ADD);
 
@@ -45,6 +43,7 @@ describe('KeyHandler tests', () => {
             .empty;
     });
     it('add twice', () => {
+        const ADD = Constants.keyAdd();
         const keys = new KeyHandler('noPreviousContent');
         keys.update(ADD);
         keys.update(ADD);
@@ -60,6 +59,8 @@ describe('KeyHandler tests', () => {
             .empty;
     });
     it('delete after double add', () => {
+        const ADD = Constants.keyAdd();
+        const DELETE = Constants.keyDelete();
         const keys = new KeyHandler('noPreviousContent');
         keys.update(ADD);
         keys.update(ADD);
@@ -76,6 +77,8 @@ describe('KeyHandler tests', () => {
             .empty;
     });
     it('delete', () => {
+        const ADD = Constants.keyAdd();
+        const DELETE = Constants.keyDelete();
         const keys = new KeyHandler('noPreviousContent');
         keys.update(ADD);
         keys.update(DELETE);
@@ -91,6 +94,8 @@ describe('KeyHandler tests', () => {
             .empty;
     });
     it('delete twice after one add', () => {
+        const ADD = Constants.keyAdd();
+        const DELETE = Constants.keyAdd();
         const keys = new KeyHandler('noPreviousContent');
         keys.update(ADD);
         keys.update(DELETE);

@@ -33,8 +33,7 @@
     "react-native-swipe-gestures": "^1.0.5",
     "react-native-vector-icons": "^7.1.0",
     "react-native-web": "~0.13.12",
-    "react-redux": "^7.2.2",
-    "ts-essentials": "^8.1.0"
+    "react-redux": "^7.2.2"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",

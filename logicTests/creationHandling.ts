@@ -16,20 +16,7 @@ import { Impression } from '../scenes/questScene/impressions/Impression';
 import { Constants } from './Constants';
 
 describe('ContentCreator tests', () => {
-    //TODO: use own deep cloner in abstracted "Constants" class, then Constants.get("food_request") to get mutable clone
-    const foodRequest: CreationRequest = JSON.parse(
-        JSON.stringify(Constants.foodRequest)
-    );
-    const drinkRequest: CreationRequest = JSON.parse(
-        JSON.stringify(Constants.drinkRequest)
-    );
-    const impressionRequest: CreationRequest = JSON.parse(
-        JSON.stringify(Constants.impressionRequest)
-    );
-    const rerollRequest: CreationRequest = JSON.parse(
-        JSON.stringify(Constants.rerollRequest)
-    );
-    const creator = Constants.creator;
+    const creator = Constants.creator();
 
     it('construct', () => {
         expect(creator).not.to.be.undefined;
@@ -39,6 +26,7 @@ describe('ContentCreator tests', () => {
         expect(name).to.equal(FantasyKeys.unitTest);
     });
     it('add by income', () => {
+        const foodRequest = Constants.foodRequest();
         const rich: StructuredTavernFits = { income: association.rich };
         const creation = creator.addRandomCreation(rich, foodRequest);
 
@@ -49,15 +37,16 @@ describe('ContentCreator tests', () => {
         expect(creation.added[0]).has.property('name').to.contain('Steak');
     });
     it('add multiple', () => {
+        const request = Constants.foodRequest();
         const empty: StructuredTavernFits = {};
-        const firstCreation = creator.addRandomCreation(empty, foodRequest);
+        const firstCreation = creator.addRandomCreation(empty, request);
         const secondRequest = {
-            ...foodRequest,
+            ...request,
             oldAssets: firstCreation.added,
         } as CreationRequest;
         const secondCreation = creator.addRandomCreation(empty, secondRequest);
         const thirdRequest = {
-            ...foodRequest,
+            ...request,
             oldAssets: secondCreation.added,
         } as CreationRequest;
         const thirdCreation = creator.addRandomCreation(empty, thirdRequest);
@@ -74,8 +63,9 @@ describe('ContentCreator tests', () => {
         ]);
     });
     it('add with key', () => {
+        const request = Constants.drinkRequest();
         const empty: StructuredTavernFits = {};
-        const creation = creator.addRandomCreation(empty, drinkRequest);
+        const creation = creator.addRandomCreation(empty, request);
         const names = (creation.added as Offer[]).map((offer) => offer.name);
         expect(creation)
             .to.have.property('newKeys')
@@ -84,6 +74,7 @@ describe('ContentCreator tests', () => {
         expect(names).to.eql(['Gourmonete']);
     });
     it('add with pattern', () => {
+        const impressionRequest = Constants.impressionRequest();
         const empty: StructuredTavernFits = {};
         const creation = creator.addRandomCreation(empty, impressionRequest);
         expect(creation)
@@ -91,8 +82,9 @@ describe('ContentCreator tests', () => {
             .to.deep.include(Pattern.BARTENDER_UncleBen);
     });
     it('delete', () => {
+        const request = Constants.drinkRequest();
         const empty: StructuredTavernFits = {};
-        const creation = creator.addRandomCreation(empty, drinkRequest);
+        const creation = creator.addRandomCreation(empty, request);
         const createdOffers = creation.added as Offer[];
         expect(createdOffers).has.property('length').is.equal(1);
 
@@ -109,8 +101,9 @@ describe('ContentCreator tests', () => {
         expect(reducedMenu).to.have.property(WeServe.drinks).to.eql([]);
     });
     it('delete with key', () => {
+        const request = Constants.drinkRequest();
         const empty: StructuredTavernFits = {};
-        const creation = creator.addRandomCreation(empty, drinkRequest);
+        const creation = creator.addRandomCreation(empty, request);
         const createdOffers = creation.added as Offer[];
 
         expect(createdOffers).has.property('length').is.equal(1);
@@ -133,8 +126,9 @@ describe('ContentCreator tests', () => {
         expect(reducedMenu).to.have.property('oldKeys').to.eql(addedKeys);
     });
     it('delete with pattern', () => {
+        const request = Constants.impressionRequest();
         const empty: StructuredTavernFits = {};
-        const creation = creator.addRandomCreation(empty, impressionRequest);
+        const creation = creator.addRandomCreation(empty, request);
         const createdNotes = creation.added as Impression[];
 
         expect(createdNotes).has.property('length').is.equal(1);
@@ -168,15 +162,17 @@ describe('ContentCreator tests', () => {
         expect(checkResult).is.true;
     });
     it('nothing left: false', () => {
+        const request = Constants.impressionRequest();
         const fitting = {};
-        const checkData: AddCheck = { ...impressionRequest, added: [] };
+        const checkData: AddCheck = { ...request, added: [] };
         const checkResult = creator.noNextCreationLeft(fitting, checkData);
         expect(checkResult).is.false;
     });
     it('reroll:', () => {
+        const request = Constants.rerollRequest();
         const fitting = {};
-        expect(rerollRequest).to.have.property('oldAssets').to.have.length(1);
-        const oldAsset = rerollRequest.oldAssets[0];
+        expect(request).to.have.property('oldAssets').to.have.length(1);
+        const oldAsset = request.oldAssets[0];
         const nameForReroll = oldAsset.name;
         expect(oldAsset).to.have.property('patterns').to.have.length(1);
         const oldPattern = oldAsset.patterns[0];
@@ -188,7 +184,7 @@ describe('ContentCreator tests', () => {
         const reroll = creator.rerollOneCreation(
             fitting,
             nameForReroll,
-            rerollRequest
+            request
         );
         expect(reroll).to.have.property('isAbout').to.eql(WeServe.impressions);
         expect(reroll).to.have.property('oneRerolled').to.have.length(1);
@@ -198,9 +194,7 @@ describe('ContentCreator tests', () => {
             .eql([oldMainKey]);
         expect(reroll).to.have.property('oldPatterns').to.eql([oldPattern]);
         const newAsset = reroll.oneRerolled[0];
-        expect(newAsset)
-            .to.have.property('category')
-            .to.eql(rerollRequest.category);
+        expect(newAsset).to.have.property('category').to.eql(request.category);
         expect(newAsset).to.have.property('name').to.not.eql(nameForReroll);
     });
 });
