@@ -66,8 +66,8 @@ export class ContentCreator {
                     ),
                 };
             },
-            {} as DungeonMaster
-        );
+            {}
+        ) as DungeonMaster;
         this.universe = universe;
     }
 
