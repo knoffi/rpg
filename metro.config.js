@@ -2,7 +2,7 @@ module.exports = {
     /* general options */
   
     resolver: {
-        blockList:/logicTests/g
+        /*blockList:/logicTests/g,*/
     },
     transformer: {
       /* transformer options */
