@@ -95,7 +95,7 @@ describe('KeyHandler tests', () => {
     });
     it('delete twice after one add', () => {
         const ADD = Constants.keyAdd();
-        const DELETE = Constants.keyAdd();
+        const DELETE = Constants.keyDelete();
         const keys = new KeyHandler('noPreviousContent');
         keys.update(ADD);
         keys.update(DELETE);
