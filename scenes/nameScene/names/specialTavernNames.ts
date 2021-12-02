@@ -87,6 +87,8 @@ export const specialNames: NameIdea[] = [
     new NameIdea({
         name: 'Aliba Bar',
         needsOne: [a.adventurer, a.desert],
+        landRange: [a.desert],
+        classRange: [a.adventurer, a.bard],
         powerFits: [a.adventurer, a.desert],
         probability: VERY_SPECIAL_NAME_PROB,
     }),
@@ -344,6 +346,8 @@ export const specialNames: NameIdea[] = [
     new NameIdea({
         name: 'Wondrous Lamp',
         needsOne: [a.desert, a.adventurer],
+        landRange: [a.desert],
+        classRange: [a.bard, a.adventurer],
         powerFits: [a.desert, a.adventurer],
     }),
     new NameIdea({
@@ -364,6 +368,13 @@ export const specialNames: NameIdea[] = [
     new NameIdea({
         name: 'Purple Turban',
         needsOne: [a.desert],
+        misfits: [a.poor],
+        powerFits: [a.desert],
+    }),
+    new NameIdea({
+        name: 'Grey Turban',
+        needsOne: [a.desert],
+        needs: [a.poor],
         powerFits: [a.desert],
     }),
     new NameIdea({
