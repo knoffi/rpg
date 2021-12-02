@@ -75,6 +75,35 @@ export const bartenderAccesories: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
+            name: 'Battle scar ',
+            key: AssetKey.BARTENDER_accessoires,
+            needsOne: [a.knight, a.soldier, a.assasine, a.barbarian],
+            worksForBrothel: true,
+            worksForThiefs: true,
+        },
+        [
+            { name: 'on his left eye' },
+            { name: 'on his right eye' },
+            { name: 'on his right cheek' },
+            { name: 'on his left cheek' },
+            { name: 'on his neck' },
+        ],
+        Noticable.bartender
+    ),
+    new ImpressionIdea(
+        {
+            name: 'Smallpox scars on his face',
+            key: AssetKey.BARTENDER_accessoires,
+            needsOne: [a.poor, a.thief, a.prostitute],
+            incomeRange: [a.poor, a.modest],
+            worksForBrothel: true,
+            worksForThiefs: true,
+        },
+        [],
+        Noticable.bartender
+    ),
+    new ImpressionIdea(
+        {
             name: 'Misses his ',
             needsOne: [
                 a.barbarian,
@@ -104,24 +133,30 @@ export const bartenderAccesories: ImpressionIdea[] = [
             {
                 name: 'left ear',
                 misfits: [a.haven],
+                worksForAllCriminals: true,
+                powerFits: [a.barbarian, a.soldier, a.thief],
             },
             {
                 name: 'left thumb',
                 misfits: [a.haven],
+                powerFits: [a.barbarian, a.soldier, a.knight],
             },
             {
                 name: 'left arm',
                 misfits: [a.haven],
+                powerFits: [a.barbarian, a.soldier, a.knight],
             },
             {
                 name: 'left eye',
                 powerFits: [a.haven, a.soldier, a.thief, a.barbarian],
                 needsOne: [a.haven, a.soldier, a.barbarian],
+                worksForAllCriminals: true,
             },
             {
                 name: 'right leg',
                 powerFits: [a.haven, a.soldier, a.thief],
                 needsOne: [a.haven, a.soldier],
+                worksForAllCriminals: true,
             },
             {
                 name: 'right hand',
@@ -132,18 +167,22 @@ export const bartenderAccesories: ImpressionIdea[] = [
             {
                 name: 'right ear',
                 misfits: [a.haven],
+                powerFits: [a.barbarian, a.soldier, a.thief],
             },
             {
                 name: 'right thumb',
+                powerFits: [a.barbarian, a.knight, a.soldier],
                 misfits: [a.haven],
             },
             {
                 name: 'right eye',
                 powerFits: [a.haven, a.soldier, a.thief, a.barbarian],
                 needsOne: [a.haven, a.soldier, a.barbarian],
+                worksForAllCriminals: true,
             },
             {
                 name: 'right arm',
+                powerFits: [a.barbarian, a.knight, a.soldier, a.assasine],
                 misfits: [a.haven],
             },
         ],
@@ -204,6 +243,29 @@ export const bartenderAccesories: ImpressionIdea[] = [
                 worksForAllCriminals: true,
             },
             {
+                name: 'Black Spider',
+                needs: [a.drow],
+                worksForAllCriminals: true,
+            },
+            {
+                name: 'Silver Spider',
+                needs: [a.drow],
+                incomeRange: [a.wealthy, a.rich],
+                worksForAllCriminals: true,
+            },
+            {
+                name: 'Green Spider',
+                needs: [a.drow],
+                misfits: [a.rich],
+                worksForAllCriminals: true,
+            },
+            {
+                name: 'Frog',
+                needsOne: [a.druid, a.wizard],
+                landRange: [a.forest, a.village, a.city],
+                worksForAllCriminals: true,
+            },
+            {
                 name: 'Sparrow',
                 needsOne: [a.druid, a.village, a.forest, a.adventurer, a.thief],
                 landRange: [a.village, a.forest, a.city, a.mountain],
@@ -255,6 +317,22 @@ export const bartenderAccesories: ImpressionIdea[] = [
         undefined,
         true,
         defaultPowerFitConcepts.harmony
+    ),
+    new ImpressionIdea(
+        {
+            name: 'A religious symbol tattooed on his neck',
+            powerFits: [a.knight, a.cleric],
+        },
+        [],
+        Noticable.bartender
+    ),
+    new ImpressionIdea(
+        {
+            name: 'A religious amulet around his neck',
+            powerFits: [a.knight, a.cleric],
+        },
+        [],
+        Noticable.bartender
     ),
     new ImpressionIdea(
         {

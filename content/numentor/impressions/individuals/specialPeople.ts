@@ -76,15 +76,12 @@ export const specialIndividuals: ImpressionIdea[] = [
         defaultPowerFitConcepts.nothing
     ),
     new ImpressionIdea(
-        { name: 'Police monitors guests', key: AssetKey.plotTwist },
-        [emptyDescriptionAsset],
-        Noticable.someCustomers,
-        undefined,
-        undefined,
-        defaultPowerFitConcepts.nothing
-    ),
-    new ImpressionIdea(
-        { name: 'Guards monitor guests', worksForBrothel: true },
+        {
+            name: 'Some city guards monitor the guests',
+            key: AssetKey.plotTwist,
+            needs: [a.city],
+            misfits: [a.rich, a.wealthy],
+        },
         [emptyDescriptionAsset],
         Noticable.someCustomers,
         undefined,
@@ -93,8 +90,23 @@ export const specialIndividuals: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            name: 'Guards in front of VIP-lounge',
+            name: 'A security guard monitors the guests',
+            key: AssetKey.plotTwist,
+            worksForBrothel: true,
+            misfits: [a.rich, a.wealthy],
+            needsOne: [a.prostitute, a.thief],
+        },
+        [emptyDescriptionAsset],
+        Noticable.someCustomers,
+        undefined,
+        undefined,
+        defaultPowerFitConcepts.nothing
+    ),
+    new ImpressionIdea(
+        {
+            name: 'Guards in front of a VIP-lounge',
             needsOne: [a.assasine, a.thief, a.prostitute, a.rich],
+            key: AssetKey.plotTwist,
             worksForAllCriminals: true,
         },
         [emptyDescriptionAsset],
@@ -115,8 +127,9 @@ export const specialIndividuals: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            name: 'A rich-looking person is crying at the bar',
-            needsOne: [a.poor, a.rich, a.adventurer, a.knight, a.city, a.haven],
+            name: 'A rich-looking person is silently crying at the bar',
+            needsOne: [a.poor, a.rich, a.adventurer, a.city, a.haven],
+            key: AssetKey.plotTwist,
             worksForBrothel: true,
             powerFits: [a.rich, a.adventurer, a.poor],
         },
@@ -125,7 +138,7 @@ export const specialIndividuals: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            name: 'An old man is crying at the bar',
+            name: 'An old man is silently crying at the bar',
             needsOne: [a.modest, a.village],
             worksForAssasines: true,
             powerFits: [a.village, a.modest],
@@ -135,7 +148,7 @@ export const specialIndividuals: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            name: 'A young lady is crying at her table',
+            name: 'A young lady is silently crying at her table',
             misfits: [a.rich, a.wealthy],
             worksForBrothel: true,
             powerFits: [a.village, a.poor],

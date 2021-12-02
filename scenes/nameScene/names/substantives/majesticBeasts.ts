@@ -98,7 +98,6 @@ export const majesticBeasts: DescriptionAsset[] = [
         misfits: [a.underdark, a.haven],
         classRange: [a.adventurer, a.wizard, a.bard],
         powerFits: [a.mountain, a.forest, a.wizard, a.bard],
-        worksForAssasines: true,
         worksForThiefs: true,
     },
     {
@@ -108,8 +107,9 @@ export const majesticBeasts: DescriptionAsset[] = [
     },
     {
         name: 'Tiger',
-        needsOne: [a.tropical, a.city, a.barbarian],
-        powerFits: [a.tropical, a.druid],
+        landRange: [a.tropical, a.haven, a.city],
+        powerFits: [a.tropical, a.druid, a.barbarian],
+        worksForAssasines: true,
     },
     {
         name: 'Pheasant',

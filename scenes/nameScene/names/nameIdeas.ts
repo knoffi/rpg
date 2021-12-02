@@ -387,6 +387,14 @@ const characteristics = [
     ),
     new NameIdea(
         {
+            name: 'Growling',
+            worksForAssasines: true,
+            needsOne: [a.barbarian, a.soldier, a.knight, a.adventurer],
+        },
+        [...substantives.evilHumanoids, ...substantives.majesticBeasts]
+    ),
+    new NameIdea(
+        {
             name: 'Vigilant',
             needsOne: [a.soldier, a.knight, a.adventurer],
             misfits: [a.rich],
