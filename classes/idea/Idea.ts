@@ -8,8 +8,8 @@ import {
 } from './fitCalculator/getFitLevel';
 import { sufficesFitLevel } from './fitCalculator/sufficesFitLevel';
 import { Pattern } from './Patterns/Pattern';
+import { defaultPatternConcepts } from './powerFitConcepts/defaultPatternConcepts';
 import { PowerFitConcept } from './powerFitConcepts/PowerFitConcept';
-import { defaultPowerFitConcepts } from './powerFitConcepts/powerFitConcepts';
 import { StructuredTavernFits } from './StructuredTavernFits';
 
 export class Idea {
@@ -18,7 +18,7 @@ export class Idea {
         protected powerFitConcept: PowerFitConcept,
         protected additions?: DescriptionAsset[][],
         protected contrastAdditions?: DescriptionAsset[][],
-        protected patternMod = defaultPowerFitConcepts.main
+        protected patternMod = defaultPatternConcepts.main
     ) {}
 
     public countFittingChoices(

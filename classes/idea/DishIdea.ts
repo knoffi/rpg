@@ -10,6 +10,7 @@ import {
 } from './DescriptionAsset';
 import { MINIMAL_PASS_FIT_LEVEL } from './fitCalculator/getFitLevel';
 import { Idea } from './Idea';
+import { defaultPatternConcepts } from './powerFitConcepts/defaultPatternConcepts';
 import { DishConcept } from './powerFitConcepts/DishConcept';
 import { defaultPowerFitConcepts } from './powerFitConcepts/powerFitConcepts';
 import { PriceSetter } from './PriceSetter';
@@ -48,7 +49,8 @@ export class DishIdea extends Idea {
             mainEnabledForCriminals,
             defaultPowerFitConcepts.menu,
             sideDishesEnabledForCriminals,
-            undefined
+            undefined,
+            defaultPatternConcepts.menu
         ),
             true;
         this.averagePrice = averagePrice;

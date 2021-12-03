@@ -7,6 +7,7 @@ import { DescriptionAsset } from './DescriptionAsset';
 import { Idea } from './Idea';
 import { Noticable } from './Noticable';
 import { Pattern } from './Patterns/Pattern';
+import { defaultPatternConcepts } from './powerFitConcepts/defaultPatternConcepts';
 import { defaultPowerFitConcepts } from './powerFitConcepts/powerFitConcepts';
 import { StructuredTavernFits } from './StructuredTavernFits';
 export class ImpressionIdea extends Idea {
@@ -19,16 +20,10 @@ export class ImpressionIdea extends Idea {
         category: Noticable,
         displayTextAsFurniture = false,
         reverseDisplay = false,
-        stress = defaultPowerFitConcepts.main,
-        patternMode = defaultPowerFitConcepts.main
+        stress = defaultPowerFitConcepts.impression,
+        patternMode = defaultPatternConcepts.main
     ) {
-        super(
-            mainImpression,
-            stress ? stress : defaultPowerFitConcepts.impression,
-            [additions],
-            undefined,
-            patternMode
-        );
+        super(mainImpression, stress, [additions], undefined, patternMode);
         this.category = category;
         this.reverseDisplay = reverseDisplay;
         this.displayTextAsFurniture = displayTextAsFurniture;
