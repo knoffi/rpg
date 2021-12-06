@@ -36,7 +36,7 @@ export const porkRoasts = [
             secondSideDishes: standardGreens,
             thirdSideDishes: standardCarbs,
         },
-        adjustPriceSetter(foodPrices.mainDish, ROAST_PORK_FACTOR),
+        adjustPriceSetter(foodPrices[Eatable.mainDish], ROAST_PORK_FACTOR),
         Eatable.mainDish
     ),
 ];

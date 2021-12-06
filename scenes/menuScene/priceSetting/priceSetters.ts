@@ -2,24 +2,34 @@ import { association } from '../../../classes/association';
 import { PriceSetter } from '../../../classes/idea/PriceSetter';
 import { standardBasePrice } from '../basePrice';
 
-export const adjustPrice = (price: number, factor: number) => {
+const a = association;
+const incomeRange = [a.poor, a.modest, a.wealthy, a.rich] as const;
+type Income =
+    | association.poor
+    | association.modest
+    | association.wealthy
+    | association.rich;
+export const adjustPrice = (price: number, factor = 1) => {
     const adjustedPrice = Math.floor(price * factor);
     return adjustedPrice > 0 ? adjustedPrice : 1;
 };
-export const adjustPriceSetter = (priceSetter: PriceSetter, factor = 1.0) => {
-    const adjustedPriceSetter = {
-        [association.poor]: adjustPrice(priceSetter[association.poor], factor),
-        [association.modest]: adjustPrice(
-            priceSetter[association.modest],
-            factor
-        ),
-        [association.wealthy]: adjustPrice(
-            priceSetter[association.wealthy],
-            factor
-        ),
-        [association.rich]: adjustPrice(priceSetter[association.rich], factor),
-    };
-    return adjustedPriceSetter;
+export const adjustPriceSetter = (
+    priceSetter: Readonly<PriceSetter>,
+    factors?: number | Partial<PriceSetter>
+): PriceSetter => {
+    const newPrices = { ...priceSetter };
+    incomeRange.forEach((income) => {
+        const factor = extractFactor(income, factors);
+        newPrices[income] = adjustPrice(priceSetter[income], factor);
+    });
+    return newPrices;
+};
+
+const extractFactor = (
+    income: Income,
+    factors?: number | Partial<PriceSetter>
+): number | undefined => {
+    return !factors || typeof factors === 'number' ? factors : factors[income];
 };
 
 export const getPriceByFactorFromBasePrice = (foodToDrinkFactor: number) => {

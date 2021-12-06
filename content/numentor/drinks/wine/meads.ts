@@ -6,7 +6,10 @@ import { drinkPrices } from '../../../../scenes/menuScene/priceSetting/drinkPric
 import { adjustPriceSetter } from '../../../../scenes/menuScene/priceSetting/priceSetters';
 const a = association;
 const MEAD_FACTOR = 0.8;
-const MEAD_WINE_PRICE_SETTER = adjustPriceSetter(drinkPrices.wine, MEAD_FACTOR);
+const MEAD_WINE_PRICE_SETTER = adjustPriceSetter(
+    drinkPrices[Drinkable.wine],
+    MEAD_FACTOR
+);
 export const meads: DishIdea[] = [
     new DishIdea(
         {

@@ -41,7 +41,7 @@ export const redWines: DishIdea[] = [
                 },
             ],
         },
-        adjustPriceSetter(drinkPrices.wine, RED_WINE_FACTOR),
+        adjustPriceSetter(drinkPrices[Drinkable.wine], RED_WINE_FACTOR),
         Drinkable.wine
     ),
 ];

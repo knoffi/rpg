@@ -23,7 +23,7 @@ export const porridges = [
                 ...wealthyPorridgeToppings,
             ],
         },
-        adjustPriceSetter(foodPrices.breakfast, PORRIDGE_FACTOR),
+        adjustPriceSetter(foodPrices[Eatable.breakfast], PORRIDGE_FACTOR),
         Eatable.breakfast
     ),
 ];

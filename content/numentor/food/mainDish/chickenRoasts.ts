@@ -42,7 +42,7 @@ export const chickenRoasts = [
             secondSideDishes: standardGreens,
             thirdSideDishes: standardCarbs,
         },
-        adjustPriceSetter(foodPrices.mainDish, GOOSE_FACTOR),
+        adjustPriceSetter(foodPrices[Eatable.mainDish], GOOSE_FACTOR),
         Eatable.mainDish
     ),
     new DishIdea(
@@ -69,7 +69,7 @@ export const chickenRoasts = [
             secondSideDishes: standardGreens,
             thirdSideDishes: standardCarbs,
         },
-        adjustPriceSetter(foodPrices.mainDish, TURKEY_FACTOR),
+        adjustPriceSetter(foodPrices[Eatable.mainDish], TURKEY_FACTOR),
         Eatable.mainDish
     ),
     new DishIdea(
@@ -91,7 +91,7 @@ export const chickenRoasts = [
                 },
             ],
         },
-        adjustPriceSetter(foodPrices.mainDish, PHEASANT_FACTOR),
+        adjustPriceSetter(foodPrices[Eatable.mainDish], PHEASANT_FACTOR),
         Eatable.mainDish
     ),
 
@@ -133,7 +133,7 @@ export const chickenRoasts = [
             secondSideDishes: standardGreens,
             thirdSideDishes: standardCarbs,
         },
-        adjustPriceSetter(foodPrices.mainDish, CHICKEN_FACTOR),
+        adjustPriceSetter(foodPrices[Eatable.mainDish], CHICKEN_FACTOR),
         Eatable.mainDish
     ),
     new DishIdea(
@@ -169,7 +169,7 @@ export const chickenRoasts = [
                 },
             ],
         },
-        adjustPriceSetter(foodPrices.mainDish, PIGEON_FACTOR),
+        adjustPriceSetter(foodPrices[Eatable.mainDish], PIGEON_FACTOR),
         Eatable.mainDish
     ),
     new DishIdea(
@@ -196,7 +196,7 @@ export const chickenRoasts = [
             secondSideDishes: standardGreens,
             thirdSideDishes: standardCarbs,
         },
-        adjustPriceSetter(foodPrices.mainDish, PIGEON_FACTOR),
+        adjustPriceSetter(foodPrices[Eatable.mainDish], PIGEON_FACTOR),
         Eatable.mainDish
     ),
 ];

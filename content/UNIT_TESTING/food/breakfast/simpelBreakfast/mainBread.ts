@@ -28,7 +28,10 @@ export const mainBreads: DishIdea[] = [
                 },
             ],
         },
-        adjustPriceSetter(foodPrices.breakfast, SIMPLE_BREAKFAST_FACTOR),
+        adjustPriceSetter(
+            foodPrices[Eatable.breakfast],
+            SIMPLE_BREAKFAST_FACTOR
+        ),
         Eatable.breakfast
     ),
 ];

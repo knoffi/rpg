@@ -132,6 +132,6 @@ export const leftoverStew =
                 },
             ],
         },
-        adjustPriceSetter(foodPrices.mainDish, STEW_PRICE_FACTOR),
+        adjustPriceSetter(foodPrices[Eatable.mainDish], STEW_PRICE_FACTOR),
         Eatable.mainDish
     );

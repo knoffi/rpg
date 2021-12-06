@@ -18,7 +18,7 @@ export const steaks = [
                 },
             ],
         },
-        adjustPriceSetter(foodPrices.mainDish, PORK_FACTOR),
+        adjustPriceSetter(foodPrices[Eatable.mainDish], PORK_FACTOR),
         Eatable.mainDish
     ),
 ];

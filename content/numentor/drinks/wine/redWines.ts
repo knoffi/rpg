@@ -7,7 +7,7 @@ import { adjustPriceSetter } from '../../../../scenes/menuScene/priceSetting/pri
 const a = association;
 const RED_WINE_FACTOR = 1.2;
 const RED_WINE_PRICE_SETTER = adjustPriceSetter(
-    drinkPrices.wine,
+    drinkPrices[Drinkable.wine],
     RED_WINE_FACTOR
 );
 export const redWines: DishIdea[] = [
@@ -45,7 +45,7 @@ export const redWines: DishIdea[] = [
                 },
             ],
         },
-        adjustPriceSetter(drinkPrices.wine, RED_WINE_FACTOR),
+        adjustPriceSetter(drinkPrices[Drinkable.wine], RED_WINE_FACTOR),
         Drinkable.wine
     ),
     new DishIdea(

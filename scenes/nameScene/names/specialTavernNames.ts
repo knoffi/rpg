@@ -618,7 +618,12 @@ export const specialNames: NameIdea[] = [
         powerFits: [a.dwarf, a.modest],
     }),
     new NameIdea({
-        name: 'Mead Cave',
+        name: 'Mead Mine',
+        needsOne: [a.dwarf],
+        powerFits: [a.dwarf],
+    }),
+    new NameIdea({
+        name: 'Beer Mine',
         needsOne: [a.dwarf],
         powerFits: [a.dwarf],
     }),
@@ -979,12 +984,14 @@ export const specialNames: NameIdea[] = [
         name: 'Hidden Booty',
         needsOne: [a.haven],
         worksForBrothel: true,
+        worksForThiefs: true,
         powerFits: [a.haven],
     }),
     new NameIdea({
         name: 'Ale Fountain',
         needsOne: [a.haven],
         powerFits: [a.haven],
+        worksForAssasines: true,
     }),
     new NameIdea({
         name: 'Friendly Flounder',
@@ -1005,6 +1012,7 @@ export const specialNames: NameIdea[] = [
         name: 'Drowning Landlubber',
         needsOne: [a.haven],
         powerFits: [a.haven],
+        misfits: [a.wealthy, a.rich],
     }),
     new NameIdea({
         name: 'Hail To The Ale',
@@ -1042,6 +1050,7 @@ export const specialNames: NameIdea[] = [
         needs: [a.haven],
         powerFits: [a.haven],
         probability: VERY_SPECIAL_NAME_PROB,
+        worksForAllCriminals: true,
     }),
     new NameIdea({
         name: "Captain Dorsen's Drinking Hole",
@@ -1049,12 +1058,14 @@ export const specialNames: NameIdea[] = [
         misfits: [a.rich, a.wealthy, a.elf],
         powerFits: [a.haven],
         probability: VERY_SPECIAL_NAME_PROB,
+        worksForAllCriminals: true,
     }),
     new NameIdea({
         name: "Perry Piper's Pub",
         needs: [a.haven],
         powerFits: [a.haven],
         probability: VERY_SPECIAL_NAME_PROB,
+        worksForAllCriminals: true,
     }),
     new NameIdea({
         name: "Admiral Pensington's Pub",
@@ -1067,6 +1078,8 @@ export const specialNames: NameIdea[] = [
         name: 'Feasting Hound',
         needs: [a.human],
         powerFits: [a.human],
+        worksForThiefs: true,
+        worksForAssasines: true,
     }),
     new NameIdea({
         name: 'Schnitzel Outpost',
@@ -1089,12 +1102,14 @@ export const specialNames: NameIdea[] = [
         needs: [a.human],
         powerFits: [a.human],
         probability: VERY_SPECIAL_NAME_PROB,
+        worksForBrothel: true,
     }),
     new NameIdea({
         name: "Paul Paulsen's Pub",
         needs: [a.human],
         powerFits: [a.human],
         probability: VERY_SPECIAL_NAME_PROB,
+        worksForAllCriminals: true,
     }),
     new NameIdea({
         name: 'Tipsy Tavern',
@@ -1106,11 +1121,13 @@ export const specialNames: NameIdea[] = [
         name: 'On The Rocks',
         needs: [a.human],
         powerFits: [a.human],
+        worksForAssasines: true,
     }),
     new NameIdea({
         name: 'Bottoms Up!',
         needs: [a.human],
         powerFits: [a.human],
+        worksForAllCriminals: true,
     }),
     new NameIdea({
         name: 'Through Thick and Gin',
@@ -1123,11 +1140,13 @@ export const specialNames: NameIdea[] = [
         needs: [a.human],
         powerFits: [a.human],
         probability: VERY_SPECIAL_NAME_PROB,
+        worksForBrothel: true,
     }),
     new NameIdea({
         name: 'Eagle Nest',
         needs: [a.mountain],
         powerFits: [a.mountain],
+        worksForAssasines: true,
     }),
     new NameIdea({
         name: 'Busy Miner',
@@ -1159,6 +1178,7 @@ export const specialNames: NameIdea[] = [
         needs: [a.mountain],
         powerFits: [a.mountain],
         misfits: [a.desert],
+        worksForAssasines: true,
     }),
     new NameIdea({
         name: 'Majestic Stallion',
