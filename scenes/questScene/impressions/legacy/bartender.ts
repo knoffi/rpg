@@ -644,7 +644,7 @@ export const bartenders: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             landRange: [a.desert],
-            incomeRange: [a.rich],
+            needs: [a.rich],
             name: 'Purple turban',
             worksForAllCriminals: true,
             powerFits: [a.desert, a.wizard, a.rich],

@@ -173,7 +173,7 @@ export const richBreakfastPlateToppings: DescriptionAsset[] = [
         needs: [a.rich],
     },
     {
-        name: ', Cockatrice Breast & Cherry Tomatoe',
+        name: ', Cockatrice Filet & Cherry Tomatoe',
         landRange: [a.forest],
         needs: [a.rich],
     },
@@ -203,7 +203,7 @@ export const richBreakfastPlateToppings: DescriptionAsset[] = [
         needs: [a.rich],
     },
     {
-        name: ', Cockatrice Breast & Gold-Plated Grapes',
+        name: ', Cockatrice Filet & Gold-Plated Grapes',
         landRange: [a.mountain],
         needs: [a.rich],
     },

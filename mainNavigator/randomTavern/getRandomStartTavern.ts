@@ -40,6 +40,11 @@ const CHANCE_FOR_ORDINARY_FIT = 0.625;
 const NO_IDEA_PROBABILITY = 0.1;
 const MAX_IDEA = 3;
 const MAX_PRICE_DERIVATION = 0.3;
+type ContentSum = {
+    content: (Offer | Impression)[];
+    keys: KeyHandler;
+    patterns: PatternHandler;
+};
 export const getRandomStartTavern = (
     universeMap: UniverseMap
 ): MinimalTavernData => {
@@ -97,7 +102,7 @@ const getRandomBasePrice = () => {
             randomFactor * standardBasePrice[association.wealthy]
         ),
         [association.rich]: Math.floor(
-            randomFactor * standardBasePrice['vastly rich']
+            randomFactor * standardBasePrice[association.rich]
         ),
         [association.modest]: Math.floor(
             randomFactor * standardBasePrice[association.modest]
@@ -113,43 +118,61 @@ const getContent = (
     fits: StructuredTavernFits,
     universeMap: UniverseMap
 ): Content => {
+    // evolves keyHandler from category, to category, from WeServe to WeServe, THUS keyHandler needs to be mutable
     const creator = new ContentCreator(universeMap);
-    const drinks = Object.values(Drinkable)
-        .map(
-            (category) =>
-                getContentForCategory(
-                    fits,
-                    {
-                        isAbout: WeServe.drinks,
-                        category,
-                    },
-                    creator
-                ).added
-        )
-        .flat() as Offer[];
-    const food = Object.values(Eatable)
-        .map(
-            (category) =>
-                getContentForCategory(
-                    fits,
-                    { isAbout: WeServe.food, category },
-                    creator
-                ).added
-        )
-        .flat() as Offer[];
-    const impressions = Object.values(Noticable)
-        .map(
-            (category) =>
-                getContentForCategory(
-                    fits,
-                    {
-                        isAbout: WeServe.impressions,
-                        category,
-                    },
-                    creator
-                ).added
-        )
-        .flat() as Impression[];
+    const keyHandler = new KeyHandler('noPreviousContent');
+    const patternHandler = new PatternHandler('noContent');
+    const drinks = Object.values(Drinkable).reduce(
+        (contentSum, category) =>
+            getContentForCategory(
+                fits,
+                {
+                    isAbout: WeServe.drinks,
+                    category,
+                },
+                creator,
+                contentSum
+            ),
+        {
+            content: [],
+            keys: keyHandler,
+            patterns: patternHandler,
+        } as ContentSum
+    ).content as Offer[];
+    const food = Object.values(Eatable).reduce(
+        (contentSum, category) =>
+            getContentForCategory(
+                fits,
+                {
+                    isAbout: WeServe.food,
+                    category,
+                },
+                creator,
+                contentSum
+            ),
+        {
+            content: [],
+            keys: keyHandler,
+            patterns: patternHandler,
+        } as ContentSum
+    ).content as Offer[];
+    const impressions = Object.values(Noticable).reduce(
+        (contentSum, category) =>
+            getContentForCategory(
+                fits,
+                {
+                    isAbout: WeServe.impressions,
+                    category,
+                },
+                creator,
+                contentSum
+            ),
+        {
+            content: [],
+            keys: keyHandler,
+            patterns: patternHandler,
+        } as ContentSum
+    ).content as Impression[];
     return {
         [WeServe.drinks]: drinks,
         [WeServe.food]: food,
@@ -170,14 +193,13 @@ const getRandomStartName = (fits: StructuredTavernFits) => {
 const getContentForCategory = (
     fits: StructuredTavernFits,
     demand: Demand,
-    creator: ContentCreator
-): Add => {
+    creator: ContentCreator,
+    collection: ContentSum
+): ContentSum => {
     const contentLength =
         demand.category === Noticable.bartender
             ? 5
             : Math.floor(Math.random() * MAX_IDEA + (1 - NO_IDEA_PROBABILITY));
-    const keyHandler = new KeyHandler('noPreviousContent');
-    const patternHandler = new PatternHandler('noContent');
     const newKeys = emptyKeys;
     const startAdd: Add = {
         ...demand,
@@ -187,15 +209,15 @@ const getContentForCategory = (
         newPatterns: [],
     };
     const startRequest = getCreationRequest(startAdd, [], []);
-    const content = getContentArray(
+    const newContent = getContentArray(
         fits,
         contentLength,
         startRequest,
-        keyHandler,
-        patternHandler,
+        collection.keys,
+        collection.patterns,
         creator
-    );
-    return { ...content };
+    ).added;
+    return { ...collection, content: [...collection.content, ...newContent] };
 };
 
 const getContentArray = (
