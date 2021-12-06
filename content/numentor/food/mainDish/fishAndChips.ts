@@ -36,6 +36,9 @@ export const fishAndChips = new DishIdea(
         firstSideDishes: fishAndChipsFishes,
         secondSideDishes: fishAndChipsSideDishes,
     },
-    adjustPriceSetter(foodPrices.mainDish, FISH_AND_CHIPS_PRICE_FACTOR),
+    adjustPriceSetter(
+        foodPrices[Eatable.mainDish],
+        FISH_AND_CHIPS_PRICE_FACTOR
+    ),
     Eatable.mainDish
 );

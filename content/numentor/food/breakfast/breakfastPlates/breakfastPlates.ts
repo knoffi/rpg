@@ -22,7 +22,10 @@ export const breakfastPlates = [
                 ...richBreakfastPlateToppings,
             ],
         },
-        adjustPriceSetter(foodPrices.breakfast, BREAKFAST_PLATE_FACTOR),
+        adjustPriceSetter(
+            foodPrices[Eatable.breakfast],
+            BREAKFAST_PLATE_FACTOR
+        ),
         Eatable.breakfast
     ),
     new DishIdea(
@@ -75,7 +78,10 @@ export const breakfastPlates = [
                 { name: '', incomeRange: [a.poor, a.modest] },
             ],
         },
-        adjustPriceSetter(foodPrices.breakfast, BREAKFAST_PLATE_FACTOR),
+        adjustPriceSetter(
+            foodPrices[Eatable.breakfast],
+            BREAKFAST_PLATE_FACTOR
+        ),
         Eatable.breakfast
     ),
 ];

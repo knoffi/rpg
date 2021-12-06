@@ -22,7 +22,7 @@ export const simpleCakes = [
                 },
             ],
         },
-        adjustPriceSetter(foodPrices.dessert, SIMPLE_CAKE_FACTOR),
+        adjustPriceSetter(foodPrices[Eatable.dessert], SIMPLE_CAKE_FACTOR),
         Eatable.dessert
     ),
 ];

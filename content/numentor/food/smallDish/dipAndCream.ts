@@ -17,7 +17,7 @@ export const dipAndCream: DishIdea[] = [
                 },
             ],
         } as DishConcept,
-        adjustPriceSetter(foodPrices.sideDish, DIP_AND_CREAM_FACTOR),
+        adjustPriceSetter(foodPrices[Eatable.sideDish], DIP_AND_CREAM_FACTOR),
         Eatable.sideDish
     ), //implement "Meze Plate", google it, it is pretty fitting
 ];

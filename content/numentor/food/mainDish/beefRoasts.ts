@@ -39,7 +39,7 @@ export const beefRoasts =
                 secondSideDishes: standardGreens,
                 thirdSideDishes: standardCarbs,
             },
-            adjustPriceSetter(foodPrices.mainDish, ROAST_BEEF_FACTOR),
+            adjustPriceSetter(foodPrices[Eatable.mainDish], ROAST_BEEF_FACTOR),
             Eatable.mainDish
         ),
 
@@ -71,7 +71,7 @@ export const beefRoasts =
                 secondSideDishes: standardGreens,
                 thirdSideDishes: standardCarbs,
             },
-            adjustPriceSetter(foodPrices.mainDish, ROAST_LAMB_FACTOR),
+            adjustPriceSetter(foodPrices[Eatable.mainDish], ROAST_LAMB_FACTOR),
             Eatable.mainDish
         ),
     ];
