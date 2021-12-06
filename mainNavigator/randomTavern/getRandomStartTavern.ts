@@ -244,10 +244,12 @@ const getContentArray = (
             patterns.update(handlerUpdate);
         }
         const fullKeys = keys.getFullKeys(add.isAbout);
+        const usedPatterns = patterns.getPatterns(add.isAbout);
         const newRequest = getCreationRequest(
             add,
             fullKeys.main,
-            fullKeys.addition
+            fullKeys.addition,
+            usedPatterns
         );
         return getContentArray(
             fits,
