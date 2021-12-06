@@ -3,22 +3,26 @@ import { DishIdea } from '../../../../classes/idea/DishIdea';
 import { Eatable } from '../../../../classes/TavernProduct';
 import { foodPrices } from '../../../../scenes/menuScene/priceSetting/foodPriceSetters';
 import { adjustPriceSetter } from '../../../../scenes/menuScene/priceSetting/priceSetters';
-const STEAK_FACTOR = 1.2;
+const SIMPLE_CAKE_FACTOR = 0.9;
 const a = association;
-export const steaks = [
+export const simpleCakes = [
     new DishIdea(
         {
             mainIng: {
-                name: 'Chateaubriand Steak',
-                needs: [a.rich],
+                name: 'Apple Pie',
+                incomeRange: [a.poor, a.modest],
+                landRange: [a.city, a.village, a.forest],
             },
             firstSideDishes: [
                 {
-                    name: ' with Gold Plated Duchesse Potatoes',
+                    name: ' pie stuffed with red apples',
+                },
+                {
+                    name: ' pie stuffed with green apples',
                 },
             ],
         },
-        adjustPriceSetter(foodPrices[Eatable.mainDish], STEAK_FACTOR),
-        Eatable.mainDish
+        adjustPriceSetter(foodPrices.dessert, SIMPLE_CAKE_FACTOR),
+        Eatable.dessert
     ),
 ];

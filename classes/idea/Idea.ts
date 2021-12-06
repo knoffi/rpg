@@ -198,7 +198,15 @@ export class Idea {
         if (mainFitLevel <= WORST_FIT_LEVEL) {
             return WORST_FIT_LEVEL;
         } else {
-            if (!this.additions && !this.contrastAdditions) {
+            const noAdditions =
+                !this.additions ||
+                this.additions.length === 0 ||
+                this.additions.every((row) => row.length === 0);
+            const noContrastAdditions =
+                !this.contrastAdditions ||
+                this.contrastAdditions.length === 0 ||
+                this.contrastAdditions.every((row) => row.length === 0);
+            if (noAdditions && noContrastAdditions) {
                 return mainFitLevel;
             } else {
                 const lowestHarmonyRowMax = this.additions

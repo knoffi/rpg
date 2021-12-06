@@ -4,12 +4,13 @@ import {
     AssociationTypes,
     getAssociationsOfType,
 } from '../../../classes/association';
+import { FitPick } from '../../../classes/FitPick';
 import {
     getFitFromStructure,
     StructuredTavernFits,
 } from '../../../classes/idea/StructuredTavernFits';
 import { AssociationDialog } from './AssociationDialog';
-import { ButtonStates } from './getButtonStates';
+import { getButtonStates } from './getButtonStates';
 
 const colors = {
     land: '#117A65',
@@ -21,18 +22,14 @@ const colors = {
 
 export const AssociationDialogBar = (props: {
     fits: StructuredTavernFits;
-    switchFits: (
-        newFit: Partial<StructuredTavernFits>,
-        category: AssociationTypes
-    ) => void;
+    pickFit: (newFit: FitPick) => void;
     setPowerFit: (fit: string, category: AssociationTypes) => void;
-    buttonStates: ButtonStates;
+    fitting: StructuredTavernFits;
 }) => {
-    const getPickCallback =
-        (category: AssociationTypes) =>
-        (newFit: Partial<StructuredTavernFits>) => {
-            props.switchFits(newFit, category);
-        };
+    const buttonStates = getButtonStates(props.fitting);
+    const onPick = (newFit: FitPick) => {
+        props.pickFit(newFit);
+    };
     const getPowerFitCallback =
         (category: AssociationTypes, fit: string) => () => {
             props.setPowerFit(fit, category);
@@ -46,10 +43,10 @@ export const AssociationDialogBar = (props: {
                 key={'Dialog' + type}
                 pickAssociationList={getAssociationsOfType(type)}
                 startText={title}
-                onPick={getPickCallback(type)}
+                onPick={onPick}
                 onLongPress={getPowerFitCallback(type, title)}
                 color={getColorForType(type)}
-                activity={props.buttonStates[type]}
+                activity={buttonStates[type]}
             ></AssociationDialog>
         );
     });

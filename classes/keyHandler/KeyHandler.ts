@@ -1,7 +1,10 @@
 import { WeServe } from '../../editNavigator/WeServe';
-import { Content } from '../../mainNavigator/Content';
-import { Offer } from '../../scenes/menuScene/Offer';
-import { Impression } from '../../scenes/questScene/impressions/Impression';
+import { DeepReadonly } from '../../logicTests/Cloner';
+import {
+    DeeplyReadonlyContent,
+    DeeplyReadonlyImpression,
+    DeeplyReadonlyOffer,
+} from '../../mainNavigator/Content';
 import { emptyKeys } from '../contentCreator/emptyKeys';
 import { AssetKey } from '../idea/AssetKey/AssetKey';
 import { getKeyBound } from '../idea/AssetKey/getKeyBound';
@@ -9,13 +12,13 @@ import { Add, Delete, KeyChange, Keys, KeyTable } from './KeyHandlingTypes';
 export class KeyHandler {
     private table: KeyTable;
 
-    public constructor(content: Content | 'noPreviousContent') {
+    public constructor(content: DeeplyReadonlyContent | 'noPreviousContent') {
         this.table =
             content === 'noPreviousContent'
                 ? KeyHandler.getKeysFromContent()
                 : KeyHandler.getKeysFromContent(content);
     }
-    public update(change: KeyChange) {
+    public update(change: DeepReadonly<KeyChange>) {
         switch (change.type) {
             case 'Add':
                 this.handleAdd(change);
@@ -25,20 +28,19 @@ export class KeyHandler {
                 break;
         }
     }
-    public print() {
-        const test = this.table.impression.main.map((key) => {
+    public print(isAbout = WeServe.impressions, only?: 'main' | 'addition') {
+        const printMain = this.table[isAbout].main.map((key) => {
             return { text: key.key.slice(0, 5), count: key.count };
         });
-        const test2 = this.table.impression.addition.map((key) => {
+        const printAddition = this.table[isAbout].addition.map((key) => {
             return { text: key.key.slice(0, 5), count: key.count };
         });
-        console.log('main:' + JSON.stringify(test));
-    }
-    public updateClone(change: KeyChange) {
-        const newHandler = new KeyHandler('noPreviousContent');
-        newHandler.table = { ...this.table };
-        newHandler.update(change);
-        return newHandler;
+        if (!only || only === 'main') {
+            console.log('main:' + JSON.stringify(printMain));
+        }
+        if (!only || only === 'addition') {
+            console.log('addition:' + JSON.stringify(printAddition));
+        }
     }
     public multiUpdateClone(changes: KeyChange[]) {
         const newHandler = new KeyHandler('noPreviousContent');
@@ -46,7 +48,8 @@ export class KeyHandler {
         changes.forEach((change) => newHandler.update(change));
         return newHandler;
     }
-    private handleAdd(added: Add) {
+
+    private handleAdd(added: DeepReadonly<Add>) {
         added.newKeys.addition.forEach((key) => {
             this.addKeyCount(key, 1, added.isAbout, 'addition');
         });
@@ -64,13 +67,16 @@ export class KeyHandler {
         const entryForKey = row[refersTo].find((entry) => entry.key === newKey);
         if (entryForKey) {
             entryForKey.count += addToCounter;
+            if (entryForKey.count < 0) {
+                throw new Error('Key counters must not be negative');
+            }
         } else {
             if (addToCounter > 0) {
                 row[refersTo].push({ count: addToCounter, key: newKey });
             }
         }
     }
-    private handleDelete(deleted: Delete) {
+    private handleDelete(deleted: DeepReadonly<Delete>) {
         deleted.oldKeys.addition.forEach((key) => {
             this.addKeyCount(key, -1, deleted.isAbout, 'addition');
         });
@@ -89,18 +95,18 @@ export class KeyHandler {
         return { ['main']: fullMainKeys, ['addition']: fullAdditionKeys };
     }
 
-    private static getKeysFromContent(content?: Content) {
-        const startRow = { main: [], addition: [] };
+    private static getKeysFromContent(content?: DeeplyReadonlyContent) {
         const newTable: KeyTable = {
-            [WeServe.drinks]: { ...startRow },
-            [WeServe.food]: { ...startRow },
-            [WeServe.impressions]: { ...startRow },
+            [WeServe.drinks]: { main: [], addition: [] },
+            [WeServe.food]: { main: [], addition: [] },
+            [WeServe.impressions]: { main: [], addition: [] },
         };
         if (!content) {
             return { ...newTable };
         } else {
             Object.values(WeServe).forEach((isAbout) => {
-                const assets: (Offer | Impression)[] = content[isAbout];
+                const test = content[isAbout];
+                const assets: KeyHolders = content[isAbout];
                 assets.forEach((asset) => {
                     const row = newTable[isAbout];
                     const newKeys = asset.keys || emptyKeys;
@@ -131,3 +137,4 @@ export class KeyHandler {
         }
     }
 }
+type KeyHolders = readonly (DeeplyReadonlyOffer | DeeplyReadonlyImpression)[];

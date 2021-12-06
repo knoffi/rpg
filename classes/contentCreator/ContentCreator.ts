@@ -1,9 +1,11 @@
 import { ar_kenji } from "../../content/ar'kenji/ar'kenji";
 import { dragonik } from '../../content/dragonik/dragonik';
 import { numentor } from '../../content/numentor/numentor';
-import { UI_TEST_CONTENT } from '../../content/testing/testing';
+import { UI_TEST_CONTENT } from '../../content/testUI/testing';
+import { UNIT_TEST_CONTENT } from '../../content/UNIT_TESTING/testing';
 import { WeServe } from '../../editNavigator/WeServe';
 import { getRandomArrayEntry } from '../../helpingFunctions/getFittingRandom';
+import { DeepReadonly } from '../../logicTests/Cloner';
 import { Describable } from '../../mainNavigator/TavernData';
 import { allCategories, UniverseMap } from '../../mainNavigator/UniverseMap';
 import { Offer } from '../../scenes/menuScene/Offer';
@@ -40,6 +42,7 @@ export class ContentCreator {
         { key: FantasyKeys.testing, book: UI_TEST_CONTENT },
         { key: FantasyKeys.dragonik, book: dragonik },
         { key: FantasyKeys.ar_kenji, book: ar_kenji },
+        { key: FantasyKeys.unitTest, book: UNIT_TEST_CONTENT },
     ];
     public static getNextKey(prevKey: FantasyKeys) {
         const allKeys = Object.values(FantasyKeys);
@@ -51,7 +54,7 @@ export class ContentCreator {
     private dungeonMaster: DungeonMaster;
     private universe: UniverseMap;
 
-    constructor(universe: UniverseMap) {
+    constructor(universe: DeepReadonly<UniverseMap>) {
         // TODO: I am ashamed of this piece of code
         this.dungeonMaster = Object.values(allCategories).reduce(
             (object, category) => {
@@ -63,8 +66,8 @@ export class ContentCreator {
                     ),
                 };
             },
-            {} as DungeonMaster
-        );
+            {}
+        ) as DungeonMaster;
         this.universe = universe;
     }
 
@@ -597,7 +600,6 @@ export class ContentCreator {
         };
         return reroll;
     }
-
     private static getIdeas(universeKey: FantasyKeys, category: Describable) {
         const universe = ContentCreator.books.find(
             (book) => book.key === universeKey

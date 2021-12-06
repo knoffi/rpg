@@ -1,4 +1,5 @@
 import { association } from '../../../../classes/association';
+import { AssetKey } from '../../../../classes/idea/AssetKey/AssetKey';
 import { DishIdea } from '../../../../classes/idea/DishIdea';
 import { Drinkable } from '../../../../classes/TavernProduct';
 import { drinkPrices } from '../../../../scenes/menuScene/priceSetting/drinkPriceSetters';
@@ -11,6 +12,7 @@ export const redWines: DishIdea[] = [
             mainIng: {
                 name: 'Gourmonete',
                 misfits: [a.tropical, a.desert, a.dwarf, a.thief],
+                key: AssetKey.WINE_red,
             },
             firstSideDishes: [
                 {
