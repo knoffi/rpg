@@ -18,7 +18,7 @@ export const rum: DishIdea[] = [
                 },
             ],
         },
-        adjustPriceSetter(drinkPrices.softDrink),
+        adjustPriceSetter(drinkPrices[Drinkable.lemonade]),
         Drinkable.spirit
     ),
 ];

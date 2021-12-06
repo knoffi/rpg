@@ -8,7 +8,7 @@ const a = association;
 export const getSpiritPrice = (
     factors?: number | Partial<PriceSetter>
 ): PriceSetter => {
-    return adjustPriceSetter(drinkPrices.spirits, factors);
+    return adjustPriceSetter(drinkPrices[Drinkable.spirit], factors);
 };
 export const scotch: DishIdea[] = [
     new DishIdea(
