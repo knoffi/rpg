@@ -19,14 +19,14 @@ import { StructuredTavernFits } from './StructuredTavernFits';
 const EMPTY_SIDE_DISH: DescriptionAsset = { name: '' };
 
 type Pricing = { price: number; income: Income | association.empty };
-
+type PriceSetterFactory = (category: MenuCategory) => PriceSetter;
 export class DishIdea extends Idea {
     private averagePrice: number | PriceSetter;
     private category: MenuCategory;
 
     constructor(
         ingredients: DishConcept,
-        averagePrice: number | PriceSetter,
+        averagePrice: number | PriceSetter | PriceSetterFactory,
         category: MenuCategory
     ) {
         const additionalSideDishes = [
@@ -53,7 +53,11 @@ export class DishIdea extends Idea {
             defaultPatternConcepts.menu
         ),
             true;
-        this.averagePrice = averagePrice;
+        if (typeof averagePrice === 'function') {
+            this.averagePrice = averagePrice(category);
+        } else {
+            this.averagePrice = averagePrice;
+        }
         this.category = category;
     }
 

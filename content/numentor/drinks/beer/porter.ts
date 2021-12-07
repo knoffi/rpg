@@ -1,7 +1,7 @@
 import { association } from '../../../../classes/association';
 import { DishIdea } from '../../../../classes/idea/DishIdea';
 import { Drinkable } from '../../../../classes/TavernProduct';
-import { getBeerPrice } from './getBeerPrice';
+import { buildPriceSetterFactory } from '../../../../scenes/menuScene/priceSetting/priceSetterFactory';
 const a = association;
 export const porters: DishIdea[] = [
     new DishIdea(
@@ -13,7 +13,7 @@ export const porters: DishIdea[] = [
             },
             firstSideDishes: [{ name: 'Stout  -  black, roasty, bitter' }],
         },
-        getBeerPrice(0.9),
+        buildPriceSetterFactory(0.9),
         Drinkable.beer
     ),
     new DishIdea(
@@ -25,7 +25,7 @@ export const porters: DishIdea[] = [
             },
             firstSideDishes: [{ name: 'Stout  -  black, sturdy, bitter' }],
         },
-        getBeerPrice(0.5),
+        buildPriceSetterFactory(0.5),
         Drinkable.beer
     ),
     new DishIdea(
@@ -39,7 +39,7 @@ export const porters: DishIdea[] = [
                 { name: 'Stout  -  dark, slightly bitter, roasty note' },
             ],
         },
-        getBeerPrice(),
+        buildPriceSetterFactory(),
         Drinkable.beer
     ),
     new DishIdea(
@@ -54,7 +54,7 @@ export const porters: DishIdea[] = [
                 { name: 'Porter  -  dark, fruity, slightly bitter' },
             ],
         },
-        getBeerPrice(0.9),
+        buildPriceSetterFactory(0.9),
         Drinkable.beer
     ),
     new DishIdea(
@@ -71,7 +71,7 @@ export const porters: DishIdea[] = [
                 },
             ],
         },
-        getBeerPrice(),
+        buildPriceSetterFactory(),
         Drinkable.beer
     ),
     new DishIdea(
@@ -88,7 +88,7 @@ export const porters: DishIdea[] = [
                 },
             ],
         },
-        getBeerPrice(1.2),
+        buildPriceSetterFactory(1.2),
         Drinkable.beer
     ),
     new DishIdea(
@@ -101,7 +101,7 @@ export const porters: DishIdea[] = [
             },
             firstSideDishes: [{ name: 'Porter  -  dark brown, malty, nutty' }],
         },
-        getBeerPrice(),
+        buildPriceSetterFactory(),
         Drinkable.beer
     ),
 ];

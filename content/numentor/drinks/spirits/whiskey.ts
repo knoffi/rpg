@@ -1,45 +1,40 @@
 import { association } from '../../../../classes/association';
 import { DishIdea } from '../../../../classes/idea/DishIdea';
-import { PriceSetter } from '../../../../classes/idea/PriceSetter';
 import { Drinkable } from '../../../../classes/TavernProduct';
-import { drinkPrices } from '../../../../scenes/menuScene/priceSetting/drinkPriceSetters';
-import { adjustPriceSetter } from '../../../../scenes/menuScene/priceSetting/priceSetters';
+import { buildPriceSetterFactory } from '../../../../scenes/menuScene/priceSetting/priceSetterFactory';
 const a = association;
-export const getSpiritPrice = (
-    factors?: number | Partial<PriceSetter>
-): PriceSetter => {
-    return adjustPriceSetter(drinkPrices[Drinkable.spirit], factors);
-};
 export const scotch: DishIdea[] = [
     new DishIdea(
         {
-            mainIng: { name: 'Mac Barclay', incomeRange: [a.modest] },
-            firstSideDishes: [
-                { name: 'Whisky, Single Malt Scotch  - ' },
-                { name: 'Whisky, Single Grain Scotch  -' },
-                { name: 'Whisky, Blended Malt Scotch  -' },
-                { name: 'Whisky, Blended Grain Scotch  -' },
-                { name: 'Whisky, Blended Scotch  -' },
-            ],
+            mainIng: {
+                name: 'Mac Barclay',
+                incomeRange: [a.modest],
+                misfits: [a.desert, a.tropical],
+            },
+            firstSideDishes: [{ name: 'Whisky, Blended Grain Scotch  -' }],
             secondSideDishes: [
                 {
                     name: ' dry taste with a subtle oaken note',
                 },
             ],
         },
-        getSpiritPrice(),
+        buildPriceSetterFactory(),
         Drinkable.spirit
     ),
     new DishIdea(
         {
-            mainIng: { name: 'Jolly Walker, Grey Label', needs: [a.poor] },
+            mainIng: {
+                name: 'Jolly Walker, Grey Label',
+                needs: [a.poor],
+                misfits: [a.desert, a.tropical],
+            },
             firstSideDishes: [
                 {
                     name: 'Whisky, Blended Scotch  - fruity notes followed by bitterness',
                 },
             ],
         },
-        getSpiritPrice(1.3),
+        buildPriceSetterFactory(1.3),
         Drinkable.spirit
     ),
     new DishIdea(
@@ -47,6 +42,7 @@ export const scotch: DishIdea[] = [
             mainIng: {
                 name: 'Jolly Walker, Red Label',
                 incomeRange: [a.modest],
+                misfits: [a.desert, a.tropical],
             },
             firstSideDishes: [
                 {
@@ -54,7 +50,7 @@ export const scotch: DishIdea[] = [
                 },
             ],
         },
-        getSpiritPrice({ [a.modest]: 1.1 }),
+        buildPriceSetterFactory({ [a.modest]: 1.1 }),
         Drinkable.spirit
     ),
     new DishIdea(
@@ -62,6 +58,7 @@ export const scotch: DishIdea[] = [
             mainIng: {
                 name: 'Jolly Walker, Blue Label',
                 incomeRange: [a.modest],
+                misfits: [a.desert, a.tropical],
             },
             firstSideDishes: [
                 {
@@ -69,7 +66,7 @@ export const scotch: DishIdea[] = [
                 },
             ],
         },
-        getSpiritPrice({ [a.modest]: 1.2 }),
+        buildPriceSetterFactory({ [a.modest]: 1.2 }),
         Drinkable.spirit
     ),
     new DishIdea(
@@ -77,6 +74,7 @@ export const scotch: DishIdea[] = [
             mainIng: {
                 name: 'Jolly Walker, Silver Label',
                 incomeRange: [a.wealthy],
+                misfits: [a.desert, a.tropical],
             },
             firstSideDishes: [
                 {
@@ -84,318 +82,287 @@ export const scotch: DishIdea[] = [
                 },
             ],
         },
-        getSpiritPrice({ [a.modest]: 1.5 }),
+        buildPriceSetterFactory({ [a.modest]: 1.5 }),
         Drinkable.spirit
     ),
     new DishIdea(
         {
-            mainIng: { name: 'Jolly Walker, Gold Label', needs: [a.rich] },
+            mainIng: {
+                name: 'Jolly Walker, Gold Label',
+                needs: [a.rich],
+                misfits: [a.desert, a.tropical],
+            },
             firstSideDishes: [
                 {
                     name: 'Whisky, Single Malt Scotch  - fruity notes with a mouth-coating maltyness',
                 },
             ],
         },
-        getSpiritPrice(0.8),
+        buildPriceSetterFactory(0.8),
         Drinkable.spirit
     ),
     new DishIdea(
         {
-            mainIng: { name: 'Storming Stallion' },
-            firstSideDishes: [
-                { name: 'Whisky, Single Malt Scotch  -' },
-                { name: 'Whisky, Single Grain Scotch  -' },
-                { name: 'Whisky, Blended Malt Scotch  -' },
-                { name: 'Whisky, Blended Grain Scotch  -' },
-                { name: 'Whisky, Blended Scotch  -' },
+            mainIng: {
+                name: 'Storming Stallion',
+                misfits: [a.desert, a.tropical],
+            },
+            firstSideDishes: [{ name: 'Whisky, Blended Malt Scotch  -' }],
+            secondSideDishes: [
+                { name: ' mouth-coating maltyness with notes of walnut' },
             ],
         },
-        getSpiritPrice(),
+        buildPriceSetterFactory(),
         Drinkable.spirit
     ),
     new DishIdea(
         {
-            mainIng: { name: 'Mac Mulligan' },
-            firstSideDishes: [
-                { name: 'Whisky, Single Malt Scotch  -' },
-                { name: 'Whisky, Single Grain Scotch  -' },
-                { name: 'Whisky, Blended Malt Scotch  -' },
-                { name: 'Whisky, Blended Grain Scotch  -' },
-                { name: 'Whisky, Blended Scotch  -' },
-            ],
+            mainIng: { name: 'Mac Mulligan', misfits: [a.desert, a.tropical] },
+            firstSideDishes: [{ name: 'Whisky, Blended Scotch  -' }],
+            secondSideDishes: [{ name: ' woody notes with a bitter finish' }],
         },
-        getSpiritPrice(),
+        buildPriceSetterFactory(),
         Drinkable.spirit
     ),
     new DishIdea(
         {
-            mainIng: { name: 'Mac Master' },
-            firstSideDishes: [
-                { name: 'Whisky, Single Malt Scotch  -' },
-                { name: 'Whisky, Single Grain Scotch  -' },
-                { name: 'Whisky, Blended Malt Scotch  -' },
-                { name: 'Whisky, Blended Grain Scotch  -' },
-                { name: 'Whisky, Blended Scotch  -' },
+            mainIng: { name: 'Mac Master', misfits: [a.desert, a.tropical] },
+            firstSideDishes: [{ name: 'Whisky, Single Malt Scotch  -' }],
+            secondSideDishes: [
+                { name: ' creamy nuances mingling with notes of orange' },
             ],
         },
-        getSpiritPrice(),
+        buildPriceSetterFactory(),
         Drinkable.spirit
     ),
     new DishIdea(
         {
-            mainIng: { name: 'Amber Grace' },
-            firstSideDishes: [
-                { name: 'Whisky, Single Malt Scotch  -' },
-                { name: 'Whisky, Single Grain Scotch  -' },
-                { name: 'Whisky, Blended Malt Scotch  -' },
-                { name: 'Whisky, Blended Grain Scotch  -' },
-                { name: 'Whisky, Blended Scotch  -' },
+            mainIng: { name: 'Amber Grace', misfits: [a.desert, a.tropical] },
+            firstSideDishes: [{ name: 'Whisky, Blended Malt Scotch  -' }],
+            secondSideDishes: [
+                { name: ' strong oaken flavors with notes of honey' },
             ],
         },
-        getSpiritPrice(),
+        buildPriceSetterFactory(),
         Drinkable.spirit
     ),
     new DishIdea(
         {
-            mainIng: { name: 'Smooth Millie' },
-            firstSideDishes: [
-                { name: 'Whisky, Single Malt Scotch  -' },
-                { name: 'Whisky, Single Grain Scotch  -' },
-                { name: 'Whisky, Blended Malt Scotch  -' },
-                { name: 'Whisky, Blended Grain Scotch  -' },
-                { name: 'Whisky, Blended Scotch  -' },
+            mainIng: { name: 'Smooth Millie', misfits: [a.desert, a.tropical] },
+            firstSideDishes: [{ name: 'Whisky, Blended Malt Scotch  -' }],
+            secondSideDishes: [
+                { name: ' a rich, creamy taste with notes of hazelnut' },
             ],
         },
-        getSpiritPrice(),
+        buildPriceSetterFactory(),
         Drinkable.spirit
     ),
     new DishIdea(
         {
-            mainIng: { name: "Freya Mitchel's" },
-            firstSideDishes: [
-                { name: 'Whisky, Single Malt Scotch  -' },
-                { name: 'Whisky, Single Grain Scotch  -' },
-                { name: 'Whisky, Blended Malt Scotch  -' },
-                { name: 'Whisky, Blended Grain Scotch  -' },
-                { name: 'Whisky, Blended Scotch  -' },
+            mainIng: {
+                name: "Freya Mitchel's",
+                misfits: [a.desert, a.tropical],
+            },
+            firstSideDishes: [{ name: 'Whisky, Blended Scotch  -' }],
+            secondSideDishes: [
+                { name: ' subtle notes of apples with a spicy finish' },
             ],
         },
-        getSpiritPrice(),
+        buildPriceSetterFactory(),
         Drinkable.spirit
     ),
     new DishIdea(
         {
-            mainIng: { name: 'Blackwood Benson' },
-            firstSideDishes: [
-                { name: 'Whisky, Single Malt Scotch  -' },
-                { name: 'Whisky, Single Grain Scotch  -' },
-                { name: 'Whisky, Blended Malt Scotch  -' },
-                { name: 'Whisky, Blended Grain Scotch  -' },
-                { name: 'Whisky, Blended Scotch  -' },
+            mainIng: {
+                name: 'Blackwood Benson',
+                misfits: [a.desert, a.tropical],
+            },
+            firstSideDishes: [{ name: 'Whisky, Single Grain Scotch  -' }],
+            secondSideDishes: [
+                { name: ' mouth-coating oakyness with a smoky finish' },
             ],
         },
-        getSpiritPrice(),
+        buildPriceSetterFactory(),
         Drinkable.spirit
     ),
     new DishIdea(
         {
-            mainIng: { name: 'Fiery Ferguson' },
-            firstSideDishes: [
-                { name: 'Whisky, Single Malt Scotch  -' },
-                { name: 'Whisky, Single Grain Scotch  -' },
-                { name: 'Whisky, Blended Malt Scotch  -' },
-                { name: 'Whisky, Blended Grain Scotch  -' },
-                { name: 'Whisky, Blended Scotch  -' },
+            mainIng: {
+                name: 'Fiery Ferguson',
+                misfits: [a.desert, a.tropical],
+            },
+            firstSideDishes: [{ name: 'Whisky, Blended Malt Scotch  -' }],
+            secondSideDishes: [
+                { name: ' rich fruityness with a peppery finish' },
             ],
         },
-        getSpiritPrice(),
+        buildPriceSetterFactory(),
         Drinkable.spirit
     ),
     new DishIdea(
         {
-            mainIng: { name: 'Copper Noon' },
-            firstSideDishes: [
-                { name: 'Whisky, Single Malt Scotch  -' },
-                { name: 'Whisky, Single Grain Scotch  -' },
-                { name: 'Whisky, Blended Malt Scotch  -' },
-                { name: 'Whisky, Blended Grain Scotch  -' },
-                { name: 'Whisky, Blended Scotch  -' },
+            mainIng: { name: 'Copper Noon', misfits: [a.desert, a.tropical] },
+            firstSideDishes: [{ name: 'Whisky, Single Grain Scotch  -' }],
+            secondSideDishes: [
+                { name: ' dry, mouthful fruityness with a smoky finish' },
             ],
         },
-        getSpiritPrice(),
+        buildPriceSetterFactory(),
         Drinkable.spirit
     ),
     new DishIdea(
         {
-            mainIng: { name: "Rosetto's" },
-            firstSideDishes: [
-                { name: 'Whisky, Single Malt Scotch  -' },
-                { name: 'Whisky, Single Grain Scotch  -' },
-                { name: 'Whisky, Blended Malt Scotch  -' },
-                { name: 'Whisky, Blended Grain Scotch  -' },
-                { name: 'Whisky, Blended Scotch  -' },
+            mainIng: { name: "Rosetto's", misfits: [a.desert, a.tropical] },
+            firstSideDishes: [{ name: 'Whisky, Blended Grain Scotch  -' }],
+            secondSideDishes: [
+                { name: ' youthful nuances of cream and peach' },
             ],
         },
-        getSpiritPrice(),
+        buildPriceSetterFactory(),
         Drinkable.spirit
     ),
     new DishIdea(
         {
-            mainIng: { name: "Belezebu's" },
-            firstSideDishes: [
-                { name: 'Whisky, Single Malt Scotch  -' },
-                { name: 'Whisky, Single Grain Scotch  -' },
-                { name: 'Whisky, Blended Malt Scotch  -' },
-                { name: 'Whisky, Blended Grain Scotch  -' },
-                { name: 'Whisky, Blended Scotch  -' },
-            ],
+            mainIng: { name: "Belezebu's", misfits: [a.desert, a.tropical] },
+            firstSideDishes: [{ name: 'Whisky, Single Grain Scotch  -' }],
+            secondSideDishes: [{ name: ' dry maltyness with a spicy finish ' }],
         },
-        getSpiritPrice(),
+        buildPriceSetterFactory(),
         Drinkable.spirit
     ),
 ];
 export const bourbon: DishIdea[] = [
     new DishIdea(
         {
-            mainIng: { name: 'Gregory Gregson' },
-            firstSideDishes: [
-                { name: 'Whiskey, Bonded Bourbon  -' },
-                { name: 'Whiskey, Straight Bourbon  -' },
-            ],
+            mainIng: {
+                name: 'Gregory Gregson',
+                misfits: [a.desert, a.tropical],
+            },
+            firstSideDishes: [{ name: 'Whiskey, Bonded Bourbon  -' }],
+            secondSideDishes: [{ name: ' dry smokyness with a malty finish' }],
         },
-        getSpiritPrice(),
+        buildPriceSetterFactory(),
         Drinkable.spirit
     ),
     new DishIdea(
         {
-            mainIng: { name: 'Old Kennedy' },
-            firstSideDishes: [
-                { name: 'Whiskey, Bonded Bourbon  -' },
-                { name: 'Whiskey, Straight Bourbon  -' },
+            mainIng: { name: 'Old Kennedy', misfits: [a.desert, a.tropical] },
+            firstSideDishes: [{ name: 'Whiskey, Straight Bourbon  -' }],
+            secondSideDishes: [
+                { name: ' rich, creamy flavor with a malty finish' },
             ],
         },
-        getSpiritPrice(),
+        buildPriceSetterFactory(),
         Drinkable.spirit
     ),
     new DishIdea(
         {
-            mainIng: { name: "Mild Miller's" },
-            firstSideDishes: [
-                { name: 'Whiskey, Bonded Bourbon  -' },
-                { name: 'Whiskey, Straight Bourbon  -' },
+            mainIng: { name: "Mild Miller's", misfits: [a.desert, a.tropical] },
+            firstSideDishes: [{ name: 'Whiskey, Single Batch  -' }],
+            secondSideDishes: [
+                { name: ' dignified maltyness paired with notes of caramel' },
             ],
         },
-        getSpiritPrice(),
+        buildPriceSetterFactory(),
         Drinkable.spirit
     ),
     new DishIdea(
         {
-            mainIng: { name: 'Old Jefferson' },
-            firstSideDishes: [
-                { name: 'Whiskey, Bonded Bourbon  -' },
-                { name: 'Whiskey, Straight Bourbon  -' },
+            mainIng: { name: 'Old Jefferson', misfits: [a.desert, a.tropical] },
+            firstSideDishes: [{ name: 'Whiskey, Straight Bourbon  -' }],
+            secondSideDishes: [
+                { name: ' rich fruityness with a firm, grassy finish' },
             ],
         },
-        getSpiritPrice(),
+        buildPriceSetterFactory(),
         Drinkable.spirit
     ),
     new DishIdea(
         {
-            mainIng: { name: 'Copper Joe' },
-            firstSideDishes: [
-                { name: 'Whiskey, Bonded Bourbon  -' },
-                { name: 'Whiskey, Straight Bourbon  -' },
+            mainIng: { name: 'Copper Joe', misfits: [a.desert, a.tropical] },
+            firstSideDishes: [{ name: 'Whiskey, Bonded Bourbon  -' }],
+            secondSideDishes: [
+                { name: ' strong, fruity flavors with a note of copper' },
             ],
         },
-        getSpiritPrice(),
+        buildPriceSetterFactory(),
         Drinkable.spirit
     ),
     new DishIdea(
         {
-            mainIng: { name: 'Oaky Jackson' },
-            firstSideDishes: [
-                { name: 'Whiskey, Bonded Bourbon  -' },
-                { name: 'Whiskey, Straight Bourbon  -' },
+            mainIng: { name: 'Oaky Jackson', misfits: [a.desert, a.tropical] },
+            firstSideDishes: [{ name: 'Whiskey, Straight Bourbon  -' }],
+            secondSideDishes: [
+                { name: ' harsh oakyness with a herbal finish ' },
             ],
         },
-        getSpiritPrice(),
+        buildPriceSetterFactory(),
         Drinkable.spirit
     ),
     new DishIdea(
         {
-            mainIng: { name: 'John Beam' },
-            firstSideDishes: [
-                { name: 'Whiskey, Bonded Bourbon  -' },
-                { name: 'Whiskey, Straight Bourbon  -' },
+            mainIng: { name: 'John Beam', misfits: [a.desert, a.tropical] },
+            firstSideDishes: [{ name: 'Whiskey, Straight Bourbon  -' }],
+            secondSideDishes: [
+                { name: ' light notes of sweet corn and a mild spicyness' },
             ],
         },
-        getSpiritPrice(),
+        buildPriceSetterFactory(),
         Drinkable.spirit
     ),
     new DishIdea(
         {
-            mainIng: { name: "Jeff Daniel's" },
-            firstSideDishes: [
-                { name: 'Whiskey, Bonded Bourbon  -' },
-                { name: 'Whiskey, Straight Bourbon  -' },
+            mainIng: { name: "Jeff Daniel's", misfits: [a.desert, a.tropical] },
+            firstSideDishes: [{ name: 'Whiskey, Straight Bourbon  -' }],
+            secondSideDishes: [
+                { name: ' light nuttyness with notes of corn and maples' },
             ],
         },
-        getSpiritPrice(),
+        buildPriceSetterFactory(),
         Drinkable.spirit
     ),
     new DishIdea(
         {
-            mainIng: { name: "Jeff Daniel's" },
-            firstSideDishes: [
-                { name: 'Whiskey, Bonded Bourbon  -' },
-                { name: 'Whiskey, Straight Bourbon  -' },
+            mainIng: { name: 'Lumber Jason', misfits: [a.desert, a.tropical] },
+            firstSideDishes: [{ name: 'Whiskey, Bonded Bourbon  -' }],
+            secondSideDishes: [
+                { name: ' woody bitterness with a spicy finish' },
             ],
         },
-        getSpiritPrice(),
+        buildPriceSetterFactory(),
         Drinkable.spirit
     ),
     new DishIdea(
         {
-            mainIng: { name: 'Lumber Jason' },
-            firstSideDishes: [
-                { name: 'Whiskey, Bonded Bourbon  -' },
-                { name: 'Whiskey, Straight Bourbon  -' },
+            mainIng: { name: 'Amber Marie', misfits: [a.desert, a.tropical] },
+            firstSideDishes: [{ name: 'Whiskey, Straight Bourbon  -' }],
+            secondSideDishes: [
+                { name: ' youthful fruityness with notes of citrus' },
             ],
         },
-        getSpiritPrice(),
+        buildPriceSetterFactory(),
         Drinkable.spirit
     ),
     new DishIdea(
         {
-            mainIng: { name: 'Amber Marie' },
-            firstSideDishes: [
-                { name: 'Whiskey, Bonded Bourbon  -' },
-                { name: 'Whiskey, Straight Bourbon  -' },
+            mainIng: { name: 'Luster Lacy', misfits: [a.desert, a.tropical] },
+            firstSideDishes: [{ name: 'Whiskey, Straight Bourbon  -' }],
+            secondSideDishes: [
+                { name: ' rich fruityness with notes of lemon and orange' },
             ],
         },
-        getSpiritPrice(),
+        buildPriceSetterFactory(),
         Drinkable.spirit
     ),
     new DishIdea(
         {
-            mainIng: { name: 'Luster Lacy' },
-            firstSideDishes: [
-                { name: 'Whiskey, Bonded Bourbon  -' },
-                { name: 'Whiskey, Straight Bourbon  -' },
+            mainIng: { name: 'Lavish Lucy', misfits: [a.desert, a.tropical] },
+            firstSideDishes: [{ name: 'Whiskey, Bonded Bourbon  -' }],
+            secondSideDishes: [
+                { name: ' mouth-coating spicyness with a soft, oaky finish' },
             ],
         },
-        getSpiritPrice(),
-        Drinkable.spirit
-    ),
-    new DishIdea(
-        {
-            mainIng: { name: 'Lavish Lucy' },
-            firstSideDishes: [
-                { name: 'Whiskey, Bonded Bourbon  -' },
-                { name: 'Whiskey, Straight Bourbon  -' },
-            ],
-        },
-        getSpiritPrice(),
+        buildPriceSetterFactory(),
         Drinkable.spirit
     ),
 ];
