@@ -1,8 +1,6 @@
 import { association } from '../../../../classes/association';
 import { DishIdea } from '../../../../classes/idea/DishIdea';
 import { Eatable } from '../../../../classes/TavernProduct';
-import { foodPrices } from '../../../../scenes/menuScene/priceSetting/foodPriceSetters';
-import { adjustPriceSetter } from '../../../../scenes/menuScene/priceSetting/priceSetters';
 const PORK_FACTOR = 1.0;
 const a = association;
 export const steaks = [
@@ -18,7 +16,7 @@ export const steaks = [
                 },
             ],
         },
-        adjustPriceSetter(foodPrices[Eatable.mainDish], PORK_FACTOR),
+        PORK_FACTOR,
         Eatable.mainDish
     ),
 ];

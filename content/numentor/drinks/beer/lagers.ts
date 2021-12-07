@@ -1,7 +1,6 @@
 import { association } from '../../../../classes/association';
 import { DishIdea } from '../../../../classes/idea/DishIdea';
 import { Drinkable } from '../../../../classes/TavernProduct';
-import { buildPriceSetterFactory } from '../../../../scenes/menuScene/priceSetting/priceSetterFactory';
 const a = association;
 export const lagers: DishIdea[] = [
     new DishIdea(
@@ -14,7 +13,7 @@ export const lagers: DishIdea[] = [
             },
             firstSideDishes: [{ name: 'Lager  -  fierce and malty' }],
         },
-        buildPriceSetterFactory(),
+        1,
         Drinkable.beer
     ),
     new DishIdea(
@@ -32,7 +31,7 @@ export const lagers: DishIdea[] = [
                 },
             ],
         },
-        buildPriceSetterFactory(),
+        1,
         Drinkable.beer
     ),
     new DishIdea(
@@ -47,7 +46,7 @@ export const lagers: DishIdea[] = [
                 { name: 'Lager  -  light red, nutrituous, slightly sweet' },
             ],
         },
-        buildPriceSetterFactory(),
+        1,
         Drinkable.beer
     ),
     new DishIdea(
@@ -60,7 +59,7 @@ export const lagers: DishIdea[] = [
             },
             firstSideDishes: [{ name: 'Lager  -  green, malty and fruity' }],
         },
-        buildPriceSetterFactory(),
+        1,
         Drinkable.beer
     ),
     new DishIdea(
@@ -72,7 +71,7 @@ export const lagers: DishIdea[] = [
                 },
             ],
         },
-        buildPriceSetterFactory(0.9),
+        0.9,
         Drinkable.beer
     ),
     new DishIdea(
@@ -87,7 +86,7 @@ export const lagers: DishIdea[] = [
                 { name: 'Lager  -  the best lager beer brewed by humans' },
             ],
         },
-        buildPriceSetterFactory(2.4),
+        2.4,
         Drinkable.beer
     ),
     new DishIdea(
@@ -104,7 +103,7 @@ export const lagers: DishIdea[] = [
                 },
             ],
         },
-        buildPriceSetterFactory(1.8),
+        1.8,
         Drinkable.beer
     ),
     new DishIdea(
@@ -120,7 +119,7 @@ export const lagers: DishIdea[] = [
                 },
             ],
         },
-        buildPriceSetterFactory(1.4),
+        1.4,
         Drinkable.beer
     ),
     new DishIdea(
@@ -136,7 +135,7 @@ export const lagers: DishIdea[] = [
                 },
             ],
         },
-        buildPriceSetterFactory(),
+        1,
         Drinkable.beer
     ),
     new DishIdea(
@@ -152,7 +151,7 @@ export const lagers: DishIdea[] = [
                 },
             ],
         },
-        buildPriceSetterFactory(1.3),
+        1.3,
         Drinkable.beer
     ),
     new DishIdea(
@@ -167,7 +166,7 @@ export const lagers: DishIdea[] = [
                 { name: 'Lager  -  soft maltyness and mild notes of grapes' },
             ],
         },
-        buildPriceSetterFactory(1.2),
+        1.2,
         Drinkable.beer
     ),
     new DishIdea(
@@ -184,7 +183,7 @@ export const lagers: DishIdea[] = [
                 },
             ],
         },
-        buildPriceSetterFactory(),
+        1,
         Drinkable.beer
     ),
     new DishIdea(
@@ -199,7 +198,7 @@ export const lagers: DishIdea[] = [
                 { name: 'Lager  -  embracing maltnyess with a fruity aroma' },
             ],
         },
-        buildPriceSetterFactory(),
+        1,
         Drinkable.beer
     ),
     new DishIdea(
@@ -214,7 +213,7 @@ export const lagers: DishIdea[] = [
                 { name: 'Lager  -  exquisite maltyness with a crisp finish' },
             ],
         },
-        buildPriceSetterFactory(),
+        1,
         Drinkable.beer
     ),
     new DishIdea(
@@ -231,7 +230,7 @@ export const lagers: DishIdea[] = [
                 },
             ],
         },
-        buildPriceSetterFactory(),
+        1,
         Drinkable.beer
     ),
     new DishIdea(
@@ -248,7 +247,7 @@ export const lagers: DishIdea[] = [
                 },
             ],
         },
-        buildPriceSetterFactory(1.3),
+        1.3,
         Drinkable.beer
     ),
     new DishIdea(
@@ -265,7 +264,7 @@ export const lagers: DishIdea[] = [
                 },
             ],
         },
-        buildPriceSetterFactory(1.4),
+        1.4,
         Drinkable.beer
     ),
     new DishIdea(
@@ -282,7 +281,7 @@ export const lagers: DishIdea[] = [
                 },
             ],
         },
-        buildPriceSetterFactory(1.2),
+        1.2,
         Drinkable.beer
     ),
     new DishIdea(
@@ -299,7 +298,7 @@ export const lagers: DishIdea[] = [
                 },
             ],
         },
-        buildPriceSetterFactory(),
+        1,
         Drinkable.beer
     ),
     new DishIdea(
@@ -316,7 +315,7 @@ export const lagers: DishIdea[] = [
                 },
             ],
         },
-        buildPriceSetterFactory(),
+        1,
         Drinkable.beer
     ),
     new DishIdea(
@@ -332,7 +331,7 @@ export const lagers: DishIdea[] = [
                 },
             ],
         },
-        buildPriceSetterFactory(),
+        1,
         Drinkable.beer
     ),
     new DishIdea(
@@ -348,7 +347,7 @@ export const lagers: DishIdea[] = [
                 },
             ],
         },
-        buildPriceSetterFactory(),
+        1,
         Drinkable.beer
     ),
     new DishIdea(
@@ -364,7 +363,7 @@ export const lagers: DishIdea[] = [
                 },
             ],
         },
-        buildPriceSetterFactory(),
+        1,
         Drinkable.beer
     ),
     new DishIdea(
@@ -380,7 +379,7 @@ export const lagers: DishIdea[] = [
                 },
             ],
         },
-        buildPriceSetterFactory(1.5),
+        1.5,
         Drinkable.beer
     ),
     new DishIdea(
@@ -398,7 +397,7 @@ export const lagers: DishIdea[] = [
                 },
             ],
         },
-        buildPriceSetterFactory(),
+        1,
         Drinkable.beer
     ),
     new DishIdea(
@@ -416,7 +415,7 @@ export const lagers: DishIdea[] = [
                 },
             ],
         },
-        buildPriceSetterFactory(),
+        1,
         Drinkable.beer
     ),
     new DishIdea(
@@ -434,7 +433,7 @@ export const lagers: DishIdea[] = [
                 },
             ],
         },
-        buildPriceSetterFactory(),
+        1,
         Drinkable.beer
     ),
     new DishIdea(
@@ -452,7 +451,7 @@ export const lagers: DishIdea[] = [
                 },
             ],
         },
-        buildPriceSetterFactory(),
+        1,
         Drinkable.beer
     ),
     new DishIdea(
@@ -470,7 +469,7 @@ export const lagers: DishIdea[] = [
                 },
             ],
         },
-        buildPriceSetterFactory(),
+        1,
         Drinkable.beer
     ),
     new DishIdea(
@@ -488,7 +487,7 @@ export const lagers: DishIdea[] = [
                 },
             ],
         },
-        buildPriceSetterFactory(),
+        1,
         Drinkable.beer
     ),
     new DishIdea(
@@ -506,7 +505,7 @@ export const lagers: DishIdea[] = [
                 },
             ],
         },
-        buildPriceSetterFactory(),
+        1,
         Drinkable.beer
     ),
 ];

@@ -1,8 +1,6 @@
 import { association } from '../../../../classes/association';
 import { DishIdea } from '../../../../classes/idea/DishIdea';
 import { Eatable } from '../../../../classes/TavernProduct';
-import { foodPrices } from '../../../../scenes/menuScene/priceSetting/foodPriceSetters';
-import { adjustPriceSetter } from '../../../../scenes/menuScene/priceSetting/priceSetters';
 import { standardCarbs } from './standardCarbs';
 import { standardGreens } from './standardGreens';
 const a = association;
@@ -42,7 +40,7 @@ export const chickenRoasts = [
             secondSideDishes: standardGreens,
             thirdSideDishes: standardCarbs,
         },
-        adjustPriceSetter(foodPrices[Eatable.mainDish], GOOSE_FACTOR),
+        GOOSE_FACTOR,
         Eatable.mainDish
     ),
     new DishIdea(
@@ -69,7 +67,7 @@ export const chickenRoasts = [
             secondSideDishes: standardGreens,
             thirdSideDishes: standardCarbs,
         },
-        adjustPriceSetter(foodPrices[Eatable.mainDish], TURKEY_FACTOR),
+        TURKEY_FACTOR,
         Eatable.mainDish
     ),
     new DishIdea(
@@ -91,7 +89,7 @@ export const chickenRoasts = [
                 },
             ],
         },
-        adjustPriceSetter(foodPrices[Eatable.mainDish], PHEASANT_FACTOR),
+        PHEASANT_FACTOR,
         Eatable.mainDish
     ),
 
@@ -133,7 +131,7 @@ export const chickenRoasts = [
             secondSideDishes: standardGreens,
             thirdSideDishes: standardCarbs,
         },
-        adjustPriceSetter(foodPrices[Eatable.mainDish], CHICKEN_FACTOR),
+        CHICKEN_FACTOR,
         Eatable.mainDish
     ),
     new DishIdea(
@@ -169,7 +167,7 @@ export const chickenRoasts = [
                 },
             ],
         },
-        adjustPriceSetter(foodPrices[Eatable.mainDish], PIGEON_FACTOR),
+        PIGEON_FACTOR,
         Eatable.mainDish
     ),
     new DishIdea(
@@ -196,7 +194,7 @@ export const chickenRoasts = [
             secondSideDishes: standardGreens,
             thirdSideDishes: standardCarbs,
         },
-        adjustPriceSetter(foodPrices[Eatable.mainDish], PIGEON_FACTOR),
+        PIGEON_FACTOR,
         Eatable.mainDish
     ),
 ];

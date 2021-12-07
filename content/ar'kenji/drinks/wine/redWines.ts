@@ -1,8 +1,6 @@
 import { association } from '../../../../classes/association';
 import { DishIdea } from '../../../../classes/idea/DishIdea';
 import { Drinkable } from '../../../../classes/TavernProduct';
-import { drinkPrices } from '../../../../scenes/menuScene/priceSetting/drinkPriceSetters';
-import { adjustPriceSetter } from '../../../../scenes/menuScene/priceSetting/priceSetters';
 const a = association;
 const RED_WINE_FACTOR = 1.2;
 export const redWines: DishIdea[] = [
@@ -39,7 +37,7 @@ export const redWines: DishIdea[] = [
                 },
             ],
         },
-        adjustPriceSetter(drinkPrices[Drinkable.wine], RED_WINE_FACTOR),
+        RED_WINE_FACTOR,
         Drinkable.wine
     ),
 ];

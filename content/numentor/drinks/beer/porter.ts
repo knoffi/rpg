@@ -1,7 +1,6 @@
 import { association } from '../../../../classes/association';
 import { DishIdea } from '../../../../classes/idea/DishIdea';
 import { Drinkable } from '../../../../classes/TavernProduct';
-import { buildPriceSetterFactory } from '../../../../scenes/menuScene/priceSetting/priceSetterFactory';
 const a = association;
 export const porters: DishIdea[] = [
     new DishIdea(
@@ -13,7 +12,7 @@ export const porters: DishIdea[] = [
             },
             firstSideDishes: [{ name: 'Stout  -  black, roasty, bitter' }],
         },
-        buildPriceSetterFactory(0.9),
+        0.9,
         Drinkable.beer
     ),
     new DishIdea(
@@ -25,7 +24,7 @@ export const porters: DishIdea[] = [
             },
             firstSideDishes: [{ name: 'Stout  -  black, sturdy, bitter' }],
         },
-        buildPriceSetterFactory(0.5),
+        0.5,
         Drinkable.beer
     ),
     new DishIdea(
@@ -39,7 +38,7 @@ export const porters: DishIdea[] = [
                 { name: 'Stout  -  dark, slightly bitter, roasty note' },
             ],
         },
-        buildPriceSetterFactory(),
+        1,
         Drinkable.beer
     ),
     new DishIdea(
@@ -54,7 +53,7 @@ export const porters: DishIdea[] = [
                 { name: 'Porter  -  dark, fruity, slightly bitter' },
             ],
         },
-        buildPriceSetterFactory(0.9),
+        0.9,
         Drinkable.beer
     ),
     new DishIdea(
@@ -71,7 +70,7 @@ export const porters: DishIdea[] = [
                 },
             ],
         },
-        buildPriceSetterFactory(),
+        1,
         Drinkable.beer
     ),
     new DishIdea(
@@ -88,7 +87,7 @@ export const porters: DishIdea[] = [
                 },
             ],
         },
-        buildPriceSetterFactory(1.2),
+        1.2,
         Drinkable.beer
     ),
     new DishIdea(
@@ -101,7 +100,7 @@ export const porters: DishIdea[] = [
             },
             firstSideDishes: [{ name: 'Porter  -  dark brown, malty, nutty' }],
         },
-        buildPriceSetterFactory(),
+        1,
         Drinkable.beer
     ),
 ];

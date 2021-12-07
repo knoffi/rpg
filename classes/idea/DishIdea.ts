@@ -1,6 +1,7 @@
 import { WeServe } from '../../editNavigator/WeServe';
 import { Offer } from '../../scenes/menuScene/Offer';
 import { Demand } from '../../scenes/menuScene/offerList/actionInterfaces';
+import { Prices } from '../../scenes/menuScene/priceSetting/priceSetterFactory';
 import { association, Income } from '../association';
 import { FantasyKeys } from '../contentCreator/FantasKeys';
 import { Drinkable, Eatable, MenuCategory } from '../TavernProduct';
@@ -26,7 +27,7 @@ export class DishIdea extends Idea {
 
     constructor(
         ingredients: DishConcept,
-        averagePrice: number | PriceSetter | PriceSetterFactory,
+        priceFactor: number | Partial<PriceSetter>,
         category: MenuCategory
     ) {
         const additionalSideDishes = [
@@ -53,11 +54,7 @@ export class DishIdea extends Idea {
             defaultPatternConcepts.menu
         ),
             true;
-        if (typeof averagePrice === 'function') {
-            this.averagePrice = averagePrice(category);
-        } else {
-            this.averagePrice = averagePrice;
-        }
+        this.averagePrice = Prices.getPriceSetter(category, priceFactor);
         this.category = category;
     }
 

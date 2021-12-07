@@ -2,14 +2,9 @@ import { association } from '../../../../classes/association';
 import { AssetKey } from '../../../../classes/idea/AssetKey/AssetKey';
 import { DishIdea } from '../../../../classes/idea/DishIdea';
 import { Drinkable } from '../../../../classes/TavernProduct';
-import { drinkPrices } from '../../../../scenes/menuScene/priceSetting/drinkPriceSetters';
-import { adjustPriceSetter } from '../../../../scenes/menuScene/priceSetting/priceSetters';
 const a = association;
 const MEAD_FACTOR = 0.8;
-const MEAD_WINE_PRICE_SETTER = adjustPriceSetter(
-    drinkPrices[Drinkable.wine],
-    MEAD_FACTOR
-);
+
 export const meads: DishIdea[] = [
     new DishIdea(
         {
@@ -32,7 +27,7 @@ export const meads: DishIdea[] = [
                 { name: 'Mead - strong flavors of honey and cinnamon' },
             ],
         },
-        MEAD_WINE_PRICE_SETTER,
+        MEAD_FACTOR,
         Drinkable.wine
     ),
     new DishIdea(
@@ -51,7 +46,7 @@ export const meads: DishIdea[] = [
                 },
             ],
         },
-        MEAD_WINE_PRICE_SETTER,
+        MEAD_FACTOR,
         Drinkable.wine
     ),
     new DishIdea(
@@ -76,7 +71,7 @@ export const meads: DishIdea[] = [
                 },
             ],
         },
-        MEAD_WINE_PRICE_SETTER,
+        MEAD_FACTOR,
         Drinkable.wine
     ),
     new DishIdea(
@@ -92,7 +87,7 @@ export const meads: DishIdea[] = [
                 { name: 'Mead - dark purple color, notes of blackberry' },
             ],
         },
-        MEAD_WINE_PRICE_SETTER,
+        MEAD_FACTOR,
         Drinkable.wine
     ),
     new DishIdea(
@@ -108,7 +103,7 @@ export const meads: DishIdea[] = [
                 { name: 'Mead - light pink color, notes of strawberry' },
             ],
         },
-        MEAD_WINE_PRICE_SETTER,
+        MEAD_FACTOR,
         Drinkable.wine
     ),
     new DishIdea(
@@ -124,7 +119,7 @@ export const meads: DishIdea[] = [
                 { name: 'Mead - purple-blue color, notes of blueberry' },
             ],
         },
-        MEAD_WINE_PRICE_SETTER,
+        MEAD_FACTOR,
         Drinkable.wine
     ),
     new DishIdea(
@@ -140,7 +135,7 @@ export const meads: DishIdea[] = [
                 { name: 'Mead - pink-red color, notes of raspberry' },
             ],
         },
-        MEAD_WINE_PRICE_SETTER,
+        MEAD_FACTOR,
         Drinkable.wine
     ),
     new DishIdea(
@@ -158,7 +153,7 @@ export const meads: DishIdea[] = [
                 },
             ],
         },
-        MEAD_WINE_PRICE_SETTER,
+        MEAD_FACTOR,
         Drinkable.wine
     ),
     new DishIdea(
@@ -174,7 +169,7 @@ export const meads: DishIdea[] = [
                 { name: 'Mead - sweet taste, but strong like liquor' },
             ],
         },
-        MEAD_WINE_PRICE_SETTER,
+        MEAD_FACTOR,
         Drinkable.wine
     ),
     new DishIdea(
@@ -191,7 +186,7 @@ export const meads: DishIdea[] = [
                 { name: 'Mead - sweet, slightly bitter and stings a bit' },
             ],
         },
-        MEAD_WINE_PRICE_SETTER,
+        MEAD_FACTOR,
         Drinkable.wine
     ),
     new DishIdea(
@@ -213,7 +208,7 @@ export const meads: DishIdea[] = [
             ],
         },
 
-        MEAD_WINE_PRICE_SETTER,
+        MEAD_FACTOR,
         Drinkable.wine
     ),
     new DishIdea(
@@ -229,7 +224,7 @@ export const meads: DishIdea[] = [
                 { name: 'Mead - light brown color, sweet and notes of wood' },
             ],
         },
-        MEAD_WINE_PRICE_SETTER,
+        MEAD_FACTOR,
         Drinkable.wine
     ),
     new DishIdea(
@@ -245,7 +240,7 @@ export const meads: DishIdea[] = [
                 { name: 'Mead - brown color, very sweet and nutty taste' },
             ],
         },
-        MEAD_WINE_PRICE_SETTER,
+        MEAD_FACTOR,
         Drinkable.wine
     ),
     new DishIdea(
@@ -265,7 +260,7 @@ export const meads: DishIdea[] = [
                 },
             ],
         },
-        MEAD_WINE_PRICE_SETTER,
+        MEAD_FACTOR,
         Drinkable.wine
     ),
     new DishIdea(
@@ -282,7 +277,7 @@ export const meads: DishIdea[] = [
                 },
             ],
         },
-        MEAD_WINE_PRICE_SETTER,
+        MEAD_FACTOR,
         Drinkable.wine
     ),
     new DishIdea(
@@ -298,7 +293,7 @@ export const meads: DishIdea[] = [
                 },
             ],
         },
-        MEAD_WINE_PRICE_SETTER,
+        MEAD_FACTOR,
         Drinkable.wine
     ),
     new DishIdea(
@@ -318,7 +313,7 @@ export const meads: DishIdea[] = [
             },
             firstSideDishes: [{ name: 'Mead - non-acloholic, soft and sweet' }],
         },
-        MEAD_WINE_PRICE_SETTER,
+        MEAD_FACTOR,
         Drinkable.wine
     ),
     new DishIdea(
@@ -334,7 +329,7 @@ export const meads: DishIdea[] = [
                 },
             ],
         },
-        MEAD_WINE_PRICE_SETTER,
+        MEAD_FACTOR,
         Drinkable.wine
     ),
     new DishIdea(
@@ -351,7 +346,7 @@ export const meads: DishIdea[] = [
                 { name: 'Mead - black color, sweet and slightly bitter taste' },
             ],
         },
-        MEAD_WINE_PRICE_SETTER,
+        MEAD_FACTOR,
         Drinkable.wine
     ),
     new DishIdea(
@@ -368,7 +363,7 @@ export const meads: DishIdea[] = [
                 },
             ],
         },
-        MEAD_WINE_PRICE_SETTER,
+        MEAD_FACTOR,
         Drinkable.wine
     ),
     new DishIdea(
@@ -383,7 +378,7 @@ export const meads: DishIdea[] = [
                 { name: 'Mead - golden color, shiny, mellow, sweet' },
             ],
         },
-        MEAD_WINE_PRICE_SETTER,
+        MEAD_FACTOR,
         Drinkable.wine
     ),
     new DishIdea(
@@ -400,7 +395,7 @@ export const meads: DishIdea[] = [
                 },
             ],
         },
-        MEAD_WINE_PRICE_SETTER,
+        MEAD_FACTOR,
         Drinkable.wine
     ),
     new DishIdea(
@@ -416,7 +411,7 @@ export const meads: DishIdea[] = [
                 { name: 'Mead - light brown color, tastes like gingerbread' },
             ],
         },
-        MEAD_WINE_PRICE_SETTER,
+        MEAD_FACTOR,
         Drinkable.wine
     ),
     new DishIdea(
@@ -434,7 +429,7 @@ export const meads: DishIdea[] = [
                 },
             ],
         },
-        MEAD_WINE_PRICE_SETTER,
+        MEAD_FACTOR,
         Drinkable.wine
     ),
     new DishIdea(
@@ -452,7 +447,7 @@ export const meads: DishIdea[] = [
                 },
             ],
         },
-        MEAD_WINE_PRICE_SETTER,
+        MEAD_FACTOR,
         Drinkable.wine
     ),
     new DishIdea(
@@ -471,7 +466,7 @@ export const meads: DishIdea[] = [
                 },
             ],
         },
-        MEAD_WINE_PRICE_SETTER,
+        MEAD_FACTOR,
         Drinkable.wine
     ),
     new DishIdea(
@@ -489,7 +484,7 @@ export const meads: DishIdea[] = [
                 },
             ],
         },
-        MEAD_WINE_PRICE_SETTER,
+        MEAD_FACTOR,
         Drinkable.wine
     ),
     new DishIdea(
@@ -506,7 +501,7 @@ export const meads: DishIdea[] = [
                 },
             ],
         },
-        MEAD_WINE_PRICE_SETTER,
+        MEAD_FACTOR,
         Drinkable.wine
     ),
     new DishIdea(
@@ -523,7 +518,7 @@ export const meads: DishIdea[] = [
                 },
             ],
         },
-        MEAD_WINE_PRICE_SETTER,
+        MEAD_FACTOR,
         Drinkable.wine
     ),
     new DishIdea(
@@ -540,7 +535,7 @@ export const meads: DishIdea[] = [
                 },
             ],
         },
-        MEAD_WINE_PRICE_SETTER,
+        MEAD_FACTOR,
         Drinkable.wine
     ),
     new DishIdea(
@@ -557,7 +552,7 @@ export const meads: DishIdea[] = [
                 },
             ],
         },
-        MEAD_WINE_PRICE_SETTER,
+        MEAD_FACTOR,
         Drinkable.wine
     ),
     new DishIdea(
@@ -574,7 +569,7 @@ export const meads: DishIdea[] = [
                 },
             ],
         },
-        MEAD_WINE_PRICE_SETTER,
+        MEAD_FACTOR,
         Drinkable.wine
     ),
     new DishIdea(
@@ -591,7 +586,7 @@ export const meads: DishIdea[] = [
                 },
             ],
         },
-        MEAD_WINE_PRICE_SETTER,
+        MEAD_FACTOR,
         Drinkable.wine
     ),
     new DishIdea(
@@ -608,7 +603,7 @@ export const meads: DishIdea[] = [
                 },
             ],
         },
-        MEAD_WINE_PRICE_SETTER,
+        MEAD_FACTOR,
         Drinkable.wine
     ),
     new DishIdea(
@@ -625,7 +620,7 @@ export const meads: DishIdea[] = [
                 },
             ],
         },
-        MEAD_WINE_PRICE_SETTER,
+        MEAD_FACTOR,
         Drinkable.wine
     ),
     new DishIdea(
@@ -654,7 +649,7 @@ export const meads: DishIdea[] = [
                 },
             ],
         },
-        MEAD_WINE_PRICE_SETTER,
+        MEAD_FACTOR,
         Drinkable.wine
     ),
     new DishIdea(
@@ -672,7 +667,7 @@ export const meads: DishIdea[] = [
                 },
             ],
         },
-        MEAD_WINE_PRICE_SETTER,
+        MEAD_FACTOR,
         Drinkable.wine
     ),
     new DishIdea(
@@ -690,7 +685,7 @@ export const meads: DishIdea[] = [
                 },
             ],
         },
-        MEAD_WINE_PRICE_SETTER,
+        MEAD_FACTOR,
         Drinkable.wine
     ),
     new DishIdea(
@@ -710,7 +705,7 @@ export const meads: DishIdea[] = [
                 },
             ],
         },
-        MEAD_WINE_PRICE_SETTER,
+        MEAD_FACTOR,
         Drinkable.wine
     ),
     new DishIdea(
@@ -727,7 +722,7 @@ export const meads: DishIdea[] = [
                 },
             ],
         },
-        MEAD_WINE_PRICE_SETTER,
+        MEAD_FACTOR,
         Drinkable.wine
     ),
     new DishIdea(
@@ -747,7 +742,7 @@ export const meads: DishIdea[] = [
                 },
             ],
         },
-        MEAD_WINE_PRICE_SETTER,
+        MEAD_FACTOR,
         Drinkable.wine
     ),
     new DishIdea(
@@ -765,7 +760,7 @@ export const meads: DishIdea[] = [
                 },
             ],
         },
-        MEAD_WINE_PRICE_SETTER,
+        MEAD_FACTOR,
         Drinkable.wine
     ),
     new DishIdea(
@@ -784,7 +779,7 @@ export const meads: DishIdea[] = [
                 },
             ],
         },
-        MEAD_WINE_PRICE_SETTER,
+        MEAD_FACTOR,
         Drinkable.wine
     ),
     new DishIdea(
@@ -803,7 +798,7 @@ export const meads: DishIdea[] = [
             ],
         },
         // the taste of Dwarvish expertise. Can't touch this!
-        MEAD_WINE_PRICE_SETTER,
+        MEAD_FACTOR,
         Drinkable.wine
     ),
     new DishIdea(
@@ -820,7 +815,7 @@ export const meads: DishIdea[] = [
                 },
             ],
         },
-        MEAD_WINE_PRICE_SETTER,
+        MEAD_FACTOR,
         Drinkable.wine
     ),
     new DishIdea(
@@ -839,7 +834,7 @@ export const meads: DishIdea[] = [
                 },
             ],
         },
-        MEAD_WINE_PRICE_SETTER,
+        MEAD_FACTOR,
         Drinkable.wine
     ),
     new DishIdea(
@@ -857,7 +852,7 @@ export const meads: DishIdea[] = [
                 },
             ],
         },
-        MEAD_WINE_PRICE_SETTER,
+        MEAD_FACTOR,
         Drinkable.wine
     ),
     new DishIdea(
@@ -874,7 +869,7 @@ export const meads: DishIdea[] = [
                 },
             ],
         },
-        MEAD_WINE_PRICE_SETTER,
+        MEAD_FACTOR,
         Drinkable.wine
     ),
 ];

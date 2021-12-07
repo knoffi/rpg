@@ -1,8 +1,6 @@
 import { association } from '../../../../../classes/association';
 import { DishIdea } from '../../../../../classes/idea/DishIdea';
 import { Eatable } from '../../../../../classes/TavernProduct';
-import { foodPrices } from '../../../../../scenes/menuScene/priceSetting/foodPriceSetters';
-import { adjustPriceSetter } from '../../../../../scenes/menuScene/priceSetting/priceSetters';
 const a = association;
 const SIMPLE_BREAKFAST_FACTOR = 0.8;
 export const mainBreads: DishIdea[] = [
@@ -28,10 +26,7 @@ export const mainBreads: DishIdea[] = [
                 },
             ],
         },
-        adjustPriceSetter(
-            foodPrices[Eatable.breakfast],
-            SIMPLE_BREAKFAST_FACTOR
-        ),
+        SIMPLE_BREAKFAST_FACTOR,
         Eatable.breakfast
     ),
 ];

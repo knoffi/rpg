@@ -2,8 +2,6 @@ import { association } from '../../../../classes/association';
 import { DishIdea } from '../../../../classes/idea/DishIdea';
 import { DishConcept } from '../../../../classes/idea/powerFitConcepts/DishConcept';
 import { Eatable } from '../../../../classes/TavernProduct';
-import { foodPrices } from '../../../../scenes/menuScene/priceSetting/foodPriceSetters';
-import { adjustPriceSetter } from '../../../../scenes/menuScene/priceSetting/priceSetters';
 const a = association;
 const DIP_AND_CREAM_FACTOR = 0.9;
 export const dipAndCream: DishIdea[] = [
@@ -17,7 +15,7 @@ export const dipAndCream: DishIdea[] = [
                 },
             ],
         } as DishConcept,
-        adjustPriceSetter(foodPrices[Eatable.sideDish], DIP_AND_CREAM_FACTOR),
+        DIP_AND_CREAM_FACTOR,
         Eatable.sideDish
     ), //implement "Meze Plate", google it, it is pretty fitting
 ];

@@ -1,7 +1,6 @@
 import { association } from '../../../../classes/association';
 import { DishIdea } from '../../../../classes/idea/DishIdea';
 import { Drinkable } from '../../../../classes/TavernProduct';
-import { buildPriceSetterFactory } from '../../../../scenes/menuScene/priceSetting/priceSetterFactory';
 const a = association;
 export const scotch: DishIdea[] = [
     new DishIdea(
@@ -18,7 +17,7 @@ export const scotch: DishIdea[] = [
                 },
             ],
         },
-        buildPriceSetterFactory(),
+        1,
         Drinkable.spirit
     ),
     new DishIdea(
@@ -34,7 +33,7 @@ export const scotch: DishIdea[] = [
                 },
             ],
         },
-        buildPriceSetterFactory(1.3),
+        1.3,
         Drinkable.spirit
     ),
     new DishIdea(
@@ -50,7 +49,7 @@ export const scotch: DishIdea[] = [
                 },
             ],
         },
-        buildPriceSetterFactory({ [a.modest]: 1.1 }),
+        { [a.modest]: 1.1 },
         Drinkable.spirit
     ),
     new DishIdea(
@@ -66,7 +65,7 @@ export const scotch: DishIdea[] = [
                 },
             ],
         },
-        buildPriceSetterFactory({ [a.modest]: 1.2 }),
+        { [a.modest]: 1.2 },
         Drinkable.spirit
     ),
     new DishIdea(
@@ -82,7 +81,7 @@ export const scotch: DishIdea[] = [
                 },
             ],
         },
-        buildPriceSetterFactory({ [a.modest]: 1.5 }),
+        { [a.modest]: 1.5 },
         Drinkable.spirit
     ),
     new DishIdea(
@@ -98,7 +97,7 @@ export const scotch: DishIdea[] = [
                 },
             ],
         },
-        buildPriceSetterFactory(0.8),
+        0.8,
         Drinkable.spirit
     ),
     new DishIdea(
@@ -112,7 +111,7 @@ export const scotch: DishIdea[] = [
                 { name: ' mouth-coating maltyness with notes of walnut' },
             ],
         },
-        buildPriceSetterFactory(),
+        1,
         Drinkable.spirit
     ),
     new DishIdea(
@@ -121,7 +120,7 @@ export const scotch: DishIdea[] = [
             firstSideDishes: [{ name: 'Whisky, Blended Scotch  -' }],
             secondSideDishes: [{ name: ' woody notes with a bitter finish' }],
         },
-        buildPriceSetterFactory(),
+        1,
         Drinkable.spirit
     ),
     new DishIdea(
@@ -132,7 +131,7 @@ export const scotch: DishIdea[] = [
                 { name: ' creamy nuances mingling with notes of orange' },
             ],
         },
-        buildPriceSetterFactory(),
+        1,
         Drinkable.spirit
     ),
     new DishIdea(
@@ -143,7 +142,7 @@ export const scotch: DishIdea[] = [
                 { name: ' strong oaken flavors with notes of honey' },
             ],
         },
-        buildPriceSetterFactory(),
+        1,
         Drinkable.spirit
     ),
     new DishIdea(
@@ -154,7 +153,7 @@ export const scotch: DishIdea[] = [
                 { name: ' a rich, creamy taste with notes of hazelnut' },
             ],
         },
-        buildPriceSetterFactory(),
+        1,
         Drinkable.spirit
     ),
     new DishIdea(
@@ -168,7 +167,7 @@ export const scotch: DishIdea[] = [
                 { name: ' subtle notes of apples with a spicy finish' },
             ],
         },
-        buildPriceSetterFactory(),
+        1,
         Drinkable.spirit
     ),
     new DishIdea(
@@ -182,7 +181,7 @@ export const scotch: DishIdea[] = [
                 { name: ' mouth-coating oakyness with a smoky finish' },
             ],
         },
-        buildPriceSetterFactory(),
+        1,
         Drinkable.spirit
     ),
     new DishIdea(
@@ -196,7 +195,7 @@ export const scotch: DishIdea[] = [
                 { name: ' rich fruityness with a peppery finish' },
             ],
         },
-        buildPriceSetterFactory(),
+        1,
         Drinkable.spirit
     ),
     new DishIdea(
@@ -207,7 +206,7 @@ export const scotch: DishIdea[] = [
                 { name: ' dry, mouthful fruityness with a smoky finish' },
             ],
         },
-        buildPriceSetterFactory(),
+        1,
         Drinkable.spirit
     ),
     new DishIdea(
@@ -218,7 +217,7 @@ export const scotch: DishIdea[] = [
                 { name: ' youthful nuances of cream and peach' },
             ],
         },
-        buildPriceSetterFactory(),
+        1,
         Drinkable.spirit
     ),
     new DishIdea(
@@ -227,7 +226,7 @@ export const scotch: DishIdea[] = [
             firstSideDishes: [{ name: 'Whisky, Single Grain Scotch  -' }],
             secondSideDishes: [{ name: ' dry maltyness with a spicy finish ' }],
         },
-        buildPriceSetterFactory(),
+        1,
         Drinkable.spirit
     ),
 ];
@@ -241,7 +240,7 @@ export const bourbon: DishIdea[] = [
             firstSideDishes: [{ name: 'Whiskey, Bonded Bourbon  -' }],
             secondSideDishes: [{ name: ' dry smokyness with a malty finish' }],
         },
-        buildPriceSetterFactory(),
+        1,
         Drinkable.spirit
     ),
     new DishIdea(
@@ -252,7 +251,7 @@ export const bourbon: DishIdea[] = [
                 { name: ' rich, creamy flavor with a malty finish' },
             ],
         },
-        buildPriceSetterFactory(),
+        1,
         Drinkable.spirit
     ),
     new DishIdea(
@@ -263,7 +262,7 @@ export const bourbon: DishIdea[] = [
                 { name: ' dignified maltyness paired with notes of caramel' },
             ],
         },
-        buildPriceSetterFactory(),
+        1,
         Drinkable.spirit
     ),
     new DishIdea(
@@ -274,7 +273,7 @@ export const bourbon: DishIdea[] = [
                 { name: ' rich fruityness with a firm, grassy finish' },
             ],
         },
-        buildPriceSetterFactory(),
+        1,
         Drinkable.spirit
     ),
     new DishIdea(
@@ -285,7 +284,7 @@ export const bourbon: DishIdea[] = [
                 { name: ' strong, fruity flavors with a note of copper' },
             ],
         },
-        buildPriceSetterFactory(),
+        1,
         Drinkable.spirit
     ),
     new DishIdea(
@@ -296,7 +295,7 @@ export const bourbon: DishIdea[] = [
                 { name: ' harsh oakyness with a herbal finish ' },
             ],
         },
-        buildPriceSetterFactory(),
+        1,
         Drinkable.spirit
     ),
     new DishIdea(
@@ -307,7 +306,7 @@ export const bourbon: DishIdea[] = [
                 { name: ' light notes of sweet corn and a mild spicyness' },
             ],
         },
-        buildPriceSetterFactory(),
+        1,
         Drinkable.spirit
     ),
     new DishIdea(
@@ -318,7 +317,7 @@ export const bourbon: DishIdea[] = [
                 { name: ' light nuttyness with notes of corn and maples' },
             ],
         },
-        buildPriceSetterFactory(),
+        1,
         Drinkable.spirit
     ),
     new DishIdea(
@@ -329,7 +328,7 @@ export const bourbon: DishIdea[] = [
                 { name: ' woody bitterness with a spicy finish' },
             ],
         },
-        buildPriceSetterFactory(),
+        1,
         Drinkable.spirit
     ),
     new DishIdea(
@@ -340,7 +339,7 @@ export const bourbon: DishIdea[] = [
                 { name: ' youthful fruityness with notes of citrus' },
             ],
         },
-        buildPriceSetterFactory(),
+        1,
         Drinkable.spirit
     ),
     new DishIdea(
@@ -351,7 +350,7 @@ export const bourbon: DishIdea[] = [
                 { name: ' rich fruityness with notes of lemon and orange' },
             ],
         },
-        buildPriceSetterFactory(),
+        1,
         Drinkable.spirit
     ),
     new DishIdea(
@@ -362,7 +361,7 @@ export const bourbon: DishIdea[] = [
                 { name: ' mouth-coating spicyness with a soft, oaky finish' },
             ],
         },
-        buildPriceSetterFactory(),
+        1,
         Drinkable.spirit
     ),
 ];

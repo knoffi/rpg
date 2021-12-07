@@ -1,8 +1,6 @@
 import { association } from '../../../../classes/association';
 import { DishIdea } from '../../../../classes/idea/DishIdea';
 import { Drinkable } from '../../../../classes/TavernProduct';
-import { drinkPrices } from '../../../../scenes/menuScene/priceSetting/drinkPriceSetters';
-import { adjustPriceSetter } from '../../../../scenes/menuScene/priceSetting/priceSetters';
 const a = association;
 export const lagers: DishIdea[] = [
     new DishIdea(
@@ -19,7 +17,7 @@ export const lagers: DishIdea[] = [
                 },
             ],
         },
-        adjustPriceSetter(drinkPrices[Drinkable.beer], 1.2),
+        1.2,
         // 1.2 means that this beer is a little bit more expensive, if you compare it to other beers from a rich/wealthy tavern! (1.0 = normal)
         Drinkable.beer
     ),
@@ -36,7 +34,7 @@ export const lagers: DishIdea[] = [
                 },
             ],
         },
-        adjustPriceSetter(drinkPrices[Drinkable.beer], 0.5),
+        0.5,
         // 0.5 means that this beer is very cheap, if you compare it to other beers from a poor tavern!  (1.0 = normal)
         Drinkable.beer
     ),
@@ -53,7 +51,7 @@ export const lagers: DishIdea[] = [
                 },
             ],
         },
-        adjustPriceSetter(drinkPrices[Drinkable.beer], 1.0),
+        1.0,
         // 1.0 means that this beer has a normal price for a modest tavern
         Drinkable.beer
     ),
@@ -70,7 +68,7 @@ export const lagers: DishIdea[] = [
                 },
             ],
         },
-        adjustPriceSetter(drinkPrices[Drinkable.beer]),
+        1,
         // leaving out the number is like using 1.0 as comparison number: Therefore, Blacksmith Beer and Black Forest Beer have the same prices
         Drinkable.beer
     ),
