@@ -20,7 +20,7 @@ export const meads: DishIdea[] = [
                 },
             ],
         },
-        adjustPriceSetter(drinkPrices.wine, MEAD_WINE_FACTOR),
+        adjustPriceSetter(drinkPrices[Drinkable.wine], MEAD_WINE_FACTOR),
         Drinkable.wine
     ),
     new DishIdea(
@@ -36,7 +36,7 @@ export const meads: DishIdea[] = [
                 },
             ],
         },
-        adjustPriceSetter(drinkPrices.wine, MEAD_WINE_FACTOR),
+        adjustPriceSetter(drinkPrices[Drinkable.wine], MEAD_WINE_FACTOR),
         Drinkable.wine
     ),
     new DishIdea(
@@ -52,7 +52,7 @@ export const meads: DishIdea[] = [
                 },
             ],
         },
-        adjustPriceSetter(drinkPrices.wine, MEAD_WINE_FACTOR),
+        adjustPriceSetter(drinkPrices[Drinkable.wine], MEAD_WINE_FACTOR),
         Drinkable.wine
     ),
 ];
