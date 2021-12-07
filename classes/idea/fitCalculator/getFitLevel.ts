@@ -160,7 +160,7 @@ const checkTruelyFulfilled = (
                 : false;
 
         default:
-            console.log('I wanted a special association!');
+            console.log(special + ' is not a special association!');
             return true;
     }
 };
