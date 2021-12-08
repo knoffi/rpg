@@ -2,8 +2,6 @@ import { association } from '../../../../classes/association';
 import { AssetKey } from '../../../../classes/idea/AssetKey/AssetKey';
 import { DishIdea } from '../../../../classes/idea/DishIdea';
 import { Drinkable } from '../../../../classes/TavernProduct';
-import { drinkPrices } from '../../../../scenes/menuScene/priceSetting/drinkPriceSetters';
-import { adjustPriceSetter } from '../../../../scenes/menuScene/priceSetting/priceSetters';
 const a = association;
 const MEAD_WINE_FACTOR = 0.1;
 export const meads: DishIdea[] = [
@@ -20,7 +18,7 @@ export const meads: DishIdea[] = [
                 },
             ],
         },
-        adjustPriceSetter(drinkPrices[Drinkable.wine], MEAD_WINE_FACTOR),
+        MEAD_WINE_FACTOR,
         Drinkable.wine
     ),
     new DishIdea(
@@ -36,7 +34,7 @@ export const meads: DishIdea[] = [
                 },
             ],
         },
-        adjustPriceSetter(drinkPrices[Drinkable.wine], MEAD_WINE_FACTOR),
+        MEAD_WINE_FACTOR,
         Drinkable.wine
     ),
     new DishIdea(
@@ -52,7 +50,7 @@ export const meads: DishIdea[] = [
                 },
             ],
         },
-        adjustPriceSetter(drinkPrices[Drinkable.wine], MEAD_WINE_FACTOR),
+        MEAD_WINE_FACTOR,
         Drinkable.wine
     ),
 ];

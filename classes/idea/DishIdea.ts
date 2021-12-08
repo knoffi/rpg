@@ -3,6 +3,8 @@ import { Offer } from '../../scenes/menuScene/Offer';
 import { Demand } from '../../scenes/menuScene/offerList/actionInterfaces';
 import { association, Income } from '../association';
 import { FantasyKeys } from '../contentCreator/FantasKeys';
+import { incomeRange } from '../price/incomeRange';
+import { Prices } from '../price/Price';
 import { Drinkable, Eatable, MenuCategory } from '../TavernProduct';
 import {
     DescriptionAsset,
@@ -19,14 +21,13 @@ import { StructuredTavernFits } from './StructuredTavernFits';
 const EMPTY_SIDE_DISH: DescriptionAsset = { name: '' };
 
 type Pricing = { price: number; income: Income | association.empty };
-type PriceSetterFactory = (category: MenuCategory) => PriceSetter;
 export class DishIdea extends Idea {
-    private averagePrice: number | PriceSetter;
     private category: MenuCategory;
+    private priceFactor: number | Partial<PriceSetter>;
 
     constructor(
         ingredients: DishConcept,
-        averagePrice: number | PriceSetter | PriceSetterFactory,
+        priceFactor: number | Partial<PriceSetter> | 'default',
         category: MenuCategory
     ) {
         const additionalSideDishes = [
@@ -53,12 +54,8 @@ export class DishIdea extends Idea {
             defaultPatternConcepts.menu
         ),
             true;
-        if (typeof averagePrice === 'function') {
-            this.averagePrice = averagePrice(category);
-        } else {
-            this.averagePrice = averagePrice;
-        }
         this.category = category;
+        this.priceFactor = priceFactor === 'default' ? 1 : priceFactor;
     }
 
     public fitsToMenu(
@@ -164,43 +161,22 @@ export class DishIdea extends Idea {
             : { isAbout: WeServe.drinks, category: this.category as Drinkable };
     }
 
-    private getPricing(income?: association, priceFactor = 1): Pricing {
-        if (typeof this.averagePrice === 'number') {
-            const price = this.getPriceFluctuation(
-                priceFactor * this.averagePrice
-            );
-            return { price, income: association.empty };
+    private getPricing(incomeFit?: association, priceFactor = 1): Pricing {
+        const income = incomeRange.find((entry) => incomeFit === entry);
+        const incomeToPrice = new Prices('standard').getIncomeTable(
+            this.category,
+            this.priceFactor
+        );
+        if (income) {
+            const averagePrice = incomeToPrice[income];
+            const price = this.getPriceFluctuation(priceFactor * averagePrice);
+            return { price, income };
         } else {
-            if (income === association.poor) {
-                const price = this.getPriceFluctuation(
-                    priceFactor * this.averagePrice[income]
-                );
-                return { price, income };
-            }
-            if (income === association.modest) {
-                const price = this.getPriceFluctuation(
-                    priceFactor * this.averagePrice[income]
-                );
-                return { price, income };
-            }
-            if (income === association.wealthy) {
-                const price = this.getPriceFluctuation(
-                    priceFactor * this.averagePrice[income]
-                );
-                return { price, income };
-            }
-            if (income === association.rich) {
-                const price = this.getPriceFluctuation(
-                    priceFactor * this.averagePrice[income]
-                );
-                return { price, income };
-            }
-            const price = this.getPriceFluctuation(
-                (priceFactor *
-                    (this.averagePrice[association.modest] +
-                        this.averagePrice[association.wealthy])) /
-                    2
-            );
+            const averagePrice =
+                (incomeToPrice[association.modest] +
+                    incomeToPrice[association.wealthy]) /
+                2;
+            const price = this.getPriceFluctuation(priceFactor * averagePrice);
             return { price, income: association.empty };
         }
     }

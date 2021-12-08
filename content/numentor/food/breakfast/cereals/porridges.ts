@@ -1,8 +1,6 @@
 import { association } from '../../../../../classes/association';
 import { DishIdea } from '../../../../../classes/idea/DishIdea';
 import { Eatable } from '../../../../../classes/TavernProduct';
-import { foodPrices } from '../../../../../scenes/menuScene/priceSetting/foodPriceSetters';
-import { adjustPriceSetter } from '../../../../../scenes/menuScene/priceSetting/priceSetters';
 import { poorBases, wealthyBases, workerBases } from './porridgeBases';
 import {
     modestPorridgeToppings,
@@ -23,7 +21,7 @@ export const porridges = [
                 ...wealthyPorridgeToppings,
             ],
         },
-        adjustPriceSetter(foodPrices[Eatable.breakfast], PORRIDGE_FACTOR),
+        PORRIDGE_FACTOR,
         Eatable.breakfast
     ),
 ];

@@ -1,7 +1,6 @@
 import { association } from '../../../../classes/association';
 import { DishIdea } from '../../../../classes/idea/DishIdea';
 import { Drinkable } from '../../../../classes/TavernProduct';
-import { buildPriceSetterFactory } from '../../../../scenes/menuScene/priceSetting/priceSetterFactory';
 const a = association;
 export const ales: DishIdea[] = [
     new DishIdea(
@@ -9,7 +8,7 @@ export const ales: DishIdea[] = [
             mainIng: { name: 'Ale for Sale', needs: [a.poor, a.haven] },
             firstSideDishes: [{ name: 'Ale  -  harsh and bitter' }],
         },
-        buildPriceSetterFactory(0.3),
+        0.3,
         Drinkable.beer
     ),
     new DishIdea(
@@ -22,7 +21,7 @@ export const ales: DishIdea[] = [
             },
             firstSideDishes: [{ name: 'Ale  -  dark and roasty taste' }],
         },
-        buildPriceSetterFactory(0.6),
+        0.6,
         Drinkable.beer
     ),
     new DishIdea(
@@ -34,7 +33,7 @@ export const ales: DishIdea[] = [
             },
             firstSideDishes: [{ name: 'Ale  -  hoppy and bitter' }],
         },
-        buildPriceSetterFactory(),
+        1,
         Drinkable.beer
     ),
     new DishIdea(
@@ -48,7 +47,7 @@ export const ales: DishIdea[] = [
                 { name: 'Ale  -  full bodied, malty and refreshing' },
             ],
         },
-        buildPriceSetterFactory(),
+        1,
         Drinkable.beer
     ),
     new DishIdea(
@@ -65,7 +64,7 @@ export const ales: DishIdea[] = [
                 },
             ],
         },
-        buildPriceSetterFactory(1.3),
+        1.3,
         Drinkable.beer
     ),
     new DishIdea(
@@ -80,7 +79,7 @@ export const ales: DishIdea[] = [
                 { name: 'Ale  -   black in color and delicately bitter' },
             ],
         },
-        buildPriceSetterFactory(1.1),
+        1.1,
         Drinkable.beer
     ),
     new DishIdea(
@@ -94,7 +93,7 @@ export const ales: DishIdea[] = [
                 { name: 'Ale  -   dark red and notes of cherry' },
             ],
         },
-        buildPriceSetterFactory(),
+        1,
         Drinkable.beer
     ),
     new DishIdea(
@@ -108,7 +107,7 @@ export const ales: DishIdea[] = [
             },
             firstSideDishes: [{ name: 'Ale  -   slightly yellow and fruity' }],
         },
-        buildPriceSetterFactory(),
+        1,
         Drinkable.beer
     ),
     new DishIdea(
@@ -120,7 +119,7 @@ export const ales: DishIdea[] = [
             },
             firstSideDishes: [{ name: 'Ale  -   light brown and nutty' }],
         },
-        buildPriceSetterFactory(1.2),
+        1.2,
         Drinkable.beer
     ),
     new DishIdea(
@@ -132,7 +131,7 @@ export const ales: DishIdea[] = [
             },
             firstSideDishes: [{ name: 'Ale  -   malty, light and sweet' }],
         },
-        buildPriceSetterFactory(1.2),
+        1.2,
         Drinkable.beer
     ),
     new DishIdea(
@@ -147,7 +146,7 @@ export const ales: DishIdea[] = [
                 { name: 'Ale  -   sturdy malt with a sweet accent' },
             ],
         },
-        buildPriceSetterFactory(1.3),
+        1.3,
         Drinkable.beer
     ),
     new DishIdea(
@@ -162,7 +161,7 @@ export const ales: DishIdea[] = [
                 { name: 'Ale  -   sturdy malt with a nutty accent' },
             ],
         },
-        buildPriceSetterFactory(1.3),
+        1.3,
         Drinkable.beer
     ),
 ];

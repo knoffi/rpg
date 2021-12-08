@@ -1,8 +1,6 @@
 import { association } from '../../../../classes/association';
 import { DishIdea } from '../../../../classes/idea/DishIdea';
 import { Drinkable } from '../../../../classes/TavernProduct';
-import { drinkPrices } from '../../../../scenes/menuScene/priceSetting/drinkPriceSetters';
-import { adjustPriceSetter } from '../../../../scenes/menuScene/priceSetting/priceSetters';
 const a = association;
 const WATER_FACTOR = 0.5;
 export const water: DishIdea[] = [
@@ -22,7 +20,7 @@ export const water: DishIdea[] = [
                 },
             ],
         },
-        adjustPriceSetter(drinkPrices[Drinkable.lemonade], WATER_FACTOR),
+        WATER_FACTOR,
         Drinkable.lemonade
     ),
 ];

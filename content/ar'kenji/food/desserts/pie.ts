@@ -1,8 +1,6 @@
 import { association } from '../../../../classes/association';
 import { DishIdea } from '../../../../classes/idea/DishIdea';
 import { Eatable } from '../../../../classes/TavernProduct';
-import { foodPrices } from '../../../../scenes/menuScene/priceSetting/foodPriceSetters';
-import { adjustPriceSetter } from '../../../../scenes/menuScene/priceSetting/priceSetters';
 const SIMPLE_CAKE_FACTOR = 0.9;
 const a = association;
 export const simpleCakes = [
@@ -22,7 +20,7 @@ export const simpleCakes = [
                 },
             ],
         },
-        adjustPriceSetter(foodPrices[Eatable.dessert], SIMPLE_CAKE_FACTOR),
+        SIMPLE_CAKE_FACTOR,
         Eatable.dessert
     ),
 ];

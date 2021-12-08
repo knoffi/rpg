@@ -1,8 +1,6 @@
 import { association } from '../../../../classes/association';
 import { DishIdea } from '../../../../classes/idea/DishIdea';
 import { Eatable } from '../../../../classes/TavernProduct';
-import { foodPrices } from '../../../../scenes/menuScene/priceSetting/foodPriceSetters';
-import { adjustPriceSetter } from '../../../../scenes/menuScene/priceSetting/priceSetters';
 import { standardCarbs } from './standardCarbs';
 import { standardGreens } from './standardGreens';
 const a = association;
@@ -39,7 +37,7 @@ export const beefRoasts =
                 secondSideDishes: standardGreens,
                 thirdSideDishes: standardCarbs,
             },
-            adjustPriceSetter(foodPrices[Eatable.mainDish], ROAST_BEEF_FACTOR),
+            ROAST_BEEF_FACTOR,
             Eatable.mainDish
         ),
 
@@ -71,7 +69,7 @@ export const beefRoasts =
                 secondSideDishes: standardGreens,
                 thirdSideDishes: standardCarbs,
             },
-            adjustPriceSetter(foodPrices[Eatable.mainDish], ROAST_LAMB_FACTOR),
+            ROAST_LAMB_FACTOR,
             Eatable.mainDish
         ),
     ];

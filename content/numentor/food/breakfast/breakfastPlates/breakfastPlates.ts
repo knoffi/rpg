@@ -1,8 +1,6 @@
 import { association } from '../../../../../classes/association';
 import { DishIdea } from '../../../../../classes/idea/DishIdea';
 import { Eatable } from '../../../../../classes/TavernProduct';
-import { foodPrices } from '../../../../../scenes/menuScene/priceSetting/foodPriceSetters';
-import { adjustPriceSetter } from '../../../../../scenes/menuScene/priceSetting/priceSetters';
 import { areaBreads } from './areaBreads';
 import {
     nonRichBreakfastPlateToppings,
@@ -22,10 +20,7 @@ export const breakfastPlates = [
                 ...richBreakfastPlateToppings,
             ],
         },
-        adjustPriceSetter(
-            foodPrices[Eatable.breakfast],
-            BREAKFAST_PLATE_FACTOR
-        ),
+        BREAKFAST_PLATE_FACTOR,
         Eatable.breakfast
     ),
     new DishIdea(
@@ -78,10 +73,7 @@ export const breakfastPlates = [
                 { name: '', incomeRange: [a.poor, a.modest] },
             ],
         },
-        adjustPriceSetter(
-            foodPrices[Eatable.breakfast],
-            BREAKFAST_PLATE_FACTOR
-        ),
+        BREAKFAST_PLATE_FACTOR,
         Eatable.breakfast
     ),
 ];
