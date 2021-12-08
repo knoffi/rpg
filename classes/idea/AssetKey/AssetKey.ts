@@ -27,4 +27,5 @@ export enum AssetKey {
     WINE_mead = 'meads',
     WINE_red = 'red wine',
     WINE_white = 'white wine',
+    SPIRIT_whiskey = 'scotch and bourbon',
 }
