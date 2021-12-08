@@ -10,16 +10,17 @@ export const scotch: DishIdea[] = [
                 key: AssetKey.SPIRIT_whiskey,
                 name: 'Mac Barclay',
                 incomeRange: [a.modest],
-                misfits: [a.desert, a.tropical],
+                powerFits: [a.forest, a.village, a.halfling, a.modest],
+                misfits: [a.desert, a.tropical, a.drow, a.elf],
             },
             firstSideDishes: [{ name: 'Whisky, Blended Grain Scotch  -' }],
             secondSideDishes: [
                 {
-                    name: ' dry taste with a subtle oaken note',
+                    name: ' dry taste with a subtle oaky note',
                 },
             ],
         },
-        1,
+        'default',
         Drinkable.spirit
     ),
     new DishIdea(
@@ -28,7 +29,8 @@ export const scotch: DishIdea[] = [
                 key: AssetKey.SPIRIT_whiskey,
                 name: 'Jolly Walker, Grey Label',
                 needs: [a.poor],
-                misfits: [a.desert, a.tropical],
+                powerFits: [a.poor, a.human],
+                misfits: [a.desert, a.tropical, a.drow, a.elf],
             },
             firstSideDishes: [
                 {
@@ -45,7 +47,8 @@ export const scotch: DishIdea[] = [
                 key: AssetKey.SPIRIT_whiskey,
                 name: 'Jolly Walker, Red Label',
                 incomeRange: [a.modest],
-                misfits: [a.desert, a.tropical],
+                powerFits: [a.modest, a.human],
+                misfits: [a.desert, a.tropical, a.drow, a.elf],
             },
             firstSideDishes: [
                 {
@@ -62,7 +65,8 @@ export const scotch: DishIdea[] = [
                 key: AssetKey.SPIRIT_whiskey,
                 name: 'Jolly Walker, Blue Label',
                 incomeRange: [a.modest],
-                misfits: [a.desert, a.tropical],
+                powerFits: [a.human, a.modest],
+                misfits: [a.desert, a.tropical, a.drow, a.elf],
             },
             firstSideDishes: [
                 {
@@ -79,7 +83,8 @@ export const scotch: DishIdea[] = [
                 key: AssetKey.SPIRIT_whiskey,
                 name: 'Jolly Walker, Silver Label',
                 incomeRange: [a.wealthy],
-                misfits: [a.desert, a.tropical],
+                powerFits: [a.tiefling, a.wealthy],
+                misfits: [a.desert, a.tropical, a.drow, a.elf],
             },
             firstSideDishes: [
                 {
@@ -96,11 +101,12 @@ export const scotch: DishIdea[] = [
                 key: AssetKey.SPIRIT_whiskey,
                 name: 'Jolly Walker, Gold Label',
                 needs: [a.rich],
+                powerFits: [a.rich, a.human],
                 misfits: [a.desert, a.tropical],
             },
             firstSideDishes: [
                 {
-                    name: 'Whisky, Single Malt Scotch  - fruity notes with a mouth-coating maltyness',
+                    name: 'Whisky, Single Malt Scotch  - notes of cacao with a mouth-coating maltyness',
                 },
             ],
         },
@@ -111,15 +117,18 @@ export const scotch: DishIdea[] = [
         {
             mainIng: {
                 key: AssetKey.SPIRIT_whiskey,
-                name: 'Storming Stallion',
+                name: 'Stormy Stallion',
+                needs: [a.knight],
+                powerFits: [a.knight, a.wealthy],
+                incomeRange: [a.wealthy, a.modest],
                 misfits: [a.desert, a.tropical],
             },
             firstSideDishes: [{ name: 'Whisky, Blended Malt Scotch  -' }],
             secondSideDishes: [
-                { name: ' mouth-coating maltyness with notes of walnut' },
+                { name: ' mouth-coating maltyness storms your tongue' },
             ],
         },
-        1,
+        { [a.modest]: 1.4 },
         Drinkable.spirit
     ),
     new DishIdea(
@@ -127,12 +136,14 @@ export const scotch: DishIdea[] = [
             mainIng: {
                 key: AssetKey.SPIRIT_whiskey,
                 name: 'Mac Mulligan',
-                misfits: [a.desert, a.tropical],
+                needs: [a.poor],
+                powerFits: [a.poor, a.halfling, a.village, a.forest],
+                misfits: [a.desert, a.tropical, a.elf, a.drow],
             },
             firstSideDishes: [{ name: 'Whisky, Blended Scotch  -' }],
             secondSideDishes: [{ name: ' woody notes with a bitter finish' }],
         },
-        1,
+        'default',
         Drinkable.spirit
     ),
     new DishIdea(
@@ -140,14 +151,31 @@ export const scotch: DishIdea[] = [
             mainIng: {
                 key: AssetKey.SPIRIT_whiskey,
                 name: 'Mac Master',
-                misfits: [a.desert, a.tropical],
+                needs: [a.rich],
+                misfits: [a.desert, a.tropical, a.drow],
             },
             firstSideDishes: [{ name: 'Whisky, Single Malt Scotch  -' }],
             secondSideDishes: [
                 { name: ' creamy nuances mingling with notes of orange' },
             ],
         },
-        1,
+        1.4,
+        Drinkable.spirit
+    ),
+    new DishIdea(
+        {
+            mainIng: {
+                key: AssetKey.SPIRIT_whiskey,
+                name: 'Mac Master, Export Label',
+                needs: [a.rich],
+                needsOne: [a.desert, a.tropical, a.drow],
+            },
+            firstSideDishes: [{ name: 'Whisky, Single Malt Scotch  -' }],
+            secondSideDishes: [
+                { name: ' creamy nuances mingling with notes of citrus' },
+            ],
+        },
+        1.7,
         Drinkable.spirit
     ),
     new DishIdea(
@@ -155,6 +183,8 @@ export const scotch: DishIdea[] = [
             mainIng: {
                 key: AssetKey.SPIRIT_whiskey,
                 name: 'Amber Grace',
+                incomeRange: [a.modest, a.wealthy],
+                powerFits: [a.elf, a.cleric, a.city, a.wealthy],
                 misfits: [a.desert, a.tropical],
             },
             firstSideDishes: [{ name: 'Whisky, Blended Malt Scotch  -' }],
@@ -162,7 +192,7 @@ export const scotch: DishIdea[] = [
                 { name: ' strong oaken flavors with notes of honey' },
             ],
         },
-        1,
+        { [a.modest]: 1.5 },
         Drinkable.spirit
     ),
     new DishIdea(
@@ -170,14 +200,16 @@ export const scotch: DishIdea[] = [
             mainIng: {
                 key: AssetKey.SPIRIT_whiskey,
                 name: 'Smooth Millie',
-                misfits: [a.desert, a.tropical],
+                incomeRange: [a.modest, a.wealthy],
+                powerFits: [a.halfling, a.gnome, a.bard],
+                misfits: [a.desert, a.tropical, a.elf, a.drow, a.tiefling],
             },
             firstSideDishes: [{ name: 'Whisky, Blended Malt Scotch  -' }],
             secondSideDishes: [
                 { name: ' a rich, creamy taste with notes of hazelnut' },
             ],
         },
-        1,
+        { [a.modest]: 1.5 },
         Drinkable.spirit
     ),
     new DishIdea(
@@ -185,14 +217,16 @@ export const scotch: DishIdea[] = [
             mainIng: {
                 key: AssetKey.SPIRIT_whiskey,
                 name: "Freya Mitchel's",
-                misfits: [a.desert, a.tropical],
+                incomeRange: [a.modest],
+                powerFits: [a.human, a.modest, a.city],
+                misfits: [a.desert, a.tropical, a.drow, a.elf, a.tiefling],
             },
             firstSideDishes: [{ name: 'Whisky, Blended Scotch  -' }],
             secondSideDishes: [
                 { name: ' subtle notes of apples with a spicy finish' },
             ],
         },
-        1,
+        'default',
         Drinkable.spirit
     ),
     new DishIdea(
@@ -200,14 +234,16 @@ export const scotch: DishIdea[] = [
             mainIng: {
                 key: AssetKey.SPIRIT_whiskey,
                 name: 'Blackwood Benson',
-                misfits: [a.desert, a.tropical],
+                incomeRange: [a.modest, a.wealthy],
+                powerFits: [a.druid, a.adventurer, a.bard, a.forest],
+                misfits: [a.desert, a.tropical, a.elf, a.drow],
             },
             firstSideDishes: [{ name: 'Whisky, Single Grain Scotch  -' }],
             secondSideDishes: [
                 { name: ' mouth-coating oakyness with a smoky finish' },
             ],
         },
-        1,
+        { [a.wealthy]: 0.7 },
         Drinkable.spirit
     ),
     new DishIdea(
@@ -215,14 +251,32 @@ export const scotch: DishIdea[] = [
             mainIng: {
                 key: AssetKey.SPIRIT_whiskey,
                 name: 'Fiery Ferguson',
-                misfits: [a.desert, a.tropical],
+                powerFits: [a.tiefling, a.wizard],
+                needsOne: [a.tiefling, a.wizard],
+                misfits: [a.desert, a.tropical, a.poor],
             },
-            firstSideDishes: [{ name: 'Whisky, Blended Malt Scotch  -' }],
+            firstSideDishes: [
+                {
+                    name: 'Whisky, Blended Malt Scotch  -',
+                    incomeRange: [a.modest],
+                },
+                {
+                    name: 'Whisky, Single Malt Scotch  -',
+                    incomeRange: [a.wealthy, a.rich],
+                },
+            ],
             secondSideDishes: [
-                { name: ' rich fruityness with a peppery finish' },
+                {
+                    name: ' rich spicyness with notes of cherry',
+                    incomeRange: [a.wealthy, a.rich],
+                },
+                {
+                    name: ' subtle spicyness with notes of cherry',
+                    incomeRange: [a.modest],
+                },
             ],
         },
-        1,
+        { [a.modest]: 1.5, [a.rich]: 0.7 },
         Drinkable.spirit
     ),
     new DishIdea(
@@ -230,14 +284,20 @@ export const scotch: DishIdea[] = [
             mainIng: {
                 key: AssetKey.SPIRIT_whiskey,
                 name: 'Copper Noon',
+                incomeRange: [a.modest, a.poor],
+                needsOne: [a.assasine, a.soldier, a.mountain],
+                powerFits: [a.assasine, a.soldier, a.mountain],
                 misfits: [a.desert, a.tropical],
             },
-            firstSideDishes: [{ name: 'Whisky, Single Grain Scotch  -' }],
+            firstSideDishes: [
+                { name: 'Whisky, Single Grain Scotch  -' },
+                { name: 'Whisky, Blended Scotch  -' },
+            ],
             secondSideDishes: [
-                { name: ' dry, mouthful fruityness with a smoky finish' },
+                { name: ' subtle fruityness with a smoky finish' },
             ],
         },
-        1,
+        { [a.poor]: 1.3 },
         Drinkable.spirit
     ),
     new DishIdea(
@@ -245,14 +305,16 @@ export const scotch: DishIdea[] = [
             mainIng: {
                 key: AssetKey.SPIRIT_whiskey,
                 name: "Rosetto's",
-                misfits: [a.desert, a.tropical],
+                needs: [a.prostitute],
+                powerFits: [a.prostitute],
+                misfits: [a.desert, a.tropical, a.rich],
             },
             firstSideDishes: [{ name: 'Whisky, Blended Grain Scotch  -' }],
             secondSideDishes: [
                 { name: ' youthful nuances of cream and peach' },
             ],
         },
-        1,
+        { [a.wealthy]: 0.8 },
         Drinkable.spirit
     ),
     new DishIdea(
@@ -260,12 +322,15 @@ export const scotch: DishIdea[] = [
             mainIng: {
                 key: AssetKey.SPIRIT_whiskey,
                 name: "Belezebu's",
+                needs: [a.tiefling],
+                powerFits: [a.tiefling],
+                incomeRange: [a.poor, a.modest],
                 misfits: [a.desert, a.tropical],
             },
             firstSideDishes: [{ name: 'Whisky, Single Grain Scotch  -' }],
             secondSideDishes: [{ name: ' dry maltyness with a spicy finish ' }],
         },
-        1,
+        { [a.poor]: 1.5 },
         Drinkable.spirit
     ),
 ];
@@ -280,7 +345,7 @@ export const bourbon: DishIdea[] = [
             firstSideDishes: [{ name: 'Whiskey, Bonded Bourbon  -' }],
             secondSideDishes: [{ name: ' dry smokyness with a malty finish' }],
         },
-        1,
+        'default',
         Drinkable.spirit
     ),
     new DishIdea(
@@ -295,7 +360,7 @@ export const bourbon: DishIdea[] = [
                 { name: ' rich, creamy flavor with a malty finish' },
             ],
         },
-        1,
+        'default',
         Drinkable.spirit
     ),
     new DishIdea(
@@ -310,7 +375,7 @@ export const bourbon: DishIdea[] = [
                 { name: ' dignified maltyness paired with notes of caramel' },
             ],
         },
-        1,
+        'default',
         Drinkable.spirit
     ),
     new DishIdea(
@@ -325,7 +390,7 @@ export const bourbon: DishIdea[] = [
                 { name: ' rich fruityness with a firm, grassy finish' },
             ],
         },
-        1,
+        'default',
         Drinkable.spirit
     ),
     new DishIdea(
@@ -340,7 +405,7 @@ export const bourbon: DishIdea[] = [
                 { name: ' strong, fruity flavors with a note of copper' },
             ],
         },
-        1,
+        'default',
         Drinkable.spirit
     ),
     new DishIdea(
@@ -355,7 +420,7 @@ export const bourbon: DishIdea[] = [
                 { name: ' harsh oakyness with a herbal finish ' },
             ],
         },
-        1,
+        'default',
         Drinkable.spirit
     ),
     new DishIdea(
@@ -370,7 +435,7 @@ export const bourbon: DishIdea[] = [
                 { name: ' light notes of sweet corn and a mild spicyness' },
             ],
         },
-        1,
+        'default',
         Drinkable.spirit
     ),
     new DishIdea(
@@ -385,7 +450,7 @@ export const bourbon: DishIdea[] = [
                 { name: ' light nuttyness with notes of corn and maples' },
             ],
         },
-        1,
+        'default',
         Drinkable.spirit
     ),
     new DishIdea(
@@ -400,7 +465,7 @@ export const bourbon: DishIdea[] = [
                 { name: ' woody bitterness with a spicy finish' },
             ],
         },
-        1,
+        'default',
         Drinkable.spirit
     ),
     new DishIdea(
@@ -415,7 +480,7 @@ export const bourbon: DishIdea[] = [
                 { name: ' youthful fruityness with notes of citrus' },
             ],
         },
-        1,
+        'default',
         Drinkable.spirit
     ),
     new DishIdea(
@@ -430,7 +495,7 @@ export const bourbon: DishIdea[] = [
                 { name: ' rich fruityness with notes of lemon and orange' },
             ],
         },
-        1,
+        'default',
         Drinkable.spirit
     ),
     new DishIdea(
@@ -445,7 +510,7 @@ export const bourbon: DishIdea[] = [
                 { name: ' mouth-coating spicyness with a soft, oaky finish' },
             ],
         },
-        1,
+        'default',
         Drinkable.spirit
     ),
 ];
