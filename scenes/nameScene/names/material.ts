@@ -5,7 +5,7 @@ import {
     SUBSTANTIVES_FOR_GOLD,
 } from './NON_HUMAN_SUBSTANTIVES_FOR_GOLD';
 
-export const a = association;
+const a = association;
 const moneyOrHonor = [a.rich, a.wealthy, a.knight, a.cleric];
 export const materials: NameIdea[] = [
     new NameIdea(

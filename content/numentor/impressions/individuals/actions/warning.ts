@@ -1,6 +1,6 @@
+import { association } from '../../../../../classes/association';
 import { DescriptionAsset } from '../../../../../classes/idea/DescriptionAsset';
-import { a } from './generic';
-
+const a = association;
 export const warningMonsters: DescriptionAsset[] = [
     {
         name: 'warning you about the beholder living in this area',

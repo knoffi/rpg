@@ -184,6 +184,7 @@ export const OkayButton = (props: ButtonProps) => {
         </Button>
     );
 };
+// ts-prune-ignore-next
 export const DiceButton = (props: ButtonProps) => {
     return (
         <Button
@@ -196,6 +197,7 @@ export const DiceButton = (props: ButtonProps) => {
         </Button>
     );
 };
+// ts-prune-ignore-next
 export const ShopButton = (props: ButtonProps) => {
     return (
         <Button
