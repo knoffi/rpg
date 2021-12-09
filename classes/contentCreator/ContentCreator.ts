@@ -4,7 +4,7 @@ import { numentor } from '../../content/numentor/numentor';
 import { UI_TEST_CONTENT } from '../../content/testUI/testing';
 import { UNIT_TEST_CONTENT } from '../../content/UNIT_TESTING/testing';
 import { WeServe } from '../../editNavigator/WeServe';
-import { getRandomArrayEntry } from '../../helpingFunctions/getFittingRandom';
+import { getRandomArrayEntry } from '../../helpingFunctions/getRandomArrayEntry';
 import { DeepReadonly } from '../../logicTests/Cloner';
 import { Describable } from '../../mainNavigator/TavernData';
 import { allCategories, UniverseMap } from '../../mainNavigator/UniverseMap';

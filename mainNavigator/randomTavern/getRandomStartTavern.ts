@@ -22,7 +22,7 @@ import {
 } from '../../classes/patternHandler/PatternHandler';
 import { Drinkable, Eatable } from '../../classes/TavernProduct';
 import { WeServe } from '../../editNavigator/WeServe';
-import { getRandomArrayEntry } from '../../helpingFunctions/getFittingRandom';
+import { getRandomArrayEntry } from '../../helpingFunctions/getRandomArrayEntry';
 import { BasePrice, standardBasePrice } from '../../scenes/menuScene/basePrice';
 import { Offer } from '../../scenes/menuScene/Offer';
 import { Demand } from '../../scenes/menuScene/offerList/actionInterfaces';
