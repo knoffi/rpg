@@ -63,6 +63,6 @@ describe('PatternHandler tests', () => {
     it('delete from empty', () => {
         const DELETE = Constants.patternDelete();
         const pattern = new PatternHandler('noContent');
-        assert.throws(() => pattern.update(DELETE), /NotFound/);
+        assert.throws(() => pattern.update(DELETE), /not found/i);
     });
 });

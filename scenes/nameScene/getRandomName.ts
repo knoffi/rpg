@@ -1,6 +1,6 @@
 import { filterBestIdeas } from '../../classes/idea/fitCalculator/filterBestIdea';
 import { StructuredTavernFits } from '../../classes/idea/StructuredTavernFits';
-import { getRandomArrayEntry } from '../../helpingFunctions/getFittingRandom';
+import { getRandomArrayEntry } from '../../helpingFunctions/getRandomArrayEntry';
 import { getPrefixExcluder } from '../questScene/impressions/getPrefixExcluder';
 import { nameIdeas } from './names/nameIdeas';
 

@@ -1,7 +1,8 @@
+import { association } from '../../../../../classes/association';
 import { DescriptionAsset } from '../../../../../classes/idea/DescriptionAsset';
 import { brothelActions } from './brothel';
-import { a, lively } from './generic';
-
+import { lively } from './generic';
+const a = association;
 export const partyHermit: DescriptionAsset[] = [
     ...lively,
     { name: 'inviting you to smoke a pipe with him' },

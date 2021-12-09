@@ -1,7 +1,7 @@
 import { association } from '../../../../../classes/association';
 import { DescriptionAsset } from '../../../../../classes/idea/DescriptionAsset';
 import { brothelActions } from './brothel';
-import { busyScholarClass } from './generic';
+import { busyScholarClass, magical } from './generic';
 import { magicalQuests } from './hiring';
 import { warningSociety } from './warning';
 
@@ -258,6 +258,7 @@ export const wizardClass = [
     ...casting,
     ...warningSociety,
     ...brothelActions,
+    ...magical,
 ];
 
 export const alchemistClass = [
