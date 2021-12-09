@@ -449,7 +449,7 @@ export class ContentCreator {
             return undefined;
         } else {
             const newIdea = getRandomArrayEntry(bestNotes.ideas);
-            const newImpression = newIdea.createImpression(
+            const newImpression = newIdea?.createImpression(
                 fitting,
                 //additions for impression do not get filtered by name because it seems more realistic
                 () => false,
@@ -481,7 +481,7 @@ export class ContentCreator {
             return undefined;
         } else {
             const newIdea = getRandomArrayEntry(bestRecipes.ideas);
-            const newDrink = newIdea.getConcreteDish(
+            const newDrink = newIdea?.getConcreteDish(
                 fitting,
                 bestRecipes.level,
                 this.universe[request.category]
@@ -506,7 +506,7 @@ export class ContentCreator {
             return undefined;
         } else {
             const newIdea = getRandomArrayEntry(bestRecipes.ideas);
-            const newDish = newIdea.getConcreteDish(
+            const newDish = newIdea?.getConcreteDish(
                 fitting,
                 bestRecipes.level,
                 this.universe[request.category]
