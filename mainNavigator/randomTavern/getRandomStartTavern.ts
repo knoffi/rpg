@@ -65,7 +65,8 @@ const getRandomFits = () => {
                 ? CHANCE_FOR_SPECIAL_FIT
                 : CHANCE_FOR_ORDINARY_FIT;
         return Math.random() < chanceToAddFit
-            ? getRandomArrayEntry(getAssociationsOfType(type))
+            ? //NOTE: fail fast is prefered here
+              getRandomArrayEntry(getAssociationsOfType(type))!
             : association.empty;
     });
     return fitsWithEmptyFits.filter((fit) => fit !== association.empty);
@@ -74,23 +75,20 @@ const getRandomFits = () => {
 const getRandomPowerFit = (
     fitting: StructuredTavernFits
 ): association | undefined => {
-    if (fitting.class) {
-        return fitting.class;
-    } else {
-        const fits = Object.values(fitting)
-            .map((fit) => fit || association.empty)
-            .filter((fit) => fit !== association.empty && fit);
-        if (fits.length === 0) {
-            return undefined;
-        }
-        return getRandomArrayEntry(fits);
+    const fits = Object.values(fitting)
+        .map((fit) => fit || association.empty)
+        .filter((fit) => fit !== association.empty && fit);
+    if (fits.length === 0) {
+        return undefined;
     }
+    return getRandomArrayEntry(fits);
 };
 
 const getRandomStructuredFits = (): StructuredTavernFits => {
     const fitting =
         Math.random() < CHANCE_FOR_ICONIC_FITTING
-            ? getRandomArrayEntry(iconicFittings)
+            ? //NOTE: fail fast is prefered here
+              getRandomArrayEntry(iconicFittings)!
             : getStructuredFits(getRandomFits());
     fitting.powerFit = getRandomPowerFit(fitting);
     return fitting;

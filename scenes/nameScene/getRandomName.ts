@@ -26,12 +26,13 @@ export const getRandomName = (
         return 'Nameless Tavern';
     } else {
         const newIdea = getRandomArrayEntry(bestNames.ideas);
-        const newName = newIdea.getConcreteName(
+        //NOTE: fail fast is prefered here
+        const newName = newIdea?.getConcreteName(
             fitting,
             isExcludedByName,
             bestNames.level,
             additionFilter
-        );
+        )!;
         return newName;
     }
 };
