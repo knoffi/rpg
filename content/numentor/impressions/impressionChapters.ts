@@ -8,11 +8,13 @@ import { bartenderKnowledge } from './bartender/knowledge';
 import { bartenderOpinions } from './bartender/opinion';
 import { druidIndividuals } from './individuals/druids';
 import { individuals } from './individuals/genericIndividuals';
+import { knightIndividuals } from './individuals/knights';
 import { specialIndividuals } from './individuals/specialPeople';
 import { wizardIndividuals } from './individuals/wizards';
 import { furnitures } from './objects/furniture';
 import { stuffedAnimals } from './objects/stuffedAnimals';
 import { trapsIntriguingShockingFurniture } from './objects/trapsSecretIntriguingFurnite';
+import { weirdBarDecorations } from './objects/weirdBarDecoration';
 
 export const impressionChapters = [
     {
@@ -20,6 +22,7 @@ export const impressionChapters = [
             ...furnitures,
             ...stuffedAnimals,
             ...trapsIntriguingShockingFurniture,
+            ...weirdBarDecorations,
         ],
         category: Noticable.furniture,
     },
@@ -33,6 +36,7 @@ export const impressionChapters = [
             ...specialIndividuals,
             ...druidIndividuals,
             ...wizardIndividuals,
+            ...knightIndividuals,
         ],
         category: Noticable.someCustomers,
     },
