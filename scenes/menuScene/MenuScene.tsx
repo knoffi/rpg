@@ -34,9 +34,9 @@ interface MenuProps {
     bannerData: BannerData;
     handleAdd: (add: Demand) => void;
     handleDelete: (
-        name: string,
+        names: string[],
         deleted: Demand,
-        key: FantasyKeys | 'isUserMade'
+        keys: (FantasyKeys | 'isUserMade')[]
     ) => void;
     handleReroll: (name: string, rerolled: Demand) => void;
     handleEdit: (offer: UserMade, previousName?: string) => void;
@@ -63,12 +63,12 @@ export const MenuScene = (props: MenuProps) => {
         visible: false,
         demand: startDemand,
     });
-    const deleteOffer = (
-        name: string,
+    const deleteOffers = (
+        names: string[],
         demand: Demand,
-        key: FantasyKeys | 'isUserMade'
+        keys: (FantasyKeys | 'isUserMade')[]
     ) => {
-        props.handleDelete(name, demand, key);
+        props.handleDelete(names, demand, keys);
     };
     const addUserOffer = (offer: UserMade) => {
         props.handleEdit(offer);
@@ -150,7 +150,7 @@ export const MenuScene = (props: MenuProps) => {
                         edit: onEdit,
                     }}
                     offerActions={{
-                        deleteOffer: deleteOffer,
+                        deleteOffers: deleteOffers,
                         rerollOffer: props.handleReroll,
                         shopOffer: buyOffer,
                         editUserOffer: openOfferEditor,

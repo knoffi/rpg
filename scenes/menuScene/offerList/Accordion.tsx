@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
 import { List } from 'react-native-paper';
+import { FantasyKeys } from '../../../classes/contentCreator/FantasKeys';
 import {
     AddButton,
     FeatherButton,
@@ -23,12 +24,17 @@ export const OfferAccordion = (props: {
     const [deletions, setDeletions] = useState({
         names: [] as string[],
         demand: props.demand,
+        universes: [] as (FantasyKeys | 'isUserMade')[],
     });
     const [lastDeletion, setLastDeletion] = useState(
         undefined as undefined | string
     );
     const onLastCancelRequest = () => {
-        console.log('old:' + lastDeletion);
+        props.offerActions.deleteOffers(
+            deletions.names,
+            props.demand,
+            deletions.universes
+        );
     };
 
     React.useEffect(() => {
@@ -59,9 +65,14 @@ export const OfferAccordion = (props: {
                     actions={{
                         onDelete: () => {
                             const newNames = [...deletions.names, name];
+                            const newUniverses = [
+                                ...deletions.universes,
+                                offer.universe,
+                            ];
                             setDeletions({
                                 ...deletions,
                                 names: newNames,
+                                universes: newUniverses,
                             });
                         },
                         onInfo: () => {},

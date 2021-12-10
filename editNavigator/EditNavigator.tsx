@@ -242,11 +242,10 @@ export const EditNavigator = (props: {
         props.onDataChange({ name: name });
     };
     const handleDelete = (
-        name: string,
+        names: string[],
         deleted: Demand,
-        key: FantasyKeys | 'isUserMade'
+        universes: (FantasyKeys | 'isUserMade')[]
     ) => {
-        //TODO: different behavior for deletes of user made ideas
         const deleteRequest =
             deleted.isAbout === WeServe.impressions
                 ? {
@@ -257,7 +256,7 @@ export const EditNavigator = (props: {
                       isAbout: deleted.isAbout,
                       oldAssets: props.tavern[deleted.isAbout],
                   };
-        const deletion = creator.deleteCreation(name, deleteRequest);
+        const deletion = creator.multiDelete(names, deleteRequest);
         const categoryWasFullBefore = contentLeft.bannerData[
             deleted.isAbout
         ].emptyCategories.includes(deleted.category);
@@ -265,7 +264,7 @@ export const EditNavigator = (props: {
         //TODO: refactor into getContentLeft({"delete",deleted,fullBefore}|{"add",added})
         const contentNeedsUpdate =
             categoryWasFullBefore &&
-            key === props.tavern.universe[deleted.category];
+            universes.includes(props.tavern.universe[deleted.category]);
         const bannerChanges = contentNeedsUpdate
             ? getBannersByDelete(deleted)
             : {};
@@ -452,7 +451,7 @@ export const EditNavigator = (props: {
                         impressions={props.tavern[WeServe.impressions]}
                         banner={contentLeft.bannerData[WeServe.impressions]}
                         handleAdd={handleAdd}
-                        handleDelete={handleDelete}
+                        handleDelete={() => {}}
                         handleReroll={handleReroll}
                         handleEdit={handleEdit}
                         handleBasePrice={handleBasePrice}
