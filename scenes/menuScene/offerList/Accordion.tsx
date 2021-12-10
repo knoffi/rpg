@@ -20,13 +20,29 @@ export const OfferAccordion = (props: {
     noDrinkToAddLeft: boolean;
     getPriceString: (offer: Offer) => string;
 }) => {
-    const [cancelRequests, setCancelRequests] = useState({
+    const [deletions, setDeletions] = useState({
         names: [] as string[],
         demand: props.demand,
     });
+    const [lastDeletion, setLastDeletion] = useState(
+        undefined as undefined | string
+    );
+    const onLastCancelRequest = () => {
+        console.log('old:' + lastDeletion);
+    };
+
     React.useEffect(() => {
-        console.log(JSON.stringify(cancelRequests.names));
-    }, [cancelRequests]);
+        setTimeout(() => {
+            if (deletions.names.length >= 1) {
+                setLastDeletion(deletions.names[deletions.names.length - 1]);
+            }
+        }, 800);
+    }, [deletions]);
+    React.useEffect(() => {
+        if (lastDeletion === deletions.names[deletions.names.length - 1]) {
+            onLastCancelRequest();
+        }
+    }, [lastDeletion]);
     const onRandomAdd = props.addingActions.randomAdd;
     const onImport = props.addingActions.import;
     const onEdit = props.addingActions.edit;
@@ -42,9 +58,9 @@ export const OfferAccordion = (props: {
                     description={offer.description}
                     actions={{
                         onDelete: () => {
-                            const newNames = [...cancelRequests.names, name];
-                            setCancelRequests({
-                                ...cancelRequests,
+                            const newNames = [...deletions.names, name];
+                            setDeletions({
+                                ...deletions,
                                 names: newNames,
                             });
                         },
