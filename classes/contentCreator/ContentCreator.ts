@@ -101,6 +101,53 @@ export class ContentCreator {
                 };
         }
     }
+    public multiDelete(names: string[], toReduce: ReduceTarget): Delete {
+        const startDissolve = {
+            keys: emptyKeys,
+            patterns: [] as Pattern[],
+            reduced: toReduce.oldAssets,
+            isAbout: toReduce.isAbout,
+        } as Dissolve;
+        const multiDissolve = names.reduce((prev, name) => {
+            const newReduceTarget = {
+                ...toReduce,
+                oldAssets: prev.reduced,
+            } as ReduceTarget;
+            const newDissolve = this.dissolveCreation(newReduceTarget, name);
+            const keys: Keys = {
+                main: prev.keys.main.concat(newDissolve.keys.main),
+                addition: prev.keys.addition.concat(newDissolve.keys.addition),
+            };
+            const patterns: Pattern[] = [
+                ...prev.patterns,
+                ...newDissolve.patterns,
+            ];
+            return { ...newDissolve, patterns, keys };
+        }, startDissolve);
+        switch (multiDissolve.isAbout) {
+            case WeServe.impressions:
+                return {
+                    ...multiDissolve,
+                    impression: multiDissolve.reduced,
+                    oldKeys: multiDissolve.keys,
+                    oldPatterns: multiDissolve.patterns,
+                };
+            case WeServe.drinks:
+                return {
+                    ...multiDissolve,
+                    drink: multiDissolve.reduced,
+                    oldKeys: multiDissolve.keys,
+                    oldPatterns: multiDissolve.patterns,
+                };
+            default:
+                return {
+                    ...multiDissolve,
+                    food: multiDissolve.reduced,
+                    oldKeys: multiDissolve.keys,
+                    oldPatterns: multiDissolve.patterns,
+                };
+        }
+    }
     private dissolveCreation(
         toReduce: ReduceTarget,
         toRemove: string
