@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View } from 'react-native';
 import { List } from 'react-native-paper';
 import {
@@ -12,7 +12,6 @@ import { Offer } from '../Offer';
 import { Demand, IAddingActions, IOfferActions } from './actionInterfaces';
 import { OfferListItem } from './Item';
 import { LIST_END_BUTTON_SIZE } from './LIST_END_BUTTON_SIZE';
-
 export const OfferAccordion = (props: {
     demand: Demand & { isAbout: WeServe.drinks | WeServe.food };
     listOfOffers: Offer[];
@@ -21,6 +20,13 @@ export const OfferAccordion = (props: {
     noDrinkToAddLeft: boolean;
     getPriceString: (offer: Offer) => string;
 }) => {
+    const [cancelRequests, setCancelRequests] = useState({
+        names: [] as string[],
+        demand: props.demand,
+    });
+    React.useEffect(() => {
+        console.log(JSON.stringify(cancelRequests.names));
+    }, [cancelRequests]);
     const onRandomAdd = props.addingActions.randomAdd;
     const onImport = props.addingActions.import;
     const onEdit = props.addingActions.edit;
@@ -36,11 +42,11 @@ export const OfferAccordion = (props: {
                     description={offer.description}
                     actions={{
                         onDelete: () => {
-                            props.offerActions.deleteOffer(
-                                name,
-                                thisDemand,
-                                offer.universe
-                            );
+                            const newNames = [...cancelRequests.names, name];
+                            setCancelRequests({
+                                ...cancelRequests,
+                                names: newNames,
+                            });
                         },
                         onInfo: () => {},
                         onReroll: () => {
