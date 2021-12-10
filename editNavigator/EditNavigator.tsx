@@ -451,7 +451,7 @@ export const EditNavigator = (props: {
                         impressions={props.tavern[WeServe.impressions]}
                         banner={contentLeft.bannerData[WeServe.impressions]}
                         handleAdd={handleAdd}
-                        handleDelete={() => {}}
+                        handleDelete={handleDelete}
                         handleReroll={handleReroll}
                         handleEdit={handleEdit}
                         handleBasePrice={handleBasePrice}

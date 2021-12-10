@@ -31,9 +31,9 @@ export const DetailsList = (props: {
     onPriceSetPress: (income: Income) => void;
     addingAcions: IAddingActions;
     onDelete: (
-        name: string,
+        names: string[],
         deleted: Demand,
-        key: FantasyKeys | 'isUserMade'
+        universes: (FantasyKeys | 'isUserMade')[]
     ) => void;
     onReroll: (name: string, rerolled: Demand) => void;
     onEdit: (startData: UserMadeImpression) => void;
@@ -56,9 +56,10 @@ export const DetailsList = (props: {
                 isBartender={title == Noticable.bartender}
                 title={title}
                 impressions={impressionsOfTitle}
-                onDelete={(name: string, key: FantasyKeys | 'isUserMade') =>
-                    props.onDelete(name, demand, key)
-                }
+                onDelete={(
+                    names: string[],
+                    universes: (FantasyKeys | 'isUserMade')[]
+                ) => props.onDelete(names, demand, universes)}
                 onReroll={(name: string) => props.onReroll(name, demand)}
                 onAdd={() => props.addingAcions.randomAdd(demand)}
                 onEdit={props.onEdit}
@@ -91,7 +92,10 @@ const ImpressionAccordion = (props: {
     title: string;
     isBartender: boolean;
     impressions: Impression[];
-    onDelete: (name: string, key: FantasyKeys | 'isUserMade') => void;
+    onDelete: (
+        names: string[],
+        universes: (FantasyKeys | 'isUserMade')[]
+    ) => void;
     onAdd: () => void;
     onEdit: (data: UserMadeImpression) => void;
     onReroll: (name: string) => void;
@@ -102,6 +106,29 @@ const ImpressionAccordion = (props: {
     const [bartenderSex, setBartenderSex] = useState(
         'male' as 'female' | 'male'
     );
+    const [deletions, setDeletions] = useState({
+        names: [] as string[],
+        universes: [] as (FantasyKeys | 'isUserMade')[],
+    });
+    const [lastDeletion, setLastDeletion] = useState(
+        undefined as undefined | string
+    );
+    const onLastCancelRequest = () => {
+        props.onDelete(deletions.names, deletions.universes);
+    };
+
+    React.useEffect(() => {
+        setTimeout(() => {
+            if (deletions.names.length >= 1) {
+                setLastDeletion(deletions.names[deletions.names.length - 1]);
+            }
+        }, 800);
+    }, [deletions]);
+    React.useEffect(() => {
+        if (lastDeletion === deletions.names[deletions.names.length - 1]) {
+            onLastCancelRequest();
+        }
+    }, [lastDeletion]);
     const adjustDisplayText = (impression: Impression) => {
         const impressionDisplay = new ImpressionDisplay(
             impression.name,
@@ -141,7 +168,16 @@ const ImpressionAccordion = (props: {
                         props.onReroll(impression.name);
                     },
                     onDelete: () => {
-                        props.onDelete(text, impression.universe);
+                        const newNames = [...deletions.names, impression.name];
+                        const newUniverses = [
+                            ...deletions.universes,
+                            impression.universe,
+                        ];
+                        setDeletions({
+                            ...deletions,
+                            names: newNames,
+                            universes: newUniverses,
+                        });
                     },
                     onEdit: () =>
                         props.onEdit({

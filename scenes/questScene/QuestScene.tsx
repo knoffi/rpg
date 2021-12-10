@@ -54,9 +54,9 @@ export const QuestScene = (props: {
     impressions: Impression[];
     handleAdd: (add: Demand) => void;
     handleDelete: (
-        name: string,
+        names: string[],
         deleted: Demand,
-        key: FantasyKeys | 'isUserMade'
+        keys: (FantasyKeys | 'isUserMade')[]
     ) => void;
     handleReroll: (name: string, rerolled: Demand) => void;
     handleEdit: (edit: UserMade, previousName?: string) => void;
