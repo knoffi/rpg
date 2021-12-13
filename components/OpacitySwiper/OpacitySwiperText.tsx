@@ -5,6 +5,7 @@ import {
     State,
 } from 'react-native-gesture-handler';
 import Animated, { or } from 'react-native-reanimated';
+import { DeleteIcon } from '../buttons/Buttons';
 import { MemoizedSwiperText } from './SwiperText';
 const {
     block,
@@ -250,6 +251,32 @@ export class OpacitySwiperText extends React.Component<
                   position
               );
     }
+    getLeftActionScale() {
+        const position = this.state.anim.position;
+        const value = !this.props.leftSwipePossible
+            ? new Animated.Value(0)
+            : Animated.min(
+                  Animated.max(
+                      Animated.atan(
+                          Animated.divide(
+                              Animated.multiply(-1, position),
+                              this.props.swipeThreshold
+                          )
+                      ),
+                      0
+                  ),
+                  3
+              );
+        return value;
+    }
+    getLeftBGWidth() {
+        const position = this.state.anim.position;
+        const value = !this.props.leftSwipePossible
+            ? new Animated.Value(0)
+            : Animated.max(Animated.multiply(-1, position), 0);
+
+        return value;
+    }
 
     render() {
         return (
@@ -261,6 +288,44 @@ export class OpacitySwiperText extends React.Component<
             >
                 <Animated.View>
                     <Animated.View>
+                        <Animated.View
+                            style={{
+                                zIndex: -1, //-1
+                                backgroundColor: 'red',
+                                position: 'absolute',
+                                transform: [
+                                    {
+                                        translateX: Animated.add(
+                                            350,
+                                            this.getTranslation()
+                                        ),
+                                    },
+                                ],
+                                width: this.getLeftBGWidth(),
+                                minHeight: 120,
+                            }}
+                        ></Animated.View>
+                        <Animated.View
+                            style={{
+                                position: 'absolute',
+                                transform: [
+                                    {
+                                        translateX: Animated.add(
+                                            300,
+                                            this.getTranslation(),
+                                            Animated.divide(
+                                                this.getLeftBGWidth(),
+                                                2
+                                            )
+                                        ),
+                                    },
+                                    { translateY: 50 },
+                                    { scale: this.getLeftActionScale() },
+                                ],
+                            }}
+                        >
+                            <DeleteIcon onPress={() => {}}></DeleteIcon>
+                        </Animated.View>
                         <Animated.View style={{ opacity: this.getOpacity() }}>
                             <Animated.View
                                 style={{
