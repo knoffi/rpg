@@ -35,6 +35,7 @@ export const OfferAccordion = (props: {
             props.demand,
             deletions.universes
         );
+        setDeletions({ ...deletions, names: [], universes: [] });
     };
 
     React.useEffect(() => {
@@ -45,7 +46,10 @@ export const OfferAccordion = (props: {
         }, 800);
     }, [deletions]);
     React.useEffect(() => {
-        if (lastDeletion === deletions.names[deletions.names.length - 1]) {
+        if (
+            deletions.names.length >= 1 &&
+            lastDeletion === deletions.names[deletions.names.length - 1]
+        ) {
             onLastCancelRequest();
         }
     }, [lastDeletion]);
