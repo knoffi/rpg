@@ -115,6 +115,7 @@ const ImpressionAccordion = (props: {
     );
     const onLastCancelRequest = () => {
         props.onDelete(deletions.names, deletions.universes);
+        setDeletions({ ...deletions, names: [], universes: [] });
     };
 
     React.useEffect(() => {
