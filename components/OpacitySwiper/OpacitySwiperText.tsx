@@ -44,6 +44,7 @@ type OpacitySwiperTextState = {
         velocity: Animated.Value<0>;
         time: Animated.Value<0>;
     };
+    swipeActionPossible: boolean;
 };
 const FAST_STIFFNESS = 10;
 const IS_NO_CLICK_THRESHOLD = 2;
@@ -77,6 +78,7 @@ export class OpacitySwiperText extends React.Component<
                 velocity: new Animated.Value(0),
                 time: new Animated.Value(0),
             },
+            swipeActionPossible: false,
         };
         this.clock = new Animated.Clock();
         this.gestureState = new Animated.Value(GestureState.UNDETERMINED);
@@ -117,6 +119,32 @@ export class OpacitySwiperText extends React.Component<
                             ),
                             call([], () => {
                                 this.userMightClick = false;
+                            })
+                        ),
+                        cond(
+                            or(
+                                greaterThan(
+                                    translationX,
+                                    this.props.swipeThreshold
+                                ),
+                                lessThan(
+                                    translationX,
+                                    -this.props.swipeThreshold
+                                )
+                            ),
+                            call([], () => {
+                                if (!this.state.swipeActionPossible) {
+                                    this.setState({
+                                        swipeActionPossible: true,
+                                    });
+                                }
+                            }),
+                            call([], () => {
+                                if (this.state.swipeActionPossible) {
+                                    this.setState({
+                                        swipeActionPossible: false,
+                                    });
+                                }
                             })
                         ),
                     ]),
@@ -277,7 +305,10 @@ export class OpacitySwiperText extends React.Component<
                             <Animated.View
                                 style={{
                                     zIndex: -1, //-1
-                                    backgroundColor: 'blue',
+                                    backgroundColor: this.state
+                                        .swipeActionPossible
+                                        ? 'blue'
+                                        : 'grey',
                                     width: '50%',
                                     height: '100%',
                                     flexDirection: 'row',
@@ -305,7 +336,10 @@ export class OpacitySwiperText extends React.Component<
                             <Animated.View
                                 style={{
                                     zIndex: -1, //-1
-                                    backgroundColor: 'red',
+                                    backgroundColor: this.state
+                                        .swipeActionPossible
+                                        ? 'red'
+                                        : 'grey',
                                     width: '50%',
                                     height: '100%',
                                     flexDirection: 'row-reverse',
