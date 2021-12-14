@@ -1,11 +1,13 @@
 import React, { createRef } from 'react';
+import { View } from 'react-native';
 import {
     PanGestureHandler,
     State as GestureState,
     State,
 } from 'react-native-gesture-handler';
+import { Text } from 'react-native-paper';
 import Animated, { or } from 'react-native-reanimated';
-import { DeleteIcon } from '../buttons/Buttons';
+import { nameSceneStyles } from '../../scenes/nameScene/nameSceneStyles';
 import { MemoizedSwiperText } from './SwiperText';
 const {
     block,
@@ -205,27 +207,6 @@ export class OpacitySwiperText extends React.Component<
             },
         ]);
     }
-
-    getOpacity() {
-        return Animated.divide(
-            Animated.min(
-                Animated.sub(
-                    this.props.rightSwipePossible
-                        ? this.props.swipeThreshold
-                        : Animated.add(
-                              this.props.swipeThreshold,
-                              this.state.anim.position
-                          ),
-                    this.state.anim.position
-                ),
-                Animated.add(
-                    this.props.swipeThreshold,
-                    this.state.anim.position
-                )
-            ),
-            this.props.swipeThreshold
-        );
-    }
     getStiffness() {
         return this.props.rightSwipePossible
             ? cond(
@@ -257,24 +238,19 @@ export class OpacitySwiperText extends React.Component<
             ? new Animated.Value(0)
             : Animated.min(
                   Animated.max(
-                      Animated.atan(
-                          Animated.divide(
-                              Animated.multiply(-1, position),
-                              this.props.swipeThreshold
-                          )
+                      Animated.divide(
+                          Animated.atan(
+                              Animated.divide(
+                                  Animated.multiply(-1, position),
+                                  this.props.swipeThreshold / 7
+                              )
+                          ),
+                          1
                       ),
                       0
                   ),
-                  3
+                  8
               );
-        return value;
-    }
-    getLeftBGWidth() {
-        const position = this.state.anim.position;
-        const value = !this.props.leftSwipePossible
-            ? new Animated.Value(0)
-            : Animated.max(Animated.multiply(-1, position), 0);
-
         return value;
     }
 
@@ -290,45 +266,77 @@ export class OpacitySwiperText extends React.Component<
                     <Animated.View>
                         <Animated.View
                             style={{
-                                zIndex: -1, //-1
-                                backgroundColor: 'red',
+                                flexDirection: 'row',
+                                justifyContent: 'space-between',
+                                zIndex: -1,
+                                width: '100%',
+                                height: '100%',
                                 position: 'absolute',
-                                transform: [
-                                    {
-                                        translateX: Animated.add(
-                                            350,
-                                            this.getTranslation()
-                                        ),
-                                    },
-                                ],
-                                width: this.getLeftBGWidth(),
-                                minHeight: 120,
-                            }}
-                        ></Animated.View>
-                        <Animated.View
-                            style={{
-                                position: 'absolute',
-                                transform: [
-                                    {
-                                        translateX: Animated.add(
-                                            300,
-                                            this.getTranslation(),
-                                            Animated.divide(
-                                                this.getLeftBGWidth(),
-                                                2
-                                            )
-                                        ),
-                                    },
-                                    { translateY: 50 },
-                                    { scale: this.getLeftActionScale() },
-                                ],
                             }}
                         >
-                            <DeleteIcon onPress={() => {}}></DeleteIcon>
-                        </Animated.View>
-                        <Animated.View style={{ opacity: this.getOpacity() }}>
                             <Animated.View
                                 style={{
+                                    zIndex: -1, //-1
+                                    backgroundColor: 'blue',
+                                    width: '50%',
+                                    height: '100%',
+                                    flexDirection: 'row',
+                                    justifyContent: 'flex-start',
+                                }}
+                            >
+                                <View
+                                    style={{
+                                        flexDirection: 'column',
+                                        justifyContent: 'center',
+                                    }}
+                                >
+                                    <Text
+                                        style={{
+                                            color: 'white',
+                                            fontWeight: 'bold',
+                                            fontSize: 25,
+                                            marginLeft: 10,
+                                        }}
+                                    >
+                                        REROLL!
+                                    </Text>
+                                </View>
+                            </Animated.View>
+                            <Animated.View
+                                style={{
+                                    zIndex: -1, //-1
+                                    backgroundColor: 'red',
+                                    width: '50%',
+                                    height: '100%',
+                                    flexDirection: 'row-reverse',
+                                    justifyContent: 'flex-start',
+                                }}
+                            >
+                                <View
+                                    style={{
+                                        flexDirection: 'column',
+                                        justifyContent: 'center',
+                                    }}
+                                >
+                                    <Text
+                                        style={{
+                                            color: 'white',
+                                            fontWeight: 'bold',
+                                            fontSize: 25,
+                                            marginRight: 10,
+                                        }}
+                                    >
+                                        DELETE!
+                                    </Text>
+                                </View>
+                            </Animated.View>
+                        </Animated.View>
+                        <Animated.View>
+                            <Animated.View
+                                style={{
+                                    backgroundColor:
+                                        nameSceneStyles.backgroundView
+                                            .backgroundColor,
                                     flex: 1,
                                     transform: [
                                         {
@@ -337,39 +345,47 @@ export class OpacitySwiperText extends React.Component<
                                     ],
                                 }}
                             >
-                                <Animated.Code>
-                                    {() =>
-                                        block([
-                                            cond(clockRunning(this.clock), [
-                                                spring(
-                                                    this.clock,
+                                <Animated.View>
+                                    <Animated.Code>
+                                        {() =>
+                                            block([
+                                                cond(clockRunning(this.clock), [
+                                                    spring(
+                                                        this.clock,
 
-                                                    this.state.anim,
+                                                        this.state.anim,
 
-                                                    {
-                                                        ...this
-                                                            .springAnimConfig,
-                                                        stiffness:
-                                                            this.getStiffness(),
-                                                    }
-                                                ),
-                                                cond(this.state.anim.finished, [
-                                                    stopClock(this.clock),
-                                                    Animated.set(
+                                                        {
+                                                            ...this
+                                                                .springAnimConfig,
+                                                            stiffness:
+                                                                this.getStiffness(),
+                                                        }
+                                                    ),
+                                                    cond(
                                                         this.state.anim
                                                             .finished,
-                                                        0
+                                                        [
+                                                            stopClock(
+                                                                this.clock
+                                                            ),
+                                                            Animated.set(
+                                                                this.state.anim
+                                                                    .finished,
+                                                                0
+                                                            ),
+                                                        ]
                                                     ),
                                                 ]),
-                                            ]),
-                                        ])
-                                    }
-                                </Animated.Code>
-                                <MemoizedSwiperText
-                                    title={this.props.title}
-                                    description={this.props.description}
-                                    price={this.props.price}
-                                />
+                                            ])
+                                        }
+                                    </Animated.Code>
+                                    <MemoizedSwiperText
+                                        title={this.props.title}
+                                        description={this.props.description}
+                                        price={this.props.price}
+                                    />
+                                </Animated.View>
                             </Animated.View>
                         </Animated.View>
                     </Animated.View>
