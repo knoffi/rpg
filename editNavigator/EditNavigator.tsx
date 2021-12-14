@@ -176,7 +176,7 @@ export const EditNavigator = (props: {
         );
 
         updateTracker(rerolled, rerolled);
-        props.onDataChange({ [rerolled.isAbout]: rerolled.oneRerolled });
+        props.onDataChange({ [rerolled.isAbout]: rerolled.rerolled });
     };
     const handleBasePrice = (newPrices: BasePrice) => {
         props.onDataChange({ prices: newPrices });

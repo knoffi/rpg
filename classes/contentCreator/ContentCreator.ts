@@ -26,7 +26,9 @@ import {
     getStructuredFits,
     StructuredTavernFits,
 } from '../idea/StructuredTavernFits';
+import { KeyHandler } from '../keyHandler/KeyHandler';
 import { Keys } from '../keyHandler/KeyHandlingTypes';
+import { PatternHandler } from '../patternHandler/PatternHandler';
 import { Drinkable, Eatable } from '../TavernProduct';
 import { emptyKeys } from './emptyKeys';
 import { FantasyKeys } from './FantasKeys';
@@ -270,6 +272,68 @@ export class ContentCreator {
                 return this.rerollOneDrink(fitting, rerolledName, request);
         }
     }
+    public multiReroll(
+        fitting: StructuredTavernFits,
+        rerolledNames: string[],
+        //NOTE: handlers for keys and patterns may come from React state
+        request: MultiRerollRequest
+    ): MultiReroll {
+        const clonedHandlers = {
+            keys: request.keys.multiUpdateClone([]),
+            patterns: request.keys.multiUpdateClone([]),
+        };
+        const startRequest: MultiRerollRequest = {
+            ...request,
+            ...clonedHandlers,
+        };
+        const multiReroll = rerolledNames.reduce((prev, cur) => {
+            const deletion = this.deleteCreation(cur, { ...prev });
+            prev.pattern.update({ ...deletion, type: 'Delete' });
+            const patterns = prev.pattern.getPatterns(deletion.isAbout);
+            prev.keys.update({ ...deletion, type: 'Delete' });
+            const fullKeys = prev.keys.getFullKeys(deletion.isAbout);
+            const request: CreationRequest = {
+                ...prev,
+                fullFirstKeys: fullKeys.main,
+                fullSecondKeys: fullKeys.addition,
+                patterns: patterns,
+            };
+            const reroll = this.rerollOneCreation(fitting, cur, request);
+            prev.keys.update({ ...reroll, type: 'Add' });
+            prev.pattern.update({ ...reroll, type: 'Add' });
+            return {
+                ...prev,
+                oldAssets: reroll.rerolled,
+            } as MultiRerollRequest;
+        }, startRequest);
+        return this.convert(multiReroll);
+    }
+    private convert(request: MultiRerollRequest): MultiReroll {
+        switch (request.isAbout) {
+            case WeServe.drinks:
+                return {
+                    ...request,
+                    rerolled: request.oldAssets,
+                    newKeys: request.keys,
+                    newPatterns: request.pattern,
+                };
+            case WeServe.food:
+                return {
+                    ...request,
+                    rerolled: request.oldAssets,
+                    newKeys: request.keys,
+                    newPatterns: request.pattern,
+                };
+
+            default:
+                return {
+                    ...request,
+                    rerolled: request.oldAssets,
+                    newKeys: request.keys,
+                    newPatterns: request.pattern,
+                };
+        }
+    }
 
     public createUserMade(edit: UserMade): Edit {
         switch (edit.isAbout) {
@@ -391,18 +455,6 @@ export class ContentCreator {
                 1101
             )
         );
-        const regularFitCount = (this.dungeonMaster[category] as Idea[]).filter(
-            (idea) =>
-                idea.fitsToTavern(
-                    { ...fitting, powerFit: undefined },
-                    () => false,
-                    undefined,
-                    undefined,
-                    undefined,
-                    undefined,
-                    1003
-                )
-        ).length;
         return {
             powerFit: powerFitFulfillers.length,
             reulgarFit: regularFulfillers.length,
@@ -579,7 +631,7 @@ export class ContentCreator {
             : request.oldAssets.filter((dish) => dish.name !== rerolledName);
         const reroll: Reroll = {
             isAbout: WeServe.food,
-            oneRerolled: rerolledDishes,
+            rerolled: rerolledDishes,
             oldKeys: oldDish?.keys || emptyKeys,
             newKeys: newDish?.keys || emptyKeys,
             oldPatterns: [],
@@ -604,7 +656,7 @@ export class ContentCreator {
             : request.oldAssets.filter((drink) => drink.name !== rerolledName);
         const reroll: Reroll = {
             isAbout: WeServe.drinks,
-            oneRerolled: rerolledDrinks,
+            rerolled: rerolledDrinks,
             oldKeys: oldDrink?.keys || emptyKeys,
             newKeys: newDrink?.keys || emptyKeys,
             oldPatterns: [],
@@ -639,7 +691,7 @@ export class ContentCreator {
               );
         const reroll: Reroll = {
             isAbout: WeServe.impressions,
-            oneRerolled: rerolledImpressions,
+            rerolled: rerolledImpressions,
             newKeys: newImpression?.keys || emptyKeys,
             oldKeys: oldImpression?.keys || emptyKeys,
             oldPatterns: oldImpression?.patterns || [],
@@ -660,29 +712,37 @@ export class ContentCreator {
         return ideas;
     }
 }
-
-export type FoodRequest = {
+type FoodBasic = {
     isAbout: WeServe.food;
     category: Eatable;
     oldAssets: Offer[];
-    fullFirstKeys: AssetKey[];
-    fullSecondKeys: AssetKey[];
 };
-export type DrinkRequest = {
+type DrinkBasic = {
     isAbout: WeServe.drinks;
     category: Drinkable;
     oldAssets: Offer[];
-    fullFirstKeys: AssetKey[];
-    fullSecondKeys: AssetKey[];
 };
-export type ImpressionRequest = {
+type ImpressionBasic = {
     isAbout: WeServe.impressions;
     category: Noticable;
     oldAssets: Impression[];
-    fullFirstKeys: AssetKey[];
-    fullSecondKeys: AssetKey[];
     mainFilter?: number;
     additionFilter?: number;
+};
+
+export type FoodRequest = FoodBasic & {
+    fullFirstKeys: AssetKey[];
+    fullSecondKeys: AssetKey[];
+    patterns?: Pattern[];
+};
+export type DrinkRequest = DrinkBasic & {
+    fullFirstKeys: AssetKey[];
+    fullSecondKeys: AssetKey[];
+    patterns?: Pattern[];
+};
+export type ImpressionRequest = ImpressionBasic & {
+    fullFirstKeys: AssetKey[];
+    fullSecondKeys: AssetKey[];
     patterns?: Pattern[];
 };
 export type CreationRequest = FoodRequest | DrinkRequest | ImpressionRequest;
@@ -782,7 +842,7 @@ export type Delete =
 export type Reroll =
     | {
           isAbout: WeServe.drinks | WeServe.food;
-          oneRerolled: Offer[];
+          rerolled: Offer[];
           newKeys: Keys;
           oldKeys: Keys;
           oldPatterns: Pattern[];
@@ -790,7 +850,7 @@ export type Reroll =
       }
     | {
           isAbout: WeServe.impressions;
-          oneRerolled: Impression[];
+          rerolled: Impression[];
           newKeys: Keys;
           oldKeys: Keys;
           oldPatterns: Pattern[];
@@ -806,6 +866,18 @@ type Dissolve = { keys: Keys; patterns: Pattern[] } & (
     | { reduced: Offer[]; isAbout: WeServe.food }
     | { reduced: Offer[]; isAbout: WeServe.drinks }
 );
+type MultiRerollRequest = (FoodBasic | DrinkBasic | ImpressionBasic) & {
+    keys: KeyHandler;
+    pattern: PatternHandler;
+};
+type MultiReroll = (
+    | { isAbout: WeServe.food; rerolled: Offer[] }
+    | { isAbout: WeServe.drinks; rerolled: Offer[] }
+    | { isAbout: WeServe.impressions; rerolled: Impression[] }
+) & {
+    newKeys: KeyHandler;
+    newPatterns: PatternHandler;
+};
 export interface ImpressionNote {
     ideas: ImpressionIdea[];
     category: Noticable;

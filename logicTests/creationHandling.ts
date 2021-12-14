@@ -193,7 +193,7 @@ describe('ContentCreator tests', () => {
             .to.have.property('main')
             .eql([oldMainKey]);
         expect(reroll).to.have.property('oldPatterns').to.eql([oldPattern]);
-        const newAsset = reroll.oneRerolled[0];
+        const newAsset = reroll.rerolled[0];
         expect(newAsset).to.have.property('category').to.eql(request.category);
         expect(newAsset).to.have.property('name').to.not.eql(nameForReroll);
     });
