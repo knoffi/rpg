@@ -2,13 +2,18 @@ import { association } from '../classes/association';
 import {
     ContentCreator,
     CreationRequest,
+    MultiRerollRequest,
 } from '../classes/contentCreator/ContentCreator';
 import { FantasyKeys } from '../classes/contentCreator/FantasKeys';
 import { AssetKey } from '../classes/idea/AssetKey/AssetKey';
 import { Noticable } from '../classes/idea/Noticable';
 import { Pattern } from '../classes/idea/Patterns/Pattern';
+import { KeyHandler } from '../classes/keyHandler/KeyHandler';
 import { KeyChange, Keys } from '../classes/keyHandler/KeyHandlingTypes';
-import { PatternChange } from '../classes/patternHandler/PatternHandler';
+import {
+    PatternChange,
+    PatternHandler,
+} from '../classes/patternHandler/PatternHandler';
 import { Drinkable, Eatable } from '../classes/TavernProduct';
 import { WeServe } from '../editNavigator/WeServe';
 import { Content } from '../mainNavigator/Content';
@@ -112,20 +117,77 @@ export class Constants {
             dissolvedPatterns,
         });
     }
-    // public static namesForMultiReroll() {
-    //     const toDelete = Constants._oldImpressions
-    //         .map((impression) => impression.name)
-    //         .filter((entry, index) => index > 0);
-    //     const leftAfterDelete = [Constants._oldImpressions[0].name];
-    //     return Cloner.deepWritableCopy({ toDelete, leftAfterDelete });
-    // }
-    // private static _multiRerollRequest: DeepReadonly<CreationRequest> = {
-    //     ...Constants._impressionRequest,
-    //     oldAssets: Constants._oldImpressions,
-    // };
-    // public static multiRerollRequest() {
-    //     return Cloner.deepWritableCopy(Constants._multiDeleteRequest);
-    // }
+    private static _sideDishStandard: Omit<
+        Offer & { isAbout: WeServe.food },
+        'name' | 'keys' | 'patterns'
+    > = {
+        isAbout: WeServe.food,
+        category: Eatable.sideDish,
+        price: 1,
+        universe: FantasyKeys.unitTest,
+        income: association.empty,
+        description: '',
+        isUserMade: false,
+    };
+
+    private static _multiRerollTavern: DeepReadonly<Content> = {
+        [WeServe.drinks]: [],
+        [WeServe.impressions]: [],
+        [WeServe.food]: [
+            {
+                ...Constants._sideDishStandard,
+                name: 'Soup',
+                keys: { main: [AssetKey.SMALL_DISH_soup], addition: [] },
+                patterns: [Pattern.BARTENDER_UncleBen],
+            },
+            {
+                ...Constants._sideDishStandard,
+                name: 'Bread',
+                keys: { main: [AssetKey.SMALL_DISH_carbon], addition: [] },
+                patterns: [Pattern.BARTENDER_UncleBen],
+            },
+            {
+                ...Constants._sideDishStandard,
+                name: 'Salad',
+                keys: { main: [AssetKey.SMALL_DISH_salad], addition: [] },
+                patterns: [Pattern.BARTENDER_UncleBen],
+            },
+        ],
+    };
+    private static _multiRerollRequest: DeepReadonly<
+        Omit<MultiRerollRequest & { isAbout: WeServe.food }, 'keys' | 'pattern'>
+    > = {
+        isAbout: WeServe.food,
+        category: Eatable.sideDish,
+        oldAssets: Constants._multiRerollTavern[WeServe.food],
+    };
+    public static multiReroll() {
+        const partialRequest = Constants._multiRerollRequest;
+        const keys = new KeyHandler(Constants._multiRerollTavern);
+        const pattern = new PatternHandler(Constants._multiRerollTavern);
+        const unrerolledName = Constants._multiRerollTavern.food[0].name;
+        const addedByReroll = 'Hummus';
+        const containedFullMain = [
+            AssetKey.SMALL_DISH_fingerfood,
+            AssetKey.SMALL_DISH_soup,
+        ];
+        const containedPattern = [
+            Pattern.BARTENDER_Kleinfinger,
+            Pattern.BARTENDER_UncleBen,
+        ];
+        const toReroll = Constants._multiRerollTavern.food
+            .map((dish) => dish.name)
+            .filter((entry, index) => index > 0);
+        const methodlessObjects = Cloner.deepWritableCopy({
+            partialRequest,
+            toReroll,
+            unrerolledName,
+            addedByReroll,
+            containedFullMain,
+            containedPattern,
+        });
+        return { ...methodlessObjects, keys, pattern };
+    }
     private static _patterns = [Pattern.BARTENDER_Kleinfinger];
     public static patterns() {
         return Cloner.deepWritableCopy(Constants._patterns);

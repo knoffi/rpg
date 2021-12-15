@@ -9,6 +9,7 @@ import { AssetKey } from '../classes/idea/AssetKey/AssetKey';
 import { Noticable } from '../classes/idea/Noticable';
 import { Pattern } from '../classes/idea/Patterns/Pattern';
 import { StructuredTavernFits } from '../classes/idea/StructuredTavernFits';
+import { Keys } from '../classes/keyHandler/KeyHandlingTypes';
 import { Drinkable } from '../classes/TavernProduct';
 import { WeServe } from '../editNavigator/WeServe';
 import { Offer } from '../scenes/menuScene/Offer';
@@ -212,13 +213,52 @@ describe('ContentCreator tests', () => {
         expect(result)
             .to.have.property('oldPatterns')
             .to.eql(dissolvedPatterns);
-        console.log(JSON.stringify(dissolvedPatterns));
-        console.log(JSON.stringify(result.oldPatterns));
         if (result.isAbout === WeServe.impressions) {
             const namesLeft = result.impression.map(
                 (impression) => impression.name
             );
             expect(namesLeft).to.eql(leftAfterDelete);
         }
+    });
+    it('multi reroll:', () => {
+        const creator = Constants.creator();
+        const {
+            partialRequest,
+            toReroll,
+            keys,
+            pattern,
+            unrerolledName,
+            addedByReroll,
+            containedFullMain,
+            containedPattern,
+        } = Constants.multiReroll();
+        const fits = {};
+        const oldFullKeys = keys.getFullKeys(WeServe.food);
+        expect(oldFullKeys, 'old full keys')
+            .to.have.property('main')
+            .to.contain(AssetKey.SMALL_DISH_soup);
+        const request = { ...partialRequest, keys, pattern };
+        const result = creator.multiReroll(fits, toReroll, request);
+        expect(result).to.have.property('isAbout').to.eql(WeServe.food);
+        const newNames = (result.rerolled as { name: string }[]).map(
+            (offer) => offer.name
+        );
+        expect(newNames)
+            .to.contain(addedByReroll)
+            .and.to.contain(unrerolledName);
+        expect(result).to.have.property('newKeys');
+        expect(result).to.have.property('newPatterns');
+        const fullKeys: Keys = result.newKeys.getFullKeys(WeServe.food);
+        const newPatterns: Pattern[] = result.newPatterns.getPatterns(
+            WeServe.food
+        );
+        containedFullMain.forEach((mainKey) =>
+            expect(fullKeys, 'new full keys')
+                .to.have.property('main')
+                .to.contain(mainKey)
+        );
+        containedPattern.forEach((pattern) =>
+            expect(newPatterns).to.contain(pattern)
+        );
     });
 });

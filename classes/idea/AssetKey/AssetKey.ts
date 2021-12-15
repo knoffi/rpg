@@ -27,4 +27,11 @@ export enum AssetKey {
     WINE_mead = 'meads',
     WINE_red = 'red wine',
     WINE_white = 'white wine',
+
+    // FOOD
+    SMALL_DISH_salad = 'salads',
+    SMALL_DISH_soup = 'soups, not stews',
+    SMALL_DISH_carbon = 'breads, with or without toppings, potatoes, rice',
+    SMALL_DISH_protein = 'egg variations, meat as side dish, tofu, soy products',
+    SMALL_DISH_fingerfood = 'fingerfood, dipping, often with cream or sauces',
 }

@@ -4,7 +4,7 @@ import { porkRoasts } from '../../numentor/food/mainDish/porkRoasts';
 import { mainBreads } from './breakfast/simpelBreakfast/mainBread';
 import { simpleCakes } from './desserts/pie';
 import { steaks } from './mainDish/steaks';
-import { dipAndCream } from './smallDish/dipAndCream';
+import { forMultiReroll } from './smallDish/smallDish';
 
 export const foodMenu: IDishMenu[] = [
     {
@@ -15,6 +15,6 @@ export const foodMenu: IDishMenu[] = [
         category: Eatable.breakfast,
         ideas: [...mainBreads],
     },
-    { category: Eatable.sideDish, ideas: [...dipAndCream] },
+    { category: Eatable.sideDish, ideas: [...forMultiReroll] },
     { category: Eatable.dessert, ideas: [...simpleCakes] },
 ];
