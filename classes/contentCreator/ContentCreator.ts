@@ -272,7 +272,6 @@ export class ContentCreator {
                 return this.rerollOneDrink(fitting, rerolledName, request);
         }
     }
-    //TODO: add tests
     public multiReroll(
         fitting: StructuredTavernFits,
         rerolledNames: string[],
@@ -435,7 +434,7 @@ export class ContentCreator {
         const regularFulfillers = (
             this.dungeonMaster[category] as Idea[]
         ).filter((idea) =>
-            idea.fitsToTavern(
+            idea.fitsWithoutPatterns(
                 { ...fitting, powerFit: undefined },
                 () => false,
                 undefined,
@@ -446,7 +445,7 @@ export class ContentCreator {
             )
         );
         const powerFitFulfillers = regularFulfillers.filter((idea) =>
-            idea.fitsToTavern(
+            idea.fitsWithoutPatterns(
                 fitting,
                 () => false,
                 undefined,
@@ -476,7 +475,7 @@ export class ContentCreator {
                     isAbout: WeServe.drinks,
                     category: request.category,
                     newKeys: newDrink?.keys || emptyKeys,
-                    newPatterns: [],
+                    newPatterns: newDrink?.patterns || [],
                 };
             case WeServe.food:
                 const newDish = this.getRandomDish(fitting, request);
@@ -487,7 +486,7 @@ export class ContentCreator {
                     isAbout: WeServe.food,
                     category: request.category,
                     newKeys: newDish?.keys || emptyKeys,
-                    newPatterns: [],
+                    newPatterns: newDish?.patterns || [],
                 };
 
             default:
@@ -568,14 +567,20 @@ export class ContentCreator {
     ) {
         const oldNames = request.oldAssets.map((drink) => drink.name);
         const isExcludedByName = getPrefixExcluder(oldNames, WeServe.drinks);
+        const mainExcludedByKey = getKeyExcluder(request.fullFirstKeys);
+        const additionExcludedByKey = getKeyExcluder(request.fullSecondKeys);
+        const patterns = request.patterns || [];
 
         const ideas = this.dungeonMaster[request.category];
         const bestRecipes = filterBestIdeas(
             ideas,
             fitting,
             isExcludedByName,
-            getKeyExcluder(request.fullFirstKeys),
-            getKeyExcluder(request.fullSecondKeys)
+            mainExcludedByKey,
+            additionExcludedByKey,
+            undefined,
+            undefined,
+            patterns
         );
         if (!bestRecipes) {
             return undefined;
@@ -584,7 +589,9 @@ export class ContentCreator {
             const newDrink = newIdea.getConcreteDish(
                 fitting,
                 bestRecipes.level,
-                this.universe[request.category]
+                this.universe[request.category],
+                additionExcludedByKey,
+                patterns
             );
             return newDrink;
         }
@@ -592,15 +599,17 @@ export class ContentCreator {
     private getRandomDish(fitting: StructuredTavernFits, request: FoodRequest) {
         const oldNames = request.oldAssets.map((dish) => dish.name);
         const isExcludedByName = getPrefixExcluder(oldNames, WeServe.drinks);
-
+        const mainExcludedByKey = getKeyExcluder(request.fullFirstKeys);
+        const additionExcludedByKey = getKeyExcluder(request.fullSecondKeys);
+        const patterns = request.patterns || [];
         const ideas = this.dungeonMaster[request.category];
 
         const bestRecipes = filterBestIdeas(
             ideas,
             fitting,
             isExcludedByName,
-            getKeyExcluder(request.fullFirstKeys),
-            getKeyExcluder(request.fullSecondKeys)
+            mainExcludedByKey,
+            additionExcludedByKey
         );
         if (!bestRecipes) {
             return undefined;
@@ -609,7 +618,9 @@ export class ContentCreator {
             const newDish = newIdea.getConcreteDish(
                 fitting,
                 bestRecipes.level,
-                this.universe[request.category]
+                this.universe[request.category],
+                additionExcludedByKey,
+                patterns
             );
             return newDish;
         }
@@ -635,8 +646,8 @@ export class ContentCreator {
             rerolled: rerolledDishes,
             oldKeys: oldDish?.keys || emptyKeys,
             newKeys: newDish?.keys || emptyKeys,
-            oldPatterns: [],
-            newPatterns: [],
+            oldPatterns: oldDish?.patterns || [],
+            newPatterns: newDish?.patterns || [],
         };
         return reroll;
     }
@@ -660,8 +671,8 @@ export class ContentCreator {
             rerolled: rerolledDrinks,
             oldKeys: oldDrink?.keys || emptyKeys,
             newKeys: newDrink?.keys || emptyKeys,
-            oldPatterns: [],
-            newPatterns: [],
+            oldPatterns: oldDrink?.patterns || [],
+            newPatterns: newDrink?.patterns || [],
         };
         return reroll;
     }
@@ -867,7 +878,7 @@ type Dissolve = { keys: Keys; patterns: Pattern[] } & (
     | { reduced: Offer[]; isAbout: WeServe.food }
     | { reduced: Offer[]; isAbout: WeServe.drinks }
 );
-type MultiRerollRequest = (FoodBasic | DrinkBasic | ImpressionBasic) & {
+export type MultiRerollRequest = (FoodBasic | DrinkBasic | ImpressionBasic) & {
     keys: KeyHandler;
     pattern: PatternHandler;
 };
