@@ -187,7 +187,7 @@ describe('ContentCreator tests', () => {
             request
         );
         expect(reroll).to.have.property('isAbout').to.eql(WeServe.impressions);
-        expect(reroll).to.have.property('oneRerolled').to.have.length(1);
+        expect(reroll).to.have.property('rerolled').to.have.length(1);
         expect(reroll)
             .to.have.property('oldKeys')
             .to.have.property('main')
@@ -196,5 +196,29 @@ describe('ContentCreator tests', () => {
         const newAsset = reroll.rerolled[0];
         expect(newAsset).to.have.property('category').to.eql(request.category);
         expect(newAsset).to.have.property('name').to.not.eql(nameForReroll);
+    });
+    it('multi deletion:', () => {
+        const creator = Constants.creator();
+        const {
+            request,
+            leftAfterDelete,
+            toDelete,
+            dissolvedKeys,
+            dissolvedPatterns,
+        } = Constants.multiDelete();
+        const result = creator.multiDelete(toDelete, request);
+        expect(result).to.have.property('isAbout').to.eql(WeServe.impressions);
+        expect(result).to.have.property('oldKeys').to.eql(dissolvedKeys);
+        expect(result)
+            .to.have.property('oldPatterns')
+            .to.eql(dissolvedPatterns);
+        console.log(JSON.stringify(dissolvedPatterns));
+        console.log(JSON.stringify(result.oldPatterns));
+        if (result.isAbout === WeServe.impressions) {
+            const namesLeft = result.impression.map(
+                (impression) => impression.name
+            );
+            expect(namesLeft).to.eql(leftAfterDelete);
+        }
     });
 });

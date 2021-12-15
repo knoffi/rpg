@@ -7,7 +7,7 @@ import { FantasyKeys } from '../classes/contentCreator/FantasKeys';
 import { AssetKey } from '../classes/idea/AssetKey/AssetKey';
 import { Noticable } from '../classes/idea/Noticable';
 import { Pattern } from '../classes/idea/Patterns/Pattern';
-import { KeyChange } from '../classes/keyHandler/KeyHandlingTypes';
+import { KeyChange, Keys } from '../classes/keyHandler/KeyHandlingTypes';
 import { PatternChange } from '../classes/patternHandler/PatternHandler';
 import { Drinkable, Eatable } from '../classes/TavernProduct';
 import { WeServe } from '../editNavigator/WeServe';
@@ -56,6 +56,29 @@ export class Constants {
         patterns: [Pattern.BARTENDER_UncleBen],
         universe: FantasyKeys.unitTest,
     };
+    private static _oldImpressions: Impression[] = [
+        {
+            name: 'Friendly',
+            category: Noticable.bartender,
+            keys: { main: [AssetKey.BARTENDER_charisma], addition: [] },
+            patterns: [Pattern.BARTENDER_UncleBen],
+            universe: FantasyKeys.unitTest,
+        },
+        {
+            name: 'Very thin',
+            category: Noticable.bartender,
+            keys: { main: [AssetKey.BARTENDER_body], addition: [] },
+            patterns: [Pattern.BARTENDER_Kleinfinger],
+            universe: FantasyKeys.unitTest,
+        },
+        {
+            name: 'Knows a secret',
+            category: Noticable.bartender,
+            keys: { main: [AssetKey.BARTENDER_knowledge], addition: [] },
+            patterns: [Pattern.BARTENDER_Kleinfinger],
+            universe: FantasyKeys.unitTest,
+        },
+    ];
     private static _rerollRequest: DeepReadonly<CreationRequest> = {
         ...Constants._impressionRequest,
         oldAssets: [Constants._oldImpression],
@@ -63,6 +86,46 @@ export class Constants {
     public static rerollRequest() {
         return Cloner.deepWritableCopy(Constants._rerollRequest);
     }
+    private static _multiDeleteRequest: DeepReadonly<CreationRequest> = {
+        ...Constants._impressionRequest,
+        oldAssets: Constants._oldImpressions,
+    };
+    public static multiDelete() {
+        const request = Constants._multiDeleteRequest;
+        const toDelete = Constants._oldImpressions
+            .map((impression) => impression.name)
+            .filter((entry, index) => index > 0);
+        const leftAfterDelete = [Constants._oldImpressions[0].name];
+        const dissolvedKeys: Keys = {
+            main: [AssetKey.BARTENDER_body, AssetKey.BARTENDER_knowledge],
+            addition: [],
+        };
+        const dissolvedPatterns: Pattern[] = [
+            Pattern.BARTENDER_Kleinfinger,
+            Pattern.BARTENDER_Kleinfinger,
+        ];
+        return Cloner.deepWritableCopy({
+            request,
+            toDelete,
+            leftAfterDelete,
+            dissolvedKeys,
+            dissolvedPatterns,
+        });
+    }
+    // public static namesForMultiReroll() {
+    //     const toDelete = Constants._oldImpressions
+    //         .map((impression) => impression.name)
+    //         .filter((entry, index) => index > 0);
+    //     const leftAfterDelete = [Constants._oldImpressions[0].name];
+    //     return Cloner.deepWritableCopy({ toDelete, leftAfterDelete });
+    // }
+    // private static _multiRerollRequest: DeepReadonly<CreationRequest> = {
+    //     ...Constants._impressionRequest,
+    //     oldAssets: Constants._oldImpressions,
+    // };
+    // public static multiRerollRequest() {
+    //     return Cloner.deepWritableCopy(Constants._multiDeleteRequest);
+    // }
     private static _patterns = [Pattern.BARTENDER_Kleinfinger];
     public static patterns() {
         return Cloner.deepWritableCopy(Constants._patterns);

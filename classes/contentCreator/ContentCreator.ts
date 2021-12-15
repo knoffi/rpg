@@ -272,6 +272,7 @@ export class ContentCreator {
                 return this.rerollOneDrink(fitting, rerolledName, request);
         }
     }
+    //TODO: add tests
     public multiReroll(
         fitting: StructuredTavernFits,
         rerolledNames: string[],
