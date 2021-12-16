@@ -13,7 +13,6 @@ import { Keys } from '../classes/keyHandler/KeyHandlingTypes';
 import { Drinkable } from '../classes/TavernProduct';
 import { WeServe } from '../editNavigator/WeServe';
 import { Offer } from '../scenes/menuScene/Offer';
-import { Impression } from '../scenes/questScene/impressions/Impression';
 import { Constants } from './Constants';
 
 describe('ContentCreator tests', () => {
@@ -82,76 +81,7 @@ describe('ContentCreator tests', () => {
             .to.have.property('newPatterns')
             .to.deep.include(Pattern.BARTENDER_UncleBen);
     });
-    it('delete', () => {
-        const request = Constants.drinkRequest();
-        const empty: StructuredTavernFits = {};
-        const creation = creator.addRandomCreation(empty, request);
-        const createdOffers = creation.added as Offer[];
-        expect(createdOffers).has.property('length').is.equal(1);
 
-        const firstDrink = createdOffers[0];
-        const reducedMenu = creator.deleteCreation(firstDrink.name, {
-            isAbout: WeServe.drinks,
-            oldAssets: createdOffers,
-        });
-
-        expect(reducedMenu)
-            .to.have.property('isAbout')
-            .to.equal(WeServe.drinks);
-
-        expect(reducedMenu).to.have.property(WeServe.drinks).to.eql([]);
-    });
-    it('delete with key', () => {
-        const request = Constants.drinkRequest();
-        const empty: StructuredTavernFits = {};
-        const creation = creator.addRandomCreation(empty, request);
-        const createdOffers = creation.added as Offer[];
-
-        expect(createdOffers).has.property('length').is.equal(1);
-        const firstDrink = createdOffers[0];
-
-        expect(firstDrink)
-            .has.property('keys')
-            .has.property('main')
-            .has.property('length')
-            .is.greaterThanOrEqual(
-                1,
-                'test useless, no previously added main keys to remove from ' +
-                    firstDrink.name
-            );
-        const addedKeys = firstDrink.keys;
-        const reducedMenu = creator.deleteCreation(firstDrink.name, {
-            isAbout: WeServe.drinks,
-            oldAssets: createdOffers,
-        });
-        expect(reducedMenu).to.have.property('oldKeys').to.eql(addedKeys);
-    });
-    it('delete with pattern', () => {
-        const request = Constants.impressionRequest();
-        const empty: StructuredTavernFits = {};
-        const creation = creator.addRandomCreation(empty, request);
-        const createdNotes = creation.added as Impression[];
-
-        expect(createdNotes).has.property('length').is.equal(1);
-        const firstNote = createdNotes[0];
-
-        expect(firstNote)
-            .has.property('patterns')
-            .has.property('length')
-            .is.greaterThanOrEqual(
-                1,
-                'test useless, no previously added patterns to remove from ' +
-                    firstNote.name
-            );
-        const addedPatterns = firstNote.patterns;
-        const reducedMenu = creator.deleteCreation(firstNote.name, {
-            isAbout: WeServe.impressions,
-            oldAssets: createdNotes,
-        });
-        expect(reducedMenu)
-            .to.have.property('oldPatterns')
-            .to.eql(addedPatterns);
-    });
     it('nothing left: true', () => {
         const fitting = {};
         const checkData: AddCheck = {
@@ -204,15 +134,19 @@ describe('ContentCreator tests', () => {
             request,
             leftAfterDelete,
             toDelete,
-            dissolvedKeys,
-            dissolvedPatterns,
+            keys,
+            pattern,
+            fullKeysLeft,
+            patternsLeft,
         } = Constants.multiDelete();
-        const result = creator.multiDelete(toDelete, request);
+        const result = creator.multiDelete(toDelete, request, keys, pattern);
         expect(result).to.have.property('isAbout').to.eql(WeServe.impressions);
-        expect(result).to.have.property('oldKeys').to.eql(dissolvedKeys);
-        expect(result)
-            .to.have.property('oldPatterns')
-            .to.eql(dissolvedPatterns);
+        expect(result).to.have.property('keys');
+        const newFullKeys = result.keys.getFullKeys(result.isAbout);
+        expect(newFullKeys).to.eql(fullKeysLeft);
+        expect(result).to.have.property('pattern');
+        const newPattern = result.pattern.getPatterns(result.isAbout);
+        expect(newPattern).to.eql(patternsLeft);
         if (result.isAbout === WeServe.impressions) {
             const namesLeft = result.impression.map(
                 (impression) => impression.name
@@ -246,12 +180,10 @@ describe('ContentCreator tests', () => {
         expect(newNames)
             .to.contain(addedByReroll)
             .and.to.contain(unrerolledName);
-        expect(result).to.have.property('newKeys');
-        expect(result).to.have.property('newPatterns');
-        const fullKeys: Keys = result.newKeys.getFullKeys(WeServe.food);
-        const newPatterns: Pattern[] = result.newPatterns.getPatterns(
-            WeServe.food
-        );
+        expect(result).to.have.property('keys');
+        expect(result).to.have.property('pattern');
+        const fullKeys: Keys = result.keys.getFullKeys(WeServe.food);
+        const newPatterns: Pattern[] = result.pattern.getPatterns(WeServe.food);
         containedFullMain.forEach((mainKey) =>
             expect(fullKeys, 'new full keys')
                 .to.have.property('main')

@@ -41,9 +41,10 @@ export const OfferAccordion = (props: {
         );
         const newNameCounters = new Map<string, number>(changes.nameCounters);
         const itemsForRerender = [...changes.deletions, ...changes.rerolls];
-        itemsForRerender.forEach((name) =>
-            newNameCounters.set(name, newNameCounters.get(name) || 0 + 1)
-        );
+        itemsForRerender.forEach((name) => {
+            const prevNameCounter = newNameCounters.get(name) || 0;
+            newNameCounters.set(name, prevNameCounter + 1);
+        });
         setChanges({
             ...changes,
             deletions: [],

@@ -20,6 +20,7 @@ import { Content } from '../mainNavigator/Content';
 import { Offer } from '../scenes/menuScene/Offer';
 import { Impression } from '../scenes/questScene/impressions/Impression';
 import { Cloner, DeepReadonly } from './Cloner';
+import { extendToContent } from './extendToContent';
 
 type ImpressionRequest = CreationRequest & { isAbout: WeServe.impressions };
 export class Constants {
@@ -95,27 +96,31 @@ export class Constants {
         ...Constants._impressionRequest,
         oldAssets: Constants._oldImpressions,
     };
+    private static _multiDeleteTavern: DeepReadonly<Content> = extendToContent({
+        [WeServe.impressions]: Constants._oldImpressions,
+    });
     public static multiDelete() {
         const request = Constants._multiDeleteRequest;
-        const toDelete = Constants._oldImpressions
+        const oldTavern = Constants._multiDeleteTavern;
+        const toDelete = oldTavern[WeServe.impressions]
             .map((impression) => impression.name)
             .filter((entry, index) => index > 0);
-        const leftAfterDelete = [Constants._oldImpressions[0].name];
-        const dissolvedKeys: Keys = {
-            main: [AssetKey.BARTENDER_body, AssetKey.BARTENDER_knowledge],
+        const leftAfterDelete = [oldTavern[WeServe.impressions][0].name];
+        const fullKeysLeft: Keys = {
+            main: [AssetKey.BARTENDER_charisma],
             addition: [],
         };
-        const dissolvedPatterns: Pattern[] = [
-            Pattern.BARTENDER_Kleinfinger,
-            Pattern.BARTENDER_Kleinfinger,
-        ];
-        return Cloner.deepWritableCopy({
+        const patternsLeft: Pattern[] = [Pattern.BARTENDER_UncleBen];
+        const methodlessObjects = Cloner.deepWritableCopy({
             request,
             toDelete,
             leftAfterDelete,
-            dissolvedKeys,
-            dissolvedPatterns,
+            fullKeysLeft,
+            patternsLeft,
         });
+        const keys = new KeyHandler(oldTavern);
+        const pattern = new PatternHandler(oldTavern);
+        return { ...methodlessObjects, keys, pattern };
     }
     private static _sideDishStandard: Omit<
         Offer & { isAbout: WeServe.food },
@@ -129,10 +134,7 @@ export class Constants {
         description: '',
         isUserMade: false,
     };
-
-    private static _multiRerollTavern: DeepReadonly<Content> = {
-        [WeServe.drinks]: [],
-        [WeServe.impressions]: [],
+    private static _multiRerollDishes: Partial<Content> = {
         [WeServe.food]: [
             {
                 ...Constants._sideDishStandard,
@@ -154,6 +156,10 @@ export class Constants {
             },
         ],
     };
+
+    private static _multiRerollTavern: DeepReadonly<Content> = extendToContent(
+        Constants._multiRerollDishes
+    );
     private static _multiRerollRequest: DeepReadonly<
         Omit<MultiRerollRequest & { isAbout: WeServe.food }, 'keys' | 'pattern'>
     > = {
