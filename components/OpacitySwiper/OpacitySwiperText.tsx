@@ -57,7 +57,6 @@ export class OpacitySwiperText extends React.Component<
     private onPanEvent: (...args: any[]) => void;
     private onGestureEvent: (...args: any[]) => void;
     private isApplyingAction = false;
-    private clockRuns = false;
     private panRef = createRef<PanGestureHandler>();
     private springAnimConfig: {
         toValue: Animated.Value<0>;
@@ -286,7 +285,6 @@ export class OpacitySwiperText extends React.Component<
               );
         return value;
     }
-
     render() {
         return (
             <PanGestureHandler

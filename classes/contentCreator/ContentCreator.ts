@@ -77,33 +77,53 @@ export class ContentCreator {
         return this.universe[category];
     }
 
-    public deleteCreation(name: string, toReduce: ReduceTarget): Delete {
+    private deleteCreation(
+        name: string,
+        toReduce: ReduceTarget,
+        keys: KeyHandler,
+        pattern: PatternHandler
+    ): Delete {
         const dissolve = this.dissolveCreation(toReduce, name);
+        keys.update({
+            type: 'Delete',
+            isAbout: toReduce.isAbout,
+            oldKeys: dissolve.keys,
+        });
+        pattern.update({
+            type: 'Delete',
+            isAbout: toReduce.isAbout,
+            oldPatterns: dissolve.patterns,
+        });
         switch (dissolve.isAbout) {
             case WeServe.impressions:
                 return {
                     ...dissolve,
                     impression: dissolve.reduced,
-                    oldKeys: dissolve.keys,
-                    oldPatterns: dissolve.patterns,
+                    keys,
+                    pattern,
                 };
             case WeServe.drinks:
                 return {
                     ...dissolve,
                     drink: dissolve.reduced,
-                    oldKeys: dissolve.keys,
-                    oldPatterns: dissolve.patterns,
+                    keys,
+                    pattern,
                 };
             default:
                 return {
                     ...dissolve,
                     food: dissolve.reduced,
-                    oldKeys: dissolve.keys,
-                    oldPatterns: dissolve.patterns,
+                    keys,
+                    pattern,
                 };
         }
     }
-    public multiDelete(names: string[], toReduce: ReduceTarget): Delete {
+    public multiDelete(
+        names: string[],
+        toReduce: ReduceTarget,
+        keys: KeyHandler,
+        patterns: PatternHandler
+    ): Delete {
         const startDissolve = {
             keys: emptyKeys,
             patterns: [] as Pattern[],
@@ -126,27 +146,42 @@ export class ContentCreator {
             ];
             return { ...newDissolve, patterns, keys };
         }, startDissolve);
+        //NOTE: keys and patterns might be states of a component
+        const clonedKeys = keys.multiUpdateClone([
+            {
+                type: 'Delete',
+                isAbout: toReduce.isAbout,
+                oldKeys: multiDissolve.keys,
+            },
+        ]);
+        const clonedPatterns = patterns.multiUpdateClone([
+            {
+                type: 'Delete',
+                isAbout: toReduce.isAbout,
+                oldPatterns: multiDissolve.patterns,
+            },
+        ]);
         switch (multiDissolve.isAbout) {
             case WeServe.impressions:
                 return {
                     ...multiDissolve,
                     impression: multiDissolve.reduced,
-                    oldKeys: multiDissolve.keys,
-                    oldPatterns: multiDissolve.patterns,
+                    keys: clonedKeys,
+                    pattern: clonedPatterns,
                 };
             case WeServe.drinks:
                 return {
                     ...multiDissolve,
                     drink: multiDissolve.reduced,
-                    oldKeys: multiDissolve.keys,
-                    oldPatterns: multiDissolve.patterns,
+                    keys: clonedKeys,
+                    pattern: clonedPatterns,
                 };
             default:
                 return {
                     ...multiDissolve,
                     food: multiDissolve.reduced,
-                    oldKeys: multiDissolve.keys,
-                    oldPatterns: multiDissolve.patterns,
+                    keys: clonedKeys,
+                    pattern: clonedPatterns,
                 };
         }
     }
@@ -275,22 +310,24 @@ export class ContentCreator {
     public multiReroll(
         fitting: StructuredTavernFits,
         rerolledNames: string[],
-        //NOTE: handlers for keys and patterns may come from React state
         request: MultiRerollRequest
     ): MultiReroll {
-        const clonedHandlers = {
-            keys: request.keys.multiUpdateClone([]),
-            patterns: request.keys.multiUpdateClone([]),
-        };
+        //NOTE: handlers for keys and patterns may come from React state
+        const clonedKeys = request.keys.multiUpdateClone([]);
+        const clonedPatterns = request.pattern.multiUpdateClone([]);
         const startRequest: MultiRerollRequest = {
             ...request,
-            ...clonedHandlers,
+            keys: clonedKeys,
+            pattern: clonedPatterns,
         };
         const multiReroll = rerolledNames.reduce((prev, cur) => {
-            const deletion = this.deleteCreation(cur, { ...prev });
-            prev.pattern.update({ ...deletion, type: 'Delete' });
+            const deletion = this.deleteCreation(
+                cur,
+                { ...prev },
+                clonedKeys,
+                clonedPatterns
+            );
             const patterns = prev.pattern.getPatterns(deletion.isAbout);
-            prev.keys.update({ ...deletion, type: 'Delete' });
             const fullKeys = prev.keys.getFullKeys(deletion.isAbout);
             const request: CreationRequest = {
                 ...prev,
@@ -314,23 +351,17 @@ export class ContentCreator {
                 return {
                     ...request,
                     rerolled: request.oldAssets,
-                    newKeys: request.keys,
-                    newPatterns: request.pattern,
                 };
             case WeServe.food:
                 return {
                     ...request,
                     rerolled: request.oldAssets,
-                    newKeys: request.keys,
-                    newPatterns: request.pattern,
                 };
 
             default:
                 return {
                     ...request,
                     rerolled: request.oldAssets,
-                    newKeys: request.keys,
-                    newPatterns: request.pattern,
                 };
         }
     }
@@ -836,20 +867,20 @@ export type Delete =
     | {
           [WeServe.food]: Offer[];
           isAbout: WeServe.food;
-          oldKeys: Keys;
-          oldPatterns: Pattern[];
+          keys: KeyHandler;
+          pattern: PatternHandler;
       }
     | {
           [WeServe.drinks]: Offer[];
           isAbout: WeServe.drinks;
-          oldKeys: Keys;
-          oldPatterns: Pattern[];
+          keys: KeyHandler;
+          pattern: PatternHandler;
       }
     | {
           [WeServe.impressions]: Impression[];
           isAbout: WeServe.impressions;
-          oldKeys: Keys;
-          oldPatterns: Pattern[];
+          keys: KeyHandler;
+          pattern: PatternHandler;
       };
 export type Reroll =
     | {
@@ -869,7 +900,7 @@ export type Reroll =
           newPatterns: Pattern[];
       };
 type Asset = { name: string; keys: Keys; patterns: Pattern[] };
-type ReduceTarget =
+export type ReduceTarget =
     | { oldAssets: Impression[]; isAbout: WeServe.impressions }
     | { oldAssets: Offer[]; isAbout: WeServe.drinks }
     | { oldAssets: Offer[]; isAbout: WeServe.food };
@@ -882,13 +913,13 @@ export type MultiRerollRequest = (FoodBasic | DrinkBasic | ImpressionBasic) & {
     keys: KeyHandler;
     pattern: PatternHandler;
 };
-type MultiReroll = (
+export type MultiReroll = (
     | { isAbout: WeServe.food; rerolled: Offer[] }
     | { isAbout: WeServe.drinks; rerolled: Offer[] }
     | { isAbout: WeServe.impressions; rerolled: Impression[] }
 ) & {
-    newKeys: KeyHandler;
-    newPatterns: PatternHandler;
+    keys: KeyHandler;
+    pattern: PatternHandler;
 };
 export interface ImpressionNote {
     ideas: ImpressionIdea[];

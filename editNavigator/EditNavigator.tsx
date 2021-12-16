@@ -4,8 +4,6 @@ import {
     Add,
     ContentCreator,
     CreationRequest,
-    Delete,
-    Reroll,
     UserMade,
 } from '../classes/contentCreator/ContentCreator';
 import { FantasyKeys } from '../classes/contentCreator/FantasKeys';
@@ -22,6 +20,7 @@ import {
 import { Drinkable, Eatable } from '../classes/TavernProduct';
 import Icon from '../components/icons';
 import { iconKeys } from '../components/icons/iconKeys';
+import { Content } from '../mainNavigator/Content';
 import {
     Describable,
     MinimalTavernData,
@@ -35,8 +34,11 @@ import { Offer } from '../scenes/menuScene/Offer';
 import { Demand } from '../scenes/menuScene/offerList/actionInterfaces';
 import { NameScene } from '../scenes/nameScene/NameScene';
 import { QuestScene } from '../scenes/questScene/QuestScene';
+import { getContentFromDeletion } from './getContent';
 import { getCreationRequest } from './getCreationRequest';
+import { getMultiRerollRequest } from './getMultiRerollRequest';
 import { ContentLeftTest } from './getNewBannerDataAndIdeasLeft';
+import { getReduceTarget } from './getReduceTarget';
 import { testContentLeft } from './testContentLeft';
 import { WeServe } from './WeServe';
 
@@ -106,28 +108,18 @@ export const EditNavigator = (props: {
 
     const [tracker, setTracker] = useState({
         keys: new KeyHandler(props.tavern),
-        patterns: new PatternHandler(props.tavern),
+        pattern: new PatternHandler(props.tavern),
     });
 
-    const updateTracker = (add?: Add | Reroll, deletion?: Delete | Reroll) => {
-        const changes = [] as (KeyChange & PatternChange)[];
-        if (add) {
-            const changeByAdd: KeyChange & PatternChange = {
-                ...add,
-                type: 'Add',
-            };
-            changes.push(changeByAdd);
-        }
-        if (deletion) {
-            const changeByDelete: KeyChange & PatternChange = {
-                ...deletion,
-                type: 'Delete',
-            };
-            changes.push(changeByDelete);
-        }
-        const patterns = tracker.patterns.multiUpdateClone(changes);
-        const keys = tracker.keys.multiUpdateClone(changes);
-        setTracker({ patterns, keys });
+    const updateTracker = (add: Add) => {
+        const change: KeyChange & PatternChange = {
+            ...add,
+            type: 'Add',
+        };
+
+        const pattern = tracker.pattern.multiUpdateClone([change]);
+        const keys = tracker.keys.multiUpdateClone([change]);
+        setTracker({ pattern, keys });
     };
 
     const buyOffer = (offer: Offer) => {
@@ -152,31 +144,55 @@ export const EditNavigator = (props: {
         };
         return { bannerData: newBanners };
     };
-    const handleReroll = (
-        name: string,
-        reroll: Demand,
-        mainFilter?: number,
-        additionFilter?: number
+    const handleReduce = (
+        deletions: string[],
+        rerolls: string[],
+        demand: Demand,
+        removedUniverses: (FantasyKeys | 'isUserMade')[]
     ) => {
-        const usedPatterns = tracker.patterns.getPatterns(reroll.isAbout);
-        const fullKeys = tracker.keys.getFullKeys(reroll.isAbout);
-        const request: CreationRequest = getCreationRequest(
-            reroll,
-            props.tavern,
-            fullKeys.main,
-            fullKeys.addition,
-            usedPatterns,
-            mainFilter,
-            additionFilter
+        const deletionTarget = getReduceTarget(props.tavern, demand.isAbout);
+        const deletion = creator.multiDelete(
+            deletions,
+            deletionTarget,
+            tracker.keys,
+            tracker.pattern
         );
-        const rerolled = creator.rerollOneCreation(
-            impliedFitting,
-            name,
-            request
-        );
+        const categoryWasFullBefore = contentLeft.bannerData[
+            demand.isAbout
+        ].emptyCategories.includes(demand.category);
 
-        updateTracker(rerolled, rerolled);
-        props.onDataChange({ [rerolled.isAbout]: rerolled.rerolled });
+        //TODO: refactor into getContentLeft({"delete",deleted,fullBefore}|{"add",added})
+        const contentNeedsUpdate =
+            categoryWasFullBefore &&
+            removedUniverses.includes(props.tavern.universe[demand.category]);
+        const bannerChanges = contentNeedsUpdate
+            ? getBannersByDelete(demand)
+            : {};
+        const ideaLeftChanges = contentNeedsUpdate
+            ? getIdeasLeftByDelete(demand)
+            : {};
+        const remainingContent = getContentFromDeletion(props.tavern, deletion);
+        const rerollRequest = getMultiRerollRequest(
+            remainingContent,
+            demand,
+            deletion
+        );
+        const reroll = creator.multiReroll(
+            impliedFitting,
+            rerolls,
+            rerollRequest
+        );
+        const contentChange: Partial<Content> = {
+            [reroll.isAbout]: reroll.rerolled,
+        };
+
+        setTracker({ ...reroll });
+        props.onDataChange(contentChange);
+        setContentLeft({
+            ...contentLeft,
+            ...bannerChanges,
+            ...ideaLeftChanges,
+        });
     };
     const handleBasePrice = (newPrices: BasePrice) => {
         props.onDataChange({ prices: newPrices });
@@ -187,7 +203,7 @@ export const EditNavigator = (props: {
         mainFilter?: number,
         additionFilter?: number
     ) => {
-        const usedPatterns = tracker.patterns.getPatterns(add.isAbout);
+        const usedPatterns = tracker.pattern.getPatterns(add.isAbout);
         const fullKeys = tracker.keys.getFullKeys(add.isAbout);
         const request: CreationRequest = getCreationRequest(
             add,
@@ -240,46 +256,6 @@ export const EditNavigator = (props: {
     };
     const handleNewName = (name: string) => {
         props.onDataChange({ name: name });
-    };
-    const handleDelete = (
-        names: string[],
-        deleted: Demand,
-        universes: (FantasyKeys | 'isUserMade')[]
-    ) => {
-        const deleteRequest =
-            deleted.isAbout === WeServe.impressions
-                ? {
-                      isAbout: deleted.isAbout,
-                      oldAssets: props.tavern[deleted.isAbout],
-                  }
-                : {
-                      isAbout: deleted.isAbout,
-                      oldAssets: props.tavern[deleted.isAbout],
-                  };
-        const deletion = creator.multiDelete(names, deleteRequest);
-        const categoryWasFullBefore = contentLeft.bannerData[
-            deleted.isAbout
-        ].emptyCategories.includes(deleted.category);
-
-        //TODO: refactor into getContentLeft({"delete",deleted,fullBefore}|{"add",added})
-        const contentNeedsUpdate =
-            categoryWasFullBefore &&
-            universes.includes(props.tavern.universe[deleted.category]);
-        const bannerChanges = contentNeedsUpdate
-            ? getBannersByDelete(deleted)
-            : {};
-        const ideaLeftChanges = contentNeedsUpdate
-            ? getIdeasLeftByDelete(deleted)
-            : {};
-        const tavernChanges = deletion;
-
-        updateTracker(undefined, deletion);
-        props.onDataChange(tavernChanges);
-        setContentLeft({
-            ...contentLeft,
-            ...bannerChanges,
-            ...ideaLeftChanges,
-        });
     };
 
     const handleEdit = (request: UserMade, previousName?: string) => {
@@ -399,7 +375,6 @@ export const EditNavigator = (props: {
                         }}
                         buyOffer={buyOffer}
                         handleAdd={handleAdd}
-                        handleReroll={handleReroll}
                         offersBought={props.tavern.boughtOffers}
                         fitting={props.tavern.fitting}
                         isAbout={WeServe.drinks}
@@ -409,8 +384,8 @@ export const EditNavigator = (props: {
                         offersLeft={contentLeft.ideasLeft.drink}
                         basePrice={props.tavern.prices}
                         bannerData={contentLeft.bannerData[WeServe.drinks]}
-                        handleDelete={handleDelete}
                         closeBanner={getBannerClosing(WeServe.drinks)}
+                        handleReduce={handleReduce}
                     ></MenuScene>
                 )}
             />
@@ -428,8 +403,7 @@ export const EditNavigator = (props: {
                         }}
                         buyOffer={buyOffer}
                         handleAdd={handleAdd}
-                        handleReroll={handleReroll}
-                        handleDelete={handleDelete}
+                        handleReduce={handleReduce}
                         handleEdit={handleEdit}
                         offersBought={props.tavern.boughtOffers}
                         fitting={props.tavern.fitting}
@@ -451,8 +425,12 @@ export const EditNavigator = (props: {
                         impressions={props.tavern[WeServe.impressions]}
                         banner={contentLeft.bannerData[WeServe.impressions]}
                         handleAdd={handleAdd}
-                        handleDelete={handleDelete}
-                        handleReroll={handleReroll}
+                        handleDelete={() => {
+                            console.log('is a stub');
+                        }}
+                        handleReroll={() => {
+                            console.log('is a stub');
+                        }}
                         handleEdit={handleEdit}
                         handleBasePrice={handleBasePrice}
                         noticablesLeft={contentLeft.ideasLeft.impression}

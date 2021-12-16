@@ -21,89 +21,122 @@ export const OfferAccordion = (props: {
     noDrinkToAddLeft: boolean;
     getPriceString: (offer: Offer) => string;
 }) => {
-    const [deletions, setDeletions] = useState({
-        names: [] as string[],
+    const [changes, setChanges] = useState({
+        deletions: [] as string[],
+        rerolls: [] as string[],
         demand: props.demand,
         universes: [] as (FantasyKeys | 'isUserMade')[],
+        nameCounters: new Map<string, number>(),
     });
-    const [lastDeletion, setLastDeletion] = useState(
-        undefined as undefined | string
-    );
-    const onLastCancelRequest = () => {
-        props.offerActions.deleteOffers(
-            deletions.names,
+    const [lastChange, setLastChange] = useState({
+        deletion: undefined as undefined | string,
+        reroll: undefined as undefined | string,
+    });
+    const onLastChangeRequest = () => {
+        props.offerActions.reduceOffers(
+            changes.deletions,
+            changes.rerolls,
             props.demand,
-            deletions.universes
+            changes.universes
         );
-        setDeletions({ ...deletions, names: [], universes: [] });
+        const newNameCounters = new Map<string, number>(changes.nameCounters);
+        const itemsForRerender = [...changes.deletions, ...changes.rerolls];
+        itemsForRerender.forEach((name) =>
+            newNameCounters.set(name, newNameCounters.get(name) || 0 + 1)
+        );
+        setChanges({
+            ...changes,
+            deletions: [],
+            universes: [],
+            rerolls: [],
+            nameCounters: newNameCounters,
+        });
     };
-
     React.useEffect(() => {
         setTimeout(() => {
-            if (deletions.names.length >= 1) {
-                setLastDeletion(deletions.names[deletions.names.length - 1]);
-            }
+            const newestDeletion =
+                changes.deletions.length >= 1
+                    ? changes.deletions[changes.deletions.length - 1]
+                    : undefined;
+            const newestReroll =
+                changes.rerolls.length >= 1
+                    ? changes.rerolls[changes.rerolls.length - 1]
+                    : undefined;
+            setLastChange({ deletion: newestDeletion, reroll: newestReroll });
         }, 800);
-    }, [deletions]);
+    }, [changes]);
     React.useEffect(() => {
+        const userNeverDeleted = changes.deletions.length === 0;
+        const userNeverRerolled = changes.rerolls.length === 0;
+        const userFinishedDeleting =
+            !userNeverDeleted &&
+            lastChange.deletion ===
+                changes.deletions[changes.deletions.length - 1];
+        const userFinishedRerolling =
+            !userNeverRerolled &&
+            lastChange.reroll === changes.rerolls[changes.rerolls.length - 1];
         if (
-            deletions.names.length >= 1 &&
-            lastDeletion === deletions.names[deletions.names.length - 1]
+            (userFinishedDeleting && userFinishedRerolling) ||
+            (userFinishedDeleting && userNeverRerolled) ||
+            (userNeverDeleted && userFinishedRerolling)
         ) {
-            onLastCancelRequest();
+            onLastChangeRequest();
         }
-    }, [lastDeletion]);
+    }, [lastChange]);
     const onRandomAdd = props.addingActions.randomAdd;
     const onImport = props.addingActions.import;
     const onEdit = props.addingActions.edit;
     const thisDemand = props.demand;
     const noDrinkToAddLeft = props.noDrinkToAddLeft;
     const getPriceString = props.getPriceString;
-    const offerItems = props.listOfOffers.map((offer) => {
+    const offerItems = props.listOfOffers.map((offer, index) => {
         const name = offer.name;
         return (
-            <View key={name}>
-                <OfferListItem
-                    title={name}
-                    description={offer.description}
-                    actions={{
-                        onDelete: () => {
-                            const newNames = [...deletions.names, name];
-                            const newUniverses = [
-                                ...deletions.universes,
-                                offer.universe,
-                            ];
-                            setDeletions({
-                                ...deletions,
-                                names: newNames,
-                                universes: newUniverses,
-                            });
-                        },
-                        onInfo: () => {},
-                        onReroll: () => {
-                            props.offerActions.rerollOffer(name, thisDemand);
-                        },
-                        onShop: () => {
-                            props.offerActions.shopOffer(name);
-                        },
-                        onEdit: () => {
-                            const description = offer.description
-                                ? offer.description
-                                : '';
-                            props.offerActions.editUserOffer({
-                                name: offer.name,
-                                priceText: offer.price.toString(),
-                                description: description,
-                                isUserMade: true,
-                                ...thisDemand,
-                            });
-                        },
-                    }}
-                    noDrinkToAddLeft={noDrinkToAddLeft}
-                    isUserMade={offer.isUserMade}
-                    price={getPriceString(offer)}
-                ></OfferListItem>
-            </View>
+            <OfferListItem
+                key={name + changes.nameCounters.get(name)}
+                title={name}
+                description={offer.description}
+                actions={{
+                    onDelete: () => {
+                        const newDeletions = [...changes.deletions, name];
+                        const newUniverses = [
+                            ...changes.universes,
+                            offer.universe,
+                        ];
+                        setChanges({
+                            ...changes,
+                            deletions: newDeletions,
+                            universes: newUniverses,
+                        });
+                    },
+                    onInfo: () => {},
+                    onReroll: () => {
+                        const newRerolls = [...changes.rerolls, name];
+                        setChanges({
+                            ...changes,
+                            rerolls: newRerolls,
+                        });
+                    },
+                    onShop: () => {
+                        props.offerActions.shopOffer(name);
+                    },
+                    onEdit: () => {
+                        const description = offer.description
+                            ? offer.description
+                            : '';
+                        props.offerActions.editUserOffer({
+                            name: offer.name,
+                            priceText: offer.price.toString(),
+                            description: description,
+                            isUserMade: true,
+                            ...thisDemand,
+                        });
+                    },
+                }}
+                noDrinkToAddLeft={noDrinkToAddLeft}
+                isUserMade={offer.isUserMade}
+                price={getPriceString(offer)}
+            ></OfferListItem>
         );
     });
 
