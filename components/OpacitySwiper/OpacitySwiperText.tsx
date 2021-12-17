@@ -44,7 +44,8 @@ type OpacitySwiperTextState = {
         velocity: Animated.Value<0>;
         time: Animated.Value<0>;
     };
-    swipeOverThreshhold: boolean;
+    overRightThreshhold: boolean;
+    overLeftThreshhold: boolean;
 };
 const FAST_STIFFNESS = 10;
 const IS_NO_CLICK_THRESHOLD = 2;
@@ -79,7 +80,8 @@ export class OpacitySwiperText extends React.Component<
                 velocity: new Animated.Value(0),
                 time: new Animated.Value(0),
             },
-            swipeOverThreshhold: false,
+            overRightThreshhold: false,
+            overLeftThreshhold: false,
         };
         this.clock = new Animated.Clock();
         this.gestureState = new Animated.Value(GestureState.UNDETERMINED);
@@ -133,17 +135,32 @@ export class OpacitySwiperText extends React.Component<
                                     -this.props.swipeThreshold
                                 )
                             ),
+                            cond(
+                                greaterThan(translationX, 0),
+                                call([], () => {
+                                    if (!this.state.overRightThreshhold) {
+                                        this.setState({
+                                            overRightThreshhold: true,
+                                        });
+                                    }
+                                }),
+                                call([], () => {
+                                    if (!this.state.overLeftThreshhold) {
+                                        this.setState({
+                                            overLeftThreshhold: true,
+                                        });
+                                    }
+                                })
+                            ),
                             call([], () => {
-                                if (!this.state.swipeOverThreshhold) {
+                                if (this.state.overLeftThreshhold) {
                                     this.setState({
-                                        swipeOverThreshhold: true,
+                                        overLeftThreshhold: false,
                                     });
                                 }
-                            }),
-                            call([], () => {
-                                if (this.state.swipeOverThreshhold) {
+                                if (this.state.overRightThreshhold) {
                                     this.setState({
-                                        swipeOverThreshhold: false,
+                                        overRightThreshhold: false,
                                     });
                                 }
                             })
@@ -183,7 +200,7 @@ export class OpacitySwiperText extends React.Component<
                             [
                                 call([], () => {
                                     if (
-                                        this.state.swipeOverThreshhold &&
+                                        this.state.overRightThreshhold &&
                                         !this.isApplyingAction
                                     ) {
                                         this.props.onSwipeRight();
@@ -211,7 +228,7 @@ export class OpacitySwiperText extends React.Component<
                             [
                                 call([], () => {
                                     if (
-                                        this.state.swipeOverThreshhold &&
+                                        this.state.overLeftThreshhold &&
                                         !this.isApplyingAction
                                     ) {
                                         this.props.onSwipeLeft();
@@ -285,6 +302,17 @@ export class OpacitySwiperText extends React.Component<
               );
         return value;
     }
+    getBGColor(): string {
+        if (this.state.overLeftThreshhold) {
+            return 'red';
+        } else {
+            if (this.state.overRightThreshhold) {
+                return 'blue';
+            } else {
+                return 'grey';
+            }
+        }
+    }
     render() {
         return (
             <PanGestureHandler
@@ -308,10 +336,7 @@ export class OpacitySwiperText extends React.Component<
                             <Animated.View
                                 style={{
                                     zIndex: -1, //-1
-                                    backgroundColor: this.state
-                                        .swipeOverThreshhold
-                                        ? 'blue'
-                                        : 'grey',
+                                    backgroundColor: this.getBGColor(),
                                     width: '50%',
                                     height: '100%',
                                     flexDirection: 'row',
@@ -324,25 +349,25 @@ export class OpacitySwiperText extends React.Component<
                                         justifyContent: 'center',
                                     }}
                                 >
-                                    <Text
-                                        style={{
-                                            color: 'white',
-                                            fontWeight: 'bold',
-                                            fontSize: 25,
-                                            marginLeft: 10,
-                                        }}
-                                    >
-                                        REROLL!
-                                    </Text>
+                                    {this.state
+                                        .overLeftThreshhold ? undefined : (
+                                        <Text
+                                            style={{
+                                                color: 'white',
+                                                fontWeight: 'bold',
+                                                fontSize: 25,
+                                                marginLeft: 10,
+                                            }}
+                                        >
+                                            REROLL!
+                                        </Text>
+                                    )}
                                 </View>
                             </Animated.View>
                             <Animated.View
                                 style={{
                                     zIndex: -1, //-1
-                                    backgroundColor: this.state
-                                        .swipeOverThreshhold
-                                        ? 'red'
-                                        : 'grey',
+                                    backgroundColor: this.getBGColor(),
                                     width: '50%',
                                     height: '100%',
                                     flexDirection: 'row-reverse',
@@ -355,16 +380,19 @@ export class OpacitySwiperText extends React.Component<
                                         justifyContent: 'center',
                                     }}
                                 >
-                                    <Text
-                                        style={{
-                                            color: 'white',
-                                            fontWeight: 'bold',
-                                            fontSize: 25,
-                                            marginRight: 10,
-                                        }}
-                                    >
-                                        DELETE!
-                                    </Text>
+                                    {this.state
+                                        .overRightThreshhold ? undefined : (
+                                        <Text
+                                            style={{
+                                                color: 'white',
+                                                fontWeight: 'bold',
+                                                fontSize: 25,
+                                                marginRight: 10,
+                                            }}
+                                        >
+                                            DELETE!
+                                        </Text>
+                                    )}
                                 </View>
                             </Animated.View>
                         </Animated.View>
