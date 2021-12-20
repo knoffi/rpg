@@ -30,12 +30,12 @@ export const DetailsList = (props: {
     onInfoPress: (income: Income) => void;
     onPriceSetPress: (income: Income) => void;
     addingAcions: IAddingActions;
-    onDelete: (
-        names: string[],
-        deleted: Demand,
-        universes: (FantasyKeys | 'isUserMade')[]
+    onReduce: (
+        deletes: string[],
+        rerollss: string[],
+        demand: Demand,
+        removedKeys: (FantasyKeys | 'isUserMade')[]
     ) => void;
-    onReroll: (name: string, rerolled: Demand) => void;
     onEdit: (startData: UserMadeImpression) => void;
     onCurrencySetPress: () => void;
     impressions: Impression[];
@@ -56,11 +56,11 @@ export const DetailsList = (props: {
                 isBartender={title == Noticable.bartender}
                 title={title}
                 impressions={impressionsOfTitle}
-                onDelete={(
-                    names: string[],
+                onReduce={(
+                    deletes: string[],
+                    rerolls: string[],
                     universes: (FantasyKeys | 'isUserMade')[]
-                ) => props.onDelete(names, demand, universes)}
-                onReroll={(name: string) => props.onReroll(name, demand)}
+                ) => props.onReduce(deletes, rerolls, demand, universes)}
                 onAdd={() => props.addingAcions.randomAdd(demand)}
                 onEdit={props.onEdit}
                 onCreate={() => props.addingAcions.edit(demand)}
@@ -92,13 +92,13 @@ const ImpressionAccordion = (props: {
     title: string;
     isBartender: boolean;
     impressions: Impression[];
-    onDelete: (
-        names: string[],
-        universes: (FantasyKeys | 'isUserMade')[]
+    onReduce: (
+        deletes: string[],
+        rerolls: string[],
+        removedKeys: (FantasyKeys | 'isUserMade')[]
     ) => void;
     onAdd: () => void;
     onEdit: (data: UserMadeImpression) => void;
-    onReroll: (name: string) => void;
     onCreate: () => void;
     onImport: () => void;
     isNotFull: boolean;
@@ -106,30 +106,63 @@ const ImpressionAccordion = (props: {
     const [bartenderSex, setBartenderSex] = useState(
         'male' as 'female' | 'male'
     );
-    const [deletions, setDeletions] = useState({
-        names: [] as string[],
+    const [changes, setChanges] = useState({
+        deletions: [] as string[],
+        rerolls: [] as string[],
         universes: [] as (FantasyKeys | 'isUserMade')[],
+        nameCounters: new Map<string, number>(),
     });
-    const [lastDeletion, setLastDeletion] = useState(
-        undefined as undefined | string
-    );
-    const onLastCancelRequest = () => {
-        props.onDelete(deletions.names, deletions.universes);
-        setDeletions({ ...deletions, names: [], universes: [] });
+    const [lastChange, setLastChange] = useState({
+        deletion: undefined as undefined | string,
+        reroll: undefined as undefined | string,
+    });
+    const onLastChangeRequest = () => {
+        props.onReduce(changes.deletions, changes.rerolls, changes.universes);
+        const newNameCounters = new Map<string, number>(changes.nameCounters);
+        const itemsForRerender = [...changes.deletions, ...changes.rerolls];
+        itemsForRerender.forEach((name) => {
+            const prevNameCounter = newNameCounters.get(name) || 0;
+            newNameCounters.set(name, prevNameCounter + 1);
+        });
+        setChanges({
+            ...changes,
+            deletions: [],
+            universes: [],
+            rerolls: [],
+            nameCounters: newNameCounters,
+        });
     };
-
     React.useEffect(() => {
         setTimeout(() => {
-            if (deletions.names.length >= 1) {
-                setLastDeletion(deletions.names[deletions.names.length - 1]);
-            }
+            const newestDeletion =
+                changes.deletions.length >= 1
+                    ? changes.deletions[changes.deletions.length - 1]
+                    : undefined;
+            const newestReroll =
+                changes.rerolls.length >= 1
+                    ? changes.rerolls[changes.rerolls.length - 1]
+                    : undefined;
+            setLastChange({ deletion: newestDeletion, reroll: newestReroll });
         }, 800);
-    }, [deletions]);
+    }, [changes]);
     React.useEffect(() => {
-        if (lastDeletion === deletions.names[deletions.names.length - 1]) {
-            onLastCancelRequest();
+        const userNeverDeleted = changes.deletions.length === 0;
+        const userNeverRerolled = changes.rerolls.length === 0;
+        const userFinishedDeleting =
+            !userNeverDeleted &&
+            lastChange.deletion ===
+                changes.deletions[changes.deletions.length - 1];
+        const userFinishedRerolling =
+            !userNeverRerolled &&
+            lastChange.reroll === changes.rerolls[changes.rerolls.length - 1];
+        if (
+            (userFinishedDeleting && userFinishedRerolling) ||
+            (userFinishedDeleting && userNeverRerolled) ||
+            (userNeverDeleted && userFinishedRerolling)
+        ) {
+            onLastChangeRequest();
         }
-    }, [lastDeletion]);
+    }, [lastChange]);
     const adjustDisplayText = (impression: Impression) => {
         const impressionDisplay = new ImpressionDisplay(
             impression.name,
@@ -151,11 +184,12 @@ const ImpressionAccordion = (props: {
     const impressionsFull = !props.isNotFull;
     const descriptionItems = props.impressions.map((impression) => {
         const isUserMade = impression.universe === 'isUserMade';
+        const name = impression.name;
         const text =
             isUserMade || impression.category !== Noticable.bartender
                 ? impression.name
                 : adjustDisplayText(impression);
-        const newKey = text;
+        const newKey = name + changes.nameCounters.get(name);
         return (
             <OfferListItem
                 title={text}
@@ -165,19 +199,23 @@ const ImpressionAccordion = (props: {
                 isUserMade={isUserMade}
                 noDrinkToAddLeft={impressionsFull}
                 actions={{
-                    onReroll: () => {
-                        props.onReroll(impression.name);
-                    },
                     onDelete: () => {
-                        const newNames = [...deletions.names, impression.name];
+                        const newDeletions = [...changes.deletions, name];
                         const newUniverses = [
-                            ...deletions.universes,
+                            ...changes.universes,
                             impression.universe,
                         ];
-                        setDeletions({
-                            ...deletions,
-                            names: newNames,
+                        setChanges({
+                            ...changes,
+                            deletions: newDeletions,
                             universes: newUniverses,
+                        });
+                    },
+                    onReroll: () => {
+                        const newRerolls = [...changes.rerolls, name];
+                        setChanges({
+                            ...changes,
+                            rerolls: newRerolls,
                         });
                     },
                     onEdit: () =>

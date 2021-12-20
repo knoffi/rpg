@@ -425,12 +425,7 @@ export const EditNavigator = (props: {
                         impressions={props.tavern[WeServe.impressions]}
                         banner={contentLeft.bannerData[WeServe.impressions]}
                         handleAdd={handleAdd}
-                        handleDelete={() => {
-                            console.log('is a stub');
-                        }}
-                        handleReroll={() => {
-                            console.log('is a stub');
-                        }}
+                        handleReduce={handleReduce}
                         handleEdit={handleEdit}
                         handleBasePrice={handleBasePrice}
                         noticablesLeft={contentLeft.ideasLeft.impression}

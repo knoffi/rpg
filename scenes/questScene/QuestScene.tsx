@@ -53,12 +53,12 @@ export const QuestScene = (props: {
     basePrice: BasePrice;
     impressions: Impression[];
     handleAdd: (add: Demand) => void;
-    handleDelete: (
-        names: string[],
-        deleted: Demand,
-        keys: (FantasyKeys | 'isUserMade')[]
+    handleReduce: (
+        deletes: string[],
+        rerolls: string[],
+        demand: Demand,
+        removedKeys: (FantasyKeys | 'isUserMade')[]
     ) => void;
-    handleReroll: (name: string, rerolled: Demand) => void;
     handleEdit: (edit: UserMade, previousName?: string) => void;
     handleBasePrice: (change: BasePrice) => void;
     banner: BannerData;
@@ -241,8 +241,7 @@ export const QuestScene = (props: {
                 onDismiss={onDialogDismiss}
             ></CurrencySetDialog>
             <DetailsList
-                onDelete={props.handleDelete}
-                onReroll={props.handleReroll}
+                onReduce={props.handleReduce}
                 onEdit={onEdit}
                 addingAcions={{
                     randomAdd: props.handleAdd,
