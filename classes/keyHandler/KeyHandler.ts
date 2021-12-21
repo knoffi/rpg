@@ -105,7 +105,6 @@ export class KeyHandler {
             return { ...newTable };
         } else {
             Object.values(WeServe).forEach((isAbout) => {
-                const test = content[isAbout];
                 const assets: KeyHolders = content[isAbout];
                 assets.forEach((asset) => {
                     const row = newTable[isAbout];

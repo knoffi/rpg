@@ -121,6 +121,21 @@ export const DeleteButton = (props: ButtonProps) => {
         </Button>
     );
 };
+export const DeleteIcon = (props: IconButtonProps) => {
+    return (
+        <IconButton
+            icon={(props) => (
+                <AntDesign
+                    name="delete"
+                    size={props.size}
+                    color={props.color}
+                />
+            )}
+            onPress={props.onPress}
+            disabled={props.disabled}
+        ></IconButton>
+    );
+};
 export const AddButton = (props: ButtonProps) => {
     return (
         <Button

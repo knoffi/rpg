@@ -6,12 +6,13 @@ import { FantasyKeys } from '../contentCreator/FantasKeys';
 import { incomeRange } from '../price/incomeRange';
 import { Prices } from '../price/Price';
 import { Drinkable, Eatable, MenuCategory } from '../TavernProduct';
+import { AssetKey } from './AssetKey/AssetKey';
 import {
     DescriptionAsset,
     forCriminalsOverwrittenAsset,
 } from './DescriptionAsset';
-import { MINIMAL_PASS_FIT_LEVEL } from './fitCalculator/getFitLevel';
 import { Idea } from './Idea';
+import { Pattern } from './Patterns/Pattern';
 import { defaultPatternConcepts } from './powerFitConcepts/defaultPatternConcepts';
 import { DishConcept } from './powerFitConcepts/DishConcept';
 import { defaultPowerFitConcepts } from './powerFitConcepts/powerFitConcepts';
@@ -58,25 +59,12 @@ export class DishIdea extends Idea {
         this.priceFactor = priceFactor === 'default' ? 1 : priceFactor;
     }
 
-    public fitsToMenu(
-        tavernFits: StructuredTavernFits,
-        isExcludedByPrefix: (name: string) => boolean
-    ) {
-        return this.fitsToTavern(
-            tavernFits,
-            isExcludedByPrefix,
-            undefined,
-            undefined,
-            undefined,
-            undefined,
-            MINIMAL_PASS_FIT_LEVEL
-        );
-    }
-
     public getConcreteDish(
         tavernFits: StructuredTavernFits,
         minimumFitLevel: number,
-        universe: FantasyKeys
+        universe: FantasyKeys,
+        additionExcludedByKey: (key: AssetKey) => boolean,
+        patterns: Pattern[]
     ): Offer {
         const fittingSideDishMenu = this.additions!.map((sideDishes) => {
             const result =
@@ -86,10 +74,12 @@ export class DishIdea extends Idea {
                           tavernFits,
                           sideDishes,
                           undefined,
+                          true,
                           undefined,
-                          undefined,
-                          undefined,
-                          minimumFitLevel
+                          additionExcludedByKey,
+                          minimumFitLevel,
+                          patterns,
+                          false
                       );
             return result;
         });

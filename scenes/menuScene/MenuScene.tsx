@@ -33,12 +33,12 @@ interface MenuProps {
     basePrice: BasePrice;
     bannerData: BannerData;
     handleAdd: (add: Demand) => void;
-    handleDelete: (
-        name: string,
-        deleted: Demand,
-        key: FantasyKeys | 'isUserMade'
+    handleReduce: (
+        deletions: string[],
+        rerolls: string[],
+        demand: Demand,
+        removedUniverses: (FantasyKeys | 'isUserMade')[]
     ) => void;
-    handleReroll: (name: string, rerolled: Demand) => void;
     handleEdit: (offer: UserMade, previousName?: string) => void;
     closeBanner: () => void;
     buyOffer: (boughtOffer: Offer) => void;
@@ -64,13 +64,6 @@ export const MenuScene = (props: MenuProps) => {
         visible: false,
         demand: startDemand,
     });
-    const deleteOffer = (
-        name: string,
-        demand: Demand,
-        key: FantasyKeys | 'isUserMade'
-    ) => {
-        props.handleDelete(name, demand, key);
-    };
     const addUserOffer = (offer: UserMade) => {
         props.handleEdit(offer);
         dismissEditorModal();
@@ -151,8 +144,7 @@ export const MenuScene = (props: MenuProps) => {
                         edit: onEdit,
                     }}
                     offerActions={{
-                        deleteOffer: deleteOffer,
-                        rerollOffer: props.handleReroll,
+                        reduceOffers: props.handleReduce,
                         shopOffer: buyOffer,
                         editUserOffer: openOfferEditor,
                     }}

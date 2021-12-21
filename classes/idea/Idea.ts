@@ -114,7 +114,7 @@ export class Idea {
         }
     }
 
-    public fitsToTavern(
+    public fitsWithoutPatterns(
         tavernFits: StructuredTavernFits,
         isExcludedByName: (name: string) => boolean,
         mainFilter?: number,
