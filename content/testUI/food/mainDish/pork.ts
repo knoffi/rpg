@@ -3,7 +3,7 @@ import { DishIdea } from '../../../../classes/idea/DishIdea';
 import { Eatable } from '../../../../classes/TavernProduct';
 const PORK_FACTOR = 1.0;
 const a = association;
-export const steaks = [
+export const pork = [
     new DishIdea(
         {
             mainIng: {

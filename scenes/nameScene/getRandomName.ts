@@ -1,6 +1,6 @@
 import { filterBestIdeas } from '../../classes/idea/fitCalculator/filterBestIdea';
 import { StructuredTavernFits } from '../../classes/idea/StructuredTavernFits';
-import { getRandomArrayEntry } from '../../helpingFunctions/getFittingRandom';
+import { getRandomArrayEntry } from '../../helpingFunctions/getRandomArrayEntry';
 import { getPrefixExcluder } from '../questScene/impressions/getPrefixExcluder';
 import { nameIdeas } from './names/nameIdeas';
 
@@ -26,12 +26,13 @@ export const getRandomName = (
         return 'Nameless Tavern';
     } else {
         const newIdea = getRandomArrayEntry(bestNames.ideas);
-        const newName = newIdea.getConcreteName(
+        //NOTE: fail fast is prefered here
+        const newName = newIdea?.getConcreteName(
             fitting,
             isExcludedByName,
             bestNames.level,
             additionFilter
-        );
+        )!;
         return newName;
     }
 };

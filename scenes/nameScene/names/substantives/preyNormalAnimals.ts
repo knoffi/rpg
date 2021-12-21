@@ -1,7 +1,7 @@
 import { association } from '../../../../classes/association';
 import { DescriptionAsset } from '../../../../classes/idea/DescriptionAsset';
 
-export const a = association;
+const a = association;
 export const preyNormalAnimals: DescriptionAsset[] = [
     {
         name: 'Moose',

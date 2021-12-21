@@ -6,16 +6,7 @@ export const getKeyBound = (key: AssetKey) => {
     switch (key) {
         case AssetKey.plotTwist:
             return 1;
-
-        case AssetKey.INDIVIDUALS_servant:
-            return 1;
-
-        case AssetKey.INDIVIDUALS_warriorGroup:
-            return 1;
-
-        case AssetKey.FURNITURE_creatureTrophies:
-            return 1;
-
+        
         case AssetKey.FURNITURE_barDeco:
             return 1;
 
@@ -75,6 +66,9 @@ export const getKeyBound = (key: AssetKey) => {
 
         case AssetKey.WINE_white:
             return 1;
+        
+        case AssetKey.SPIRIT_whiskey:
+            return 2;
 
         case AssetKey.SMALL_DISH_carbon:
             return 1;

@@ -11,7 +11,7 @@ import { Database } from '../../classes/database/Database';
 import { StructuredTavernFits } from '../../classes/idea/StructuredTavernFits';
 import { ListOfSaves } from '../../components/ListOfSaves/ListOfSaves';
 import { WeServe } from '../../editNavigator/WeServe';
-import { getRandomArrayEntry } from '../../helpingFunctions/getFittingRandom';
+import { getRandomArrayEntry } from '../../helpingFunctions/getRandomArrayEntry';
 import { Describable, TavernData } from '../../mainNavigator/TavernData';
 import { nameSceneStyles } from '../nameScene/nameSceneStyles';
 import { BasePrice } from './basePrice';
@@ -52,9 +52,10 @@ export const MenuScene = (props: MenuProps) => {
             ? props.startEdit
             : props.startEdit;
     const fits = props.fitting;
-    //TODO: does this really need to be a state?
-
-    const bannerEnding = getRandomArrayEntry(bannerEndings.get(props.isAbout)!);
+    //NOTE: fail fast is prefered here
+    const bannerEnding = getRandomArrayEntry(
+        bannerEndings.get(props.isAbout)!
+    )!;
     const [editor, setEditor] = useState({
         visible: false,
         startData: props.startEdit,

@@ -68,7 +68,7 @@ export class KeyHandler {
         if (entryForKey) {
             entryForKey.count += addToCounter;
             if (entryForKey.count < 0) {
-                throw new Error('Key counters must not be negative');
+                throw new Error('Key Counters Must Not Be Negative');
             }
         } else {
             if (addToCounter > 0) {

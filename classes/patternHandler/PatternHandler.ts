@@ -59,7 +59,7 @@ export class PatternHandler {
                 (entry) => entry === pattern
             );
             if (patternIndex < 0) {
-                throw new Error('PatternNotFound');
+                throw new Error('Pattern Not Found');
             } else {
                 targetRow.splice(patternIndex, 1);
             }

@@ -99,6 +99,6 @@ describe('KeyHandler tests', () => {
         const keys = new KeyHandler('noPreviousContent');
         keys.update(ADD);
         keys.update(DELETE);
-        assert.throws(() => keys.update(DELETE), /negative/);
+        assert.throws(() => keys.update(DELETE), /negative/i);
     });
 });

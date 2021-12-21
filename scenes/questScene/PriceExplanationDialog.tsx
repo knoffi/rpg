@@ -3,7 +3,7 @@ import { Text } from 'react-native';
 import { Dialog, Portal } from 'react-native-paper';
 import { association } from '../../classes/association';
 
-export interface ExplanationDialog {
+interface ExplanationDialog {
     open: boolean;
     income: association;
     jobExamples: string;

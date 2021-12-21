@@ -4,7 +4,7 @@ import { numentor } from '../../content/numentor/numentor';
 import { UI_TEST_CONTENT } from '../../content/testUI/testing';
 import { UNIT_TEST_CONTENT } from '../../content/UNIT_TESTING/testing';
 import { WeServe } from '../../editNavigator/WeServe';
-import { getRandomArrayEntry } from '../../helpingFunctions/getFittingRandom';
+import { getRandomArrayEntry } from '../../helpingFunctions/getRandomArrayEntry';
 import { DeepReadonly } from '../../logicTests/Cloner';
 import { Describable } from '../../mainNavigator/TavernData';
 import { allCategories, UniverseMap } from '../../mainNavigator/UniverseMap';
@@ -579,7 +579,7 @@ export class ContentCreator {
             return undefined;
         } else {
             const newIdea = getRandomArrayEntry(bestNotes.ideas);
-            const newImpression = newIdea.createImpression(
+            const newImpression = newIdea?.createImpression(
                 fitting,
                 //additions for impression do not get filtered by name because it seems more realistic
                 () => false,
@@ -617,7 +617,7 @@ export class ContentCreator {
             return undefined;
         } else {
             const newIdea = getRandomArrayEntry(bestRecipes.ideas);
-            const newDrink = newIdea.getConcreteDish(
+            const newDrink = newIdea?.getConcreteDish(
                 fitting,
                 bestRecipes.level,
                 this.universe[request.category],
@@ -646,7 +646,7 @@ export class ContentCreator {
             return undefined;
         } else {
             const newIdea = getRandomArrayEntry(bestRecipes.ideas);
-            const newDish = newIdea.getConcreteDish(
+            const newDish = newIdea?.getConcreteDish(
                 fitting,
                 bestRecipes.level,
                 this.universe[request.category],

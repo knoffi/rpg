@@ -1,6 +1,6 @@
 import { association } from '../../../../classes/association';
 import { DescriptionAsset } from '../../../../classes/idea/DescriptionAsset';
-export const a = association;
+const a = association;
 // beasts that lords would choose on their banner
 // NOTE: if you wanna combine them for humor effects (f.e. "The Whiny Dragon"), then "poor" should not be a misfit
 export const majesticBeasts: DescriptionAsset[] = [
