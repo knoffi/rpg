@@ -13,11 +13,18 @@ const SPECIALS_TRULY_FULFILLED_BONUS = 3;
 const SPECIALS_OVERRIDE_FULFILLED_BONUS = 2;
 const SPECIALS_WEAKLY_FULFILLED_BONUS = 1;
 const NO_SPECIALS_FULFILLED_BONUS = 0;
-export const BEST_FIT_LEVEL = (tavernPatterns = 0) =>
+export const BEST_FIT_LEVEL = (tavernPatterns = 10) =>
     KEY_BONUS +
     POWER_FIT_BONUS +
     SPECIALS_TRULY_FULFILLED_BONUS +
-    10 * PATTERN_BONUS;
+    tavernPatterns * PATTERN_BONUS;
+export const BEST_SPECIALS_WEAKLY_LEVEL = (tavernPatterns = 10) =>
+    KEY_BONUS +
+    POWER_FIT_BONUS +
+    SPECIALS_WEAKLY_FULFILLED_BONUS +
+    tavernPatterns * PATTERN_BONUS;
+export const BEST_POWERLESS_FIT_LEVEL = (tavernPatterns = 10) =>
+    KEY_BONUS + SPECIALS_TRULY_FULFILLED_BONUS + tavernPatterns * PATTERN_BONUS;
 export const MINIMAL_PASS_FIT_LEVEL = 3;
 export const WORST_FIT_LEVEL = 0;
 export const getFitLevel = (

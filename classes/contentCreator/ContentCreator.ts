@@ -17,7 +17,11 @@ import { association } from '../association';
 import { AssetKey } from '../idea/AssetKey/AssetKey';
 import { DishIdea } from '../idea/DishIdea';
 import { filterBestIdeas } from '../idea/fitCalculator/filterBestIdea';
-import { BEST_FIT_LEVEL } from '../idea/fitCalculator/getFitLevel';
+import {
+    BEST_FIT_LEVEL,
+    BEST_POWERLESS_FIT_LEVEL,
+    BEST_SPECIALS_WEAKLY_LEVEL,
+} from '../idea/fitCalculator/getFitLevel';
 import { Idea } from '../idea/Idea';
 import { ImpressionIdea } from '../idea/ImpressionIdea';
 import { Noticable } from '../idea/Noticable';
@@ -472,7 +476,7 @@ export class ContentCreator {
                 undefined,
                 undefined,
                 undefined,
-                1003
+                BEST_POWERLESS_FIT_LEVEL(0)
             )
         );
         const powerFitFulfillers = regularFulfillers.filter((idea) =>
@@ -483,7 +487,7 @@ export class ContentCreator {
                 undefined,
                 undefined,
                 undefined,
-                1101
+                BEST_SPECIALS_WEAKLY_LEVEL(0)
             )
         );
         return {
