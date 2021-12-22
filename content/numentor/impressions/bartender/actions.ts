@@ -368,7 +368,7 @@ export const bartenderActions: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             name: 'Secretely gives a letter to a guest',
-            key: AssetKey.BARTENDER_actions,
+            keys: [AssetKey.BARTENDER_actions, AssetKey.plotTwist],
             needsOne: [a.thief, a.wealthy],
             worksForThiefs: true,
         },
@@ -378,7 +378,7 @@ export const bartenderActions: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             name: 'Secretely gives a briefcase to a guest',
-            key: AssetKey.BARTENDER_actions,
+            keys: [AssetKey.BARTENDER_actions, AssetKey.plotTwist],
             needsOne: [a.thief],
             worksForThiefs: true,
         },
@@ -388,7 +388,7 @@ export const bartenderActions: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             name: 'Secretely gives a flask to a guest',
-            key: AssetKey.BARTENDER_actions,
+            keys: [AssetKey.BARTENDER_actions, AssetKey.plotTwist],
             needsOne: [a.thief, a.wizard],
             worksForThiefs: true,
             worksForBrothel: true,
@@ -399,7 +399,7 @@ export const bartenderActions: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             name: 'Secretely receives a letter from a guest',
-            key: AssetKey.BARTENDER_actions,
+            keys: [AssetKey.BARTENDER_actions, AssetKey.plotTwist],
             needsOne: [a.thief, a.wealthy],
             worksForThiefs: true,
         },
@@ -409,7 +409,7 @@ export const bartenderActions: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             name: 'Secretely receives a flask from a guest',
-            key: AssetKey.BARTENDER_actions,
+            keys: [AssetKey.BARTENDER_actions, AssetKey.plotTwist],
             needsOne: [a.thief],
             worksForThiefs: true,
         },
@@ -419,7 +419,7 @@ export const bartenderActions: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             name: 'Secretely receives a briefcase from a guest',
-            key: AssetKey.BARTENDER_actions,
+            keys: [AssetKey.BARTENDER_actions, AssetKey.plotTwist],
             needsOne: [a.thief],
             worksForThiefs: true,
             worksForBrothel: true,
@@ -471,6 +471,12 @@ export const bartenderActions: ImpressionIdea[] = [
                 worksForBrothel: true,
             },
             {
+                name: 'monster hunters',
+                needs: [a.barbarian],
+                worksForAssasines: true,
+                worksForBrothel: true,
+            },
+            {
                 name: 'archers',
                 needsOne: [a.soldier, a.drow],
                 worksForBrothel: true,
@@ -483,7 +489,7 @@ export const bartenderActions: ImpressionIdea[] = [
             },
             {
                 name: 'gladiators',
-                needs: [a.soldier, a.wealthy],
+                needs: [a.soldier, a.wealthy, a.city],
                 worksForBrothel: true,
             },
             {
