@@ -172,7 +172,8 @@ export const averageCustomers: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             name: 'Singing and dancing to folk music',
-            raceRange: [a.halfling],
+            needsOne: [a.halfling, a.village, a.city],
+            incomeRange: [a.modest, a.poor],
             worksForBrothel: true,
             powerFits: [a.modest, a.village, a.bard, a.halfling, a.barbarian],
             key: AssetKey.AVERAGE_CUSTOMER_behavior,
