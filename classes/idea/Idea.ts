@@ -108,6 +108,7 @@ export class Idea {
                     patternBonusForFree
                 )
             );
+            const assetForGivenLevelExists = fittingAssetParts.length > 0;
             return getRandomArrayEntry(fittingAssetParts);
         } else {
             return undefined;

@@ -18,7 +18,7 @@ export const BEST_FIT_LEVEL = (tavernPatterns = 0) =>
     POWER_FIT_BONUS +
     SPECIALS_TRULY_FULFILLED_BONUS +
     10 * PATTERN_BONUS;
-export const MINIMAL_PASS_FIT_LEVEL = SPECIALS_WEAKLY_FULFILLED_BONUS;
+export const MINIMAL_PASS_FIT_LEVEL = 3;
 export const WORST_FIT_LEVEL = 0;
 export const getFitLevel = (
     tavernFits: StructuredTavernFits,

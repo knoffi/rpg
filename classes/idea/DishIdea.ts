@@ -58,6 +58,74 @@ export class DishIdea extends Idea {
         this.category = category;
         this.priceFactor = priceFactor === 'default' ? 1 : priceFactor;
     }
+    private getBestFittingSideDish(
+        sideDishes: DescriptionAsset[],
+        tavernFits: StructuredTavernFits,
+        minimumFitLevel: number,
+        additionExcludedByKey: (key: AssetKey) => boolean,
+        patterns: Pattern[]
+    ): DescriptionAsset | undefined {
+        const bestResult =
+            sideDishes[0].name === EMPTY_SIDE_DISH.name
+                ? EMPTY_SIDE_DISH
+                : this.getFittingAssetPart(
+                      tavernFits,
+                      sideDishes,
+                      undefined,
+                      true,
+                      undefined,
+                      additionExcludedByKey,
+                      minimumFitLevel,
+                      patterns,
+                      false
+                  );
+        if (bestResult) {
+            return bestResult;
+        } else {
+            const patternlessResult = this.getFittingAssetPart(
+                tavernFits,
+                sideDishes,
+                undefined,
+                true,
+                undefined,
+                additionExcludedByKey,
+                minimumFitLevel,
+                patterns,
+                false
+            );
+            if (patternlessResult) {
+                return patternlessResult;
+            } else {
+                const powerlessResult = this.getFittingAssetPart(
+                    tavernFits,
+                    sideDishes,
+                    undefined,
+                    false,
+                    undefined,
+                    additionExcludedByKey,
+                    minimumFitLevel,
+                    patterns,
+                    true
+                );
+                if (powerlessResult) {
+                    return powerlessResult;
+                } else {
+                    const patternlessPowerlessResult = this.getFittingAssetPart(
+                        tavernFits,
+                        sideDishes,
+                        undefined,
+                        false,
+                        undefined,
+                        additionExcludedByKey,
+                        minimumFitLevel,
+                        patterns,
+                        false
+                    );
+                    return patternlessPowerlessResult;
+                }
+            }
+        }
+    }
 
     public getConcreteDish(
         tavernFits: StructuredTavernFits,
@@ -67,20 +135,13 @@ export class DishIdea extends Idea {
         patterns: Pattern[]
     ): Offer {
         const fittingSideDishMenu = this.additions!.map((sideDishes) => {
-            const result =
-                sideDishes[0].name === EMPTY_SIDE_DISH.name
-                    ? EMPTY_SIDE_DISH
-                    : this.getFittingAssetPart(
-                          tavernFits,
-                          sideDishes,
-                          undefined,
-                          true,
-                          undefined,
-                          additionExcludedByKey,
-                          minimumFitLevel,
-                          patterns,
-                          false
-                      );
+            const result = this.getBestFittingSideDish(
+                sideDishes,
+                tavernFits,
+                minimumFitLevel,
+                additionExcludedByKey,
+                patterns
+            );
             return result;
         });
         const sideDishSlotHasNoFitting = fittingSideDishMenu.some(
@@ -89,7 +150,9 @@ export class DishIdea extends Idea {
         if (sideDishSlotHasNoFitting) {
             console.log(
                 this.main.name +
-                    ': getConcreteDish was called, but no fitting sideDish available. Moreover, side dishes for that slot have been provided!'
+                    ': getConcreteDish was called ( fit level' +
+                    minimumFitLevel +
+                    '), but no fitting sideDish available. Moreover, side dishes for that slot have been provided!'
             );
             return this.createDishFromNames(
                 this.main.name,
