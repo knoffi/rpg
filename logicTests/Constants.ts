@@ -6,6 +6,7 @@ import {
 } from '../classes/contentCreator/ContentCreator';
 import { FantasyKeys } from '../classes/contentCreator/FantasKeys';
 import { AssetKey } from '../classes/idea/AssetKey/AssetKey';
+import { DishIdea } from '../classes/idea/DishIdea';
 import { Noticable } from '../classes/idea/Noticable';
 import { Pattern } from '../classes/idea/Patterns/Pattern';
 import { KeyHandler } from '../classes/keyHandler/KeyHandler';
@@ -234,6 +235,41 @@ export class Constants {
     };
     public static keyDelete() {
         return Cloner.deepWritableCopy(Constants._keyDelete);
+    }
+    public static forImpliedPatternsByKey() {
+        const drink = new DishIdea(
+            {
+                mainIng: {
+                    name: 'Sun Red Wine',
+                    key: AssetKey.WINE_red,
+                },
+            },
+            'default',
+            Drinkable.wine
+        );
+        const patternsToAdd = [Pattern.IMPRESSIONS_redWine];
+        const request: CreationRequest = {
+            isAbout: WeServe.drinks,
+            category: Drinkable.wine,
+            oldAssets: [],
+            fullFirstKeys: [],
+            fullSecondKeys: [],
+        };
+        return { drink, patternsToAdd, request };
+    }
+    public static forImpliedPatternsByKeys() {
+        const drink = new DishIdea(
+            {
+                mainIng: {
+                    name: 'Silver White Wine',
+                    keys: [AssetKey.WINE_white],
+                },
+            },
+            'default',
+            Drinkable.wine
+        );
+        const patternsToAdd = [Pattern.IMPRESSIONS_whiteWine];
+        return { drink, patternsToAdd };
     }
 
     private static _content: DeepReadonly<Content> = {

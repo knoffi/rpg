@@ -193,4 +193,18 @@ describe('ContentCreator tests', () => {
             expect(newPatterns).to.contain(pattern)
         );
     });
+    it('', () => {
+        const creator = Constants.creator();
+        const { request, patternsToAdd } = Constants.forImpliedPatternsByKey();
+        const add = creator.addRandomCreation({}, request);
+        expect(add).to.have.property('impliedPatterns');
+        const { impliedPatterns } = add;
+        expect(impliedPatterns).to.have.property('length').to.be.greaterThan(0);
+        const patternChange = impliedPatterns[0];
+        expect(patternChange).to.have.property('type').to.eql('Add');
+        if (patternChange.type === 'Add') {
+            const { newPatterns } = patternChange;
+            expect(newPatterns).to.eql(patternsToAdd);
+        }
+    });
 });
