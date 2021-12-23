@@ -24,7 +24,7 @@ export enum AssetKey {
     BARTENDER_knowledge = 'storys, connections, quests, rumors, warnings, information',
 
     // DRINKS
-    BEER_ale = 'scotch and bourbon',
+    BEER_ale = 'ale, mostly consumed by sailors or characters in British-style',
     BEER_porter = 'stout, porter',
     BEER_lager = 'lager, helles, pils',
     WINE_mead = 'meads',
