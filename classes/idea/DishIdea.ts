@@ -3,6 +3,7 @@ import { Offer } from '../../scenes/menuScene/Offer';
 import { Demand } from '../../scenes/menuScene/offerList/actionInterfaces';
 import { association, Income } from '../association';
 import { FantasyKeys } from '../contentCreator/FantasKeys';
+import { PatternChange } from '../patternHandler/PatternHandler';
 import { incomeRange } from '../price/incomeRange';
 import { Prices } from '../price/Price';
 import { Drinkable, Eatable, MenuCategory } from '../TavernProduct';
@@ -134,7 +135,7 @@ export class DishIdea extends Idea {
         additionExcludedByKey: (key: AssetKey) => boolean,
         patterns: Pattern[]
     ): Offer {
-        const fittingSideDishMenu = this.additions!.map((sideDishes) => {
+        const sideDishChoosing = this.additions!.map((sideDishes) => {
             const result = this.getBestFittingSideDish(
                 sideDishes,
                 tavernFits,
@@ -144,10 +145,10 @@ export class DishIdea extends Idea {
             );
             return result;
         });
-        const sideDishSlotHasNoFitting = fittingSideDishMenu.some(
+        const sideDishSlotEmpty = sideDishChoosing.some(
             (sideDishes) => !sideDishes
         );
-        if (sideDishSlotHasNoFitting) {
+        if (sideDishSlotEmpty) {
             console.log(
                 this.main.name +
                     ': getConcreteDish was called ( fit level' +
@@ -160,14 +161,17 @@ export class DishIdea extends Idea {
                 '',
                 '',
                 tavernFits,
+                this.getImpliedPatterns([]),
                 universe
             );
         } else {
-            const sideDishNames = fittingSideDishMenu.map(
-                (sideDish) => sideDish!.name
+            const sideDishes = sideDishChoosing as DescriptionAsset[];
+            const sideDishNames = sideDishes.map((sideDish) => sideDish!.name);
+            const impliedPatterns = this.getImpliedPatterns(
+                sideDishes as DescriptionAsset[]
             );
-            const priceFactor = fittingSideDishMenu[0]
-                ? fittingSideDishMenu[0].priceFactor
+            const priceFactor = sideDishes[0]
+                ? sideDishes[0].priceFactor
                 : undefined;
             return this.createDishFromNames(
                 this.main.name,
@@ -175,6 +179,7 @@ export class DishIdea extends Idea {
                 sideDishNames[1],
                 sideDishNames[2],
                 tavernFits,
+                impliedPatterns,
                 universe,
                 priceFactor
             );
@@ -186,6 +191,7 @@ export class DishIdea extends Idea {
         secondSideIngredient: string,
         thirdSideIngredient: string,
         tavernFits: StructuredTavernFits,
+        impliedPatterns: PatternChange[],
         universe: FantasyKeys,
         priceFactor?: number
     ): Offer {
@@ -204,6 +210,7 @@ export class DishIdea extends Idea {
             universe,
             keys: { main: DishIdea.getKeyList(this.main), addition: [] },
             patterns: this.main.patterns || [],
+            impliedPatterns,
         };
     }
     private getDemand(): Demand & { isAbout: WeServe.drinks | WeServe.food } {

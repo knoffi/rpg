@@ -32,7 +32,10 @@ import {
 } from '../idea/StructuredTavernFits';
 import { KeyHandler } from '../keyHandler/KeyHandler';
 import { Keys } from '../keyHandler/KeyHandlingTypes';
-import { PatternHandler } from '../patternHandler/PatternHandler';
+import {
+    PatternChange,
+    PatternHandler,
+} from '../patternHandler/PatternHandler';
 import { Drinkable, Eatable } from '../TavernProduct';
 import { emptyKeys } from './emptyKeys';
 import { FantasyKeys } from './FantasKeys';
@@ -380,6 +383,7 @@ export class ContentCreator {
                     universe: 'isUserMade',
                     keys: emptyKeys,
                     patterns: [],
+                    impliedPatterns: [],
                 };
                 return { isAbout: WeServe.food, edited: food };
             case WeServe.drinks:
@@ -390,6 +394,7 @@ export class ContentCreator {
                     universe: 'isUserMade',
                     keys: emptyKeys,
                     patterns: [],
+                    impliedPatterns: [],
                 };
                 return { isAbout: WeServe.drinks, edited: drink };
             default:
@@ -511,6 +516,7 @@ export class ContentCreator {
                     category: request.category,
                     newKeys: newDrink?.keys || emptyKeys,
                     newPatterns: newDrink?.patterns || [],
+                    impliedPatterns: newDrink?.impliedPatterns || [],
                 };
             case WeServe.food:
                 const newDish = this.getRandomDish(fitting, request);
@@ -522,6 +528,7 @@ export class ContentCreator {
                     category: request.category,
                     newKeys: newDish?.keys || emptyKeys,
                     newPatterns: newDish?.patterns || [],
+                    impliedPatterns: newDish?.impliedPatterns || [],
                 };
 
             default:
@@ -546,6 +553,7 @@ export class ContentCreator {
                     category: request.category,
                     newKeys: newImpression?.keys || emptyKeys,
                     newPatterns: newImpression?.patterns || [],
+                    impliedPatterns: [],
                 };
         }
     }
@@ -801,6 +809,7 @@ export type Add =
           category: Drinkable;
           newKeys: Keys;
           newPatterns: Pattern[];
+          impliedPatterns: PatternChange[];
       }
     | {
           isAbout: WeServe.food;
@@ -809,6 +818,7 @@ export type Add =
           category: Eatable;
           newKeys: Keys;
           newPatterns: Pattern[];
+          impliedPatterns: PatternChange[];
       }
     | {
           isAbout: WeServe.impressions;
@@ -817,6 +827,7 @@ export type Add =
           added: Impression[];
           newKeys: Keys;
           newPatterns: Pattern[];
+          impliedPatterns: PatternChange[];
       };
 export type AddCheck =
     | {

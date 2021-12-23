@@ -1,4 +1,6 @@
 import { getRandomArrayEntry } from '../../helpingFunctions/getRandomArrayEntry';
+import { PatternConverter } from '../patternConverter/PatternConverter';
+import { PatternChange } from '../patternHandler/PatternHandler';
 import { AssetKey } from './AssetKey/AssetKey';
 import { DescriptionAsset } from './DescriptionAsset';
 import {
@@ -284,5 +286,21 @@ export class Idea {
             );
             return Math.max(fitLevel, additionFitLevel);
         }, WORST_FIT_LEVEL);
+    }
+    protected getImpliedPatterns(
+        chosenAdditions: DescriptionAsset[]
+    ): PatternChange[] {
+        const byMain = Idea.getImpliedPatterns(this.main);
+        const byAdditions = chosenAdditions.flatMap((addition) =>
+            Idea.getImpliedPatterns(addition)
+        );
+        return [...byMain, ...byAdditions];
+    }
+    private static getImpliedPatterns(
+        asset: DescriptionAsset
+    ): PatternChange[] {
+        const allKeys = (asset.keys || []).concat(asset.key || []);
+        const patterns = new PatternConverter(allKeys).getPatterns();
+        return patterns;
     }
 }

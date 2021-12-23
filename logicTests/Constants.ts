@@ -133,6 +133,7 @@ export class Constants {
         income: association.empty,
         description: '',
         isUserMade: false,
+        impliedPatterns: [],
     };
     private static _multiRerollDishes: Partial<Content> = {
         [WeServe.food]: [
@@ -245,6 +246,13 @@ export class Constants {
                 income: association.poor,
                 category: Drinkable.wine,
                 price: 10,
+                impliedPatterns: [
+                    {
+                        isAbout: WeServe.impressions,
+                        type: 'Add',
+                        newPatterns: [Pattern.IMPRESSIONS_redWine],
+                    },
+                ],
                 description: '',
                 patterns: [],
                 keys: {
