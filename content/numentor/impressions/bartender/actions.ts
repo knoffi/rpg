@@ -3,6 +3,8 @@ import { AssetKey } from '../../../../classes/idea/AssetKey/AssetKey';
 import { emptyDescriptionAsset } from '../../../../classes/idea/DescriptionAsset';
 import { ImpressionIdea } from '../../../../classes/idea/ImpressionIdea';
 import { Noticable } from '../../../../classes/idea/Noticable';
+import { Pattern } from '../../../../classes/idea/Patterns/Pattern';
+import { defaultPatternConcepts } from '../../../../classes/idea/powerFitConcepts/defaultPatternConcepts';
 import { defaultPowerFitConcepts } from '../../../../classes/idea/powerFitConcepts/powerFitConcepts';
 const a = association;
 export const bartenderActions: ImpressionIdea[] = [
@@ -667,15 +669,44 @@ export const bartenderActions: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            name: 'Carries an empty barrel to the basement',
+            name: 'Carries an empty ',
             key: AssetKey.BARTENDER_actions,
-            powerFits: [a.barbarian, a.dwarf],
+            powerFits: [a.barbarian, a.dwarf, a.assasine],
+            needsOne: [a.poor, a.modest, a.barbarian, a.dwarf, a.assasine],
             misfits: [a.rich],
             worksForBrothel: true,
             worksForAssasines: true,
         },
-        [emptyDescriptionAsset],
-        Noticable.bartender
+        [
+            {
+                name: 'mead barrel to the basement',
+                patterns: [Pattern.IMPRESSIONS_mead],
+            },
+            {
+                name: 'wine barrel to the basement',
+                patterns: [
+                    Pattern.IMPRESSIONS_whiteWine,
+                    Pattern.IMPRESSIONS_redWine,
+                ],
+            },
+            {
+                name: 'beer barrel to the basement',
+                patterns: [
+                    Pattern.IMPRESSIONS_lager,
+                    Pattern.IMPRESSIONS_porter,
+                    Pattern.IMPRESSIONS_ale,
+                ],
+            },
+            {
+                name: 'whiskey barrel to the basement',
+                patterns: [Pattern.IMPRESSIONS_whiskey],
+            },
+        ],
+        Noticable.bartender,
+        undefined,
+        undefined,
+        undefined,
+        defaultPatternConcepts.harmony
     ),
     new ImpressionIdea(
         {
