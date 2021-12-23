@@ -24,11 +24,14 @@ export enum AssetKey {
     BARTENDER_knowledge = 'storys, connections, quests, rumors, warnings, information',
 
     // DRINKS
+    BEER_ale = 'scotch and bourbon',
+    BEER_porter = 'stout, porter',
+    BEER_lager = 'lager, helles, pils',
     WINE_mead = 'meads',
     WINE_red = 'red wine',
     WINE_white = 'white wine',
     SPIRIT_whiskey = 'scotch and bourbon',
-  
+
     // FOOD
     SMALL_DISH_salad = 'salads',
     SMALL_DISH_soup = 'soups, not stews',
