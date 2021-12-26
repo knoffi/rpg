@@ -241,25 +241,42 @@ export class Constants {
         return Cloner.deepWritableCopy(Constants._keyDelete);
     }
     public static forImpliedPatternsByKey() {
+        const isAbout = WeServe.drinks;
+        const newKeys: Keys = { main: [AssetKey.WINE_red], addition: [] };
         const drink = new DishIdea(
             {
                 mainIng: {
                     name: 'Sun Red Wine',
-                    key: AssetKey.WINE_red,
+                    key: newKeys.main[0],
                 },
             },
             'default',
             Drinkable.wine
         );
-        const patternsToAdd = [Pattern.IMPRESSIONS_redWine];
+        const newPatterns = [Pattern.IMPRESSIONS_redWine];
         const request: CreationRequest = {
-            isAbout: WeServe.drinks,
+            isAbout,
             category: Drinkable.wine,
             oldAssets: [],
             fullFirstKeys: [],
             fullSecondKeys: [],
         };
-        return { drink, patternsToAdd, request };
+        const keysAfterAdd = new KeyHandler('noPreviousContent');
+        keysAfterAdd.update({ type: 'Add', isAbout: WeServe.drinks, newKeys });
+        const patternsAfterAdd = new PatternHandler('noContent');
+        patternsAfterAdd.update({
+            type: 'Add',
+            isAbout: WeServe.impressions,
+            newPatterns,
+        });
+
+        return {
+            drink,
+            newPatterns,
+            request,
+            keysAfterAdd,
+            patternsAfterAdd,
+        };
     }
     public static forImpliedPatternsByKeys() {
         const drink = new DishIdea(

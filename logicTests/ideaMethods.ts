@@ -302,7 +302,7 @@ describe('Idea method tests', () => {
         }
     });
     it('implied patterns by key', () => {
-        const { patternsToAdd, drink } = Constants.forImpliedPatternsByKey();
+        const { newPatterns, drink } = Constants.forImpliedPatternsByKey();
         const createdWine = drink.getConcreteDish(
             {},
             0,
@@ -322,7 +322,7 @@ describe('Idea method tests', () => {
         if (redWineOnMenu.type === 'Add') {
             expect(redWineOnMenu).to.have.property('newPatterns');
             const impliedPatterns = redWineOnMenu.newPatterns;
-            expect(impliedPatterns).to.eql(patternsToAdd);
+            expect(impliedPatterns).to.eql(newPatterns);
         }
     });
 });
