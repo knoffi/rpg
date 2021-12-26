@@ -126,18 +126,42 @@ export class ContentCreator {
                 };
         }
     }
+    private getStartDissolve(toReduce: ReduceTarget): Dissolve {
+        const partialDissolve: Omit<Dissolve, 'isAbout' | 'reduced'> = {
+            keys: emptyKeys,
+            patterns: [] as Pattern[],
+            impliedPatterns: [],
+        };
+        switch (toReduce.isAbout) {
+            case WeServe.drinks:
+                return {
+                    ...partialDissolve,
+                    reduced: toReduce.oldAssets,
+                    isAbout: toReduce.isAbout,
+                };
+
+            case WeServe.food:
+                return {
+                    ...partialDissolve,
+                    reduced: toReduce.oldAssets,
+                    isAbout: toReduce.isAbout,
+                };
+
+            default:
+                return {
+                    ...partialDissolve,
+                    reduced: toReduce.oldAssets,
+                    isAbout: toReduce.isAbout,
+                };
+        }
+    }
     public multiDelete(
         names: string[],
         toReduce: ReduceTarget,
         keys: KeyHandler,
         patterns: PatternHandler
     ): Delete {
-        const startDissolve = {
-            keys: emptyKeys,
-            patterns: [] as Pattern[],
-            reduced: toReduce.oldAssets,
-            isAbout: toReduce.isAbout,
-        } as Dissolve;
+        const startDissolve = this.getStartDissolve(toReduce);
         const multiDissolve = names.reduce((prev, name) => {
             const newReduceTarget = {
                 ...toReduce,
@@ -152,7 +176,11 @@ export class ContentCreator {
                 ...prev.patterns,
                 ...newDissolve.patterns,
             ];
-            return { ...newDissolve, patterns, keys };
+            const impliedPatterns: PatternChange[] = [
+                ...prev.impliedPatterns,
+                ...newDissolve.impliedPatterns,
+            ];
+            return { ...newDissolve, patterns, keys, impliedPatterns };
         }, startDissolve);
         //NOTE: keys and patterns might be states of a component
         const clonedKeys = keys.multiUpdateClone([
@@ -169,6 +197,7 @@ export class ContentCreator {
                 oldPatterns: multiDissolve.patterns,
             },
         ]);
+        clonedPatterns.multiRevert(multiDissolve.impliedPatterns);
         switch (multiDissolve.isAbout) {
             case WeServe.impressions:
                 return {
