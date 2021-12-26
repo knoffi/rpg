@@ -101,6 +101,7 @@ export class ContentCreator {
             isAbout: toReduce.isAbout,
             oldPatterns: dissolve.patterns,
         });
+        pattern.multiRevert(dissolve.impliedPatterns);
         switch (dissolve.isAbout) {
             case WeServe.impressions:
                 return {
@@ -202,6 +203,7 @@ export class ContentCreator {
         if (indexToRemove < 0) {
             const keys: Keys = emptyKeys;
             const patterns: Pattern[] = [];
+            const impliedPatterns: PatternChange[] = [];
             console.log(
                 '___COULD NOT FIND CREATION TO REMOVE: ' + toRemove + '___'
             );
@@ -212,6 +214,7 @@ export class ContentCreator {
                         reduced: toReduce.oldAssets,
                         keys,
                         patterns,
+                        impliedPatterns,
                     };
                 case WeServe.food:
                     return {
@@ -219,6 +222,7 @@ export class ContentCreator {
                         reduced: toReduce.oldAssets,
                         keys,
                         patterns,
+                        impliedPatterns,
                     };
                 default:
                     return {
@@ -226,13 +230,12 @@ export class ContentCreator {
                         reduced: toReduce.oldAssets,
                         keys,
                         patterns,
+                        impliedPatterns,
                     };
             }
         } else {
             const removedEntry = toReduce.oldAssets[indexToRemove];
-
-            const keys: Keys = removedEntry.keys;
-            const patterns: Pattern[] = removedEntry.patterns;
+            const { keys, patterns, impliedPatterns } = removedEntry;
             switch (toReduce.isAbout) {
                 case WeServe.impressions:
                     const reducedImpressions = toReduce.oldAssets.filter(
@@ -243,6 +246,7 @@ export class ContentCreator {
                         reduced: reducedImpressions,
                         keys,
                         patterns,
+                        impliedPatterns,
                     };
                 case WeServe.drinks:
                     const reducedDrinks = toReduce.oldAssets.filter(
@@ -253,6 +257,7 @@ export class ContentCreator {
                         reduced: reducedDrinks,
                         keys,
                         patterns,
+                        impliedPatterns,
                     };
 
                 default:
@@ -264,6 +269,7 @@ export class ContentCreator {
                         reduced: reducedDishes,
                         keys,
                         patterns,
+                        impliedPatterns,
                     };
             }
         }
@@ -402,6 +408,7 @@ export class ContentCreator {
                     category: edit.category,
                     name: edit.name,
                     patterns: [],
+                    impliedPatterns: [],
                     keys: emptyKeys,
                     universe: 'isUserMade',
                 };
@@ -919,7 +926,11 @@ export type ReduceTarget =
     | { oldAssets: Impression[]; isAbout: WeServe.impressions }
     | { oldAssets: Offer[]; isAbout: WeServe.drinks }
     | { oldAssets: Offer[]; isAbout: WeServe.food };
-type Dissolve = { keys: Keys; patterns: Pattern[] } & (
+type Dissolve = {
+    keys: Keys;
+    patterns: Pattern[];
+    impliedPatterns: PatternChange[];
+} & (
     | { reduced: Impression[]; isAbout: WeServe.impressions }
     | { reduced: Offer[]; isAbout: WeServe.food }
     | { reduced: Offer[]; isAbout: WeServe.drinks }

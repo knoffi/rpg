@@ -46,6 +46,28 @@ export class PatternHandler {
                 break;
         }
     }
+    public multiRevert(updatesToRevert: DeepReadonly<PatternChange[]>) {
+        updatesToRevert.forEach((update) => this.revert(update));
+    }
+    private revert(updateToRevert: DeepReadonly<PatternChange>) {
+        switch (updateToRevert.type) {
+            case 'Add':
+                this.removePattern({
+                    ...updateToRevert,
+                    type: 'Delete',
+                    oldPatterns: updateToRevert.newPatterns,
+                });
+                break;
+
+            default:
+                this.addPattern({
+                    ...updateToRevert,
+                    type: 'Add',
+                    newPatterns: updateToRevert.oldPatterns,
+                });
+                break;
+        }
+    }
     public multiUpdateClone(changes: PatternChange[]) {
         const newHandler = new PatternHandler('noContent');
         newHandler.patterns = { ...this.patterns };
