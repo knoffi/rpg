@@ -86,7 +86,7 @@ export const getKeyBound = (key: AssetKey) => {
             return 1;
 
         default:
-            console.log('key is missing');
+            console.log('key is missing:' + key);
             return 3.5;
     }
 };
