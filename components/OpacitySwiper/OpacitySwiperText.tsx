@@ -53,7 +53,7 @@ export class OpacitySwiperText extends React.Component<
     OpacitySwiperTextProps,
     OpacitySwiperTextState
 > {
-    private clock: Animated.Clock;
+    private bounceBackClock: Animated.Clock;
     private gestureState: Animated.Value<State>;
     private onPanEvent: (...args: any[]) => void;
     private onGestureEvent: (...args: any[]) => void;
@@ -83,7 +83,7 @@ export class OpacitySwiperText extends React.Component<
             overRightThreshhold: false,
             overLeftThreshhold: false,
         };
-        this.clock = new Animated.Clock();
+        this.bounceBackClock = new Animated.Clock();
         this.gestureState = new Animated.Value(GestureState.UNDETERMINED);
         this.onGestureEvent = this.getStateHandler();
         this.springAnimConfig = {
@@ -100,12 +100,18 @@ export class OpacitySwiperText extends React.Component<
             {
                 nativeEvent: ({ translationX }) =>
                     block([
-                        cond(eq(this.gestureState, GestureState.ACTIVE), [
-                            Animated.set(
-                                this.state.anim.position,
-                                translationX
+                        cond(
+                            and(
+                                not(clockRunning(this.bounceBackClock)),
+                                eq(this.gestureState, GestureState.ACTIVE)
                             ),
-                        ]),
+                            [
+                                Animated.set(
+                                    this.state.anim.position,
+                                    translationX
+                                ),
+                            ]
+                        ),
                         cond(
                             and(
                                 eq(this.gestureState, GestureState.ACTIVE),
@@ -217,7 +223,7 @@ export class OpacitySwiperText extends React.Component<
                                             );
                                         }),
                                     ],
-                                    startClock(this.clock)
+                                    startClock(this.bounceBackClock)
                                 ),
                             ]
                         ),
@@ -242,11 +248,11 @@ export class OpacitySwiperText extends React.Component<
                         cond(
                             and(
                                 eq(state, GestureState.END),
-                                not(clockRunning(this.clock)),
+                                not(clockRunning(this.bounceBackClock)),
                                 //do not use state here
                                 this.insideTreshholdNode()
                             ),
-                            [startClock(this.clock)]
+                            [startClock(this.bounceBackClock)]
                         ),
                     ]),
             },
@@ -419,35 +425,43 @@ export class OpacitySwiperText extends React.Component<
                                     <Animated.Code>
                                         {() =>
                                             block([
-                                                cond(clockRunning(this.clock), [
-                                                    spring(
-                                                        this.clock,
-
-                                                        this.state.anim,
-
-                                                        {
-                                                            ...this
-                                                                .springAnimConfig,
-                                                            stiffness:
-                                                                this.getStiffness(),
-                                                        }
+                                                cond(
+                                                    clockRunning(
+                                                        this.bounceBackClock
                                                     ),
-                                                    cond(
-                                                        this.state.anim
-                                                            .finished,
-                                                        [
-                                                            stopClock(
-                                                                this.clock
-                                                            ),
+                                                    [
+                                                        spring(
+                                                            this
+                                                                .bounceBackClock,
 
-                                                            Animated.set(
-                                                                this.state.anim
-                                                                    .finished,
-                                                                0
-                                                            ),
-                                                        ]
-                                                    ),
-                                                ]),
+                                                            this.state.anim,
+
+                                                            {
+                                                                ...this
+                                                                    .springAnimConfig,
+                                                                stiffness:
+                                                                    this.getStiffness(),
+                                                            }
+                                                        ),
+                                                        cond(
+                                                            this.state.anim
+                                                                .finished,
+                                                            [
+                                                                stopClock(
+                                                                    this
+                                                                        .bounceBackClock
+                                                                ),
+
+                                                                Animated.set(
+                                                                    this.state
+                                                                        .anim
+                                                                        .finished,
+                                                                    0
+                                                                ),
+                                                            ]
+                                                        ),
+                                                    ]
+                                                ),
                                             ])
                                         }
                                     </Animated.Code>
