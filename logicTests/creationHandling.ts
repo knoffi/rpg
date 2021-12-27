@@ -195,9 +195,9 @@ describe('ContentCreator tests', () => {
     });
     it('add with implied patterns', () => {
         const creator = Constants.creator();
-        const { request, patternsAfterAdd } =
+        const { addRequest, patternsAfterAdd } =
             Constants.forImpliedPatternsByKey();
-        const add = creator.addRandomCreation({}, request);
+        const add = creator.addRandomCreation({}, addRequest);
         expect(add).to.have.property('impliedPatterns');
         const { impliedPatterns } = add;
         expect(impliedPatterns).to.have.property('length').to.be.greaterThan(0);
@@ -213,9 +213,9 @@ describe('ContentCreator tests', () => {
     });
     it('delete with implied patterns', () => {
         const creator = Constants.creator();
-        const { request, keysAfterAdd, patternsAfterAdd } =
+        const { addRequest, keysAfterAdd, patternsAfterAdd } =
             Constants.forImpliedPatternsByKey();
-        const add = creator.addRandomCreation({}, request);
+        const add = creator.addRandomCreation({}, addRequest);
         expect(add).to.have.property('impliedPatterns');
         const { impliedPatterns } = add;
         expect(impliedPatterns).to.have.property('length').to.be.greaterThan(0);
@@ -235,5 +235,23 @@ describe('ContentCreator tests', () => {
             );
             expect(newPatterns).to.have.length(0);
         }
+    });
+    it('reroll with implied patterns', () => {
+        const creator = Constants.creator();
+        const { addRequest, rerollAfterAddRequest } =
+            Constants.forImpliedPatternsByKey();
+        const add = creator.addRandomCreation({}, addRequest);
+        expect(add).to.have.property('impliedPatterns');
+        const { impliedPatterns } = add;
+        expect(impliedPatterns).to.have.property('length').to.be.greaterThan(0);
+        expect(add.added).to.have.length(1);
+        const addedName = add.added[0].name;
+        const reroll = creator.multiReroll(
+            {},
+            [addedName],
+            rerollAfterAddRequest
+        );
+        const newPatterns = reroll.pattern.getPatterns(WeServe.impressions);
+        expect(newPatterns).to.have.length(1);
     });
 });

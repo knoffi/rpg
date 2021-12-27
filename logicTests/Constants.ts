@@ -254,7 +254,7 @@ export class Constants {
             Drinkable.wine
         );
         const newPatterns = [Pattern.IMPRESSIONS_redWine];
-        const request: CreationRequest = {
+        const addRequest: CreationRequest = {
             isAbout,
             category: Drinkable.wine,
             oldAssets: [],
@@ -269,13 +269,21 @@ export class Constants {
             isAbout: WeServe.impressions,
             newPatterns,
         });
+        const rerollAfterAddRequest: MultiRerollRequest = {
+            isAbout,
+            category: Drinkable.wine,
+            oldAssets: [],
+            keys: keysAfterAdd,
+            pattern: patternsAfterAdd,
+        };
 
         return {
             drink,
             newPatterns,
-            request,
+            addRequest,
             keysAfterAdd,
             patternsAfterAdd,
+            rerollAfterAddRequest,
         };
     }
     public static forImpliedPatternsByKeys() {
