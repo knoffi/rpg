@@ -6,6 +6,7 @@ import {
 } from '../classes/contentCreator/ContentCreator';
 import { FantasyKeys } from '../classes/contentCreator/FantasKeys';
 import { AssetKey } from '../classes/idea/AssetKey/AssetKey';
+import { DishIdea } from '../classes/idea/DishIdea';
 import { Noticable } from '../classes/idea/Noticable';
 import { Pattern } from '../classes/idea/Patterns/Pattern';
 import { KeyHandler } from '../classes/keyHandler/KeyHandler';
@@ -61,6 +62,7 @@ export class Constants {
         keys: { main: [AssetKey.BARTENDER_charisma], addition: [] },
         patterns: [Pattern.BARTENDER_UncleBen],
         universe: FantasyKeys.unitTest,
+        impliedPatterns: [],
     };
     private static _oldImpressions: Impression[] = [
         {
@@ -69,6 +71,7 @@ export class Constants {
             keys: { main: [AssetKey.BARTENDER_charisma], addition: [] },
             patterns: [Pattern.BARTENDER_UncleBen],
             universe: FantasyKeys.unitTest,
+            impliedPatterns: [],
         },
         {
             name: 'Very thin',
@@ -76,6 +79,7 @@ export class Constants {
             keys: { main: [AssetKey.BARTENDER_body], addition: [] },
             patterns: [Pattern.BARTENDER_Kleinfinger],
             universe: FantasyKeys.unitTest,
+            impliedPatterns: [],
         },
         {
             name: 'Knows a secret',
@@ -83,6 +87,7 @@ export class Constants {
             keys: { main: [AssetKey.BARTENDER_knowledge], addition: [] },
             patterns: [Pattern.BARTENDER_Kleinfinger],
             universe: FantasyKeys.unitTest,
+            impliedPatterns: [],
         },
     ];
     private static _rerollRequest: DeepReadonly<CreationRequest> = {
@@ -133,6 +138,7 @@ export class Constants {
         income: association.empty,
         description: '',
         isUserMade: false,
+        impliedPatterns: [],
     };
     private static _multiRerollDishes: Partial<Content> = {
         [WeServe.food]: [
@@ -234,6 +240,66 @@ export class Constants {
     public static keyDelete() {
         return Cloner.deepWritableCopy(Constants._keyDelete);
     }
+    public static forImpliedPatternsByKey() {
+        const isAbout = WeServe.drinks;
+        const newKeys: Keys = { main: [AssetKey.WINE_red], addition: [] };
+        const drink = new DishIdea(
+            {
+                mainIng: {
+                    name: 'Sun Red Wine',
+                    key: newKeys.main[0],
+                },
+            },
+            'default',
+            Drinkable.wine
+        );
+        const newPatterns = [Pattern.IMPRESSIONS_redWine];
+        const addRequest: CreationRequest = {
+            isAbout,
+            category: Drinkable.wine,
+            oldAssets: [],
+            fullFirstKeys: [],
+            fullSecondKeys: [],
+        };
+        const keysAfterAdd = new KeyHandler('noPreviousContent');
+        keysAfterAdd.update({ type: 'Add', isAbout: WeServe.drinks, newKeys });
+        const patternsAfterAdd = new PatternHandler('noContent');
+        patternsAfterAdd.update({
+            type: 'Add',
+            isAbout: WeServe.impressions,
+            newPatterns,
+        });
+        const rerollAfterAddRequest: MultiRerollRequest = {
+            isAbout,
+            category: Drinkable.wine,
+            oldAssets: [],
+            keys: keysAfterAdd,
+            pattern: patternsAfterAdd,
+        };
+
+        return {
+            drink,
+            newPatterns,
+            addRequest,
+            keysAfterAdd,
+            patternsAfterAdd,
+            rerollAfterAddRequest,
+        };
+    }
+    public static forImpliedPatternsByKeys() {
+        const drink = new DishIdea(
+            {
+                mainIng: {
+                    name: 'Silver White Wine',
+                    keys: [AssetKey.WINE_white],
+                },
+            },
+            'default',
+            Drinkable.wine
+        );
+        const patternsToAdd = [Pattern.IMPRESSIONS_whiteWine];
+        return { drink, patternsToAdd };
+    }
 
     private static _content: DeepReadonly<Content> = {
         food: [],
@@ -245,6 +311,13 @@ export class Constants {
                 income: association.poor,
                 category: Drinkable.wine,
                 price: 10,
+                impliedPatterns: [
+                    {
+                        isAbout: WeServe.impressions,
+                        type: 'Add',
+                        newPatterns: [Pattern.IMPRESSIONS_redWine],
+                    },
+                ],
                 description: '',
                 patterns: [],
                 keys: {
@@ -261,6 +334,7 @@ export class Constants {
                 universe: 'isUserMade',
                 patterns: [Pattern.BARTENDER_UncleBen],
                 keys: { main: [AssetKey.BARTENDER_charisma], addition: [] },
+                impliedPatterns: [],
             },
             {
                 name: 'Talks about power and responsibility',
@@ -268,6 +342,7 @@ export class Constants {
                 universe: 'isUserMade',
                 patterns: [Pattern.BARTENDER_UncleBen],
                 keys: { main: [AssetKey.BARTENDER_actions], addition: [] },
+                impliedPatterns: [],
             },
         ],
     };

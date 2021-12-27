@@ -112,13 +112,16 @@ export const EditNavigator = (props: {
     });
 
     const updateTracker = (add: Add) => {
-        const change: KeyChange & PatternChange = {
+        const directAdds: KeyChange & PatternChange = {
             ...add,
             type: 'Add',
         };
 
-        const pattern = tracker.pattern.multiUpdateClone([change]);
-        const keys = tracker.keys.multiUpdateClone([change]);
+        const pattern = tracker.pattern.multiUpdateClone([
+            directAdds,
+            ...add.impliedPatterns,
+        ]);
+        const keys = tracker.keys.multiUpdateClone([directAdds]);
         setTracker({ pattern, keys });
     };
 

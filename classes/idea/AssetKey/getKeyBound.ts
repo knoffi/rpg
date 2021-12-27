@@ -6,7 +6,7 @@ export const getKeyBound = (key: AssetKey) => {
     switch (key) {
         case AssetKey.plotTwist:
             return 1;
-        
+
         case AssetKey.FURNITURE_barDeco:
             return 1;
 
@@ -59,16 +59,22 @@ export const getKeyBound = (key: AssetKey) => {
             return 1;
 
         case AssetKey.WINE_mead:
-            return 2;
+            return 1;
 
         case AssetKey.WINE_red:
             return 1;
 
         case AssetKey.WINE_white:
             return 1;
-        
-        case AssetKey.SPIRIT_whiskey:
-            return 2;
+
+        case AssetKey.BEER_ale:
+            return 1;
+
+        case AssetKey.BEER_porter:
+            return 1;
+
+        case AssetKey.BEER_lager:
+            return 1;
 
         case AssetKey.SMALL_DISH_carbon:
             return 1;

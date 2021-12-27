@@ -193,4 +193,65 @@ describe('ContentCreator tests', () => {
             expect(newPatterns).to.contain(pattern)
         );
     });
+    it('add with implied patterns', () => {
+        const creator = Constants.creator();
+        const { addRequest, patternsAfterAdd } =
+            Constants.forImpliedPatternsByKey();
+        const add = creator.addRandomCreation({}, addRequest);
+        expect(add).to.have.property('impliedPatterns');
+        const { impliedPatterns } = add;
+        expect(impliedPatterns).to.have.property('length').to.be.greaterThan(0);
+        const patternChange = impliedPatterns[0];
+        expect(patternChange).to.have.property('type').to.eql('Add');
+        if (patternChange.type === 'Add') {
+            const { newPatterns } = patternChange;
+            const expectedPatterns = patternsAfterAdd.getPatterns(
+                WeServe.impressions
+            );
+            expect(newPatterns).to.eql(expectedPatterns);
+        }
+    });
+    it('delete with implied patterns', () => {
+        const creator = Constants.creator();
+        const { addRequest, keysAfterAdd, patternsAfterAdd } =
+            Constants.forImpliedPatternsByKey();
+        const add = creator.addRandomCreation({}, addRequest);
+        expect(add).to.have.property('impliedPatterns');
+        const { impliedPatterns } = add;
+        expect(impliedPatterns).to.have.property('length').to.be.greaterThan(0);
+        expect(add.isAbout).to.eql(WeServe.drinks);
+        if (add.isAbout === WeServe.drinks) {
+            const toReduce = { ...add, oldAssets: add.added };
+            expect(add.added).to.have.length(1);
+            const addedName = add.added[0].name;
+            const deletion = creator.multiDelete(
+                [addedName],
+                toReduce,
+                keysAfterAdd,
+                patternsAfterAdd
+            );
+            const newPatterns = deletion.pattern.getPatterns(
+                WeServe.impressions
+            );
+            expect(newPatterns).to.have.length(0);
+        }
+    });
+    it('reroll with implied patterns', () => {
+        const creator = Constants.creator();
+        const { addRequest, rerollAfterAddRequest } =
+            Constants.forImpliedPatternsByKey();
+        const add = creator.addRandomCreation({}, addRequest);
+        expect(add).to.have.property('impliedPatterns');
+        const { impliedPatterns } = add;
+        expect(impliedPatterns).to.have.property('length').to.be.greaterThan(0);
+        expect(add.added).to.have.length(1);
+        const addedName = add.added[0].name;
+        const reroll = creator.multiReroll(
+            {},
+            [addedName],
+            rerollAfterAddRequest
+        );
+        const newPatterns = reroll.pattern.getPatterns(WeServe.impressions);
+        expect(newPatterns).to.have.length(1);
+    });
 });

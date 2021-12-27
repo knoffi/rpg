@@ -17,7 +17,11 @@ import { association } from '../association';
 import { AssetKey } from '../idea/AssetKey/AssetKey';
 import { DishIdea } from '../idea/DishIdea';
 import { filterBestIdeas } from '../idea/fitCalculator/filterBestIdea';
-import { BEST_FIT_LEVEL } from '../idea/fitCalculator/getFitLevel';
+import {
+    BEST_FIT_LEVEL,
+    BEST_POWERLESS_FIT_LEVEL,
+    BEST_SPECIALS_WEAKLY_LEVEL,
+} from '../idea/fitCalculator/getFitLevel';
 import { Idea } from '../idea/Idea';
 import { ImpressionIdea } from '../idea/ImpressionIdea';
 import { Noticable } from '../idea/Noticable';
@@ -28,7 +32,10 @@ import {
 } from '../idea/StructuredTavernFits';
 import { KeyHandler } from '../keyHandler/KeyHandler';
 import { Keys } from '../keyHandler/KeyHandlingTypes';
-import { PatternHandler } from '../patternHandler/PatternHandler';
+import {
+    PatternChange,
+    PatternHandler,
+} from '../patternHandler/PatternHandler';
 import { Drinkable, Eatable } from '../TavernProduct';
 import { emptyKeys } from './emptyKeys';
 import { FantasyKeys } from './FantasKeys';
@@ -94,6 +101,7 @@ export class ContentCreator {
             isAbout: toReduce.isAbout,
             oldPatterns: dissolve.patterns,
         });
+        pattern.multiRevert(dissolve.impliedPatterns);
         switch (dissolve.isAbout) {
             case WeServe.impressions:
                 return {
@@ -118,18 +126,42 @@ export class ContentCreator {
                 };
         }
     }
+    private getStartDissolve(toReduce: ReduceTarget): Dissolve {
+        const partialDissolve: Omit<Dissolve, 'isAbout' | 'reduced'> = {
+            keys: emptyKeys,
+            patterns: [] as Pattern[],
+            impliedPatterns: [],
+        };
+        switch (toReduce.isAbout) {
+            case WeServe.drinks:
+                return {
+                    ...partialDissolve,
+                    reduced: toReduce.oldAssets,
+                    isAbout: toReduce.isAbout,
+                };
+
+            case WeServe.food:
+                return {
+                    ...partialDissolve,
+                    reduced: toReduce.oldAssets,
+                    isAbout: toReduce.isAbout,
+                };
+
+            default:
+                return {
+                    ...partialDissolve,
+                    reduced: toReduce.oldAssets,
+                    isAbout: toReduce.isAbout,
+                };
+        }
+    }
     public multiDelete(
         names: string[],
         toReduce: ReduceTarget,
         keys: KeyHandler,
         patterns: PatternHandler
     ): Delete {
-        const startDissolve = {
-            keys: emptyKeys,
-            patterns: [] as Pattern[],
-            reduced: toReduce.oldAssets,
-            isAbout: toReduce.isAbout,
-        } as Dissolve;
+        const startDissolve = this.getStartDissolve(toReduce);
         const multiDissolve = names.reduce((prev, name) => {
             const newReduceTarget = {
                 ...toReduce,
@@ -144,7 +176,11 @@ export class ContentCreator {
                 ...prev.patterns,
                 ...newDissolve.patterns,
             ];
-            return { ...newDissolve, patterns, keys };
+            const impliedPatterns: PatternChange[] = [
+                ...prev.impliedPatterns,
+                ...newDissolve.impliedPatterns,
+            ];
+            return { ...newDissolve, patterns, keys, impliedPatterns };
         }, startDissolve);
         //NOTE: keys and patterns might be states of a component
         const clonedKeys = keys.multiUpdateClone([
@@ -161,6 +197,7 @@ export class ContentCreator {
                 oldPatterns: multiDissolve.patterns,
             },
         ]);
+        clonedPatterns.multiRevert(multiDissolve.impliedPatterns);
         switch (multiDissolve.isAbout) {
             case WeServe.impressions:
                 return {
@@ -195,6 +232,7 @@ export class ContentCreator {
         if (indexToRemove < 0) {
             const keys: Keys = emptyKeys;
             const patterns: Pattern[] = [];
+            const impliedPatterns: PatternChange[] = [];
             console.log(
                 '___COULD NOT FIND CREATION TO REMOVE: ' + toRemove + '___'
             );
@@ -205,6 +243,7 @@ export class ContentCreator {
                         reduced: toReduce.oldAssets,
                         keys,
                         patterns,
+                        impliedPatterns,
                     };
                 case WeServe.food:
                     return {
@@ -212,6 +251,7 @@ export class ContentCreator {
                         reduced: toReduce.oldAssets,
                         keys,
                         patterns,
+                        impliedPatterns,
                     };
                 default:
                     return {
@@ -219,13 +259,12 @@ export class ContentCreator {
                         reduced: toReduce.oldAssets,
                         keys,
                         patterns,
+                        impliedPatterns,
                     };
             }
         } else {
             const removedEntry = toReduce.oldAssets[indexToRemove];
-
-            const keys: Keys = removedEntry.keys;
-            const patterns: Pattern[] = removedEntry.patterns;
+            const { keys, patterns, impliedPatterns } = removedEntry;
             switch (toReduce.isAbout) {
                 case WeServe.impressions:
                     const reducedImpressions = toReduce.oldAssets.filter(
@@ -236,6 +275,7 @@ export class ContentCreator {
                         reduced: reducedImpressions,
                         keys,
                         patterns,
+                        impliedPatterns,
                     };
                 case WeServe.drinks:
                     const reducedDrinks = toReduce.oldAssets.filter(
@@ -246,6 +286,7 @@ export class ContentCreator {
                         reduced: reducedDrinks,
                         keys,
                         patterns,
+                        impliedPatterns,
                     };
 
                 default:
@@ -257,6 +298,7 @@ export class ContentCreator {
                         reduced: reducedDishes,
                         keys,
                         patterns,
+                        impliedPatterns,
                     };
             }
         }
@@ -376,6 +418,7 @@ export class ContentCreator {
                     universe: 'isUserMade',
                     keys: emptyKeys,
                     patterns: [],
+                    impliedPatterns: [],
                 };
                 return { isAbout: WeServe.food, edited: food };
             case WeServe.drinks:
@@ -386,6 +429,7 @@ export class ContentCreator {
                     universe: 'isUserMade',
                     keys: emptyKeys,
                     patterns: [],
+                    impliedPatterns: [],
                 };
                 return { isAbout: WeServe.drinks, edited: drink };
             default:
@@ -393,6 +437,7 @@ export class ContentCreator {
                     category: edit.category,
                     name: edit.name,
                     patterns: [],
+                    impliedPatterns: [],
                     keys: emptyKeys,
                     universe: 'isUserMade',
                 };
@@ -472,7 +517,7 @@ export class ContentCreator {
                 undefined,
                 undefined,
                 undefined,
-                1003
+                BEST_POWERLESS_FIT_LEVEL(0)
             )
         );
         const powerFitFulfillers = regularFulfillers.filter((idea) =>
@@ -483,7 +528,7 @@ export class ContentCreator {
                 undefined,
                 undefined,
                 undefined,
-                1101
+                BEST_SPECIALS_WEAKLY_LEVEL(0)
             )
         );
         return {
@@ -507,6 +552,7 @@ export class ContentCreator {
                     category: request.category,
                     newKeys: newDrink?.keys || emptyKeys,
                     newPatterns: newDrink?.patterns || [],
+                    impliedPatterns: newDrink?.impliedPatterns || [],
                 };
             case WeServe.food:
                 const newDish = this.getRandomDish(fitting, request);
@@ -518,6 +564,7 @@ export class ContentCreator {
                     category: request.category,
                     newKeys: newDish?.keys || emptyKeys,
                     newPatterns: newDish?.patterns || [],
+                    impliedPatterns: newDish?.impliedPatterns || [],
                 };
 
             default:
@@ -542,6 +589,7 @@ export class ContentCreator {
                     category: request.category,
                     newKeys: newImpression?.keys || emptyKeys,
                     newPatterns: newImpression?.patterns || [],
+                    impliedPatterns: [],
                 };
         }
     }
@@ -797,6 +845,7 @@ export type Add =
           category: Drinkable;
           newKeys: Keys;
           newPatterns: Pattern[];
+          impliedPatterns: PatternChange[];
       }
     | {
           isAbout: WeServe.food;
@@ -805,6 +854,7 @@ export type Add =
           category: Eatable;
           newKeys: Keys;
           newPatterns: Pattern[];
+          impliedPatterns: PatternChange[];
       }
     | {
           isAbout: WeServe.impressions;
@@ -813,6 +863,7 @@ export type Add =
           added: Impression[];
           newKeys: Keys;
           newPatterns: Pattern[];
+          impliedPatterns: PatternChange[];
       };
 export type AddCheck =
     | {
@@ -904,7 +955,11 @@ export type ReduceTarget =
     | { oldAssets: Impression[]; isAbout: WeServe.impressions }
     | { oldAssets: Offer[]; isAbout: WeServe.drinks }
     | { oldAssets: Offer[]; isAbout: WeServe.food };
-type Dissolve = { keys: Keys; patterns: Pattern[] } & (
+type Dissolve = {
+    keys: Keys;
+    patterns: Pattern[];
+    impliedPatterns: PatternChange[];
+} & (
     | { reduced: Impression[]; isAbout: WeServe.impressions }
     | { reduced: Offer[]; isAbout: WeServe.food }
     | { reduced: Offer[]; isAbout: WeServe.drinks }
