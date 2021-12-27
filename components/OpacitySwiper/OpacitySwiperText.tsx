@@ -201,7 +201,8 @@ export class OpacitySwiperText extends React.Component<
                                 call([], () => {
                                     if (
                                         this.state.overRightThreshhold &&
-                                        !this.isApplyingAction
+                                        !this.isApplyingAction &&
+                                        this.props.rightSwipePossible
                                     ) {
                                         this.props.onSwipeRight();
                                         this.isApplyingAction = true;
@@ -229,7 +230,8 @@ export class OpacitySwiperText extends React.Component<
                                 call([], () => {
                                     if (
                                         this.state.overLeftThreshhold &&
-                                        !this.isApplyingAction
+                                        !this.isApplyingAction &&
+                                        this.props.leftSwipePossible
                                     ) {
                                         this.props.onSwipeLeft();
                                         this.isApplyingAction = true;
@@ -303,10 +305,13 @@ export class OpacitySwiperText extends React.Component<
         return value;
     }
     getBGColor(): string {
-        if (this.state.overLeftThreshhold) {
+        if (this.state.overLeftThreshhold && this.props.leftSwipePossible) {
             return 'red';
         } else {
-            if (this.state.overRightThreshhold) {
+            if (
+                this.state.overRightThreshhold &&
+                this.props.rightSwipePossible
+            ) {
                 return 'blue';
             } else {
                 return 'grey';
