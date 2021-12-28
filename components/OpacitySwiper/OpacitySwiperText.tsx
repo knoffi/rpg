@@ -47,7 +47,7 @@ type OpacitySwiperTextState = {
     };
     overRightThreshhold: boolean;
     overLeftThreshhold: boolean;
-    willSoonRerender: boolean;
+    swipeAndAnimFreeze: boolean;
 };
 const FAST_STIFFNESS = 700;
 const IS_NO_CLICK_THRESHOLD = 2;
@@ -59,7 +59,7 @@ export class OpacitySwiperText extends React.Component<
     private gestureState: Animated.Value<State>;
     private onPanEvent: (...args: any[]) => void;
     private onGestureEvent: (...args: any[]) => void;
-    private isApplyingAction = false;
+    private willRerenderSoon = false;
     private panRef = createRef<PanGestureHandler>();
     private springAnimConfig: {
         toValue: Animated.Value<0>;
@@ -84,7 +84,7 @@ export class OpacitySwiperText extends React.Component<
             },
             overRightThreshhold: false,
             overLeftThreshhold: false,
-            willSoonRerender: false,
+            swipeAndAnimFreeze: false,
         };
         this.bounceBackClock = new Animated.Clock();
         this.gestureState = new Animated.Value(GestureState.UNDETERMINED);
@@ -204,14 +204,18 @@ export class OpacitySwiperText extends React.Component<
                                 call([], () => {
                                     if (
                                         this.state.overRightThreshhold &&
-                                        !this.isApplyingAction &&
+                                        !this.willRerenderSoon &&
                                         this.props.rightSwipePossible
                                     ) {
                                         this.setState({
-                                            willSoonRerender: true,
+                                            swipeAndAnimFreeze: true,
                                         });
                                         this.props.onSwipeRight();
-                                        this.isApplyingAction = true;
+                                        const swipeMightNotChangeAnything =
+                                            this.props.isUserMade;
+                                        if (!swipeMightNotChangeAnything) {
+                                            this.willRerenderSoon = true;
+                                        }
                                     }
                                 }),
                                 cond(eq(this.props.isUserMade ? 1 : 0, 1), [
@@ -230,14 +234,14 @@ export class OpacitySwiperText extends React.Component<
                                 call([], () => {
                                     if (
                                         this.state.overLeftThreshhold &&
-                                        !this.isApplyingAction &&
+                                        !this.willRerenderSoon &&
                                         this.props.leftSwipePossible
                                     ) {
                                         this.setState({
-                                            willSoonRerender: true,
+                                            swipeAndAnimFreeze: true,
                                         });
                                         this.props.onSwipeLeft();
-                                        this.isApplyingAction = true;
+                                        this.willRerenderSoon = true;
                                     }
                                 }),
                             ]
@@ -316,7 +320,7 @@ export class OpacitySwiperText extends React.Component<
                 minDeltaX={10}
                 onGestureEvent={this.onPanEvent}
                 onHandlerStateChange={this.onGestureEvent}
-                enabled={!this.state.willSoonRerender}
+                enabled={!this.state.swipeAndAnimFreeze}
             >
                 <Animated.View>
                     <Animated.View>
@@ -444,7 +448,7 @@ export class OpacitySwiperText extends React.Component<
                                                                 call([], () => {
                                                                     this.setState(
                                                                         {
-                                                                            willSoonRerender:
+                                                                            swipeAndAnimFreeze:
                                                                                 false,
                                                                         }
                                                                     );
