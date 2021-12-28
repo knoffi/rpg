@@ -49,7 +49,7 @@ type OpacitySwiperTextState = {
     overLeftThreshhold: boolean;
     willSoonRerender: boolean;
 };
-const FAST_STIFFNESS = 100;
+const FAST_STIFFNESS = 700;
 const IS_NO_CLICK_THRESHOLD = 2;
 export class OpacitySwiperText extends React.Component<
     OpacitySwiperTextProps,
