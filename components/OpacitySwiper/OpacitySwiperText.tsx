@@ -22,6 +22,7 @@ const {
     startClock,
     spring,
     stopClock,
+
     set,
 } = Animated;
 type OpacitySwiperTextProps = {
@@ -46,8 +47,9 @@ type OpacitySwiperTextState = {
     };
     overRightThreshhold: boolean;
     overLeftThreshhold: boolean;
+    willSoonRerender: boolean;
 };
-const FAST_STIFFNESS = 10;
+const FAST_STIFFNESS = 100;
 const IS_NO_CLICK_THRESHOLD = 2;
 export class OpacitySwiperText extends React.Component<
     OpacitySwiperTextProps,
@@ -82,6 +84,7 @@ export class OpacitySwiperText extends React.Component<
             },
             overRightThreshhold: false,
             overLeftThreshhold: false,
+            willSoonRerender: false,
         };
         this.bounceBackClock = new Animated.Clock();
         this.gestureState = new Animated.Value(GestureState.UNDETERMINED);
@@ -100,18 +103,12 @@ export class OpacitySwiperText extends React.Component<
             {
                 nativeEvent: ({ translationX }) =>
                     block([
-                        cond(
-                            and(
-                                not(clockRunning(this.bounceBackClock)),
-                                eq(this.gestureState, GestureState.ACTIVE)
+                        cond(eq(this.gestureState, GestureState.ACTIVE), [
+                            Animated.set(
+                                this.state.anim.position,
+                                translationX
                             ),
-                            [
-                                Animated.set(
-                                    this.state.anim.position,
-                                    translationX
-                                ),
-                            ]
-                        ),
+                        ]),
                         cond(
                             and(
                                 eq(this.gestureState, GestureState.ACTIVE),
@@ -210,21 +207,18 @@ export class OpacitySwiperText extends React.Component<
                                         !this.isApplyingAction &&
                                         this.props.rightSwipePossible
                                     ) {
+                                        this.setState({
+                                            willSoonRerender: true,
+                                        });
                                         this.props.onSwipeRight();
                                         this.isApplyingAction = true;
                                     }
                                 }),
-                                cond(
-                                    eq(this.props.isUserMade ? 1 : 0, 1),
-                                    [
-                                        call([], () => {
-                                            this.state.anim.position.setValue(
-                                                0
-                                            );
-                                        }),
-                                    ],
-                                    startClock(this.bounceBackClock)
-                                ),
+                                cond(eq(this.props.isUserMade ? 1 : 0, 1), [
+                                    call([], () => {
+                                        this.state.anim.position.setValue(0);
+                                    }),
+                                ]),
                             ]
                         ),
                         cond(
@@ -239,6 +233,9 @@ export class OpacitySwiperText extends React.Component<
                                         !this.isApplyingAction &&
                                         this.props.leftSwipePossible
                                     ) {
+                                        this.setState({
+                                            willSoonRerender: true,
+                                        });
                                         this.props.onSwipeLeft();
                                         this.isApplyingAction = true;
                                     }
@@ -263,18 +260,6 @@ export class OpacitySwiperText extends React.Component<
             greaterOrEq(this.state.anim.position, -this.props.swipeThreshold),
             lessOrEq(this.state.anim.position, this.props.swipeThreshold)
         );
-    }
-    getStiffness() {
-        return this.props.rightSwipePossible
-            ? cond(
-                  greaterThan(
-                      this.state.anim.position,
-                      this.props.swipeThreshold
-                  ),
-                  new Animated.Value(0),
-                  new Animated.Value(FAST_STIFFNESS)
-              )
-            : FAST_STIFFNESS;
     }
     getTranslation() {
         const position = this.state.anim.position;
@@ -331,6 +316,7 @@ export class OpacitySwiperText extends React.Component<
                 minDeltaX={10}
                 onGestureEvent={this.onPanEvent}
                 onHandlerStateChange={this.onGestureEvent}
+                enabled={!this.state.willSoonRerender}
             >
                 <Animated.View>
                     <Animated.View>
@@ -439,8 +425,6 @@ export class OpacitySwiperText extends React.Component<
                                                             {
                                                                 ...this
                                                                     .springAnimConfig,
-                                                                stiffness:
-                                                                    this.getStiffness(),
                                                             }
                                                         ),
                                                         cond(
@@ -451,13 +435,20 @@ export class OpacitySwiperText extends React.Component<
                                                                     this
                                                                         .bounceBackClock
                                                                 ),
-
                                                                 Animated.set(
                                                                     this.state
                                                                         .anim
                                                                         .finished,
                                                                     0
                                                                 ),
+                                                                call([], () => {
+                                                                    this.setState(
+                                                                        {
+                                                                            willSoonRerender:
+                                                                                false,
+                                                                        }
+                                                                    );
+                                                                }),
                                                             ]
                                                         ),
                                                     ]
