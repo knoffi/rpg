@@ -22,6 +22,7 @@ const {
     startClock,
     spring,
     stopClock,
+
     set,
 } = Animated;
 type OpacitySwiperTextProps = {
@@ -46,18 +47,19 @@ type OpacitySwiperTextState = {
     };
     overRightThreshhold: boolean;
     overLeftThreshhold: boolean;
+    swipeAndAnimFreeze: boolean;
 };
-const FAST_STIFFNESS = 10;
+const FAST_STIFFNESS = 700;
 const IS_NO_CLICK_THRESHOLD = 2;
 export class OpacitySwiperText extends React.Component<
     OpacitySwiperTextProps,
     OpacitySwiperTextState
 > {
-    private clock: Animated.Clock;
+    private bounceBackClock: Animated.Clock;
     private gestureState: Animated.Value<State>;
     private onPanEvent: (...args: any[]) => void;
     private onGestureEvent: (...args: any[]) => void;
-    private isApplyingAction = false;
+    private willRerenderSoon = false;
     private panRef = createRef<PanGestureHandler>();
     private springAnimConfig: {
         toValue: Animated.Value<0>;
@@ -82,8 +84,9 @@ export class OpacitySwiperText extends React.Component<
             },
             overRightThreshhold: false,
             overLeftThreshhold: false,
+            swipeAndAnimFreeze: false,
         };
-        this.clock = new Animated.Clock();
+        this.bounceBackClock = new Animated.Clock();
         this.gestureState = new Animated.Value(GestureState.UNDETERMINED);
         this.onGestureEvent = this.getStateHandler();
         this.springAnimConfig = {
@@ -201,23 +204,25 @@ export class OpacitySwiperText extends React.Component<
                                 call([], () => {
                                     if (
                                         this.state.overRightThreshhold &&
-                                        !this.isApplyingAction
+                                        !this.willRerenderSoon &&
+                                        this.props.rightSwipePossible
                                     ) {
+                                        this.setState({
+                                            swipeAndAnimFreeze: true,
+                                        });
                                         this.props.onSwipeRight();
-                                        this.isApplyingAction = true;
+                                        const swipeMightNotChangeAnything =
+                                            this.props.isUserMade;
+                                        if (!swipeMightNotChangeAnything) {
+                                            this.willRerenderSoon = true;
+                                        }
                                     }
                                 }),
-                                cond(
-                                    eq(this.props.isUserMade ? 1 : 0, 1),
-                                    [
-                                        call([], () => {
-                                            this.state.anim.position.setValue(
-                                                0
-                                            );
-                                        }),
-                                    ],
-                                    startClock(this.clock)
-                                ),
+                                cond(eq(this.props.isUserMade ? 1 : 0, 1), [
+                                    call([], () => {
+                                        this.state.anim.position.setValue(0);
+                                    }),
+                                ]),
                             ]
                         ),
                         cond(
@@ -229,10 +234,14 @@ export class OpacitySwiperText extends React.Component<
                                 call([], () => {
                                     if (
                                         this.state.overLeftThreshhold &&
-                                        !this.isApplyingAction
+                                        !this.willRerenderSoon &&
+                                        this.props.leftSwipePossible
                                     ) {
+                                        this.setState({
+                                            swipeAndAnimFreeze: true,
+                                        });
                                         this.props.onSwipeLeft();
-                                        this.isApplyingAction = true;
+                                        this.willRerenderSoon = true;
                                     }
                                 }),
                             ]
@@ -240,11 +249,11 @@ export class OpacitySwiperText extends React.Component<
                         cond(
                             and(
                                 eq(state, GestureState.END),
-                                not(clockRunning(this.clock)),
+                                not(clockRunning(this.bounceBackClock)),
                                 //do not use state here
                                 this.insideTreshholdNode()
                             ),
-                            [startClock(this.clock)]
+                            [startClock(this.bounceBackClock)]
                         ),
                     ]),
             },
@@ -255,18 +264,6 @@ export class OpacitySwiperText extends React.Component<
             greaterOrEq(this.state.anim.position, -this.props.swipeThreshold),
             lessOrEq(this.state.anim.position, this.props.swipeThreshold)
         );
-    }
-    getStiffness() {
-        return this.props.rightSwipePossible
-            ? cond(
-                  greaterThan(
-                      this.state.anim.position,
-                      this.props.swipeThreshold
-                  ),
-                  new Animated.Value(0),
-                  new Animated.Value(FAST_STIFFNESS)
-              )
-            : FAST_STIFFNESS;
     }
     getTranslation() {
         const position = this.state.anim.position;
@@ -303,10 +300,13 @@ export class OpacitySwiperText extends React.Component<
         return value;
     }
     getBGColor(): string {
-        if (this.state.overLeftThreshhold) {
+        if (this.state.overLeftThreshhold && this.props.leftSwipePossible) {
             return 'red';
         } else {
-            if (this.state.overRightThreshhold) {
+            if (
+                this.state.overRightThreshhold &&
+                this.props.rightSwipePossible
+            ) {
                 return 'blue';
             } else {
                 return 'grey';
@@ -320,6 +320,7 @@ export class OpacitySwiperText extends React.Component<
                 minDeltaX={10}
                 onGestureEvent={this.onPanEvent}
                 onHandlerStateChange={this.onGestureEvent}
+                enabled={!this.state.swipeAndAnimFreeze}
             >
                 <Animated.View>
                     <Animated.View>
@@ -414,35 +415,48 @@ export class OpacitySwiperText extends React.Component<
                                     <Animated.Code>
                                         {() =>
                                             block([
-                                                cond(clockRunning(this.clock), [
-                                                    spring(
-                                                        this.clock,
-
-                                                        this.state.anim,
-
-                                                        {
-                                                            ...this
-                                                                .springAnimConfig,
-                                                            stiffness:
-                                                                this.getStiffness(),
-                                                        }
+                                                cond(
+                                                    clockRunning(
+                                                        this.bounceBackClock
                                                     ),
-                                                    cond(
-                                                        this.state.anim
-                                                            .finished,
-                                                        [
-                                                            stopClock(
-                                                                this.clock
-                                                            ),
+                                                    [
+                                                        spring(
+                                                            this
+                                                                .bounceBackClock,
 
-                                                            Animated.set(
-                                                                this.state.anim
-                                                                    .finished,
-                                                                0
-                                                            ),
-                                                        ]
-                                                    ),
-                                                ]),
+                                                            this.state.anim,
+
+                                                            {
+                                                                ...this
+                                                                    .springAnimConfig,
+                                                            }
+                                                        ),
+                                                        cond(
+                                                            this.state.anim
+                                                                .finished,
+                                                            [
+                                                                stopClock(
+                                                                    this
+                                                                        .bounceBackClock
+                                                                ),
+                                                                Animated.set(
+                                                                    this.state
+                                                                        .anim
+                                                                        .finished,
+                                                                    0
+                                                                ),
+                                                                call([], () => {
+                                                                    this.setState(
+                                                                        {
+                                                                            swipeAndAnimFreeze:
+                                                                                false,
+                                                                        }
+                                                                    );
+                                                                }),
+                                                            ]
+                                                        ),
+                                                    ]
+                                                ),
                                             ])
                                         }
                                     </Animated.Code>
