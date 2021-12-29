@@ -321,7 +321,9 @@ export const bartenderAccesories: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             name: 'A religious symbol tattooed on his neck',
-            powerFits: [a.knight, a.cleric],
+            incomeRange: [a.poor, a.modest],
+            needsOne: [a.cleric, a.thief, a.knight],
+            key: AssetKey.BARTENDER_accessoires,
         },
         [],
         Noticable.bartender
@@ -330,6 +332,8 @@ export const bartenderAccesories: ImpressionIdea[] = [
         {
             name: 'A religious amulet around his neck',
             powerFits: [a.knight, a.cleric],
+            misfits: [a.poor],
+            key: AssetKey.BARTENDER_accessoires,
         },
         [],
         Noticable.bartender

@@ -3,7 +3,7 @@ import Animated, {
     block,
     Clock,
     cond,
-    Easing,
+    EasingNode,
     neq,
     set,
     startClock,
@@ -25,7 +25,7 @@ export const AppearingView = (props: { children: JSX.Element }) => {
         const config = {
             duration: 500,
             toValue: new Animated.Value(-1),
-            easing: Easing.inOut(Easing.ease),
+            easing: EasingNode.inOut(EasingNode.ease),
         };
 
         return block([
@@ -39,7 +39,7 @@ export const AppearingView = (props: { children: JSX.Element }) => {
             startClock(clock),
             timing(clock, state, config),
             cond(state.finished, stopClock(clock)),
-            Animated.interpolate(state.position, {
+            Animated.interpolateNode(state.position, {
                 inputRange: [0, 1],
                 outputRange: [0, 1],
             }),

@@ -3,6 +3,8 @@ import { AssetKey } from '../../../../classes/idea/AssetKey/AssetKey';
 import { emptyDescriptionAsset } from '../../../../classes/idea/DescriptionAsset';
 import { ImpressionIdea } from '../../../../classes/idea/ImpressionIdea';
 import { Noticable } from '../../../../classes/idea/Noticable';
+import { Pattern } from '../../../../classes/idea/Patterns/Pattern';
+import { defaultPatternConcepts } from '../../../../classes/idea/powerFitConcepts/defaultPatternConcepts';
 import { defaultPowerFitConcepts } from '../../../../classes/idea/powerFitConcepts/powerFitConcepts';
 const a = association;
 export const bartenderActions: ImpressionIdea[] = [
@@ -368,7 +370,7 @@ export const bartenderActions: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             name: 'Secretely gives a letter to a guest',
-            key: AssetKey.BARTENDER_actions,
+            keys: [AssetKey.BARTENDER_actions, AssetKey.plotTwist],
             needsOne: [a.thief, a.wealthy],
             worksForThiefs: true,
         },
@@ -378,7 +380,7 @@ export const bartenderActions: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             name: 'Secretely gives a briefcase to a guest',
-            key: AssetKey.BARTENDER_actions,
+            keys: [AssetKey.BARTENDER_actions, AssetKey.plotTwist],
             needsOne: [a.thief],
             worksForThiefs: true,
         },
@@ -388,7 +390,7 @@ export const bartenderActions: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             name: 'Secretely gives a flask to a guest',
-            key: AssetKey.BARTENDER_actions,
+            keys: [AssetKey.BARTENDER_actions, AssetKey.plotTwist],
             needsOne: [a.thief, a.wizard],
             worksForThiefs: true,
             worksForBrothel: true,
@@ -399,7 +401,7 @@ export const bartenderActions: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             name: 'Secretely receives a letter from a guest',
-            key: AssetKey.BARTENDER_actions,
+            keys: [AssetKey.BARTENDER_actions, AssetKey.plotTwist],
             needsOne: [a.thief, a.wealthy],
             worksForThiefs: true,
         },
@@ -409,7 +411,7 @@ export const bartenderActions: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             name: 'Secretely receives a flask from a guest',
-            key: AssetKey.BARTENDER_actions,
+            keys: [AssetKey.BARTENDER_actions, AssetKey.plotTwist],
             needsOne: [a.thief],
             worksForThiefs: true,
         },
@@ -419,7 +421,7 @@ export const bartenderActions: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             name: 'Secretely receives a briefcase from a guest',
-            key: AssetKey.BARTENDER_actions,
+            keys: [AssetKey.BARTENDER_actions, AssetKey.plotTwist],
             needsOne: [a.thief],
             worksForThiefs: true,
             worksForBrothel: true,
@@ -471,6 +473,12 @@ export const bartenderActions: ImpressionIdea[] = [
                 worksForBrothel: true,
             },
             {
+                name: 'monster hunters',
+                needs: [a.barbarian],
+                worksForAssasines: true,
+                worksForBrothel: true,
+            },
+            {
                 name: 'archers',
                 needsOne: [a.soldier, a.drow],
                 worksForBrothel: true,
@@ -483,7 +491,7 @@ export const bartenderActions: ImpressionIdea[] = [
             },
             {
                 name: 'gladiators',
-                needs: [a.soldier, a.wealthy],
+                needs: [a.soldier, a.wealthy, a.city],
                 worksForBrothel: true,
             },
             {
@@ -661,15 +669,44 @@ export const bartenderActions: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            name: 'Carries an empty barrel to the basement',
+            name: 'Carries an empty ',
             key: AssetKey.BARTENDER_actions,
-            powerFits: [a.barbarian, a.dwarf],
+            powerFits: [a.barbarian, a.dwarf, a.assasine],
+            needsOne: [a.poor, a.modest, a.barbarian, a.dwarf, a.assasine],
             misfits: [a.rich],
             worksForBrothel: true,
             worksForAssasines: true,
         },
-        [emptyDescriptionAsset],
-        Noticable.bartender
+        [
+            {
+                name: 'mead barrel to the basement',
+                patterns: [Pattern.IMPRESSIONS_mead],
+            },
+            {
+                name: 'wine barrel to the basement',
+                patterns: [
+                    Pattern.IMPRESSIONS_whiteWine,
+                    Pattern.IMPRESSIONS_redWine,
+                ],
+            },
+            {
+                name: 'beer barrel to the basement',
+                patterns: [
+                    Pattern.IMPRESSIONS_lager,
+                    Pattern.IMPRESSIONS_porter,
+                    Pattern.IMPRESSIONS_ale,
+                ],
+            },
+            {
+                name: 'whiskey barrel to the basement',
+                patterns: [Pattern.IMPRESSIONS_whiskey],
+            },
+        ],
+        Noticable.bartender,
+        undefined,
+        undefined,
+        undefined,
+        defaultPatternConcepts.harmony
     ),
     new ImpressionIdea(
         {

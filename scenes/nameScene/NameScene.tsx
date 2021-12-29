@@ -27,7 +27,7 @@ import { TavernSign } from './TavernSign';
 import { UniverseDialog } from './universeDialog/UniverseDialog';
 
 const MAX_NAME_MEMORY = 16;
-const SECTION_FLEX = 0.2;
+const SECTION_FLEX = 0.3;
 type State = {
     settingNameByUser: boolean;
     dialogText: string;

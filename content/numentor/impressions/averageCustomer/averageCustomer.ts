@@ -3,22 +3,17 @@ import { AssetKey } from '../../../../classes/idea/AssetKey/AssetKey';
 import { emptyDescriptionAsset } from '../../../../classes/idea/DescriptionAsset';
 import { ImpressionIdea } from '../../../../classes/idea/ImpressionIdea';
 import { Noticable } from '../../../../classes/idea/Noticable';
+import { Pattern } from '../../../../classes/idea/Patterns/Pattern';
 const a = association;
 export const averageCustomers: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             name: 'Drinking beer',
             raceRange: [a.dwarf, a.human, a.halfling],
-            powerFits: [
-                a.dwarf,
-                a.barbarian,
-                a.soldier,
-                a.village,
-                a.modest,
-                a.poor,
-            ],
+            powerFits: [a.dwarf, a.barbarian, a.soldier, a.modest, a.poor],
             worksForBrothel: true,
             worksForAssasines: true,
+            patterns: [Pattern.IMPRESSIONS_lager, Pattern.IMPRESSIONS_porter],
             key: AssetKey.AVERAGE_CUSTOMER_drinking,
         },
         [emptyDescriptionAsset],
@@ -58,9 +53,10 @@ export const averageCustomers: ImpressionIdea[] = [
         {
             name: 'Drinking whisky',
             raceRange: [a.human, a.gnome, a.tiefling],
-            misfits: [a.desert],
+            misfits: [a.desert, a.tropical],
             worksForAllCriminals: true,
-            powerFits: [a.human, a.gnome, a.tiefling],
+            powerFits: [a.human, a.gnome, a.assasine],
+            patterns: [Pattern.IMPRESSIONS_whiskey],
             key: AssetKey.AVERAGE_CUSTOMER_drinking,
         },
         [emptyDescriptionAsset],
@@ -72,6 +68,7 @@ export const averageCustomers: ImpressionIdea[] = [
             landRange: [a.haven, a.city],
             powerFits: [a.haven],
             worksForAllCriminals: true,
+            patterns: [Pattern.IMPRESSIONS_ale],
             key: AssetKey.AVERAGE_CUSTOMER_drinking,
         },
         [emptyDescriptionAsset],
@@ -172,7 +169,8 @@ export const averageCustomers: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             name: 'Singing and dancing to folk music',
-            raceRange: [a.halfling],
+            needsOne: [a.halfling, a.village, a.city],
+            incomeRange: [a.modest, a.poor],
             worksForBrothel: true,
             powerFits: [a.modest, a.village, a.bard, a.halfling, a.barbarian],
             key: AssetKey.AVERAGE_CUSTOMER_behavior,
@@ -240,8 +238,9 @@ export const averageCustomers: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             name: 'Drinking white wine',
-            misfits: [a.desert, a.dwarf],
-            powerFits: [a.elf, a.human, a.wealthy],
+            misfits: [a.desert, a.tropical, a.cleric],
+            powerFits: [a.wealthy, a.elf],
+            patterns: [Pattern.IMPRESSIONS_whiteWine],
             worksForThiefs: true,
             worksForBrothel: true,
             key: AssetKey.AVERAGE_CUSTOMER_drinking,
@@ -252,8 +251,9 @@ export const averageCustomers: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             name: 'Drinking red wine',
-            misfits: [a.desert, a.dwarf],
-            powerFits: [a.tiefling, a.human, a.wealthy],
+            misfits: [a.desert, a.tropical],
+            powerFits: [a.drow, a.tiefling, a.wealthy, a.cleric],
+            patterns: [Pattern.IMPRESSIONS_redWine],
             worksForThiefs: true,
             worksForBrothel: true,
             key: AssetKey.AVERAGE_CUSTOMER_drinking,
@@ -323,14 +323,8 @@ export const averageCustomers: ImpressionIdea[] = [
             name: 'Drinking mead',
             misfits: [a.desert, a.haven],
             incomeRange: [a.poor, a.modest],
-            powerFits: [
-                a.village,
-                a.dwarf,
-                a.halfling,
-                a.knight,
-                a.barbarian,
-                a.soldier,
-            ],
+            powerFits: [a.adventurer, a.knight, a.barbarian, a.soldier],
+            patterns: [Pattern.IMPRESSIONS_mead],
             worksForAllCriminals: true,
             key: AssetKey.AVERAGE_CUSTOMER_drinking,
         },
@@ -394,6 +388,7 @@ export const averageCustomers: ImpressionIdea[] = [
             name: 'Drinking hard booze',
             worksForAssasines: true,
             needsOne: [a.assasine, a.barbarian],
+            patterns: [Pattern.IMPRESSIONS_whiskey],
             key: AssetKey.AVERAGE_CUSTOMER_drinking,
         },
         [emptyDescriptionAsset],

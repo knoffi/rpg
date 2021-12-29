@@ -121,6 +121,21 @@ export const DeleteButton = (props: ButtonProps) => {
         </Button>
     );
 };
+export const DeleteIcon = (props: IconButtonProps) => {
+    return (
+        <IconButton
+            icon={(props) => (
+                <AntDesign
+                    name="delete"
+                    size={props.size}
+                    color={props.color}
+                />
+            )}
+            onPress={props.onPress}
+            disabled={props.disabled}
+        ></IconButton>
+    );
+};
 export const AddButton = (props: ButtonProps) => {
     return (
         <Button
@@ -184,6 +199,7 @@ export const OkayButton = (props: ButtonProps) => {
         </Button>
     );
 };
+// ts-prune-ignore-next
 export const DiceButton = (props: ButtonProps) => {
     return (
         <Button
@@ -196,6 +212,7 @@ export const DiceButton = (props: ButtonProps) => {
         </Button>
     );
 };
+// ts-prune-ignore-next
 export const ShopButton = (props: ButtonProps) => {
     return (
         <Button

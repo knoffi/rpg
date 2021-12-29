@@ -41,7 +41,7 @@ export class ImpressionDisplay {
         if (this.category === Noticable.bartender) {
             this.sex = sex;
         } else {
-            throw new Error('Only bartender can change sex');
+            throw new Error('Only Bartender Can Change Sex');
         }
     }
     public getText() {

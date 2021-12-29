@@ -1,10 +1,13 @@
 import { expect } from 'chai';
+import { FantasyKeys } from '../classes/contentCreator/FantasKeys';
 import { DescriptionAsset } from '../classes/idea/DescriptionAsset';
 import { Idea } from '../classes/idea/Idea';
 import { ImpressionIdea } from '../classes/idea/ImpressionIdea';
 import { Noticable } from '../classes/idea/Noticable';
 import { Pattern } from '../classes/idea/Patterns/Pattern';
 import { defaultPowerFitConcepts } from '../classes/idea/powerFitConcepts/powerFitConcepts';
+import { WeServe } from '../editNavigator/WeServe';
+import { Constants } from './Constants';
 const emptyDescriptionAsset: DescriptionAsset = {
     name: '',
     worksForAllCriminals: true,
@@ -273,5 +276,53 @@ describe('Idea method tests', () => {
         );
         expect(uncleBen).to.be.greaterThan(littleFinger);
         expect(littleFinger).to.equal(nobody);
+    });
+    it('implied patterns by keys', () => {
+        const { drink, patternsToAdd } = Constants.forImpliedPatternsByKeys();
+        const createdWine = drink.getConcreteDish(
+            {},
+            0,
+            FantasyKeys.unitTest,
+            () => false,
+            []
+        );
+        expect(createdWine)
+            .to.have.property('impliedPatterns')
+            .to.have.property('length')
+            .to.be.greaterThan(0, ' FOR impliedPatterns ');
+        const redWineOnMenu = createdWine.impliedPatterns[0];
+        expect(redWineOnMenu)
+            .to.have.property('isAbout')
+            .to.eql(WeServe.impressions);
+        expect(redWineOnMenu).to.have.property('type').to.eql('Add');
+        if (redWineOnMenu.type === 'Add') {
+            expect(redWineOnMenu).to.have.property('newPatterns');
+            const impliedPatterns = redWineOnMenu.newPatterns;
+            expect(impliedPatterns).to.eql(patternsToAdd);
+        }
+    });
+    it('implied patterns by key', () => {
+        const { newPatterns, drink } = Constants.forImpliedPatternsByKey();
+        const createdWine = drink.getConcreteDish(
+            {},
+            0,
+            FantasyKeys.unitTest,
+            () => false,
+            []
+        );
+        expect(createdWine)
+            .to.have.property('impliedPatterns')
+            .to.have.property('length')
+            .to.be.greaterThan(0, ' FOR impliedPatterns ');
+        const redWineOnMenu = createdWine.impliedPatterns[0];
+        expect(redWineOnMenu)
+            .to.have.property('isAbout')
+            .to.eql(WeServe.impressions);
+        expect(redWineOnMenu).to.have.property('type').to.eql('Add');
+        if (redWineOnMenu.type === 'Add') {
+            expect(redWineOnMenu).to.have.property('newPatterns');
+            const impliedPatterns = redWineOnMenu.newPatterns;
+            expect(impliedPatterns).to.eql(newPatterns);
+        }
     });
 });

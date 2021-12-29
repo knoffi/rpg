@@ -59,7 +59,7 @@ export class ImpressionIdea extends Idea {
         minimalFitLevel: number,
         probabilityFilter?: number,
         patterns = [] as Pattern[]
-    ) {
+    ): Omit<Impression, 'category' | 'universe'> {
         if (this.additions) {
             const possibleAdditions = this.additions[0];
             const secondDescription = this.getFittingAssetPart(
@@ -93,6 +93,7 @@ export class ImpressionIdea extends Idea {
                         main: ImpressionIdea.getKeyList(this.main),
                     },
                     patterns: this.main.patterns || [],
+                    impliedPatterns: this.getImpliedPatterns([]),
                 };
             }
             const firstText = this.reverseDisplay
@@ -107,10 +108,11 @@ export class ImpressionIdea extends Idea {
                 keys: {
                     main: ImpressionIdea.getKeyList(this.main),
                     addition: ImpressionIdea.getKeyList(secondDescription),
-                } as Keys,
+                },
                 patterns: (this.main.patterns || []).concat(
                     secondDescription.patterns || []
                 ),
+                impliedPatterns: this.getImpliedPatterns([secondDescription]),
             };
         } else {
             const defaultNameAndKey = {
@@ -120,6 +122,7 @@ export class ImpressionIdea extends Idea {
                     main: ImpressionIdea.getKeyList(this.main),
                 } as Keys,
                 patterns: this.main.patterns || [],
+                impliedPatterns: [],
             };
             return defaultNameAndKey;
         }

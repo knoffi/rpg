@@ -10,13 +10,6 @@ export enum ButtonState {
     powerFit = 'powerFit',
 }
 
-export type ButtonStates = {
-    ['land']: ButtonState;
-    ['class']: ButtonState;
-    ['race']: ButtonState;
-    ['income']: ButtonState;
-    ['special']: ButtonState;
-};
 export const getButtonStates = (fits: StructuredTavernFits) => {
     const states = {
         [AssociationTypes.class]: ButtonState.none,

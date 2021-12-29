@@ -24,7 +24,18 @@ export enum AssetKey {
     BARTENDER_knowledge = 'storys, connections, quests, rumors, warnings, information',
 
     // DRINKS
+    BEER_ale = 'ale, mostly consumed by sailors or characters in British-style',
+    BEER_porter = 'stout, porter',
+    BEER_lager = 'lager, helles, pils',
     WINE_mead = 'meads',
     WINE_red = 'red wine',
     WINE_white = 'white wine',
+    SPIRIT_whiskey = 'scotch and bourbon',
+
+    // FOOD
+    SMALL_DISH_salad = 'salads',
+    SMALL_DISH_soup = 'soups, not stews',
+    SMALL_DISH_carbon = 'breads, with or without toppings, potatoes, rice',
+    SMALL_DISH_protein = 'egg variations, meat as side dish, tofu, soy products',
+    SMALL_DISH_fingerfood = 'fingerfood, dipping, often with cream or sauces',
 }

@@ -26,12 +26,12 @@ export interface IAddingActions {
     edit: (edit: Demand) => void;
 }
 export interface IOfferActions {
-    deleteOffer: (
-        name: string,
-        deleted: Demand,
-        key: FantasyKeys | 'isUserMade'
+    reduceOffers: (
+        deletes: string[],
+        rerolls: string[],
+        demand: Demand,
+        removedKeys: (FantasyKeys | 'isUserMade')[]
     ) => void;
-    rerollOffer: (name: string, reroll: Demand) => void;
     shopOffer: (name: string) => void;
     editUserOffer: (startData: UserMadeDrink | UserMadeFood) => void;
 }

@@ -1,7 +1,7 @@
 import { association } from '../../../../../classes/association';
 import { DescriptionAsset } from '../../../../../classes/idea/DescriptionAsset';
 import { brothelActions } from './brothel';
-import { lively } from './generic';
+import { feasting, lively } from './generic';
 
 const a = association;
 
@@ -91,7 +91,7 @@ export const grownWarriorActions: DescriptionAsset[] = [
     },
     { name: 'resting from a previous battle', worksForAssasines: true },
     ...brothelActions,
-    ...lively,
+    ...feasting,
 ];
 
 export const warriorActions: DescriptionAsset[] = [

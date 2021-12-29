@@ -11,7 +11,7 @@ import { Database } from '../../classes/database/Database';
 import { StructuredTavernFits } from '../../classes/idea/StructuredTavernFits';
 import { ListOfSaves } from '../../components/ListOfSaves/ListOfSaves';
 import { WeServe } from '../../editNavigator/WeServe';
-import { getRandomArrayEntry } from '../../helpingFunctions/getFittingRandom';
+import { getRandomArrayEntry } from '../../helpingFunctions/getRandomArrayEntry';
 import { Describable, TavernData } from '../../mainNavigator/TavernData';
 import { nameSceneStyles } from '../nameScene/nameSceneStyles';
 import { BasePrice } from './basePrice';
@@ -33,12 +33,12 @@ interface MenuProps {
     basePrice: BasePrice;
     bannerData: BannerData;
     handleAdd: (add: Demand) => void;
-    handleDelete: (
-        name: string,
-        deleted: Demand,
-        key: FantasyKeys | 'isUserMade'
+    handleReduce: (
+        deletions: string[],
+        rerolls: string[],
+        demand: Demand,
+        removedUniverses: (FantasyKeys | 'isUserMade')[]
     ) => void;
-    handleReroll: (name: string, rerolled: Demand) => void;
     handleEdit: (offer: UserMade, previousName?: string) => void;
     closeBanner: () => void;
     buyOffer: (boughtOffer: Offer) => void;
@@ -52,9 +52,10 @@ export const MenuScene = (props: MenuProps) => {
             ? props.startEdit
             : props.startEdit;
     const fits = props.fitting;
-    //TODO: does this really need to be a state?
-
-    const bannerEnding = getRandomArrayEntry(bannerEndings.get(props.isAbout)!);
+    //NOTE: fail fast is prefered here
+    const bannerEnding = getRandomArrayEntry(
+        bannerEndings.get(props.isAbout)!
+    )!;
     const [editor, setEditor] = useState({
         visible: false,
         startData: props.startEdit,
@@ -63,13 +64,6 @@ export const MenuScene = (props: MenuProps) => {
         visible: false,
         demand: startDemand,
     });
-    const deleteOffer = (
-        name: string,
-        demand: Demand,
-        key: FantasyKeys | 'isUserMade'
-    ) => {
-        props.handleDelete(name, demand, key);
-    };
     const addUserOffer = (offer: UserMade) => {
         props.handleEdit(offer);
         dismissEditorModal();
@@ -150,8 +144,7 @@ export const MenuScene = (props: MenuProps) => {
                         edit: onEdit,
                     }}
                     offerActions={{
-                        deleteOffer: deleteOffer,
-                        rerollOffer: props.handleReroll,
+                        reduceOffers: props.handleReduce,
                         shopOffer: buyOffer,
                         editUserOffer: openOfferEditor,
                     }}

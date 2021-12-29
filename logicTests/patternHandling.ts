@@ -26,7 +26,7 @@ describe('PatternHandler tests', () => {
         const ADD = Constants.patternAdd();
         const pattern = new PatternHandler('noContent');
         pattern.update(ADD);
-        expect(pattern.getPatterns(WeServe.impressions))
+        expect(pattern.getPatterns(ADD.isAbout))
             .to.have.property('length')
             .to.equal(1);
     });
@@ -35,7 +35,7 @@ describe('PatternHandler tests', () => {
         const pattern = new PatternHandler('noContent');
         pattern.update(ADD);
         pattern.update(ADD);
-        expect(pattern.getPatterns(WeServe.impressions))
+        expect(pattern.getPatterns(ADD.isAbout))
             .to.have.property('length')
             .to.equal(2);
     });
@@ -45,7 +45,8 @@ describe('PatternHandler tests', () => {
         const pattern = new PatternHandler('noContent');
         pattern.update(ADD);
         pattern.update(DELETE);
-        expect(pattern.getPatterns(WeServe.impressions))
+        expect(ADD.isAbout).to.eql(DELETE.isAbout);
+        expect(pattern.getPatterns(ADD.isAbout))
             .to.have.property('length')
             .to.equal(0);
     });
@@ -56,13 +57,36 @@ describe('PatternHandler tests', () => {
         pattern.update(ADD);
         pattern.update(ADD);
         pattern.update(DELETE);
-        expect(pattern.getPatterns(WeServe.impressions))
+        expect(ADD.isAbout).to.eql(DELETE.isAbout);
+        expect(pattern.getPatterns(ADD.isAbout))
             .to.have.property('length')
             .to.equal(1);
     });
     it('delete from empty', () => {
         const DELETE = Constants.patternDelete();
         const pattern = new PatternHandler('noContent');
-        assert.throws(() => pattern.update(DELETE), /NotFound/);
+        assert.throws(() => pattern.update(DELETE), /not found/i);
+    });
+    it('revert deletion', () => {
+        const ADD = Constants.patternAdd();
+        const DELETE = Constants.patternDelete();
+        const pattern = new PatternHandler('noContent');
+        pattern.update(ADD);
+        pattern.update(DELETE);
+        pattern.multiRevert([DELETE]);
+        expect(ADD.isAbout).to.eql(DELETE.isAbout);
+        expect(pattern.getPatterns(ADD.isAbout))
+            .to.have.property('length')
+            .to.equal(1);
+    });
+    it('revert adding', () => {
+        const ADD = Constants.patternAdd();
+        const pattern = new PatternHandler('noContent');
+        pattern.update(ADD);
+        pattern.update(ADD);
+        pattern.multiRevert([ADD, ADD]);
+        expect(pattern.getPatterns(ADD.isAbout))
+            .to.have.property('length')
+            .to.equal(0);
     });
 });

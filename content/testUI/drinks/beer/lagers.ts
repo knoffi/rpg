@@ -1,4 +1,5 @@
 import { association } from '../../../../classes/association';
+import { AssetKey } from '../../../../classes/idea/AssetKey/AssetKey';
 import { DishIdea } from '../../../../classes/idea/DishIdea';
 import { Drinkable } from '../../../../classes/TavernProduct';
 const a = association;
@@ -10,6 +11,7 @@ export const lagers: DishIdea[] = [
                 landRange: [a.city],
                 incomeRange: [a.wealthy, a.rich],
                 raceRange: [a.dwarf, a.human, a.gnome, a.halfling],
+                key: AssetKey.BEER_lager,
             },
             firstSideDishes: [
                 {

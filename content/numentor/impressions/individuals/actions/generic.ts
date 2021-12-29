@@ -1,8 +1,8 @@
 import { association } from '../../../../../classes/association';
 import { AssetKey } from '../../../../../classes/idea/AssetKey/AssetKey';
 import { DescriptionAsset } from '../../../../../classes/idea/DescriptionAsset';
-//tODO: test, if f.e. all food/drink options are working for brothel, thief, ... (i.e., if mapping worked correctly)
-export const a = association;
+//TODO: test, if f.e. all food/drink options are working for brothel, thief, ... (i.e., if mapping worked correctly)
+const a = association;
 const sophisticatedGroup = [
     association.elf,
     association.wizard,
@@ -136,32 +136,43 @@ export const magical: DescriptionAsset[] = [
 ];
 export const feasting: DescriptionAsset[] = [
     {
-        name: 'drinking red wine',
+        name: 'drinking wine',
         misfits: [a.rich, a.desert, a.tropical, a.dwarf, a.barbarian],
     },
-    {
-        name: 'drinking white wine',
-        misfits: [a.rich, a.desert, a.tropical, a.dwarf, a.barbarian],
-    },
+
     {
         name: 'drinking mead',
-        misfits: [
-            a.desert,
-            a.tropical,
-            a.wizard,
-            a.haven,
-            a.elf,
-            a.drow,
-            a.tiefling,
+        misfits: [a.desert, a.tropical, a.haven, a.elf, a.drow, a.tiefling],
+        needsone: [
+            a.knight,
+            a.adventurer,
+            a.bard,
+            a.modest,
+            a.barbarian,
+            a.soldier,
+            a.assasine,
         ],
     },
     {
         name: 'drinking rum',
-        landRange: [a.city, a.haven, a.tropical],
+        needsone: [a.city, a.haven, a.tropical],
     },
     {
         name: 'drinking beer',
-        misfits: [a.rich, a.desert, a.tropical, a.elf, a.drow],
+        misfits: [a.desert, a.tropical, a.elf, a.drow, a.haven],
+        needsone: [
+            a.modest,
+            a.dwarf,
+            a.human,
+            a.barbarian,
+            a.knight,
+            a.soldier,
+            a.assasine,
+        ],
+    },
+    {
+        name: 'drinking ale',
+        needs: [a.haven],
     },
     {
         name: 'drinking champagne',

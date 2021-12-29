@@ -183,7 +183,7 @@ const bartenderCharacter: DescriptionAsset[] = [
     },
     { classRange: [a.adventurer, a.bard], name: 'story-loving' },
 ];
-export const bartenders: ImpressionIdea[] = [
+const bartenders: ImpressionIdea[] = [
     new ImpressionIdea(
         {
             misfits: [a.elf, a.drow, a.tiefling],
