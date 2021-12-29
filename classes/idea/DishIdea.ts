@@ -241,7 +241,22 @@ export class DishIdea extends Idea {
         }
     }
     private getPriceFluctuation(price: number) {
-        const randomPrice = Math.floor(price * (0.95 + Math.random() * 0.1));
+        const convexityFactor = Math.random();
+        const fluctuation =
+            convexityFactor * DishIdea.highestPriceFluctuation +
+            (1 - convexityFactor) * DishIdea.lowestPriceFluctuation;
+        const randomPrice = Math.floor(price * fluctuation);
         return randomPrice > 0 ? randomPrice : 1;
+    }
+    private static lowestPriceFluctuation = 0.95;
+    private static highestPriceFluctuation = 1.05;
+    public static lowestPriceByFluctuation(expectedPrice: number): number {
+        return Math.max(
+            1,
+            Math.floor(this.lowestPriceFluctuation * expectedPrice)
+        );
+    }
+    public static highestPriceByFluctuation(expectedPrice: number): number {
+        return Math.floor(this.highestPriceFluctuation * expectedPrice) + 1;
     }
 }

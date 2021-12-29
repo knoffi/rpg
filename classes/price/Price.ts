@@ -24,9 +24,12 @@ export class Prices {
     }
     public getIncomeTable(
         category: MenuCategory,
-        factors?: number | Partial<PriceSetter>
+        factors: number | Partial<PriceSetter> | 'default'
     ): PriceSetter {
-        return Prices.multiplyPriceSetter(this.prices[category], factors);
+        return Prices.multiplyPriceSetter(
+            this.prices[category],
+            factors === 'default' ? 1 : factors
+        );
     }
     private static multiplyPriceSetter(
         priceSetter: Readonly<PriceSetter>,
