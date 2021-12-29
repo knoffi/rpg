@@ -2,11 +2,10 @@ import { expect } from 'chai';
 import { association } from '../classes/association';
 import { FantasyKeys } from '../classes/contentCreator/FantasKeys';
 import { DishIdea } from '../classes/idea/DishIdea';
-import { PriceSetter } from '../classes/idea/PriceSetter';
-import { MenuPricing } from '../classes/price/incomeRange';
 import { Prices } from '../classes/price/Price';
 import { Drinkable, Eatable } from '../classes/TavernProduct';
 import { standardBasePrice } from '../scenes/menuScene/basePrice';
+import { Constants } from './Constants';
 
 describe('Prices:', () => {
     it('price fluctuation bounds', () => {
@@ -62,9 +61,10 @@ describe('Prices:', () => {
         expect(upperBound).to.be.greaterThanOrEqual(createdPrice);
     });
     it('by partial price setter', () => {
+        const richPriceSetter = { ['vastly rich']: 5 };
         const dish = new DishIdea(
             { mainIng: { name: 'Spaghetti' } },
-            { ['vastly rich']: 5 },
+            richPriceSetter,
             Eatable.mainDish
         );
         const offer = dish.getConcreteDish(
@@ -74,7 +74,7 @@ describe('Prices:', () => {
         );
         const expectedPrice = new Prices('standard').getIncomeTable(
             Eatable.mainDish,
-            { ['vastly rich']: 5 }
+            richPriceSetter
         )[association.rich];
         const lowerBound = DishIdea.lowestPriceByFluctuation(expectedPrice);
         const upperBound = DishIdea.highestPriceByFluctuation(expectedPrice);
@@ -84,9 +84,10 @@ describe('Prices:', () => {
         expect(upperBound).to.be.greaterThanOrEqual(createdPrice);
     });
     it('by partial price for rich, but tavern is poor', () => {
+        const richPriceSetter = { ['vastly rich']: 5 };
         const dish = new DishIdea(
             { mainIng: { name: 'Spaghetti' } },
-            { ['vastly rich']: 5 },
+            richPriceSetter,
             Eatable.mainDish
         );
         const offer = dish.getConcreteDish(
@@ -96,7 +97,7 @@ describe('Prices:', () => {
         );
         const expectedPrice = new Prices('standard').getIncomeTable(
             Eatable.mainDish,
-            { ['vastly rich']: 5 }
+            richPriceSetter
         )[association.poor];
         const lowerBound = DishIdea.lowestPriceByFluctuation(expectedPrice);
         const upperBound = DishIdea.highestPriceByFluctuation(expectedPrice);
@@ -134,19 +135,22 @@ describe('Prices:', () => {
     });
     it('standard income table by factor', () => {
         const prices = new Prices('standard');
-        const beerAverageForModest = prices.getIncomeTable(Drinkable.beer, 2)[
-            association.modest
-        ];
-        const wineAverageForModest = prices.getIncomeTable(Drinkable.wine, 2)[
-            association.modest
-        ];
+        const factor = 2;
+        const beerAverageForModest = prices.getIncomeTable(
+            Drinkable.beer,
+            factor
+        )[association.modest];
+        const wineAverageForModest = prices.getIncomeTable(
+            Drinkable.wine,
+            factor
+        )[association.modest];
         const spiritAverageForModest = prices.getIncomeTable(
             Drinkable.spirit,
-            2
+            factor
         )[association.modest];
         const lemonadeAverageForModest = prices.getIncomeTable(
             Drinkable.lemonade,
-            2
+            factor
         )[association.modest];
         const modestDrinkAverage =
             (beerAverageForModest +
@@ -154,7 +158,7 @@ describe('Prices:', () => {
                 spiritAverageForModest +
                 lemonadeAverageForModest) /
             4;
-        const expectedAverage = 2 * standardBasePrice.modest;
+        const expectedAverage = factor * standardBasePrice.modest;
         expect(Math.round(modestDrinkAverage)).to.equal(expectedAverage);
     });
     it('standard income table by modest price setter', () => {
@@ -214,82 +218,41 @@ describe('Prices:', () => {
         expect(Math.round(modestDrinkAverage)).to.equal(expectedAverage);
     });
     it('customized income table by default values', () => {
-        const crazyPriceSetter: PriceSetter = {
-            [association.poor]: 100,
-            [association.modest]: 100,
-            [association.wealthy]: 10,
-            [association.rich]: 10,
-        };
-        const pricing: MenuPricing = {
-            [Drinkable.beer]: crazyPriceSetter,
-            [Drinkable.wine]: crazyPriceSetter,
-            [Drinkable.spirit]: crazyPriceSetter,
-            [Drinkable.lemonade]: crazyPriceSetter,
-            [Eatable.mainDish]: crazyPriceSetter,
-            [Eatable.sideDish]: crazyPriceSetter,
-            [Eatable.dessert]: crazyPriceSetter,
-            [Eatable.breakfast]: crazyPriceSetter,
-        };
+        const pricing = Constants.priceTable();
+        const category = Drinkable.beer;
+        const income = association.modest;
         const prices = new Prices(pricing);
-        const modestBeerAverage = prices.getIncomeTable(
-            Drinkable.beer,
-            'default'
-        )[association.modest];
-        const expectedAverage = crazyPriceSetter.modest;
-        expect(modestBeerAverage).to.equal(expectedAverage);
+        const modestPrice = prices.getIncomeTable(Drinkable.beer, 'default')[
+            association.modest
+        ];
+        const expectedValue = pricing[category][income];
+        expect(modestPrice).to.equal(expectedValue);
     });
     it('customized income table by wealthy price setter', () => {
-        const crazyPriceSetter: PriceSetter = {
-            [association.poor]: 100,
-            [association.modest]: 100,
-            [association.wealthy]: 10,
-            [association.rich]: 10,
-        };
-        const pricing: MenuPricing = {
-            [Drinkable.beer]: crazyPriceSetter,
-            [Drinkable.wine]: crazyPriceSetter,
-            [Drinkable.spirit]: crazyPriceSetter,
-            [Drinkable.lemonade]: crazyPriceSetter,
-            [Eatable.mainDish]: crazyPriceSetter,
-            [Eatable.sideDish]: crazyPriceSetter,
-            [Eatable.dessert]: crazyPriceSetter,
-            [Eatable.breakfast]: crazyPriceSetter,
-        };
+        const pricing = Constants.priceTable();
+        const category = Drinkable.lemonade;
+        const income = association.wealthy;
         const prices = new Prices(pricing);
         const wealthyFactor = 2;
-        const wealthyPriceSetter = { [association.wealthy]: wealthyFactor };
-        const wealthyBeerAverage = prices.getIncomeTable(
-            Drinkable.beer,
+        const wealthyPriceSetter = { [income]: wealthyFactor };
+        const wealthyPrice = prices.getIncomeTable(
+            category,
             wealthyPriceSetter
-        )[association.wealthy];
-        const expectedAverage = wealthyFactor * crazyPriceSetter.wealthy;
-        expect(wealthyBeerAverage).to.equal(expectedAverage);
+        )[income];
+        const expectedValue = wealthyFactor * pricing[category][income];
+        expect(wealthyPrice).to.equal(expectedValue);
     });
     it('customized income table by wealthy price setter, but for modest', () => {
-        const crazyPriceSetter: PriceSetter = {
-            [association.poor]: 100,
-            [association.modest]: 100,
-            [association.wealthy]: 10,
-            [association.rich]: 10,
-        };
-        const pricing: MenuPricing = {
-            [Drinkable.beer]: crazyPriceSetter,
-            [Drinkable.wine]: crazyPriceSetter,
-            [Drinkable.spirit]: crazyPriceSetter,
-            [Drinkable.lemonade]: crazyPriceSetter,
-            [Eatable.mainDish]: crazyPriceSetter,
-            [Eatable.sideDish]: crazyPriceSetter,
-            [Eatable.dessert]: crazyPriceSetter,
-            [Eatable.breakfast]: crazyPriceSetter,
-        };
+        const pricing = Constants.priceTable();
+        const category = Eatable.breakfast;
+        const income = association.modest;
         const prices = new Prices(pricing);
         const wealthyFactor = 2;
         const wealthyPriceSetter = { [association.wealthy]: wealthyFactor };
-        const modestBeerAverage = prices.getIncomeTable(
-            Drinkable.beer,
-            wealthyPriceSetter
-        )[association.modest];
-        const expectedAverage = crazyPriceSetter.modest;
-        expect(modestBeerAverage).to.equal(expectedAverage);
+        const modestPrice = prices.getIncomeTable(category, wealthyPriceSetter)[
+            income
+        ];
+        const expectedValue = pricing[category][income];
+        expect(modestPrice).to.equal(expectedValue);
     });
 });

@@ -7,8 +7,10 @@ import { FantasyKeys } from '../classes/contentCreator/FantasKeys';
 import { AssetKey } from '../classes/idea/AssetKey/AssetKey';
 import { Noticable } from '../classes/idea/Noticable';
 import { Pattern } from '../classes/idea/Patterns/Pattern';
+import { PriceSetter } from '../classes/idea/PriceSetter';
 import { KeyChange } from '../classes/keyHandler/KeyHandlingTypes';
 import { PatternChange } from '../classes/patternHandler/PatternHandler';
+import { MenuPricing } from '../classes/price/incomeRange';
 import { Drinkable, Eatable } from '../classes/TavernProduct';
 import { WeServe } from '../editNavigator/WeServe';
 import { Content } from '../mainNavigator/Content';
@@ -159,5 +161,25 @@ export class Constants {
     };
     public static creator() {
         return new ContentCreator(Constants.universeForTests);
+    }
+
+    public static priceTable() {
+        const priceSetter: PriceSetter = {
+            [association.poor]: 1,
+            [association.modest]: 10,
+            [association.wealthy]: 100,
+            [association.rich]: 1000,
+        };
+        const priceTable: MenuPricing = {
+            [Drinkable.beer]: priceSetter,
+            [Drinkable.wine]: priceSetter,
+            [Drinkable.spirit]: priceSetter,
+            [Drinkable.lemonade]: priceSetter,
+            [Eatable.mainDish]: priceSetter,
+            [Eatable.sideDish]: priceSetter,
+            [Eatable.dessert]: priceSetter,
+            [Eatable.breakfast]: priceSetter,
+        };
+        return priceTable;
     }
 }
