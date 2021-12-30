@@ -15,6 +15,7 @@ export const soldierIndividuals: ImpressionIdea[] = [
             incomeRange: [a.modest],
             powerFits: [a.soldier],
             classRange: [a.soldier],
+            worksForBrothel: true,
         },
         [...groupWarriorActions],
         Noticable.someCustomers
@@ -26,6 +27,7 @@ export const soldierIndividuals: ImpressionIdea[] = [
             incomeRange: [a.modest],
             powerFits: [a.soldier],
             classRange: [a.soldier],
+            worksForBrothel: true,
         },
         [...groupWarriorActions],
         Noticable.someCustomers
@@ -36,6 +38,7 @@ export const soldierIndividuals: ImpressionIdea[] = [
             incomeRange: [a.modest, a.wealthy],
             powerFits: [a.soldier],
             classRange: [a.soldier],
+            worksForBrothel: true,
         },
         [...groupWarriorActions],
         Noticable.someCustomers
@@ -47,6 +50,7 @@ export const soldierIndividuals: ImpressionIdea[] = [
             incomeRange: [a.modest],
             powerFits: [a.soldier],
             classRange: [a.soldier],
+            worksForBrothel: true,
         },
         [...groupWarriorActions],
         Noticable.someCustomers
@@ -58,6 +62,7 @@ export const soldierIndividuals: ImpressionIdea[] = [
             incomeRange: [a.modest],
             powerFits: [a.soldier],
             classRange: [a.soldier],
+            worksForBrothel: true,
         },
         [...groupWarriorActions],
         Noticable.someCustomers
@@ -69,6 +74,7 @@ export const soldierIndividuals: ImpressionIdea[] = [
             incomeRange: [a.poor, a.modest],
             powerFits: [a.soldier],
             classRange: [a.soldier],
+            worksForBrothel: true,
         },
         [...warriorActions],
         Noticable.someCustomers
@@ -80,6 +86,7 @@ export const soldierIndividuals: ImpressionIdea[] = [
             incomeRange: [a.poor, a.modest],
             powerFits: [a.soldier],
             classRange: [a.soldier],
+            worksForBrothel: true,
         },
         [...warriorActions],
         Noticable.someCustomers
@@ -91,6 +98,8 @@ export const soldierIndividuals: ImpressionIdea[] = [
             incomeRange: [a.poor, a.modest],
             powerFits: [a.soldier],
             classRange: [a.soldier],
+            worksForBrothel: true,
+            worksForAssasines: true,
         },
         [...grownWarriorActions],
         Noticable.someCustomers
@@ -102,6 +111,7 @@ export const soldierIndividuals: ImpressionIdea[] = [
             incomeRange: [a.modest, a.poor],
             powerFits: [a.soldier],
             classRange: [a.soldier],
+            worksForBrothel: true,
         },
         [...grownWarriorActions],
         Noticable.someCustomers
@@ -113,6 +123,7 @@ export const soldierIndividuals: ImpressionIdea[] = [
             incomeRange: [a.rich, a.wealthy],
             powerFits: [a.soldier],
             classRange: [a.soldier],
+            worksForBrothel: true,
         },
         [...grownWarriorActions],
         Noticable.someCustomers
@@ -124,6 +135,7 @@ export const soldierIndividuals: ImpressionIdea[] = [
             incomeRange: [a.wealthy],
             powerFits: [a.soldier],
             classRange: [a.soldier],
+            worksForBrothel: true,
         },
         [...grownWarriorActions],
         Noticable.someCustomers
@@ -135,6 +147,7 @@ export const soldierIndividuals: ImpressionIdea[] = [
             incomeRange: [a.wealthy, a.rich],
             powerFits: [a.soldier],
             classRange: [a.soldier],
+            worksForBrothel: true,
         },
         [...grownWarriorActions],
         Noticable.someCustomers
@@ -146,6 +159,7 @@ export const soldierIndividuals: ImpressionIdea[] = [
             incomeRange: [a.wealthy],
             powerFits: [a.soldier],
             classRange: [a.soldier],
+            worksForBrothel: true,
         },
         [...grownWarriorActions],
         Noticable.someCustomers
@@ -157,6 +171,7 @@ export const soldierIndividuals: ImpressionIdea[] = [
             incomeRange: [a.modest, a.wealthy],
             powerFits: [a.soldier],
             classRange: [a.soldier],
+            worksForBrothel: true,
         },
         [...grownWarriorActions],
         Noticable.someCustomers
@@ -168,6 +183,7 @@ export const soldierIndividuals: ImpressionIdea[] = [
             incomeRange: [a.wealthy, a.rich],
             powerFits: [a.soldier],
             classRange: [a.soldier],
+            worksForBrothel: true,
         },
         [...grownWarriorActions],
         Noticable.someCustomers
