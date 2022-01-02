@@ -31,6 +31,27 @@ export const bartenderActions: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
+            name: 'Is chewing tobacco',
+            key: AssetKey.BARTENDER_actions,
+            needsOne: [a.haven, a.assasine],
+            worksForBrothel: true,
+            worksForAssasines: true,
+        },
+        [emptyDescriptionAsset],
+        Noticable.bartender
+    ),
+    new ImpressionIdea(
+        {
+            name: 'Is smoking a sailor pipe',
+            key: AssetKey.BARTENDER_actions,
+            needs: [a.haven],
+            worksForAllCriminals: true,
+        },
+        [emptyDescriptionAsset],
+        Noticable.bartender
+    ),
+    new ImpressionIdea(
+        {
             name: 'Is throwing out a guest',
             key: AssetKey.BARTENDER_actions,
             needsOne: [a.poor, a.modest, a.soldier, a.barbarian, a.assasine],

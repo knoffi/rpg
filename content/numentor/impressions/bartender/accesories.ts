@@ -391,6 +391,53 @@ export const bartenderAccesories: ImpressionIdea[] = [
                 needsOne: [a.modest, a.poor],
                 misfits: [a.desert, a.tropical],
             },
+            {
+                name: 'Sailor cap',
+                needs: [a.haven],
+                misfits: [a.rich],
+            },
+            {
+                name: 'Tricorn hat',
+                needs: [a.haven],
+                misfits: [a.rich],
+            },
+            {
+                name: 'Bicorn hat',
+                needs: [a.haven],
+                misfits: [a.rich],
+            },
+            {
+                name: "Fisherman's cap",
+                needs: [a.haven],
+                misfits: [a.rich, a.wealthy],
+                powerFits: [a.haven, a.modest],
+            },
+            {
+                name: "Dock worker's hat",
+                needs: [a.haven],
+                misfits: [a.rich, a.wealthy],
+                powerFits: [a.haven, a.modest],
+            },
+            {
+                name: 'Decorated tricorn hat',
+                needs: [a.haven],
+                incomeRange: [a.rich, a.wealthy],
+            },
+            {
+                name: 'Decorated bicorn hat',
+                needs: [a.haven],
+                incomeRange: [a.rich, a.wealthy],
+            },
+            {
+                name: 'Stylish bicorn hat',
+                needs: [a.haven],
+                incomeRange: [a.rich, a.wealthy],
+            },
+            {
+                name: 'Stylish tricorn hat',
+                needs: [a.haven],
+                incomeRange: [a.rich, a.wealthy],
+            },
             { name: 'Pineapple hat', needs: [a.tropical] },
             {
                 name: 'Witch hat',
