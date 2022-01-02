@@ -218,6 +218,7 @@ export const averageCustomers: ImpressionIdea[] = [
             misfits: [a.barbarian],
             raceRange: [a.elf],
             powerFits: [a.elf, a.wealthy],
+            needsOne: [a.elf, a.wealthy],
             worksForBrothel: true,
             key: AssetKey.AVERAGE_CUSTOMER_behavior,
         },
