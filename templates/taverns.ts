@@ -164,7 +164,7 @@ export const taverns: tavernMinData[] = [
                 impliedPatterns: [],
                 category: Noticable.furniture,
                 keys: {
-                    main: [],
+                    main: [AssetKey.FURNITURE_wallOrCeiling],
                     addition: [],
                 },
             },
