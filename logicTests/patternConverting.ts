@@ -23,6 +23,6 @@ describe('pattern converting', () => {
         const patternChanges = converter.getPatterns();
         expect(patternChanges)
             .to.have.property('length')
-            .to.be.greaterThanOrEqual(4);
+            .to.be.greaterThanOrEqual(drinkKeys.length);
     });
 });
