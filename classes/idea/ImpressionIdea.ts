@@ -66,7 +66,7 @@ export class ImpressionIdea extends Idea {
                 tavernFits,
                 possibleAdditions,
                 isExcludedByName,
-                false,
+                this.powerFitConcept.harmony,
                 probabilityFilter,
                 isExcludedByKey,
                 minimalFitLevel,
