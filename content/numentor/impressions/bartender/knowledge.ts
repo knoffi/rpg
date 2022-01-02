@@ -580,21 +580,25 @@ export const bartenderKnowledge: ImpressionIdea[] = [
             },
             {
                 name: 'some bounty hunters were looking for you!',
+                key: AssetKey.plotTwist,
                 worksForBrothel: true,
                 worksForAssasines: true,
             },
             {
                 name: 'some adventurers were looking for you!',
+                key: AssetKey.plotTwist,
                 powerFits: [a.adventurer, a.bard],
                 worksForAllCriminals: true,
             },
             {
                 name: 'some creepy people were looking for you!',
                 powerFits: [a.prostitute, a.thief, a.desert],
+                key: AssetKey.plotTwist,
                 worksForAllCriminals: true,
             },
             {
                 name: 'some cult members were looking for you!',
+                key: AssetKey.plotTwist,
                 powerFits: [a.city, a.tiefling],
                 worksForThiefs: true,
                 worksForBrothel: true,
@@ -602,12 +606,14 @@ export const bartenderKnowledge: ImpressionIdea[] = [
             {
                 needsOne: [a.thief, a.poor, a.prostitute, a.tiefling],
                 name: 'some criminals were looking for you!',
+                key: AssetKey.plotTwist,
                 worksForBrothel: true,
                 worksForThiefs: true,
             },
             {
                 name: 'some hooded people were looking for you!',
                 needsOne: [a.thief, a.poor, a.prostitute, a.city],
+                key: AssetKey.plotTwist,
                 worksForAllCriminals: true,
             },
             {
@@ -619,6 +625,7 @@ export const bartenderKnowledge: ImpressionIdea[] = [
                     a.soldier,
                     a.assasine,
                 ],
+                key: AssetKey.plotTwist,
                 worksForAllCriminals: true,
             },
             {
