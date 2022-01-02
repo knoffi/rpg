@@ -3,7 +3,7 @@ export enum AssetKey {
     plotTwist = 'plotTwist',
     INDIVIDUALS_servant = 'servant',
     INDIVIDUALS_warriorGroup = 'group of warriors',
-    FURNITURE_creatureTrophies = 'creature trophies',
+    FURNITURE_wallOrCeiling = 'creature trophies, mirrors, festival decorations',
     FURNITURE_barDeco = 'bar decoration',
     FURNITURE_tables = 'tables',
     FURNITURE_cutleryPlates = 'knife, fork, spoon & plate',
@@ -31,11 +31,13 @@ export enum AssetKey {
     WINE_red = 'red wine',
     WINE_white = 'white wine',
     SPIRIT_whiskey = 'scotch and bourbon',
+    SPIRIT_rum = 'rum',
 
     // FOOD
     SMALL_DISH_salad = 'salads',
     SMALL_DISH_soup = 'soups, not stews',
     SMALL_DISH_carbon = 'breads, with or without toppings, potatoes, rice',
-    SMALL_DISH_protein = 'egg variations, meat as side dish, tofu, soy products',
+    SMALL_DISH_protein = 'egg variations, meat or fish as side dish, tofu, soy products',
     SMALL_DISH_fingerfood = 'fingerfood, dipping, often with cream or sauces',
+    MAIN_fish = 'fish as main dish',
 }

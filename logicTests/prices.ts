@@ -25,7 +25,9 @@ describe('Prices:', () => {
         const offer = dish.getConcreteDish(
             { income: association.modest },
             0,
-            FantasyKeys.testing
+            FantasyKeys.testing,
+            () => false,
+            []
         );
         const expectedPrice = new Prices('standard').getIncomeTable(
             Eatable.mainDish,
@@ -47,7 +49,9 @@ describe('Prices:', () => {
         const offer = dish.getConcreteDish(
             { income: association.wealthy },
             0,
-            FantasyKeys.testing
+            FantasyKeys.testing,
+            () => false,
+            []
         );
         const expectedPrice = new Prices('standard').getIncomeTable(
             Eatable.mainDish,
@@ -70,7 +74,9 @@ describe('Prices:', () => {
         const offer = dish.getConcreteDish(
             { income: association.rich },
             0,
-            FantasyKeys.testing
+            FantasyKeys.testing,
+            () => false,
+            []
         );
         const expectedPrice = new Prices('standard').getIncomeTable(
             Eatable.mainDish,
@@ -93,7 +99,9 @@ describe('Prices:', () => {
         const offer = dish.getConcreteDish(
             { income: association.poor },
             0,
-            FantasyKeys.testing
+            FantasyKeys.testing,
+            () => false,
+            []
         );
         const expectedPrice = new Prices('standard').getIncomeTable(
             Eatable.mainDish,

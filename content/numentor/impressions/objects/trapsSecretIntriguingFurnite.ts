@@ -56,9 +56,10 @@ export const trapsIntriguingShockingFurniture = [
     ),
     new ImpressionIdea(
         {
-            name: 'Giant mirror on wall',
-            needs: [a.rich, a.wealthy],
+            name: 'Giant mirror with a golden frame behind the bar',
+            needsOne: [a.rich, a.wealthy],
             worksForAllCriminals: true,
+            keys: [AssetKey.plotTwist, AssetKey.FURNITURE_wallOrCeiling],
         },
         [emptyDescriptionAsset],
         Noticable.furniture
@@ -68,7 +69,7 @@ export const trapsIntriguingShockingFurniture = [
             name: 'Two-way mirror on wall',
             needsOne: [a.modest, a.wealthy, a.thief, a.prostitute, a.assasine],
             worksForAllCriminals: true,
-            key: AssetKey.plotTwist,
+            keys: [AssetKey.plotTwist, AssetKey.FURNITURE_wallOrCeiling],
         },
         [emptyDescriptionAsset],
         Noticable.furniture

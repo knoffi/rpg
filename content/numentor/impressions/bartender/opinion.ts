@@ -2,6 +2,8 @@ import { association } from '../../../../classes/association';
 import { AssetKey } from '../../../../classes/idea/AssetKey/AssetKey';
 import { ImpressionIdea } from '../../../../classes/idea/ImpressionIdea';
 import { Noticable } from '../../../../classes/idea/Noticable';
+import { Pattern } from '../../../../classes/idea/Patterns/Pattern';
+import { defaultPatternConcepts } from '../../../../classes/idea/powerFitConcepts/defaultPatternConcepts';
 import { defaultPowerFitConcepts } from '../../../../classes/idea/powerFitConcepts/powerFitConcepts';
 const a = association;
 export const bartenderOpinions: ImpressionIdea[] = [
@@ -156,6 +158,24 @@ export const bartenderOpinions: ImpressionIdea[] = [
         },
         [
             {
+                name: 'guests who order ale',
+                patterns: [Pattern.IMPRESSIONS_ale],
+                powerFits: [a.haven],
+                misfits: [a.desert],
+            },
+            {
+                name: 'guests who order rum',
+                patterns: [Pattern.IMPRESSIONS_rum],
+                powerFits: [a.haven],
+                misfits: [a.desert],
+            },
+            {
+                name: 'guests who order whiskey',
+                patterns: [Pattern.IMPRESSIONS_whiskey],
+                powerFits: [a.assasine],
+                misfits: [a.desert],
+            },
+            {
                 name: 'male guests',
                 misfits: [a.drow],
                 powerFits: [a.desert],
@@ -212,9 +232,16 @@ export const bartenderOpinions: ImpressionIdea[] = [
                 worksForBrothel: true,
             },
             {
-                name: 'virtous guests',
-                powerFits: [a.knight, a.wealthy],
-                misfits: [a.bard],
+                name: 'virtuous guests',
+                powerFits: [a.knight, a.cleric, a.wealthy],
+                misfits: [
+                    a.bard,
+                    a.thief,
+                    a.prostitute,
+                    a.assasine,
+                    a.barbarian,
+                    a.soldier,
+                ],
             },
             {
                 name: 'poor-looking guests',
@@ -310,6 +337,7 @@ export const bartenderOpinions: ImpressionIdea[] = [
         Noticable.bartender,
         undefined,
         undefined,
-        defaultPowerFitConcepts.harmony
+        defaultPowerFitConcepts.harmony,
+        defaultPatternConcepts.harmony
     ),
 ];

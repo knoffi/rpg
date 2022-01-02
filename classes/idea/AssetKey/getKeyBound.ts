@@ -18,6 +18,8 @@ export const getKeyBound = (key: AssetKey) => {
 
         case AssetKey.FURNITURE_drinkHolder:
             return 1;
+        case AssetKey.FURNITURE_wallOrCeiling:
+            return 1;
 
         case AssetKey.AVERAGE_CUSTOMER_drinking:
             return 1;
@@ -28,6 +30,8 @@ export const getKeyBound = (key: AssetKey) => {
         case AssetKey.AVERAGE_CUSTOMER_eating:
             return 1;
 
+        case AssetKey.AVERAGE_CUSTOMER_behavior:
+            return 1;
         case AssetKey.BARTENDER_accessoires:
             return 1;
 
@@ -54,8 +58,9 @@ export const getKeyBound = (key: AssetKey) => {
 
         case AssetKey.BARTENDER_opinion:
             return 1;
-
-        case AssetKey.AVERAGE_CUSTOMER_behavior:
+        case AssetKey.INDIVIDUALS_servant:
+            return 1;
+        case AssetKey.INDIVIDUALS_warriorGroup:
             return 1;
 
         case AssetKey.WINE_mead:
@@ -89,6 +94,12 @@ export const getKeyBound = (key: AssetKey) => {
             return 1;
 
         case AssetKey.SMALL_DISH_fingerfood:
+            return 1;
+        case AssetKey.MAIN_fish:
+            return 1;
+        case AssetKey.SPIRIT_whiskey:
+            return 2;
+        case AssetKey.SPIRIT_rum:
             return 1;
 
         default:

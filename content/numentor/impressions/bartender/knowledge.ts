@@ -735,6 +735,27 @@ export const bartenderKnowledge: ImpressionIdea[] = [
         },
         [
             {
+                name: 'a treasure map to an exotic island far away',
+                needs: [a.haven],
+                powerFits: [a.haven, a.adventurer, a.bard],
+            },
+            {
+                name: 'an ancient map to an island which is unknown to modern cartographers',
+                powerFits: [a.haven, a.wizard, a.adventurer],
+                needs: [a.haven],
+            },
+            {
+                name: 'an ancient map leading to a mythical underwater kingdom',
+                powerFits: [a.haven, a.bard, a.adventurer],
+                needs: [a.haven],
+            },
+            {
+                name: "an ancient map leading to a submerged island and it's lost civilization",
+                powerFits: [a.haven, a.wizard, a.adventurer],
+                needs: [a.haven],
+            },
+            { name: 'the egg of a giant kraken', needs: [a.haven] },
+            {
                 name: 'a dragon egg',
                 misfits: [a.poor, a.modest, a.cleric, a.knight],
                 powerFits: [a.wizard, a.adventurer],

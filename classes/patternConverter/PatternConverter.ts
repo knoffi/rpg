@@ -58,6 +58,13 @@ export class PatternConverter {
                         newPatterns: [Pattern.IMPRESSIONS_lager],
                     },
                 ];
+            case AssetKey.SPIRIT_rum:
+                return [
+                    {
+                        isAbout: WeServe.impressions,
+                        newPatterns: [Pattern.IMPRESSIONS_rum],
+                    },
+                ];
             default:
                 return [];
         }
