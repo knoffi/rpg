@@ -7,16 +7,18 @@ import {
 import { FantasyKeys } from '../classes/contentCreator/FantasKeys';
 import { AssetKey } from '../classes/idea/AssetKey/AssetKey';
 import { DishIdea } from '../classes/idea/DishIdea';
+import { ImpressionIdea } from '../classes/idea/ImpressionIdea';
 import { Noticable } from '../classes/idea/Noticable';
 import { Pattern } from '../classes/idea/Patterns/Pattern';
+import { defaultPowerFitConcepts } from '../classes/idea/powerFitConcepts/powerFitConcepts';
 import { PriceSetter } from '../classes/idea/PriceSetter';
-import { MenuPricing } from '../classes/price/incomeRange';
 import { KeyHandler } from '../classes/keyHandler/KeyHandler';
 import { KeyChange, Keys } from '../classes/keyHandler/KeyHandlingTypes';
 import {
     PatternChange,
     PatternHandler,
 } from '../classes/patternHandler/PatternHandler';
+import { MenuPricing } from '../classes/price/incomeRange';
 import { Drinkable, Eatable } from '../classes/TavernProduct';
 import { WeServe } from '../editNavigator/WeServe';
 import { Content } from '../mainNavigator/Content';
@@ -387,5 +389,28 @@ export class Constants {
             [Eatable.breakfast]: priceSetter,
         };
         return priceTable;
+    }
+    public static powerFitModeImpression() {
+        const impression = new ImpressionIdea(
+            { name: 'She is ' },
+            [
+                { name: 'a soldier', powerFits: [association.soldier] },
+                { name: 'a sailor', needs: [association.haven] },
+                { name: 'a bard', needsOne: [association.bard] },
+            ],
+            Noticable.bartender,
+            undefined,
+            undefined,
+            defaultPowerFitConcepts.harmony
+        );
+        const powerfitSoldierText = 'She is a soldier' as const;
+        const needsHavenText = 'She is a sailor' as const;
+        const needsOneBardText = 'She is a bard' as const;
+        return {
+            impression,
+            powerfitSoldierText,
+            needsHavenText,
+            needsOneBardText,
+        };
     }
 }
