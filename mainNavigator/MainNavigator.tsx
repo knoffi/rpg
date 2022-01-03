@@ -160,7 +160,7 @@ export const MainNavigator = () => {
                     )}
                 />
                 <Stack.Screen
-                    name="TAVERN COLLECTION"
+                    name="TAVERN COLLECTIONN"
                     children={({ navigation }) => (
                         <TavernCollectionScene
                             buildTavern={(minimalData: MinimalTavernData) => {
