@@ -38,7 +38,7 @@ export const lagers: DishIdea[] = [
         {
             mainIng: {
                 name: 'Red Beet Beer',
-                landRange: [a.village, a.city],
+                landRange: [a.village, a.city, a.mountain, a.underdark],
                 incomeRange: [a.poor, a.modest],
                 powerFits: [a.poor, a.village],
             },
@@ -47,6 +47,85 @@ export const lagers: DishIdea[] = [
             ],
         },
         1,
+        Drinkable.beer
+    ),
+    new DishIdea(
+        {
+            mainIng: {
+                name: 'Potato Beer',
+                landRange: [a.village, a.mountain, a.underdark],
+                incomeRange: [a.poor, a.modest],
+                powerFits: [a.poor, a.village, a.mountain, a.underdark],
+                misfits: [a.drow],
+            },
+            firstSideDishes: [
+                { name: 'Lager  -  light yellow, nutrituous, earthy taste' },
+            ],
+        },
+        { [a.modest]: 0.8 },
+        Drinkable.beer
+    ),
+    new DishIdea(
+        {
+            mainIng: {
+                name: 'Fungus Beer',
+                landRange: [a.forest, a.underdark],
+                incomeRange: [a.poor, a.modest],
+                powerFits: [a.forest, a.druid, a.underdark],
+            },
+            firstSideDishes: [
+                { name: 'Lager  -  brown color, malty, moldy taste' },
+            ],
+        },
+        { [a.modest]: 0.9, [a.poor]: 1.1 },
+        Drinkable.beer
+    ),
+    new DishIdea(
+        {
+            mainIng: {
+                name: "Miner's Beer",
+                landRange: [a.underdark, a.mountain],
+                incomeRange: [a.poor, a.modest],
+                misfits: [a.drow],
+                powerFits: [a.poor, a.village, a.dwarf, a.gnome],
+            },
+            firstSideDishes: [
+                {
+                    name: 'Lager  -  black color, earthy taste with bitter notes',
+                },
+            ],
+        },
+        { [a.poor]: 1.1 },
+        Drinkable.beer
+    ),
+    new DishIdea(
+        {
+            mainIng: {
+                name: 'Pine Cone Beer',
+                landRange: [a.village, a.mountain, a.forest],
+                incomeRange: [a.poor, a.modest],
+                powerFits: [a.poor, a.forest, a.mountain],
+            },
+            firstSideDishes: [
+                { name: 'Lager  -  brown, bitter, with herbal notes' },
+            ],
+        },
+        { [a.modest]: 0.8 },
+        Drinkable.beer
+    ),
+    new DishIdea(
+        {
+            mainIng: {
+                name: 'Maple Beer',
+                landRange: [a.village, a.mountain, a.forest],
+                incomeRange: [a.poor, a.modest, a.wealthy],
+                powerFits: [a.poor, a.forest],
+            },
+            firstSideDishes: [
+                { name: 'Lager  -  golden, slightly sweet and refreshing' },
+            ],
+        },
+        { [a.poor]: 1.4, [a.wealthy]: 0.8 },
         Drinkable.beer
     ),
     new DishIdea(
