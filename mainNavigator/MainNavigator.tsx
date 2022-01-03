@@ -85,7 +85,7 @@ export const MainNavigator = () => {
                                 navigation.navigate('EDIT TAVERN');
                             }}
                             onTavernCollection={() =>
-                                navigation.navigate('TAVERN COLLECTIO')
+                                navigation.navigate('TAVERN COLLECTION')
                             }
                         ></StartOptionsScene>
                     )}
@@ -160,7 +160,7 @@ export const MainNavigator = () => {
                     )}
                 />
                 <Stack.Screen
-                    name="TAVERN COLLECTION"
+                    name="TAVERN COLLECTIONN"
                     children={({ navigation }) => (
                         <TavernCollectionScene
                             buildTavern={(minimalData: MinimalTavernData) => {
