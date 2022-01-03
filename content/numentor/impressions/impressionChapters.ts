@@ -15,6 +15,7 @@ import { wizardIndividuals } from './individuals/wizards';
 import { furnitures } from './objects/furniture';
 import { stuffedAnimals } from './objects/stuffedAnimals';
 import { trapsIntriguingShockingFurniture } from './objects/trapsSecretIntriguingFurnite';
+import { wallDecorations } from './objects/wallDecorations';
 import { weirdBarDecorations } from './objects/weirdBarDecoration';
 
 export const impressionChapters = [
@@ -24,6 +25,7 @@ export const impressionChapters = [
             ...stuffedAnimals,
             ...trapsIntriguingShockingFurniture,
             ...weirdBarDecorations,
+            ...wallDecorations,
         ],
         category: Noticable.furniture,
     },
