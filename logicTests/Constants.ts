@@ -273,12 +273,14 @@ export class Constants {
             isAbout: WeServe.impressions,
             newPatterns,
         });
-        const rerollAfterAddRequest: MultiRerollRequest = {
-            isAbout,
-            category: Drinkable.wine,
-            oldAssets: [],
-            keys: keysAfterAdd,
-            pattern: patternsAfterAdd,
+        const rerollRequest = (drinksAfterAdd: Offer[]): MultiRerollRequest => {
+            return {
+                isAbout,
+                category: Drinkable.wine,
+                oldAssets: drinksAfterAdd,
+                keys: keysAfterAdd,
+                pattern: patternsAfterAdd,
+            };
         };
 
         return {
@@ -287,7 +289,7 @@ export class Constants {
             addRequest,
             keysAfterAdd,
             patternsAfterAdd,
-            rerollAfterAddRequest,
+            rerollRequest,
         };
     }
     public static forImpliedPatternsByKeys() {

@@ -42,4 +42,21 @@ export const redWines: DishIdea[] = [
         RED_WINE_FACTOR,
         Drinkable.wine
     ),
+    new DishIdea(
+        {
+            mainIng: {
+                name: 'Ruby Wine',
+                misfits: [a.tropical, a.desert, a.dwarf, a.thief],
+                key: AssetKey.WINE_red,
+            },
+            firstSideDishes: [
+                {
+                    name: 'Red wine (dry)  -  aged 6 years in oak barrels, smoky note, spicy finish',
+                    incomeRange: [a.rich],
+                },
+            ],
+        },
+        RED_WINE_FACTOR,
+        Drinkable.wine
+    ),
 ];

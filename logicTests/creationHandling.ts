@@ -71,7 +71,9 @@ describe('ContentCreator tests', () => {
             .to.have.property('newKeys')
             .to.have.property('main')
             .to.eql([AssetKey.WINE_red]);
-        expect(names).to.eql(['Gourmonete']);
+        expect(names).to.have.length(1);
+        const onlyEntry = names[0];
+        expect(onlyEntry).to.be.oneOf(['Gourmonete', 'Ruby Wine']);
     });
     it('add with pattern', () => {
         const impressionRequest = Constants.impressionRequest();
@@ -238,20 +240,29 @@ describe('ContentCreator tests', () => {
     });
     it('reroll with implied patterns', () => {
         const creator = Constants.creator();
-        const { addRequest, rerollAfterAddRequest } =
+        const fits: StructuredTavernFits = {};
+        const { addRequest, rerollRequest } =
             Constants.forImpliedPatternsByKey();
         const add = creator.addRandomCreation({}, addRequest);
         expect(add).to.have.property('impliedPatterns');
         const { impliedPatterns } = add;
-        expect(impliedPatterns).to.have.property('length').to.be.greaterThan(0);
-        expect(add.added).to.have.length(1);
+        expect(impliedPatterns).to.have.property('length').to.eql(1);
         const addedName = add.added[0].name;
-        const reroll = creator.multiReroll(
-            {},
-            [addedName],
-            rerollAfterAddRequest
-        );
-        const newPatterns = reroll.pattern.getPatterns(WeServe.impressions);
-        expect(newPatterns).to.have.length(1);
+        expect(add.isAbout).to.eql(WeServe.drinks);
+        if (add.isAbout === WeServe.drinks) {
+            const reroll = creator.multiReroll(
+                fits,
+                [addedName],
+                rerollRequest(add.added)
+            );
+            const newPatterns = reroll.pattern.getPatterns(WeServe.impressions);
+            expect(reroll.rerolled[0], 'Is not a wine with asset key .redWine')
+                .to.have.property('impliedPatterns')
+                .to.have.length(1);
+            expect(
+                newPatterns,
+                'new Patterns were incorrect:' + JSON.stringify(newPatterns)
+            ).to.have.length(1);
+        }
     });
 });
