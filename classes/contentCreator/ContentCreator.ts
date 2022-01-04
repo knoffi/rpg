@@ -366,8 +366,8 @@ export class ContentCreator {
             const deletion = this.deleteCreation(
                 cur,
                 { ...prev },
-                clonedKeys,
-                clonedPatterns
+                prev.keys,
+                prev.pattern
             );
             const patterns = prev.pattern.getPatterns(deletion.isAbout);
             const fullKeys = prev.keys.getFullKeys(deletion.isAbout);
@@ -379,7 +379,10 @@ export class ContentCreator {
             };
             const reroll = this.rerollOneCreation(fitting, cur, request);
             prev.keys.update({ ...reroll, type: 'Add' });
-            prev.pattern.update({ ...reroll, type: 'Add' });
+            prev.pattern.multiUpdate([
+                ...reroll.newImpliedPatterns,
+                { ...reroll, type: 'Add' },
+            ]);
             return {
                 ...prev,
                 oldAssets: reroll.rerolled,
@@ -727,6 +730,7 @@ export class ContentCreator {
             newKeys: newDish?.keys || emptyKeys,
             oldPatterns: oldDish?.patterns || [],
             newPatterns: newDish?.patterns || [],
+            newImpliedPatterns: newDish?.impliedPatterns || [],
         };
         return reroll;
     }
@@ -752,6 +756,7 @@ export class ContentCreator {
             newKeys: newDrink?.keys || emptyKeys,
             oldPatterns: oldDrink?.patterns || [],
             newPatterns: newDrink?.patterns || [],
+            newImpliedPatterns: newDrink?.impliedPatterns || [],
         };
         return reroll;
     }
@@ -787,6 +792,7 @@ export class ContentCreator {
             oldKeys: oldImpression?.keys || emptyKeys,
             oldPatterns: oldImpression?.patterns || [],
             newPatterns: newImpression?.patterns || [],
+            newImpliedPatterns: newImpression?.impliedPatterns || [],
         };
         return reroll;
     }
@@ -941,6 +947,7 @@ export type Reroll =
           oldKeys: Keys;
           oldPatterns: Pattern[];
           newPatterns: Pattern[];
+          newImpliedPatterns: PatternChange[];
       }
     | {
           isAbout: WeServe.impressions;
@@ -949,6 +956,7 @@ export type Reroll =
           oldKeys: Keys;
           oldPatterns: Pattern[];
           newPatterns: Pattern[];
+          newImpliedPatterns: PatternChange[];
       };
 type Asset = { name: string; keys: Keys; patterns: Pattern[] };
 export type ReduceTarget =

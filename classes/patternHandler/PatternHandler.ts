@@ -46,6 +46,9 @@ export class PatternHandler {
                 break;
         }
     }
+    public multiUpdate(updates: DeepReadonly<PatternChange>[]) {
+        updates.forEach((update) => this.update(update));
+    }
     public multiRevert(updatesToRevert: DeepReadonly<PatternChange[]>) {
         updatesToRevert.forEach((update) => this.revert(update));
     }
@@ -81,7 +84,9 @@ export class PatternHandler {
                 (entry) => entry === pattern
             );
             if (patternIndex < 0) {
-                throw new Error('Pattern Not Found');
+                throw new Error(
+                    'Pattern Not Found: ' + JSON.stringify(update.oldPatterns)
+                );
             } else {
                 targetRow.splice(patternIndex, 1);
             }
