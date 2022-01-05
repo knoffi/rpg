@@ -295,7 +295,7 @@ export const bartenderOpinions: ImpressionIdea[] = [
             },
             {
                 name: 'experienced warriors',
-                powerFits: [
+                needsOne: [
                     a.knight,
                     a.soldier,
                     a.barbarian,

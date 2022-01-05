@@ -1,5 +1,6 @@
 import { association, landAssociations } from '../../../../classes/association';
 import { AssetKey } from '../../../../classes/idea/AssetKey/AssetKey';
+import { emptyDescriptionAsset } from '../../../../classes/idea/DescriptionAsset';
 import { ImpressionIdea } from '../../../../classes/idea/ImpressionIdea';
 import { Noticable } from '../../../../classes/idea/Noticable';
 import { defaultPowerFitConcepts } from '../../../../classes/idea/powerFitConcepts/powerFitConcepts';
@@ -22,6 +23,99 @@ export const bartenderKnowledge: ImpressionIdea[] = [
             worksForAllCriminals: true,
         },
         [
+            {
+                name: 'a soldier from a nearby outpost being chased for murder',
+                landRange: [
+                    a.mountain,
+                    a.forest,
+                    a.village,
+                    a.desert,
+                    a.underdark,
+                ],
+                needs: [a.soldier],
+                worksForAssasines: true,
+                worksForBrothel: true,
+            },
+            {
+                name: 'a group of deserters stole something valuable from the garrison',
+                landRange: [
+                    a.mountain,
+                    a.forest,
+                    a.village,
+                    a.desert,
+                    a.underdark,
+                ],
+                needs: [a.soldier],
+                worksForAssasines: true,
+                worksForBrothel: true,
+            },
+            {
+                name: 'a soldier being hanged after insulting the sultan',
+                needs: [a.soldier, a.desert],
+                misfits: [a.rich],
+                worksForAssasines: true,
+                worksForBrothel: true,
+            },
+            {
+                name: 'a soldier being hanged after insulting the queen',
+                needs: [a.soldier, a.drow, a.underdark],
+                misfits: [a.rich],
+                worksForAssasines: true,
+                worksForBrothel: true,
+            },
+            {
+                name: 'a navy soldier being hanged after insulting the admiral',
+                needs: [a.soldier, a.haven],
+                misfits: [a.rich],
+                worksForAssasines: true,
+                worksForBrothel: true,
+            },
+            {
+                name: 'a soldier being hanged after insulting the governor',
+                needs: [a.soldier, a.tropical],
+                misfits: [a.rich],
+                worksForAssasines: true,
+                worksForBrothel: true,
+            },
+            {
+                name: 'a soldier being hanged after insulting a general',
+                landRange: [a.mountain, a.forest, a.village, a.underdark],
+                needs: [a.soldier],
+                misfits: [a.rich],
+                worksForAssasines: true,
+                worksForBrothel: true,
+            },
+            {
+                name: 'a general being punished for insulting the sultan',
+                needs: [a.soldier, a.desert],
+                worksForAssasines: true,
+                worksForBrothel: true,
+            },
+            {
+                name: 'a general being punished for insulting the queen',
+                needs: [a.soldier, a.drow, a.underdark],
+                worksForAssasines: true,
+                worksForBrothel: true,
+            },
+            {
+                name: 'a captain being punished for insulting the admiral',
+                needs: [a.soldier, a.haven],
+                worksForAssasines: true,
+                worksForBrothel: true,
+            },
+            {
+                name: 'a sergeant being punished for insulting the governor',
+                needs: [a.soldier, a.tropical],
+                worksForAssasines: true,
+                worksForBrothel: true,
+            },
+            {
+                name: 'a general being punished for insulting the king',
+                landRange: [a.mountain, a.forest, a.village, a.underdark],
+                needs: [a.soldier],
+                worksForAssasines: true,
+                worksForBrothel: true,
+            },
             {
                 name: 'the royal family sponsoring talented bards',
                 powerFits: [a.city, a.wealthy, a.rich, a.bard],
@@ -129,10 +223,17 @@ export const bartenderKnowledge: ImpressionIdea[] = [
                     a.soldier,
                 ],
                 worksForAllCriminals: true,
-                landRange: [a.city],
+                needsOne: [a.city, a.soldier, a.knight],
+                landRange: [
+                    a.forest,
+                    a.mountain,
+                    a.city,
+                    a.village,
+                    a.underdark,
+                ],
             },
             {
-                name: 'the admirals preparing for war',
+                name: 'the admiral preparing for war',
                 powerFits: [
                     a.haven,
                     a.wealthy,
@@ -199,7 +300,8 @@ export const bartenderKnowledge: ImpressionIdea[] = [
                     a.soldier,
                     a.knight,
                 ],
-                landRange: [a.city, a.village],
+                landRange: [a.city, a.village, a.mountain, a.forest],
+                needsOne: [a.city, a.soldier, a.knight],
                 worksForAssasines: true,
                 worksForBrothel: true,
             },
@@ -403,10 +505,15 @@ export const bartenderKnowledge: ImpressionIdea[] = [
             key: AssetKey.BARTENDER_knowledge,
         },
         [
-            { name: 'in the sewers', landRange: [a.haven, a.city] },
+            { name: 'in the sewers', landRange: [a.city] },
+            { name: 'appearing near the docks at night', needs: [a.haven] },
+            {
+                name: 'appearing near the lighthouse at night',
+                needs: [a.haven],
+            },
             {
                 name: 'in an abandoned village nearby',
-                landRange: [a.village, a.forest],
+                landRange: [a.village, a.forest, a.city],
             },
             { name: 'at the nearby lake', landRange: [a.village, a.forest] },
             {
@@ -433,12 +540,12 @@ export const bartenderKnowledge: ImpressionIdea[] = [
                     a.tropical,
                 ],
             },
+            { name: 'in a cave near the glaciers', needs: [a.mountain] },
             { name: 'in the nearby swamps', landRange: [a.village, a.forest] },
             {
                 name: 'appearing in the slums at night',
                 landRange: [a.city, a.haven],
             },
-            { name: 'appearing at the docks at night', landRange: [a.haven] },
             { name: 'in the local woods', landRange: [a.forest, a.village] },
             { name: 'in the nearby rain forest', landRange: [a.tropical] },
             {
@@ -487,7 +594,7 @@ export const bartenderKnowledge: ImpressionIdea[] = [
             key: AssetKey.BARTENDER_knowledge,
             worksForAssasines: true,
         },
-        [],
+        [emptyDescriptionAsset],
         Noticable.bartender
     ),
     new ImpressionIdea(

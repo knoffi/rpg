@@ -196,7 +196,7 @@ const getContentForCategory = (
 ): ContentSum => {
     const contentLength =
         demand.category === Noticable.bartender
-            ? 8
+            ? 4
             : Math.floor(Math.random() * MAX_IDEA + (1 - NO_IDEA_PROBABILITY));
     const newKeys = emptyKeys;
     const startAdd: Add = {
