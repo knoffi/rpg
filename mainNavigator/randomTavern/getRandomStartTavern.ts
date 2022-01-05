@@ -196,7 +196,7 @@ const getContentForCategory = (
 ): ContentSum => {
     const contentLength =
         demand.category === Noticable.bartender
-            ? 5
+            ? 8
             : Math.floor(Math.random() * MAX_IDEA + (1 - NO_IDEA_PROBABILITY));
     const newKeys = emptyKeys;
     const startAdd: Add = {
@@ -205,6 +205,7 @@ const getContentForCategory = (
         newKeys,
         newCreationAdded: false,
         newPatterns: [],
+        impliedPatterns: [],
     };
     const startRequest = getCreationRequest(startAdd, [], []);
     const newContent = getContentArray(
@@ -233,14 +234,7 @@ const getContentArray = (
         if (!add.newCreationAdded) {
             return add;
         }
-        if (add.isAbout === WeServe.impressions) {
-            const handlerUpdate: KeyChange & PatternChange = {
-                ...add,
-                type: 'Add',
-            };
-            keys.update(handlerUpdate);
-            patterns.update(handlerUpdate);
-        }
+        updateHandlers(keys, patterns, add);
         const fullKeys = keys.getFullKeys(add.isAbout);
         const usedPatterns = patterns.getPatterns(add.isAbout);
         const newRequest = getCreationRequest(
@@ -258,4 +252,17 @@ const getContentArray = (
             creator
         );
     }
+};
+const updateHandlers = (
+    keys: KeyHandler,
+    patterns: PatternHandler,
+    add: Add
+) => {
+    const handlerUpdate: KeyChange & PatternChange = {
+        ...add,
+        type: 'Add',
+    };
+    keys.update(handlerUpdate);
+    patterns.update(handlerUpdate);
+    patterns.multiUpdate(add.impliedPatterns);
 };
