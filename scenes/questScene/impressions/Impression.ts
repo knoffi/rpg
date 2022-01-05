@@ -3,6 +3,7 @@ import { Noticable } from '../../../classes/idea/Noticable';
 import { Pattern } from '../../../classes/idea/Patterns/Pattern';
 import { Keys } from '../../../classes/keyHandler/KeyHandlingTypes';
 import { PatternChange } from '../../../classes/patternHandler/PatternHandler';
+import { WeServe } from '../../../editNavigator/WeServe';
 
 export type Impression = {
     name: string;
@@ -12,4 +13,5 @@ export type Impression = {
     patterns: Pattern[];
     universe: FantasyKeys | 'isUserMade';
     impliedPatterns: PatternChange[];
+    isAbout: WeServe.impressions;
 };

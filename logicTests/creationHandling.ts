@@ -101,35 +101,6 @@ describe('ContentCreator tests', () => {
         const checkResult = creator.noNextCreationLeft(fitting, checkData);
         expect(checkResult).is.false;
     });
-    it('reroll:', () => {
-        const request = Constants.rerollRequest();
-        const fitting = {};
-        expect(request).to.have.property('oldAssets').to.have.length(1);
-        const oldAsset = request.oldAssets[0];
-        const nameForReroll = oldAsset.name;
-        expect(oldAsset).to.have.property('patterns').to.have.length(1);
-        const oldPattern = oldAsset.patterns[0];
-        expect(oldAsset)
-            .to.have.property('keys')
-            .to.have.property('main')
-            .to.have.length(1);
-        const oldMainKey = oldAsset.keys.main[0];
-        const reroll = creator.rerollOneCreation(
-            fitting,
-            nameForReroll,
-            request
-        );
-        expect(reroll).to.have.property('isAbout').to.eql(WeServe.impressions);
-        expect(reroll).to.have.property('rerolled').to.have.length(1);
-        expect(reroll)
-            .to.have.property('oldKeys')
-            .to.have.property('main')
-            .eql([oldMainKey]);
-        expect(reroll).to.have.property('oldPatterns').to.eql([oldPattern]);
-        const newAsset = reroll.rerolled[0];
-        expect(newAsset).to.have.property('category').to.eql(request.category);
-        expect(newAsset).to.have.property('name').to.not.eql(nameForReroll);
-    });
     it('multi deletion:', () => {
         const creator = Constants.creator();
         const {

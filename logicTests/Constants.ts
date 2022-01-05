@@ -67,6 +67,7 @@ export class Constants {
         patterns: [Pattern.BARTENDER_UncleBen],
         universe: FantasyKeys.unitTest,
         impliedPatterns: [],
+        isAbout: WeServe.impressions,
     };
     private static _oldImpressions: Impression[] = [
         {
@@ -76,6 +77,7 @@ export class Constants {
             patterns: [Pattern.BARTENDER_UncleBen],
             universe: FantasyKeys.unitTest,
             impliedPatterns: [],
+            isAbout: WeServe.impressions,
         },
         {
             name: 'Very thin',
@@ -84,6 +86,7 @@ export class Constants {
             patterns: [Pattern.BARTENDER_Kleinfinger],
             universe: FantasyKeys.unitTest,
             impliedPatterns: [],
+            isAbout: WeServe.impressions,
         },
         {
             name: 'Knows a secret',
@@ -92,6 +95,7 @@ export class Constants {
             patterns: [Pattern.BARTENDER_Kleinfinger],
             universe: FantasyKeys.unitTest,
             impliedPatterns: [],
+            isAbout: WeServe.impressions,
         },
     ];
     private static _rerollRequest: DeepReadonly<CreationRequest> = {
@@ -341,6 +345,7 @@ export class Constants {
                 patterns: [Pattern.BARTENDER_UncleBen],
                 keys: { main: [AssetKey.BARTENDER_charisma], addition: [] },
                 impliedPatterns: [],
+                isAbout: WeServe.impressions,
             },
             {
                 name: 'Talks about power and responsibility',
@@ -349,6 +354,7 @@ export class Constants {
                 patterns: [Pattern.BARTENDER_UncleBen],
                 keys: { main: [AssetKey.BARTENDER_actions], addition: [] },
                 impliedPatterns: [],
+                isAbout: WeServe.impressions,
             },
         ],
     };

@@ -1,18 +1,19 @@
 import { ReduceTarget } from '../classes/contentCreator/ContentCreator';
 import { Content } from '../mainNavigator/Content';
+import { Demand } from '../scenes/menuScene/offerList/actionInterfaces';
 import { WeServe } from './WeServe';
 
 export const getReduceTarget = (
     tavern: Content,
-    isAbout: WeServe
+    demand: Demand
 ): ReduceTarget => {
-    switch (isAbout) {
+    switch (demand.isAbout) {
         case WeServe.drinks:
-            return { isAbout, oldAssets: tavern[isAbout] };
+            return { ...demand, oldAssets: tavern[demand.isAbout] };
         case WeServe.food:
-            return { isAbout, oldAssets: tavern[isAbout] };
+            return { ...demand, oldAssets: tavern[demand.isAbout] };
 
         default:
-            return { isAbout, oldAssets: tavern[isAbout] };
+            return { ...demand, oldAssets: tavern[demand.isAbout] };
     }
 };
