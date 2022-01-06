@@ -25,6 +25,7 @@ export const OfferListItem = (props: {
     const onLeftSwipe = props.actions.onDelete;
     const price = props.price;
     const description = props.description;
+    const swiperResetToggle = editPossible || rerollPossible;
     return (
         <List.Item
             title=""
@@ -33,6 +34,7 @@ export const OfferListItem = (props: {
             left={(props) => {
                 return (
                     <OpacitySwiperText
+                        key={'' + swiperResetToggle}
                         swipeThreshold={SWIPE_THRESHOLD}
                         onSwipeRight={onRightSwipe}
                         onSwipeLeft={onLeftSwipe}

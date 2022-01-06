@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { View } from 'react-native';
 import Animated, {
     block,
     Clock,
@@ -11,7 +12,10 @@ import Animated, {
     timing,
 } from 'react-native-reanimated';
 
-export const AppearingView = (props: { children: JSX.Element }) => {
+export const AppearingView = (props: {
+    children: JSX.Element;
+    noAnimation: boolean;
+}) => {
     const clock = new Clock();
     useEffect(() => {});
     const getOpacity = (clock: Animated.Clock) => {
@@ -45,7 +49,9 @@ export const AppearingView = (props: { children: JSX.Element }) => {
             }),
         ]);
     };
-    return (
+    return props.noAnimation ? (
+        <View>{props.children}</View>
+    ) : (
         <Animated.View style={{ opacity: getOpacity(clock) }}>
             {props.children}
         </Animated.View>
