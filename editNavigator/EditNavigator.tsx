@@ -153,7 +153,7 @@ export const EditNavigator = (props: {
         demand: Demand,
         removedUniverses: (FantasyKeys | 'isUserMade')[]
     ) => {
-        const deletionTarget = getReduceTarget(props.tavern, demand.isAbout);
+        const deletionTarget = getReduceTarget(props.tavern, demand);
         const deletion = creator.multiDelete(
             deletions,
             deletionTarget,

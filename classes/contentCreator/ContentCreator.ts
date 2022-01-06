@@ -9,6 +9,7 @@ import { DeepReadonly } from '../../logicTests/Cloner';
 import { Describable } from '../../mainNavigator/TavernData';
 import { allCategories, UniverseMap } from '../../mainNavigator/UniverseMap';
 import { Offer } from '../../scenes/menuScene/Offer';
+import { Demand } from '../../scenes/menuScene/offerList/actionInterfaces';
 import { CoverageTest } from '../../scenes/nameScene/contentCoverage/CoverageTest';
 import { getPrefixExcluder } from '../../scenes/questScene/impressions/getPrefixExcluder';
 import { Impression } from '../../scenes/questScene/impressions/Impression';
@@ -84,148 +85,157 @@ export class ContentCreator {
         return this.universe[category];
     }
 
-    private deleteCreation(
-        name: string,
-        toReduce: ReduceTarget,
-        keys: KeyHandler,
-        pattern: PatternHandler
-    ): Delete {
-        const dissolve = this.dissolveCreation(toReduce, name);
-        keys.update({
-            type: 'Delete',
-            isAbout: toReduce.isAbout,
-            oldKeys: dissolve.keys,
-        });
-        pattern.update({
-            type: 'Delete',
-            isAbout: toReduce.isAbout,
-            oldPatterns: dissolve.patterns,
-        });
-        pattern.multiRevert(dissolve.impliedPatterns);
-        switch (dissolve.isAbout) {
-            case WeServe.impressions:
-                return {
-                    ...dissolve,
-                    impression: dissolve.reduced,
-                    keys,
-                    pattern,
-                };
-            case WeServe.drinks:
-                return {
-                    ...dissolve,
-                    drink: dissolve.reduced,
-                    keys,
-                    pattern,
-                };
-            default:
-                return {
-                    ...dissolve,
-                    food: dissolve.reduced,
-                    keys,
-                    pattern,
-                };
-        }
-    }
-    private getStartDissolve(toReduce: ReduceTarget): Dissolve {
-        const partialDissolve: Omit<Dissolve, 'isAbout' | 'reduced'> = {
-            keys: emptyKeys,
-            patterns: [] as Pattern[],
-            impliedPatterns: [],
-        };
-        switch (toReduce.isAbout) {
-            case WeServe.drinks:
-                return {
-                    ...partialDissolve,
-                    reduced: toReduce.oldAssets,
-                    isAbout: toReduce.isAbout,
-                };
-
-            case WeServe.food:
-                return {
-                    ...partialDissolve,
-                    reduced: toReduce.oldAssets,
-                    isAbout: toReduce.isAbout,
-                };
-
-            default:
-                return {
-                    ...partialDissolve,
-                    reduced: toReduce.oldAssets,
-                    isAbout: toReduce.isAbout,
-                };
-        }
-    }
     public multiDelete(
         names: string[],
         toReduce: ReduceTarget,
         keys: KeyHandler,
         patterns: PatternHandler
     ): Delete {
-        const startDissolve = this.getStartDissolve(toReduce);
-        const multiDissolve = names.reduce((prev, name) => {
-            const newReduceTarget = {
-                ...toReduce,
-                oldAssets: prev.reduced,
-            } as ReduceTarget;
-            const newDissolve = this.dissolveCreation(newReduceTarget, name);
-            const keys: Keys = {
-                main: prev.keys.main.concat(newDissolve.keys.main),
-                addition: prev.keys.addition.concat(newDissolve.keys.addition),
-            };
-            const patterns: Pattern[] = [
-                ...prev.patterns,
-                ...newDissolve.patterns,
-            ];
-            const impliedPatterns: PatternChange[] = [
-                ...prev.impliedPatterns,
-                ...newDissolve.impliedPatterns,
-            ];
-            return { ...newDissolve, patterns, keys, impliedPatterns };
-        }, startDissolve);
         //NOTE: keys and patterns might be states of a component
-        const clonedKeys = keys.multiUpdateClone([
-            {
-                type: 'Delete',
-                isAbout: toReduce.isAbout,
-                oldKeys: multiDissolve.keys,
-            },
-        ]);
-        const clonedPatterns = patterns.multiUpdateClone([
-            {
-                type: 'Delete',
-                isAbout: toReduce.isAbout,
-                oldPatterns: multiDissolve.patterns,
-            },
-        ]);
-        clonedPatterns.multiRevert(multiDissolve.impliedPatterns);
-        switch (multiDissolve.isAbout) {
+        const clonedKeys = keys.multiUpdateClone([]);
+        const clonedPatterns = patterns.multiUpdateClone([]);
+        const reduceAnchor: MultiRerollRequest = {
+            ...toReduce,
+            keys: clonedKeys,
+            pattern: clonedPatterns,
+        };
+        const multiDeletion = names.reduce(
+            (prev, cur) => this.replaceAndUpdate(cur, prev, { type: 'Delete' }),
+            reduceAnchor
+        );
+        switch (multiDeletion.isAbout) {
             case WeServe.impressions:
                 return {
-                    ...multiDissolve,
-                    impression: multiDissolve.reduced,
-                    keys: clonedKeys,
-                    pattern: clonedPatterns,
+                    ...multiDeletion,
+                    [multiDeletion.isAbout]: multiDeletion.oldAssets,
                 };
             case WeServe.drinks:
                 return {
-                    ...multiDissolve,
-                    drink: multiDissolve.reduced,
-                    keys: clonedKeys,
-                    pattern: clonedPatterns,
+                    ...multiDeletion,
+                    [multiDeletion.isAbout]: multiDeletion.oldAssets,
                 };
             default:
                 return {
-                    ...multiDissolve,
-                    food: multiDissolve.reduced,
-                    keys: clonedKeys,
-                    pattern: clonedPatterns,
+                    ...multiDeletion,
+                    [multiDeletion.isAbout]: multiDeletion.oldAssets,
                 };
+        }
+    }
+    private removeAndUpdate(toRemove: string, toReduce: MultiRerollRequest) {
+        const dissolve = this.dissolveCreation(toReduce, toRemove);
+        toReduce.keys.update({
+            type: 'Delete',
+            isAbout: toReduce.isAbout,
+            oldKeys: dissolve.keys,
+        });
+        toReduce.pattern.update({
+            type: 'Delete',
+            isAbout: toReduce.isAbout,
+            oldPatterns: dissolve.patterns,
+        });
+        toReduce.pattern.multiRevert(dissolve.impliedPatterns);
+        switch (dissolve.isAbout) {
+            case WeServe.drinks:
+                return {
+                    ...dissolve,
+                    oldAssets: dissolve.reduced,
+                    pattern: toReduce.pattern,
+                    keys: toReduce.keys,
+                };
+            case WeServe.food:
+                return {
+                    ...dissolve,
+                    oldAssets: dissolve.reduced,
+                    pattern: toReduce.pattern,
+                    keys: toReduce.keys,
+                };
+            default:
+                return {
+                    ...dissolve,
+                    oldAssets: dissolve.reduced,
+                    pattern: toReduce.pattern,
+                    keys: toReduce.keys,
+                };
+        }
+    }
+    private convertToCreationRequest(
+        request: MultiRerollRequest
+    ): CreationRequest {
+        const patterns = request.pattern.getPatterns(request.isAbout);
+        const keys = request.keys.getFullKeys(request.isAbout);
+        const forCreation: CreationRequest = {
+            ...request,
+            fullFirstKeys: keys.main,
+            fullSecondKeys: keys.addition,
+            patterns: patterns,
+        };
+        return forCreation;
+    }
+    private replaceAndUpdate(
+        toReplace: string,
+        request: MultiRerollRequest,
+        action:
+            | { type: 'Delete' }
+            | { type: 'Reroll'; fitting: StructuredTavernFits }
+    ): MultiRerollRequest {
+        const replaceTargetRemoved = this.removeAndUpdate(toReplace, request);
+        if (action.type === 'Delete') {
+            return replaceTargetRemoved;
+        } else {
+            const forCreation = this.convertToCreationRequest(request);
+            const replacement = this.getRandomCreation(
+                action.fitting,
+                forCreation
+            );
+            if (!!replacement.new) {
+                const newAsset = replacement.new;
+                const updatedHandlers = {
+                    keys: replaceTargetRemoved.keys,
+                    pattern: replaceTargetRemoved.pattern,
+                };
+                updatedHandlers.keys.update({
+                    type: 'Add',
+                    isAbout: newAsset.isAbout,
+                    newKeys: newAsset.keys,
+                });
+                updatedHandlers.pattern.update({
+                    type: 'Add',
+                    isAbout: newAsset.isAbout,
+                    newPatterns: newAsset.patterns,
+                });
+                updatedHandlers.pattern.multiUpdate(newAsset.impliedPatterns);
+                switch (newAsset.isAbout) {
+                    case WeServe.impressions:
+                        const newNotes = (
+                            request.oldAssets as Impression[]
+                        ).map((oldNote) =>
+                            oldNote.name === toReplace ? newAsset : oldNote
+                        );
+                        return {
+                            ...newAsset,
+                            ...updatedHandlers,
+                            oldAssets: newNotes,
+                        };
+                    default:
+                        const newMenu = (request.oldAssets as Offer[]).map(
+                            (oldNote) =>
+                                oldNote.name === toReplace ? newAsset : oldNote
+                        );
+                        return {
+                            ...newAsset,
+                            ...updatedHandlers,
+                            oldAssets: newMenu,
+                        };
+                }
+            } else {
+                throw new Error('UndefinedReplacement');
+            }
         }
     }
     private dissolveCreation(
         toReduce: ReduceTarget,
         toRemove: string
-    ): Dissolve {
+    ): Dissolve & Demand {
         const indexToRemove = (toReduce.oldAssets as Asset[]).findIndex(
             (asset) => asset.name === toRemove
         );
@@ -244,6 +254,7 @@ export class ContentCreator {
                         keys,
                         patterns,
                         impliedPatterns,
+                        category: Noticable.bartender,
                     };
                 case WeServe.food:
                     return {
@@ -252,6 +263,7 @@ export class ContentCreator {
                         keys,
                         patterns,
                         impliedPatterns,
+                        category: Eatable.breakfast,
                     };
                 default:
                     return {
@@ -260,29 +272,30 @@ export class ContentCreator {
                         keys,
                         patterns,
                         impliedPatterns,
+                        category: Drinkable.beer,
                     };
             }
         } else {
             const removedEntry = toReduce.oldAssets[indexToRemove];
             const { keys, patterns, impliedPatterns } = removedEntry;
-            switch (toReduce.isAbout) {
+            switch (removedEntry.isAbout) {
                 case WeServe.impressions:
-                    const reducedImpressions = toReduce.oldAssets.filter(
-                        (asset, index) => index !== indexToRemove
-                    );
+                    const reducedImpressions = (
+                        toReduce.oldAssets as Impression[]
+                    ).filter((asset, index) => index !== indexToRemove);
                     return {
-                        ...toReduce,
+                        ...removedEntry,
                         reduced: reducedImpressions,
                         keys,
                         patterns,
                         impliedPatterns,
                     };
                 case WeServe.drinks:
-                    const reducedDrinks = toReduce.oldAssets.filter(
-                        (asset, index) => index !== indexToRemove
-                    );
+                    const reducedDrinks = (
+                        toReduce.oldAssets as Offer[]
+                    ).filter((asset, index) => index !== indexToRemove);
                     return {
-                        ...toReduce,
+                        ...removedEntry,
                         reduced: reducedDrinks,
                         keys,
                         patterns,
@@ -290,11 +303,11 @@ export class ContentCreator {
                     };
 
                 default:
-                    const reducedDishes = toReduce.oldAssets.filter(
-                        (asset, index) => index !== indexToRemove
-                    );
+                    const reducedDishes = (
+                        toReduce.oldAssets as Offer[]
+                    ).filter((asset, index) => index !== indexToRemove);
                     return {
-                        ...toReduce,
+                        ...removedEntry,
                         reduced: reducedDishes,
                         keys,
                         patterns,
@@ -334,21 +347,6 @@ export class ContentCreator {
                 );
         }
     }
-
-    public rerollOneCreation(
-        fitting: StructuredTavernFits,
-        rerolledName: string,
-        request: CreationRequest
-    ) {
-        switch (request.isAbout) {
-            case WeServe.impressions:
-                return this.rerollOneImpression(fitting, rerolledName, request);
-            case WeServe.food:
-                return this.rerollOneDish(fitting, rerolledName, request);
-            default:
-                return this.rerollOneDrink(fitting, rerolledName, request);
-        }
-    }
     public multiReroll(
         fitting: StructuredTavernFits,
         rerolledNames: string[],
@@ -363,27 +361,11 @@ export class ContentCreator {
             pattern: clonedPatterns,
         };
         const multiReroll = rerolledNames.reduce((prev, cur) => {
-            const deletion = this.deleteCreation(
-                cur,
-                { ...prev },
-                clonedKeys,
-                clonedPatterns
-            );
-            const patterns = prev.pattern.getPatterns(deletion.isAbout);
-            const fullKeys = prev.keys.getFullKeys(deletion.isAbout);
-            const request: CreationRequest = {
-                ...prev,
-                fullFirstKeys: fullKeys.main,
-                fullSecondKeys: fullKeys.addition,
-                patterns: patterns,
-            };
-            const reroll = this.rerollOneCreation(fitting, cur, request);
-            prev.keys.update({ ...reroll, type: 'Add' });
-            prev.pattern.update({ ...reroll, type: 'Add' });
-            return {
-                ...prev,
-                oldAssets: reroll.rerolled,
-            } as MultiRerollRequest;
+            const reroll = this.replaceAndUpdate(cur, prev, {
+                type: 'Reroll',
+                fitting,
+            });
+            return reroll;
         }, startRequest);
         return this.convert(multiReroll);
     }
@@ -440,6 +422,7 @@ export class ContentCreator {
                     impliedPatterns: [],
                     keys: emptyKeys,
                     universe: 'isUserMade',
+                    isAbout: WeServe.impressions,
                 };
                 return { isAbout: WeServe.impressions, edited: impression };
         }
@@ -536,35 +519,75 @@ export class ContentCreator {
             reulgarFit: regularFulfillers.length,
         };
     }
-
+    private convertToAdd(
+        added: Creation,
+        request: CreationRequest,
+        keysAndPatterns: Pick<
+            Add,
+            'newKeys' | 'newPatterns' | 'impliedPatterns'
+        >
+    ): Add {
+        if (added.isAbout !== request.isAbout) {
+            throw new Error('NotMatchingCreation');
+        } else {
+            const newCreationAdded = !!added.new;
+            switch (request.isAbout) {
+                case WeServe.impressions:
+                    const newNotes = request.oldAssets.concat(
+                        (added.new as Impression | undefined) || []
+                    );
+                    return {
+                        ...request,
+                        ...keysAndPatterns,
+                        added: newNotes,
+                        newCreationAdded,
+                    };
+                default:
+                    const newMenu = request.oldAssets.concat(
+                        (added.new as Offer | undefined) || []
+                    );
+                    return {
+                        ...request,
+                        ...keysAndPatterns,
+                        added: newMenu,
+                        newCreationAdded,
+                    };
+            }
+        }
+    }
     public addRandomCreation(
         fitting: StructuredTavernFits,
         request: CreationRequest
     ): Add {
+        const newCreation = this.getRandomCreation(fitting, request);
+        const keysAndPatterns: Pick<
+            Add,
+            'newKeys' | 'newPatterns' | 'impliedPatterns'
+        > = {
+            impliedPatterns: newCreation.new?.impliedPatterns || [],
+            newPatterns: newCreation.new?.patterns || [],
+            newKeys: newCreation.new?.keys || emptyKeys,
+        };
+        return this.convertToAdd(newCreation, request, keysAndPatterns);
+    }
+    private getRandomCreation(
+        fitting: StructuredTavernFits,
+        request: CreationRequest
+    ): Creation {
         switch (request.isAbout) {
             case WeServe.drinks:
                 const newDrink = this.getRandomDrink(fitting, request);
-                const extendedDrinks = request.oldAssets.concat(newDrink || []);
                 return {
-                    newCreationAdded: !!newDrink,
-                    added: extendedDrinks,
-                    isAbout: WeServe.drinks,
+                    new: newDrink,
+                    isAbout: WeServe.drinks as const,
                     category: request.category,
-                    newKeys: newDrink?.keys || emptyKeys,
-                    newPatterns: newDrink?.patterns || [],
-                    impliedPatterns: newDrink?.impliedPatterns || [],
                 };
             case WeServe.food:
                 const newDish = this.getRandomDish(fitting, request);
-                const extendedDishes = request.oldAssets.concat(newDish || []);
                 return {
-                    newCreationAdded: !!newDish,
-                    added: extendedDishes,
-                    isAbout: WeServe.food,
+                    new: newDish,
+                    isAbout: WeServe.food as const,
                     category: request.category,
-                    newKeys: newDish?.keys || emptyKeys,
-                    newPatterns: newDish?.patterns || [],
-                    impliedPatterns: newDish?.impliedPatterns || [],
                 };
 
             default:
@@ -578,18 +601,11 @@ export class ContentCreator {
                     request.additionFilter,
                     request.patterns
                 );
-                const extendedImpressions = request.oldAssets.concat(
-                    newImpression || []
-                );
 
                 return {
-                    newCreationAdded: !!newImpression,
-                    added: extendedImpressions,
-                    isAbout: WeServe.impressions,
+                    new: newImpression,
+                    isAbout: WeServe.impressions as const,
                     category: request.category,
-                    newKeys: newImpression?.keys || emptyKeys,
-                    newPatterns: newImpression?.patterns || [],
-                    impliedPatterns: [],
                 };
         }
     }
@@ -705,91 +721,6 @@ export class ContentCreator {
         }
     }
 
-    private rerollOneDish(
-        fitting: StructuredTavernFits,
-        rerolledName: string,
-        request: FoodRequest,
-        addedDish?: Offer
-    ): Reroll {
-        const newDish = addedDish || this.getRandomDish(fitting, request);
-        const oldDish = request.oldAssets.find(
-            (dish) => dish.name === rerolledName
-        );
-        const rerolledDishes = newDish
-            ? request.oldAssets.map((dish) =>
-                  dish.name === rerolledName ? newDish : dish
-              )
-            : request.oldAssets.filter((dish) => dish.name !== rerolledName);
-        const reroll: Reroll = {
-            isAbout: WeServe.food,
-            rerolled: rerolledDishes,
-            oldKeys: oldDish?.keys || emptyKeys,
-            newKeys: newDish?.keys || emptyKeys,
-            oldPatterns: oldDish?.patterns || [],
-            newPatterns: newDish?.patterns || [],
-        };
-        return reroll;
-    }
-    private rerollOneDrink(
-        fitting: StructuredTavernFits,
-        rerolledName: string,
-        request: DrinkRequest,
-        addedDrink?: Offer
-    ): Reroll {
-        const newDrink = addedDrink || this.getRandomDrink(fitting, request);
-        const oldDrink = request.oldAssets.find(
-            (drink) => drink.name === rerolledName
-        );
-        const rerolledDrinks = newDrink
-            ? request.oldAssets.map((drink) =>
-                  drink.name === rerolledName ? newDrink : drink
-              )
-            : request.oldAssets.filter((drink) => drink.name !== rerolledName);
-        const reroll: Reroll = {
-            isAbout: WeServe.drinks,
-            rerolled: rerolledDrinks,
-            oldKeys: oldDrink?.keys || emptyKeys,
-            newKeys: newDrink?.keys || emptyKeys,
-            oldPatterns: oldDrink?.patterns || [],
-            newPatterns: newDrink?.patterns || [],
-        };
-        return reroll;
-    }
-    private rerollOneImpression(
-        fitting: StructuredTavernFits,
-        rerolledName: string,
-        request: ImpressionRequest
-    ): Reroll {
-        const newImpression = this.getRandomImpression(
-            fitting,
-            request.category,
-            request.oldAssets,
-            request.fullFirstKeys,
-            request.fullSecondKeys,
-            undefined,
-            undefined,
-            request.patterns
-        );
-        const oldImpression = request.oldAssets.find(
-            (impression) => impression.name === rerolledName
-        );
-        const rerolledImpressions = newImpression
-            ? request.oldAssets.map((impression) =>
-                  impression.name === rerolledName ? newImpression : impression
-              )
-            : request.oldAssets.filter(
-                  (impression) => impression.name !== rerolledName
-              );
-        const reroll: Reroll = {
-            isAbout: WeServe.impressions,
-            rerolled: rerolledImpressions,
-            newKeys: newImpression?.keys || emptyKeys,
-            oldKeys: oldImpression?.keys || emptyKeys,
-            oldPatterns: oldImpression?.patterns || [],
-            newPatterns: newImpression?.patterns || [],
-        };
-        return reroll;
-    }
     private static getIdeas(universeKey: FantasyKeys, category: Describable) {
         const universe = ContentCreator.books.find(
             (book) => book.key === universeKey
@@ -820,6 +751,22 @@ type ImpressionBasic = {
     mainFilter?: number;
     additionFilter?: number;
 };
+type Creation =
+    | {
+          isAbout: WeServe.food;
+          category: Eatable;
+          new?: Offer;
+      }
+    | {
+          isAbout: WeServe.drinks;
+          category: Drinkable;
+          new?: Offer;
+      }
+    | {
+          isAbout: WeServe.impressions;
+          category: Noticable;
+          new?: Impression;
+      };
 
 export type FoodRequest = FoodBasic & {
     fullFirstKeys: AssetKey[];
@@ -941,6 +888,7 @@ export type Reroll =
           oldKeys: Keys;
           oldPatterns: Pattern[];
           newPatterns: Pattern[];
+          newImpliedPatterns: PatternChange[];
       }
     | {
           isAbout: WeServe.impressions;
@@ -949,12 +897,17 @@ export type Reroll =
           oldKeys: Keys;
           oldPatterns: Pattern[];
           newPatterns: Pattern[];
+          newImpliedPatterns: PatternChange[];
       };
 type Asset = { name: string; keys: Keys; patterns: Pattern[] };
 export type ReduceTarget =
-    | { oldAssets: Impression[]; isAbout: WeServe.impressions }
-    | { oldAssets: Offer[]; isAbout: WeServe.drinks }
-    | { oldAssets: Offer[]; isAbout: WeServe.food };
+    | {
+          oldAssets: Impression[];
+          isAbout: WeServe.impressions;
+          category: Noticable;
+      }
+    | { oldAssets: Offer[]; isAbout: WeServe.drinks; category: Drinkable }
+    | { oldAssets: Offer[]; isAbout: WeServe.food; category: Eatable };
 type Dissolve = {
     keys: Keys;
     patterns: Pattern[];
@@ -968,6 +921,7 @@ export type MultiRerollRequest = (FoodBasic | DrinkBasic | ImpressionBasic) & {
     keys: KeyHandler;
     pattern: PatternHandler;
 };
+type MultiDeleteRequest = Omit<MultiRerollRequest, 'category'>;
 export type MultiReroll = (
     | { isAbout: WeServe.food; rerolled: Offer[] }
     | { isAbout: WeServe.drinks; rerolled: Offer[] }

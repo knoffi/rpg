@@ -1,3 +1,4 @@
+import { WeServe } from '../../editNavigator/WeServe';
 import { Impression } from '../../scenes/questScene/impressions/Impression';
 import { emptyKeys } from '../contentCreator/emptyKeys';
 import { FantasyKeys } from '../contentCreator/FantasKeys';
@@ -94,6 +95,7 @@ export class ImpressionIdea extends Idea {
                     },
                     patterns: this.main.patterns || [],
                     impliedPatterns: this.getImpliedPatterns([]),
+                    isAbout: WeServe.impressions,
                 };
             }
             const firstText = this.reverseDisplay
@@ -113,6 +115,7 @@ export class ImpressionIdea extends Idea {
                     secondDescription.patterns || []
                 ),
                 impliedPatterns: this.getImpliedPatterns([secondDescription]),
+                isAbout: WeServe.impressions,
             };
         } else {
             const defaultNameAndKey = {
@@ -123,6 +126,7 @@ export class ImpressionIdea extends Idea {
                 } as Keys,
                 patterns: this.main.patterns || [],
                 impliedPatterns: [],
+                isAbout: WeServe.impressions as const,
             };
             return defaultNameAndKey;
         }

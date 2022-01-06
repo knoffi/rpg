@@ -34,6 +34,7 @@ export const taverns: tavernMinData[] = [
                 keys: { main: [AssetKey.BARTENDER_appearace], addition: [] },
                 universe: 'isUserMade',
                 impliedPatterns: [],
+                isAbout: WeServe.impressions,
             },
             {
                 name: 'Experienced warrior, many respect her',
@@ -42,6 +43,7 @@ export const taverns: tavernMinData[] = [
                 keys: { main: [AssetKey.BARTENDER_knowledge], addition: [] },
                 universe: 'isUserMade',
                 impliedPatterns: [],
+                isAbout: WeServe.impressions,
             },
             {
                 name: 'Carries a giant axe on her back',
@@ -50,6 +52,7 @@ export const taverns: tavernMinData[] = [
                 keys: { main: [AssetKey.BARTENDER_accessoires], addition: [] },
                 universe: 'isUserMade',
                 impliedPatterns: [],
+                isAbout: WeServe.impressions,
             },
             {
                 name: 'Wears clothes made of dire wolf fur',
@@ -58,12 +61,12 @@ export const taverns: tavernMinData[] = [
                 keys: { main: [AssetKey.BARTENDER_accessoires], addition: [] },
                 universe: 'isUserMade',
                 impliedPatterns: [],
+                isAbout: WeServe.impressions,
             },
             {
                 name: 'Boots are made of a tyrannosaurus rex she once fought',
                 patterns: [],
                 universe: 'isUserMade',
-                impliedPatterns: [],
                 category: Noticable.bartender,
                 keys: {
                     main: [
@@ -72,6 +75,8 @@ export const taverns: tavernMinData[] = [
                     ],
                     addition: [],
                 },
+                impliedPatterns: [],
+                isAbout: WeServe.impressions,
             },
             {
                 name: 'Lost one eye and three fingers during the fight',
@@ -80,6 +85,7 @@ export const taverns: tavernMinData[] = [
                 keys: { main: [AssetKey.BARTENDER_accessoires], addition: [] },
                 universe: 'isUserMade',
                 impliedPatterns: [],
+                isAbout: WeServe.impressions,
             },
             {
                 name: 'Half-naked barbarians',
@@ -91,6 +97,7 @@ export const taverns: tavernMinData[] = [
                 },
                 universe: 'isUserMade',
                 impliedPatterns: [],
+                isAbout: WeServe.impressions,
             },
             {
                 name: 'Heavily armored warriors',
@@ -102,6 +109,7 @@ export const taverns: tavernMinData[] = [
                 },
                 universe: 'isUserMade',
                 impliedPatterns: [],
+                isAbout: WeServe.impressions,
             },
             {
                 name: 'Drinking beer and mead from horns',
@@ -113,6 +121,7 @@ export const taverns: tavernMinData[] = [
                 },
                 universe: 'isUserMade',
                 impliedPatterns: [],
+                isAbout: WeServe.impressions,
             },
             {
                 name: 'Excessive drinking and loud laughing',
@@ -124,6 +133,7 @@ export const taverns: tavernMinData[] = [
                 },
                 universe: 'isUserMade',
                 impliedPatterns: [],
+                isAbout: WeServe.impressions,
             },
             {
                 name: 'A bard at the bar passed out',
@@ -132,6 +142,7 @@ export const taverns: tavernMinData[] = [
                 keys: { main: [], addition: [] },
                 universe: 'isUserMade',
                 impliedPatterns: [],
+                isAbout: WeServe.impressions,
             },
             {
                 name: 'The guests surrounding the bard are laughing',
@@ -140,6 +151,7 @@ export const taverns: tavernMinData[] = [
                 keys: { main: [], addition: [] },
                 universe: 'isUserMade',
                 impliedPatterns: [],
+                isAbout: WeServe.impressions,
             },
             {
                 name: 'Heavy wooden tables',
@@ -148,6 +160,7 @@ export const taverns: tavernMinData[] = [
                 keys: { main: [AssetKey.FURNITURE_tables], addition: [] },
                 universe: 'isUserMade',
                 impliedPatterns: [],
+                isAbout: WeServe.impressions,
             },
             {
                 name: 'Marks of axe slashes on the wall',
@@ -156,17 +169,19 @@ export const taverns: tavernMinData[] = [
                 keys: { main: [], addition: [] },
                 universe: 'isUserMade',
                 impliedPatterns: [],
+                isAbout: WeServe.impressions,
             },
             {
                 name: 'Head of tyrannosaurus rex hangs from ceiling ',
                 patterns: [],
                 universe: 'isUserMade',
-                impliedPatterns: [],
                 category: Noticable.furniture,
                 keys: {
                     main: [AssetKey.FURNITURE_wallOrCeiling],
                     addition: [],
                 },
+                impliedPatterns: [],
+                isAbout: WeServe.impressions,
             },
         ],
         universe: DEFAULT_UNIVERSE_MAP,
@@ -194,6 +209,7 @@ export const taverns: tavernMinData[] = [
                 keys: { main: [AssetKey.BARTENDER_faceDetails], addition: [] },
                 universe: 'isUserMade',
                 impliedPatterns: [],
+                isAbout: WeServe.impressions,
             },
             {
                 name: 'Friendly dwarve',
@@ -202,6 +218,7 @@ export const taverns: tavernMinData[] = [
                 keys: { main: [AssetKey.BARTENDER_charisma], addition: [] },
                 universe: 'isUserMade',
                 impliedPatterns: [],
+                isAbout: WeServe.impressions,
             },
             {
                 name: 'Perfectionist when it comes to beer',
@@ -210,6 +227,7 @@ export const taverns: tavernMinData[] = [
                 keys: { main: [AssetKey.BARTENDER_knowledge], addition: [] },
                 universe: 'isUserMade',
                 impliedPatterns: [],
+                isAbout: WeServe.impressions,
             },
             {
                 name: 'Wealthy clothes',
@@ -218,6 +236,7 @@ export const taverns: tavernMinData[] = [
                 keys: { main: [AssetKey.BARTENDER_appearace], addition: [] },
                 universe: 'isUserMade',
                 impliedPatterns: [],
+                isAbout: WeServe.impressions,
             },
             {
                 name: 'Mostly Dwarvish or Gnomish',
@@ -226,6 +245,7 @@ export const taverns: tavernMinData[] = [
                 keys: { main: [], addition: [] },
                 universe: 'isUserMade',
                 impliedPatterns: [],
+                isAbout: WeServe.impressions,
             },
             {
                 name: 'Drink beer from silver cups',
@@ -240,6 +260,7 @@ export const taverns: tavernMinData[] = [
                 },
                 universe: 'isUserMade',
                 impliedPatterns: [],
+                isAbout: WeServe.impressions,
             },
             {
                 name: 'Mostly ordering beer from Molthorium brand',
@@ -251,6 +272,7 @@ export const taverns: tavernMinData[] = [
                 },
                 universe: 'isUserMade',
                 impliedPatterns: [],
+                isAbout: WeServe.impressions,
             },
             {
                 name: 'The royal masons discuss the defenses of the Dwarvish capital',
@@ -259,6 +281,7 @@ export const taverns: tavernMinData[] = [
                 keys: { main: [], addition: [] },
                 universe: 'isUserMade',
                 impliedPatterns: [],
+                isAbout: WeServe.impressions,
             },
             {
                 name: 'A group of noble elves is lead to a VIP-Lounge',
@@ -267,6 +290,7 @@ export const taverns: tavernMinData[] = [
                 keys: { main: [], addition: [] },
                 universe: 'isUserMade',
                 impliedPatterns: [],
+                isAbout: WeServe.impressions,
             },
             {
                 name: 'A band of bards plays pub music',
@@ -275,6 +299,7 @@ export const taverns: tavernMinData[] = [
                 keys: { main: [], addition: [] },
                 universe: 'isUserMade',
                 impliedPatterns: [],
+                isAbout: WeServe.impressions,
             },
             {
                 name: 'Marble columns with handcrafted details',
@@ -283,6 +308,7 @@ export const taverns: tavernMinData[] = [
                 keys: { main: [], addition: [] },
                 universe: 'isUserMade',
                 impliedPatterns: [],
+                isAbout: WeServe.impressions,
             },
             {
                 name: 'Mahagony tables',
@@ -291,6 +317,7 @@ export const taverns: tavernMinData[] = [
                 keys: { main: [AssetKey.FURNITURE_tables], addition: [] },
                 universe: 'isUserMade',
                 impliedPatterns: [],
+                isAbout: WeServe.impressions,
             },
             {
                 name: 'A giant portrait of the Dwarvish royal family on the wall',
@@ -299,6 +326,7 @@ export const taverns: tavernMinData[] = [
                 keys: { main: [AssetKey.FURNITURE_barDeco], addition: [] },
                 universe: 'isUserMade',
                 impliedPatterns: [],
+                isAbout: WeServe.impressions,
             },
         ],
         universe: DEFAULT_UNIVERSE_MAP,
@@ -331,6 +359,7 @@ export const taverns: tavernMinData[] = [
                 },
                 universe: 'isUserMade',
                 impliedPatterns: [],
+                isAbout: WeServe.impressions,
             },
             {
                 name: 'Gruff towards unkown costumers',
@@ -339,6 +368,7 @@ export const taverns: tavernMinData[] = [
                 keys: { main: [AssetKey.BARTENDER_opinion], addition: [] },
                 universe: 'isUserMade',
                 impliedPatterns: [],
+                isAbout: WeServe.impressions,
             },
             {
                 name: 'Snake tattoe on his neck',
@@ -347,6 +377,7 @@ export const taverns: tavernMinData[] = [
                 keys: { main: [AssetKey.BARTENDER_accessoires], addition: [] },
                 universe: 'isUserMade',
                 impliedPatterns: [],
+                isAbout: WeServe.impressions,
             },
             {
                 name: 'Seem quite threatening',
@@ -358,6 +389,7 @@ export const taverns: tavernMinData[] = [
                 },
                 universe: 'isUserMade',
                 impliedPatterns: [],
+                isAbout: WeServe.impressions,
             },
             {
                 name: 'Many wear sabers around their belt',
@@ -366,6 +398,7 @@ export const taverns: tavernMinData[] = [
                 keys: { main: [], addition: [] },
                 universe: 'isUserMade',
                 impliedPatterns: [],
+                isAbout: WeServe.impressions,
             },
             {
                 name: 'Silent, unfriendly atmosphere',
@@ -374,6 +407,7 @@ export const taverns: tavernMinData[] = [
                 keys: { main: [], addition: [] },
                 universe: 'isUserMade',
                 impliedPatterns: [],
+                isAbout: WeServe.impressions,
             },
             {
                 name: 'Turn silent when you walk by',
@@ -385,6 +419,7 @@ export const taverns: tavernMinData[] = [
                 },
                 universe: 'isUserMade',
                 impliedPatterns: [],
+                isAbout: WeServe.impressions,
             },
             {
                 name: 'A sailor spits on the ground',
@@ -393,6 +428,7 @@ export const taverns: tavernMinData[] = [
                 keys: { main: [], addition: [] },
                 universe: 'isUserMade',
                 impliedPatterns: [],
+                isAbout: WeServe.impressions,
             },
             {
                 name: 'A captain drinks rum at the bar',
@@ -401,6 +437,7 @@ export const taverns: tavernMinData[] = [
                 keys: { main: [], addition: [] },
                 universe: 'isUserMade',
                 impliedPatterns: [],
+                isAbout: WeServe.impressions,
             },
             {
                 name: 'Scruffy chairs',
@@ -409,6 +446,7 @@ export const taverns: tavernMinData[] = [
                 keys: { main: [AssetKey.FURNITURE_tables], addition: [] },
                 universe: 'isUserMade',
                 impliedPatterns: [],
+                isAbout: WeServe.impressions,
             },
             {
                 name: 'Some tables have holes',
@@ -417,6 +455,7 @@ export const taverns: tavernMinData[] = [
                 keys: { main: [AssetKey.FURNITURE_tables], addition: [] },
                 universe: 'isUserMade',
                 impliedPatterns: [],
+                isAbout: WeServe.impressions,
             },
             {
                 name: 'Smell of cheap rum and ale',
@@ -425,6 +464,7 @@ export const taverns: tavernMinData[] = [
                 keys: { main: [], addition: [] },
                 universe: 'isUserMade',
                 impliedPatterns: [],
+                isAbout: WeServe.impressions,
             },
         ],
         universe: DEFAULT_UNIVERSE_MAP,
@@ -451,6 +491,7 @@ export const taverns: tavernMinData[] = [
                 keys: { main: [AssetKey.BARTENDER_appearace], addition: [] },
                 universe: 'isUserMade',
                 impliedPatterns: [],
+                isAbout: WeServe.impressions,
             },
             {
                 name: 'Witty and entertaining',
@@ -459,6 +500,7 @@ export const taverns: tavernMinData[] = [
                 keys: { main: [AssetKey.BARTENDER_charisma], addition: [] },
                 universe: 'isUserMade',
                 impliedPatterns: [],
+                isAbout: WeServe.impressions,
             },
             {
                 name: 'Slim and alluring',
@@ -467,6 +509,7 @@ export const taverns: tavernMinData[] = [
                 keys: { main: [AssetKey.BARTENDER_body], addition: [] },
                 universe: 'isUserMade',
                 impliedPatterns: [],
+                isAbout: WeServe.impressions,
             },
 
             {
@@ -479,6 +522,7 @@ export const taverns: tavernMinData[] = [
                 },
                 universe: 'isUserMade',
                 impliedPatterns: [],
+                isAbout: WeServe.impressions,
             },
             {
                 name: 'Drink expensive wines and eat exotic fruits',
@@ -493,6 +537,7 @@ export const taverns: tavernMinData[] = [
                 },
                 universe: 'isUserMade',
                 impliedPatterns: [],
+                isAbout: WeServe.impressions,
             },
             {
                 name: 'Careless, tipsy and lustful',
@@ -504,6 +549,7 @@ export const taverns: tavernMinData[] = [
                 },
                 universe: 'isUserMade',
                 impliedPatterns: [],
+                isAbout: WeServe.impressions,
             },
 
             {
@@ -513,6 +559,7 @@ export const taverns: tavernMinData[] = [
                 keys: { main: [], addition: [] },
                 universe: 'isUserMade',
                 impliedPatterns: [],
+                isAbout: WeServe.impressions,
             },
             {
                 name: 'A married gnome couple seduces a merchant',
@@ -521,6 +568,7 @@ export const taverns: tavernMinData[] = [
                 keys: { main: [], addition: [] },
                 universe: 'isUserMade',
                 impliedPatterns: [],
+                isAbout: WeServe.impressions,
             },
             {
                 name: 'A bishop comes out of the VIP-lounge',
@@ -529,6 +577,7 @@ export const taverns: tavernMinData[] = [
                 keys: { main: [], addition: [] },
                 universe: 'isUserMade',
                 impliedPatterns: [],
+                isAbout: WeServe.impressions,
             },
 
             {
@@ -538,6 +587,7 @@ export const taverns: tavernMinData[] = [
                 keys: { main: [AssetKey.FURNITURE_tables], addition: [] },
                 universe: 'isUserMade',
                 impliedPatterns: [],
+                isAbout: WeServe.impressions,
             },
             {
                 name: 'Golden cups and silken napkins',
@@ -546,6 +596,7 @@ export const taverns: tavernMinData[] = [
                 keys: { main: [AssetKey.FURNITURE_drinkHolder], addition: [] },
                 universe: 'isUserMade',
                 impliedPatterns: [],
+                isAbout: WeServe.impressions,
             },
             {
                 name: 'An elf sings on the stage',
@@ -554,6 +605,7 @@ export const taverns: tavernMinData[] = [
                 keys: { main: [], addition: [] },
                 universe: 'isUserMade',
                 impliedPatterns: [],
+                isAbout: WeServe.impressions,
             },
         ],
         universe: DEFAULT_UNIVERSE_MAP,

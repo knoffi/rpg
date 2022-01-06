@@ -4,7 +4,12 @@ import { menuSceneStyles } from '../../scenes/menuScene/menuStyles';
 import { AppearingView } from './AppearingView';
 
 export const MemoizedSwiperText = React.memo(
-    (props: { title: string; description: string; price: string }) => {
+    (props: {
+        title: string;
+        description: string;
+        price: string;
+        noAnimation: boolean;
+    }) => {
         const isNotForDishes = props.price === '';
         return (
             <View
@@ -13,7 +18,7 @@ export const MemoizedSwiperText = React.memo(
                     justifyContent: 'flex-start',
                 }}
             >
-                <AppearingView>
+                <AppearingView noAnimation={props.noAnimation}>
                     <View>
                         <View
                             style={

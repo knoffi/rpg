@@ -260,9 +260,18 @@ export class OpacitySwiperText extends React.Component<
         ]);
     }
     insideTreshholdNode() {
-        return and(
-            greaterOrEq(this.state.anim.position, -this.props.swipeThreshold),
-            lessOrEq(this.state.anim.position, this.props.swipeThreshold)
+        return or(
+            and(
+                eq(this.props.rightSwipePossible ? 0 : 1, 1),
+                greaterOrEq(this.state.anim.position, 0)
+            ),
+            and(
+                greaterOrEq(
+                    this.state.anim.position,
+                    -this.props.swipeThreshold
+                ),
+                lessOrEq(this.state.anim.position, this.props.swipeThreshold)
+            )
         );
     }
     getTranslation() {
@@ -464,6 +473,10 @@ export class OpacitySwiperText extends React.Component<
                                         title={this.props.title}
                                         description={this.props.description}
                                         price={this.props.price}
+                                        noAnimation={
+                                            !this.props.rightSwipePossible &&
+                                            !this.props.isUserMade
+                                        }
                                     />
                                 </Animated.View>
                             </Animated.View>
