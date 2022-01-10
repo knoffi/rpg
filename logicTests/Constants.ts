@@ -359,7 +359,19 @@ export class Constants {
         ],
     };
     public static content() {
-        return Cloner.deepWritableCopy(Constants._content);
+        const resultingPatterns = {
+            [WeServe.drinks]: [],
+            [WeServe.food]: [],
+            [WeServe.impressions]: [
+                Pattern.BARTENDER_UncleBen,
+                Pattern.BARTENDER_UncleBen,
+                Pattern.IMPRESSIONS_redWine,
+            ],
+        };
+        return {
+            content: Cloner.deepWritableCopy(Constants._content),
+            resultingPatterns,
+        };
     }
     private static universeForTests = {
         [Eatable.mainDish]: FantasyKeys.unitTest,

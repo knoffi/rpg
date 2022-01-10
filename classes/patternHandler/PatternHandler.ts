@@ -29,8 +29,14 @@ export class PatternHandler {
             });
         }
         this.patterns = newPatterns;
+        if (content !== 'noContent') {
+            Object.values(WeServe).forEach((isAbout) => {
+                content[isAbout].forEach((asset) => {
+                    this.multiUpdate(asset.impliedPatterns);
+                });
+            });
+        }
     }
-
     public getPatterns(isAbout: WeServe) {
         return this.patterns[isAbout];
     }
@@ -46,7 +52,7 @@ export class PatternHandler {
                 break;
         }
     }
-    public multiUpdate(updates: DeepReadonly<PatternChange>[]) {
+    public multiUpdate(updates: DeepReadonly<PatternChange[]>) {
         updates.forEach((update) => this.update(update));
     }
     public multiRevert(updatesToRevert: DeepReadonly<PatternChange[]>) {
