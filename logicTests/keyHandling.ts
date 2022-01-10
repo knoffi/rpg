@@ -11,7 +11,7 @@ describe('KeyHandler tests', () => {
             .to.equal(0);
     });
     it('construct from content', () => {
-        const content = Constants.content();
+        const { content } = Constants.content();
         const keys = new KeyHandler(content);
         expect(keys.getFullKeys(WeServe.impressions))
             .to.have.property('main')

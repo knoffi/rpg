@@ -10,17 +10,14 @@ describe('PatternHandler tests', () => {
             .to.equal(0);
     });
     it('construct by content', () => {
-        const content = Constants.content();
-        const pattern = new PatternHandler(content);
-        expect(pattern.getPatterns(WeServe.impressions))
-            .to.have.property('length')
-            .to.equal(2);
-        expect(pattern.getPatterns(WeServe.drinks))
-            .to.have.property('length')
-            .to.equal(0);
-        expect(pattern.getPatterns(WeServe.food))
-            .to.have.property('length')
-            .to.equal(0);
+        const { content, resultingPatterns } = Constants.content();
+        const patterns = new PatternHandler(content);
+        const test = (isAbout: WeServe) => {
+            expect(patterns.getPatterns(isAbout)).to.eql(
+                resultingPatterns[isAbout]
+            );
+        };
+        Object.values(WeServe).forEach((isAbout) => test(isAbout));
     });
     it('add', () => {
         const ADD = Constants.patternAdd();
