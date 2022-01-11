@@ -28,7 +28,7 @@ export const taverns: tavernMinData[] = [
         boughtOffers: [],
         [WeServe.impressions]: [
             {
-                name: 'Barbarian woman with red Hair',
+                name: 'Barbarian woman with red hair',
                 patterns: [],
                 category: Noticable.bartender,
                 keys: { main: [AssetKey.BARTENDER_appearace], addition: [] },

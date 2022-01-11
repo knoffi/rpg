@@ -314,6 +314,7 @@ export const bartenderOpinions: ImpressionIdea[] = [
             {
                 name: 'guests who dance to music',
                 powerFits: [a.halfling, a.gnome, a.bard],
+                classRange: [a.adventurer, a.bard],
                 misfits: [a.drow],
             },
             {

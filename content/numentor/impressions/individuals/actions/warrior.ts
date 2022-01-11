@@ -40,7 +40,10 @@ export const grownWarriorActions: DescriptionAsset[] = [
         name: 'telling stories about the war against the elves',
         needs: [a.drow],
     },
-    { name: 'making a toast to a fallen squire' },
+    {
+        name: 'making a toast to a fallen squire',
+        classRange: [a.knight, a.soldier, a.adventurer, a.bard],
+    },
     { name: 'making a toast to a fallen comrade', worksForAssasines: true },
     { name: 'making a toast to the royal family', needs: [a.cleric, a.knight] },
     {
