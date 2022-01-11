@@ -253,7 +253,7 @@ export const servantActions: DescriptionAsset[] = [
     },
     { name: 'chatting with some customers' },
     {
-        name: 'getting molested by a drunken guest',
+        name: 'getting molested by a guest',
         key: AssetKey.INDIVIDUALS_servant,
         misfits: [a.knight, a.elf, a.cleric],
     },

@@ -94,7 +94,7 @@ export const wizardIndividuals: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            name: 'A charistmatic salesman is ',
+            name: 'A salesman is ',
             powerFits: [a.wizard, a.adventurer],
             worksForBrothel: true,
             worksForAssasines: true,
@@ -105,7 +105,7 @@ export const wizardIndividuals: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            name: 'A charistmatic saleswoman is ',
+            name: 'A saleswoman is ',
             powerFits: [a.wizard, a.adventurer],
             worksForBrothel: true,
             worksForAssasines: true,
