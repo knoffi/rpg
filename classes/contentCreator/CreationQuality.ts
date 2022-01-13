@@ -1,5 +1,7 @@
 export enum CreationQuality {
     HIGH = 'content exists fulfilling every aspect',
-    DOUBLE_KEY = 'only content with key duplicate',
+    GOOD = 'good, but without power fit',
+    AVERAGE = 'good, with power fit, but redundant key',
+    BARELY = 'only fulfilling minimalistic requirements',
     NONE = 'no content left for minimal requirements',
 }

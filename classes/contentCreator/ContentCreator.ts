@@ -22,6 +22,8 @@ import {
     BEST_FIT_LEVEL,
     BEST_POWERLESS_FIT_LEVEL,
     BEST_SPECIALS_WEAKLY_LEVEL,
+    KEY_REDUNDANCE_WITH_POWERFIT,
+    MINIMAL_PASS_FIT_LEVEL,
 } from '../idea/fitCalculator/getFitLevel';
 import { Idea } from '../idea/Idea';
 import { ImpressionIdea } from '../idea/ImpressionIdea';
@@ -317,11 +319,27 @@ export class ContentCreator {
             }
         }
     }
-    private getCreationQuality(creation?: Offer | Impression): CreationQuality {
-        if (creation) {
-            return CreationQuality.HIGH;
-        } else {
+    private getCreationQuality(fitLevel?: number): CreationQuality {
+        if (!fitLevel) {
             return CreationQuality.NONE;
+        } else {
+            if (fitLevel >= BEST_FIT_LEVEL(0)) {
+                return CreationQuality.HIGH;
+            } else {
+                if (fitLevel >= BEST_POWERLESS_FIT_LEVEL(0)) {
+                    return CreationQuality.GOOD;
+                } else {
+                    if (fitLevel >= KEY_REDUNDANCE_WITH_POWERFIT) {
+                        return CreationQuality.AVERAGE;
+                    } else {
+                        if (fitLevel >= MINIMAL_PASS_FIT_LEVEL) {
+                            return CreationQuality.BARELY;
+                        } else {
+                            return CreationQuality.NONE;
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -337,7 +355,7 @@ export class ContentCreator {
                         oldAssets: creation.added,
                         fullFirstKeys: [],
                         fullSecondKeys: [],
-                    })
+                    })?.level
                 );
             case WeServe.food:
                 return this.getCreationQuality(
@@ -346,7 +364,7 @@ export class ContentCreator {
                         oldAssets: creation.added,
                         fullFirstKeys: [],
                         fullSecondKeys: [],
-                    })
+                    })?.level
                 );
 
             default:
@@ -357,7 +375,7 @@ export class ContentCreator {
                         creation.added,
                         [],
                         []
-                    )
+                    )?.level
                 );
         }
     }
@@ -592,14 +610,14 @@ export class ContentCreator {
             case WeServe.drinks:
                 const newDrink = this.getRandomDrink(fitting, request);
                 return {
-                    new: newDrink,
+                    new: newDrink?.new,
                     isAbout: WeServe.drinks as const,
                     category: request.category,
                 };
             case WeServe.food:
                 const newDish = this.getRandomDish(fitting, request);
                 return {
-                    new: newDish,
+                    new: newDish?.new,
                     isAbout: WeServe.food as const,
                     category: request.category,
                 };
@@ -617,7 +635,7 @@ export class ContentCreator {
                 );
 
                 return {
-                    new: newImpression,
+                    new: newImpression?.new,
                     isAbout: WeServe.impressions as const,
                     category: request.category,
                 };
@@ -667,7 +685,7 @@ export class ContentCreator {
                 additionFilter,
                 patterns
             );
-            return newImpression;
+            return { new: newImpression, level: bestNotes.level };
         }
     }
     private getRandomDrink(
@@ -702,7 +720,7 @@ export class ContentCreator {
                 additionExcludedByKey,
                 patterns
             );
-            return newDrink;
+            return { new: newDrink, level: bestRecipes.level };
         }
     }
     private getRandomDish(fitting: StructuredTavernFits, request: FoodRequest) {
@@ -731,7 +749,7 @@ export class ContentCreator {
                 additionExcludedByKey,
                 patterns
             );
-            return newDish;
+            return { new: newDish, level: bestRecipes.level };
         }
     }
 

@@ -25,6 +25,8 @@ export const BEST_SPECIALS_WEAKLY_LEVEL = (tavernPatterns = 10) =>
     tavernPatterns * PATTERN_BONUS;
 export const BEST_POWERLESS_FIT_LEVEL = (tavernPatterns = 10) =>
     KEY_BONUS + SPECIALS_TRULY_FULFILLED_BONUS + tavernPatterns * PATTERN_BONUS;
+export const KEY_REDUNDANCE_WITH_POWERFIT =
+    SPECIALS_WEAKLY_FULFILLED_BONUS + POWER_FIT_BONUS;
 export const MINIMAL_PASS_FIT_LEVEL = 3;
 export const WORST_FIT_LEVEL = 0;
 export const getFitLevel = (
