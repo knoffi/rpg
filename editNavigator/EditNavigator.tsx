@@ -6,6 +6,7 @@ import {
     CreationRequest,
     UserMade,
 } from '../classes/contentCreator/ContentCreator';
+import { CreationQuality } from '../classes/contentCreator/creationQuality';
 import { FantasyKeys } from '../classes/contentCreator/FantasKeys';
 import {
     getFitsFromStructure,
@@ -218,7 +219,7 @@ export const EditNavigator = (props: {
             additionFilter
         );
         const creation = creator.addRandomCreation(impliedFitting, request);
-        const noNextCreation = creator.noNextCreationLeft(
+        const noNextCreation = creator.contentQualityLeft(
             impliedFitting,
             creation
         );
@@ -226,17 +227,19 @@ export const EditNavigator = (props: {
         invokeAdd(creation, noNextCreation);
     };
 
-    const invokeAdd = (creation: Add, noNextCreation: boolean) => {
+    const invokeAdd = (creation: Add, qualityLeft: CreationQuality) => {
         if (!creation.newCreationAdded) {
             console.log('__ADDING WAS INVOKED WITH EMPTY CREATION___');
         } else {
             const assetChanges = { [creation.isAbout]: creation.added };
-            const bannerChanges = noNextCreation
-                ? getBannersByAdd(creation, true)
-                : {};
-            const ideaLeftChanges = noNextCreation
-                ? getIdeasLeftByAdd(creation, false)
-                : {};
+            const bannerChanges =
+                qualityLeft === CreationQuality.NONE
+                    ? getBannersByAdd(creation, true)
+                    : {};
+            const ideaLeftChanges =
+                qualityLeft === CreationQuality.NONE
+                    ? getIdeasLeftByAdd(creation, false)
+                    : {};
             const tavernChanges: Partial<MinimalTavernData> = assetChanges;
             setContentLeft({
                 ...contentLeft,

@@ -38,6 +38,7 @@ import {
     PatternHandler,
 } from '../patternHandler/PatternHandler';
 import { Drinkable, Eatable } from '../TavernProduct';
+import { CreationQuality } from './creationQuality';
 import { emptyKeys } from './emptyKeys';
 import { FantasyKeys } from './FantasKeys';
 
@@ -316,34 +317,47 @@ export class ContentCreator {
             }
         }
     }
+    private getCreationQuality(creation?: Offer | Impression): CreationQuality {
+        if (creation) {
+            return CreationQuality.HIGH;
+        } else {
+            return CreationQuality.NONE;
+        }
+    }
 
-    public noNextCreationLeft(
+    public contentQualityLeft(
         fitting: StructuredTavernFits,
         creation: AddCheck
-    ): boolean {
+    ): CreationQuality {
         switch (creation.isAbout) {
             case WeServe.drinks:
-                return !this.getRandomDrink(fitting, {
-                    ...creation,
-                    oldAssets: creation.added,
-                    fullFirstKeys: [],
-                    fullSecondKeys: [],
-                });
+                return this.getCreationQuality(
+                    this.getRandomDrink(fitting, {
+                        ...creation,
+                        oldAssets: creation.added,
+                        fullFirstKeys: [],
+                        fullSecondKeys: [],
+                    })
+                );
             case WeServe.food:
-                return !this.getRandomDish(fitting, {
-                    ...creation,
-                    oldAssets: creation.added,
-                    fullFirstKeys: [],
-                    fullSecondKeys: [],
-                });
+                return this.getCreationQuality(
+                    this.getRandomDish(fitting, {
+                        ...creation,
+                        oldAssets: creation.added,
+                        fullFirstKeys: [],
+                        fullSecondKeys: [],
+                    })
+                );
 
             default:
-                return !this.getRandomImpression(
-                    fitting,
-                    creation.category,
-                    creation.added,
-                    [],
-                    []
+                return this.getCreationQuality(
+                    this.getRandomImpression(
+                        fitting,
+                        creation.category,
+                        creation.added,
+                        [],
+                        []
+                    )
                 );
         }
     }

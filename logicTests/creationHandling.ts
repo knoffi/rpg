@@ -4,6 +4,7 @@ import {
     AddCheck,
     CreationRequest,
 } from '../classes/contentCreator/ContentCreator';
+import { CreationQuality } from '../classes/contentCreator/creationQuality';
 import { FantasyKeys } from '../classes/contentCreator/FantasKeys';
 import { AssetKey } from '../classes/idea/AssetKey/AssetKey';
 import { Noticable } from '../classes/idea/Noticable';
@@ -91,15 +92,15 @@ describe('ContentCreator tests', () => {
             category: Noticable.someCustomers,
             added: [],
         };
-        const checkResult = creator.noNextCreationLeft(fitting, checkData);
-        expect(checkResult).is.true;
+        const checkResult = creator.contentQualityLeft(fitting, checkData);
+        expect(checkResult).is.eql(CreationQuality.NONE);
     });
     it('nothing left: false', () => {
         const request = Constants.impressionRequest();
         const fitting = {};
         const checkData: AddCheck = { ...request, added: [] };
-        const checkResult = creator.noNextCreationLeft(fitting, checkData);
-        expect(checkResult).is.false;
+        const checkResult = creator.contentQualityLeft(fitting, checkData);
+        expect(checkResult).is.eql(CreationQuality.HIGH);
     });
     it('multi deletion:', () => {
         const creator = Constants.creator();
