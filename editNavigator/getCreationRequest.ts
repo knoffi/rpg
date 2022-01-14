@@ -1,6 +1,7 @@
-import { CreationRequest } from '../classes/contentCreator/ContentCreator';
-import { AssetKey } from '../classes/idea/AssetKey/AssetKey';
-import { Pattern } from '../classes/idea/Patterns/Pattern';
+import {
+    CreationRequest,
+    Profile,
+} from '../classes/contentCreator/ContentCreator';
 import { MinimalTavernData } from '../mainNavigator/TavernData';
 import { Demand } from '../scenes/menuScene/offerList/actionInterfaces';
 import { WeServe } from './WeServe';
@@ -11,9 +12,7 @@ export function getCreationRequest(
         MinimalTavernData,
         WeServe.drinks | WeServe.food | WeServe.impressions
     >,
-    fullFirstKeys: AssetKey[],
-    fullSecondKeys: AssetKey[],
-    patterns?: Pattern[],
+    profile: Profile,
     mainFilter?: number,
     additionFilter?: number
 ): CreationRequest {
@@ -21,16 +20,13 @@ export function getCreationRequest(
         ? {
               ...add,
               oldAssets: tavern[add.isAbout],
-              fullFirstKeys,
-              fullSecondKeys,
-              patterns,
+              ...profile,
               mainFilter,
               additionFilter,
           }
         : {
               ...add,
               oldAssets: tavern[add.isAbout],
-              fullFirstKeys,
-              fullSecondKeys,
+              ...profile,
           };
 }

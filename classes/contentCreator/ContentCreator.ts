@@ -34,7 +34,7 @@ import {
     StructuredTavernFits,
 } from '../idea/StructuredTavernFits';
 import { KeyHandler } from '../keyHandler/KeyHandler';
-import { Keys } from '../keyHandler/KeyHandlingTypes';
+import { KeyChange, Keys } from '../keyHandler/KeyHandlingTypes';
 import {
     PatternChange,
     PatternHandler,
@@ -124,7 +124,10 @@ export class ContentCreator {
                 };
         }
     }
-    private removeAndUpdate(toRemove: string, toReduce: MultiRerollRequest) {
+    private removeAndUpdate(
+        toRemove: string,
+        toReduce: MultiRerollRequest
+    ): MultiRerollRequest {
         const dissolve = this.dissolveCreation(toReduce, toRemove);
         toReduce.keys.update({
             type: 'Delete',
@@ -161,19 +164,6 @@ export class ContentCreator {
                 };
         }
     }
-    private convertToCreationRequest(
-        request: MultiRerollRequest
-    ): CreationRequest {
-        const patterns = request.pattern.getPatterns(request.isAbout);
-        const keys = request.keys.getFullKeys(request.isAbout);
-        const forCreation: CreationRequest = {
-            ...request,
-            fullFirstKeys: keys.main,
-            fullSecondKeys: keys.addition,
-            patterns: patterns,
-        };
-        return forCreation;
-    }
     private replaceAndUpdate(
         toReplace: string,
         request: MultiRerollRequest,
@@ -181,52 +171,45 @@ export class ContentCreator {
             | { type: 'Delete' }
             | { type: 'Reroll'; fitting: StructuredTavernFits }
     ): MultiRerollRequest {
-        const replaceTargetRemoved = this.removeAndUpdate(toReplace, request);
+        const targetRemoved = this.removeAndUpdate(toReplace, request);
         if (action.type === 'Delete') {
-            return replaceTargetRemoved;
+            return targetRemoved;
         } else {
-            const forCreation = this.convertToCreationRequest(request);
-            const replacement = this.getRandomCreation(
-                action.fitting,
-                forCreation
+            const replacement = this.getRandomCreation(action.fitting, {
+                // For #147: change request with targetRemoved
+                ...request,
+                keys: targetRemoved.keys,
+                pattern: targetRemoved.pattern,
+            });
+            const newProfile = this.cloneUpdateProfile(
+                replacement,
+                targetRemoved
             );
             if (!!replacement.new) {
-                const newAsset = replacement.new;
-                const updatedHandlers = {
-                    keys: replaceTargetRemoved.keys,
-                    pattern: replaceTargetRemoved.pattern,
-                };
-                updatedHandlers.keys.update({
-                    type: 'Add',
-                    isAbout: newAsset.isAbout,
-                    newKeys: newAsset.keys,
-                });
-                updatedHandlers.pattern.update({
-                    type: 'Add',
-                    isAbout: newAsset.isAbout,
-                    newPatterns: newAsset.patterns,
-                });
-                updatedHandlers.pattern.multiUpdate(newAsset.impliedPatterns);
-                switch (newAsset.isAbout) {
+                switch (replacement.isAbout) {
                     case WeServe.impressions:
                         const newNotes = (
                             request.oldAssets as Impression[]
                         ).map((oldNote) =>
-                            oldNote.name === toReplace ? newAsset : oldNote
+                            oldNote.name === toReplace
+                                ? replacement.new!
+                                : oldNote
                         );
                         return {
-                            ...newAsset,
-                            ...updatedHandlers,
+                            ...replacement,
+                            ...newProfile,
                             oldAssets: newNotes,
                         };
                     default:
                         const newMenu = (request.oldAssets as Offer[]).map(
                             (oldNote) =>
-                                oldNote.name === toReplace ? newAsset : oldNote
+                                oldNote.name === toReplace
+                                    ? replacement.new!
+                                    : oldNote
                         );
                         return {
-                            ...newAsset,
-                            ...updatedHandlers,
+                            ...replacement,
+                            ...newProfile,
                             oldAssets: newMenu,
                         };
                 }
@@ -353,8 +336,6 @@ export class ContentCreator {
                     this.getRandomDrink(fitting, {
                         ...creation,
                         oldAssets: creation.added,
-                        fullFirstKeys: [],
-                        fullSecondKeys: [],
                     })?.level
                 );
             case WeServe.food:
@@ -362,20 +343,15 @@ export class ContentCreator {
                     this.getRandomDish(fitting, {
                         ...creation,
                         oldAssets: creation.added,
-                        fullFirstKeys: [],
-                        fullSecondKeys: [],
                     })?.level
                 );
 
             default:
                 return this.getCreationQuality(
-                    this.getRandomImpression(
-                        fitting,
-                        creation.category,
-                        creation.added,
-                        [],
-                        []
-                    )?.level
+                    this.getRandomImpression(fitting, {
+                        ...creation,
+                        oldAssets: creation.added,
+                    })?.level
                 );
         }
     }
@@ -551,18 +527,12 @@ export class ContentCreator {
             reulgarFit: regularFulfillers.length,
         };
     }
-    private convertToAdd(
-        added: Creation,
-        request: CreationRequest,
-        keysAndPatterns: Pick<
-            Add,
-            'newKeys' | 'newPatterns' | 'impliedPatterns'
-        >
-    ): Add {
+    private convertToAdd(added: Creation, request: CreationRequest): Add {
         if (added.isAbout !== request.isAbout) {
             throw new Error('NotMatchingCreation');
         } else {
             const newCreationAdded = !!added.new;
+            const newProfile = this.cloneUpdateProfile(added, request);
             switch (request.isAbout) {
                 case WeServe.impressions:
                     const newNotes = request.oldAssets.concat(
@@ -570,9 +540,9 @@ export class ContentCreator {
                     );
                     return {
                         ...request,
-                        ...keysAndPatterns,
                         added: newNotes,
                         newCreationAdded,
+                        ...newProfile,
                     };
                 default:
                     const newMenu = request.oldAssets.concat(
@@ -580,11 +550,39 @@ export class ContentCreator {
                     );
                     return {
                         ...request,
-                        ...keysAndPatterns,
                         added: newMenu,
                         newCreationAdded,
+                        ...newProfile,
                     };
             }
+        }
+    }
+    private cloneUpdateProfile(added: Creation, oldProfil: Profile): Profile {
+        if (!added.new) {
+            return {
+                keys: oldProfil.keys.multiUpdateClone([]),
+                pattern: oldProfil.pattern.multiUpdateClone([]),
+            };
+        } else {
+            const keyChanges: KeyChange[] = [
+                {
+                    type: 'Add',
+                    isAbout: added.isAbout,
+                    newKeys: added.new.keys,
+                },
+            ];
+            const newKeys = oldProfil.keys.multiUpdateClone(keyChanges);
+            const patternChanges: PatternChange[] = [
+                {
+                    type: 'Add',
+                    isAbout: added.isAbout,
+                    newPatterns: added.new.patterns,
+                },
+                ...added.new.impliedPatterns,
+            ];
+            const newPattern =
+                oldProfil.pattern.multiUpdateClone(patternChanges);
+            return { keys: newKeys, pattern: newPattern };
         }
     }
     public addRandomCreation(
@@ -592,15 +590,7 @@ export class ContentCreator {
         request: CreationRequest
     ): Add {
         const newCreation = this.getRandomCreation(fitting, request);
-        const keysAndPatterns: Pick<
-            Add,
-            'newKeys' | 'newPatterns' | 'impliedPatterns'
-        > = {
-            impliedPatterns: newCreation.new?.impliedPatterns || [],
-            newPatterns: newCreation.new?.patterns || [],
-            newKeys: newCreation.new?.keys || emptyKeys,
-        };
-        return this.convertToAdd(newCreation, request, keysAndPatterns);
+        return this.convertToAdd(newCreation, request);
     }
     private getRandomCreation(
         fitting: StructuredTavernFits,
@@ -625,13 +615,7 @@ export class ContentCreator {
             default:
                 const newImpression = this.getRandomImpression(
                     fitting,
-                    request.category,
-                    request.oldAssets,
-                    request.fullFirstKeys,
-                    request.fullSecondKeys,
-                    request.mainFilter,
-                    request.additionFilter,
-                    request.patterns
+                    request
                 );
 
                 return {
@@ -644,22 +628,20 @@ export class ContentCreator {
 
     private getRandomImpression(
         fitting: StructuredTavernFits,
-        category: Noticable,
-        oldImpressions: Impression[],
-        fullFirstKeys: AssetKey[],
-        fullSecondKeys: AssetKey[],
+        request: ImpressionRequest,
         mainFilter?: number,
-        additionFilter?: number,
-        patterns?: Pattern[]
+        additionFilter?: number
     ) {
-        const oldNames = oldImpressions.map((impression) => impression.name);
+        const fullKeys = request.keys.getFullKeys(request.isAbout);
+        const patterns = request.pattern.getPatterns(request.isAbout);
+        const oldNames = request.oldAssets.map((impression) => impression.name);
         const isExcludedByName = getPrefixExcluder(
             oldNames,
             WeServe.impressions
         );
-        const mainIsExcludedByKey = getKeyExcluder(fullFirstKeys);
-        const additionIsExcludedByKey = getKeyExcluder(fullSecondKeys);
-        const ideas = this.dungeonMaster[category];
+        const mainIsExcludedByKey = getKeyExcluder(fullKeys.main);
+        const additionIsExcludedByKey = getKeyExcluder(fullKeys.addition);
+        const ideas = this.dungeonMaster[request.category];
 
         const bestNotes = filterBestIdeas(
             ideas,
@@ -681,7 +663,7 @@ export class ContentCreator {
                 () => false,
                 additionIsExcludedByKey,
                 bestNotes.level,
-                this.universe[category],
+                this.universe[request.category],
                 additionFilter,
                 patterns
             );
@@ -692,11 +674,12 @@ export class ContentCreator {
         fitting: StructuredTavernFits,
         request: DrinkRequest
     ) {
+        const fullKeys = request.keys.getFullKeys(request.isAbout);
         const oldNames = request.oldAssets.map((drink) => drink.name);
         const isExcludedByName = getPrefixExcluder(oldNames, WeServe.drinks);
-        const mainExcludedByKey = getKeyExcluder(request.fullFirstKeys);
-        const additionExcludedByKey = getKeyExcluder(request.fullSecondKeys);
-        const patterns = request.patterns || [];
+        const mainExcludedByKey = getKeyExcluder(fullKeys.main);
+        const additionExcludedByKey = getKeyExcluder(fullKeys.addition);
+        const patterns = request.pattern.getPatterns(request.isAbout);
 
         const ideas = this.dungeonMaster[request.category];
         const bestRecipes = filterBestIdeas(
@@ -724,11 +707,12 @@ export class ContentCreator {
         }
     }
     private getRandomDish(fitting: StructuredTavernFits, request: FoodRequest) {
+        const fullKeys = request.keys.getFullKeys(request.isAbout);
         const oldNames = request.oldAssets.map((dish) => dish.name);
         const isExcludedByName = getPrefixExcluder(oldNames, WeServe.drinks);
-        const mainExcludedByKey = getKeyExcluder(request.fullFirstKeys);
-        const additionExcludedByKey = getKeyExcluder(request.fullSecondKeys);
-        const patterns = request.patterns || [];
+        const mainExcludedByKey = getKeyExcluder(fullKeys.main);
+        const additionExcludedByKey = getKeyExcluder(fullKeys.addition);
+        const patterns = request.pattern.getPatterns(request.isAbout);
         const ideas = this.dungeonMaster[request.category];
 
         const bestRecipes = filterBestIdeas(
@@ -799,67 +783,51 @@ type Creation =
           category: Noticable;
           new?: Impression;
       };
+export type Profile = { keys: KeyHandler; pattern: PatternHandler };
 
-export type FoodRequest = FoodBasic & {
-    fullFirstKeys: AssetKey[];
-    fullSecondKeys: AssetKey[];
-    patterns?: Pattern[];
-};
-export type DrinkRequest = DrinkBasic & {
-    fullFirstKeys: AssetKey[];
-    fullSecondKeys: AssetKey[];
-    patterns?: Pattern[];
-};
-export type ImpressionRequest = ImpressionBasic & {
-    fullFirstKeys: AssetKey[];
-    fullSecondKeys: AssetKey[];
-    patterns?: Pattern[];
-};
+export type FoodRequest = FoodBasic & Profile;
+export type DrinkRequest = DrinkBasic & Profile;
+export type ImpressionRequest = ImpressionBasic & Profile;
 export type CreationRequest = FoodRequest | DrinkRequest | ImpressionRequest;
-export type Add =
-    | {
-          isAbout: WeServe.drinks;
-          newCreationAdded: boolean;
-          added: Offer[];
-          category: Drinkable;
-          newKeys: Keys;
-          newPatterns: Pattern[];
-          impliedPatterns: PatternChange[];
-      }
-    | {
-          isAbout: WeServe.food;
-          newCreationAdded: boolean;
-          added: Offer[];
-          category: Eatable;
-          newKeys: Keys;
-          newPatterns: Pattern[];
-          impliedPatterns: PatternChange[];
-      }
-    | {
-          isAbout: WeServe.impressions;
-          category: Noticable;
-          newCreationAdded: boolean;
-          added: Impression[];
-          newKeys: Keys;
-          newPatterns: Pattern[];
-          impliedPatterns: PatternChange[];
-      };
-export type AddCheck =
-    | {
-          isAbout: WeServe.drinks;
-          added: Offer[];
-          category: Drinkable;
-      }
-    | {
-          isAbout: WeServe.food;
-          added: Offer[];
-          category: Eatable;
-      }
-    | {
-          isAbout: WeServe.impressions;
-          category: Noticable;
-          added: Impression[];
-      };
+export type Add = Profile &
+    (
+        | {
+              isAbout: WeServe.drinks;
+              newCreationAdded: boolean;
+              added: Offer[];
+              category: Drinkable;
+          }
+        | {
+              isAbout: WeServe.food;
+              newCreationAdded: boolean;
+              added: Offer[];
+              category: Eatable;
+          }
+        | {
+              isAbout: WeServe.impressions;
+              category: Noticable;
+              newCreationAdded: boolean;
+              added: Impression[];
+          }
+    );
+export type AddCheck = Profile &
+    (
+        | {
+              isAbout: WeServe.drinks;
+              added: Offer[];
+              category: Drinkable;
+          }
+        | {
+              isAbout: WeServe.food;
+              added: Offer[];
+              category: Eatable;
+          }
+        | {
+              isAbout: WeServe.impressions;
+              category: Noticable;
+              added: Impression[];
+          }
+    );
 
 export type Edit =
     | { isAbout: WeServe.drinks; edited: Offer }
@@ -953,7 +921,6 @@ export type MultiRerollRequest = (FoodBasic | DrinkBasic | ImpressionBasic) & {
     keys: KeyHandler;
     pattern: PatternHandler;
 };
-type MultiDeleteRequest = Omit<MultiRerollRequest, 'category'>;
 export type MultiReroll = (
     | { isAbout: WeServe.food; rerolled: Offer[] }
     | { isAbout: WeServe.drinks; rerolled: Offer[] }

@@ -10,7 +10,9 @@ import { AssetKey } from '../classes/idea/AssetKey/AssetKey';
 import { Noticable } from '../classes/idea/Noticable';
 import { Pattern } from '../classes/idea/Patterns/Pattern';
 import { StructuredTavernFits } from '../classes/idea/StructuredTavernFits';
+import { KeyHandler } from '../classes/keyHandler/KeyHandler';
 import { Keys } from '../classes/keyHandler/KeyHandlingTypes';
+import { PatternHandler } from '../classes/patternHandler/PatternHandler';
 import { Drinkable } from '../classes/TavernProduct';
 import { WeServe } from '../editNavigator/WeServe';
 import { Offer } from '../scenes/menuScene/Offer';
@@ -68,10 +70,11 @@ describe('ContentCreator tests', () => {
         const empty: StructuredTavernFits = {};
         const creation = creator.addRandomCreation(empty, request);
         const names = (creation.added as Offer[]).map((offer) => offer.name);
-        expect(creation)
-            .to.have.property('newKeys')
+        expect(creation).to.have.property('keys');
+        const newKeys = creation.keys.getFullKeys(WeServe.drinks);
+        expect(newKeys)
             .to.have.property('main')
-            .to.eql([AssetKey.WINE_red]);
+            .to.eql([AssetKey.WINE_red, AssetKey.WINE_mead]);
         expect(names).to.have.length(1);
         const onlyEntry = names[0];
         expect(onlyEntry).to.be.oneOf(['Gourmonete', 'Ruby Wine']);
@@ -80,9 +83,9 @@ describe('ContentCreator tests', () => {
         const impressionRequest = Constants.impressionRequest();
         const empty: StructuredTavernFits = {};
         const creation = creator.addRandomCreation(empty, impressionRequest);
-        expect(creation)
-            .to.have.property('newPatterns')
-            .to.deep.include(Pattern.BARTENDER_UncleBen);
+        expect(creation).to.have.property('pattern');
+        const newPatterns = creation.pattern.getPatterns(creation.isAbout);
+        expect(newPatterns).to.deep.include(Pattern.BARTENDER_UncleBen);
     });
 
     it('nothing left: true', () => {
@@ -91,6 +94,8 @@ describe('ContentCreator tests', () => {
             isAbout: WeServe.impressions,
             category: Noticable.someCustomers,
             added: [],
+            keys: new KeyHandler('noPreviousContent'),
+            pattern: new PatternHandler('noContent'),
         };
         const checkResult = creator.contentQualityLeft(fitting, checkData);
         expect(checkResult).is.eql(CreationQuality.NONE);
@@ -169,29 +174,20 @@ describe('ContentCreator tests', () => {
     });
     it('add with implied patterns', () => {
         const creator = Constants.creator();
-        const { addRequest, patternsAfterAdd } =
+        const { addRequest, patternsAfterAdd, patternIsAbout } =
             Constants.forImpliedPatternsByKey();
         const add = creator.addRandomCreation({}, addRequest);
-        expect(add).to.have.property('impliedPatterns');
-        const { impliedPatterns } = add;
-        expect(impliedPatterns).to.have.property('length').to.be.greaterThan(0);
-        const patternChange = impliedPatterns[0];
-        expect(patternChange).to.have.property('type').to.eql('Add');
-        if (patternChange.type === 'Add') {
-            const { newPatterns } = patternChange;
-            const expectedPatterns = patternsAfterAdd.getPatterns(
-                WeServe.impressions
-            );
-            expect(newPatterns).to.eql(expectedPatterns);
-        }
+        expect(add).to.have.property('pattern');
+        const patterns = add.pattern.getPatterns(patternIsAbout);
+        const expectedPatterns = patternsAfterAdd.getPatterns(patternIsAbout);
+        expect(patterns).to.eql(expectedPatterns);
     });
     it('delete with implied patterns', () => {
         const creator = Constants.creator();
-        const { addRequest, keysAfterAdd, patternsAfterAdd } =
+        const { addRequest, keysAfterAdd, patternsAfterAdd, patternIsAbout } =
             Constants.forImpliedPatternsByKey();
         const add = creator.addRandomCreation({}, addRequest);
-        expect(add).to.have.property('impliedPatterns');
-        const { impliedPatterns } = add;
+        const impliedPatterns = add.pattern.getPatterns(patternIsAbout);
         expect(impliedPatterns).to.have.property('length').to.be.greaterThan(0);
         expect(add.isAbout).to.eql(WeServe.drinks);
         if (add.isAbout === WeServe.drinks) {
@@ -204,20 +200,17 @@ describe('ContentCreator tests', () => {
                 keysAfterAdd,
                 patternsAfterAdd
             );
-            const newPatterns = deletion.pattern.getPatterns(
-                WeServe.impressions
-            );
+            const newPatterns = deletion.pattern.getPatterns(patternIsAbout);
             expect(newPatterns).to.have.length(0);
         }
     });
     it('reroll with implied patterns', () => {
         const creator = Constants.creator();
         const fits: StructuredTavernFits = {};
-        const { addRequest, rerollRequest } =
+        const { addRequest, rerollRequest, patternIsAbout } =
             Constants.forImpliedPatternsByKey();
         const add = creator.addRandomCreation({}, addRequest);
-        expect(add).to.have.property('impliedPatterns');
-        const { impliedPatterns } = add;
+        const impliedPatterns = add.pattern.getPatterns(patternIsAbout);
         expect(impliedPatterns).to.have.property('length').to.eql(1);
         const addedName = add.added[0].name;
         expect(add.isAbout).to.eql(WeServe.drinks);

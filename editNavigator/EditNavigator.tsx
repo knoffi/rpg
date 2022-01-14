@@ -13,11 +13,7 @@ import {
     StructuredTavernFits,
 } from '../classes/idea/StructuredTavernFits';
 import { KeyHandler } from '../classes/keyHandler/KeyHandler';
-import { KeyChange } from '../classes/keyHandler/KeyHandlingTypes';
-import {
-    PatternChange,
-    PatternHandler,
-} from '../classes/patternHandler/PatternHandler';
+import { PatternHandler } from '../classes/patternHandler/PatternHandler';
 import { Drinkable, Eatable } from '../classes/TavernProduct';
 import Icon from '../components/icons';
 import { iconKeys } from '../components/icons/iconKeys';
@@ -104,27 +100,22 @@ export const EditNavigator = (props: {
     const impliedFitting = getPowerFitAdjustment(props.tavern.fitting);
     const creator = new ContentCreator(props.tavern.universe);
     const [contentLeft, setContentLeft] = useState(
-        testContentLeft(DEFAULT_BANNERS, impliedFitting, creator, props.tavern)
+        testContentLeft(
+            DEFAULT_BANNERS,
+            impliedFitting,
+            creator,
+            props.tavern,
+            {
+                keys: new KeyHandler(props.tavern),
+                pattern: new PatternHandler(props.tavern),
+            }
+        )
     );
 
     const [tracker, setTracker] = useState({
         keys: new KeyHandler(props.tavern),
         pattern: new PatternHandler(props.tavern),
     });
-
-    const updateTracker = (add: Add) => {
-        const directAdds: KeyChange & PatternChange = {
-            ...add,
-            type: 'Add',
-        };
-
-        const pattern = tracker.pattern.multiUpdateClone([
-            directAdds,
-            ...add.impliedPatterns,
-        ]);
-        const keys = tracker.keys.multiUpdateClone([directAdds]);
-        setTracker({ pattern, keys });
-    };
 
     const buyOffer = (offer: Offer) => {
         props.onDataChange({
@@ -207,14 +198,10 @@ export const EditNavigator = (props: {
         mainFilter?: number,
         additionFilter?: number
     ) => {
-        const usedPatterns = tracker.pattern.getPatterns(add.isAbout);
-        const fullKeys = tracker.keys.getFullKeys(add.isAbout);
         const request: CreationRequest = getCreationRequest(
             add,
             props.tavern,
-            fullKeys.main,
-            fullKeys.addition,
-            usedPatterns,
+            tracker,
             mainFilter,
             additionFilter
         );
@@ -223,7 +210,7 @@ export const EditNavigator = (props: {
             impliedFitting,
             creation
         );
-        updateTracker(creation);
+        setTracker(creation);
         invokeAdd(creation, noNextCreation);
     };
 
@@ -255,7 +242,8 @@ export const EditNavigator = (props: {
             contentLeft.bannerData,
             newFitting,
             creator,
-            props.tavern
+            props.tavern,
+            tracker
         );
         setContentLeft(newContentLeft);
         props.onDataChange({ fitting: newFitting });
@@ -334,7 +322,8 @@ export const EditNavigator = (props: {
                 contentLeft.bannerData,
                 impliedFitting,
                 newCreator,
-                props.tavern
+                props.tavern,
+                tracker
             )
         );
         props.onDataChange({ universe });
