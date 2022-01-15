@@ -1,4 +1,4 @@
-import { CreationQuality } from '../classes/contentCreator/creationQuality';
+import { CreationQuality } from '../classes/contentCreator/CreationQuality';
 import { Noticable } from '../classes/idea/Noticable';
 import { Drinkable, Eatable, MenuCategory } from '../classes/TavernProduct';
 import { TavernData } from '../mainNavigator/TavernData';

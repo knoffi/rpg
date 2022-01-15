@@ -6,7 +6,7 @@ import {
     UserMadeDrink,
     UserMadeFood,
 } from '../../classes/contentCreator/ContentCreator';
-import { CreationQuality } from '../../classes/contentCreator/creationQuality';
+import { CreationQuality } from '../../classes/contentCreator/CreationQuality';
 import { FantasyKeys } from '../../classes/contentCreator/FantasKeys';
 import { Database } from '../../classes/database/Database';
 import { StructuredTavernFits } from '../../classes/idea/StructuredTavernFits';

@@ -4,7 +4,7 @@ import {
     AddCheck,
     CreationRequest,
 } from '../classes/contentCreator/ContentCreator';
-import { CreationQuality } from '../classes/contentCreator/creationQuality';
+import { CreationQuality } from '../classes/contentCreator/CreationQuality';
 import { FantasyKeys } from '../classes/contentCreator/FantasKeys';
 import { AssetKey } from '../classes/idea/AssetKey/AssetKey';
 import { Noticable } from '../classes/idea/Noticable';

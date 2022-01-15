@@ -6,7 +6,7 @@ import {
     UserMade,
     UserMadeImpression,
 } from '../../classes/contentCreator/ContentCreator';
-import { CreationQuality } from '../../classes/contentCreator/creationQuality';
+import { CreationQuality } from '../../classes/contentCreator/CreationQuality';
 import { FantasyKeys } from '../../classes/contentCreator/FantasKeys';
 import { Database } from '../../classes/database/Database';
 import { Noticable } from '../../classes/idea/Noticable';

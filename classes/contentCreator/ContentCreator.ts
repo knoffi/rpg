@@ -40,7 +40,7 @@ import {
     PatternHandler,
 } from '../patternHandler/PatternHandler';
 import { Drinkable, Eatable } from '../TavernProduct';
-import { CreationQuality } from './creationQuality';
+import { CreationQuality } from './CreationQuality';
 import { emptyKeys } from './emptyKeys';
 import { FantasyKeys } from './FantasKeys';
 

@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { List } from 'react-native-paper';
 import { Income } from '../../classes/association';
 import { UserMadeImpression } from '../../classes/contentCreator/ContentCreator';
-import { CreationQuality } from '../../classes/contentCreator/creationQuality';
+import { CreationQuality } from '../../classes/contentCreator/CreationQuality';
 import { FantasyKeys } from '../../classes/contentCreator/FantasKeys';
 import { Noticable } from '../../classes/idea/Noticable';
 import { ImpressionDisplay } from '../../classes/impressionDisplay/ImpressionDisplay';

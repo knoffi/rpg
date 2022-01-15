@@ -41,7 +41,7 @@ export const meads: DishIdea[] = [
         {
             mainIng: {
                 name: 'Strict Mountain Mead',
-                misfits: [a.mountain],
+                needs: [a.mountain],
                 key: AssetKey.WINE_mead,
             },
             firstSideDishes: [

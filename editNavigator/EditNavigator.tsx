@@ -8,7 +8,7 @@ import {
     Delete,
     UserMade,
 } from '../classes/contentCreator/ContentCreator';
-import { CreationQuality } from '../classes/contentCreator/creationQuality';
+import { CreationQuality } from '../classes/contentCreator/CreationQuality';
 import { FantasyKeys } from '../classes/contentCreator/FantasKeys';
 import {
     getFitsFromStructure,

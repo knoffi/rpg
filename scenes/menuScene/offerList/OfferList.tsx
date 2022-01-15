@@ -1,6 +1,6 @@
 import React from 'react';
 import { List } from 'react-native-paper';
-import { CreationQuality } from '../../../classes/contentCreator/creationQuality';
+import { CreationQuality } from '../../../classes/contentCreator/CreationQuality';
 import { Drinkable, Eatable } from '../../../classes/TavernProduct';
 import { WeServe } from '../../../editNavigator/WeServe';
 import { Describable } from '../../../mainNavigator/TavernData';

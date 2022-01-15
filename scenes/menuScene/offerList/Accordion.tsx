@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
 import { DefaultTheme, List } from 'react-native-paper';
-import { CreationQuality } from '../../../classes/contentCreator/creationQuality';
+import { CreationQuality } from '../../../classes/contentCreator/CreationQuality';
 import { FantasyKeys } from '../../../classes/contentCreator/FantasKeys';
 import {
     AddButton,
@@ -89,9 +89,9 @@ export const OfferAccordion = (props: {
     const onImport = props.addingActions.import;
     const onEdit = props.addingActions.edit;
     const thisDemand = props.demand;
-    const noDrinkToAddLeft = props.qualityLeft === CreationQuality.NONE;
     const qualityLeft = props.qualityLeft;
     const getPriceString = props.getPriceString;
+    const noDrinkToAddLeft = props.qualityLeft === CreationQuality.NONE;
     const offerItems = props.listOfOffers.map((offer, index) => {
         const name = offer.name;
         return (
@@ -142,6 +142,7 @@ export const OfferAccordion = (props: {
             ></OfferListItem>
         );
     });
+    console.log(DefaultTheme.colors.primary);
 
     return (
         <List.Accordion
