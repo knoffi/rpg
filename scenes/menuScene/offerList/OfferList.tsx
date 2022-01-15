@@ -54,7 +54,6 @@ export const OfferList = (props: {
         );
     });
 
-    // TODO: use a unique state for every drink category. For example, removing a single beer would then be faster because wineList etc. can be skipped.
     // TODO: Check, whether different drinks from different categories have different names
 
     return (

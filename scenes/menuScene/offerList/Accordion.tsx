@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
-import { List } from 'react-native-paper';
+import { DefaultTheme, List } from 'react-native-paper';
 import { CreationQuality } from '../../../classes/contentCreator/creationQuality';
 import { FantasyKeys } from '../../../classes/contentCreator/FantasKeys';
 import {
@@ -90,6 +90,7 @@ export const OfferAccordion = (props: {
     const onEdit = props.addingActions.edit;
     const thisDemand = props.demand;
     const noDrinkToAddLeft = props.qualityLeft === CreationQuality.NONE;
+    const qualityLeft = props.qualityLeft;
     const getPriceString = props.getPriceString;
     const offerItems = props.listOfOffers.map((offer, index) => {
         const name = offer.name;
@@ -158,6 +159,13 @@ export const OfferAccordion = (props: {
                                 onPress={() => {
                                     onRandomAdd(thisDemand);
                                 }}
+                                color={
+                                    qualityLeft === CreationQuality.NONE
+                                        ? 'grey'
+                                        : qualityLeft === CreationQuality.HIGH
+                                        ? DefaultTheme.colors.primary
+                                        : 'purple'
+                                }
                                 size={LIST_END_BUTTON_SIZE}
                                 disabled={noDrinkToAddLeft}
                             />
