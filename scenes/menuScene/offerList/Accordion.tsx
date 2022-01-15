@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
 import { List } from 'react-native-paper';
+import { CreationQuality } from '../../../classes/contentCreator/creationQuality';
 import { FantasyKeys } from '../../../classes/contentCreator/FantasKeys';
 import {
     AddButton,
@@ -18,7 +19,7 @@ export const OfferAccordion = (props: {
     listOfOffers: Offer[];
     offerActions: IOfferActions;
     addingActions: IAddingActions;
-    noDrinkToAddLeft: boolean;
+    qualityLeft: CreationQuality;
     getPriceString: (offer: Offer) => string;
 }) => {
     const [changes, setChanges] = useState({
@@ -88,7 +89,7 @@ export const OfferAccordion = (props: {
     const onImport = props.addingActions.import;
     const onEdit = props.addingActions.edit;
     const thisDemand = props.demand;
-    const noDrinkToAddLeft = props.noDrinkToAddLeft;
+    const noDrinkToAddLeft = props.qualityLeft === CreationQuality.NONE;
     const getPriceString = props.getPriceString;
     const offerItems = props.listOfOffers.map((offer, index) => {
         const name = offer.name;

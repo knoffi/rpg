@@ -865,18 +865,21 @@ export type Delete =
     | {
           [WeServe.food]: Offer[];
           isAbout: WeServe.food;
+          category: Eatable;
           keys: KeyHandler;
           pattern: PatternHandler;
       }
     | {
           [WeServe.drinks]: Offer[];
           isAbout: WeServe.drinks;
+          category: Drinkable;
           keys: KeyHandler;
           pattern: PatternHandler;
       }
     | {
           [WeServe.impressions]: Impression[];
           isAbout: WeServe.impressions;
+          category: Noticable;
           keys: KeyHandler;
           pattern: PatternHandler;
       };

@@ -19,14 +19,16 @@ export function getCreationRequest(
     return add.isAbout === WeServe.impressions
         ? {
               ...add,
+              keys: profile.keys,
+              pattern: profile.pattern,
               oldAssets: tavern[add.isAbout],
-              ...profile,
               mainFilter,
               additionFilter,
           }
         : {
               ...add,
+              keys: profile.keys,
+              pattern: profile.pattern,
               oldAssets: tavern[add.isAbout],
-              ...profile,
           };
 }

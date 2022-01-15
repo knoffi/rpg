@@ -6,6 +6,7 @@ import {
     UserMadeDrink,
     UserMadeFood,
 } from '../../classes/contentCreator/ContentCreator';
+import { CreationQuality } from '../../classes/contentCreator/creationQuality';
 import { FantasyKeys } from '../../classes/contentCreator/FantasKeys';
 import { Database } from '../../classes/database/Database';
 import { StructuredTavernFits } from '../../classes/idea/StructuredTavernFits';
@@ -28,7 +29,7 @@ interface MenuProps {
     isAbout: WeServe.food | WeServe.drinks;
     offers: Offer[];
     onDataChange: (newData: Partial<TavernData>) => void;
-    offersLeft: Map<Describable, boolean>;
+    qualityLeft: Map<Describable, CreationQuality>;
     offersBought: Offer[];
     basePrice: BasePrice;
     bannerData: BannerData;
@@ -148,7 +149,7 @@ export const MenuScene = (props: MenuProps) => {
                         shopOffer: buyOffer,
                         editUserOffer: openOfferEditor,
                     }}
-                    offersLeftMap={props.offersLeft}
+                    qualityLeft={props.qualityLeft}
                     getPriceString={(offer: Offer) => {
                         return getAdjustedPriceString(
                             offer,

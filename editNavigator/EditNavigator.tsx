@@ -2,8 +2,10 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React, { useState } from 'react';
 import {
     Add,
+    AddCheck,
     ContentCreator,
     CreationRequest,
+    Delete,
     UserMade,
 } from '../classes/contentCreator/ContentCreator';
 import { CreationQuality } from '../classes/contentCreator/creationQuality';
@@ -97,12 +99,22 @@ export const EditNavigator = (props: {
     onDataChange: (newData: Partial<MinimalTavernData>) => void;
     tavern: MinimalTavernData;
 }) => {
+    const convertToAddCheck = (deletion: Delete): AddCheck => {
+        switch (deletion.isAbout) {
+            case WeServe.impressions:
+                return { ...deletion, added: deletion[deletion.isAbout] };
+            case WeServe.drinks:
+                return { ...deletion, added: deletion[deletion.isAbout] };
+            default:
+                return { ...deletion, added: deletion[deletion.isAbout] };
+        }
+    };
     const impliedFitting = getPowerFitAdjustment(props.tavern.fitting);
     const creator = new ContentCreator(props.tavern.universe);
     const [contentLeft, setContentLeft] = useState(
         testContentLeft(
             DEFAULT_BANNERS,
-            impliedFitting,
+            props.tavern.fitting,
             creator,
             props.tavern,
             {
@@ -152,19 +164,22 @@ export const EditNavigator = (props: {
             tracker.keys,
             tracker.pattern
         );
-        const categoryWasFullBefore = contentLeft.bannerData[
-            demand.isAbout
-        ].emptyCategories.includes(demand.category);
+        const oldQuality = contentLeft.ideasLeft[demand.isAbout].get(
+            demand.category
+        );
+        if (!oldQuality) {
+            throw Error('CategoryQualityNotFound');
+        }
+        const qualityMightImprove = oldQuality !== CreationQuality.HIGH;
 
-        //TODO: refactor into getContentLeft({"delete",deleted,fullBefore}|{"add",added})
         const contentNeedsUpdate =
-            categoryWasFullBefore &&
+            qualityMightImprove &&
             removedUniverses.includes(props.tavern.universe[demand.category]);
         const bannerChanges = contentNeedsUpdate
             ? getBannersByDelete(demand)
             : {};
         const ideaLeftChanges = contentNeedsUpdate
-            ? getIdeasLeftByDelete(demand)
+            ? qualityChangesByDelete(deletion)
             : {};
         const remainingContent = getContentFromDeletion(props.tavern, deletion);
         const rerollRequest = getMultiRerollRequest(
@@ -206,12 +221,12 @@ export const EditNavigator = (props: {
             additionFilter
         );
         const creation = creator.addRandomCreation(impliedFitting, request);
-        const noNextCreation = creator.contentQualityLeft(
+        const qualityLeft = creator.contentQualityLeft(
             impliedFitting,
             creation
         );
         setTracker(creation);
-        invokeAdd(creation, noNextCreation);
+        invokeAdd(creation, qualityLeft);
     };
 
     const invokeAdd = (creation: Add, qualityLeft: CreationQuality) => {
@@ -219,19 +234,19 @@ export const EditNavigator = (props: {
             console.log('__ADDING WAS INVOKED WITH EMPTY CREATION___');
         } else {
             const assetChanges = { [creation.isAbout]: creation.added };
-            const bannerChanges =
-                qualityLeft === CreationQuality.NONE
-                    ? getBannersByAdd(creation, true)
-                    : {};
-            const ideaLeftChanges =
-                qualityLeft === CreationQuality.NONE
-                    ? getIdeasLeftByAdd(creation, false)
-                    : {};
+            const bannerMightAppear = qualityLeft === CreationQuality.NONE;
+            const bannerChanges = bannerMightAppear
+                ? getBannersByAdd(creation, true)
+                : {};
+            const qualityLeftIsOptimal = qualityLeft === CreationQuality.HIGH;
+            const qualityMap = qualityLeftIsOptimal
+                ? {}
+                : qualityChangesByAdd(creation, qualityLeft);
             const tavernChanges: Partial<MinimalTavernData> = assetChanges;
             setContentLeft({
                 ...contentLeft,
                 ...bannerChanges,
-                ...ideaLeftChanges,
+                ...qualityMap,
             });
 
             props.onDataChange(tavernChanges);
@@ -295,22 +310,30 @@ export const EditNavigator = (props: {
         const newContentLeft = { ...contentLeft, bannerData: oldBanners };
         setContentLeft(newContentLeft);
     };
-    const getIdeasLeftByDelete = (
-        demand: Demand
+    const qualityChangesByDelete = (
+        deletion: Delete
     ): Pick<ContentLeftTest, 'ideasLeft'> => {
         const oldMaps = { ...contentLeft.ideasLeft };
-        const newMap = new Map<Describable, boolean>(oldMaps[demand.isAbout]);
-        newMap.set(demand.category, true);
-        oldMaps[demand.isAbout] = newMap;
+        const newMap = new Map<Describable, CreationQuality>(
+            oldMaps[deletion.isAbout]
+        );
+        const newQuality = creator.contentQualityLeft(
+            props.tavern.fitting,
+            convertToAddCheck(deletion)
+        );
+        newMap.set(deletion.category, newQuality);
+        oldMaps[deletion.isAbout] = newMap;
         return { ideasLeft: oldMaps };
     };
-    const getIdeasLeftByAdd = (
+    const qualityChangesByAdd = (
         demand: Demand,
-        ideaLeft: boolean
+        qualityLeft: CreationQuality
     ): Pick<ContentLeftTest, 'ideasLeft'> => {
         const oldMaps = { ...contentLeft.ideasLeft };
-        const newMap = new Map<Describable, boolean>(oldMaps[demand.isAbout]);
-        newMap.set(demand.category, ideaLeft);
+        const newMap = new Map<Describable, CreationQuality>(
+            oldMaps[demand.isAbout]
+        );
+        newMap.set(demand.category, qualityLeft);
         oldMaps[demand.isAbout] = newMap;
         return { ideasLeft: oldMaps };
     };
@@ -376,7 +399,7 @@ export const EditNavigator = (props: {
                         handleEdit={handleEdit}
                         offers={props.tavern[WeServe.drinks]}
                         onDataChange={props.onDataChange}
-                        offersLeft={contentLeft.ideasLeft.drink}
+                        qualityLeft={contentLeft.ideasLeft.drink}
                         basePrice={props.tavern.prices}
                         bannerData={contentLeft.bannerData[WeServe.drinks]}
                         closeBanner={getBannerClosing(WeServe.drinks)}
@@ -405,7 +428,7 @@ export const EditNavigator = (props: {
                         isAbout={WeServe.food}
                         offers={props.tavern[WeServe.food]}
                         onDataChange={props.onDataChange}
-                        offersLeft={contentLeft.ideasLeft.food}
+                        qualityLeft={contentLeft.ideasLeft.food}
                         basePrice={props.tavern.prices}
                         bannerData={contentLeft.bannerData[WeServe.food]}
                         closeBanner={getBannerClosing(WeServe.food)}
@@ -423,7 +446,7 @@ export const EditNavigator = (props: {
                         handleReduce={handleReduce}
                         handleEdit={handleEdit}
                         handleBasePrice={handleBasePrice}
-                        noticablesLeft={contentLeft.ideasLeft.impression}
+                        qualityLeft={contentLeft.ideasLeft.impression}
                         closeBanner={getBannerClosing(WeServe.impressions)}
                     ></QuestScene>
                 )}

@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import { List } from 'react-native-paper';
 import { Income } from '../../classes/association';
 import { UserMadeImpression } from '../../classes/contentCreator/ContentCreator';
+import { CreationQuality } from '../../classes/contentCreator/creationQuality';
 import { FantasyKeys } from '../../classes/contentCreator/FantasKeys';
 import { Noticable } from '../../classes/idea/Noticable';
 import { ImpressionDisplay } from '../../classes/impressionDisplay/ImpressionDisplay';
@@ -39,7 +40,7 @@ export const DetailsList = (props: {
     onEdit: (startData: UserMadeImpression) => void;
     onCurrencySetPress: () => void;
     impressions: Impression[];
-    noticablesLeft: Map<Describable, boolean>;
+    qualityLeft: Map<Describable, CreationQuality>;
 }) => {
     const impressionTitles = Object.values(Noticable);
     const impressionAccordions = impressionTitles.map((title) => {
@@ -65,7 +66,9 @@ export const DetailsList = (props: {
                 onEdit={props.onEdit}
                 onCreate={() => props.addingAcions.edit(demand)}
                 onImport={() => props.addingAcions.import(demand)}
-                isNotFull={props.noticablesLeft.get(title)!}
+                isNotFull={
+                    props.qualityLeft.get(title) !== CreationQuality.NONE
+                }
             ></ImpressionAccordion>
         );
     });
