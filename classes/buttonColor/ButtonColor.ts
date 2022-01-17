@@ -3,7 +3,7 @@ import { CreationQuality } from '../contentCreator/CreationQuality';
 const DEFAULT_COLOR = '#6200ee';
 
 class ButtonColor {
-    private inactive = 'grey';
+    private inactive = '#808080';
     private strong = DEFAULT_COLOR;
     private good: string;
     private average: string;
