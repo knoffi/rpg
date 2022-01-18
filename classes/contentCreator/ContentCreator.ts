@@ -169,7 +169,12 @@ export class ContentCreator {
         request: MultiRerollRequest,
         action:
             | { type: 'Delete' }
-            | { type: 'Reroll'; fitting: StructuredTavernFits }
+            | {
+                  type: 'Reroll';
+                  fitting: StructuredTavernFits;
+                  unwanted: string[];
+                  unpleasant: string[];
+              }
     ): MultiRerollRequest {
         const targetRemoved = this.removeAndUpdate(toReplace, request);
         if (action.type === 'Delete') {
@@ -180,6 +185,8 @@ export class ContentCreator {
                 ...request,
                 keys: targetRemoved.keys,
                 pattern: targetRemoved.pattern,
+                unwanted: action.unwanted,
+                unpleasant: action.unpleasant,
             });
             const newProfile = this.cloneUpdateProfile(
                 replacement,
@@ -336,6 +343,8 @@ export class ContentCreator {
                     this.getRandomDrink(fitting, {
                         ...creation,
                         oldAssets: creation.added,
+                        unwanted: [],
+                        unpleasant: [],
                     })?.level
                 );
             case WeServe.food:
@@ -343,6 +352,8 @@ export class ContentCreator {
                     this.getRandomDish(fitting, {
                         ...creation,
                         oldAssets: creation.added,
+                        unwanted: [],
+                        unpleasant: [],
                     })?.level
                 );
 
@@ -351,6 +362,8 @@ export class ContentCreator {
                     this.getRandomImpression(fitting, {
                         ...creation,
                         oldAssets: creation.added,
+                        unwanted: [],
+                        unpleasant: [],
                     })?.level
                 );
         }
@@ -358,7 +371,9 @@ export class ContentCreator {
     public multiReroll(
         fitting: StructuredTavernFits,
         rerolledNames: string[],
-        request: MultiRerollRequest
+        request: MultiRerollRequest,
+        unwanted: string[],
+        unpleasant: string[]
     ): MultiReroll {
         //NOTE: handlers for keys and patterns may come from React state
         const clonedKeys = request.keys.multiUpdateClone([]);
@@ -372,6 +387,8 @@ export class ContentCreator {
             const reroll = this.replaceAndUpdate(cur, prev, {
                 type: 'Reroll',
                 fitting,
+                unwanted,
+                unpleasant,
             });
             return reroll;
         }, startRequest);
@@ -784,10 +801,10 @@ type Creation =
           new?: Impression;
       };
 export type Profile = { keys: KeyHandler; pattern: PatternHandler };
-
-export type FoodRequest = FoodBasic & Profile;
-export type DrinkRequest = DrinkBasic & Profile;
-export type ImpressionRequest = ImpressionBasic & Profile;
+type UserDislike = { unwanted: string[]; unpleasant: string[] };
+export type FoodRequest = FoodBasic & Profile & UserDislike;
+export type DrinkRequest = DrinkBasic & Profile & UserDislike;
+export type ImpressionRequest = ImpressionBasic & Profile & UserDislike;
 export type CreationRequest = FoodRequest | DrinkRequest | ImpressionRequest;
 export type Add = Profile &
     (
