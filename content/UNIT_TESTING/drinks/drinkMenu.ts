@@ -1,6 +1,6 @@
 import { IDrinkMenu } from '../../../classes/contentCreator/ContentCreator';
 import { Drinkable } from '../../../classes/TavernProduct';
-import { lagers } from './beer/lagers';
+import { lagers } from './beer/ale';
 import { lemonades } from './softDrinks/lemonade';
 import { water } from './softDrinks/water';
 import { rum } from './spirits/rum';

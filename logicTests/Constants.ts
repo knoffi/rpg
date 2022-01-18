@@ -1,9 +1,11 @@
 import { association } from '../classes/association';
 import {
+    AddCheck,
     ContentCreator,
     CreationRequest,
     MultiRerollRequest,
 } from '../classes/contentCreator/ContentCreator';
+import { CreationQuality } from '../classes/contentCreator/CreationQuality';
 import { FantasyKeys } from '../classes/contentCreator/FantasKeys';
 import { AssetKey } from '../classes/idea/AssetKey/AssetKey';
 import { DishIdea } from '../classes/idea/DishIdea';
@@ -12,6 +14,7 @@ import { Noticable } from '../classes/idea/Noticable';
 import { Pattern } from '../classes/idea/Patterns/Pattern';
 import { defaultPowerFitConcepts } from '../classes/idea/powerFitConcepts/powerFitConcepts';
 import { PriceSetter } from '../classes/idea/PriceSetter';
+import { StructuredTavernFits } from '../classes/idea/StructuredTavernFits';
 import { KeyHandler } from '../classes/keyHandler/KeyHandler';
 import { KeyChange, Keys } from '../classes/keyHandler/KeyHandlingTypes';
 import {
@@ -72,6 +75,53 @@ export class Constants {
             oldAssets: [] as Impression[],
         };
         return request;
+    }
+    public static qualityLeft(): Record<
+        CreationQuality,
+        { fits: StructuredTavernFits; check: AddCheck }
+    > {
+        const average: AddCheck = {
+            isAbout: WeServe.drinks,
+            category: Drinkable.beer,
+            added: [],
+            keys: new KeyHandler('noPreviousContent').multiUpdateClone([
+                {
+                    type: 'Add',
+                    isAbout: WeServe.drinks,
+                    newKeys: { main: [AssetKey.BEER_ale], addition: [] },
+                },
+            ]),
+            pattern: new PatternHandler('noContent'),
+        };
+        const barely = average;
+        const best: AddCheck = {
+            ...average,
+            keys: new KeyHandler('noPreviousContent'),
+        };
+        const good = best;
+        const none = best;
+        return {
+            [CreationQuality.NONE]: {
+                fits: { land: association.desert },
+                check: none,
+            },
+            [CreationQuality.AVERAGE]: {
+                fits: { powerFit: association.adventurer },
+                check: average,
+            },
+            [CreationQuality.GOOD]: {
+                fits: { powerFit: association.underdark },
+                check: good,
+            },
+            [CreationQuality.HIGH]: {
+                fits: { powerFit: association.adventurer },
+                check: best,
+            },
+            [CreationQuality.BARELY]: {
+                fits: { powerFit: association.underdark },
+                check: barely,
+            },
+        };
     }
     private static _oldImpression: Impression = {
         name: 'Is super duper kind',

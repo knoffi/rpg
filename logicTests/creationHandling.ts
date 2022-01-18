@@ -1,18 +1,12 @@
 import { expect } from 'chai';
 import { association } from '../classes/association';
-import {
-    AddCheck,
-    CreationRequest,
-} from '../classes/contentCreator/ContentCreator';
+import { CreationRequest } from '../classes/contentCreator/ContentCreator';
 import { CreationQuality } from '../classes/contentCreator/CreationQuality';
 import { FantasyKeys } from '../classes/contentCreator/FantasKeys';
 import { AssetKey } from '../classes/idea/AssetKey/AssetKey';
-import { Noticable } from '../classes/idea/Noticable';
 import { Pattern } from '../classes/idea/Patterns/Pattern';
 import { StructuredTavernFits } from '../classes/idea/StructuredTavernFits';
-import { KeyHandler } from '../classes/keyHandler/KeyHandler';
 import { Keys } from '../classes/keyHandler/KeyHandlingTypes';
-import { PatternHandler } from '../classes/patternHandler/PatternHandler';
 import { Drinkable } from '../classes/TavernProduct';
 import { WeServe } from '../editNavigator/WeServe';
 import { Offer } from '../scenes/menuScene/Offer';
@@ -74,7 +68,7 @@ describe('ContentCreator tests', () => {
         const newKeys = creation.keys.getFullKeys(WeServe.drinks);
         expect(newKeys)
             .to.have.property('main')
-            .to.eql([AssetKey.WINE_red, AssetKey.WINE_mead]);
+            .to.eql([AssetKey.WINE_mead, AssetKey.WINE_red]);
         expect(names).to.have.length(1);
         const onlyEntry = names[0];
         expect(onlyEntry).to.be.oneOf(['Gourmonete', 'Ruby Wine']);
@@ -88,24 +82,31 @@ describe('ContentCreator tests', () => {
         expect(newPatterns).to.deep.include(Pattern.BARTENDER_UncleBen);
     });
 
-    it('nothing left: true', () => {
-        const fitting = {};
-        const checkData: AddCheck = {
-            isAbout: WeServe.impressions,
-            category: Noticable.someCustomers,
-            added: [],
-            keys: new KeyHandler('noPreviousContent'),
-            pattern: new PatternHandler('noContent'),
-        };
-        const checkResult = creator.contentQualityLeft(fitting, checkData);
+    it('quality left: NONE (does not fit)', () => {
+        const { check, fits } = Constants.qualityLeft()[CreationQuality.NONE];
+        const checkResult = creator.contentQualityLeft(fits, check);
         expect(checkResult).is.eql(CreationQuality.NONE);
     });
-    it('nothing left: false', () => {
-        const request = Constants.impressionRequest();
-        const fitting = {};
-        const checkData: AddCheck = { ...request, added: [] };
-        const checkResult = creator.contentQualityLeft(fitting, checkData);
+    it('quality left: AVERAGE (key duplicate + power fit fulfilled)', () => {
+        const { check, fits } =
+            Constants.qualityLeft()[CreationQuality.AVERAGE];
+        const checkResult = creator.contentQualityLeft(fits, check);
+        expect(checkResult).is.eql(CreationQuality.AVERAGE);
+    });
+    it('quality left: BARELY (key duplicate + power fit unfulfilled)', () => {
+        const { check, fits } = Constants.qualityLeft()[CreationQuality.BARELY];
+        const checkResult = creator.contentQualityLeft(fits, check);
+        expect(checkResult).is.eql(CreationQuality.BARELY);
+    });
+    it('quality left: HIGH (key fits + power fit fulfilled)', () => {
+        const { check, fits } = Constants.qualityLeft()[CreationQuality.HIGH];
+        const checkResult = creator.contentQualityLeft(fits, check);
         expect(checkResult).is.eql(CreationQuality.HIGH);
+    });
+    it('quality left: GOOD (key fits + power fit unfulfilled)', () => {
+        const { check, fits } = Constants.qualityLeft()[CreationQuality.GOOD];
+        const checkResult = creator.contentQualityLeft(fits, check);
+        expect(checkResult).is.eql(CreationQuality.GOOD);
     });
     it('multi deletion:', () => {
         const creator = Constants.creator();
