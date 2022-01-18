@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View } from 'react-native';
 import { List } from 'react-native-paper';
 import { Income } from '../../classes/association';
+import { buttonColors } from '../../classes/buttonColor/ButtonColor';
 import { UserMadeImpression } from '../../classes/contentCreator/ContentCreator';
 import { CreationQuality } from '../../classes/contentCreator/CreationQuality';
 import { FantasyKeys } from '../../classes/contentCreator/FantasKeys';
@@ -66,9 +67,7 @@ export const DetailsList = (props: {
                 onEdit={props.onEdit}
                 onCreate={() => props.addingAcions.edit(demand)}
                 onImport={() => props.addingAcions.import(demand)}
-                isNotFull={
-                    props.qualityLeft.get(title) !== CreationQuality.NONE
-                }
+                qualityLeft={props.qualityLeft.get(title)!}
             ></ImpressionAccordion>
         );
     });
@@ -104,7 +103,7 @@ const ImpressionAccordion = (props: {
     onEdit: (data: UserMadeImpression) => void;
     onCreate: () => void;
     onImport: () => void;
-    isNotFull: boolean;
+    qualityLeft: CreationQuality;
 }) => {
     const [bartenderSex, setBartenderSex] = useState(
         'male' as 'female' | 'male'
@@ -184,7 +183,7 @@ const ImpressionAccordion = (props: {
         : () => {};
     const onCreate = props.onCreate;
     const onImport = props.onImport;
-    const impressionsFull = !props.isNotFull;
+    const impressionsFull = props.qualityLeft !== CreationQuality.NONE;
     const descriptionItems = props.impressions.map((impression) => {
         const isUserMade = impression.universe === 'isUserMade';
         const name = impression.name;
@@ -243,6 +242,7 @@ const ImpressionAccordion = (props: {
                     <AddButton
                         size={LIST_END_BUTTON_SIZE}
                         onPress={impressionsFull ? () => {} : props.onAdd}
+                        color={buttonColors.get(props.qualityLeft)}
                         onLongPress={toggleBartenderSex}
                         disabled={impressionsFull}
                     />
