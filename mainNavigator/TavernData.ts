@@ -1,3 +1,4 @@
+import { CreationQuality } from '../classes/contentCreator/CreationQuality';
 import { Noticable } from '../classes/idea/Noticable';
 import { StructuredTavernFits } from '../classes/idea/StructuredTavernFits';
 import { Drinkable, Eatable } from '../classes/TavernProduct';
@@ -39,4 +40,4 @@ export type TavernData = {
     universe: UniverseMap;
 };
 export type MinimalTavernData = Omit<TavernData, 'ideasLeft' | 'bannerData'>;
-type DescriptionCheck = Map<Describable, boolean>;
+type DescriptionCheck = Map<Describable, CreationQuality>;

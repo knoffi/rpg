@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
 import { List } from 'react-native-paper';
+import { buttonColors } from '../../../classes/buttonColor/ButtonColor';
+import { CreationQuality } from '../../../classes/contentCreator/CreationQuality';
 import { FantasyKeys } from '../../../classes/contentCreator/FantasKeys';
 import {
     AddButton,
@@ -18,7 +20,7 @@ export const OfferAccordion = (props: {
     listOfOffers: Offer[];
     offerActions: IOfferActions;
     addingActions: IAddingActions;
-    noDrinkToAddLeft: boolean;
+    qualityLeft: CreationQuality;
     getPriceString: (offer: Offer) => string;
 }) => {
     const [changes, setChanges] = useState({
@@ -88,8 +90,9 @@ export const OfferAccordion = (props: {
     const onImport = props.addingActions.import;
     const onEdit = props.addingActions.edit;
     const thisDemand = props.demand;
-    const noDrinkToAddLeft = props.noDrinkToAddLeft;
+    const qualityLeft = props.qualityLeft;
     const getPriceString = props.getPriceString;
+    const noDrinkToAddLeft = props.qualityLeft === CreationQuality.NONE;
     const offerItems = props.listOfOffers.map((offer, index) => {
         const name = offer.name;
         return (
@@ -140,7 +143,6 @@ export const OfferAccordion = (props: {
             ></OfferListItem>
         );
     });
-
     return (
         <List.Accordion
             title={props.demand.category}
@@ -157,6 +159,7 @@ export const OfferAccordion = (props: {
                                 onPress={() => {
                                     onRandomAdd(thisDemand);
                                 }}
+                                color={buttonColors.get(qualityLeft)}
                                 size={LIST_END_BUTTON_SIZE}
                                 disabled={noDrinkToAddLeft}
                             />

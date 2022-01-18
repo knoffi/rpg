@@ -44,22 +44,6 @@ export const patternTestBartender: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            name: 'Knows a secret way into the royal castle',
-            patterns: [Pattern.BARTENDER_Kleinfinger],
-        },
-        [emptyDescriptionAsset],
-        Noticable.bartender
-    ),
-    new ImpressionIdea(
-        {
-            name: 'Pays anyone for new secrets',
-            patterns: [Pattern.BARTENDER_Kleinfinger],
-        },
-        [emptyDescriptionAsset],
-        Noticable.bartender
-    ),
-    new ImpressionIdea(
-        {
             name: 'People call him ',
         },
         [

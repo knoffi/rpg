@@ -1,5 +1,6 @@
 import React from 'react';
 import { List } from 'react-native-paper';
+import { CreationQuality } from '../../../classes/contentCreator/CreationQuality';
 import { Drinkable, Eatable } from '../../../classes/TavernProduct';
 import { WeServe } from '../../../editNavigator/WeServe';
 import { Describable } from '../../../mainNavigator/TavernData';
@@ -13,7 +14,7 @@ export const OfferList = (props: {
     isAbout: WeServe.food | WeServe.drinks;
     offerActions: IOfferActions;
     addingActions: IAddingActions;
-    offersLeftMap: Map<Describable, boolean>;
+    qualityLeft: Map<Describable, CreationQuality>;
     getPriceString: (offer: Offer) => string;
 }) => {
     const demands =
@@ -47,13 +48,12 @@ export const OfferList = (props: {
                     import: props.addingActions.import,
                     edit: props.addingActions.edit,
                 }}
-                noDrinkToAddLeft={!props.offersLeftMap.get(chapter.category)!}
+                qualityLeft={props.qualityLeft.get(chapter.category)!}
                 getPriceString={props.getPriceString}
             />
         );
     });
 
-    // TODO: use a unique state for every drink category. For example, removing a single beer would then be faster because wineList etc. can be skipped.
     // TODO: Check, whether different drinks from different categories have different names
 
     return (

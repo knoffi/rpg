@@ -8,18 +8,13 @@ import {
     ContentCreator,
     CreationRequest,
 } from '../../classes/contentCreator/ContentCreator';
-import { emptyKeys } from '../../classes/contentCreator/emptyKeys';
 import { Noticable } from '../../classes/idea/Noticable';
 import {
     getStructuredFits,
     StructuredTavernFits,
 } from '../../classes/idea/StructuredTavernFits';
 import { KeyHandler } from '../../classes/keyHandler/KeyHandler';
-import { KeyChange } from '../../classes/keyHandler/KeyHandlingTypes';
-import {
-    PatternChange,
-    PatternHandler,
-} from '../../classes/patternHandler/PatternHandler';
+import { PatternHandler } from '../../classes/patternHandler/PatternHandler';
 import { Drinkable, Eatable } from '../../classes/TavernProduct';
 import { WeServe } from '../../editNavigator/WeServe';
 import { getRandomArrayEntry } from '../../helpingFunctions/getRandomArrayEntry';
@@ -29,7 +24,7 @@ import { Demand } from '../../scenes/menuScene/offerList/actionInterfaces';
 import { getRandomName } from '../../scenes/nameScene/getRandomName';
 import { Impression } from '../../scenes/questScene/impressions/Impression';
 import { Content } from '../Content';
-import { getCreationRequest } from '../getCreationRequest';
+import { convertAdd } from '../convertAdd';
 import { getTavernHistoryInitializer } from '../mainNavigatorFunctions';
 import { MinimalTavernData } from '../TavernData';
 import { UniverseMap } from '../UniverseMap';
@@ -198,16 +193,14 @@ const getContentForCategory = (
         demand.category === Noticable.bartender
             ? 4
             : Math.floor(Math.random() * MAX_IDEA + (1 - NO_IDEA_PROBABILITY));
-    const newKeys = emptyKeys;
     const startAdd: Add = {
         ...demand,
         added: [],
-        newKeys,
         newCreationAdded: false,
-        newPatterns: [],
-        impliedPatterns: [],
+        keys: collection.keys,
+        pattern: collection.patterns,
     };
-    const startRequest = getCreationRequest(startAdd, [], []);
+    const startRequest = convertAdd(startAdd);
     const newContent = getContentArray(
         fits,
         contentLength,
@@ -234,15 +227,9 @@ const getContentArray = (
         if (!add.newCreationAdded) {
             return add;
         }
-        updateHandlers(keys, patterns, add);
         const fullKeys = keys.getFullKeys(add.isAbout);
         const usedPatterns = patterns.getPatterns(add.isAbout);
-        const newRequest = getCreationRequest(
-            add,
-            fullKeys.main,
-            fullKeys.addition,
-            usedPatterns
-        );
+        const newRequest = convertAdd(add);
         return getContentArray(
             fits,
             length,
@@ -252,17 +239,4 @@ const getContentArray = (
             creator
         );
     }
-};
-const updateHandlers = (
-    keys: KeyHandler,
-    patterns: PatternHandler,
-    add: Add
-) => {
-    const handlerUpdate: KeyChange & PatternChange = {
-        ...add,
-        type: 'Add',
-    };
-    keys.update(handlerUpdate);
-    patterns.update(handlerUpdate);
-    patterns.multiUpdate(add.impliedPatterns);
 };

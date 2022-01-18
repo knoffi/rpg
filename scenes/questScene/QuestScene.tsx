@@ -6,6 +6,7 @@ import {
     UserMade,
     UserMadeImpression,
 } from '../../classes/contentCreator/ContentCreator';
+import { CreationQuality } from '../../classes/contentCreator/CreationQuality';
 import { FantasyKeys } from '../../classes/contentCreator/FantasKeys';
 import { Database } from '../../classes/database/Database';
 import { Noticable } from '../../classes/idea/Noticable';
@@ -63,7 +64,7 @@ export const QuestScene = (props: {
     handleBasePrice: (change: BasePrice) => void;
     banner: BannerData;
     closeBanner: () => void;
-    noticablesLeft: Map<Describable, boolean>;
+    qualityLeft: Map<Describable, CreationQuality>;
 }) => {
     const [explanationDialog, setDialog] = useState({
         open: false,
@@ -253,7 +254,7 @@ export const QuestScene = (props: {
                 onPriceSetPress={onPriceSetPress}
                 onCurrencySetPress={onCurrencySetPress}
                 impressions={props.impressions}
-                noticablesLeft={props.noticablesLeft}
+                qualityLeft={props.qualityLeft}
             ></DetailsList>
             <Portal>
                 <Modal visible={editor.visible} onDismiss={dismissEditorModal}>

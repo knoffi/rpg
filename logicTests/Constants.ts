@@ -1,9 +1,11 @@
 import { association } from '../classes/association';
 import {
+    AddCheck,
     ContentCreator,
     CreationRequest,
     MultiRerollRequest,
 } from '../classes/contentCreator/ContentCreator';
+import { CreationQuality } from '../classes/contentCreator/CreationQuality';
 import { FantasyKeys } from '../classes/contentCreator/FantasKeys';
 import { AssetKey } from '../classes/idea/AssetKey/AssetKey';
 import { DishIdea } from '../classes/idea/DishIdea';
@@ -12,6 +14,7 @@ import { Noticable } from '../classes/idea/Noticable';
 import { Pattern } from '../classes/idea/Patterns/Pattern';
 import { defaultPowerFitConcepts } from '../classes/idea/powerFitConcepts/powerFitConcepts';
 import { PriceSetter } from '../classes/idea/PriceSetter';
+import { StructuredTavernFits } from '../classes/idea/StructuredTavernFits';
 import { KeyHandler } from '../classes/keyHandler/KeyHandler';
 import { KeyChange, Keys } from '../classes/keyHandler/KeyHandlingTypes';
 import {
@@ -29,36 +32,96 @@ import { extendToContent } from './extendToContent';
 
 type ImpressionRequest = CreationRequest & { isAbout: WeServe.impressions };
 export class Constants {
-    private static _foodRequest: DeepReadonly<CreationRequest> = {
-        isAbout: WeServe.food,
-        category: Eatable.mainDish,
-        fullFirstKeys: [] as AssetKey[],
-        fullSecondKeys: [] as AssetKey[],
-        oldAssets: [] as Offer[],
-    };
     public static foodRequest() {
-        return Cloner.deepWritableCopy(Constants._foodRequest);
+        const foodRequest: CreationRequest = {
+            isAbout: WeServe.food,
+            category: Eatable.mainDish,
+            keys: new KeyHandler('noPreviousContent'),
+            oldAssets: [] as Offer[],
+            pattern: new PatternHandler('noContent'),
+        };
+        return foodRequest;
     }
-    private static _drinkRequest: DeepReadonly<CreationRequest> = {
-        isAbout: WeServe.drinks,
-        category: Drinkable.wine,
-        fullFirstKeys: [AssetKey.WINE_mead] as AssetKey[],
-        fullSecondKeys: [] as AssetKey[],
-        oldAssets: [] as Offer[],
-    };
+
     public static drinkRequest() {
-        return Cloner.deepWritableCopy(Constants._drinkRequest);
+        const request: CreationRequest = {
+            isAbout: WeServe.drinks,
+            category: Drinkable.wine,
+            //TODO: create KeyHandler factory (keys -> KeyHandler)for test constants
+            keys: new KeyHandler('noPreviousContent').multiUpdateClone([
+                {
+                    type: 'Add',
+                    isAbout: WeServe.drinks,
+                    newKeys: { main: [AssetKey.WINE_mead], addition: [] },
+                },
+            ]),
+            oldAssets: [] as Offer[],
+            pattern: new PatternHandler('noContent'),
+        };
+        return request;
     }
-    private static _impressionRequest: DeepReadonly<ImpressionRequest> = {
-        isAbout: WeServe.impressions,
-        category: Noticable.bartender,
-        patterns: [Pattern.BARTENDER_UncleBen] as Pattern[],
-        fullFirstKeys: [] as AssetKey[],
-        fullSecondKeys: [] as AssetKey[],
-        oldAssets: [] as Impression[],
-    };
     public static impressionRequest() {
-        return Cloner.deepWritableCopy(Constants._impressionRequest);
+        const request: ImpressionRequest = {
+            isAbout: WeServe.impressions,
+            category: Noticable.bartender,
+            pattern: new PatternHandler('noContent').multiUpdateClone([
+                {
+                    type: 'Add',
+                    isAbout: WeServe.impressions,
+                    newPatterns: [Pattern.BARTENDER_UncleBen],
+                },
+            ]),
+            keys: new KeyHandler('noPreviousContent'),
+            oldAssets: [] as Impression[],
+        };
+        return request;
+    }
+    public static qualityLeft(): Record<
+        CreationQuality,
+        { fits: StructuredTavernFits; check: AddCheck }
+    > {
+        const average: AddCheck = {
+            isAbout: WeServe.drinks,
+            category: Drinkable.beer,
+            added: [],
+            keys: new KeyHandler('noPreviousContent').multiUpdateClone([
+                {
+                    type: 'Add',
+                    isAbout: WeServe.drinks,
+                    newKeys: { main: [AssetKey.BEER_ale], addition: [] },
+                },
+            ]),
+            pattern: new PatternHandler('noContent'),
+        };
+        const barely = average;
+        const best: AddCheck = {
+            ...average,
+            keys: new KeyHandler('noPreviousContent'),
+        };
+        const good = best;
+        const none = best;
+        return {
+            [CreationQuality.NONE]: {
+                fits: { land: association.desert },
+                check: none,
+            },
+            [CreationQuality.AVERAGE]: {
+                fits: { powerFit: association.adventurer },
+                check: average,
+            },
+            [CreationQuality.GOOD]: {
+                fits: { powerFit: association.underdark },
+                check: good,
+            },
+            [CreationQuality.HIGH]: {
+                fits: { powerFit: association.adventurer },
+                check: best,
+            },
+            [CreationQuality.BARELY]: {
+                fits: { powerFit: association.underdark },
+                check: barely,
+            },
+        };
     }
     private static _oldImpression: Impression = {
         name: 'Is super duper kind',
@@ -99,14 +162,14 @@ export class Constants {
         },
     ];
     private static _rerollRequest: DeepReadonly<CreationRequest> = {
-        ...Constants._impressionRequest,
+        ...Constants.impressionRequest(),
         oldAssets: [Constants._oldImpression],
     };
     public static rerollRequest() {
         return Cloner.deepWritableCopy(Constants._rerollRequest);
     }
     private static _multiDeleteRequest: DeepReadonly<CreationRequest> = {
-        ...Constants._impressionRequest,
+        ...Constants.impressionRequest(),
         oldAssets: Constants._oldImpressions,
     };
     private static _multiDeleteTavern: DeepReadonly<Content> = extendToContent({
@@ -262,21 +325,26 @@ export class Constants {
             Drinkable.wine
         );
         const newPatterns = [Pattern.IMPRESSIONS_redWine];
+        const keysBeforeAdd = new KeyHandler('noPreviousContent');
+        const patternsBeforeAdd = new PatternHandler('noContent');
         const addRequest: CreationRequest = {
             isAbout,
             category: Drinkable.wine,
             oldAssets: [],
-            fullFirstKeys: [],
-            fullSecondKeys: [],
+            keys: keysBeforeAdd,
+            pattern: patternsBeforeAdd,
         };
-        const keysAfterAdd = new KeyHandler('noPreviousContent');
-        keysAfterAdd.update({ type: 'Add', isAbout: WeServe.drinks, newKeys });
-        const patternsAfterAdd = new PatternHandler('noContent');
-        patternsAfterAdd.update({
-            type: 'Add',
-            isAbout: WeServe.impressions,
-            newPatterns,
-        });
+        const keysAfterAdd = keysBeforeAdd.multiUpdateClone([
+            { type: 'Add', isAbout: WeServe.drinks, newKeys },
+        ]);
+        const patternsAfterAdd = patternsBeforeAdd.multiUpdateClone([
+            {
+                type: 'Add',
+                isAbout: WeServe.impressions,
+                newPatterns,
+            },
+        ]);
+        const patternIsAbout = WeServe.impressions;
         const rerollRequest = (drinksAfterAdd: Offer[]): MultiRerollRequest => {
             return {
                 isAbout,
@@ -294,6 +362,7 @@ export class Constants {
             keysAfterAdd,
             patternsAfterAdd,
             rerollRequest,
+            patternIsAbout,
         };
     }
     public static forImpliedPatternsByKeys() {
