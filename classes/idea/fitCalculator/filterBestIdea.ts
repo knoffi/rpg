@@ -1,33 +1,15 @@
-import { AssetKey } from '../AssetKey/AssetKey';
 import { Idea } from '../Idea';
-import { Pattern } from '../Patterns/Pattern';
-import { StructuredTavernFits } from '../StructuredTavernFits';
 import { WORST_FIT_LEVEL } from './getFitLevel';
-
+import { LevelRequest } from './LevelRequest';
 export const filterBestIdeas = <Type extends Idea>(
-    ideas: Type[],
-    tavernFits: StructuredTavernFits,
-    isExcludedByName: (name: string) => boolean,
-    mainIsExcludedByKey: (key: AssetKey) => boolean,
-    additionIsExcludedByKey: (key: AssetKey) => boolean,
-    mainFilter?: number,
-    additionFilter?: number,
-    patterns?: Pattern[]
+    request: LevelRequest<Type>
 ) => {
     let bestFittingAssets = [] as Type[];
 
     let bestFitLevelSoFar = WORST_FIT_LEVEL;
 
-    ideas.forEach((idea) => {
-        const fitLevel = idea.getFitLevelForTavern(
-            tavernFits,
-            isExcludedByName,
-            mainFilter,
-            additionFilter,
-            mainIsExcludedByKey,
-            additionIsExcludedByKey,
-            patterns
-        );
+    request.ideas.forEach((idea) => {
+        const fitLevel = idea.getFitLevelForTavern(request);
         const betterFitLevelFound = fitLevel > bestFitLevelSoFar;
 
         const sameFitLevelReached =

@@ -644,7 +644,7 @@ export class ContentCreator {
     }
 
     private getRandomImpression(
-        fitting: StructuredTavernFits,
+        tavernFits: StructuredTavernFits,
         request: ImpressionRequest,
         mainFilter?: number,
         additionFilter?: number
@@ -656,26 +656,36 @@ export class ContentCreator {
             oldNames,
             WeServe.impressions
         );
+        const isUnwanted = getPrefixExcluder(
+            request.unwanted,
+            WeServe.impressions
+        );
+        const isUnpleasant = getPrefixExcluder(
+            request.unpleasant,
+            WeServe.impressions
+        );
         const mainIsExcludedByKey = getKeyExcluder(fullKeys.main);
         const additionIsExcludedByKey = getKeyExcluder(fullKeys.addition);
         const ideas = this.dungeonMaster[request.category];
 
-        const bestNotes = filterBestIdeas(
+        const bestNotes = filterBestIdeas({
             ideas,
-            fitting,
+            tavernFits,
             isExcludedByName,
             mainIsExcludedByKey,
             additionIsExcludedByKey,
             mainFilter,
             additionFilter,
-            patterns
-        );
+            patterns,
+            isUnwanted,
+            isUnpleasant,
+        });
         if (!bestNotes) {
             return undefined;
         } else {
             const newIdea = getRandomArrayEntry(bestNotes.ideas);
             const newImpression = newIdea?.createImpression(
-                fitting,
+                tavernFits,
                 //additions for impression do not get filtered by name because it seems more realistic
                 () => false,
                 additionIsExcludedByKey,
@@ -688,66 +698,82 @@ export class ContentCreator {
         }
     }
     private getRandomDrink(
-        fitting: StructuredTavernFits,
+        tavernFits: StructuredTavernFits,
         request: DrinkRequest
     ) {
         const fullKeys = request.keys.getFullKeys(request.isAbout);
         const oldNames = request.oldAssets.map((drink) => drink.name);
         const isExcludedByName = getPrefixExcluder(oldNames, WeServe.drinks);
-        const mainExcludedByKey = getKeyExcluder(fullKeys.main);
-        const additionExcludedByKey = getKeyExcluder(fullKeys.addition);
+        const isUnwanted = getPrefixExcluder(request.unwanted, WeServe.drinks);
+        const isUnpleasant = getPrefixExcluder(
+            request.unwanted,
+            WeServe.drinks
+        );
+        const mainIsExcludedByKey = getKeyExcluder(fullKeys.main);
+        const additionIsExcludedByKey = getKeyExcluder(fullKeys.addition);
         const patterns = request.pattern.getPatterns(request.isAbout);
 
         const ideas = this.dungeonMaster[request.category];
-        const bestRecipes = filterBestIdeas(
+        const bestRecipes = filterBestIdeas({
             ideas,
-            fitting,
+            tavernFits,
             isExcludedByName,
-            mainExcludedByKey,
-            additionExcludedByKey,
-            undefined,
-            undefined,
-            patterns
-        );
+            mainIsExcludedByKey,
+            additionIsExcludedByKey,
+            patterns,
+            isUnwanted,
+            isUnpleasant,
+        });
         if (!bestRecipes) {
             return undefined;
         } else {
             const newIdea = getRandomArrayEntry(bestRecipes.ideas);
             const newDrink = newIdea?.getConcreteDish(
-                fitting,
+                tavernFits,
                 bestRecipes.level,
                 this.universe[request.category],
-                additionExcludedByKey,
+                additionIsExcludedByKey,
                 patterns
             );
             return { new: newDrink, level: bestRecipes.level };
         }
     }
-    private getRandomDish(fitting: StructuredTavernFits, request: FoodRequest) {
+    private getRandomDish(
+        tavernFits: StructuredTavernFits,
+        request: FoodRequest
+    ) {
         const fullKeys = request.keys.getFullKeys(request.isAbout);
         const oldNames = request.oldAssets.map((dish) => dish.name);
         const isExcludedByName = getPrefixExcluder(oldNames, WeServe.drinks);
-        const mainExcludedByKey = getKeyExcluder(fullKeys.main);
-        const additionExcludedByKey = getKeyExcluder(fullKeys.addition);
+        const isUnwanted = getPrefixExcluder(request.unwanted, WeServe.drinks);
+        const isUnpleasant = getPrefixExcluder(
+            request.unpleasant,
+            WeServe.drinks
+        );
+        const mainIsExcludedByKey = getKeyExcluder(fullKeys.main);
+        const additionIsExcludedByKey = getKeyExcluder(fullKeys.addition);
         const patterns = request.pattern.getPatterns(request.isAbout);
         const ideas = this.dungeonMaster[request.category];
 
-        const bestRecipes = filterBestIdeas(
+        const bestRecipes = filterBestIdeas({
             ideas,
-            fitting,
+            tavernFits,
             isExcludedByName,
-            mainExcludedByKey,
-            additionExcludedByKey
-        );
+            mainIsExcludedByKey,
+            additionIsExcludedByKey,
+            patterns,
+            isUnpleasant,
+            isUnwanted,
+        });
         if (!bestRecipes) {
             return undefined;
         } else {
             const newIdea = getRandomArrayEntry(bestRecipes.ideas);
             const newDish = newIdea?.getConcreteDish(
-                fitting,
+                tavernFits,
                 bestRecipes.level,
                 this.universe[request.category],
-                additionExcludedByKey,
+                additionIsExcludedByKey,
                 patterns
             );
             return { new: newDish, level: bestRecipes.level };

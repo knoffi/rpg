@@ -152,7 +152,7 @@ describe('ContentCreator tests', () => {
             .to.have.property('main')
             .to.contain(AssetKey.SMALL_DISH_soup);
         const request = { ...partialRequest, keys, pattern };
-        const result = creator.multiReroll(fits, toReroll, request);
+        const result = creator.multiReroll(fits, toReroll, request, [], []);
         expect(result).to.have.property('isAbout').to.eql(WeServe.food);
         const newNames = (result.rerolled as { name: string }[]).map(
             (offer) => offer.name
@@ -219,7 +219,9 @@ describe('ContentCreator tests', () => {
             const reroll = creator.multiReroll(
                 fits,
                 [addedName],
-                rerollRequest(add.added)
+                rerollRequest(add.added),
+                [addedName],
+                []
             );
             const newPatterns = reroll.pattern.getPatterns(WeServe.impressions);
             expect(reroll.rerolled[0], 'Is not a wine with asset key .redWine')
@@ -230,5 +232,31 @@ describe('ContentCreator tests', () => {
                 'new Patterns were incorrect:' + JSON.stringify(newPatterns)
             ).to.have.length(1);
         }
+    });
+    it('add with unwanted names', () => {
+        const { request, fits, expectedCreation } = Constants.addWithUnwanted();
+        const creation = creator.addRandomCreation(fits, request);
+        expect(creation).to.have.property('added');
+        const assets: { name: string }[] = creation.added;
+        const namesAfterAdd = assets.map((asset) => asset.name);
+        expect(namesAfterAdd).to.eql([expectedCreation]);
+    });
+    it('add with unpleasant names', () => {
+        const { request, fits, expectedCreation } =
+            Constants.addWithUnpleasant();
+        const creation = creator.addRandomCreation(fits, request);
+        expect(creation).to.have.property('added');
+        const assets: { name: string }[] = creation.added;
+        const namesAfterAdd = assets.map((asset) => asset.name);
+        expect(namesAfterAdd).to.eql([expectedCreation]);
+    });
+    it('add with unpleasant > unwanted', () => {
+        const { request, fits, expectedCreation } =
+            Constants.addUnpleasantGreaterUnwanted();
+        const creation = creator.addRandomCreation(fits, request);
+        expect(creation).to.have.property('added');
+        const assets: { name: string }[] = creation.added;
+        const namesAfterAdd = assets.map((asset) => asset.name);
+        expect(namesAfterAdd).to.eql([expectedCreation]);
     });
 });

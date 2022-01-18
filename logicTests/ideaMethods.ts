@@ -18,41 +18,41 @@ describe('Idea method tests', () => {
             { name: 'A' },
             { main: true, contrast: false, harmony: false },
             [[]]
-        ).getFitLevelForTavern(
-            {},
-            () => false,
-            undefined,
-            undefined,
-            () => false,
-            () => false,
-            [Pattern.BARTENDER_UncleBen]
-        );
+        ).getFitLevelForTavern({
+            tavernFits: {},
+            isExcludedByName: () => false,
+            mainIsExcludedByKey: () => false,
+            additionIsExcludedByKey: () => false,
+            patterns: [Pattern.BARTENDER_UncleBen],
+            isUnpleasant: () => false,
+            isUnwanted: () => false,
+        });
         const withWrongPatternBonus = new Idea(
             { name: 'A', patterns: [Pattern.BARTENDER_Kleinfinger] },
             { main: true, contrast: false, harmony: false },
             [[]]
-        ).getFitLevelForTavern(
-            {},
-            () => false,
-            undefined,
-            undefined,
-            () => false,
-            () => false,
-            [Pattern.BARTENDER_UncleBen]
-        );
+        ).getFitLevelForTavern({
+            tavernFits: {},
+            isExcludedByName: () => false,
+            mainIsExcludedByKey: () => false,
+            additionIsExcludedByKey: () => false,
+            patterns: [Pattern.BARTENDER_UncleBen],
+            isUnpleasant: () => false,
+            isUnwanted: () => false,
+        });
         const withPatternBonus = new Idea(
             { name: 'A', patterns: [Pattern.BARTENDER_UncleBen] },
             { main: true, contrast: false, harmony: false },
             [[]]
-        ).getFitLevelForTavern(
-            {},
-            () => false,
-            undefined,
-            undefined,
-            () => false,
-            () => false,
-            [Pattern.BARTENDER_UncleBen]
-        );
+        ).getFitLevelForTavern({
+            tavernFits: {},
+            isExcludedByName: () => false,
+            mainIsExcludedByKey: () => false,
+            additionIsExcludedByKey: () => false,
+            patterns: [Pattern.BARTENDER_UncleBen],
+            isUnpleasant: () => false,
+            isUnwanted: () => false,
+        });
 
         expect(withPatternBonus).to.be.greaterThan(withoutPatternBonus);
         expect(withPatternBonus).to.be.greaterThan(withWrongPatternBonus);
@@ -62,39 +62,39 @@ describe('Idea method tests', () => {
         const withoutPatternBonus = new Idea(
             { name: 'A' },
             { main: true, contrast: false, harmony: false }
-        ).getFitLevelForTavern(
-            {},
-            () => false,
-            undefined,
-            undefined,
-            () => false,
-            () => false,
-            [Pattern.BARTENDER_UncleBen]
-        );
+        ).getFitLevelForTavern({
+            tavernFits: {},
+            isExcludedByName: () => false,
+            mainIsExcludedByKey: () => false,
+            additionIsExcludedByKey: () => false,
+            patterns: [Pattern.BARTENDER_UncleBen],
+            isUnpleasant: () => false,
+            isUnwanted: () => false,
+        });
         const withWrongPatternBonus = new Idea(
             { name: 'A', patterns: [Pattern.BARTENDER_Kleinfinger] },
             { main: true, contrast: false, harmony: false }
-        ).getFitLevelForTavern(
-            {},
-            () => false,
-            undefined,
-            undefined,
-            () => false,
-            () => false,
-            [Pattern.BARTENDER_UncleBen]
-        );
+        ).getFitLevelForTavern({
+            tavernFits: {},
+            isExcludedByName: () => false,
+            mainIsExcludedByKey: () => false,
+            additionIsExcludedByKey: () => false,
+            patterns: [Pattern.BARTENDER_UncleBen],
+            isUnpleasant: () => false,
+            isUnwanted: () => false,
+        });
         const withPatternBonus = new Idea(
             { name: 'A', patterns: [Pattern.BARTENDER_UncleBen] },
             { main: true, contrast: false, harmony: false }
-        ).getFitLevelForTavern(
-            {},
-            () => false,
-            undefined,
-            undefined,
-            () => false,
-            () => false,
-            [Pattern.BARTENDER_UncleBen]
-        );
+        ).getFitLevelForTavern({
+            tavernFits: {},
+            isExcludedByName: () => false,
+            mainIsExcludedByKey: () => false,
+            additionIsExcludedByKey: () => false,
+            patterns: [Pattern.BARTENDER_UncleBen],
+            isUnpleasant: () => false,
+            isUnwanted: () => false,
+        });
 
         expect(withPatternBonus).to.be.greaterThan(withoutPatternBonus);
         expect(withPatternBonus).to.be.greaterThan(withWrongPatternBonus);
@@ -108,19 +108,19 @@ describe('Idea method tests', () => {
             },
             [emptyDescriptionAsset],
             Noticable.bartender
-        ).getFitLevelForTavern(
-            {},
-            () => false,
-            undefined,
-            undefined,
-            () => false,
-            () => false,
-            [
+        ).getFitLevelForTavern({
+            tavernFits: {},
+            isExcludedByName: () => false,
+            mainIsExcludedByKey: () => false,
+            additionIsExcludedByKey: () => false,
+            patterns: [
                 Pattern.BARTENDER_UncleBen,
                 Pattern.BARTENDER_UncleBen,
                 Pattern.BARTENDER_Kleinfinger,
-            ]
-        );
+            ],
+            isUnpleasant: () => false,
+            isUnwanted: () => false,
+        });
         const uncleBen = new ImpressionIdea(
             {
                 name: 'Very friendly and responsible',
@@ -128,19 +128,19 @@ describe('Idea method tests', () => {
             },
             [emptyDescriptionAsset],
             Noticable.bartender
-        ).getFitLevelForTavern(
-            {},
-            () => false,
-            undefined,
-            undefined,
-            () => false,
-            () => false,
-            [
+        ).getFitLevelForTavern({
+            tavernFits: {},
+            isExcludedByName: () => false,
+            mainIsExcludedByKey: () => false,
+            additionIsExcludedByKey: () => false,
+            patterns: [
                 Pattern.BARTENDER_UncleBen,
                 Pattern.BARTENDER_UncleBen,
                 Pattern.BARTENDER_Kleinfinger,
-            ]
-        );
+            ],
+            isUnpleasant: () => false,
+            isUnwanted: () => false,
+        });
 
         expect(uncleBen).to.be.greaterThan(littleFinger);
     });
@@ -152,15 +152,15 @@ describe('Idea method tests', () => {
             },
             [emptyDescriptionAsset],
             Noticable.bartender
-        ).getFitLevelForTavern(
-            {},
-            () => false,
-            undefined,
-            undefined,
-            () => false,
-            () => false,
-            [Pattern.BARTENDER_UncleBen]
-        );
+        ).getFitLevelForTavern({
+            tavernFits: {},
+            isExcludedByName: () => false,
+            mainIsExcludedByKey: () => false,
+            additionIsExcludedByKey: () => false,
+            patterns: [Pattern.BARTENDER_UncleBen],
+            isUnpleasant: () => false,
+            isUnwanted: () => false,
+        });
         const uncleBen = new ImpressionIdea(
             {
                 name: 'Very friendly and responsible',
@@ -168,15 +168,15 @@ describe('Idea method tests', () => {
             },
             [emptyDescriptionAsset],
             Noticable.bartender
-        ).getFitLevelForTavern(
-            {},
-            () => false,
-            undefined,
-            undefined,
-            () => false,
-            () => false,
-            [Pattern.BARTENDER_UncleBen]
-        );
+        ).getFitLevelForTavern({
+            tavernFits: {},
+            isExcludedByName: () => false,
+            mainIsExcludedByKey: () => false,
+            additionIsExcludedByKey: () => false,
+            patterns: [Pattern.BARTENDER_UncleBen],
+            isUnpleasant: () => false,
+            isUnwanted: () => false,
+        });
 
         expect(uncleBen).to.be.greaterThan(littleFinger);
     });
@@ -188,15 +188,18 @@ describe('Idea method tests', () => {
             },
             [emptyDescriptionAsset],
             Noticable.bartender
-        ).getFitLevelForTavern(
-            {},
-            () => false,
-            undefined,
-            undefined,
-            () => false,
-            () => false,
-            [Pattern.BARTENDER_UncleBen, Pattern.BARTENDER_Kleinfinger]
-        );
+        ).getFitLevelForTavern({
+            tavernFits: {},
+            isExcludedByName: () => false,
+            additionIsExcludedByKey: () => false,
+            mainIsExcludedByKey: () => false,
+            patterns: [
+                Pattern.BARTENDER_UncleBen,
+                Pattern.BARTENDER_Kleinfinger,
+            ],
+            isUnwanted: () => false,
+            isUnpleasant: () => false,
+        });
         const uncleBen = new ImpressionIdea(
             {
                 name: 'Very friendly and responsible',
@@ -204,15 +207,18 @@ describe('Idea method tests', () => {
             },
             [emptyDescriptionAsset],
             Noticable.bartender
-        ).getFitLevelForTavern(
-            {},
-            () => false,
-            undefined,
-            undefined,
-            () => false,
-            () => false,
-            [Pattern.BARTENDER_UncleBen, Pattern.BARTENDER_Kleinfinger]
-        );
+        ).getFitLevelForTavern({
+            tavernFits: {},
+            isExcludedByName: () => false,
+            additionIsExcludedByKey: () => false,
+            mainIsExcludedByKey: () => false,
+            patterns: [
+                Pattern.BARTENDER_UncleBen,
+                Pattern.BARTENDER_Kleinfinger,
+            ],
+            isUnwanted: () => false,
+            isUnpleasant: () => false,
+        });
 
         expect(uncleBen).to.equal(littleFinger);
     });
@@ -227,15 +233,15 @@ describe('Idea method tests', () => {
             undefined,
             undefined,
             defaultPowerFitConcepts.harmony
-        ).getFitLevelForTavern(
-            {},
-            () => false,
-            undefined,
-            undefined,
-            () => false,
-            () => false,
-            [Pattern.BARTENDER_UncleBen]
-        );
+        ).getFitLevelForTavern({
+            tavernFits: {},
+            isExcludedByName: () => false,
+            mainIsExcludedByKey: () => false,
+            additionIsExcludedByKey: () => false,
+            patterns: [Pattern.BARTENDER_UncleBen],
+            isUnpleasant: () => false,
+            isUnwanted: () => false,
+        });
         const littleFinger = new ImpressionIdea(
             {
                 name: '',
@@ -246,15 +252,15 @@ describe('Idea method tests', () => {
             undefined,
             undefined,
             defaultPowerFitConcepts.harmony
-        ).getFitLevelForTavern(
-            {},
-            () => false,
-            undefined,
-            undefined,
-            () => false,
-            () => false,
-            [Pattern.BARTENDER_UncleBen]
-        );
+        ).getFitLevelForTavern({
+            tavernFits: {},
+            isExcludedByName: () => false,
+            mainIsExcludedByKey: () => false,
+            additionIsExcludedByKey: () => false,
+            patterns: [Pattern.BARTENDER_UncleBen],
+            isUnpleasant: () => false,
+            isUnwanted: () => false,
+        });
         const nobody = new ImpressionIdea(
             {
                 name: '',
@@ -265,15 +271,15 @@ describe('Idea method tests', () => {
             undefined,
             undefined,
             defaultPowerFitConcepts.harmony
-        ).getFitLevelForTavern(
-            {},
-            () => false,
-            undefined,
-            undefined,
-            () => false,
-            () => false,
-            [Pattern.BARTENDER_UncleBen]
-        );
+        ).getFitLevelForTavern({
+            tavernFits: {},
+            isExcludedByName: () => false,
+            mainIsExcludedByKey: () => false,
+            additionIsExcludedByKey: () => false,
+            patterns: [Pattern.BARTENDER_UncleBen],
+            isUnpleasant: () => false,
+            isUnwanted: () => false,
+        });
         expect(uncleBen).to.be.greaterThan(littleFinger);
         expect(littleFinger).to.equal(nobody);
     });

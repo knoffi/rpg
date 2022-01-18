@@ -8,6 +8,7 @@ import {
     getFitLevel,
     WORST_FIT_LEVEL,
 } from './fitCalculator/getFitLevel';
+import { LevelRequest } from './fitCalculator/LevelRequest';
 import { sufficesFitLevel } from './fitCalculator/sufficesFitLevel';
 import { Pattern } from './Patterns/Pattern';
 import { defaultPatternConcepts } from './powerFitConcepts/defaultPatternConcepts';
@@ -179,23 +180,15 @@ export class Idea {
             }
         }
     }
-    public getFitLevelForTavern(
-        tavernFits: StructuredTavernFits,
-        isExcludedByName: (name: string) => boolean,
-        mainFilter?: number,
-        additionFilter?: number,
-        mainIsExcludedByKey?: (key: AssetKey) => boolean,
-        additionIsExcludedByKey?: (key: AssetKey) => boolean,
-        patterns?: Pattern[]
-    ) {
+    public getFitLevelForTavern(request: Omit<LevelRequest<Idea>, 'ideas'>) {
         const mainFitLevel = getFitLevel(
-            tavernFits,
+            request.tavernFits,
             this.main,
-            isExcludedByName,
+            request.isExcludedByName,
             this.powerFitConcept.main,
-            mainFilter,
-            mainIsExcludedByKey,
-            patterns,
+            request.mainFilter,
+            request.mainIsExcludedByKey,
+            request.patterns,
             !this.patternMod.main
         );
         if (mainFitLevel <= WORST_FIT_LEVEL) {
@@ -215,16 +208,16 @@ export class Idea {
                 const lowestHarmonyRowMax = this.additions
                     ? this.additions.reduce((lowestRowMax, additionRow) => {
                           const rowMaxFitLevel = this.getBestFitFromAdditions(
-                              tavernFits,
+                              request.tavernFits,
                               additionRow,
-                              isExcludedByName,
+                              request.isExcludedByName,
                               'harmony',
-                              additionFilter,
-                              additionIsExcludedByKey,
-                              patterns
+                              request.additionFilter,
+                              request.additionIsExcludedByKey,
+                              request.patterns
                           );
                           return Math.min(lowestRowMax, rowMaxFitLevel);
-                      }, BEST_FIT_LEVEL(patterns?.length))
+                      }, BEST_FIT_LEVEL(request.patterns.length))
                     : WORST_FIT_LEVEL;
                 if (mainFitLevel <= lowestHarmonyRowMax) {
                     return mainFitLevel;
@@ -234,17 +227,17 @@ export class Idea {
                               (lowestRowMax, additionRow) => {
                                   const rowMaxFitLevel =
                                       this.getBestFitFromAdditions(
-                                          tavernFits,
+                                          request.tavernFits,
                                           additionRow,
-                                          isExcludedByName,
+                                          request.isExcludedByName,
                                           'contrast',
-                                          additionFilter,
-                                          additionIsExcludedByKey,
-                                          patterns
+                                          request.additionFilter,
+                                          request.additionIsExcludedByKey,
+                                          request.patterns
                                       );
                                   return Math.min(lowestRowMax, rowMaxFitLevel);
                               },
-                              BEST_FIT_LEVEL(patterns?.length)
+                              BEST_FIT_LEVEL(request.patterns.length)
                           )
                         : WORST_FIT_LEVEL;
                     if (mainFitLevel <= lowestContrastRowMax) {

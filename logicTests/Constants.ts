@@ -39,6 +39,8 @@ export class Constants {
             keys: new KeyHandler('noPreviousContent'),
             oldAssets: [] as Offer[],
             pattern: new PatternHandler('noContent'),
+            unpleasant: [],
+            unwanted: [],
         };
         return foodRequest;
     }
@@ -57,6 +59,8 @@ export class Constants {
             ]),
             oldAssets: [] as Offer[],
             pattern: new PatternHandler('noContent'),
+            unpleasant: [],
+            unwanted: [],
         };
         return request;
     }
@@ -73,6 +77,8 @@ export class Constants {
             ]),
             keys: new KeyHandler('noPreviousContent'),
             oldAssets: [] as Impression[],
+            unpleasant: [],
+            unwanted: [],
         };
         return request;
     }
@@ -333,6 +339,8 @@ export class Constants {
             oldAssets: [],
             keys: keysBeforeAdd,
             pattern: patternsBeforeAdd,
+            unpleasant: [],
+            unwanted: [],
         };
         const keysAfterAdd = keysBeforeAdd.multiUpdateClone([
             { type: 'Add', isAbout: WeServe.drinks, newKeys },
@@ -364,6 +372,48 @@ export class Constants {
             rerollRequest,
             patternIsAbout,
         };
+    }
+    public static addWithUnwanted() {
+        const request: CreationRequest = {
+            isAbout: WeServe.impressions,
+            category: Noticable.someCustomers,
+            keys: new KeyHandler('noPreviousContent'),
+            pattern: new PatternHandler('noContent'),
+            oldAssets: [],
+            unwanted: ['A', 'B'],
+            unpleasant: [],
+        };
+        const fits = {};
+        const expectedCreation = 'C';
+        return { request, fits, expectedCreation };
+    }
+    public static addUnpleasantGreaterUnwanted() {
+        const request: CreationRequest = {
+            isAbout: WeServe.impressions,
+            category: Noticable.someCustomers,
+            keys: new KeyHandler('noPreviousContent'),
+            pattern: new PatternHandler('noContent'),
+            oldAssets: [],
+            unwanted: ['A', 'B'],
+            unpleasant: ['C'],
+        };
+        const fits = {};
+        const expectedCreation = 'C';
+        return { request, fits, expectedCreation };
+    }
+    public static addWithUnpleasant() {
+        const request: CreationRequest = {
+            isAbout: WeServe.impressions,
+            category: Noticable.someCustomers,
+            keys: new KeyHandler('noPreviousContent'),
+            pattern: new PatternHandler('noContent'),
+            oldAssets: [],
+            unwanted: [],
+            unpleasant: ['A', 'B'],
+        };
+        const fits = {};
+        const expectedCreation = 'C';
+        return { request, fits, expectedCreation };
     }
     public static forImpliedPatternsByKeys() {
         const drink = new DishIdea(

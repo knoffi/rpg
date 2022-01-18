@@ -11,16 +11,19 @@ export const getRandomName = (
     additionFilter?: number
 ): string => {
     const isExcludedByName = getPrefixExcluder(oldNames, 'names');
-
-    const bestNames = filterBestIdeas(
-        nameIdeas,
-        fitting,
+    const alwaysFalse = () => false;
+    const bestNames = filterBestIdeas({
+        ideas: nameIdeas,
+        tavernFits: fitting,
         isExcludedByName,
-        () => false,
-        () => false,
+        mainIsExcludedByKey: alwaysFalse,
+        additionIsExcludedByKey: alwaysFalse,
+        isUnwanted: alwaysFalse,
+        isUnpleasant: alwaysFalse,
+        patterns: [],
         mainFilter,
-        additionFilter
-    );
+        additionFilter,
+    });
     if (!bestNames) {
         console.log('no name reached low fit level');
         return 'Nameless Tavern';
