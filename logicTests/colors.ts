@@ -1,5 +1,5 @@
 import { assert, expect } from 'chai';
-import { myColors } from '../classes/buttonColor/ButtonColor';
+import { buttonColors } from '../classes/buttonColor/ButtonColor';
 import { CreationQuality } from '../classes/contentCreator/CreationQuality';
 
 const isColor = (hexa: string) => {
@@ -34,23 +34,23 @@ describe('button colors', () => {
         expect(isColor('#123456'), '<#123456>').to.be.true;
     });
     it('active strings describes color', () => {
-        const color = myColors.get('active');
+        const color = buttonColors.get('active');
         expect(isColor(color)).to.be.true;
     });
     it('inactive strings describes color', () => {
-        const color = myColors.get('inactive');
+        const color = buttonColors.get('inactive');
         expect(isColor(color)).to.be.true;
     });
     it('quality strings describe color', () => {
         Object.values(CreationQuality).forEach((quality) => {
-            const color = myColors.get(quality);
+            const color = buttonColors.get(quality);
             const errorDescription = ' : <' + quality + '>';
             expect(isColor(color), errorDescription).to.be.true;
         });
     });
     it('error is thrown if invalid string', () => {
         const testForErrorThrow = () => {
-            const notExistingColor = myColors.get(
+            const notExistingColor = buttonColors.get(
                 'TOTAL_nonsense' as CreationQuality
             );
         };

@@ -77,4 +77,4 @@ class ButtonColor {
         return '#' + faintRedColor + faintGreenColor + faintBlueColor;
     }
 }
-export const myColors = new ButtonColor();
+export const buttonColors = new ButtonColor();

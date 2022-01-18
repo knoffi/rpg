@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
-import { DefaultTheme, List } from 'react-native-paper';
+import { List } from 'react-native-paper';
+import { buttonColors } from '../../../classes/buttonColor/ButtonColor';
 import { CreationQuality } from '../../../classes/contentCreator/CreationQuality';
 import { FantasyKeys } from '../../../classes/contentCreator/FantasKeys';
 import {
@@ -142,8 +143,6 @@ export const OfferAccordion = (props: {
             ></OfferListItem>
         );
     });
-    console.log(DefaultTheme.colors.primary);
-
     return (
         <List.Accordion
             title={props.demand.category}
@@ -160,13 +159,7 @@ export const OfferAccordion = (props: {
                                 onPress={() => {
                                     onRandomAdd(thisDemand);
                                 }}
-                                color={
-                                    qualityLeft === CreationQuality.NONE
-                                        ? 'grey'
-                                        : qualityLeft === CreationQuality.HIGH
-                                        ? DefaultTheme.colors.primary
-                                        : 'purple'
-                                }
+                                color={buttonColors.get(qualityLeft)}
                                 size={LIST_END_BUTTON_SIZE}
                                 disabled={noDrinkToAddLeft}
                             />
