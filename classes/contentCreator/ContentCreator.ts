@@ -689,12 +689,12 @@ export class ContentCreator {
                 //additions for impression do not get filtered by name because it seems more realistic
                 () => false,
                 additionIsExcludedByKey,
-                bestNotes.level,
+                bestNotes.rating.fitLevel,
                 this.universe[request.category],
                 additionFilter,
                 patterns
             );
-            return { new: newImpression, level: bestNotes.level };
+            return { new: newImpression, level: bestNotes.rating.fitLevel };
         }
     }
     private getRandomDrink(
@@ -730,12 +730,12 @@ export class ContentCreator {
             const newIdea = getRandomArrayEntry(bestRecipes.ideas);
             const newDrink = newIdea?.getConcreteDish(
                 tavernFits,
-                bestRecipes.level,
+                bestRecipes.rating.fitLevel,
                 this.universe[request.category],
                 additionIsExcludedByKey,
                 patterns
             );
-            return { new: newDrink, level: bestRecipes.level };
+            return { new: newDrink, level: bestRecipes.rating.fitLevel };
         }
     }
     private getRandomDish(
@@ -771,12 +771,12 @@ export class ContentCreator {
             const newIdea = getRandomArrayEntry(bestRecipes.ideas);
             const newDish = newIdea?.getConcreteDish(
                 tavernFits,
-                bestRecipes.level,
+                bestRecipes.rating.fitLevel,
                 this.universe[request.category],
                 additionIsExcludedByKey,
                 patterns
             );
-            return { new: newDish, level: bestRecipes.level };
+            return { new: newDish, level: bestRecipes.rating.fitLevel };
         }
     }
 

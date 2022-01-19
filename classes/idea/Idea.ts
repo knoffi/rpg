@@ -151,7 +151,6 @@ export class Idea {
                                   addition,
                                   isExcludedByName,
                                   this.powerFitConcept.harmony,
-
                                   additionFilter,
                                   additionIsExcludedByKey
                               )
@@ -180,7 +179,12 @@ export class Idea {
             }
         }
     }
-    public getFitLevelForTavern(request: Omit<LevelRequest<Idea>, 'ideas'>) {
+    public getFitLevelForTavern(
+        request: Omit<
+            LevelRequest<Idea>,
+            'ideas' | 'isUnwanted' | 'isUnpleasant'
+        >
+    ) {
         const mainFitLevel = getFitLevel(
             request.tavernFits,
             this.main,

@@ -33,7 +33,7 @@ export const getRandomName = (
         const newName = newIdea?.getConcreteName(
             fitting,
             isExcludedByName,
-            bestNames.level,
+            bestNames.rating.fitLevel,
             additionFilter
         )!;
         return newName;

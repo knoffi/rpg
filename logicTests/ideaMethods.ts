@@ -24,8 +24,6 @@ describe('Idea method tests', () => {
             mainIsExcludedByKey: () => false,
             additionIsExcludedByKey: () => false,
             patterns: [Pattern.BARTENDER_UncleBen],
-            isUnpleasant: () => false,
-            isUnwanted: () => false,
         });
         const withWrongPatternBonus = new Idea(
             { name: 'A', patterns: [Pattern.BARTENDER_Kleinfinger] },
@@ -37,8 +35,6 @@ describe('Idea method tests', () => {
             mainIsExcludedByKey: () => false,
             additionIsExcludedByKey: () => false,
             patterns: [Pattern.BARTENDER_UncleBen],
-            isUnpleasant: () => false,
-            isUnwanted: () => false,
         });
         const withPatternBonus = new Idea(
             { name: 'A', patterns: [Pattern.BARTENDER_UncleBen] },
@@ -50,8 +46,6 @@ describe('Idea method tests', () => {
             mainIsExcludedByKey: () => false,
             additionIsExcludedByKey: () => false,
             patterns: [Pattern.BARTENDER_UncleBen],
-            isUnpleasant: () => false,
-            isUnwanted: () => false,
         });
 
         expect(withPatternBonus).to.be.greaterThan(withoutPatternBonus);
@@ -68,8 +62,6 @@ describe('Idea method tests', () => {
             mainIsExcludedByKey: () => false,
             additionIsExcludedByKey: () => false,
             patterns: [Pattern.BARTENDER_UncleBen],
-            isUnpleasant: () => false,
-            isUnwanted: () => false,
         });
         const withWrongPatternBonus = new Idea(
             { name: 'A', patterns: [Pattern.BARTENDER_Kleinfinger] },
@@ -80,8 +72,6 @@ describe('Idea method tests', () => {
             mainIsExcludedByKey: () => false,
             additionIsExcludedByKey: () => false,
             patterns: [Pattern.BARTENDER_UncleBen],
-            isUnpleasant: () => false,
-            isUnwanted: () => false,
         });
         const withPatternBonus = new Idea(
             { name: 'A', patterns: [Pattern.BARTENDER_UncleBen] },
@@ -92,8 +82,6 @@ describe('Idea method tests', () => {
             mainIsExcludedByKey: () => false,
             additionIsExcludedByKey: () => false,
             patterns: [Pattern.BARTENDER_UncleBen],
-            isUnpleasant: () => false,
-            isUnwanted: () => false,
         });
 
         expect(withPatternBonus).to.be.greaterThan(withoutPatternBonus);
@@ -118,8 +106,6 @@ describe('Idea method tests', () => {
                 Pattern.BARTENDER_UncleBen,
                 Pattern.BARTENDER_Kleinfinger,
             ],
-            isUnpleasant: () => false,
-            isUnwanted: () => false,
         });
         const uncleBen = new ImpressionIdea(
             {
@@ -138,8 +124,6 @@ describe('Idea method tests', () => {
                 Pattern.BARTENDER_UncleBen,
                 Pattern.BARTENDER_Kleinfinger,
             ],
-            isUnpleasant: () => false,
-            isUnwanted: () => false,
         });
 
         expect(uncleBen).to.be.greaterThan(littleFinger);
@@ -158,8 +142,6 @@ describe('Idea method tests', () => {
             mainIsExcludedByKey: () => false,
             additionIsExcludedByKey: () => false,
             patterns: [Pattern.BARTENDER_UncleBen],
-            isUnpleasant: () => false,
-            isUnwanted: () => false,
         });
         const uncleBen = new ImpressionIdea(
             {
@@ -174,8 +156,6 @@ describe('Idea method tests', () => {
             mainIsExcludedByKey: () => false,
             additionIsExcludedByKey: () => false,
             patterns: [Pattern.BARTENDER_UncleBen],
-            isUnpleasant: () => false,
-            isUnwanted: () => false,
         });
 
         expect(uncleBen).to.be.greaterThan(littleFinger);
@@ -197,8 +177,6 @@ describe('Idea method tests', () => {
                 Pattern.BARTENDER_UncleBen,
                 Pattern.BARTENDER_Kleinfinger,
             ],
-            isUnwanted: () => false,
-            isUnpleasant: () => false,
         });
         const uncleBen = new ImpressionIdea(
             {
@@ -216,8 +194,6 @@ describe('Idea method tests', () => {
                 Pattern.BARTENDER_UncleBen,
                 Pattern.BARTENDER_Kleinfinger,
             ],
-            isUnwanted: () => false,
-            isUnpleasant: () => false,
         });
 
         expect(uncleBen).to.equal(littleFinger);
@@ -239,8 +215,6 @@ describe('Idea method tests', () => {
             mainIsExcludedByKey: () => false,
             additionIsExcludedByKey: () => false,
             patterns: [Pattern.BARTENDER_UncleBen],
-            isUnpleasant: () => false,
-            isUnwanted: () => false,
         });
         const littleFinger = new ImpressionIdea(
             {
@@ -258,8 +232,6 @@ describe('Idea method tests', () => {
             mainIsExcludedByKey: () => false,
             additionIsExcludedByKey: () => false,
             patterns: [Pattern.BARTENDER_UncleBen],
-            isUnpleasant: () => false,
-            isUnwanted: () => false,
         });
         const nobody = new ImpressionIdea(
             {
@@ -277,8 +249,6 @@ describe('Idea method tests', () => {
             mainIsExcludedByKey: () => false,
             additionIsExcludedByKey: () => false,
             patterns: [Pattern.BARTENDER_UncleBen],
-            isUnpleasant: () => false,
-            isUnwanted: () => false,
         });
         expect(uncleBen).to.be.greaterThan(littleFinger);
         expect(littleFinger).to.equal(nobody);

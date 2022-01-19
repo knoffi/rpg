@@ -41,21 +41,21 @@ export const getFitLevel = (
 ) => {
     //  NOTE: specialOverride and specialWeakly imply powerFitCheck!
     //
-    // A*       pattern , keyCheck, powerFitCheck, regularCheck, specialsTruly ,      1103,+ x * 5
+    // A*       pattern , keyCheck, powerFitCheck, regularCheck, specialsTruly ,      1103,+ x * 0.5
     // A                  keyCheck, powerFitCheck, regularCheck, specialsTruly ,      1103
-    // B*       pattern , keyCheck, (powerFitCheck), regularCheck, specialsOverride , 1102 + x * 5
+    // B*       pattern , keyCheck, (powerFitCheck), regularCheck, specialsOverride , 1102 + x * 0.5
     // B                  keyCheck, (powerFitCheck), regularCheck, specialsOverride , 1102
-    // C*       pattern , keyCheck, regularCheck, (powerFitCheck), specialsWeakly ,   1101 + x * 5
+    // C*       pattern , keyCheck, regularCheck, (powerFitCheck), specialsWeakly ,   1101 + x * 0.5
     // C                  keyCheck, regularCheck, (powerFitCheck), specialsWeakly ,   1101
-    // D*       pattern , keyCheck, regularCheck, specialsTruly ,                     1003 + x * 5
+    // D*       pattern , keyCheck, regularCheck, specialsTruly ,                     1003 + x * 0.5
     // D                  keyCheck, regularCheck, specialsTruly ,                     1003
-    // E*       pattern , regularCheck, powerFitCheck, specialsTruly ,                 103 + x * 5
+    // E*       pattern , regularCheck, powerFitCheck, specialsTruly ,                 103 + x * 0.5
     // E                  regularCheck, powerFitCheck, specialsTruly ,                 103
-    // F*       pattern , regularCheck, (powerFitCheck), specialsOverride ,            102 + x * 5
+    // F*       pattern , regularCheck, (powerFitCheck), specialsOverride ,            102 + x * 0.5
     // F                  regularCheck, (powerFitCheck), specialsOverride ,            102
-    // G*       pattern , regularCheck, (powerFitCheck), specialsWeakly                101 + x * 5
+    // G*       pattern , regularCheck, (powerFitCheck), specialsWeakly                101 + x * 0.5
     // G                  regularCheck, (powerFitCheck), specialsWeakly                101
-    // H*       pattern , regularCheck, specialsTruly                                    3 + x * 5
+    // H*       pattern , regularCheck, specialsTruly                                    3 + x * 0.5
     // H                  regularCheck, specialsTruly                                    3
     // I                  !regularCheck || specialsNotFulfilled                          0
     const regularCheck = assetFitsToTavern(

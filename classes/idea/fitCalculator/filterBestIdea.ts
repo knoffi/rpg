@@ -1,30 +1,37 @@
 import { Idea } from '../Idea';
 import { WORST_FIT_LEVEL } from './getFitLevel';
 import { LevelRequest } from './LevelRequest';
+import { getRating, isBetter, isEqual, Rating } from './Rating';
+import { UserRating } from './UserRating';
 export const filterBestIdeas = <Type extends Idea>(
     request: LevelRequest<Type>
 ) => {
-    let bestFittingAssets = [] as Type[];
+    let bestFittingAssets: Type[] = [];
 
-    let bestFitLevelSoFar = WORST_FIT_LEVEL;
+    let bestRatingSoFar: Rating = {
+        fitLevel: WORST_FIT_LEVEL,
+        history: UserRating.unwanted,
+    };
 
     request.ideas.forEach((idea) => {
         const fitLevel = idea.getFitLevelForTavern(request);
-        const betterFitLevelFound = fitLevel > bestFitLevelSoFar;
+        const isUnpleasant = request.isUnpleasant(idea.main.name);
+        const isUnwanted = request.isUnwanted(idea.main.name);
+        const rating = getRating(fitLevel, isUnwanted, isUnpleasant);
+        const betterRatingFound = isBetter(rating, bestRatingSoFar);
 
-        const sameFitLevelReached =
-            fitLevel > WORST_FIT_LEVEL && fitLevel === bestFitLevelSoFar;
+        const sameRatingReached = isEqual(rating, bestRatingSoFar);
 
-        if (betterFitLevelFound) {
-            bestFitLevelSoFar = fitLevel;
+        if (betterRatingFound) {
+            bestRatingSoFar = rating;
             bestFittingAssets = [idea];
         } else {
-            if (sameFitLevelReached) {
+            if (sameRatingReached && fitLevel > WORST_FIT_LEVEL) {
                 bestFittingAssets.push(idea);
             }
         }
     });
-    if (bestFitLevelSoFar === WORST_FIT_LEVEL) {
+    if (bestRatingSoFar.fitLevel === WORST_FIT_LEVEL) {
         return undefined;
     } else {
         if (bestFittingAssets.length === 0) {
@@ -34,7 +41,7 @@ export const filterBestIdeas = <Type extends Idea>(
         }
         return {
             ideas: bestFittingAssets,
-            level: bestFitLevelSoFar,
+            rating: bestRatingSoFar,
         };
     }
 };
