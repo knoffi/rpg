@@ -181,10 +181,7 @@ export class ContentCreator {
             return targetRemoved;
         } else {
             const replacement = this.getRandomCreation(action.fitting, {
-                // For #147: change request with targetRemoved
-                ...request,
-                keys: targetRemoved.keys,
-                pattern: targetRemoved.pattern,
+                ...targetRemoved,
                 unwanted: action.unwanted,
                 unpleasant: action.unpleasant,
             });

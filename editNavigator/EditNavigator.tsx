@@ -190,7 +190,9 @@ export const EditNavigator = (props: {
         const reroll = creator.multiReroll(
             impliedFitting,
             rerolls,
-            rerollRequest
+            rerollRequest,
+            deletions,
+            rerolls
         );
         const contentChange: Partial<Content> = {
             [reroll.isAbout]: reroll.rerolled,

@@ -227,8 +227,6 @@ const getContentArray = (
         if (!add.newCreationAdded) {
             return add;
         }
-        const fullKeys = keys.getFullKeys(add.isAbout);
-        const usedPatterns = patterns.getPatterns(add.isAbout);
         const newRequest = convertAdd(add);
         return getContentArray(
             fits,

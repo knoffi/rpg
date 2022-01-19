@@ -16,6 +16,8 @@ export function getCreationRequest(
     mainFilter?: number,
     additionFilter?: number
 ): CreationRequest {
+    const unwanted: string[] = [];
+    const unpleasant: string[] = [];
     return add.isAbout === WeServe.impressions
         ? {
               ...add,
@@ -24,11 +26,15 @@ export function getCreationRequest(
               oldAssets: tavern[add.isAbout],
               mainFilter,
               additionFilter,
+              unwanted,
+              unpleasant,
           }
         : {
               ...add,
               keys: profile.keys,
               pattern: profile.pattern,
               oldAssets: tavern[add.isAbout],
+              unwanted,
+              unpleasant,
           };
 }
