@@ -10,6 +10,8 @@ import {
 } from '../classes/contentCreator/ContentCreator';
 import { CreationQuality } from '../classes/contentCreator/CreationQuality';
 import { FantasyKeys } from '../classes/contentCreator/FantasKeys';
+import { Dismiss } from '../classes/dismissHandler/Dismiss';
+import { DismissHandler } from '../classes/dismissHandler/dismissHandler';
 import {
     getFitsFromStructure,
     StructuredTavernFits,
@@ -127,6 +129,7 @@ export const EditNavigator = (props: {
     const [tracker, setTracker] = useState({
         keys: new KeyHandler(props.tavern),
         pattern: new PatternHandler(props.tavern),
+        dismisses: new DismissHandler(),
     });
 
     const buyOffer = (offer: Offer) => {
@@ -197,8 +200,14 @@ export const EditNavigator = (props: {
         const contentChange: Partial<Content> = {
             [reroll.isAbout]: reroll.rerolled,
         };
-
-        setTracker({ ...reroll });
+        const dismissed: Dismiss = { unpleasant: rerolls, unwanted: deletions };
+        setTracker({
+            ...reroll,
+            dismisses: tracker.dismisses.updatedClone(
+                reroll.isAbout,
+                dismissed
+            ),
+        });
         props.onDataChange(contentChange);
         setContentLeft({
             ...contentLeft,
@@ -227,7 +236,11 @@ export const EditNavigator = (props: {
             impliedFitting,
             creation
         );
-        setTracker(creation);
+        setTracker({
+            keys: creation.keys,
+            pattern: creation.pattern,
+            dismisses: tracker.dismisses,
+        });
         invokeAdd(creation, qualityLeft);
     };
 
