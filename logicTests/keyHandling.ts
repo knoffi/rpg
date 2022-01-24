@@ -1,7 +1,7 @@
 import { assert, expect } from 'chai';
 import { KeyHandler } from '../classes/keyHandler/KeyHandler';
 import { WeServe } from '../editNavigator/WeServe';
-import { Constants } from './Constants';
+import { Constants } from './constants/Constants';
 describe('KeyHandler tests', () => {
     it('construct by default', () => {
         const keys = new KeyHandler('noPreviousContent');

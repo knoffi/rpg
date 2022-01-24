@@ -1,33 +1,29 @@
-import { association } from '../classes/association';
+import { association } from '../../classes/association';
 import {
     AddCheck,
     ContentCreator,
     CreationRequest,
     MultiRerollRequest,
-} from '../classes/contentCreator/ContentCreator';
-import { CreationQuality } from '../classes/contentCreator/CreationQuality';
-import { FantasyKeys } from '../classes/contentCreator/FantasKeys';
-import { AssetKey } from '../classes/idea/AssetKey/AssetKey';
-import { DishIdea } from '../classes/idea/DishIdea';
-import { ImpressionIdea } from '../classes/idea/ImpressionIdea';
-import { Noticable } from '../classes/idea/Noticable';
-import { Pattern } from '../classes/idea/Patterns/Pattern';
-import { defaultPowerFitConcepts } from '../classes/idea/powerFitConcepts/powerFitConcepts';
-import { PriceSetter } from '../classes/idea/PriceSetter';
-import { StructuredTavernFits } from '../classes/idea/StructuredTavernFits';
-import { KeyHandler } from '../classes/keyHandler/KeyHandler';
-import { KeyChange, Keys } from '../classes/keyHandler/KeyHandlingTypes';
-import {
-    PatternChange,
-    PatternHandler,
-} from '../classes/patternHandler/PatternHandler';
-import { MenuPricing } from '../classes/price/incomeRange';
-import { Drinkable, Eatable } from '../classes/TavernProduct';
-import { WeServe } from '../editNavigator/WeServe';
-import { Content } from '../mainNavigator/Content';
-import { Offer } from '../scenes/menuScene/Offer';
-import { Impression } from '../scenes/questScene/impressions/Impression';
-import { Cloner, DeepReadonly } from './Cloner';
+} from '../../classes/contentCreator/ContentCreator';
+import { CreationQuality } from '../../classes/contentCreator/CreationQuality';
+import { FantasyKeys } from '../../classes/contentCreator/FantasKeys';
+import { AssetKey } from '../../classes/idea/AssetKey/AssetKey';
+import { DishIdea } from '../../classes/idea/DishIdea';
+import { ImpressionIdea } from '../../classes/idea/ImpressionIdea';
+import { Noticable } from '../../classes/idea/Noticable';
+import { Pattern } from '../../classes/idea/Patterns/Pattern';
+import { defaultPowerFitConcepts } from '../../classes/idea/powerFitConcepts/powerFitConcepts';
+import { PriceSetter } from '../../classes/idea/PriceSetter';
+import { StructuredTavernFits } from '../../classes/idea/StructuredTavernFits';
+import { KeyHandler } from '../../classes/keyHandler/KeyHandler';
+import { Keys } from '../../classes/keyHandler/KeyHandlingTypes';
+import { PatternHandler } from '../../classes/patternHandler/PatternHandler';
+import { MenuPricing } from '../../classes/price/incomeRange';
+import { Drinkable, Eatable } from '../../classes/TavernProduct';
+import { WeServe } from '../../editNavigator/WeServe';
+import { Content } from '../../mainNavigator/Content';
+import { Offer } from '../../scenes/menuScene/Offer';
+import { Impression } from '../../scenes/questScene/impressions/Impression';
 import { extendToContent } from './extendToContent';
 
 type ImpressionRequest = CreationRequest & { isAbout: WeServe.impressions };
@@ -167,23 +163,14 @@ export class Constants {
             isAbout: WeServe.impressions,
         },
     ];
-    private static _rerollRequest: DeepReadonly<CreationRequest> = {
-        ...Constants.impressionRequest(),
-        oldAssets: [Constants._oldImpression],
-    };
-    public static rerollRequest() {
-        return Cloner.deepWritableCopy(Constants._rerollRequest);
-    }
-    private static _multiDeleteRequest: DeepReadonly<CreationRequest> = {
-        ...Constants.impressionRequest(),
-        oldAssets: Constants._oldImpressions,
-    };
-    private static _multiDeleteTavern: DeepReadonly<Content> = extendToContent({
-        [WeServe.impressions]: Constants._oldImpressions,
-    });
     public static multiDelete() {
-        const request = Constants._multiDeleteRequest;
-        const oldTavern = Constants._multiDeleteTavern;
+        const request: CreationRequest = {
+            ...Constants.impressionRequest(),
+            oldAssets: Constants._oldImpressions,
+        };
+        const oldTavern = extendToContent({
+            [WeServe.impressions]: Constants._oldImpressions,
+        });
         const toDelete = oldTavern[WeServe.impressions]
             .map((impression) => impression.name)
             .filter((entry, index) => index > 0);
@@ -193,16 +180,17 @@ export class Constants {
             addition: [],
         };
         const patternsLeft: Pattern[] = [Pattern.BARTENDER_UncleBen];
-        const methodlessObjects = Cloner.deepWritableCopy({
+        const keys = new KeyHandler(oldTavern);
+        const pattern = new PatternHandler(oldTavern);
+        return {
             request,
             toDelete,
             leftAfterDelete,
             fullKeysLeft,
             patternsLeft,
-        });
-        const keys = new KeyHandler(oldTavern);
-        const pattern = new PatternHandler(oldTavern);
-        return { ...methodlessObjects, keys, pattern };
+            keys,
+            pattern,
+        };
     }
     private static _sideDishStandard: Omit<
         Offer & { isAbout: WeServe.food },
@@ -217,44 +205,43 @@ export class Constants {
         isUserMade: false,
         impliedPatterns: [],
     };
-    private static _multiRerollDishes: Partial<Content> = {
-        [WeServe.food]: [
-            {
-                ...Constants._sideDishStandard,
-                name: 'Soup',
-                keys: { main: [AssetKey.SMALL_DISH_soup], addition: [] },
-                patterns: [Pattern.BARTENDER_UncleBen],
-            },
-            {
-                ...Constants._sideDishStandard,
-                name: 'Bread',
-                keys: { main: [AssetKey.SMALL_DISH_carbon], addition: [] },
-                patterns: [Pattern.BARTENDER_UncleBen],
-            },
-            {
-                ...Constants._sideDishStandard,
-                name: 'Salad',
-                keys: { main: [AssetKey.SMALL_DISH_salad], addition: [] },
-                patterns: [Pattern.BARTENDER_UncleBen],
-            },
-        ],
-    };
 
-    private static _multiRerollTavern: DeepReadonly<Content> = extendToContent(
-        Constants._multiRerollDishes
-    );
-    private static _multiRerollRequest: DeepReadonly<
-        Omit<MultiRerollRequest & { isAbout: WeServe.food }, 'keys' | 'pattern'>
-    > = {
-        isAbout: WeServe.food,
-        category: Eatable.sideDish,
-        oldAssets: Constants._multiRerollTavern[WeServe.food],
-    };
     public static multiReroll() {
-        const partialRequest = Constants._multiRerollRequest;
-        const keys = new KeyHandler(Constants._multiRerollTavern);
-        const pattern = new PatternHandler(Constants._multiRerollTavern);
-        const unrerolledName = Constants._multiRerollTavern.food[0].name;
+        const foodMenu = {
+            [WeServe.food]: [
+                {
+                    ...Constants._sideDishStandard,
+                    name: 'Soup',
+                    keys: { main: [AssetKey.SMALL_DISH_soup], addition: [] },
+                    patterns: [Pattern.BARTENDER_UncleBen],
+                },
+                {
+                    ...Constants._sideDishStandard,
+                    name: 'Bread',
+                    keys: { main: [AssetKey.SMALL_DISH_carbon], addition: [] },
+                    patterns: [Pattern.BARTENDER_UncleBen],
+                },
+                {
+                    ...Constants._sideDishStandard,
+                    name: 'Salad',
+                    keys: { main: [AssetKey.SMALL_DISH_salad], addition: [] },
+                    patterns: [Pattern.BARTENDER_UncleBen],
+                },
+            ],
+        };
+        const tavern: Content = extendToContent(foodMenu);
+        const keys = new KeyHandler(tavern);
+        const pattern = new PatternHandler(tavern);
+        const request: CreationRequest = {
+            isAbout: WeServe.food,
+            category: Eatable.sideDish,
+            oldAssets: tavern[WeServe.food],
+            keys,
+            pattern,
+            unpleasant: [],
+            unwanted: [],
+        };
+        const unrerolledName = tavern.food[0].name;
         const addedByReroll = 'Hummus';
         const containedFullMain = [
             AssetKey.SMALL_DISH_fingerfood,
@@ -264,58 +251,62 @@ export class Constants {
             Pattern.BARTENDER_Kleinfinger,
             Pattern.BARTENDER_UncleBen,
         ];
-        const toReroll = Constants._multiRerollTavern.food
+        const toReroll = tavern.food
             .map((dish) => dish.name)
             .filter((entry, index) => index > 0);
-        const methodlessObjects = Cloner.deepWritableCopy({
-            partialRequest,
+        return {
+            request,
             toReroll,
             unrerolledName,
             addedByReroll,
             containedFullMain,
             containedPattern,
-        });
-        return { ...methodlessObjects, keys, pattern };
+            keys,
+            pattern,
+        };
     }
-    private static _patterns = [Pattern.BARTENDER_Kleinfinger];
     public static patterns() {
-        return Cloner.deepWritableCopy(Constants._patterns);
+        return [Pattern.BARTENDER_Kleinfinger];
     }
-    private static _patternAdd: DeepReadonly<PatternChange> = {
-        isAbout: WeServe.impressions,
-        newPatterns: Constants._patterns,
-        type: 'Add',
-    };
     public static patternAdd() {
-        return Cloner.deepWritableCopy(Constants._patternAdd);
+        const patternAdd = {
+            isAbout: WeServe.impressions,
+            newPatterns: [Pattern.BARTENDER_Kleinfinger],
+            type: 'Add' as const,
+        };
+        return patternAdd;
     }
-    private static _patternDelete: DeepReadonly<PatternChange> = {
-        isAbout: WeServe.impressions,
-        oldPatterns: Constants._patterns,
-        type: 'Delete',
-    };
     public static patternDelete() {
-        return Cloner.deepWritableCopy(Constants._patternDelete);
+        const patternDelete = {
+            isAbout: WeServe.impressions,
+            oldPatterns: [Pattern.BARTENDER_Kleinfinger],
+            type: 'Delete' as const,
+        };
+        return patternDelete;
     }
-    private static _keyChange = {
-        main: [AssetKey.BARTENDER_knowledge],
-        addition: [AssetKey.BARTENDER_opinion, AssetKey.BARTENDER_face],
-    };
-    private static _keyAdd: DeepReadonly<KeyChange> = {
-        isAbout: WeServe.impressions,
-        type: 'Add',
-        newKeys: Constants._keyChange,
-    };
     public static keyAdd() {
-        return Cloner.deepWritableCopy(Constants._keyAdd);
+        const newKeys = {
+            main: [AssetKey.BARTENDER_knowledge],
+            addition: [AssetKey.BARTENDER_opinion, AssetKey.BARTENDER_face],
+        };
+        const keyAdd = {
+            isAbout: WeServe.impressions,
+            type: 'Add' as const,
+            newKeys,
+        };
+        return keyAdd;
     }
-    private static _keyDelete: DeepReadonly<KeyChange> = {
-        isAbout: WeServe.impressions,
-        type: 'Delete',
-        oldKeys: Constants._keyChange,
-    };
     public static keyDelete() {
-        return Cloner.deepWritableCopy(Constants._keyDelete);
+        const oldKeys = {
+            main: [AssetKey.BARTENDER_knowledge],
+            addition: [AssetKey.BARTENDER_opinion, AssetKey.BARTENDER_face],
+        };
+        const keyDelete = {
+            isAbout: WeServe.impressions,
+            type: 'Delete' as const,
+            oldKeys: oldKeys,
+        };
+        return keyDelete;
     }
     public static forImpliedPatternsByKey() {
         const isAbout = WeServe.drinks;
@@ -430,53 +421,6 @@ export class Constants {
         return { drink, patternsToAdd };
     }
 
-    private static _content: DeepReadonly<Content> = {
-        food: [],
-        drink: [
-            {
-                name: 'Red Wine',
-                isAbout: WeServe.drinks,
-                isUserMade: true,
-                income: association.poor,
-                category: Drinkable.wine,
-                price: 10,
-                impliedPatterns: [
-                    {
-                        isAbout: WeServe.impressions,
-                        type: 'Add',
-                        newPatterns: [Pattern.IMPRESSIONS_redWine],
-                    },
-                ],
-                description: '',
-                patterns: [],
-                keys: {
-                    main: [],
-                    addition: [AssetKey.WINE_red],
-                },
-                universe: 'isUserMade',
-            },
-        ],
-        impression: [
-            {
-                name: 'Uncle Ben',
-                category: Noticable.bartender,
-                universe: 'isUserMade',
-                patterns: [Pattern.BARTENDER_UncleBen],
-                keys: { main: [AssetKey.BARTENDER_charisma], addition: [] },
-                impliedPatterns: [],
-                isAbout: WeServe.impressions,
-            },
-            {
-                name: 'Talks about power and responsibility',
-                category: Noticable.bartender,
-                universe: 'isUserMade',
-                patterns: [Pattern.BARTENDER_UncleBen],
-                keys: { main: [AssetKey.BARTENDER_actions], addition: [] },
-                impliedPatterns: [],
-                isAbout: WeServe.impressions,
-            },
-        ],
-    };
     public static content() {
         const resultingPatterns = {
             [WeServe.drinks]: [],
@@ -487,8 +431,55 @@ export class Constants {
                 Pattern.IMPRESSIONS_redWine,
             ],
         };
+        const drinksAndImpressions: Omit<Content, 'food'> = {
+            drink: [
+                {
+                    name: 'Red Wine',
+                    isAbout: WeServe.drinks,
+                    isUserMade: true,
+                    income: association.poor,
+                    category: Drinkable.wine,
+                    price: 10,
+                    impliedPatterns: [
+                        {
+                            isAbout: WeServe.impressions,
+                            type: 'Add',
+                            newPatterns: [Pattern.IMPRESSIONS_redWine],
+                        },
+                    ],
+                    description: '',
+                    patterns: [],
+                    keys: {
+                        main: [],
+                        addition: [AssetKey.WINE_red],
+                    },
+                    universe: 'isUserMade',
+                },
+            ],
+            impression: [
+                {
+                    name: 'Uncle Ben',
+                    category: Noticable.bartender,
+                    universe: 'isUserMade',
+                    patterns: [Pattern.BARTENDER_UncleBen],
+                    keys: { main: [AssetKey.BARTENDER_charisma], addition: [] },
+                    impliedPatterns: [],
+                    isAbout: WeServe.impressions,
+                },
+                {
+                    name: 'Talks about power and responsibility',
+                    category: Noticable.bartender,
+                    universe: 'isUserMade',
+                    patterns: [Pattern.BARTENDER_UncleBen],
+                    keys: { main: [AssetKey.BARTENDER_actions], addition: [] },
+                    impliedPatterns: [],
+                    isAbout: WeServe.impressions,
+                },
+            ],
+        };
+        const content = extendToContent(drinksAndImpressions);
         return {
-            content: Cloner.deepWritableCopy(Constants._content),
+            content,
             resultingPatterns,
         };
     }

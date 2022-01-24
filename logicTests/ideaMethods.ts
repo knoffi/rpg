@@ -7,7 +7,7 @@ import { Noticable } from '../classes/idea/Noticable';
 import { Pattern } from '../classes/idea/Patterns/Pattern';
 import { defaultPowerFitConcepts } from '../classes/idea/powerFitConcepts/powerFitConcepts';
 import { WeServe } from '../editNavigator/WeServe';
-import { Constants } from './Constants';
+import { Constants } from './constants/Constants';
 const emptyDescriptionAsset: DescriptionAsset = {
     name: '',
     worksForAllCriminals: true,

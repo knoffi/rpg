@@ -1,7 +1,7 @@
 import { assert, expect } from 'chai';
 import { PatternHandler } from '../classes/patternHandler/PatternHandler';
 import { WeServe } from '../editNavigator/WeServe';
-import { Constants } from './Constants';
+import { Constants } from './constants/Constants';
 describe('PatternHandler tests', () => {
     it('construct by default', () => {
         const pattern = new PatternHandler('noContent');

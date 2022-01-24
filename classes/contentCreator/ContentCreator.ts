@@ -5,7 +5,7 @@ import { UI_TEST_CONTENT } from '../../content/testUI/testing';
 import { UNIT_TEST_CONTENT } from '../../content/UNIT_TESTING/testing';
 import { WeServe } from '../../editNavigator/WeServe';
 import { getRandomArrayEntry } from '../../helpingFunctions/getRandomArrayEntry';
-import { DeepReadonly } from '../../logicTests/Cloner';
+import { DeepReadonly } from '../../logicTests/constants/Cloner';
 import { Describable } from '../../mainNavigator/TavernData';
 import { allCategories, UniverseMap } from '../../mainNavigator/UniverseMap';
 import { Offer } from '../../scenes/menuScene/Offer';

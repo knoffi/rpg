@@ -5,7 +5,7 @@ import { DishIdea } from '../classes/idea/DishIdea';
 import { Prices } from '../classes/price/Price';
 import { Drinkable, Eatable } from '../classes/TavernProduct';
 import { standardBasePrice } from '../scenes/menuScene/basePrice';
-import { Constants } from './Constants';
+import { Constants } from './constants/Constants';
 
 describe('Prices:', () => {
     it('price fluctuation bounds', () => {

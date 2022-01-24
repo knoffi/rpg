@@ -10,7 +10,7 @@ import { Keys } from '../classes/keyHandler/KeyHandlingTypes';
 import { Drinkable } from '../classes/TavernProduct';
 import { WeServe } from '../editNavigator/WeServe';
 import { Offer } from '../scenes/menuScene/Offer';
-import { Constants } from './Constants';
+import { Constants } from './constants/Constants';
 
 describe('ContentCreator tests', () => {
     const creator = Constants.creator();
@@ -137,7 +137,7 @@ describe('ContentCreator tests', () => {
     it('multi reroll:', () => {
         const creator = Constants.creator();
         const {
-            partialRequest,
+            request,
             toReroll,
             keys,
             pattern,
@@ -151,7 +151,6 @@ describe('ContentCreator tests', () => {
         expect(oldFullKeys, 'old full keys')
             .to.have.property('main')
             .to.contain(AssetKey.SMALL_DISH_soup);
-        const request = { ...partialRequest, keys, pattern };
         const result = creator.multiReroll(fits, toReroll, request, [], []);
         expect(result).to.have.property('isAbout').to.eql(WeServe.food);
         const newNames = (result.rerolled as { name: string }[]).map(
