@@ -12,7 +12,7 @@ import { WeServe } from '../editNavigator/WeServe';
 import { Offer } from '../scenes/menuScene/Offer';
 import { Constants } from './constants/Constants';
 
-describe('ContentCreator tests', () => {
+describe('Content Creator', () => {
     const creator = Constants.creator();
 
     it('construct', () => {
@@ -135,42 +135,54 @@ describe('ContentCreator tests', () => {
         }
     });
     it('multi reroll:', () => {
-        const creator = Constants.creator();
-        const {
-            request,
-            toReroll,
-            keys,
-            pattern,
-            unrerolledName,
-            addedByReroll,
-            containedFullMain,
-            containedPattern,
-        } = Constants.multiReroll();
-        const fits = {};
-        const oldFullKeys = keys.getFullKeys(WeServe.food);
-        expect(oldFullKeys, 'old full keys')
-            .to.have.property('main')
-            .to.contain(AssetKey.SMALL_DISH_soup);
-        const result = creator.multiReroll(fits, toReroll, request, [], []);
-        expect(result).to.have.property('isAbout').to.eql(WeServe.food);
-        const newNames = (result.rerolled as { name: string }[]).map(
-            (offer) => offer.name
-        );
-        expect(newNames)
-            .to.contain(addedByReroll)
-            .and.to.contain(unrerolledName);
-        expect(result).to.have.property('keys');
-        expect(result).to.have.property('pattern');
-        const fullKeys: Keys = result.keys.getFullKeys(WeServe.food);
-        const newPatterns: Pattern[] = result.pattern.getPatterns(WeServe.food);
-        containedFullMain.forEach((mainKey) =>
-            expect(fullKeys, 'new full keys')
+        const test = (repeat: number) => {
+            const creator = Constants.creator();
+            const {
+                request,
+                toReroll,
+                keys,
+                unrerolledName,
+                addedByReroll,
+                containedFullMain,
+                containedPattern,
+            } = Constants.multiReroll();
+            const fits = {};
+            const oldFullKeys = keys.getFullKeys(WeServe.food);
+            expect(oldFullKeys, 'old full keys')
                 .to.have.property('main')
-                .to.contain(mainKey)
-        );
-        containedPattern.forEach((pattern) =>
-            expect(newPatterns).to.contain(pattern)
-        );
+                .to.contain(AssetKey.SMALL_DISH_soup);
+            const result = creator.multiReroll(
+                fits,
+                toReroll,
+                request,
+                [],
+                toReroll
+            );
+            expect(result).to.have.property('isAbout').to.eql(WeServe.food);
+            const newNames = (result.rerolled as { name: string }[]).map(
+                (offer) => offer.name
+            );
+            expect(newNames, 'FAILED AFTER ' + repeat + ' REPEAT')
+                .to.contain(addedByReroll)
+                .and.to.contain(unrerolledName);
+            expect(result).to.have.property('keys');
+            expect(result).to.have.property('pattern');
+            const fullKeys: Keys = result.keys.getFullKeys(WeServe.food);
+            const newPatterns: Pattern[] = result.pattern.getPatterns(
+                WeServe.food
+            );
+            containedFullMain.forEach((mainKey) =>
+                expect(fullKeys, 'new full keys')
+                    .to.have.property('main')
+                    .to.contain(mainKey)
+            );
+            containedPattern.forEach((pattern) =>
+                expect(newPatterns).to.contain(pattern)
+            );
+        };
+        const repeats = new Array(2)
+            .fill(1)
+            .forEach((repeat, index) => test(index));
     });
     it('add with implied patterns', () => {
         const creator = Constants.creator();

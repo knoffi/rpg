@@ -232,16 +232,14 @@ export class Constants {
         const tavern: Content = extendToContent(foodMenu);
         const keys = new KeyHandler(tavern);
         const pattern = new PatternHandler(tavern);
-        const request: CreationRequest = {
+        const unrerolledName = tavern.food[0].name;
+        const request: MultiRerollRequest = {
             isAbout: WeServe.food,
             category: Eatable.sideDish,
             oldAssets: tavern[WeServe.food],
             keys,
             pattern,
-            unpleasant: [],
-            unwanted: [],
         };
-        const unrerolledName = tavern.food[0].name;
         const addedByReroll = 'Hummus';
         const containedFullMain = [
             AssetKey.SMALL_DISH_fingerfood,
