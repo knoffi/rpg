@@ -22,12 +22,15 @@ export class DismissHandler {
             ...dismiss.unwanted,
             ...this.table[isAbout].unwanted,
         ];
-        newUnwanted.length = MEMORY_UNWANTED;
+        newUnwanted.length = Math.min(MEMORY_UNWANTED, newUnwanted.length);
         const newUnpleasant: string[] = [
-            ...dismiss.unwanted,
+            ...dismiss.unpleasant,
             ...this.table[isAbout].unpleasant,
         ];
-        newUnpleasant.length = MEMORY_UNPLEASANT;
+        newUnpleasant.length = Math.min(
+            MEMORY_UNPLEASANT,
+            newUnpleasant.length
+        );
         this.table[isAbout] = {
             unwanted: newUnwanted,
             unpleasant: newUnpleasant,
