@@ -114,7 +114,7 @@ export const MainNavigator = () => {
                                 currencyName={
                                     tavernHistory[historyIndex].prices.currency
                                 }
-                                onDataChange={onDataChange}
+                                onBuyChange={onDataChange}
                             ></AppBar>
                         ),
                     }}
@@ -148,7 +148,7 @@ export const MainNavigator = () => {
                                 currencyName={
                                     tavernHistory[historyIndex].prices.currency
                                 }
-                                onDataChange={onDataChange}
+                                onBuyChange={onDataChange}
                             ></AppBar>
                         ),
                     }}
