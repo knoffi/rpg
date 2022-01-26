@@ -11,7 +11,6 @@ import {
 import { CreationQuality } from '../classes/contentCreator/CreationQuality';
 import { FantasyKeys } from '../classes/contentCreator/FantasKeys';
 import { Dismiss } from '../classes/dismissHandler/Dismiss';
-import { DismissHandler } from '../classes/dismissHandler/dismissHandler';
 import {
     getFitsFromStructure,
     StructuredTavernFits,
@@ -21,12 +20,9 @@ import { PatternHandler } from '../classes/patternHandler/PatternHandler';
 import { Drinkable, Eatable } from '../classes/TavernProduct';
 import Icon from '../components/icons';
 import { iconKeys } from '../components/icons/iconKeys';
-import { Content } from '../mainNavigator/Content';
-import {
-    Describable,
-    MinimalTavernData,
-    TavernData,
-} from '../mainNavigator/TavernData';
+import { ContentTracker } from '../mainNavigator/ContentTracker';
+import { ContentChange, TavernChange } from '../mainNavigator/TavernChange';
+import { Describable, MinimalTavernData } from '../mainNavigator/TavernData';
 import { UniverseMap } from '../mainNavigator/UniverseMap';
 import { BasePrice } from '../scenes/menuScene/basePrice';
 import { BannerData } from '../scenes/menuScene/menuBanner/MenuBanner';
@@ -98,8 +94,9 @@ const getPowerFitAdjustment = (
 };
 
 export const EditNavigator = (props: {
-    onDataChange: (newData: Partial<MinimalTavernData>) => void;
+    onDataChange: (newData: TavernChange) => void;
     tavern: MinimalTavernData;
+    tracker: ContentTracker;
 }) => {
     const convertToAddCheck = (deletion: Delete): AddCheck => {
         switch (deletion.isAbout) {
@@ -125,12 +122,6 @@ export const EditNavigator = (props: {
             }
         )
     );
-
-    const [tracker, setTracker] = useState({
-        keys: new KeyHandler(props.tavern),
-        pattern: new PatternHandler(props.tavern),
-        dismisses: new DismissHandler(),
-    });
 
     const buyOffer = (offer: Offer) => {
         props.onDataChange({
@@ -164,8 +155,8 @@ export const EditNavigator = (props: {
         const deletion = creator.multiDelete(
             deletions,
             deletionTarget,
-            tracker.keys,
-            tracker.pattern
+            props.tracker.keys,
+            props.tracker.pattern
         );
         const oldQuality = contentLeft.ideasLeft[demand.isAbout].get(
             demand.category
@@ -197,17 +188,16 @@ export const EditNavigator = (props: {
             deletions,
             rerolls
         );
-        const contentChange: Partial<Content> = {
-            [reroll.isAbout]: reroll.rerolled,
-        };
         const dismissed: Dismiss = { unpleasant: rerolls, unwanted: deletions };
-        setTracker({
-            ...reroll,
-            dismisses: tracker.dismisses.updatedClone(
+        const contentChange: ContentChange = {
+            [reroll.isAbout]: reroll.rerolled,
+            newKeys: reroll.keys,
+            newPattern: reroll.pattern,
+            newDismiss: props.tracker.dismiss.updatedClone(
                 reroll.isAbout,
                 dismissed
             ),
-        });
+        };
         props.onDataChange(contentChange);
         setContentLeft({
             ...contentLeft,
@@ -227,7 +217,7 @@ export const EditNavigator = (props: {
         const request: CreationRequest = getCreationRequest(
             add,
             props.tavern,
-            tracker,
+            props.tracker,
             mainFilter,
             additionFilter
         );
@@ -236,11 +226,6 @@ export const EditNavigator = (props: {
             impliedFitting,
             creation
         );
-        setTracker({
-            keys: creation.keys,
-            pattern: creation.pattern,
-            dismisses: tracker.dismisses,
-        });
         invokeAdd(creation, qualityLeft);
     };
 
@@ -248,7 +233,12 @@ export const EditNavigator = (props: {
         if (!creation.newCreationAdded) {
             console.log('__ADDING WAS INVOKED WITH EMPTY CREATION___');
         } else {
-            const assetChanges = { [creation.isAbout]: creation.added };
+            const tavernChanges: ContentChange = {
+                [creation.isAbout]: creation.added,
+                newKeys: creation.keys,
+                newPattern: creation.pattern,
+                newDismiss: props.tracker.dismiss,
+            };
             const bannerMightAppear = qualityLeft === CreationQuality.NONE;
             const bannerChanges = bannerMightAppear
                 ? getBannersByAdd(creation, true)
@@ -257,7 +247,6 @@ export const EditNavigator = (props: {
             const qualityMap = qualityLeftIsOptimal
                 ? {}
                 : qualityChangesByAdd(creation, qualityLeft);
-            const tavernChanges: Partial<MinimalTavernData> = assetChanges;
             setContentLeft({
                 ...contentLeft,
                 ...bannerChanges,
@@ -273,7 +262,7 @@ export const EditNavigator = (props: {
             newFitting,
             creator,
             props.tavern,
-            tracker
+            props.tracker
         );
         setContentLeft(newContentLeft);
         props.onDataChange({ fitting: newFitting });
@@ -285,19 +274,25 @@ export const EditNavigator = (props: {
     const handleEdit = (request: UserMade, previousName?: string) => {
         const newAsset = creator.createUserMade(request);
         if (previousName) {
-            const newContent: Partial<TavernData> = {
+            const newContent: ContentChange = {
                 [newAsset.isAbout]: props.tavern[newAsset.isAbout].map(
                     (asset: { name: string }) =>
                         asset.name === previousName ? newAsset.edited : asset
                 ),
+                newKeys: props.tracker.keys,
+                newPattern: props.tracker.pattern,
+                newDismiss: props.tracker.dismiss,
             };
             props.onDataChange(newContent);
         } else {
-            const newContent: Partial<TavernData> = {
+            const newContent: ContentChange = {
                 [newAsset.isAbout]: [
                     ...props.tavern[newAsset.isAbout],
                     newAsset.edited,
                 ],
+                newKeys: props.tracker.keys,
+                newPattern: props.tracker.pattern,
+                newDismiss: props.tracker.dismiss,
             };
             props.onDataChange(newContent);
         }
@@ -361,7 +356,7 @@ export const EditNavigator = (props: {
                 impliedFitting,
                 newCreator,
                 props.tavern,
-                tracker
+                props.tracker
             )
         );
         props.onDataChange({ universe });

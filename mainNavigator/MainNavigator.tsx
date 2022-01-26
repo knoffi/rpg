@@ -10,7 +10,10 @@ import { StartOptionsScene } from '../scenes/startOptionsScene/StartOptionsScene
 import { TavernCollectionScene } from '../scenes/tavernCollectionScene/TavernCollectionScene';
 import { TitleScene } from '../scenes/titleScene/TitleScene';
 import { taverns } from '../templates/taverns';
-import { getTavernHistoryInitializer } from './mainNavigatorFunctions';
+import {
+    getTavernHistoryInitializer,
+    getTracker,
+} from './mainNavigatorFunctions';
 import { getRandomStartTavern } from './randomTavern/getRandomStartTavern';
 import { MinimalTavernData } from './TavernData';
 import { DEFAULT_UNIVERSE_MAP, UniverseMap } from './UniverseMap';
@@ -36,35 +39,48 @@ export const MainNavigator = () => {
         }
     };
     const buildRandomTavern = (map: UniverseMap) => {
-        const randomStartTavern = getRandomStartTavern(map);
+        const randomTavern = getRandomStartTavern(map);
+        const newTracker = getTracker(randomTavern);
         setHistoryIndex(0);
-        setTavernHistory([randomStartTavern]);
+        setTavernHistory([{ tavern: randomTavern, tracker: newTracker }]);
     };
     const buildTavernTemplate = (templateKey: string) => {
         const minTavernDataByID = taverns.find(
             (tavern) => tavern.key === templateKey
         );
-        const tavernData =
-            minTavernDataByID ||
-            getTavernHistoryInitializer(DEFAULT_UNIVERSE_MAP);
-        setHistoryIndex(0);
-        setTavernHistory([tavernData]);
+        if (minTavernDataByID) {
+            const tavern = minTavernDataByID;
+            const tracker = getTracker(tavern);
+            setHistoryIndex(0);
+            setTavernHistory([{ tavern, tracker }]);
+        } else {
+            const defaultTavern =
+                getTavernHistoryInitializer(DEFAULT_UNIVERSE_MAP);
+            setHistoryIndex(0);
+            setTavernHistory([defaultTavern]);
+        }
     };
     const saveMinimalTavernData = async () => {
-        const tavern = tavernHistory[historyIndex];
-        const minimalData: MinimalTavernData = tavern;
+        const current = tavernHistory[historyIndex];
+        const minimalData: MinimalTavernData = current.tavern;
         const dataHandler = new Database();
         dataHandler.saveData(minimalData, 'tavern');
     };
 
     const buildTavernFromMinimalData = (minimalData: MinimalTavernData) => {
+        const newTracker = getTracker(minimalData);
+        const newStart = { tavern: minimalData, tracker: newTracker };
         setHistoryIndex(0);
-        setTavernHistory([minimalData]);
+        setTavernHistory([newStart]);
     };
 
     const getOfferPrice = (offer: Offer) => {
-        const tavern = tavernHistory[historyIndex];
-        return getAdjustedPrice(offer, tavern.prices, tavern.fitting.income);
+        const current = tavernHistory[historyIndex];
+        return getAdjustedPrice(
+            offer,
+            current.tavern.prices,
+            current.tavern.fitting.income
+        );
     };
 
     return (
@@ -112,7 +128,8 @@ export const MainNavigator = () => {
                                 sceneTitle=""
                                 boughtOffers={[] as Offer[]}
                                 currencyName={
-                                    tavernHistory[historyIndex].prices.currency
+                                    tavernHistory[historyIndex].tavern.prices
+                                        .currency
                                 }
                                 onBuyChange={onDataChange}
                             ></AppBar>
@@ -143,10 +160,12 @@ export const MainNavigator = () => {
                                 }}
                                 sceneTitle=""
                                 boughtOffers={
-                                    tavernHistory[historyIndex].boughtOffers
+                                    tavernHistory[historyIndex].tavern
+                                        .boughtOffers
                                 }
                                 currencyName={
-                                    tavernHistory[historyIndex].prices.currency
+                                    tavernHistory[historyIndex].tavern.prices
+                                        .currency
                                 }
                                 onBuyChange={onDataChange}
                             ></AppBar>
@@ -154,8 +173,9 @@ export const MainNavigator = () => {
                     }}
                     children={() => (
                         <EditNavigator
-                            tavern={tavernHistory[historyIndex]}
+                            tavern={tavernHistory[historyIndex].tavern}
                             onDataChange={onDataChange}
+                            tracker={tavernHistory[historyIndex].tracker}
                         ></EditNavigator>
                     )}
                 />
