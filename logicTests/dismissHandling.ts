@@ -50,4 +50,15 @@ describe('Dismiss Handler', () => {
         expect(original.getUnpleasant(WeServe.impressions)).to.have.length(0);
         expect(original.getUnwanted(WeServe.impressions)).to.have.length(0);
     });
+    it('Update Cloning', () => {
+        const original = new DismissHandler();
+        const clone = original.updatedClone(WeServe.impressions, {
+            unwanted: ['A1', 'A2'],
+            unpleasant: ['B'],
+        });
+        expect(clone.getUnpleasant(WeServe.impressions)).to.have.length(1);
+        expect(clone.getUnwanted(WeServe.impressions)).to.have.length(2);
+        expect(original.getUnpleasant(WeServe.impressions)).to.have.length(0);
+        expect(original.getUnwanted(WeServe.impressions)).to.have.length(0);
+    });
 });
