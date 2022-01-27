@@ -1,5 +1,7 @@
 import { assert, expect } from 'chai';
+import { AssetKey } from '../classes/idea/AssetKey/AssetKey';
 import { KeyHandler } from '../classes/keyHandler/KeyHandler';
+import { KeyChange } from '../classes/keyHandler/KeyHandlingTypes';
 import { WeServe } from '../editNavigator/WeServe';
 import { Constants } from './constants/Constants';
 describe('KeyHandler tests', () => {
@@ -100,5 +102,25 @@ describe('KeyHandler tests', () => {
         keys.update(ADD);
         keys.update(DELETE);
         assert.throws(() => keys.update(DELETE), /negative/i);
+    });
+    it('multi update clone', () => {
+        const original = new KeyHandler('noPreviousContent');
+        const change: KeyChange = {
+            type: 'Add',
+            newKeys: {
+                main: [
+                    AssetKey.BARTENDER_charisma,
+                    AssetKey.BARTENDER_charisma,
+                ],
+                addition: [],
+            },
+            isAbout: WeServe.impressions,
+        };
+        const clone = original.multiUpdateClone([change]);
+        expect(
+            original.getFullKeys(WeServe.impressions).main,
+            'original is not supposed to change! table needs deeper copy!'
+        ).to.have.length(0);
+        expect(clone.getFullKeys(WeServe.impressions).main).to.have.length(1);
     });
 });

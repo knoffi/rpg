@@ -12,9 +12,28 @@ export class DismissHandler {
             [WeServe.impressions]: DismissHandler.getEmptyDismiss(),
         };
     }
+    private cloneTable() {
+        const newTable = {
+            [WeServe.drinks]: DismissHandler.getEmptyDismiss(),
+            [WeServe.food]: DismissHandler.getEmptyDismiss(),
+            [WeServe.impressions]: DismissHandler.getEmptyDismiss(),
+        };
+        Object.values(WeServe).forEach((isAbout) => {
+            newTable[isAbout] = { ...this.table[isAbout] };
+        });
+        return newTable;
+    }
+    //TODO: needs testing, whether previous element gets changed
     public updatedClone(isAbout: WeServe, dismiss: Dismiss) {
         const clone = new DismissHandler();
+        clone.table = { ...this.cloneTable() };
         clone.add(isAbout, dismiss);
+        return clone;
+    }
+    //TODO: needs testing, whether previous element gets changed
+    public clone() {
+        const clone = new DismissHandler();
+        clone.table = { ...this.cloneTable() };
         return clone;
     }
     public add(isAbout: WeServe, dismiss: Dismiss) {
