@@ -11,8 +11,9 @@ import { TavernCollectionScene } from '../scenes/tavernCollectionScene/TavernCol
 import { TitleScene } from '../scenes/titleScene/TitleScene';
 import { taverns } from '../templates/taverns';
 import {
+    buildTracker,
+    getNewTracker,
     getTavernHistoryInitializer,
-    getTracker,
 } from './mainNavigatorFunctions';
 import { getRandomStartTavern } from './randomTavern/getRandomStartTavern';
 import { TavernChange } from './TavernChange';
@@ -28,18 +29,18 @@ export const MainNavigator = () => {
 
     const onDataChange = (change: TavernChange) => {
         const current = tavernHistory[historyIndex];
-        const newTracker = { ...current.tracker, ...change };
+        const newTracker = getNewTracker(change, current.tracker);
         const newTavern = { ...current.tavern, ...change };
         const newSlice = { tavern: newTavern, tracker: newTracker };
         const pastHistory = tavernHistory.filter(
             (data, index) => index <= historyIndex
         );
-        setTavernHistory([...pastHistory, newSlice]);
+        setTavernHistory(pastHistory.concat(newSlice));
         setHistoryIndex(historyIndex + 1);
     };
     const buildRandomTavern = (map: UniverseMap) => {
         const randomTavern = getRandomStartTavern(map);
-        const newTracker = getTracker(randomTavern);
+        const newTracker = buildTracker(randomTavern);
         setHistoryIndex(0);
         setTavernHistory([{ tavern: randomTavern, tracker: newTracker }]);
     };
@@ -49,7 +50,7 @@ export const MainNavigator = () => {
         );
         if (minTavernDataByID) {
             const tavern = minTavernDataByID;
-            const tracker = getTracker(tavern);
+            const tracker = buildTracker(tavern);
             setHistoryIndex(0);
             setTavernHistory([{ tavern, tracker }]);
         } else {
@@ -67,7 +68,7 @@ export const MainNavigator = () => {
     };
 
     const buildTavernFromMinimalData = (minimalData: MinimalTavernData) => {
-        const newTracker = getTracker(minimalData);
+        const newTracker = buildTracker(minimalData);
         const newStart = { tavern: minimalData, tracker: newTracker };
         setHistoryIndex(0);
         setTavernHistory([newStart]);

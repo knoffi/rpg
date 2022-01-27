@@ -4,6 +4,7 @@ import { PatternHandler } from '../classes/patternHandler/PatternHandler';
 import { WeServe } from '../editNavigator/WeServe';
 import { standardBasePrice } from '../scenes/menuScene/basePrice';
 import { ContentTracker } from './ContentTracker';
+import { ContentChange, TavernChange } from './TavernChange';
 import { MinimalTavernData } from './TavernData';
 import { UniverseMap } from './UniverseMap';
 
@@ -18,14 +19,27 @@ export const getTavernHistoryInitializer = (universe: UniverseMap) => {
         [WeServe.impressions]: [],
         universe,
     };
-    const tracker = getTracker(tavern);
+    const tracker = buildTracker(tavern);
     return { tavern, tracker };
 };
 
-export const getTracker = (tavern: MinimalTavernData): ContentTracker => {
+export const buildTracker = (tavern: MinimalTavernData): ContentTracker => {
     return {
         keys: new KeyHandler(tavern),
         pattern: new PatternHandler(tavern),
         dismiss: new DismissHandler(),
     };
+};
+
+export const getNewTracker = (change: TavernChange, old: ContentTracker) => {
+    // use type assertion so that test framework wont complain
+    const newTracker: ContentTracker = {
+        keys:
+            (change as ContentChange).newKeys || old.keys.multiUpdateClone([]),
+        pattern:
+            (change as ContentChange).newPattern ||
+            old.pattern.multiUpdateClone([]),
+        dismiss: (change as ContentChange).newDismiss || old.dismiss.clone(),
+    };
+    return newTracker;
 };
