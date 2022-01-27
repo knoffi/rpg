@@ -15,6 +15,7 @@ import {
     getTracker,
 } from './mainNavigatorFunctions';
 import { getRandomStartTavern } from './randomTavern/getRandomStartTavern';
+import { TavernChange } from './TavernChange';
 import { MinimalTavernData } from './TavernData';
 import { DEFAULT_UNIVERSE_MAP, UniverseMap } from './UniverseMap';
 
@@ -25,18 +26,16 @@ export const MainNavigator = () => {
     ]);
     const [historyIndex, setHistoryIndex] = useState(0);
 
-    const onDataChange = (newData: Partial<MinimalTavernData>) => {
-        if (newData) {
-            const newTavernData = {
-                ...tavernHistory[historyIndex],
-                ...newData,
-            };
-            const pastTavernHistory = tavernHistory.filter(
-                (data, index) => index <= historyIndex
-            );
-            setTavernHistory([...pastTavernHistory, newTavernData]);
-            setHistoryIndex(historyIndex + 1);
-        }
+    const onDataChange = (change: TavernChange) => {
+        const current = tavernHistory[historyIndex];
+        const newTracker = { ...current.tracker, ...change };
+        const newTavern = { ...current.tavern, ...change };
+        const newSlice = { tavern: newTavern, tracker: newTracker };
+        const pastHistory = tavernHistory.filter(
+            (data, index) => index <= historyIndex
+        );
+        setTavernHistory([...pastHistory, newSlice]);
+        setHistoryIndex(historyIndex + 1);
     };
     const buildRandomTavern = (map: UniverseMap) => {
         const randomTavern = getRandomStartTavern(map);
