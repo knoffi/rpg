@@ -1,7 +1,11 @@
 import { assert, expect } from 'chai';
-import { PatternHandler } from '../classes/patternHandler/PatternHandler';
+import { Pattern } from '../classes/idea/Patterns/Pattern';
+import {
+    PatternChange,
+    PatternHandler,
+} from '../classes/patternHandler/PatternHandler';
 import { WeServe } from '../editNavigator/WeServe';
-import { Constants } from './Constants';
+import { Constants } from './constants/Constants';
 describe('PatternHandler tests', () => {
     it('construct by default', () => {
         const pattern = new PatternHandler('noContent');
@@ -85,5 +89,19 @@ describe('PatternHandler tests', () => {
         expect(pattern.getPatterns(ADD.isAbout))
             .to.have.property('length')
             .to.equal(0);
+    });
+    it('multi update clone', () => {
+        const original = new PatternHandler('noContent');
+        const change: PatternChange = {
+            type: 'Add',
+            newPatterns: [Pattern.BARTENDER_UncleBen],
+            isAbout: WeServe.impressions,
+        };
+        const clone = original.multiUpdateClone([change]);
+        expect(
+            original.getPatterns(WeServe.impressions),
+            'original is not supposed to change! table needs deeper copy!'
+        ).to.have.length(0);
+        expect(clone.getPatterns(WeServe.impressions)).to.have.length(1);
     });
 });

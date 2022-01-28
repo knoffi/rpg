@@ -10,8 +10,13 @@ import { StartOptionsScene } from '../scenes/startOptionsScene/StartOptionsScene
 import { TavernCollectionScene } from '../scenes/tavernCollectionScene/TavernCollectionScene';
 import { TitleScene } from '../scenes/titleScene/TitleScene';
 import { taverns } from '../templates/taverns';
-import { getTavernHistoryInitializer } from './mainNavigatorFunctions';
+import {
+    buildTracker,
+    getNewTracker,
+    getTavernHistoryInitializer,
+} from './mainNavigatorFunctions';
 import { getRandomStartTavern } from './randomTavern/getRandomStartTavern';
+import { TavernChange } from './TavernChange';
 import { MinimalTavernData } from './TavernData';
 import { DEFAULT_UNIVERSE_MAP, UniverseMap } from './UniverseMap';
 
@@ -22,49 +27,60 @@ export const MainNavigator = () => {
     ]);
     const [historyIndex, setHistoryIndex] = useState(0);
 
-    const onDataChange = (newData: Partial<MinimalTavernData>) => {
-        if (newData) {
-            const newTavernData = {
-                ...tavernHistory[historyIndex],
-                ...newData,
-            };
-            const pastTavernHistory = tavernHistory.filter(
-                (data, index) => index <= historyIndex
-            );
-            setTavernHistory([...pastTavernHistory, newTavernData]);
-            setHistoryIndex(historyIndex + 1);
-        }
+    const onDataChange = (change: TavernChange) => {
+        const current = tavernHistory[historyIndex];
+        const newTracker = getNewTracker(change, current.tracker);
+        const newTavern = { ...current.tavern, ...change };
+        const newSlice = { tavern: newTavern, tracker: newTracker };
+        const pastHistory = tavernHistory.filter(
+            (data, index) => index <= historyIndex
+        );
+        setTavernHistory(pastHistory.concat(newSlice));
+        setHistoryIndex(historyIndex + 1);
     };
     const buildRandomTavern = (map: UniverseMap) => {
-        const randomStartTavern = getRandomStartTavern(map);
+        const randomTavern = getRandomStartTavern(map);
+        const newTracker = buildTracker(randomTavern);
         setHistoryIndex(0);
-        setTavernHistory([randomStartTavern]);
+        setTavernHistory([{ tavern: randomTavern, tracker: newTracker }]);
     };
     const buildTavernTemplate = (templateKey: string) => {
         const minTavernDataByID = taverns.find(
             (tavern) => tavern.key === templateKey
         );
-        const tavernData =
-            minTavernDataByID ||
-            getTavernHistoryInitializer(DEFAULT_UNIVERSE_MAP);
-        setHistoryIndex(0);
-        setTavernHistory([tavernData]);
+        if (minTavernDataByID) {
+            const tavern = minTavernDataByID;
+            const tracker = buildTracker(tavern);
+            setHistoryIndex(0);
+            setTavernHistory([{ tavern, tracker }]);
+        } else {
+            const defaultTavern =
+                getTavernHistoryInitializer(DEFAULT_UNIVERSE_MAP);
+            setHistoryIndex(0);
+            setTavernHistory([defaultTavern]);
+        }
     };
     const saveMinimalTavernData = async () => {
-        const tavern = tavernHistory[historyIndex];
-        const minimalData: MinimalTavernData = tavern;
+        const current = tavernHistory[historyIndex];
+        const minimalData: MinimalTavernData = current.tavern;
         const dataHandler = new Database();
         dataHandler.saveData(minimalData, 'tavern');
     };
 
     const buildTavernFromMinimalData = (minimalData: MinimalTavernData) => {
+        const newTracker = buildTracker(minimalData);
+        const newStart = { tavern: minimalData, tracker: newTracker };
         setHistoryIndex(0);
-        setTavernHistory([minimalData]);
+        setTavernHistory([newStart]);
     };
 
     const getOfferPrice = (offer: Offer) => {
-        const tavern = tavernHistory[historyIndex];
-        return getAdjustedPrice(offer, tavern.prices, tavern.fitting.income);
+        const current = tavernHistory[historyIndex];
+        return getAdjustedPrice(
+            offer,
+            current.tavern.prices,
+            current.tavern.fitting.income
+        );
     };
 
     return (
@@ -112,9 +128,10 @@ export const MainNavigator = () => {
                                 sceneTitle=""
                                 boughtOffers={[] as Offer[]}
                                 currencyName={
-                                    tavernHistory[historyIndex].prices.currency
+                                    tavernHistory[historyIndex].tavern.prices
+                                        .currency
                                 }
-                                onDataChange={onDataChange}
+                                onBuyChange={onDataChange}
                             ></AppBar>
                         ),
                     }}
@@ -143,19 +160,22 @@ export const MainNavigator = () => {
                                 }}
                                 sceneTitle=""
                                 boughtOffers={
-                                    tavernHistory[historyIndex].boughtOffers
+                                    tavernHistory[historyIndex].tavern
+                                        .boughtOffers
                                 }
                                 currencyName={
-                                    tavernHistory[historyIndex].prices.currency
+                                    tavernHistory[historyIndex].tavern.prices
+                                        .currency
                                 }
-                                onDataChange={onDataChange}
+                                onBuyChange={onDataChange}
                             ></AppBar>
                         ),
                     }}
                     children={() => (
                         <EditNavigator
-                            tavern={tavernHistory[historyIndex]}
+                            tavern={tavernHistory[historyIndex].tavern}
                             onDataChange={onDataChange}
+                            tracker={tavernHistory[historyIndex].tracker}
                         ></EditNavigator>
                     )}
                 />

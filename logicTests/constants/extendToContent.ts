@@ -1,5 +1,5 @@
-import { WeServe } from '../editNavigator/WeServe';
-import { Content } from '../mainNavigator/Content';
+import { WeServe } from '../../editNavigator/WeServe';
+import { Content } from '../../mainNavigator/Content';
 
 export const extendToContent = (someContent: Partial<Content>): Content => {
     return {

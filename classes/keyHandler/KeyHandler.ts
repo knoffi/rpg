@@ -1,5 +1,5 @@
 import { WeServe } from '../../editNavigator/WeServe';
-import { DeepReadonly } from '../../logicTests/Cloner';
+import { Cloner, DeepReadonly } from '../../logicTests/constants/Cloner';
 import {
     DeeplyReadonlyContent,
     DeeplyReadonlyImpression,
@@ -44,7 +44,7 @@ export class KeyHandler {
     }
     public multiUpdateClone(changes: KeyChange[]) {
         const newHandler = new KeyHandler('noPreviousContent');
-        newHandler.table = { ...this.table };
+        newHandler.table = this.cloneTable();
         changes.forEach((change) => newHandler.update(change));
         return newHandler;
     }
@@ -93,6 +93,14 @@ export class KeyHandler {
             .filter((item) => item.count >= getKeyBound(item.key))
             .map((keyCounting) => keyCounting.key);
         return { ['main']: fullMainKeys, ['addition']: fullAdditionKeys };
+    }
+
+    private cloneTable() {
+        // const newTable = new KeyHandler('noPreviousContent').table;
+        // Object.values(WeServe).forEach((isAbout) => {
+        //     newTable[isAbout] = { main:[...this.table[isAbout].main],addition:[...this.table] };
+        // });
+        return Cloner.deepCopy(this.table);
     }
 
     private static getKeysFromContent(content?: DeeplyReadonlyContent) {

@@ -183,7 +183,7 @@ const ImpressionAccordion = (props: {
         : () => {};
     const onCreate = props.onCreate;
     const onImport = props.onImport;
-    const impressionsFull = props.qualityLeft !== CreationQuality.NONE;
+    const impressionsFull = props.qualityLeft === CreationQuality.NONE;
     const descriptionItems = props.impressions.map((impression) => {
         const isUserMade = impression.universe === 'isUserMade';
         const name = impression.name;

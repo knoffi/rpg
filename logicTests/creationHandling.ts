@@ -10,9 +10,9 @@ import { Keys } from '../classes/keyHandler/KeyHandlingTypes';
 import { Drinkable } from '../classes/TavernProduct';
 import { WeServe } from '../editNavigator/WeServe';
 import { Offer } from '../scenes/menuScene/Offer';
-import { Constants } from './Constants';
+import { Constants } from './constants/Constants';
 
-describe('ContentCreator tests', () => {
+describe('Content Creator', () => {
     const creator = Constants.creator();
 
     it('construct', () => {
@@ -135,43 +135,54 @@ describe('ContentCreator tests', () => {
         }
     });
     it('multi reroll:', () => {
-        const creator = Constants.creator();
-        const {
-            partialRequest,
-            toReroll,
-            keys,
-            pattern,
-            unrerolledName,
-            addedByReroll,
-            containedFullMain,
-            containedPattern,
-        } = Constants.multiReroll();
-        const fits = {};
-        const oldFullKeys = keys.getFullKeys(WeServe.food);
-        expect(oldFullKeys, 'old full keys')
-            .to.have.property('main')
-            .to.contain(AssetKey.SMALL_DISH_soup);
-        const request = { ...partialRequest, keys, pattern };
-        const result = creator.multiReroll(fits, toReroll, request);
-        expect(result).to.have.property('isAbout').to.eql(WeServe.food);
-        const newNames = (result.rerolled as { name: string }[]).map(
-            (offer) => offer.name
-        );
-        expect(newNames)
-            .to.contain(addedByReroll)
-            .and.to.contain(unrerolledName);
-        expect(result).to.have.property('keys');
-        expect(result).to.have.property('pattern');
-        const fullKeys: Keys = result.keys.getFullKeys(WeServe.food);
-        const newPatterns: Pattern[] = result.pattern.getPatterns(WeServe.food);
-        containedFullMain.forEach((mainKey) =>
-            expect(fullKeys, 'new full keys')
+        const test = (repeat: number) => {
+            const creator = Constants.creator();
+            const {
+                request,
+                toReroll,
+                keys,
+                unrerolledName,
+                addedByReroll,
+                containedFullMain,
+                containedPattern,
+            } = Constants.multiReroll();
+            const fits = {};
+            const oldFullKeys = keys.getFullKeys(WeServe.food);
+            expect(oldFullKeys, 'old full keys')
                 .to.have.property('main')
-                .to.contain(mainKey)
-        );
-        containedPattern.forEach((pattern) =>
-            expect(newPatterns).to.contain(pattern)
-        );
+                .to.contain(AssetKey.SMALL_DISH_soup);
+            const result = creator.multiReroll(
+                fits,
+                toReroll,
+                request,
+                [],
+                toReroll
+            );
+            expect(result).to.have.property('isAbout').to.eql(WeServe.food);
+            const newNames = (result.rerolled as { name: string }[]).map(
+                (offer) => offer.name
+            );
+            expect(newNames, 'FAILED AFTER ' + repeat + ' REPEAT')
+                .to.contain(addedByReroll)
+                .and.to.contain(unrerolledName);
+            expect(result).to.have.property('keys');
+            expect(result).to.have.property('pattern');
+            const fullKeys: Keys = result.keys.getFullKeys(WeServe.food);
+            const newPatterns: Pattern[] = result.pattern.getPatterns(
+                WeServe.food
+            );
+            containedFullMain.forEach((mainKey) =>
+                expect(fullKeys, 'new full keys')
+                    .to.have.property('main')
+                    .to.contain(mainKey)
+            );
+            containedPattern.forEach((pattern) =>
+                expect(newPatterns).to.contain(pattern)
+            );
+        };
+        const repeats = new Array(2)
+            .fill(1)
+            .forEach((repeat, index) => test(index));
     });
     it('add with implied patterns', () => {
         const creator = Constants.creator();
@@ -219,7 +230,9 @@ describe('ContentCreator tests', () => {
             const reroll = creator.multiReroll(
                 fits,
                 [addedName],
-                rerollRequest(add.added)
+                rerollRequest(add.added),
+                [addedName],
+                []
             );
             const newPatterns = reroll.pattern.getPatterns(WeServe.impressions);
             expect(reroll.rerolled[0], 'Is not a wine with asset key .redWine')
@@ -230,5 +243,31 @@ describe('ContentCreator tests', () => {
                 'new Patterns were incorrect:' + JSON.stringify(newPatterns)
             ).to.have.length(1);
         }
+    });
+    it('add with unwanted names', () => {
+        const { request, fits, expectedCreation } = Constants.addWithUnwanted();
+        const creation = creator.addRandomCreation(fits, request);
+        expect(creation).to.have.property('added');
+        const assets: { name: string }[] = creation.added;
+        const namesAfterAdd = assets.map((asset) => asset.name);
+        expect(namesAfterAdd).to.eql([expectedCreation]);
+    });
+    it('add with unpleasant names', () => {
+        const { request, fits, expectedCreation } =
+            Constants.addWithUnpleasant();
+        const creation = creator.addRandomCreation(fits, request);
+        expect(creation).to.have.property('added');
+        const assets: { name: string }[] = creation.added;
+        const namesAfterAdd = assets.map((asset) => asset.name);
+        expect(namesAfterAdd).to.eql([expectedCreation]);
+    });
+    it('add with unpleasant > unwanted', () => {
+        const { request, fits, expectedCreation } =
+            Constants.addUnpleasantGreaterUnwanted();
+        const creation = creator.addRandomCreation(fits, request);
+        expect(creation).to.have.property('added');
+        const assets: { name: string }[] = creation.added;
+        const namesAfterAdd = assets.map((asset) => asset.name);
+        expect(namesAfterAdd).to.eql([expectedCreation]);
     });
 });

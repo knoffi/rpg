@@ -5,7 +5,7 @@ import { UI_TEST_CONTENT } from '../../content/testUI/testing';
 import { UNIT_TEST_CONTENT } from '../../content/UNIT_TESTING/testing';
 import { WeServe } from '../../editNavigator/WeServe';
 import { getRandomArrayEntry } from '../../helpingFunctions/getRandomArrayEntry';
-import { DeepReadonly } from '../../logicTests/Cloner';
+import { DeepReadonly } from '../../logicTests/constants/Cloner';
 import { Describable } from '../../mainNavigator/TavernData';
 import { allCategories, UniverseMap } from '../../mainNavigator/UniverseMap';
 import { Offer } from '../../scenes/menuScene/Offer';
@@ -169,17 +169,21 @@ export class ContentCreator {
         request: MultiRerollRequest,
         action:
             | { type: 'Delete' }
-            | { type: 'Reroll'; fitting: StructuredTavernFits }
+            | {
+                  type: 'Reroll';
+                  fitting: StructuredTavernFits;
+                  unwanted: string[];
+                  unpleasant: string[];
+              }
     ): MultiRerollRequest {
         const targetRemoved = this.removeAndUpdate(toReplace, request);
         if (action.type === 'Delete') {
             return targetRemoved;
         } else {
             const replacement = this.getRandomCreation(action.fitting, {
-                // For #147: change request with targetRemoved
-                ...request,
-                keys: targetRemoved.keys,
-                pattern: targetRemoved.pattern,
+                ...targetRemoved,
+                unwanted: action.unwanted,
+                unpleasant: action.unpleasant,
             });
             const newProfile = this.cloneUpdateProfile(
                 replacement,
@@ -336,6 +340,8 @@ export class ContentCreator {
                     this.getRandomDrink(fitting, {
                         ...creation,
                         oldAssets: creation.added,
+                        unwanted: [],
+                        unpleasant: [],
                     })?.level
                 );
             case WeServe.food:
@@ -343,6 +349,8 @@ export class ContentCreator {
                     this.getRandomDish(fitting, {
                         ...creation,
                         oldAssets: creation.added,
+                        unwanted: [],
+                        unpleasant: [],
                     })?.level
                 );
 
@@ -351,6 +359,8 @@ export class ContentCreator {
                     this.getRandomImpression(fitting, {
                         ...creation,
                         oldAssets: creation.added,
+                        unwanted: [],
+                        unpleasant: [],
                     })?.level
                 );
         }
@@ -358,7 +368,9 @@ export class ContentCreator {
     public multiReroll(
         fitting: StructuredTavernFits,
         rerolledNames: string[],
-        request: MultiRerollRequest
+        request: MultiRerollRequest,
+        unwanted: string[],
+        unpleasant: string[]
     ): MultiReroll {
         //NOTE: handlers for keys and patterns may come from React state
         const clonedKeys = request.keys.multiUpdateClone([]);
@@ -372,6 +384,8 @@ export class ContentCreator {
             const reroll = this.replaceAndUpdate(cur, prev, {
                 type: 'Reroll',
                 fitting,
+                unwanted,
+                unpleasant,
             });
             return reroll;
         }, startRequest);
@@ -627,7 +641,7 @@ export class ContentCreator {
     }
 
     private getRandomImpression(
-        fitting: StructuredTavernFits,
+        tavernFits: StructuredTavernFits,
         request: ImpressionRequest,
         mainFilter?: number,
         additionFilter?: number
@@ -639,101 +653,127 @@ export class ContentCreator {
             oldNames,
             WeServe.impressions
         );
+        const isUnwanted = getPrefixExcluder(
+            request.unwanted,
+            WeServe.impressions
+        );
+        const isUnpleasant = getPrefixExcluder(
+            request.unpleasant,
+            WeServe.impressions
+        );
         const mainIsExcludedByKey = getKeyExcluder(fullKeys.main);
         const additionIsExcludedByKey = getKeyExcluder(fullKeys.addition);
         const ideas = this.dungeonMaster[request.category];
 
-        const bestNotes = filterBestIdeas(
+        const bestNotes = filterBestIdeas({
             ideas,
-            fitting,
+            tavernFits,
             isExcludedByName,
             mainIsExcludedByKey,
             additionIsExcludedByKey,
             mainFilter,
             additionFilter,
-            patterns
-        );
+            patterns,
+            isUnwanted,
+            isUnpleasant,
+        });
         if (!bestNotes) {
             return undefined;
         } else {
             const newIdea = getRandomArrayEntry(bestNotes.ideas);
             const newImpression = newIdea?.createImpression(
-                fitting,
+                tavernFits,
                 //additions for impression do not get filtered by name because it seems more realistic
                 () => false,
                 additionIsExcludedByKey,
-                bestNotes.level,
+                bestNotes.rating.fitLevel,
                 this.universe[request.category],
                 additionFilter,
                 patterns
             );
-            return { new: newImpression, level: bestNotes.level };
+            return { new: newImpression, level: bestNotes.rating.fitLevel };
         }
     }
     private getRandomDrink(
-        fitting: StructuredTavernFits,
+        tavernFits: StructuredTavernFits,
         request: DrinkRequest
     ) {
         const fullKeys = request.keys.getFullKeys(request.isAbout);
         const oldNames = request.oldAssets.map((drink) => drink.name);
         const isExcludedByName = getPrefixExcluder(oldNames, WeServe.drinks);
-        const mainExcludedByKey = getKeyExcluder(fullKeys.main);
-        const additionExcludedByKey = getKeyExcluder(fullKeys.addition);
+        const isUnwanted = getPrefixExcluder(request.unwanted, WeServe.drinks);
+        const isUnpleasant = getPrefixExcluder(
+            request.unwanted,
+            WeServe.drinks
+        );
+        const mainIsExcludedByKey = getKeyExcluder(fullKeys.main);
+        const additionIsExcludedByKey = getKeyExcluder(fullKeys.addition);
         const patterns = request.pattern.getPatterns(request.isAbout);
 
         const ideas = this.dungeonMaster[request.category];
-        const bestRecipes = filterBestIdeas(
+        const bestRecipes = filterBestIdeas({
             ideas,
-            fitting,
+            tavernFits,
             isExcludedByName,
-            mainExcludedByKey,
-            additionExcludedByKey,
-            undefined,
-            undefined,
-            patterns
-        );
+            mainIsExcludedByKey,
+            additionIsExcludedByKey,
+            patterns,
+            isUnwanted,
+            isUnpleasant,
+        });
         if (!bestRecipes) {
             return undefined;
         } else {
             const newIdea = getRandomArrayEntry(bestRecipes.ideas);
             const newDrink = newIdea?.getConcreteDish(
-                fitting,
-                bestRecipes.level,
+                tavernFits,
+                bestRecipes.rating.fitLevel,
                 this.universe[request.category],
-                additionExcludedByKey,
+                additionIsExcludedByKey,
                 patterns
             );
-            return { new: newDrink, level: bestRecipes.level };
+            return { new: newDrink, level: bestRecipes.rating.fitLevel };
         }
     }
-    private getRandomDish(fitting: StructuredTavernFits, request: FoodRequest) {
+    private getRandomDish(
+        tavernFits: StructuredTavernFits,
+        request: FoodRequest
+    ) {
         const fullKeys = request.keys.getFullKeys(request.isAbout);
         const oldNames = request.oldAssets.map((dish) => dish.name);
         const isExcludedByName = getPrefixExcluder(oldNames, WeServe.drinks);
-        const mainExcludedByKey = getKeyExcluder(fullKeys.main);
-        const additionExcludedByKey = getKeyExcluder(fullKeys.addition);
+        const isUnwanted = getPrefixExcluder(request.unwanted, WeServe.drinks);
+        const isUnpleasant = getPrefixExcluder(
+            request.unpleasant,
+            WeServe.drinks
+        );
+        const mainIsExcludedByKey = getKeyExcluder(fullKeys.main);
+        const additionIsExcludedByKey = getKeyExcluder(fullKeys.addition);
         const patterns = request.pattern.getPatterns(request.isAbout);
         const ideas = this.dungeonMaster[request.category];
 
-        const bestRecipes = filterBestIdeas(
+        const bestRecipes = filterBestIdeas({
             ideas,
-            fitting,
+            tavernFits,
             isExcludedByName,
-            mainExcludedByKey,
-            additionExcludedByKey
-        );
+            mainIsExcludedByKey,
+            additionIsExcludedByKey,
+            patterns,
+            isUnpleasant,
+            isUnwanted,
+        });
         if (!bestRecipes) {
             return undefined;
         } else {
             const newIdea = getRandomArrayEntry(bestRecipes.ideas);
             const newDish = newIdea?.getConcreteDish(
-                fitting,
-                bestRecipes.level,
+                tavernFits,
+                bestRecipes.rating.fitLevel,
                 this.universe[request.category],
-                additionExcludedByKey,
+                additionIsExcludedByKey,
                 patterns
             );
-            return { new: newDish, level: bestRecipes.level };
+            return { new: newDish, level: bestRecipes.rating.fitLevel };
         }
     }
 
@@ -784,10 +824,10 @@ type Creation =
           new?: Impression;
       };
 export type Profile = { keys: KeyHandler; pattern: PatternHandler };
-
-export type FoodRequest = FoodBasic & Profile;
-export type DrinkRequest = DrinkBasic & Profile;
-export type ImpressionRequest = ImpressionBasic & Profile;
+type UserDislike = { unwanted: string[]; unpleasant: string[] };
+export type FoodRequest = FoodBasic & Profile & UserDislike;
+export type DrinkRequest = DrinkBasic & Profile & UserDislike;
+export type ImpressionRequest = ImpressionBasic & Profile & UserDislike;
 export type CreationRequest = FoodRequest | DrinkRequest | ImpressionRequest;
 export type Add = Profile &
     (

@@ -43,14 +43,14 @@ type ContentSum = {
 export const getRandomStartTavern = (
     universeMap: UniverseMap
 ): MinimalTavernData => {
-    const tavernData = getTavernHistoryInitializer(universeMap);
+    const defaultTavern = getTavernHistoryInitializer(universeMap).tavern;
     const fitting = getRandomStructuredFits();
     const prices = getRandomBasePrice();
     const name = getRandomStartName(fitting);
     //TODO: use PatternHandler to get better content
     const content = getContent(fitting, universeMap);
 
-    return { ...tavernData, name, prices, fitting, ...content };
+    return { ...defaultTavern, name, prices, fitting, ...content };
 };
 
 const getRandomFits = () => {
@@ -227,8 +227,6 @@ const getContentArray = (
         if (!add.newCreationAdded) {
             return add;
         }
-        const fullKeys = keys.getFullKeys(add.isAbout);
-        const usedPatterns = patterns.getPatterns(add.isAbout);
         const newRequest = convertAdd(add);
         return getContentArray(
             fits,

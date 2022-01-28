@@ -3,7 +3,7 @@ import { association } from '../classes/association';
 import { FantasyKeys } from '../classes/contentCreator/FantasKeys';
 import { BEST_FIT_LEVEL } from '../classes/idea/fitCalculator/getFitLevel';
 import { StructuredTavernFits } from '../classes/idea/StructuredTavernFits';
-import { Constants } from './Constants';
+import { Constants } from './constants/Constants';
 const TEST_LOOPS_AGAINST_RANDOMNESS = 10;
 describe('Power fit concepts', () => {
     it('directly chosen powerfit', () => {

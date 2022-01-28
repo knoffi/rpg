@@ -25,7 +25,7 @@ export const AppBar = (props: {
     boughtOffers: Offer[];
     currencyName: string;
     getAdjustedPrice: (offer: Offer) => number;
-    onDataChange: (newData: Partial<TavernData>) => void;
+    onBuyChange: (newData: Pick<TavernData, 'boughtOffers'>) => void;
 }) => {
     const [modalVisible, setModalVisible] = React.useState(false);
     const numberOfBoughtItems = props.boughtOffers.length;
@@ -106,6 +106,8 @@ export const AppBar = (props: {
                                 visible={numberOfBoughtItems !== 0}
                                 style={appBarStyles.badge}
                                 size={props.size / BADGE_SIZE_DIVIDER}
+                                onPressIn={undefined}
+                                onPressOut={undefined}
                             >
                                 {numberOfBoughtItems}
                             </Badge>
@@ -130,7 +132,7 @@ export const AppBar = (props: {
                                     return order.name === offerName;
                                 }
                             );
-                            props.onDataChange({
+                            props.onBuyChange({
                                 boughtOffers: [
                                     ...props.boughtOffers,
                                     reorderedOffer!,
@@ -155,7 +157,7 @@ export const AppBar = (props: {
                                 ),
                             ];
 
-                            props.onDataChange({ boughtOffers: newOrderList });
+                            props.onBuyChange({ boughtOffers: newOrderList });
                         }}
                     ></ShoppingList>
                 </Modal>
