@@ -2,25 +2,22 @@ import {
     CreationRequest,
     MultiRerollRequest,
 } from '../classes/contentCreator/ContentCreator';
-import { KeyHandler } from '../classes/keyHandler/KeyHandler';
-import { PatternHandler } from '../classes/patternHandler/PatternHandler';
 import { Content } from '../mainNavigator/Content';
+import { ContentTracker } from '../mainNavigator/ContentTracker';
 import { Demand } from '../scenes/menuScene/offerList/actionInterfaces';
 import { getCreationRequest } from './getCreationRequest';
 
 export const getMultiRerollRequest = (
     content: Content,
     reroll: Demand,
-    tracker: { keys: KeyHandler; pattern: PatternHandler },
+    tracker: ContentTracker,
     mainFilter?: number,
     additionFilter?: number
 ) => {
     const dullRequest: CreationRequest = getCreationRequest(
         reroll,
         content,
-        [],
-        [],
-        [],
+        tracker,
         mainFilter,
         additionFilter
     );
