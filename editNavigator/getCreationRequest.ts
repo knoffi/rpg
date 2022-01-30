@@ -1,7 +1,5 @@
-import {
-    CreationRequest,
-    Profile,
-} from '../classes/contentCreator/ContentCreator';
+import { CreationRequest } from '../classes/contentCreator/ContentCreator';
+import { ContentTracker } from '../mainNavigator/ContentTracker';
 import { MinimalTavernData } from '../mainNavigator/TavernData';
 import { Demand } from '../scenes/menuScene/offerList/actionInterfaces';
 import { WeServe } from './WeServe';
@@ -12,17 +10,17 @@ export function getCreationRequest(
         MinimalTavernData,
         WeServe.drinks | WeServe.food | WeServe.impressions
     >,
-    profile: Profile,
+    tracker: ContentTracker,
     mainFilter?: number,
     additionFilter?: number
 ): CreationRequest {
-    const unwanted: string[] = [];
-    const unpleasant: string[] = [];
+    const unwanted = tracker.dismiss.getUnwanted(add.isAbout);
+    const unpleasant = tracker.dismiss.getUnpleasant(add.isAbout);
     return add.isAbout === WeServe.impressions
         ? {
               ...add,
-              keys: profile.keys,
-              pattern: profile.pattern,
+              keys: tracker.keys,
+              pattern: tracker.pattern,
               oldAssets: tavern[add.isAbout],
               mainFilter,
               additionFilter,
@@ -31,8 +29,8 @@ export function getCreationRequest(
           }
         : {
               ...add,
-              keys: profile.keys,
-              pattern: profile.pattern,
+              keys: tracker.keys,
+              pattern: tracker.pattern,
               oldAssets: tavern[add.isAbout],
               unwanted,
               unpleasant,

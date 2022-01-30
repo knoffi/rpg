@@ -176,11 +176,11 @@ export const EditNavigator = (props: {
             ? qualityChangesByDelete(deletion)
             : {};
         const remainingContent = getContentFromDeletion(props.tavern, deletion);
-        const rerollRequest = getMultiRerollRequest(
-            remainingContent,
-            demand,
-            deletion
-        );
+        const rerollRequest = getMultiRerollRequest(remainingContent, demand, {
+            ...deletion,
+            dismiss: props.tracker.dismiss,
+        });
+        //TODO: do we use dismisses for reroll ?
         const reroll = creator.multiReroll(
             impliedFitting,
             rerolls,
@@ -226,6 +226,19 @@ export const EditNavigator = (props: {
             impliedFitting,
             creation
         );
+        console.log(
+            'unwanted:' +
+                JSON.stringify(
+                    props.tracker.dismiss.getUnwanted(WeServe.impressions)
+                )
+        );
+        console.log(
+            'unpleasant:' +
+                JSON.stringify(
+                    props.tracker.dismiss.getUnpleasant(WeServe.impressions)
+                )
+        );
+        console.log('--------------------------------------------------');
         invokeAdd(creation, qualityLeft);
     };
 
