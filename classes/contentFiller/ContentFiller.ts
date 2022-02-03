@@ -126,9 +126,45 @@ export class ContentFiller {
 
     public randomChapter(
         fits: StructuredTavernFits,
-        isAbout: WeServe
+        isAbout: WeServe,
+        keys: KeyHandler,
+        pattern: PatternHandler
     ): Partial<Content> {
-        return {};
+        switch (isAbout) {
+            case WeServe.drinks:
+                const drinks = Object.values(Drinkable).flatMap(
+                    (category) =>
+                        this.randomPage(
+                            fits,
+                            { isAbout, category },
+                            keys,
+                            pattern
+                        ).content as Offer[]
+                );
+                return { [isAbout]: drinks };
+            case WeServe.food:
+                const food = Object.values(Eatable).flatMap(
+                    (category) =>
+                        this.randomPage(
+                            fits,
+                            { isAbout, category },
+                            keys,
+                            pattern
+                        ).content as Offer[]
+                );
+                return { [isAbout]: food };
+            default:
+                const impressions = Object.values(Noticable).flatMap(
+                    (category) =>
+                        this.randomPage(
+                            fits,
+                            { isAbout, category },
+                            keys,
+                            pattern
+                        ).content as Impression[]
+                );
+                return { [isAbout]: impressions };
+        }
     }
 
     public randomPage(
