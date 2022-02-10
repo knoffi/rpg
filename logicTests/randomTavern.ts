@@ -7,7 +7,7 @@ describe('Build Random Tavern', () => {
     it('with non-empty properties', () => {
         const randomTavern = getRandomStartTavern(DEFAULT_UNIVERSE_MAP);
         Object.values(WeServe).forEach((isAbout) => {
-            expect(randomTavern)
+            expect(randomTavern, 'failed for ' + isAbout)
                 .to.have.property(isAbout)
                 .to.have.length.greaterThanOrEqual(2);
         });
