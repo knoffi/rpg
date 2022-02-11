@@ -1,57 +1,11 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { SavedData } from '../../components/ListOfSaves/SavedData';
+import { DataHolder, SavedData } from '../../components/ListOfSaves/SavedData';
 import { Demand } from '../../scenes/menuScene/offerList/actionInterfaces';
 import { Noticable } from '../idea/Noticable';
 import { Drinkable, Eatable } from '../TavernProduct';
 
 const TAVERN_KEY_PREIMAGE = 'tavern';
 export class Database {
-    private getAllKeys = async (saving: 'tavern' | Demand) => {
-        const allKeys = await AsyncStorage.getAllKeys();
-        return allKeys.filter((key) => {
-            return this.keyFitsToRequest(key, saving);
-        });
-    };
-    private itemFromKeyContainsName(
-        key: string,
-        name: string,
-        saving: 'tavern' | Demand
-    ): boolean {
-        const mainKey = this.getMainKey(saving);
-        return (
-            key.substring(mainKey.length, mainKey.length + name.length) === name
-        );
-    }
-    private getKeyFromName(name: string, saving: 'tavern' | Demand) {
-        return saving === 'tavern'
-            ? this.prefixMap.get(TAVERN_KEY_PREIMAGE) + name
-            : this.prefixMap.get(saving.category as string) + name;
-    }
-    private getNameForSaving = async (
-        name: string,
-        saving: 'tavern' | Demand
-    ) => {
-        const relevantKeys = await this.getAllKeys(saving);
-        if (
-            !relevantKeys.some(
-                (key) => key === this.getKeyFromName(name, saving)
-            )
-        ) {
-            return name;
-        }
-        const keysOfNearlyDuplicates = relevantKeys.filter((key) =>
-            this.itemFromKeyContainsName(key, name, saving)
-        );
-        const possibleNewNames = new Array(keysOfNearlyDuplicates.length + 1)
-            .fill(1)
-            .map((entry, index) => name + '(' + (index + 2).toString() + ')');
-        return possibleNewNames.find(
-            (newName) =>
-                !keysOfNearlyDuplicates.some(
-                    (key) => key === this.getKeyFromName(newName, saving)
-                )
-        )!;
-    };
     prefixMap!: Map<string, string>;
     constructor() {
         this.setPrefixMap();
@@ -82,7 +36,9 @@ export class Database {
         }
     }
 
-    public getSaves = async (saving: 'tavern' | Demand) => {
+    public getSaves = async (
+        saving: 'tavern' | Demand
+    ): Promise<DataHolder[]> => {
         try {
             const relevantKeys = await this.getAllKeys(saving);
             if (relevantKeys) {
@@ -92,12 +48,12 @@ export class Database {
                     );
                     const storedData = valuePairs.map((valuePair) => {
                         return valuePair[1] !== null
-                            ? JSON.parse(valuePair[1])
+                            ? (JSON.parse(valuePair[1]) as DataHolder)
                             : undefined;
                     });
                     return storedData.filter(
                         (value) => value !== undefined
-                    ) as SavedData[];
+                    ) as DataHolder[];
                 } catch (e2) {
                     console.log(e2);
                 }
@@ -105,25 +61,23 @@ export class Database {
         } catch (e) {
             console.log(e);
         }
+        return [];
     };
 
     public saveData = async (data: SavedData, saving: 'tavern' | Demand) => {
-        const nameForSaving = await this.getNameForSaving(data.name, saving);
-        data.name = nameForSaving;
-        const JSONdata = JSON.stringify(data);
+        const title = await this.getTitleForDB(data.name, saving);
+        const toSave: DataHolder = { data, title };
+        const JSONdata = JSON.stringify(toSave);
         try {
-            AsyncStorage.setItem(
-                this.getKeyFromName(nameForSaving, saving),
-                JSONdata
-            );
+            AsyncStorage.setItem(this.getKeyByTitle(title, saving), JSONdata);
         } catch (e) {
             console.log(e);
         }
     };
 
-    public removeData = async (name: string, saving: 'tavern' | Demand) => {
+    public removeData = async (title: string, saving: 'tavern' | Demand) => {
         try {
-            await AsyncStorage.removeItem(this.getKeyFromName(name, saving));
+            await AsyncStorage.removeItem(this.getKeyByTitle(title, saving));
         } catch (e) {
             console.log(e);
         }
@@ -136,4 +90,47 @@ export class Database {
         const prefixMatches = key.slice(prefixStart, prefixEnd + 1) === mainKey;
         return prefixMatches;
     }
+    private getAllKeys = async (saving: 'tavern' | Demand) => {
+        const allKeys = await AsyncStorage.getAllKeys();
+        return allKeys.filter((key) => {
+            return this.keyFitsToRequest(key, saving);
+        });
+    };
+    private itemFromKeyContainsName(
+        key: string,
+        name: string,
+        saving: 'tavern' | Demand
+    ): boolean {
+        const mainKey = this.getMainKey(saving);
+        return (
+            key.substring(mainKey.length, mainKey.length + name.length) === name
+        );
+    }
+    private getKeyByTitle(title: string, saving: 'tavern' | Demand) {
+        return saving === 'tavern'
+            ? this.prefixMap.get(TAVERN_KEY_PREIMAGE) + title
+            : this.prefixMap.get(saving.category as string) + title;
+    }
+    private getTitleForDB = async (name: string, saving: 'tavern' | Demand) => {
+        const relevantKeys = await this.getAllKeys(saving);
+        if (
+            !relevantKeys.some(
+                (key) => key === this.getKeyByTitle(name, saving)
+            )
+        ) {
+            return name;
+        }
+        const keysOfNearlyDuplicates = relevantKeys.filter((key) =>
+            this.itemFromKeyContainsName(key, name, saving)
+        );
+        const possibleTitles = new Array(keysOfNearlyDuplicates.length + 1)
+            .fill(1)
+            .map((entry, index) => name + '(' + (index + 2).toString() + ')');
+        return possibleTitles.find(
+            (suggestedTitle) =>
+                !keysOfNearlyDuplicates.some(
+                    (key) => key === this.getKeyByTitle(suggestedTitle, saving)
+                )
+        )!;
+    };
 }
