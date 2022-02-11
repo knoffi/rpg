@@ -2,15 +2,26 @@ import { expect } from 'chai';
 import { association } from '../classes/association';
 import { KeyHandler } from '../classes/keyHandler/KeyHandler';
 import { PatternHandler } from '../classes/patternHandler/PatternHandler';
-import { Drinkable } from '../classes/TavernProduct';
+import { Drinkable, Eatable } from '../classes/TavernProduct';
 import { WeServe } from '../editNavigator/WeServe';
 import { ContentFiller } from './../classes/contentFiller/ContentFiller';
 import { Constants } from './constants/Constants';
 
 describe('Content Filler', () => {
-    it('constructor', () => {
+    it('with non-empty properties', () => {
         const universe = Constants.universe;
         const filler = new ContentFiller(universe);
+        const randomTavern = filler.getRandomStartTavern();
+        Object.values(WeServe).forEach((isAbout) => {
+            expect(randomTavern, 'failed for ' + isAbout)
+                .to.have.property(isAbout)
+                .to.have.length.greaterThanOrEqual(2);
+        });
+        expect(randomTavern).to.have.property('fitting');
+        expect(randomTavern).to.have.property('boughtOffers');
+        expect(randomTavern).to.have.property('name');
+        expect(randomTavern).to.have.property('prices');
+        expect(randomTavern).to.have.property('universe');
     });
     it('random page is filled', () => {
         const universe = Constants.universe;
@@ -47,5 +58,40 @@ describe('Content Filler', () => {
             const second = page.content[2];
             expect(second.name).to.eql('Holy Rum');
         }
+    });
+    it('random chapter', () => {
+        const universe = Constants.universe;
+        const filler = new ContentFiller(universe);
+        const chapter = filler.randomChapter(
+            { powerFit: association.desert, land: association.desert },
+            WeServe.food,
+            new KeyHandler('noPreviousContent'),
+            new PatternHandler('noContent')
+        );
+        expect(chapter)
+            .to.have.property(WeServe.food)
+            .to.have.length.greaterThan(0);
+        Object.values(Eatable).forEach((category) => {
+            const dishes = (chapter[WeServe.food] || []).filter(
+                (dish) => dish.category === category
+            );
+            expect(dishes, 'failed for ' + category).to.have.length.greaterThan(
+                0
+            );
+            if (Eatable.breakfast === category) {
+                expect(dishes[0].name).to.eql('Sabich');
+                if (dishes.length > 1) {
+                    expect(dishes[1].name).to.eql('Bread');
+                }
+            }
+        });
+    });
+    it('random content', () => {
+        const universe = Constants.universe;
+        const filler = new ContentFiller(universe);
+        const content = filler.randomContent({ powerFit: association.knight });
+        Object.values(WeServe).forEach((isAbout) => {
+            expect(content[isAbout]).to.have.length.greaterThan(2);
+        });
     });
 });
