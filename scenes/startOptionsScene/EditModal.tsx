@@ -5,6 +5,7 @@ import {
     buttonEmphasis,
     InfoIconButton,
 } from '../../components/buttons/Buttons';
+import { HEIGHT_FACTOR, WIDTH_FACTOR } from '../../dimensionConstants';
 import {
     DEFAULT_UNIVERSE_MAP,
     UniverseMap,
@@ -155,7 +156,7 @@ const TavernInfo = (props: {
                 style={{
                     flexDirection: 'row',
                     justifyContent: 'space-evenly',
-                    paddingTop: 10,
+                    paddingTop: 10 * HEIGHT_FACTOR,
                 }}
             >
                 <Button mode="contained" onPress={props.onBackButton}>
@@ -181,7 +182,7 @@ const TavernsFlatList = (props: {
                     <View
                         style={{
                             flexDirection: 'row',
-                            marginVertical: 16,
+                            marginVertical: 16 * HEIGHT_FACTOR,
                             justifyContent: 'flex-start',
                         }}
                     >
@@ -189,14 +190,19 @@ const TavernsFlatList = (props: {
                             onPress={() =>
                                 props.onTavernInfoClick(item.note, item.key)
                             }
-                            size={24}
-                            padding={10}
+                            size={24 * HEIGHT_FACTOR}
+                            marginHorizontal={10 * WIDTH_FACTOR}
                         ></InfoIconButton>
                         <Button
                             onPress={() => props.onTavernClick(item.key)}
                             mode={buttonEmphasis.medium}
                         >
-                            <Text style={{ fontWeight: 'bold', fontSize: 15 }}>
+                            <Text
+                                style={{
+                                    fontWeight: 'bold',
+                                    fontSize: 15 * WIDTH_FACTOR,
+                                }}
+                            >
                                 {item.name.toUpperCase()}
                             </Text>
                         </Button>
