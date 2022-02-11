@@ -82,6 +82,18 @@ export class Database {
             console.log(e);
         }
     };
+    public async clearAll(target: 'tavern' | Demand) {
+        try {
+            const targetKeys = await this.getAllKeys(target);
+            try {
+                await AsyncStorage.multiRemove(targetKeys);
+            } catch (multiRemoveError) {
+                console.log(multiRemoveError);
+            }
+        } catch (getKeysError) {
+            console.log(getKeysError);
+        }
+    }
 
     private keyFitsToRequest(key: string, saving: 'tavern' | Demand) {
         const mainKey = this.getMainKey(saving);

@@ -133,13 +133,34 @@ export class ListOfSaves extends React.Component<
                     contentContainerStyle={editModalStyles.containerStyle}
                 >
                     <ScrollView>
-                        <Button
-                            onPress={() => {
-                                this.dismissScene();
+                        <View
+                            style={{
+                                flexDirection: 'row',
+                                justifyContent: 'space-around',
                             }}
                         >
-                            Back
-                        </Button>
+                            <Button
+                                onPress={() => {
+                                    this.dismissScene();
+                                }}
+                                mode="contained"
+                            >
+                                Back
+                            </Button>
+                            <Button
+                                style={{ backgroundColor: 'red' }}
+                                mode="contained"
+                                onPress={() =>
+                                    this.props.dataHandler.clearAll(
+                                        this.props.building.isAbout === 'tavern'
+                                            ? 'tavern'
+                                            : this.props.building
+                                    )
+                                }
+                            >
+                                Clear ALL
+                            </Button>
+                        </View>
                         {
                             <List.Section title={this.props.title}>
                                 {listItems!}
