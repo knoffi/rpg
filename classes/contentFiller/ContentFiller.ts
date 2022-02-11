@@ -57,11 +57,11 @@ export class ContentFiller {
         this.creator = new ContentCreator(universe);
     }
 
-    public getRandomStartTavern = (): MinimalTavernData => {
+    public getRandomTavern = (): MinimalTavernData => {
         const defaultTavern = getTavernHistoryInitializer(this.universe).tavern;
         const fitting = this.getRandomStructuredFits();
         const prices = this.getRandomBasePrice();
-        const name = this.getRandomStartName(fitting);
+        const name = this.getRandomName(fitting);
         //TODO: use PatternHandler to get better content
         const content = this.randomContent(fitting);
 
@@ -272,7 +272,7 @@ export class ContentFiller {
         };
     }
 
-    private getRandomStartName(fits: StructuredTavernFits) {
+    private getRandomName(fits: StructuredTavernFits) {
         const probabilityForNameFilter = Math.random();
         const newName = getRandomName(
             fits,

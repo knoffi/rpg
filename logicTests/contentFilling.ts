@@ -11,7 +11,7 @@ describe('Content Filler', () => {
     it('with non-empty properties', () => {
         const universe = Constants.universe;
         const filler = new ContentFiller(universe);
-        const randomTavern = filler.getRandomStartTavern();
+        const randomTavern = filler.getRandomTavern();
         Object.values(WeServe).forEach((isAbout) => {
             expect(randomTavern, 'failed for ' + isAbout)
                 .to.have.property(isAbout)
