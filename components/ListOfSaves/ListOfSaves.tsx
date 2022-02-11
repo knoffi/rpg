@@ -10,6 +10,7 @@ import { Offer } from '../../scenes/menuScene/Offer';
 import { Demand } from '../../scenes/menuScene/offerList/actionInterfaces';
 import { Impression } from '../../scenes/questScene/impressions/Impression';
 import { editModalStyles } from '../../scenes/startOptionsScene/editModalStyles';
+import { DataHolder } from './SavedData';
 type TavernBuild = {
     isAbout: 'tavern';
     build: (minimalTavernData: MinimalTavernData) => void;
@@ -30,7 +31,7 @@ interface ListOfSavesProps {
     onDismiss: () => void;
 }
 interface ListOfSavesState {
-    loadedSaves: (MinimalTavernData | Offer | Impression)[];
+    loadedSaves: DataHolder[];
 }
 
 export class ListOfSaves extends React.Component<
@@ -38,7 +39,7 @@ export class ListOfSaves extends React.Component<
     ListOfSavesState
 > {
     state = {
-        loadedSaves: [] as (MinimalTavernData | Offer | Impression)[],
+        loadedSaves: [] as DataHolder[],
     };
     constructor(props: any) {
         super(props);
@@ -54,8 +55,8 @@ export class ListOfSaves extends React.Component<
         const listItems = this.state.loadedSaves.map((save, index) => {
             return (
                 <List.Item
-                    title={save.name}
-                    key={index.toString() + save.name}
+                    title={save.title}
+                    key={index.toString() + save.title}
                     right={() => (
                         <View
                             style={{
@@ -66,7 +67,7 @@ export class ListOfSaves extends React.Component<
                             <Button
                                 style={{ marginHorizontal: 5 }}
                                 onPress={() => {
-                                    this.deleteSavedItem(save.name);
+                                    this.deleteSavedItem(save.title);
                                 }}
                             >
                                 DELETE
@@ -77,19 +78,19 @@ export class ListOfSaves extends React.Component<
                                     switch (this.props.building.isAbout) {
                                         case 'tavern':
                                             const tavern =
-                                                save as MinimalTavernData;
+                                                save.data as MinimalTavernData;
                                             this.props.building.build(tavern);
                                             break;
                                         case WeServe.impressions:
                                             const impression =
-                                                save as Impression;
+                                                save.data as Impression;
                                             this.props.building.build(
                                                 impression.name
                                             );
                                             break;
 
                                         default:
-                                            const offer = save as Offer;
+                                            const offer = save.data as Offer;
                                             this.props.building.build(
                                                 offer.name,
                                                 offer.price.toString(),
@@ -101,7 +102,7 @@ export class ListOfSaves extends React.Component<
                                 disabled={
                                     this.props.building.isAbout !== 'tavern' &&
                                     this.props.building.nameIsDuplicated(
-                                        save.name
+                                        save.data.name
                                     )
                                 }
                             >
@@ -132,13 +133,34 @@ export class ListOfSaves extends React.Component<
                     contentContainerStyle={editModalStyles.containerStyle}
                 >
                     <ScrollView>
-                        <Button
-                            onPress={() => {
-                                this.dismissScene();
+                        <View
+                            style={{
+                                flexDirection: 'row',
+                                justifyContent: 'space-around',
                             }}
                         >
-                            Back
-                        </Button>
+                            <Button
+                                onPress={() => {
+                                    this.dismissScene();
+                                }}
+                                mode="contained"
+                            >
+                                Back
+                            </Button>
+                            <Button
+                                style={{ backgroundColor: 'red' }}
+                                mode="contained"
+                                onPress={() =>
+                                    this.props.dataHandler.clearAll(
+                                        this.props.building.isAbout === 'tavern'
+                                            ? 'tavern'
+                                            : this.props.building
+                                    )
+                                }
+                            >
+                                Clear ALL
+                            </Button>
+                        </View>
                         {
                             <List.Section title={this.props.title}>
                                 {listItems!}
@@ -163,18 +185,18 @@ export class ListOfSaves extends React.Component<
         }
     };
 
-    private deleteSavedItem = async (name: string) => {
+    private deleteSavedItem = async (title: string) => {
         const demand =
             this.props.building.isAbout === 'tavern'
                 ? 'tavern'
                 : this.props.building;
-        await this.props.dataHandler.removeData(name, demand);
-        this.removeItemFromList(name);
+        await this.props.dataHandler.removeData(title, demand);
+        this.removeItemFromList(title);
     };
 
-    private removeItemFromList(name: string) {
+    private removeItemFromList(title: string) {
         const newSavedLoads = this.state.loadedSaves.filter(
-            (save) => save.name !== name
+            (save) => save.title !== title
         );
         this.setState({ loadedSaves: newSavedLoads });
     }
