@@ -230,19 +230,6 @@ export const EditNavigator = (props: {
             impliedFitting,
             creation
         );
-        console.log(
-            'unwanted:' +
-                JSON.stringify(
-                    props.tracker.dismiss.getUnwanted(WeServe.impressions)
-                )
-        );
-        console.log(
-            'unpleasant:' +
-                JSON.stringify(
-                    props.tracker.dismiss.getUnpleasant(WeServe.impressions)
-                )
-        );
-        console.log('--------------------------------------------------');
         invokeAdd(creation, qualityLeft);
     };
 
@@ -404,7 +391,7 @@ export const EditNavigator = (props: {
                             creator.testCoverage(category)
                         }
                         onContentFilling={(isAbout: WeServe | 'ALL') => {
-                            const newContent: Content =
+                            const contentChange: Partial<Content> =
                                 isAbout === 'ALL'
                                     ? filler.randomContent(impliedFitting)
                                     : filler.randomChapter(
@@ -413,6 +400,10 @@ export const EditNavigator = (props: {
                                           props.tracker.keys,
                                           props.tracker.pattern
                                       );
+                            const newContent = {
+                                ...props.tavern,
+                                ...contentChange,
+                            };
                             const newKeys = new KeyHandler(newContent);
                             const newPattern = new PatternHandler(newContent);
                             const newDismiss = new DismissHandler();
