@@ -325,14 +325,18 @@ export const bartenderOpinions: ImpressionIdea[] = [
             {
                 name: 'guests who grew up in a city',
                 needs: [a.city],
+                worksForBrothel: true,
             },
             {
                 name: 'guests who grew up in a village',
                 needsOne: [a.halfling, a.village],
+                worksForBrothel: true,
             },
             {
                 name: 'guests who grew up in a harbor city',
                 needs: [a.haven],
+                worksForBrothel: true,
+                worksForThiefs: true,
             },
         ],
         Noticable.bartender,
