@@ -419,6 +419,14 @@ export const EditNavigator = (props: {
             newPattern,
             newDismiss,
         };
+        const newContentLeft = testContentLeft(
+            contentLeft.bannerData,
+            props.tavern.fitting,
+            creator,
+            newContent,
+            { keys: newKeys, pattern: newPattern }
+        );
+        setContentLeft(newContentLeft);
         props.onDataChange(change);
     };
 
