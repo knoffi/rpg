@@ -129,7 +129,12 @@ export class ContentFiller {
         isAbout: WeServe,
         keys: KeyHandler,
         pattern: PatternHandler
-    ): Partial<Content> {
+    ): Content {
+        const emptyContent: Content = {
+            [WeServe.impressions]: [],
+            [WeServe.food]: [],
+            [WeServe.drinks]: [],
+        };
         switch (isAbout) {
             case WeServe.drinks:
                 const drinks = Object.values(Drinkable).flatMap(
@@ -141,7 +146,7 @@ export class ContentFiller {
                             pattern
                         ).content as Offer[]
                 );
-                return { [isAbout]: drinks };
+                return { ...emptyContent, [isAbout]: drinks };
             case WeServe.food:
                 const food = Object.values(Eatable).flatMap(
                     (category) =>
@@ -152,7 +157,7 @@ export class ContentFiller {
                             pattern
                         ).content as Offer[]
                 );
-                return { [isAbout]: food };
+                return { ...emptyContent, [isAbout]: food };
             default:
                 const impressions = Object.values(Noticable).flatMap(
                     (category) =>
@@ -163,7 +168,7 @@ export class ContentFiller {
                             pattern
                         ).content as Impression[]
                 );
-                return { [isAbout]: impressions };
+                return { ...emptyContent, [isAbout]: impressions };
         }
     }
 

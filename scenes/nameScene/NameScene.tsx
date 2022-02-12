@@ -15,6 +15,7 @@ import {
     PencilButton,
     RerollButton,
 } from '../../components/buttons/Buttons';
+import { WeServe } from '../../editNavigator/WeServe';
 import { Describable } from '../../mainNavigator/TavernData';
 import { UniverseMap } from '../../mainNavigator/UniverseMap';
 import { globalStyles } from '../globalStyles';
@@ -46,6 +47,7 @@ type Props = {
     handleNewName: (name: string) => void;
     setUniverse: (map: UniverseMap) => void;
     onCoverageTest: (category: Describable) => CoverageTest;
+    onContentFilling: (target: WeServe | 'ALL') => void;
     universe: UniverseMap;
 };
 
@@ -156,7 +158,7 @@ export class NameScene extends React.Component<Props, State> {
                                 this.setState({ generatingContent: false });
                             }}
                             isVisible={this.state.generatingContent}
-                            generate={() => {}}
+                            generate={this.props.onContentFilling}
                         ></GeneratorDialog>
                     </View>
                 </View>

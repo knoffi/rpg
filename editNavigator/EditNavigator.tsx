@@ -10,7 +10,9 @@ import {
 } from '../classes/contentCreator/ContentCreator';
 import { CreationQuality } from '../classes/contentCreator/CreationQuality';
 import { FantasyKeys } from '../classes/contentCreator/FantasKeys';
+import { ContentFiller } from '../classes/contentFiller/ContentFiller';
 import { Dismiss } from '../classes/dismissHandler/Dismiss';
+import { DismissHandler } from '../classes/dismissHandler/dismissHandler';
 import {
     getFitsFromStructure,
     StructuredTavernFits,
@@ -20,6 +22,7 @@ import { PatternHandler } from '../classes/patternHandler/PatternHandler';
 import { Drinkable, Eatable } from '../classes/TavernProduct';
 import Icon from '../components/icons';
 import { iconKeys } from '../components/icons/iconKeys';
+import { Content } from '../mainNavigator/Content';
 import { ContentTracker } from '../mainNavigator/ContentTracker';
 import { ContentChange, TavernChange } from '../mainNavigator/TavernChange';
 import { Describable, MinimalTavernData } from '../mainNavigator/TavernData';
@@ -110,6 +113,7 @@ export const EditNavigator = (props: {
     };
     const impliedFitting = getPowerFitAdjustment(props.tavern.fitting);
     const creator = new ContentCreator(props.tavern.universe);
+    const filler = new ContentFiller(props.tavern.universe);
     const [contentLeft, setContentLeft] = useState(
         testContentLeft(
             DEFAULT_BANNERS,
@@ -399,6 +403,27 @@ export const EditNavigator = (props: {
                         onCoverageTest={(category: Describable) =>
                             creator.testCoverage(category)
                         }
+                        onContentFilling={(isAbout: WeServe | 'ALL') => {
+                            const newContent: Content =
+                                isAbout === 'ALL'
+                                    ? filler.randomContent(impliedFitting)
+                                    : filler.randomChapter(
+                                          impliedFitting,
+                                          isAbout,
+                                          props.tracker.keys,
+                                          props.tracker.pattern
+                                      );
+                            const newKeys = new KeyHandler(newContent);
+                            const newPattern = new PatternHandler(newContent);
+                            const newDismiss = new DismissHandler();
+                            const change: TavernChange = {
+                                ...newContent,
+                                newKeys,
+                                newPattern,
+                                newDismiss,
+                            };
+                            props.onDataChange(change);
+                        }}
                     ></NameScene>
                 )}
             />
