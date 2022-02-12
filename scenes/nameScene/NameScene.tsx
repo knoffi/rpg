@@ -111,7 +111,7 @@ export class NameScene extends React.Component<Props, State> {
                         <View
                             style={{
                                 flexDirection: 'row',
-                                justifyContent: 'center',
+                                justifyContent: 'space-evenly',
                                 marginTop: 20,
                             }}
                         >
@@ -119,21 +119,14 @@ export class NameScene extends React.Component<Props, State> {
                                 onPress={() => {
                                     this.setState({ generatingContent: true });
                                 }}
-                                title="Roll"
+                                mode={buttonEmphasis.high}
+                                title=" Roll"
                             ></GeneratorButton>
-                        </View>
-                        <View
-                            style={{
-                                flexDirection: 'row',
-                                justifyContent: 'space-evenly',
-                                marginTop: 20,
-                            }}
-                        >
                             <Button
                                 onPress={() =>
                                     this.setState({ makingCoverageTest: true })
                                 }
-                                mode={'contained'}
+                                mode={buttonEmphasis.high}
                             >
                                 Coverage
                             </Button>

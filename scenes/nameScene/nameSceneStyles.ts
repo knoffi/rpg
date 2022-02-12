@@ -30,4 +30,13 @@ export const nameSceneStyles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
     },
+    buttonsInDialog: {
+        marginVertical: 10 * HEIGHT_FACTOR,
+        marginHorizontal: 50 * WIDTH_FACTOR,
+    },
+    viewInDialog: {
+        flexDirection: 'column',
+        alignContent: 'center',
+        justifyContent: 'space-between',
+    },
 });

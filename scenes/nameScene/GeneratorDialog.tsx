@@ -1,21 +1,30 @@
 import React from 'react';
 import { View } from 'react-native';
-import { Button, Dialog, Portal, Title } from 'react-native-paper';
+import { Button, Dialog, Portal } from 'react-native-paper';
 import { WeServe } from '../../editNavigator/WeServe';
+import { nameSceneStyles } from './nameSceneStyles';
 
 export const GeneratorDialog = (props: {
     isVisible: boolean;
     onDismiss: () => void;
     generate: (isAbout: WeServe | 'ALL') => void;
 }) => {
-    const titles = [...Object.values(WeServe), 'ALL'];
-    const buttons = titles.map((isAbout) => (
-        <View
-            style={{ flexDirection: 'row', justifyContent: 'center' }}
+    const buttonTitles: (WeServe | 'ALL')[] = [
+        ...Object.values(WeServe),
+        'ALL',
+    ];
+    const buttons = buttonTitles.map((isAbout) => (
+        <Button
+            mode="contained"
+            style={nameSceneStyles.buttonsInDialog}
             key={isAbout}
+            onPress={() => {
+                props.generate(isAbout);
+                props.onDismiss();
+            }}
         >
-            <Button>{isAbout.toUpperCase()}</Button>
-        </View>
+            {isAbout.toUpperCase()}
+        </Button>
     ));
     return (
         <Portal>
@@ -24,10 +33,7 @@ export const GeneratorDialog = (props: {
                 visible={props.isVisible}
                 onDismiss={props.onDismiss}
             >
-                <Title>ROLL CHAPTERS</Title>
-                <View style={{ justifyContent: 'space-evenly' }}>
-                    {buttons}
-                </View>
+                <View style={nameSceneStyles.viewInDialog}>{buttons}</View>
             </Dialog>
         </Portal>
     );
