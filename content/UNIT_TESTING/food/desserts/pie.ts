@@ -3,6 +3,7 @@ import { DishIdea } from '../../../../classes/idea/DishIdea';
 import { Eatable } from '../../../../classes/TavernProduct';
 const SIMPLE_CAKE_FACTOR = 0.9;
 const a = association;
+// changes may break content filler test for chapter (food menu)
 export const simpleCakes = [
     new DishIdea(
         {
@@ -19,6 +20,15 @@ export const simpleCakes = [
                     name: ' pie stuffed with green apples',
                 },
             ],
+        },
+        SIMPLE_CAKE_FACTOR,
+        Eatable.dessert
+    ),
+    new DishIdea(
+        {
+            mainIng: {
+                name: 'Fruit Plate',
+            },
         },
         SIMPLE_CAKE_FACTOR,
         Eatable.dessert

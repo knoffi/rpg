@@ -56,6 +56,28 @@ export const InfoIconButton = (props: IconButtonProps) => {
         ></IconButton>
     );
 };
+export const GeneratorButton = (props: ButtonProps) => {
+    return (
+        <Button
+            mode={props.mode}
+            onPress={props.onPress}
+            color={props.color}
+            disabled={props.disabled}
+            style={{
+                padding: props.padding,
+                margin: props.margin,
+                width: props.width,
+            }}
+        >
+            <FontAwesome5
+                name="dice-d20"
+                size={props.size}
+                color={props.color}
+            />
+            {props.title}
+        </Button>
+    );
+};
 
 export const InfoButton = (props: ButtonProps) => {
     return (

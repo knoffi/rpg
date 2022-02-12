@@ -2,6 +2,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import React, { useState } from 'react';
 import { AppBar } from '../appBar/AppBar';
+import { ContentFiller } from '../classes/contentFiller/ContentFiller';
 import { Database } from '../classes/database/Database';
 import { EditNavigator } from '../editNavigator/EditNavigator';
 import { Offer } from '../scenes/menuScene/Offer';
@@ -15,7 +16,6 @@ import {
     getNewTracker,
     getTavernHistoryInitializer,
 } from './mainNavigatorFunctions';
-import { getRandomStartTavern } from './randomTavern/getRandomStartTavern';
 import { TavernChange } from './TavernChange';
 import { MinimalTavernData } from './TavernData';
 import { DEFAULT_UNIVERSE_MAP, UniverseMap } from './UniverseMap';
@@ -39,7 +39,7 @@ export const MainNavigator = () => {
         setHistoryIndex(historyIndex + 1);
     };
     const buildRandomTavern = (map: UniverseMap) => {
-        const randomTavern = getRandomStartTavern(map);
+        const randomTavern = new ContentFiller(map).getRandomTavern();
         const newTracker = buildTracker(randomTavern);
         setHistoryIndex(0);
         setTavernHistory([{ tavern: randomTavern, tracker: newTracker }]);

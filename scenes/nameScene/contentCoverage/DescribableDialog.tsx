@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
 import { Button, Dialog, Portal } from 'react-native-paper';
-import { HEIGHT_FACTOR, WIDTH_FACTOR } from '../../../dimensionConstants';
 import { WeServe } from '../../../editNavigator/WeServe';
 import { Describable } from '../../../mainNavigator/TavernData';
+import { nameSceneStyles } from '../nameSceneStyles';
 import { CategoryHandling } from './CategoryHandling';
 import { CategoryPage } from './CategoryPage';
 import { CoverageTest } from './CoverageTest';
@@ -49,24 +49,11 @@ const ServicePage = (props: { onService: (category: WeServe) => void }) => {
         <Button
             key={service}
             onPress={() => props.onService(service)}
-            style={{
-                marginVertical: 10 * HEIGHT_FACTOR,
-                marginHorizontal: 50 * WIDTH_FACTOR,
-            }}
+            style={nameSceneStyles.buttonsInDialog}
             mode="contained"
         >
             {service}
         </Button>
     ));
-    return (
-        <View
-            style={{
-                flexDirection: 'column',
-                alignContent: 'center',
-                justifyContent: 'space-between',
-            }}
-        >
-            {serviceButtons}
-        </View>
-    );
+    return <View style={nameSceneStyles.viewInDialog}>{serviceButtons}</View>;
 };

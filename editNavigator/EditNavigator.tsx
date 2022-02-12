@@ -10,16 +10,23 @@ import {
 } from '../classes/contentCreator/ContentCreator';
 import { CreationQuality } from '../classes/contentCreator/CreationQuality';
 import { FantasyKeys } from '../classes/contentCreator/FantasKeys';
+import { ContentFiller } from '../classes/contentFiller/ContentFiller';
 import { Dismiss } from '../classes/dismissHandler/Dismiss';
+import { DismissHandler } from '../classes/dismissHandler/dismissHandler';
 import {
     getFitsFromStructure,
     StructuredTavernFits,
 } from '../classes/idea/StructuredTavernFits';
 import { KeyHandler } from '../classes/keyHandler/KeyHandler';
-import { PatternHandler } from '../classes/patternHandler/PatternHandler';
+import { KeyChange } from '../classes/keyHandler/KeyHandlingTypes';
+import {
+    PatternChange,
+    PatternHandler,
+} from '../classes/patternHandler/PatternHandler';
 import { Drinkable, Eatable } from '../classes/TavernProduct';
 import Icon from '../components/icons';
 import { iconKeys } from '../components/icons/iconKeys';
+import { Content } from '../mainNavigator/Content';
 import { ContentTracker } from '../mainNavigator/ContentTracker';
 import { ContentChange, TavernChange } from '../mainNavigator/TavernChange';
 import { Describable, MinimalTavernData } from '../mainNavigator/TavernData';
@@ -30,6 +37,7 @@ import { MenuScene } from '../scenes/menuScene/MenuScene';
 import { Offer } from '../scenes/menuScene/Offer';
 import { Demand } from '../scenes/menuScene/offerList/actionInterfaces';
 import { NameScene } from '../scenes/nameScene/NameScene';
+import { Impression } from '../scenes/questScene/impressions/Impression';
 import { QuestScene } from '../scenes/questScene/QuestScene';
 import { getContentFromDeletion } from './getContent';
 import { getCreationRequest } from './getCreationRequest';
@@ -110,6 +118,7 @@ export const EditNavigator = (props: {
     };
     const impliedFitting = getPowerFitAdjustment(props.tavern.fitting);
     const creator = new ContentCreator(props.tavern.universe);
+    const filler = new ContentFiller(props.tavern.universe);
     const [contentLeft, setContentLeft] = useState(
         testContentLeft(
             DEFAULT_BANNERS,
@@ -226,19 +235,6 @@ export const EditNavigator = (props: {
             impliedFitting,
             creation
         );
-        console.log(
-            'unwanted:' +
-                JSON.stringify(
-                    props.tracker.dismiss.getUnwanted(WeServe.impressions)
-                )
-        );
-        console.log(
-            'unpleasant:' +
-                JSON.stringify(
-                    props.tracker.dismiss.getUnpleasant(WeServe.impressions)
-                )
-        );
-        console.log('--------------------------------------------------');
         invokeAdd(creation, qualityLeft);
     };
 
@@ -360,6 +356,71 @@ export const EditNavigator = (props: {
         oldMaps[demand.isAbout] = newMap;
         return { ideasLeft: oldMaps };
     };
+    const getRevertedTracker = (isAbout: WeServe) => {
+        const overwrittenContent = props.tavern[isAbout];
+        const keys = getRevertedKeys(isAbout, overwrittenContent);
+        const pattern = getRevertedPatterns(isAbout, overwrittenContent);
+        const dismiss = props.tracker.dismiss.clone();
+        return { keys, pattern, dismiss };
+    };
+    const getRevertedKeys = (
+        isAbout: WeServe,
+        overwrittenContent: Offer[] | Impression[]
+    ) => {
+        const keyUndoing: KeyChange[] & { type: 'Delete' }[] =
+            overwrittenContent.map((item) => {
+                return { oldKeys: item.keys, type: 'Delete', isAbout };
+            });
+        const revertedKeys = props.tracker.keys.multiUpdateClone(keyUndoing);
+        return revertedKeys;
+    };
+    const getRevertedPatterns = (
+        isAbout: WeServe,
+        overwrittenContent: Offer[] | Impression[]
+    ) => {
+        const directPatterns: PatternChange[] & { type: 'Add' }[] =
+            overwrittenContent.map((item) => {
+                return { newPatterns: item.patterns, type: 'Add', isAbout };
+            });
+        const impliedPatterns = overwrittenContent.flatMap(
+            (item) => item.impliedPatterns
+        );
+        const clonedPatterns = props.tracker.pattern.multiUpdateClone([]);
+        clonedPatterns.multiRevert([...directPatterns, ...impliedPatterns]);
+        const revertedPatterns = clonedPatterns;
+        return revertedPatterns;
+    };
+
+    const onContentFilling = (isAbout: WeServe | 'ALL') => {
+        let contentChange: Partial<Content>;
+        if (isAbout === 'ALL') {
+            contentChange = filler.randomContent(impliedFitting);
+        } else {
+            const revertedTrackers = getRevertedTracker(isAbout);
+
+            contentChange = filler.randomChapter(
+                impliedFitting,
+                isAbout,
+                revertedTrackers.keys,
+                props.tracker.pattern
+            );
+        }
+
+        const newContent = {
+            ...props.tavern,
+            ...contentChange,
+        };
+        const newKeys = new KeyHandler(newContent);
+        const newPattern = new PatternHandler(newContent);
+        const newDismiss = new DismissHandler();
+        const change: TavernChange = {
+            ...newContent,
+            newKeys,
+            newPattern,
+            newDismiss,
+        };
+        props.onDataChange(change);
+    };
 
     const setUniverse = (universe: UniverseMap) => {
         const newCreator = new ContentCreator(universe);
@@ -399,6 +460,7 @@ export const EditNavigator = (props: {
                         onCoverageTest={(category: Describable) =>
                             creator.testCoverage(category)
                         }
+                        onContentFilling={onContentFilling}
                     ></NameScene>
                 )}
             />

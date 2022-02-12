@@ -125,15 +125,6 @@ export class Constants {
             },
         };
     }
-    private static _oldImpression: Impression = {
-        name: 'Is super duper kind',
-        category: Noticable.bartender,
-        keys: { main: [AssetKey.BARTENDER_charisma], addition: [] },
-        patterns: [Pattern.BARTENDER_UncleBen],
-        universe: FantasyKeys.unitTest,
-        impliedPatterns: [],
-        isAbout: WeServe.impressions,
-    };
     private static _oldImpressions: Impression[] = [
         {
             name: 'Friendly',
@@ -481,7 +472,7 @@ export class Constants {
             resultingPatterns,
         };
     }
-    private static universeForTests = {
+    public static universe = {
         [Eatable.mainDish]: FantasyKeys.unitTest,
         [Eatable.sideDish]: FantasyKeys.unitTest,
         [Eatable.dessert]: FantasyKeys.unitTest,
@@ -496,7 +487,7 @@ export class Constants {
         [Noticable.furniture]: FantasyKeys.unitTest,
     };
     public static creator() {
-        return new ContentCreator(Constants.universeForTests);
+        return new ContentCreator(Constants.universe);
     }
 
     public static priceTable() {

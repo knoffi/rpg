@@ -4,7 +4,7 @@ import { DishIdea } from '../../../../classes/idea/DishIdea';
 import { Drinkable } from '../../../../classes/TavernProduct';
 const a = association;
 export const lagers: DishIdea[] = [
-    // unit tests for ContentCrea use this (quality left for CreationQuality.AVERAGE), thus removing keys .BEER_ale would break test
+    // unit tests for ContentCreator use this (quality left for CreationQuality.AVERAGE), thus removing keys .BEER_ale would break test
     new DishIdea(
         {
             mainIng: {

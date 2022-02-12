@@ -11,15 +11,18 @@ import {
 import {
     BookButton,
     buttonEmphasis,
+    GeneratorButton,
     PencilButton,
     RerollButton,
 } from '../../components/buttons/Buttons';
+import { WeServe } from '../../editNavigator/WeServe';
 import { Describable } from '../../mainNavigator/TavernData';
 import { UniverseMap } from '../../mainNavigator/UniverseMap';
 import { globalStyles } from '../globalStyles';
 import { AssociationDialogBar } from './associationBar/AssociationDialogBar';
 import { CoverageTest } from './contentCoverage/CoverageTest';
 import { CoverageTestDialog } from './contentCoverage/DescribableDialog';
+import { GeneratorDialog } from './GeneratorDialog';
 import { getRandomName } from './getRandomName';
 import { nameSceneStyles } from './nameSceneStyles';
 import { NameSetDialog } from './NameSetDialog';
@@ -34,6 +37,7 @@ type State = {
     oldNameParts: string[];
     settingUniverse: boolean;
     makingCoverageTest: boolean;
+    generatingContent: boolean;
 };
 type Props = {
     fitsForDisplay: StructuredTavernFits;
@@ -43,6 +47,7 @@ type Props = {
     handleNewName: (name: string) => void;
     setUniverse: (map: UniverseMap) => void;
     onCoverageTest: (category: Describable) => CoverageTest;
+    onContentFilling: (target: WeServe | 'ALL') => void;
     universe: UniverseMap;
 };
 
@@ -56,6 +61,7 @@ export class NameScene extends React.Component<Props, State> {
             oldNameParts: [],
             settingUniverse: false,
             makingCoverageTest: false,
+            generatingContent: false,
         };
     }
 
@@ -105,17 +111,24 @@ export class NameScene extends React.Component<Props, State> {
                         <View
                             style={{
                                 flexDirection: 'row',
-                                justifyContent: 'center',
+                                justifyContent: 'space-evenly',
                                 marginTop: 20,
                             }}
                         >
+                            <GeneratorButton
+                                onPress={() => {
+                                    this.setState({ generatingContent: true });
+                                }}
+                                mode={buttonEmphasis.high}
+                                title=" Roll"
+                            ></GeneratorButton>
                             <Button
                                 onPress={() =>
                                     this.setState({ makingCoverageTest: true })
                                 }
-                                mode={'contained'}
+                                mode={buttonEmphasis.high}
                             >
-                                Content Coverage
+                                Coverage
                             </Button>
                         </View>
                         <UniverseDialog
@@ -133,6 +146,13 @@ export class NameScene extends React.Component<Props, State> {
                             }
                             onTest={this.props.onCoverageTest}
                         ></CoverageTestDialog>
+                        <GeneratorDialog
+                            onDismiss={() => {
+                                this.setState({ generatingContent: false });
+                            }}
+                            isVisible={this.state.generatingContent}
+                            generate={this.props.onContentFilling}
+                        ></GeneratorDialog>
                     </View>
                 </View>
             </View>
