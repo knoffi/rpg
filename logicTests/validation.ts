@@ -3,10 +3,12 @@ import { association } from '../classes/association';
 import { FantasyKeys } from '../classes/contentCreator/FantasKeys';
 import { DBValidator } from '../classes/database/Validator/DBValidator';
 import { AssetKey } from '../classes/idea/AssetKey/AssetKey';
+import { Noticable } from '../classes/idea/Noticable';
 import { Pattern } from '../classes/idea/Patterns/Pattern';
 import { Drinkable, Eatable } from '../classes/TavernProduct';
 import { WeServe } from '../editNavigator/WeServe';
 import { Offer } from '../scenes/menuScene/Offer';
+import { Impression } from '../scenes/questScene/impressions/Impression';
 import { MinimalTavernData } from './../mainNavigator/TavernData';
 import { Constants } from './constants/Constants';
 const wrap = (data: any, keyToRemove?: string) => {
@@ -173,6 +175,61 @@ describe('DB validation', () => {
         };
         const json = JSON.stringify(wrap(pure));
         const construction = validator.parse(json, WeServe.drinks);
+        expect(construction).to.eql(wrap(pure));
+    });
+    it('incomplete impresion', () => {
+        const incomplete: Partial<Impression> = {
+            category: Noticable.furniture,
+            name: 'Giant tables',
+            isAbout: WeServe.impressions,
+        };
+        const json = JSON.stringify(wrap(incomplete));
+        const construction = validator.parse(json, WeServe.impressions);
+        expect(construction).to.be.undefined;
+    });
+    it('unpure impression', () => {
+        const unusedKey = 'neverNeverNEVERUsed';
+        const unpure: Impression & { [unusedKey]: number } = {
+            category: Noticable.someCustomers,
+            isAbout: WeServe.impressions,
+            name: 'A blind man lies drunk in a corner',
+            keys: { main: [], addition: [] },
+            impliedPatterns: [],
+            patterns: [],
+            universe: FantasyKeys.standard,
+            [unusedKey]: 21, // 21 is only half true,
+        };
+        const json = JSON.stringify(wrap(unpure));
+        const construction = validator.parse(json, WeServe.impressions);
+        expect(construction).to.eql(wrap(unpure, unusedKey));
+    });
+    it('pure minimal impression', () => {
+        const pure: Impression = {
+            category: Noticable.someCustomers,
+            isAbout: WeServe.impressions,
+            name: 'A blind man lies drunk in a corner',
+            keys: { main: [], addition: [] },
+            impliedPatterns: [],
+            patterns: [],
+            universe: FantasyKeys.standard,
+        };
+        const json = JSON.stringify(wrap(pure));
+        const construction = validator.parse(json, WeServe.impressions);
+        expect(construction).to.eql(wrap(pure));
+    });
+    it('pure full impression', () => {
+        const pure: Impression = {
+            category: Noticable.bartender,
+            isAbout: WeServe.impressions,
+            name: 'She is a mighty warrior',
+            keys: { main: [], addition: [] },
+            impliedPatterns: [],
+            patterns: [],
+            universe: FantasyKeys.standard,
+            sex: 'female',
+        };
+        const json = JSON.stringify(wrap(pure));
+        const construction = validator.parse(json, WeServe.impressions);
         expect(construction).to.eql(wrap(pure));
     });
 });
