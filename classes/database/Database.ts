@@ -4,11 +4,14 @@ import { Demand } from '../../scenes/menuScene/offerList/actionInterfaces';
 import { Noticable } from '../idea/Noticable';
 import { Drinkable, Eatable } from '../TavernProduct';
 import { ForTavern, TAVERN_KEY_PREIMAGE } from './TAVERN_KEY_PREIMAGE';
+import { DBValidator } from './Validator/DBValidator';
 
 export class Database {
     prefixMap!: Map<string, string>;
+    private validator: DBValidator;
     constructor() {
         this.setPrefixMap();
+        this.validator = new DBValidator();
     }
     private setPrefixMap() {
         //TODO: make more resilient code with building map by adding of key-value with help of Noticable|Eatable|Drinkable enums or go to object {["tavern"]:"Taverns", [Eatable.mainDish]: ... }
@@ -45,11 +48,9 @@ export class Database {
                     const valuePairs = await AsyncStorage.multiGet(
                         relevantKeys
                     );
-                    const storedData = valuePairs.map((valuePair) => {
-                        return valuePair[1] !== null
-                            ? (JSON.parse(valuePair[1]) as DataHolder)
-                            : undefined;
-                    });
+                    const storedData = valuePairs.map((pair) =>
+                        this.parsePair(pair, saving)
+                    );
                     return storedData.filter(
                         (value) => value !== undefined
                     ) as DataHolder[];
@@ -62,6 +63,17 @@ export class Database {
         }
         return [];
     };
+    private parsePair(
+        pair: [string, string | null],
+        demand: ForTavern | Demand
+    ): DataHolder | undefined {
+        const json = pair[1] === null ? '' : pair[1];
+        const isAbout =
+            demand === TAVERN_KEY_PREIMAGE
+                ? TAVERN_KEY_PREIMAGE
+                : demand.isAbout;
+        return this.validator.parse(json, isAbout);
+    }
 
     public saveData = async (data: SavedData, saving: ForTavern | Demand) => {
         const title = await this.getTitleForDB(data.name, saving);
