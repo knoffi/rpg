@@ -4,6 +4,7 @@ import {
 } from '../../../components/ListOfSaves/SavedData';
 import { WeServe } from '../../../editNavigator/WeServe';
 import { getTavernHistoryInitializer } from '../../../mainNavigator/mainNavigatorFunctions';
+import { MinimalTavernData } from '../../../mainNavigator/TavernData';
 import { DEFAULT_UNIVERSE_MAP } from '../../../mainNavigator/UniverseMap';
 import { ForTavern, TAVERN_KEY_PREIMAGE } from '../TAVERN_KEY_PREIMAGE';
 
@@ -68,12 +69,34 @@ export class DBValidator {
         return false;
     }
     private dataHolderMissesProperty(json: string): boolean {
-        return true;
+        // TODO: validate string without converting to object
+        const save = JSON.parse(json);
+        if (!save.title || !save.data) {
+            return true;
+        }
+        return false;
     }
     private tavernMissesProperty(json: string): boolean {
-        return true;
+        // TODO: validate string without converting to object
+        const save = JSON.parse(json);
+        if (this.dataHolderMissesProperty(json)) {
+            return true;
+        } else {
+            const data = save.data;
+            return DBValidator.tavernKeys.some((key) => !data[key]);
+        }
     }
-    private buildPureTavern(jsonWithAllProperties: string) {
-        return undefined;
+    private buildPureTavern(
+        jsonWithAllProperties: string
+    ): DataHolder & { data: MinimalTavernData } {
+        const save = JSON.parse(jsonWithAllProperties);
+        const tavern = DBValidator.tavernKeys.reduce((prev, cur) => {
+            return { ...prev, [cur]: save.data[cur] };
+        }, {} as MinimalTavernData);
+        const tavernHolder: DataHolder & { data: MinimalTavernData } = {
+            data: tavern,
+            title: save.title,
+        };
+        return tavernHolder;
     }
 }
