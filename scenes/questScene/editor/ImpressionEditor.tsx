@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import { HelperText, Text, TextInput } from 'react-native-paper';
 import { UserMadeImpression } from '../../../classes/contentCreator/ContentCreator';
-import { emptyKeys } from '../../../classes/contentCreator/emptyKeys';
 import { Database } from '../../../classes/database/Database';
 import {
     buttonEmphasis,
@@ -25,8 +24,10 @@ export const ImpressionEditor = (props: {
         const impression: SavedData = {
             ...props.prevData,
             name,
-            keys: emptyKeys,
             universe: 'isUserMade',
+            impliedPatterns: [],
+            patterns: [],
+            keys: { main: [], addition: [] },
         };
         new Database().saveData(impression, props.prevData);
     };

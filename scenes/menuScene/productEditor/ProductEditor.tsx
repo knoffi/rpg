@@ -42,6 +42,9 @@ export const ProductEditor = (props: {
             isUserMade: true,
             income: association.empty,
             universe: 'isUserMade',
+            impliedPatterns: [],
+            patterns: [],
+            keys: { main: [], addition: [] },
         };
         new Database().saveData(minimalOfferDataWithNumber, props.prevData);
     };

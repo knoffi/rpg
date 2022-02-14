@@ -130,9 +130,13 @@ export class ContentFiller {
         keys: KeyHandler,
         pattern: PatternHandler
     ):
-        | Pick<Content, WeServe.drinks>
-        | Pick<Content, WeServe.food>
-        | Pick<Content, WeServe.impressions> {
+        | ({ chapter: Pick<Content, WeServe.drinks> } & {
+              isAbout: WeServe.drinks;
+          })
+        | ({ chapter: Pick<Content, WeServe.food> } & { isAbout: WeServe.food })
+        | ({ chapter: Pick<Content, WeServe.impressions> } & {
+              isAbout: WeServe.impressions;
+          }) {
         switch (isAbout) {
             case WeServe.drinks:
                 const drinks = Object.values(Drinkable).flatMap(
@@ -144,7 +148,7 @@ export class ContentFiller {
                             pattern
                         ).content as Offer[]
                 );
-                return { [isAbout]: drinks };
+                return { chapter: { [isAbout]: drinks }, isAbout };
             case WeServe.food:
                 const food = Object.values(Eatable).flatMap(
                     (category) =>
@@ -155,7 +159,7 @@ export class ContentFiller {
                             pattern
                         ).content as Offer[]
                 );
-                return { [isAbout]: food };
+                return { chapter: { [isAbout]: food }, isAbout };
             default:
                 const impressions = Object.values(Noticable).flatMap(
                     (category) =>
@@ -166,7 +170,7 @@ export class ContentFiller {
                             pattern
                         ).content as Impression[]
                 );
-                return { [isAbout]: impressions };
+                return { chapter: { [isAbout]: impressions }, isAbout };
         }
     }
 

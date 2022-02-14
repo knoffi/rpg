@@ -403,7 +403,7 @@ export const EditNavigator = (props: {
                 isAbout,
                 revertedTrackers.keys,
                 props.tracker.pattern
-            );
+            ).chapter;
         }
 
         const newContent = {
