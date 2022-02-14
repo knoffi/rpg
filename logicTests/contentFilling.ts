@@ -62,29 +62,35 @@ describe('Content Filler', () => {
     it('random chapter', () => {
         const universe = Constants.universe;
         const filler = new ContentFiller(universe);
-        const chapter = filler.randomChapter(
+        const newContent = filler.randomChapter(
             { powerFit: association.desert, land: association.desert },
             WeServe.food,
             new KeyHandler('noPreviousContent'),
             new PatternHandler('noContent')
         );
-        expect(chapter)
-            .to.have.property(WeServe.food)
-            .to.have.length.greaterThan(0);
-        Object.values(Eatable).forEach((category) => {
-            const dishes = (chapter[WeServe.food] || []).filter(
-                (dish) => dish.category === category
-            );
-            expect(dishes, 'failed for ' + category).to.have.length.greaterThan(
-                0
-            );
-            if (Eatable.breakfast === category) {
-                expect(dishes[0].name).to.eql('Sabich');
-                if (dishes.length > 1) {
-                    expect(dishes[1].name).to.eql('Bread');
+        expect(newContent).to.have.property('isAbout').to.eql(WeServe.food);
+        if (newContent.isAbout === WeServe.food) {
+            expect(newContent)
+                .to.have.property('chapter')
+                .to.have.property(WeServe.food)
+                .to.have.length.greaterThan(0);
+            const dishList = newContent.chapter[WeServe.food];
+            Object.values(Eatable).forEach((category) => {
+                const dishes = dishList.filter(
+                    (dish) => dish.category === category
+                );
+                expect(
+                    dishes,
+                    'failed for ' + category
+                ).to.have.length.greaterThan(0);
+                if (Eatable.breakfast === category) {
+                    expect(dishes[0].name).to.eql('Sabich');
+                    if (dishes.length > 1) {
+                        expect(dishes[1].name).to.eql('Bread');
+                    }
                 }
-            }
-        });
+            });
+        }
     });
     it('random content', () => {
         const universe = Constants.universe;
