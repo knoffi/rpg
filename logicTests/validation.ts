@@ -4,7 +4,7 @@ import { FantasyKeys } from '../classes/contentCreator/FantasKeys';
 import { DBValidator } from '../classes/database/Validator/DBValidator';
 import { AssetKey } from '../classes/idea/AssetKey/AssetKey';
 import { Pattern } from '../classes/idea/Patterns/Pattern';
-import { Eatable } from '../classes/TavernProduct';
+import { Drinkable, Eatable } from '../classes/TavernProduct';
 import { WeServe } from '../editNavigator/WeServe';
 import { Offer } from '../scenes/menuScene/Offer';
 import { MinimalTavernData } from './../mainNavigator/TavernData';
@@ -124,6 +124,55 @@ describe('DB validation', () => {
         };
         const json = JSON.stringify(wrap(pure));
         const construction = validator.parse(json, WeServe.food);
+        expect(construction).to.eql(wrap(pure));
+    });
+    it('incomplete drink', () => {
+        const incomplete: Partial<Offer> = {
+            category: Drinkable.lemonade,
+            isAbout: WeServe.drinks,
+            name: 'Water',
+        };
+        const json = JSON.stringify(wrap(incomplete));
+        const construction = validator.parse(json, WeServe.drinks);
+        expect(construction).to.be.undefined;
+    });
+    it('unpure drink', () => {
+        const unusedKey = 'evilPollution';
+        const unpure: Offer & { [unusedKey]: string } = {
+            name: 'Tomatoe Juice',
+            category: Drinkable.lemonade,
+            isAbout: WeServe.drinks,
+            description: 'Super tasty',
+            impliedPatterns: [],
+            income: association.modest,
+            isUserMade: false,
+            keys: { main: [], addition: [AssetKey.plotTwist] },
+            patterns: [],
+            price: 15,
+            universe: FantasyKeys.testing,
+
+            [unusedKey]: 'evil code is evil',
+        };
+        const json = JSON.stringify(wrap(unpure));
+        const construction = validator.parse(json, WeServe.drinks);
+        expect(construction).to.eql(wrap(unpure, unusedKey));
+    });
+    it('pure drink', () => {
+        const pure: Offer = {
+            name: 'Tomatoe Juice',
+            category: Drinkable.lemonade,
+            isAbout: WeServe.drinks,
+            description: 'Super tasty',
+            impliedPatterns: [],
+            income: association.modest,
+            isUserMade: false,
+            keys: { main: [], addition: [AssetKey.plotTwist] },
+            patterns: [],
+            price: 15,
+            universe: FantasyKeys.testing,
+        };
+        const json = JSON.stringify(wrap(pure));
+        const construction = validator.parse(json, WeServe.drinks);
         expect(construction).to.eql(wrap(pure));
     });
 });
