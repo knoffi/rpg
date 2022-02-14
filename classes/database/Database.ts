@@ -3,8 +3,8 @@ import { DataHolder, SavedData } from '../../components/ListOfSaves/SavedData';
 import { Demand } from '../../scenes/menuScene/offerList/actionInterfaces';
 import { Noticable } from '../idea/Noticable';
 import { Drinkable, Eatable } from '../TavernProduct';
+import { ForTavern, TAVERN_KEY_PREIMAGE } from './TAVERN_KEY_PREIMAGE';
 
-const TAVERN_KEY_PREIMAGE = 'tavern';
 export class Database {
     prefixMap!: Map<string, string>;
     constructor() {
@@ -28,16 +28,15 @@ export class Database {
             [TAVERN_KEY_PREIMAGE, 'Taverns'],
         ]);
     }
-    private getMainKey(saving: 'tavern' | Demand) {
-        if (saving === 'tavern') {
+    private getMainKey(saving: ForTavern | Demand) {
+        if (saving === TAVERN_KEY_PREIMAGE) {
             return this.prefixMap.get(TAVERN_KEY_PREIMAGE)!;
         } else {
             return this.prefixMap.get(saving.category)!;
         }
     }
-
     public getSaves = async (
-        saving: 'tavern' | Demand
+        saving: ForTavern | Demand
     ): Promise<DataHolder[]> => {
         try {
             const relevantKeys = await this.getAllKeys(saving);
@@ -64,7 +63,7 @@ export class Database {
         return [];
     };
 
-    public saveData = async (data: SavedData, saving: 'tavern' | Demand) => {
+    public saveData = async (data: SavedData, saving: ForTavern | Demand) => {
         const title = await this.getTitleForDB(data.name, saving);
         const toSave: DataHolder = { data, title };
         const JSONdata = JSON.stringify(toSave);
@@ -75,14 +74,14 @@ export class Database {
         }
     };
 
-    public removeData = async (title: string, saving: 'tavern' | Demand) => {
+    public removeData = async (title: string, saving: ForTavern | Demand) => {
         try {
             await AsyncStorage.removeItem(this.getKeyByTitle(title, saving));
         } catch (e) {
             console.log(e);
         }
     };
-    public async clearAll(target: 'tavern' | Demand) {
+    public async clearAll(target: ForTavern | Demand) {
         try {
             const targetKeys = await this.getAllKeys(target);
             try {
@@ -95,14 +94,14 @@ export class Database {
         }
     }
 
-    private keyFitsToRequest(key: string, saving: 'tavern' | Demand) {
+    private keyFitsToRequest(key: string, saving: ForTavern | Demand) {
         const mainKey = this.getMainKey(saving);
         const prefixStart = 0;
         const prefixEnd = mainKey.length - 1;
         const prefixMatches = key.slice(prefixStart, prefixEnd + 1) === mainKey;
         return prefixMatches;
     }
-    private getAllKeys = async (saving: 'tavern' | Demand) => {
+    private getAllKeys = async (saving: ForTavern | Demand) => {
         const allKeys = await AsyncStorage.getAllKeys();
         return allKeys.filter((key) => {
             return this.keyFitsToRequest(key, saving);
@@ -111,19 +110,22 @@ export class Database {
     private itemFromKeyContainsName(
         key: string,
         name: string,
-        saving: 'tavern' | Demand
+        saving: ForTavern | Demand
     ): boolean {
         const mainKey = this.getMainKey(saving);
         return (
             key.substring(mainKey.length, mainKey.length + name.length) === name
         );
     }
-    private getKeyByTitle(title: string, saving: 'tavern' | Demand) {
-        return saving === 'tavern'
+    private getKeyByTitle(title: string, saving: ForTavern | Demand) {
+        return saving === TAVERN_KEY_PREIMAGE
             ? this.prefixMap.get(TAVERN_KEY_PREIMAGE) + title
             : this.prefixMap.get(saving.category as string) + title;
     }
-    private getTitleForDB = async (name: string, saving: 'tavern' | Demand) => {
+    private getTitleForDB = async (
+        name: string,
+        saving: ForTavern | Demand
+    ) => {
         const relevantKeys = await this.getAllKeys(saving);
         if (
             !relevantKeys.some(
