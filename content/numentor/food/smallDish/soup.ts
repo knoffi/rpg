@@ -2,6 +2,7 @@ import { association } from '../../../../classes/association';
 import { AssetKey } from '../../../../classes/idea/AssetKey/AssetKey';
 import { DishIdea } from '../../../../classes/idea/DishIdea';
 import { Eatable } from '../../../../classes/TavernProduct';
+import { fish } from '../mainDish/fishAndChips';
 const a = association;
 export const soups: DishIdea[] = [
     new DishIdea(
@@ -283,43 +284,189 @@ export const soups: DishIdea[] = [
         Eatable.sideDish
     ),
     new DishIdea(
-        { mainIng: { name: 'Bean Soup', key: AssetKey.SMALL_DISH_soup } },
+        {
+            mainIng: { name: 'Bean Soup', key: AssetKey.SMALL_DISH_soup },
+            firstSideDishes: [
+                // Bouneschlupp from Luxembourg
+                {
+                    name: 'Green Beans in Vegetable Stock cooked with Potatoes, Bacon and Onions',
+                },
+                // Rumanian dish
+                {
+                    name: 'Dried Beans cooked in a Vegetable Stock with Onions, Tomatoes and Mint',
+                },
+                {
+                    name: 'White Beans cooked with Tomatoes, Olive Oil and Carrots, seasoned with Parsley',
+                },
+                {
+                    name: 'White Beans in Vegetable Stock with Celery and Pork Knuckle, seasoned with Parsley',
+                },
+            ],
+        },
         0.9,
         Eatable.sideDish
     ),
+    // is a dip in Egypt, but a soup in Morocco
     new DishIdea(
-        { mainIng: { name: 'Pepper Soup', key: AssetKey.SMALL_DISH_soup } },
-        'default',
+        {
+            mainIng: { name: 'Bissara Soup', key: AssetKey.SMALL_DISH_soup },
+            firstSideDishes: [
+                {
+                    name: 'Puréed Broad Beans cooked with Garlic, Olive Oil and Lemon Juice, seasoned with Cumin',
+                },
+            ],
+            secondSideDishes: [
+                { name: 'Cumin' },
+                { name: 'Red Pepper' },
+                { name: 'Mint' },
+            ],
+        },
+        1.0,
         Eatable.sideDish
     ),
     new DishIdea(
-        { mainIng: { name: 'Mushroom Soup', key: AssetKey.SMALL_DISH_soup } },
-        'default',
-        Eatable.sideDish
-    ),
-    new DishIdea(
-        { mainIng: { name: 'Fish Soup', key: AssetKey.SMALL_DISH_soup } },
-        'default',
-        Eatable.sideDish
-    ),
-    new DishIdea(
-        { mainIng: { name: 'Prawn Soup', key: AssetKey.SMALL_DISH_soup } },
+        // it is exactly written like this... It is a delicacy in West Africa
+        {
+            mainIng: { name: 'Peppersoup', key: AssetKey.SMALL_DISH_soup },
+            firstSideDishes: [
+                { name: 'Oxtail and Ox Stomach in Beef Stock' },
+                { name: 'Goat Meat in Beef Stock' },
+                { name: 'Chicken Hearts and Thighs in Chicken Stock' },
+                { name: 'Cat Fish and Shrimps in Fish Stock' },
+                { name: 'Crabs and Shrimps in Fish Stock' },
+            ],
+            secondSideDishes: [
+                {
+                    name: ' , seasoned with chili peppers, lime juice and nutmeg',
+                },
+            ],
+        },
         1.1,
         Eatable.sideDish
     ),
     new DishIdea(
-        { mainIng: { name: 'Lobster Soup', key: AssetKey.SMALL_DISH_soup } },
-        1.2,
-        Eatable.sideDish
-    ),
-    new DishIdea(
-        { mainIng: { name: 'Squid Soup', key: AssetKey.SMALL_DISH_soup } },
+        {
+            mainIng: { name: 'Mushroom Soup', key: AssetKey.SMALL_DISH_soup },
+            firstSideDishes: [
+                {
+                    name: 'Blended White Mushrooms with Garlic and Onions in Chicken Stock thickened with Cream',
+                },
+                {
+                    name: 'Blended White Mushrooms with Garlic and Onions in Vegetable Stock thickened with Cream',
+                },
+            ],
+        },
         'default',
         Eatable.sideDish
     ),
     new DishIdea(
-        { mainIng: { name: 'Shark Soup', key: AssetKey.SMALL_DISH_soup } },
-        1.3,
+        {
+            mainIng: { name: 'Fish Soup', key: AssetKey.SMALL_DISH_soup },
+            firstSideDishes: [{ name: 'Chunky Fish Stock ' }],
+            secondSideDishes: [
+                ...fish,
+                { name: '(Herring)' },
+                { name: '(Salmon)' },
+                { name: '(Catfish)' },
+                { name: '(Pyke)' },
+            ],
+            thirdSideDishes: [
+                {
+                    name: ' with Diced Carrots and Potatoes, seasoned with Dill and Parsley',
+                },
+            ],
+        },
+        'default',
+        Eatable.sideDish
+    ),
+    new DishIdea(
+        {
+            mainIng: { name: 'Clam Chowder', key: AssetKey.SMALL_DISH_soup },
+            firstSideDishes: [
+                {
+                    name: 'Clams and Potatoe Dices in Milk and Butter, served with Oyster Crackers ',
+                },
+            ],
+        },
+        'default',
+        Eatable.sideDish
+    ),
+    new DishIdea(
+        {
+            mainIng: {
+                name: "Fisherman's Soup",
+                key: AssetKey.SMALL_DISH_soup,
+            },
+            firstSideDishes: [
+                {
+                    name: 'Soup from Fish Heads (Carp) with Red Onions, Bell Peppers and Tomatoes, topped with Fish Filet',
+                },
+            ],
+        },
+        'default',
+        Eatable.sideDish
+    ),
+    new DishIdea(
+        {
+            mainIng: {
+                name: 'Cullen Skink Soup',
+                key: AssetKey.SMALL_DISH_soup,
+            },
+            firstSideDishes: [
+                {
+                    name: 'Soup from Smoked Fish (Haddock) with Potatoes and Onions',
+                },
+            ],
+        },
+        'default',
+        Eatable.sideDish
+    ),
+    new DishIdea(
+        {
+            mainIng: { name: 'Shrimp Chowder', key: AssetKey.SMALL_DISH_soup },
+            firstSideDishes: [
+                {
+                    name: 'Shrimps, Celery and Shallots cooked in Cream and White Wine, served with Garlic Bread',
+                },
+            ],
+        },
+        1.1,
+        Eatable.sideDish
+    ),
+    new DishIdea(
+        {
+            mainIng: { name: 'Lobster Soup', key: AssetKey.SMALL_DISH_soup },
+            firstSideDishes: [
+                {
+                    name: 'Fresh Lobsters simmered in Heavy Cream and Milk, seasoned with Sherry Wine and Parsley',
+                },
+            ],
+        },
+        1.2,
+        Eatable.sideDish
+    ),
+    new DishIdea(
+        {
+            mainIng: { name: 'Squid Soup', key: AssetKey.SMALL_DISH_soup },
+            firstSideDishes: [
+                {
+                    name: 'Squid Slices with Carrots, Radish and Onions, garnished with Coriander Leaves',
+                },
+            ],
+        },
+        'default',
+        Eatable.sideDish
+    ),
+    new DishIdea(
+        {
+            mainIng: { name: 'Shark Soup', key: AssetKey.SMALL_DISH_soup },
+            firstSideDishes: [
+                {
+                    name: 'Shark Fins and Crabmeat in Chicken Stock, seasoned with Black Vinegar and Pepper ',
+                },
+            ],
+        },
+        1.4,
         Eatable.sideDish
     ),
     new DishIdea(
@@ -329,28 +476,84 @@ export const soups: DishIdea[] = [
                 key: AssetKey.SMALL_DISH_soup,
                 needs: [a.tropical],
             },
+            firstSideDishes: [
+                {
+                    name: 'Soup from Tiger Penis and Tiger Bones with various Spices (increases libido)',
+                },
+            ],
         },
         1.0,
         Eatable.sideDish
     ),
     new DishIdea(
-        { mainIng: { name: 'Beer Soup', key: AssetKey.SMALL_DISH_soup } },
+        {
+            mainIng: { name: 'Beer Soup', key: AssetKey.SMALL_DISH_soup },
+            firstSideDishes: [
+                { name: 'Bread Chunks and Egg Yolk cooked in Beer and Milk' },
+                { name: 'Bread Chunks with Raisins cooked in Beer and Cream' },
+            ],
+        },
         1.3,
         Eatable.sideDish
     ),
     new DishIdea(
-        { mainIng: { name: 'Red Beet Soup', key: AssetKey.SMALL_DISH_soup } },
+        {
+            mainIng: { name: 'Red Beet Soup', key: AssetKey.SMALL_DISH_soup },
+            firstSideDishes: [
+                {
+                    name: 'Stock from Red Beets and Mushrooms, topped with Mushroom-Filled Dumplings',
+                },
+                {
+                    name: 'Stock from Red Beets and Chicken, cooked with White Cabbage and Carrots',
+                },
+                {
+                    name: 'Stock from Red Beets and Beef, cooked with White Cabbage and Carrots',
+                },
+                {
+                    name: 'Stock from Red Beets and Pork, cooked with White Cabbage and Carrots',
+                },
+                {
+                    name: 'Stock from Red Beets and Lamb, cooked with White Cabbage and Carrots',
+                },
+                {
+                    name: 'Stock from Red Beets and Duck, cooked with White Cabbage and Carrots',
+                },
+                {
+                    name: 'Stock from Red Beets and Goose, cooked with White Cabbage and Carrots',
+                },
+            ],
+        },
         1.3,
         Eatable.sideDish
     ),
     new DishIdea(
-        { mainIng: { name: 'Oxtail Soup', key: AssetKey.SMALL_DISH_soup } },
+        {
+            mainIng: { name: 'Oxtail Soup', key: AssetKey.SMALL_DISH_soup },
+            firstSideDishes: [
+                {
+                    name: 'Oxtail with Carrots, Celery and Onions, seasoned with Sherry and Herbs',
+                },
+            ],
+        },
         1.2,
         Eatable.sideDish
     ),
     new DishIdea(
-        { mainIng: { name: 'Peanut Soup', key: AssetKey.SMALL_DISH_soup } },
-        1.3,
+        {
+            mainIng: { name: 'Peanut Soup', key: AssetKey.SMALL_DISH_soup },
+            firstSideDishes: [
+                {
+                    name: 'Peanut Paste with Tomatoes, topped with Beef Slices, seasoned with Pepper',
+                },
+                {
+                    name: 'Peanut Paste with Tomatoes, topped with Chicken Slices',
+                },
+                {
+                    name: 'Peanut Paste with Tomatoes, topped with Corn-Dough Dumplings',
+                },
+            ],
+        },
+        1.1,
         Eatable.sideDish
     ),
 ];
