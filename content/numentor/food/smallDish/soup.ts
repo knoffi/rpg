@@ -4,16 +4,35 @@ import { DishIdea } from '../../../../classes/idea/DishIdea';
 import { Eatable } from '../../../../classes/TavernProduct';
 import { fish } from '../mainDish/fishAndChips';
 const a = association;
+const european = [a.city, a.village, a.forest, a.mountain];
+const europeanUnderdark = [
+    a.city,
+    a.village,
+    a.forest,
+    a.mountain,
+    a.underdark,
+];
 export const soups: DishIdea[] = [
     new DishIdea(
         {
-            mainIng: { name: 'Chicken Soup', key: AssetKey.SMALL_DISH_soup },
+            mainIng: {
+                name: 'Chicken Soup',
+                key: AssetKey.SMALL_DISH_soup,
+                landRange: europeanUnderdark,
+                misfits: [a.rich],
+            },
             firstSideDishes: [
                 {
-                    name: 'Chicken Stock with Carrots, Onions and Sellery, served with Bread',
+                    name: 'Chicken Stock with Carrots, Onions and Celery, seasoned with Parsley',
+                    incomeRange: [a.modest, a.wealthy],
                 },
                 {
-                    name: 'Soup from Chicken Feet with Carrots, Onions and Sellery, served with Bread',
+                    name: 'Chicken Feet with Carrots, Onions and Celery, seasoned with Parsley',
+                    incomeRange: [a.modest],
+                },
+                {
+                    name: 'Chicken Feet with Carrots, Onions and Celery',
+                    needs: [a.poor],
                 },
             ],
         },
@@ -22,13 +41,24 @@ export const soups: DishIdea[] = [
     ),
     new DishIdea(
         {
-            mainIng: { name: 'Beef Soup', key: AssetKey.SMALL_DISH_soup },
+            mainIng: {
+                name: 'Beef Soup',
+                key: AssetKey.SMALL_DISH_soup,
+                landRange: europeanUnderdark,
+                misfits: [a.rich],
+            },
             firstSideDishes: [
                 {
-                    name: 'Beef Stock with Carrots, Onions and Sellery, served with Bread',
+                    name: 'Beef Stock with Carrots, Onions and Celery, seasoned with Parsley',
+                    incomeRange: [a.wealthy, a.modest],
                 },
                 {
-                    name: 'Soup from Cow Feet with Carrots, Onions and Sellery, served with Bread',
+                    name: 'Soup from Cow Feet with Carrots, Onions and Celery, seasoned with Parsley',
+                    incomeRange: [a.modest],
+                },
+                {
+                    name: 'Soup from Cow Feet with Carrots, Onions and Celery',
+                    needs: [a.poor],
                 },
             ],
         },
@@ -37,25 +67,16 @@ export const soups: DishIdea[] = [
     ),
     new DishIdea(
         {
-            mainIng: { name: 'Lamb Soup', key: AssetKey.SMALL_DISH_soup },
+            mainIng: {
+                name: 'Cow Udder Soup',
+                key: AssetKey.SMALL_DISH_soup,
+                powerFits: [a.village],
+                landRange: europeanUnderdark,
+                incomeRange: [a.poor, a.modest],
+            },
             firstSideDishes: [
                 {
-                    name: 'Beef Stock with Carrots, Onions and Sellery, served with Bread',
-                },
-                {
-                    name: 'Soup from Cow Feet with Carrots, Onions and Sellery, served with Bread',
-                },
-            ],
-        },
-        1.2,
-        Eatable.sideDish
-    ),
-    new DishIdea(
-        {
-            mainIng: { name: 'Cow Udder Soup', key: AssetKey.SMALL_DISH_soup },
-            firstSideDishes: [
-                {
-                    name: 'Soup from Cow Udder with Carrots, Onions and Sellery, served with Bread',
+                    name: 'Soup from Cow Udder with Carrots, Onions and Celery',
                 },
             ],
         },
