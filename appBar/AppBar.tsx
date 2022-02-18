@@ -13,28 +13,40 @@ const INACTIVE_BUTTON_COLOR = 'grey';
 
 const BADGE_SIZE_DIVIDER = 2.3;
 const SHOPPING_ICON_SIZE = 30;
-
-export const AppBar = (props: {
-    onUndo: () => void;
-    onSave: () => void;
-    undoDisabled: boolean;
-    onRedo: () => void;
-    redoDisabled: boolean;
-    onBackNavigation: () => void;
-    sceneTitle: string;
+export type Action = (() => void) | 'disabled';
+type ShopingCart = {
     boughtOffers: Offer[];
-    currencyName: string;
     getAdjustedPrice: (offer: Offer) => number;
     onBuyChange: (newData: Pick<TavernData, 'boughtOffers'>) => void;
-}) => {
+    currencyName: string;
+};
+type AppBarProps = {
+    actions: {
+        undo: Action;
+        redo: Action;
+        share: Action;
+        save: Action;
+        navigateBack: Action;
+    };
+    shoppingCart: ShopingCart | 'disabled';
+    title: string;
+};
+
+export const AppBar = (props: AppBarProps) => {
     const [modalVisible, setModalVisible] = React.useState(false);
-    const numberOfBoughtItems = props.boughtOffers.length;
+    const { actions, shoppingCart, title } = props;
+    const numberOfBoughtItems =
+        shoppingCart === 'disabled' ? 0 : shoppingCart.boughtOffers.length;
     const hideModal = () => setModalVisible(false);
+    const onPress = (action: Action) =>
+        action === 'disabled' ? () => {} : action;
+    const buttonColor = (action: Action) =>
+        action === 'disabled' ? INACTIVE_BUTTON_COLOR : ACTIVE_BUTTON_COLOR;
     return (
         <View>
             <Appbar.Header style={{ backgroundColor: APP_BAR_BG }}>
-                <Appbar.BackAction onPress={props.onBackNavigation} />
-                <Appbar.Content title={props.sceneTitle} />
+                <Appbar.BackAction onPress={onPress(actions.navigateBack)} />
+                <Appbar.Content title={title} />
                 <Appbar.Action
                     animated={false}
                     color={ACTIVE_BUTTON_COLOR}
@@ -43,9 +55,9 @@ export const AppBar = (props: {
                             name="share-alt"
                             size={props.size}
                             color={props.color}
-                            onPress={() => {}}
                         ></FontAwesome>
                     )}
+                    onPress={onPress(actions.share)}
                 ></Appbar.Action>
                 <Appbar.Action
                     animated={false}
@@ -57,12 +69,12 @@ export const AppBar = (props: {
                             color={props.color}
                         />
                     )}
-                    onPress={props.onSave}
+                    onPress={onPress(actions.save)}
                 />
                 <Appbar.Action
                     animated={false}
                     color={
-                        props.undoDisabled
+                        actions.undo === 'disabled'
                             ? INACTIVE_BUTTON_COLOR
                             : ACTIVE_BUTTON_COLOR
                     }
@@ -73,19 +85,11 @@ export const AppBar = (props: {
                             color={props.color}
                         />
                     )}
-                    onPress={() => {
-                        if (!props.undoDisabled) {
-                            props.onUndo();
-                        }
-                    }}
+                    onPress={onPress(actions.undo)}
                 />
                 <Appbar.Action
                     animated={false}
-                    color={
-                        props.redoDisabled
-                            ? INACTIVE_BUTTON_COLOR
-                            : ACTIVE_BUTTON_COLOR
-                    }
+                    color={buttonColor(actions.redo)}
                     icon={(props) => (
                         <FontAwesome
                             name="mail-forward"
@@ -93,11 +97,7 @@ export const AppBar = (props: {
                             color={props.color}
                         />
                     )}
-                    onPress={() => {
-                        if (!props.redoDisabled) {
-                            props.onRedo();
-                        }
-                    }}
+                    onPress={onPress(actions.redo)}
                 />
                 <Appbar.Action
                     color={
@@ -126,54 +126,63 @@ export const AppBar = (props: {
                         </View>
                     )}
                     onPress={() => {
-                        if (props.boughtOffers.length > 0) {
+                        if (
+                            shoppingCart !== 'disabled' &&
+                            numberOfBoughtItems > 0
+                        ) {
                             setModalVisible(true);
                         }
                     }}
                 />
             </Appbar.Header>
-            <Portal>
-                <Modal visible={modalVisible} onDismiss={hideModal}>
-                    <ShoppingList
-                        getAdjustedPrice={props.getAdjustedPrice}
-                        boughtOffers={props.boughtOffers}
-                        currencyName={props.currencyName}
-                        increaseOrder={(offerName: string) => {
-                            const reorderedOffer = props.boughtOffers.find(
-                                (order) => {
-                                    return order.name === offerName;
-                                }
-                            );
-                            props.onBuyChange({
-                                boughtOffers: [
-                                    ...props.boughtOffers,
-                                    reorderedOffer!,
-                                ],
-                            });
-                        }}
-                        decreaseOrder={(offerName: string) => {
-                            const cancelledOffer = props.boughtOffers.find(
-                                (order) => {
-                                    return order.name === offerName;
-                                }
-                            );
-                            const cancelIndex = props.boughtOffers.lastIndexOf(
-                                cancelledOffer!
-                            );
+            {shoppingCart === 'disabled' ? undefined : (
+                <Portal>
+                    <Modal visible={modalVisible} onDismiss={hideModal}>
+                        <ShoppingList
+                            getAdjustedPrice={shoppingCart.getAdjustedPrice}
+                            boughtOffers={shoppingCart.boughtOffers}
+                            currencyName={shoppingCart.currencyName}
+                            increaseOrder={(offerName: string) => {
+                                const reorderedOffer =
+                                    shoppingCart.boughtOffers.find((order) => {
+                                        return order.name === offerName;
+                                    });
+                                shoppingCart.onBuyChange({
+                                    boughtOffers: [
+                                        ...shoppingCart.boughtOffers,
+                                        reorderedOffer!,
+                                    ],
+                                });
+                            }}
+                            decreaseOrder={(offerName: string) => {
+                                const cancelledOffer =
+                                    shoppingCart.boughtOffers.find((order) => {
+                                        return order.name === offerName;
+                                    });
+                                const cancelIndex =
+                                    shoppingCart.boughtOffers.lastIndexOf(
+                                        cancelledOffer!
+                                    );
 
-                            const newOrderList = [
-                                ...props.boughtOffers.slice(0, cancelIndex),
-                                ...props.boughtOffers.slice(
-                                    cancelIndex + 1,
-                                    props.boughtOffers.length
-                                ),
-                            ];
+                                const newOrderList = [
+                                    ...shoppingCart.boughtOffers.slice(
+                                        0,
+                                        cancelIndex
+                                    ),
+                                    ...shoppingCart.boughtOffers.slice(
+                                        cancelIndex + 1,
+                                        numberOfBoughtItems
+                                    ),
+                                ];
 
-                            props.onBuyChange({ boughtOffers: newOrderList });
-                        }}
-                    ></ShoppingList>
-                </Modal>
-            </Portal>
+                                shoppingCart.onBuyChange({
+                                    boughtOffers: newOrderList,
+                                });
+                            }}
+                        ></ShoppingList>
+                    </Modal>
+                </Portal>
+            )}
         </View>
     );
 };
