@@ -47,8 +47,8 @@ export const getNewTracker = (change: TavernChange, old: ContentTracker) => {
     return newTracker;
 };
 
-const offerMessage = (offer: Offer): string => {
-    return offer.name + '  ' + offer.price;
+const offerLine = (offer: Offer): string => {
+    return '   ' + offer.name + '  ' + offer.price;
 };
 
 const offersByCategory = (
@@ -84,7 +84,7 @@ const textForCategory = (
     } else {
         const title = '\n\n' + category.toUpperCase() + '\n\n';
         const menu = offers.reduce(
-            (prev, cur) => prev + offerMessage(cur) + '\n',
+            (prev, cur) => prev + offerLine(cur) + '\n',
             ''
         );
         return title + menu;
