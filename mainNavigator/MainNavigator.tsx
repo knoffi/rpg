@@ -18,6 +18,7 @@ import {
     buildTracker,
     getNewTracker,
     getTavernHistoryInitializer,
+    openShare,
 } from './mainNavigatorFunctions';
 import { TavernChange } from './TavernChange';
 import { MinimalTavernData } from './TavernData';
@@ -97,6 +98,7 @@ export const MainNavigator = () => {
             : () => {
                   setHistoryIndex(historyIndex - 1);
               };
+    const share: Action = () => openShare(tavernHistory[historyIndex].tavern);
     const navigationFactory =
         (navigation: StackNavigationProp<ParamListBase, string>): Action =>
         () => {
@@ -153,7 +155,7 @@ export const MainNavigator = () => {
                                     undo: undo,
                                     navigateBack: navigationFactory(navigation),
                                     save: saveMinimalTavernData,
-                                    share: () => {},
+                                    share,
                                 }}
                                 shoppingCart={{
                                     boughtOffers,

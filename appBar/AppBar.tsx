@@ -13,7 +13,7 @@ const INACTIVE_BUTTON_COLOR = 'grey';
 
 const BADGE_SIZE_DIVIDER = 2.3;
 const SHOPPING_ICON_SIZE = 30;
-export type Action = (() => void) | 'disabled';
+export type Action = (() => void | Promise<void>) | 'disabled';
 type ShopingCart = {
     boughtOffers: Offer[];
     getAdjustedPrice: (offer: Offer) => number;
