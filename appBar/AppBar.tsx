@@ -40,6 +40,18 @@ export const AppBar = (props: {
                     color={ACTIVE_BUTTON_COLOR}
                     icon={(props) => (
                         <FontAwesome
+                            name="share-alt"
+                            size={props.size}
+                            color={props.color}
+                            onPress={() => {}}
+                        ></FontAwesome>
+                    )}
+                ></Appbar.Action>
+                <Appbar.Action
+                    animated={false}
+                    color={ACTIVE_BUTTON_COLOR}
+                    icon={(props) => (
+                        <FontAwesome
                             name="save"
                             size={props.size}
                             color={props.color}
