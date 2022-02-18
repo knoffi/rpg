@@ -1,7 +1,10 @@
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { NavigationContainer, ParamListBase } from '@react-navigation/native';
+import {
+    createStackNavigator,
+    StackNavigationProp,
+} from '@react-navigation/stack';
 import React, { useState } from 'react';
-import { AppBar } from '../appBar/AppBar';
+import { Action, AppBar } from '../appBar/AppBar';
 import { ContentFiller } from '../classes/contentFiller/ContentFiller';
 import { Database } from '../classes/database/Database';
 import { EditNavigator } from '../editNavigator/EditNavigator';
@@ -15,6 +18,7 @@ import {
     buildTracker,
     getNewTracker,
     getTavernHistoryInitializer,
+    openShare,
 } from './mainNavigatorFunctions';
 import { TavernChange } from './TavernChange';
 import { MinimalTavernData } from './TavernData';
@@ -82,6 +86,26 @@ export const MainNavigator = () => {
             current.tavern.fitting.income
         );
     };
+    const redo: Action =
+        historyIndex === tavernHistory.length - 1
+            ? 'disabled'
+            : () => {
+                  setHistoryIndex(historyIndex + 1);
+              };
+    const undo: Action =
+        historyIndex === 0
+            ? 'disabled'
+            : () => {
+                  setHistoryIndex(historyIndex - 1);
+              };
+    const share: Action = () => openShare(tavernHistory[historyIndex].tavern);
+    const navigationFactory =
+        (navigation: StackNavigationProp<ParamListBase, string>): Action =>
+        () => {
+            navigation.navigate('YOU ALL MEET IN A TAVERN!');
+        };
+    const boughtOffers = tavernHistory[historyIndex].tavern.boughtOffers;
+    const currencyName = tavernHistory[historyIndex].tavern.prices.currency;
 
     return (
         <NavigationContainer>
@@ -106,32 +130,17 @@ export const MainNavigator = () => {
                         ></StartOptionsScene>
                     )}
                     options={{
-                        header: ({ navigation }) => (
+                        header: () => (
                             <AppBar
-                                getAdjustedPrice={getOfferPrice}
-                                onSave={saveMinimalTavernData}
-                                onRedo={() => {
-                                    setHistoryIndex(historyIndex + 1);
+                                actions={{
+                                    undo: 'disabled',
+                                    redo: 'disabled',
+                                    navigateBack: 'disabled',
+                                    save: 'disabled',
+                                    share: 'disabled',
                                 }}
-                                onUndo={() => {
-                                    setHistoryIndex(historyIndex - 1);
-                                }}
-                                redoDisabled={
-                                    historyIndex === tavernHistory.length - 1
-                                }
-                                undoDisabled={historyIndex === 0}
-                                onBackNavigation={() => {
-                                    navigation.navigate(
-                                        'YOU ALL MEET IN A TAVERN!'
-                                    );
-                                }}
-                                sceneTitle=""
-                                boughtOffers={[] as Offer[]}
-                                currencyName={
-                                    tavernHistory[historyIndex].tavern.prices
-                                        .currency
-                                }
-                                onBuyChange={onDataChange}
+                                shoppingCart="disabled"
+                                title=""
                             ></AppBar>
                         ),
                     }}
@@ -141,33 +150,20 @@ export const MainNavigator = () => {
                     options={{
                         header: ({ navigation }) => (
                             <AppBar
-                                getAdjustedPrice={getOfferPrice}
-                                onSave={saveMinimalTavernData}
-                                onRedo={() => {
-                                    setHistoryIndex(historyIndex + 1);
+                                actions={{
+                                    redo: redo,
+                                    undo: undo,
+                                    navigateBack: navigationFactory(navigation),
+                                    save: saveMinimalTavernData,
+                                    share,
                                 }}
-                                onUndo={() => {
-                                    setHistoryIndex(historyIndex - 1);
+                                shoppingCart={{
+                                    boughtOffers,
+                                    currencyName,
+                                    getAdjustedPrice: getOfferPrice,
+                                    onBuyChange: onDataChange,
                                 }}
-                                redoDisabled={
-                                    historyIndex === tavernHistory.length - 1
-                                }
-                                undoDisabled={historyIndex === 0}
-                                onBackNavigation={() => {
-                                    navigation.navigate(
-                                        'YOU ALL MEET IN A TAVERN!'
-                                    );
-                                }}
-                                sceneTitle=""
-                                boughtOffers={
-                                    tavernHistory[historyIndex].tavern
-                                        .boughtOffers
-                                }
-                                currencyName={
-                                    tavernHistory[historyIndex].tavern.prices
-                                        .currency
-                                }
-                                onBuyChange={onDataChange}
+                                title=""
                             ></AppBar>
                         ),
                     }}
