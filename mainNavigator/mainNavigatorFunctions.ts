@@ -52,11 +52,13 @@ const offerLine = (offer: Offer, currency: string): string => {
     return (
         '<text>' +
         offer.name +
-        ':   <i>' +
+        '</text>' +
+        '<div style="margin-top:10px;margin-bottom:15px">' +
+        '<i style="color:orange;">' +
         offer.price +
         ' ' +
         currency +
-        '</i></text><br/><br/>'
+        '</i></div><br/>'
     );
 };
 
@@ -93,17 +95,14 @@ const textForCategory = (
         return '';
     } else {
         const title =
-            '<br/><h2> ' +
+            '<br/><br/><h2> ' +
             emojis.get(category) +
             emojis.get(category) +
             category +
             emojis.get(category) +
             emojis.get(category) +
-            ' </h2>';
-        const menu = offers.reduce(
-            (prev, cur) => prev + offerLine(cur, currency),
-            ''
-        );
+            ' </h2><br/>';
+        const menu = offers.map((offer) => offerLine(offer, currency)).join('');
         return title + menu;
     }
 };
@@ -120,7 +119,10 @@ const constructHTML = (
 ): string => {
     const headTag =
         '<head><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" /></head>';
-    const nameTitle = '<h1>' + tavern.name.toUpperCase() + '</h1><br/><br/>';
+    const nameTitle =
+        '<h1 style="font-size:60px">' +
+        tavern.name.toUpperCase() +
+        '</h1><br/><br/>';
     const chapterMap = offersByCategory(tavern);
     const foodPage = Object.values(Eatable)
         .map((category) =>
@@ -162,52 +164,3 @@ const emojis = new Map<Eatable | Drinkable, string>([
     [Drinkable.lemonade, ' 🥛 '],
     [Drinkable.spirit, ' 🥃 '],
 ]);
-// const getHTML = (
-//     offer: Pick<Offer, 'name' | 'price'>,
-//     category: Drinkable | Eatable,
-//     currency: string
-// ): string => {
-//     return (
-//         '<h2> ' +
-//         emojis.get(category) +
-//         emojis.get(category) +
-//         category +
-//         emojis.get(category) +
-//         emojis.get(category) +
-//         ' </h2><text>' +
-//         offer.name +
-//         ':   <i>' +
-//         offer.price +
-//         ' ' +
-//         currency +
-//         '</i></text><br/><br/>'
-//     );
-// };
-// const html =
-//     `
-// <html>
-//   <head>
-//     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
-//   </head>
-//   <body style="text-align: center;">` +
-//     `<h1>The Magical Mug</h1><br/><br/>` +
-//     getHTML({ name: 'Porridge', price: 10 }, Eatable.breakfast, 'copper') +
-//     getHTML({ name: 'Apple Pie', price: 15 }, Eatable.dessert, 'copper') +
-//     getHTML({ name: 'Chicken Soup', price: 10 }, Eatable.sideDish, 'copper') +
-//     getHTML({ name: 'Roast Beef', price: 24 }, Eatable.mainDish, 'copper') +
-//     '<br/><br/><text style="white-space: nowrap;">' +
-//     getHTML({ name: 'Water', price: 2 }, Drinkable.lemonade, 'copper') +
-//     getHTML(
-//         { name: "Baselbruck's Beer", price: 10 },
-//         Drinkable.beer,
-//         'copper'
-//     ) +
-//     getHTML({ name: 'Rose Mead', price: 15 }, Drinkable.wine, 'copper') +
-//     getHTML(
-//         { name: 'Van Tasty Whiskey', price: 20 },
-//         Drinkable.spirit,
-//         'copper'
-//     ) +
-//     `</text></body>
-// </html>
-// `;
