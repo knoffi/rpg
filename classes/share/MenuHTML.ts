@@ -1,14 +1,13 @@
 import { WeServe } from '../../editNavigator/WeServe';
-import { Offer } from '../../scenes/menuScene/Offer';
 import { Drinkable, Eatable, MenuCategory } from '../TavernProduct';
-import { MenuCard } from './MenuCard';
+import { MenuCard, OfferEssence } from './MenuCard';
 
 type CategoryEmojis = Map<Eatable | Drinkable, string>;
 export class MenuHTML {
     private emojis: CategoryEmojis;
     private headHTML: string;
     private titleHTMLTag: string;
-    private offers: Map<Eatable | Drinkable, Offer[]>;
+    private offers: Map<Eatable | Drinkable, OfferEssence[]>;
     private currency: string;
     constructor(menu: MenuCard) {
         this.emojis = MenuHTML.getEmojis();
@@ -32,8 +31,8 @@ export class MenuHTML {
     }
 
     private textForCategory(category: Drinkable | Eatable) {
-        const offers = this.offers.get(category);
-        const noOffersForCategory = !offers || offers.length === 0;
+        const offers: OfferEssence[] = this.offers.get(category) || [];
+        const noOffersForCategory = offers.length === 0;
         if (noOffersForCategory) {
             return '';
         } else {
@@ -53,7 +52,7 @@ export class MenuHTML {
             ' </h2><br/>'
         );
     }
-    private offerLine(offer: Offer): string {
+    private offerLine(offer: OfferEssence): string {
         return (
             '<text>' +
             offer.name +
@@ -71,8 +70,8 @@ export class MenuHTML {
     }
     private static getOffers(
         menu: MenuCard
-    ): Map<Eatable | Drinkable, Offer[]> {
-        const food: [Eatable, Offer[]][] = Object.values(Eatable).map(
+    ): Map<Eatable | Drinkable, OfferEssence[]> {
+        const food: [Eatable, OfferEssence[]][] = Object.values(Eatable).map(
             (category) => {
                 const foodOfCategory = menu[WeServe.food].filter(
                     (offer) => offer.category === category
@@ -80,15 +79,18 @@ export class MenuHTML {
                 return [category, foodOfCategory];
             }
         );
-        const drinks: [Drinkable, Offer[]][] = Object.values(Drinkable).map(
-            (category) => {
-                const drinksOfCategory = menu[WeServe.drinks].filter(
-                    (offer) => offer.category === category
-                );
-                return [category, drinksOfCategory];
-            }
-        );
-        return new Map<Drinkable | Eatable, Offer[]>([...food, ...drinks]);
+        const drinks: [Drinkable, OfferEssence[]][] = Object.values(
+            Drinkable
+        ).map((category) => {
+            const drinksOfCategory = menu[WeServe.drinks].filter(
+                (offer) => offer.category === category
+            );
+            return [category, drinksOfCategory];
+        });
+        return new Map<Drinkable | Eatable, OfferEssence[]>([
+            ...food,
+            ...drinks,
+        ]);
     }
     private static getTitle(name: string): string {
         return (
