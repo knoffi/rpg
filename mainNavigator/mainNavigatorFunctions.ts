@@ -1,4 +1,5 @@
-import { Share } from 'react-native';
+import * as Print from 'expo-print';
+import { shareAsync } from 'expo-sharing';
 import { DismissHandler } from '../classes/dismissHandler/dismissHandler';
 import { KeyHandler } from '../classes/keyHandler/KeyHandler';
 import { PatternHandler } from '../classes/patternHandler/PatternHandler';
@@ -47,8 +48,18 @@ export const getNewTracker = (change: TavernChange, old: ContentTracker) => {
     return newTracker;
 };
 
-const offerLine = (offer: Offer): string => {
-    return '   ' + offer.name + '  ' + offer.price;
+const offerLine = (offer: Offer, currency: string): string => {
+    return (
+        '<text>' +
+        offer.name +
+        '</text>' +
+        '<div style="margin-top:10px;margin-bottom:15px">' +
+        '<i style="color:orange;">' +
+        offer.price +
+        ' ' +
+        currency +
+        '</i></div><br/>'
+    );
 };
 
 const offersByCategory = (
@@ -75,55 +86,81 @@ const offersByCategory = (
 
 const textForCategory = (
     category: Drinkable | Eatable,
-    offerMap: Map<Drinkable | Eatable, Offer[]>
+    offerMap: Map<Drinkable | Eatable, Offer[]>,
+    currency: string
 ) => {
     const offers = offerMap.get(category);
     const noOffersForCategory = !offers || offers.length === 0;
     if (noOffersForCategory) {
         return '';
     } else {
-        const title = '\n\n' + category.toUpperCase() + '\n\n';
-        const menu = offers.reduce(
-            (prev, cur) => prev + offerLine(cur) + '\n',
-            ''
-        );
+        const title =
+            '<br/><br/><h2> ' +
+            emojis.get(category) +
+            emojis.get(category) +
+            category +
+            emojis.get(category) +
+            emojis.get(category) +
+            ' </h2><br/>';
+        const menu = offers.map((offer) => offerLine(offer, currency)).join('');
         return title + menu;
     }
 };
 
-const constructMessage = (
-    tavern: Pick<MinimalTavernData, 'name' | WeServe.drinks | WeServe.food>
+const wrapInBodyTag = (view: string) => {
+    return `<body style="text-align: center;">` + view + `</body>`;
+};
+
+const constructHTML = (
+    tavern: Pick<
+        MinimalTavernData,
+        'name' | WeServe.drinks | WeServe.food | 'prices'
+    >
 ): string => {
-    const greeting = '*| ' + tavern.name + ' |*\n\n\n';
+    const headTag =
+        '<head><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" /></head>';
+    const nameTitle =
+        '<h1 style="font-size:60px">' +
+        tavern.name.toUpperCase() +
+        '</h1><br/><br/>';
     const chapterMap = offersByCategory(tavern);
-    const foodTitle = '*FOOD*';
-    const foodPage =
-        foodTitle +
-        Object.values(Eatable).reduce(
-            (text, category) => text + textForCategory(category, chapterMap),
-            ''
-        ) +
-        '\n';
-    const drinkTitle = '*DRINKS*';
-    const drinkPage =
-        drinkTitle +
-        Object.values(Drinkable).reduce(
-            (text, category) => text + textForCategory(category, chapterMap),
-            ''
-        ) +
-        '\n';
-    return greeting + foodPage + drinkPage;
+    const foodPage = Object.values(Eatable)
+        .map((category) =>
+            textForCategory(category, chapterMap, tavern.prices.currency)
+        )
+        .join('');
+    const drinkPage = Object.values(Drinkable)
+        .map((category) =>
+            textForCategory(category, chapterMap, tavern.prices.currency)
+        )
+        .join('');
+    const body = wrapInBodyTag(nameTitle + foodPage + drinkPage);
+    return headTag + body;
 };
 
 export const openShare = async (
-    tavern: Pick<MinimalTavernData, 'name' | WeServe.drinks | WeServe.food>
+    tavern: Pick<
+        MinimalTavernData,
+        'name' | WeServe.drinks | WeServe.food | 'prices'
+    >
 ) => {
     try {
-        const message = constructMessage(tavern);
-        const result = await Share.share({
-            message,
+        const { uri } = await Print.printToFileAsync({
+            html: constructHTML(tavern),
         });
+        await shareAsync(uri, { UTI: '.pdf', mimeType: 'application/pdf' });
     } catch (error) {
         console.log(error);
     }
 };
+
+const emojis = new Map<Eatable | Drinkable, string>([
+    [Drinkable.wine, ' 🍷 '],
+    [Drinkable.beer, ' 🍺 '],
+    [Eatable.dessert, ' 🍰 '],
+    [Eatable.breakfast, ' 🍞 '],
+    [Eatable.mainDish, ' 🍝 '],
+    [Eatable.sideDish, ' 🥗 '],
+    [Drinkable.lemonade, ' 🥛 '],
+    [Drinkable.spirit, ' 🥃 '],
+]);
