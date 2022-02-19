@@ -7,6 +7,7 @@ import React, { useState } from 'react';
 import { Action, AppBar } from '../appBar/AppBar';
 import { ContentFiller } from '../classes/contentFiller/ContentFiller';
 import { Database } from '../classes/database/Database';
+import { Share } from '../classes/share/Share';
 import { EditNavigator } from '../editNavigator/EditNavigator';
 import { Offer } from '../scenes/menuScene/Offer';
 import { getAdjustedPrice } from '../scenes/menuScene/priceFunctions';
@@ -18,7 +19,6 @@ import {
     buildTracker,
     getNewTracker,
     getTavernHistoryInitializer,
-    openShare,
 } from './mainNavigatorFunctions';
 import { TavernChange } from './TavernChange';
 import { MinimalTavernData } from './TavernData';
@@ -98,7 +98,9 @@ export const MainNavigator = () => {
             : () => {
                   setHistoryIndex(historyIndex - 1);
               };
-    const share: Action = () => openShare(tavernHistory[historyIndex].tavern);
+    const share: Action = () => {
+        new Share(tavernHistory[historyIndex].tavern).sendPDF();
+    };
     const navigationFactory =
         (navigation: StackNavigationProp<ParamListBase, string>): Action =>
         () => {
