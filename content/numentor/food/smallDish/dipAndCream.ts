@@ -18,4 +18,5 @@ export const dipAndCream: DishIdea[] = [
         DIP_AND_CREAM_FACTOR,
         Eatable.sideDish
     ), //implement "Meze Plate", google it, it is pretty fitting
+    // for some more Western African side dishes: Fufu, Banku, Kenkey
 ];
