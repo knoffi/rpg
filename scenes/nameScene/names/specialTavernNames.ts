@@ -206,8 +206,9 @@ export const specialNames: NameIdea[] = [
     }),
     new NameIdea({
         name: 'Pillars of Wisdom',
-        needsOne: [a.cleric],
-        powerFits: [a.cleric],
+        needsOne: [a.cleric, a.desert],
+        classRange: [a.adventurer, a.cleric],
+        powerFits: [a.cleric, a.desert],
     }),
     new NameIdea({
         name: 'Nurturing Nun',
@@ -236,7 +237,7 @@ export const specialNames: NameIdea[] = [
         powerFits: [a.cleric],
     }),
     new NameIdea({
-        name: "Brother Pummelduff's Pub",
+        name: "Brother Pumbleduff's Pub",
         needsOne: [a.cleric],
         powerFits: [a.cleric],
         probability: VERY_SPECIAL_NAME_PROB,
@@ -398,6 +399,12 @@ export const specialNames: NameIdea[] = [
         name: 'Thirsty Tourist',
         needsOne: [a.desert],
         powerFits: [a.desert],
+    }),
+    new NameIdea({
+        name: 'Dune Palace',
+        needs: [a.desert],
+        incomeRange: [a.wealthy, a.rich],
+        powerFits: [a.desert, a.rich, a.wealthy],
     }),
     new NameIdea({
         name: 'Grinning Jakal',
@@ -1411,7 +1418,7 @@ export const specialNames: NameIdea[] = [
         name: 'Cashmere Cat',
         needs: [a.rich],
         powerFits: [a.rich],
-        worksForBrothel:true,
+        worksForBrothel: true,
     }),
     new NameIdea({
         name: 'Lobster Palace',
@@ -1427,7 +1434,7 @@ export const specialNames: NameIdea[] = [
         name: 'Champagne & Caviar',
         needs: [a.rich],
         powerFits: [a.rich],
-        worksForBrothel:true
+        worksForBrothel: true,
     }),
     new NameIdea({
         name: 'Golden Oyster',
