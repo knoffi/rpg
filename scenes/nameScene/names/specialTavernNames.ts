@@ -3,7 +3,7 @@ import { NameIdea } from '../../../classes/idea/NameIdea';
 
 const a = association;
 
-const VERY_SPECIAL_NAME_PROB = 0.2;
+const VERY_SPECIAL_NAME_PROB = 0.3;
 export const specialNames: NameIdea[] = [
     new NameIdea({
         name: 'Bloody Axe',
@@ -261,6 +261,12 @@ export const specialNames: NameIdea[] = [
         name: 'Lousy Dog',
         needsOne: [a.thief, a.poor],
         incomeRange: [a.poor, a.modest],
+        powerFits: [a.thief],
+        worksForThiefs: true,
+    }),
+    new NameIdea({
+        name: 'Red Moon',
+        needsOne: [a.thief],
         powerFits: [a.thief],
         worksForThiefs: true,
     }),
@@ -1405,6 +1411,7 @@ export const specialNames: NameIdea[] = [
         name: 'Cashmere Cat',
         needs: [a.rich],
         powerFits: [a.rich],
+        worksForBrothel:true,
     }),
     new NameIdea({
         name: 'Lobster Palace',
@@ -1412,9 +1419,15 @@ export const specialNames: NameIdea[] = [
         powerFits: [a.rich],
     }),
     new NameIdea({
+        name: 'Bon Appétit',
+        needs: [a.rich],
+        powerFits: [a.rich],
+    }),
+    new NameIdea({
         name: 'Champagne & Caviar',
         needs: [a.rich],
         powerFits: [a.rich],
+        worksForBrothel:true
     }),
     new NameIdea({
         name: 'Golden Oyster',
