@@ -8,10 +8,15 @@ export const salads: DishIdea[] = [
     new DishIdea(
         {
             mainIng: {
-                name: 'Salata Jaza’iriya',
+                name: 'Salata Baladi',
                 key: AssetKey.SMALL_DISH_salad,
                 needs: [a.desert],
             },
+            firstSideDishes: [
+                {
+                    name: 'Diced Tomatoes, Cucumber, Bell Peppers and Red Onions, seasoned with Lemon Juice and Cumin',
+                },
+            ],
         },
         'default',
         Eatable.sideDish
@@ -23,6 +28,11 @@ export const salads: DishIdea[] = [
                 key: AssetKey.SMALL_DISH_salad,
                 needs: [a.desert],
             },
+            firstSideDishes: [
+                {
+                    name: 'White Beans, Red Onions and Parsley with Garlic, mixed with Sesame Paste and Lemon Juice',
+                },
+            ],
         },
         'default',
         Eatable.sideDish
@@ -34,6 +44,27 @@ export const salads: DishIdea[] = [
                 key: AssetKey.SMALL_DISH_salad,
                 needs: [a.desert],
             },
+            firstSideDishes: [
+                {
+                    name: 'Finely Ground Bulgur (Cereal) with Cucumber, mixed with Tomato Paste, Parsley, Onions and Garlic',
+                },
+            ],
+        },
+        'default',
+        Eatable.sideDish
+    ),
+    new DishIdea(
+        {
+            mainIng: {
+                name: 'Tabbouleh Salad',
+                key: AssetKey.SMALL_DISH_salad,
+                needs: [a.desert],
+            },
+            firstSideDishes: [
+                {
+                    name: 'Couscous (Toasted Wheat Paste) mixed with Cucumber, Tomato, Onions, Lemon Juice, Parsley and Mint',
+                },
+            ],
         },
         'default',
         Eatable.sideDish
@@ -45,6 +76,11 @@ export const salads: DishIdea[] = [
                 key: AssetKey.SMALL_DISH_salad,
                 needs: [a.desert],
             },
+            firstSideDishes: [
+                {
+                    name: 'Finely-Diced Tomatoes, Cucumber and Onions, seasoned with Verjuice (Sour Grape Juice) and Mint',
+                },
+            ],
         },
         'default',
         Eatable.sideDish
@@ -56,6 +92,11 @@ export const salads: DishIdea[] = [
                 key: AssetKey.SMALL_DISH_salad,
                 needs: [a.desert],
             },
+            firstSideDishes: [
+                {
+                    name: 'Toasted Flat Bread Bits, Tomato, Cucumber and Garlic, seasoned with Sumac (Sour Spice) and Mint',
+                },
+            ],
         },
         'default',
         Eatable.sideDish
@@ -63,41 +104,101 @@ export const salads: DishIdea[] = [
     new DishIdea(
         {
             mainIng: {
-                name: 'Tabbouleh',
+                name: 'Balela Salad',
                 key: AssetKey.SMALL_DISH_salad,
                 needs: [a.desert],
             },
+            firstSideDishes: [
+                {
+                    name: 'Chickpeas and Black Beans with Tomatoes and Onions, sprinkled with Lemon Juice and Parsley',
+                },
+            ],
         },
         'default',
         Eatable.sideDish
     ),
     new DishIdea(
-        { mainIng: { name: 'Bean Salad', key: AssetKey.SMALL_DISH_salad } },
+        {
+            mainIng: { name: 'Egg Salad', key: AssetKey.SMALL_DISH_salad },
+            firstSideDishes: [
+                {
+                    name: 'Chopped, Hard-Boiled Eggs with Minced Celery and Onions, mixed with Mayonnaise, seasoned with Mustard',
+                },
+                {
+                    name: 'Scrambled Eggs with Minced Celery and Onions, mixed with Mayonnaise, seasoned with Mustard',
+                },
+            ],
+        },
         'default',
         Eatable.sideDish
     ),
     new DishIdea(
-        { mainIng: { name: 'Egg Salad', key: AssetKey.SMALL_DISH_salad } },
+        {
+            mainIng: { name: 'Potato Salad', key: AssetKey.SMALL_DISH_salad },
+            firstSideDishes: [
+                //Austrian
+                {
+                    name: 'Potato Slices in a Dressing from Onions, Parsley, Vegetable Stock, Mustard, Apple Vinegar and Oil',
+                },
+                // West Prussian
+                {
+                    name: 'Diced Potatoes, Hard-Boiled Eggs, Bacon, Pickles and Onions, mixed with Mayonnaise and Parsley',
+                },
+                //Eastern Prussian
+                {
+                    name: 'Potato Slices mixed with Sour Cream and Mustard, sprinkled with Parsley, Dill and Chives',
+                },
+                // Russian
+                {
+                    name: 'Diced Potatoe, Hard-Boild Egg, Pickles, Peas and Carrots, mixed with Mayonnaise and Black Pepper ',
+                },
+            ],
+        },
         'default',
         Eatable.sideDish
     ),
     new DishIdea(
-        { mainIng: { name: 'Potato Salad', key: AssetKey.SMALL_DISH_salad } },
+        {
+            mainIng: { name: 'Cucumber Salad', key: AssetKey.SMALL_DISH_salad },
+            firstSideDishes: [
+                // U.S.-American
+                {
+                    name: 'Cucumber Slices in Tartar Sauce (Mayonnaise with Chopped Pickles, Carpers and Dill)',
+                },
+                //German
+                {
+                    name: 'Cucumber Slices in Vinaigrette (Mustard with Oil and Vinegar)',
+                },
+                // British
+                {
+                    name: 'Cucumber Slices with Celery Stripes in a mix of Cream and Lemon Juice',
+                },
+                // Russian
+                {
+                    name: 'Cucumber Slices with Chopped Garlic in a mix of Sour Cream and Dill',
+                },
+                // A La Creme
+                {
+                    name: 'Cucumber Slices with Chopped Onions in a mix of Sour Cream and Fruit Vinegar',
+                },
+            ],
+        },
         'default',
         Eatable.sideDish
     ),
     new DishIdea(
-        { mainIng: { name: 'Cucumber Salad', key: AssetKey.SMALL_DISH_salad } },
-        'default',
-        Eatable.sideDish
-    ),
-    new DishIdea(
-        { mainIng: { name: 'Tomato Salad', key: AssetKey.SMALL_DISH_salad } },
-        'default',
-        Eatable.sideDish
-    ),
-    new DishIdea(
-        { mainIng: { name: 'Spinach Salad', key: AssetKey.SMALL_DISH_salad } },
+        {
+            mainIng: {
+                name: 'Spinach Salad with Apple Vinnaigrette',
+                key: AssetKey.SMALL_DISH_salad,
+                needsOne: [a.wealthy, a.rich],
+            },
+            firstSideDishes: [
+                {
+                    name: 'Fresh Spinach with Apples Bits and Walnuts, sprinkled with Vinnaigrette (Apple Vinegar, Mustard, Oil)',
+                },
+            ],
+        },
         'default',
         Eatable.sideDish
     ),
@@ -117,6 +218,7 @@ export const salads: DishIdea[] = [
             mainIng: {
                 name: 'Cumin Carrot Salad',
                 key: AssetKey.SMALL_DISH_salad,
+                needs: [a.desert],
             },
         },
         'default',
