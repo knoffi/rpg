@@ -10,6 +10,7 @@ import { porkRoasts } from './mainDish/porkRoasts';
 import { leftoverStew } from './mainDish/simpleStews';
 import { steaks } from './mainDish/steaks';
 import { dipAndCream } from './smallDish/dipAndCream';
+import { salads } from './smallDish/salad';
 import { soups } from './smallDish/soup';
 
 export const foodMenu: IDishMenu[] = [
@@ -28,5 +29,8 @@ export const foodMenu: IDishMenu[] = [
         category: Eatable.breakfast,
         ideas: [...porridges, ...mainBreads, ...breakfastPlates],
     },
-    { category: Eatable.sideDish, ideas: [...dipAndCream, ...soups] },
+    {
+        category: Eatable.sideDish,
+        ideas: [...dipAndCream, ...soups, ...salads],
+    },
 ];
