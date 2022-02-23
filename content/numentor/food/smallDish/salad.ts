@@ -205,49 +205,98 @@ export const salads: DishIdea[] = [
     new DishIdea(
         {
             mainIng: {
-                name: 'Green Leaf Salad',
+                name: 'Lettuce Salad',
                 key: AssetKey.SMALL_DISH_salad,
             },
+            firstSideDishes: [
+                {
+                    name: 'Garnished with Mild Onions and Vinnaigrette (Mustard, White Wine Vinegar, Olive Oil)',
+                },
+                {
+                    name: 'Garnished with Walnuts and Vinnaigrette (Mustard, White Wine Vinegar, Olive Oil)',
+                },
+                {
+                    name: 'With Walnuts and Vinnaigrette (Mustard, Apple Vinegar,Sunflower Oil)',
+                },
+                {
+                    name: 'With Onions and Vinnaigrette (Mustard, Apple Vinegar, Sunflower Oil)',
+                },
+            ],
         },
         'default',
         Eatable.sideDish
     ),
-    // see https://www.bbcgoodfood.com/recipes/middle-eastern-carrot-salad (needs a.desert)
     new DishIdea(
         {
-            mainIng: {
-                name: 'Cumin Carrot Salad',
-                key: AssetKey.SMALL_DISH_salad,
-                needs: [a.desert],
-            },
+            mainIng: { name: 'Caesar Salad', key: AssetKey.SMALL_DISH_salad },
+            firstSideDishes: [
+                {
+                    name: 'Fresh Lettuce, garnished with Crunchy Croutons and Anchovies, seasoned with a Garlicky Dressing',
+                },
+            ],
         },
         'default',
         Eatable.sideDish
     ),
     new DishIdea(
-        { mainIng: { name: 'Caesar Salad', key: AssetKey.SMALL_DISH_salad } },
+        {
+            mainIng: { name: 'Chef Salad', key: AssetKey.SMALL_DISH_salad },
+            firstSideDishes: [
+                {
+                    name: 'Fresh Lettuce topped with Bacon, Ham, Hard-Boiled Egg, Tomato, Cucumber and Cheese',
+                },
+                {
+                    name: 'Fresh Lettuce topped with Turkey Breast, Hard-Boiled Egg, Tomato, Cucumber and Cheese',
+                },
+                {
+                    name: 'Fresh Lettuce topped with Chicken Breast, Hard-Boiled Egg, Tomato, Cucumber, and Cheese',
+                },
+                {
+                    name: 'Fresh Lettuce topped with Roast Beef, Hard-Boiled Egg, Tomato, Cucumber, and Cheese',
+                },
+            ],
+        },
         'default',
         Eatable.sideDish
     ),
     new DishIdea(
-        { mainIng: { name: 'Chef Salad', key: AssetKey.SMALL_DISH_salad } },
-        'default',
-        Eatable.sideDish
-    ),
-    new DishIdea(
-        { mainIng: { name: 'Chicken Salad', key: AssetKey.SMALL_DISH_salad } },
+        {
+            mainIng: { name: 'Chicken Salad', key: AssetKey.SMALL_DISH_salad },
+            firstSideDishes: [
+                {
+                    name: 'Fresh Lettuce topped with Chicken Breast and Hard-Boiled Egg, seasoned with Mayonnaise',
+                },
+            ],
+        },
         'default',
         Eatable.sideDish
     ),
     // is actually the Dutch word for Cabbage Salad...
     new DishIdea(
-        { mainIng: { name: 'Coleslaw', key: AssetKey.SMALL_DISH_salad } },
+        {
+            mainIng: { name: 'Coleslaw', key: AssetKey.SMALL_DISH_salad },
+            firstSideDishes: [
+                {
+                    name: 'Finely Shredded Cabbage and Carrots, seasoned with Buttermilk, Mustard and White Wine Vinegar',
+                },
+                {
+                    name: 'Finely Shredded Cabbage and Carrots, seasoned with Mayonnaise, Mustard and White Wine Vinegar',
+                },
+            ],
+        },
         'default',
         Eatable.sideDish
     ),
     // the German Krautsalat, the Polish Krautsalat, the US-American Salad
     new DishIdea(
-        { mainIng: { name: 'Cabbage Salad', key: AssetKey.SMALL_DISH_salad } },
+        {
+            mainIng: { name: 'Cabbage Salad', key: AssetKey.SMALL_DISH_salad },
+            firstSideDishes: [
+                {
+                    name: 'Finely Shredded Cabbage with Apple and Onions, marinated with Oil and Vinegar',
+                },
+            ],
+        },
         'default',
         Eatable.sideDish
     ),
@@ -259,6 +308,11 @@ export const salads: DishIdea[] = [
                 name: 'Dressed Herring',
                 key: AssetKey.SMALL_DISH_salad,
             },
+            firstSideDishes: [
+                {
+                    name: 'Diced Pickled Herring, Boiled Egg, Potatoe, Beetroot, Carrots and Onions, topped with Mayonnaise',
+                },
+            ],
         },
         'default',
         Eatable.sideDish
@@ -268,8 +322,14 @@ export const salads: DishIdea[] = [
             mainIng: {
                 name: 'Crab Louis',
                 key: AssetKey.SMALL_DISH_salad,
-                needs: [a.haven],
+                needsOne: [a.haven, a.rich],
+                incomeRange: [a.wealthy, a.rich],
             },
+            firstSideDishes: [
+                {
+                    name: 'Iceberg Lettuce, topped with Crab Meat, Hard-Boiled Egg, Tomato and Asparagus, topped with Louis Dressing',
+                },
+            ],
         },
         'default',
         Eatable.sideDish
@@ -281,6 +341,15 @@ export const salads: DishIdea[] = [
                 key: AssetKey.SMALL_DISH_salad,
                 needs: [a.haven],
             },
+            firstSideDishes: [
+                {
+                    name: 'Fish (Tuna) blended with Pickles, Onions and Hard-Boiled Egg',
+                },
+                {
+                    name: 'Fish (Tuna) blended with Pickles, Onions and Mayonnaise',
+                },
+            ],
+            secondSideDishes: [{ name: ', served on Lettuce' }],
         },
         'default',
         Eatable.sideDish
@@ -293,6 +362,11 @@ export const salads: DishIdea[] = [
                 key: AssetKey.SMALL_DISH_salad,
                 needs: [a.haven],
             },
+            firstSideDishes: [
+                {
+                    name: 'Shrimps and Crab Meat with Celery and Red Onions, seasoned with Lemon Juice, Dill and Mayonnaise',
+                },
+            ],
         },
         'default',
         Eatable.sideDish
@@ -303,8 +377,13 @@ export const salads: DishIdea[] = [
             mainIng: {
                 name: 'Beetroot Salad',
                 key: AssetKey.SMALL_DISH_salad,
-                needs: [a.haven],
             },
+            firstSideDishes: [
+                {
+                    name: 'Beetroot with Apples and Onions, topped with Nuts in a Yoghurt-Honey Dressing',
+                },
+                { name: 'Beetroot with Onions, Oil and Vinegar' },
+            ],
         },
         'default',
         Eatable.sideDish
@@ -317,6 +396,11 @@ export const salads: DishIdea[] = [
                 key: AssetKey.SMALL_DISH_salad,
                 needs: [a.haven],
             },
+            firstSideDishes: [
+                {
+                    name: 'Fresh Spinach with White Mushrooms and Bacon, seasoned with Pepper and Lemon Juice',
+                },
+            ],
         },
         'default',
         Eatable.sideDish
@@ -329,6 +413,32 @@ export const salads: DishIdea[] = [
                 needsOne: [a.rich, a.haven],
                 incomeRange: [a.rich, a.wealthy],
             },
+            firstSideDishes: [
+                { name: 'Fish Roe (Cod)' },
+                { name: 'Fish Roe (Carp)' },
+                {
+                    name: 'Fish Roe (Grey Mullet)',
+                    needs: [a.rich],
+                    priceFactor: 1.1,
+                },
+            ],
+            secondSideDishes: [
+                {
+                    name: ' blended with Olive Oil, Lemon Juice and Almonds',
+                    needs: [a.rich],
+                    priceFactor: 1.1,
+                },
+                { name: ' blended with Olive Oil, Lemon Juice and Potato' },
+                { name: ' blended with Olive Oil, Lemon Juice and Bread' },
+                {
+                    name: ' blended with Olive Oil, Vinegar and Almonds',
+                    needs: [a.rich],
+                    priceFactor: 1.1,
+                },
+                { name: ' blended with Olive Oil, Vinegar and Potato' },
+                { name: ' blended with Olive Oil, Vinegar and Bread' },
+            ],
+            thirdSideDishes: [{ name: ', served with Bread' }],
         },
         'default',
         Eatable.sideDish
@@ -341,6 +451,7 @@ export const salads: DishIdea[] = [
                 needsOne: [a.rich, a.haven],
                 incomeRange: [a.rich, a.wealthy],
             },
+            firstSideDishes: [{ name: '' }],
         },
         'default',
         Eatable.sideDish
@@ -352,6 +463,7 @@ export const salads: DishIdea[] = [
                 key: AssetKey.SMALL_DISH_salad,
                 needs: [a.tropical],
             },
+            firstSideDishes: [{ name: '' }],
         },
         'default',
         Eatable.sideDish
@@ -364,6 +476,7 @@ export const salads: DishIdea[] = [
                 key: AssetKey.SMALL_DISH_salad,
                 needs: [a.tropical],
             },
+            firstSideDishes: [{ name: '' }],
         },
         'default',
         Eatable.sideDish
@@ -376,6 +489,7 @@ export const salads: DishIdea[] = [
                 key: AssetKey.SMALL_DISH_salad,
                 needs: [a.tropical],
             },
+            firstSideDishes: [{ name: '' }],
         },
         'default',
         Eatable.sideDish
@@ -388,6 +502,7 @@ export const salads: DishIdea[] = [
                 key: AssetKey.SMALL_DISH_salad,
                 needs: [a.tropical],
             },
+            firstSideDishes: [{ name: '' }],
         },
         'default',
         Eatable.sideDish
@@ -399,6 +514,7 @@ export const salads: DishIdea[] = [
                 key: AssetKey.SMALL_DISH_salad,
                 needsOne: [a.wealthy, a.rich],
             },
+            firstSideDishes: [{ name: '' }],
         },
         'default',
         Eatable.sideDish
