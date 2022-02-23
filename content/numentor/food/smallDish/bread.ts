@@ -16,4 +16,19 @@ export const carbonStarter: DishIdea[] = [
         'default',
         Eatable.sideDish
     ),
+    new DishIdea(
+        {
+            mainIng: {
+                name: 'Bread with Ham & Ćwikla',
+                key: AssetKey.SMALL_DISH_carbon,
+            },
+            firstSideDishes: [
+                {
+                    name: 'Fresh Bread, topped with Ham and a Puree of Beetroot and Horseradish',
+                },
+            ],
+        },
+        'default',
+        Eatable.sideDish
+    ),
 ];
