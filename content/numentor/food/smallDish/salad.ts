@@ -3,6 +3,13 @@ import { AssetKey } from '../../../../classes/idea/AssetKey/AssetKey';
 import { DishIdea } from '../../../../classes/idea/DishIdea';
 import { Eatable } from '../../../../classes/TavernProduct';
 const a = association;
+const europeanUnderdark = [
+    a.mountain,
+    a.underdark,
+    a.city,
+    a.village,
+    a.forest,
+];
 export const salads: DishIdea[] = [
     // see Arab Salad
     new DishIdea(
@@ -11,6 +18,7 @@ export const salads: DishIdea[] = [
                 name: 'Salata Baladi',
                 key: AssetKey.SMALL_DISH_salad,
                 needs: [a.desert],
+                misfits: [a.rich],
             },
             firstSideDishes: [
                 {
@@ -27,6 +35,7 @@ export const salads: DishIdea[] = [
                 name: 'Piyaz Salad',
                 key: AssetKey.SMALL_DISH_salad,
                 needs: [a.desert],
+                misfits: [a.rich],
             },
             firstSideDishes: [
                 {
@@ -43,6 +52,7 @@ export const salads: DishIdea[] = [
                 name: 'Kisir Salad',
                 key: AssetKey.SMALL_DISH_salad,
                 needs: [a.desert],
+                misfits: [a.rich],
             },
             firstSideDishes: [
                 {
@@ -59,6 +69,7 @@ export const salads: DishIdea[] = [
                 name: 'Tabbouleh Salad',
                 key: AssetKey.SMALL_DISH_salad,
                 needs: [a.desert],
+                misfits: [a.rich],
             },
             firstSideDishes: [
                 {
@@ -75,6 +86,7 @@ export const salads: DishIdea[] = [
                 name: 'Shirazi Salad',
                 key: AssetKey.SMALL_DISH_salad,
                 needs: [a.desert],
+                misfits: [a.rich],
             },
             firstSideDishes: [
                 {
@@ -91,6 +103,7 @@ export const salads: DishIdea[] = [
                 name: 'Fattoush',
                 key: AssetKey.SMALL_DISH_salad,
                 needs: [a.desert],
+                misfits: [a.rich],
             },
             firstSideDishes: [
                 {
@@ -107,6 +120,7 @@ export const salads: DishIdea[] = [
                 name: 'Balela Salad',
                 key: AssetKey.SMALL_DISH_salad,
                 needs: [a.desert],
+                misfits: [a.rich],
             },
             firstSideDishes: [
                 {
@@ -119,7 +133,13 @@ export const salads: DishIdea[] = [
     ),
     new DishIdea(
         {
-            mainIng: { name: 'Egg Salad', key: AssetKey.SMALL_DISH_salad },
+            mainIng: {
+                name: 'Egg Salad',
+                key: AssetKey.SMALL_DISH_salad,
+                incomeRange: [a.wealthy, a.modest],
+                powerFits: [a.city, a.human],
+                landRange: europeanUnderdark,
+            },
             firstSideDishes: [
                 {
                     name: 'Chopped, Hard-Boiled Eggs with Minced Celery and Onions, mixed with Mayonnaise, seasoned with Mustard',
@@ -134,52 +154,76 @@ export const salads: DishIdea[] = [
     ),
     new DishIdea(
         {
-            mainIng: { name: 'Potato Salad', key: AssetKey.SMALL_DISH_salad },
+            mainIng: {
+                name: 'Potato Salad',
+                key: AssetKey.SMALL_DISH_salad,
+                powerFits: [...europeanUnderdark, a.halfling, a.gnome],
+                misfits: [a.rich, a.tropical, a.desert],
+            },
             firstSideDishes: [
                 //Austrian
                 {
                     name: 'Potato Slices in a Dressing from Onions, Parsley, Vegetable Stock, Mustard, Apple Vinegar and Oil',
+                    landRange: [a.village, a.mountain, a.forest],
                 },
                 // West Prussian
                 {
                     name: 'Diced Potatoes, Hard-Boiled Eggs, Bacon, Pickles and Onions, mixed with Mayonnaise and Parsley',
+                    landRange: [a.city],
                 },
                 //Eastern Prussian
                 {
                     name: 'Potato Slices mixed with Sour Cream and Mustard, sprinkled with Parsley, Dill and Chives',
+                    landRange: [a.haven],
                 },
                 // Russian
                 {
                     name: 'Diced Potatoe, Hard-Boild Egg, Pickles, Peas and Carrots, mixed with Mayonnaise and Black Pepper ',
+                    landRange: [a.underdark],
                 },
             ],
         },
-        'default',
+        1.1,
         Eatable.sideDish
     ),
     new DishIdea(
         {
-            mainIng: { name: 'Cucumber Salad', key: AssetKey.SMALL_DISH_salad },
+            mainIng: {
+                name: 'Cucumber Salad',
+                key: AssetKey.SMALL_DISH_salad,
+                landRange: [a.city, a.village, a.forest, a.haven],
+                powerFits: [a.druid],
+                misfits: [a.rich],
+            },
             firstSideDishes: [
                 // U.S.-American
                 {
                     name: 'Cucumber Slices in Tartar Sauce (Mayonnaise with Chopped Pickles, Carpers and Dill)',
+                    needs: [a.wealthy],
                 },
                 //German
                 {
                     name: 'Cucumber Slices in Vinaigrette (Mustard with Oil and Vinegar)',
+                    incomeRange: [a.poor, a.modest],
+                    misfits: [a.haven],
                 },
                 // British
                 {
                     name: 'Cucumber Slices with Celery Stripes in a mix of Cream and Lemon Juice',
+                    incomeRange: [a.modest],
+                    misfits: [a.haven],
                 },
                 // Russian
                 {
                     name: 'Cucumber Slices with Chopped Garlic in a mix of Sour Cream and Dill',
+                    incomeRange: [a.modest],
+                    needs: [a.haven],
                 },
                 // A La Creme
                 {
                     name: 'Cucumber Slices with Chopped Onions in a mix of Sour Cream and Fruit Vinegar',
+                    incomeRange: [a.modest],
+                    misfits: [a.haven],
                 },
             ],
         },
@@ -191,7 +235,8 @@ export const salads: DishIdea[] = [
             mainIng: {
                 name: 'Spinach Salad with Apple Vinnaigrette',
                 key: AssetKey.SMALL_DISH_salad,
-                needsOne: [a.wealthy, a.rich],
+                needsOne: [a.village, a.rich],
+                incomeRange: [a.wealthy, a.rich],
             },
             firstSideDishes: [
                 {
@@ -207,19 +252,29 @@ export const salads: DishIdea[] = [
             mainIng: {
                 name: 'Lettuce Salad',
                 key: AssetKey.SMALL_DISH_salad,
+                landRange: europeanUnderdark,
+                misfits: [a.rich],
             },
             firstSideDishes: [
                 {
-                    name: 'Garnished with Mild Onions and Vinnaigrette (Mustard, White Wine Vinegar, Olive Oil)',
+                    name: 'Garnished with Mild Onions and Dressing (Mustard, White Wine Vinegar, Olive Oil)',
+                    incomeRange: [a.wealthy, a.modest],
                 },
                 {
-                    name: 'Garnished with Walnuts and Vinnaigrette (Mustard, White Wine Vinegar, Olive Oil)',
+                    name: 'Garnished with Walnuts and Dressing (Mustard, White Wine Vinegar, Olive Oil)',
+                    needs: [a.wealthy],
                 },
                 {
-                    name: 'With Walnuts and Vinnaigrette (Mustard, Apple Vinegar,Sunflower Oil)',
+                    name: 'Garnished with Walnuts and Dressing (Mustard, White Wine Vinegar, Pumpkin Oil)',
+                    needs: [a.wealthy],
                 },
                 {
-                    name: 'With Onions and Vinnaigrette (Mustard, Apple Vinegar, Sunflower Oil)',
+                    name: 'With Walnuts and Dressing (Mustard, Apple Vinegar,Sunflower Oil)',
+                    incomeRange: [a.modest],
+                },
+                {
+                    name: 'With Onions and Dressing (Mustard, Apple Vinegar, Sunflower Oil)',
+                    incomeRange: [a.poor, a.modest],
                 },
             ],
         },
@@ -228,7 +283,14 @@ export const salads: DishIdea[] = [
     ),
     new DishIdea(
         {
-            mainIng: { name: 'Caesar Salad', key: AssetKey.SMALL_DISH_salad },
+            mainIng: {
+                name: 'Caesar Salad',
+                key: AssetKey.SMALL_DISH_salad,
+                needsOne: [a.haven, a.rich],
+                incomeRange: [a.rich],
+                misfits: [a.desert, a.tropical],
+                powerFits: [a.human, a.haven, a.rich],
+            },
             firstSideDishes: [
                 {
                     name: 'Fresh Lettuce, garnished with Crunchy Croutons and Anchovies, seasoned with a Garlicky Dressing',
@@ -240,7 +302,14 @@ export const salads: DishIdea[] = [
     ),
     new DishIdea(
         {
-            mainIng: { name: 'Chef Salad', key: AssetKey.SMALL_DISH_salad },
+            mainIng: {
+                name: 'Chef Salad',
+                key: AssetKey.SMALL_DISH_salad,
+                needsOne: [a.city, a.rich],
+                incomeRange: [a.rich],
+                misfits: [a.desert, a.tropical],
+                powerFits: [a.human, a.city, a.rich],
+            },
             firstSideDishes: [
                 {
                     name: 'Fresh Lettuce topped with Bacon, Ham, Hard-Boiled Egg, Tomato, Cucumber and Cheese',
@@ -261,7 +330,14 @@ export const salads: DishIdea[] = [
     ),
     new DishIdea(
         {
-            mainIng: { name: 'Chicken Salad', key: AssetKey.SMALL_DISH_salad },
+            mainIng: {
+                name: 'Chicken Salad',
+                key: AssetKey.SMALL_DISH_salad,
+                needsOne: [a.village, a.rich],
+                incomeRange: [a.rich],
+                misfits: [a.desert, a.tropical],
+                powerFits: [a.human, a.village, a.rich],
+            },
             firstSideDishes: [
                 {
                     name: 'Fresh Lettuce topped with Chicken Breast and Hard-Boiled Egg, seasoned with Mayonnaise',
@@ -274,13 +350,21 @@ export const salads: DishIdea[] = [
     // is actually the Dutch word for Cabbage Salad...
     new DishIdea(
         {
-            mainIng: { name: 'Coleslaw', key: AssetKey.SMALL_DISH_salad },
+            mainIng: {
+                name: 'Coleslaw',
+                key: AssetKey.SMALL_DISH_salad,
+                landRange: europeanUnderdark,
+                misfits: [a.rich],
+                powerFits: [a.gnome, a.city],
+            },
             firstSideDishes: [
                 {
                     name: 'Finely Shredded Cabbage and Carrots, seasoned with Buttermilk, Mustard and White Wine Vinegar',
+                    misfits: [a.city],
                 },
                 {
                     name: 'Finely Shredded Cabbage and Carrots, seasoned with Mayonnaise, Mustard and White Wine Vinegar',
+                    misfits: [a.village],
                 },
             ],
         },
@@ -290,7 +374,13 @@ export const salads: DishIdea[] = [
     // the German Krautsalat, the Polish Krautsalat, the US-American Salad
     new DishIdea(
         {
-            mainIng: { name: 'Cabbage Salad', key: AssetKey.SMALL_DISH_salad },
+            mainIng: {
+                name: 'Cabbage Salad',
+                key: AssetKey.SMALL_DISH_salad,
+                powerFits: [a.mountain, a.forest, a.druid],
+                landRange: europeanUnderdark,
+                misfits: [a.rich],
+            },
             firstSideDishes: [
                 {
                     name: 'Finely Shredded Cabbage with Apple and Onions, marinated with Oil and Vinegar',
@@ -307,6 +397,8 @@ export const salads: DishIdea[] = [
             mainIng: {
                 name: 'Dressed Herring',
                 key: AssetKey.SMALL_DISH_salad,
+                incomeRange: [a.poor, a.modest],
+                powerFits: [a.modest, a.haven],
             },
             firstSideDishes: [
                 {
@@ -324,6 +416,7 @@ export const salads: DishIdea[] = [
                 key: AssetKey.SMALL_DISH_salad,
                 needsOne: [a.haven, a.rich],
                 incomeRange: [a.wealthy, a.rich],
+                misfits: [a.desert, a.tropical],
             },
             firstSideDishes: [
                 {
@@ -340,13 +433,16 @@ export const salads: DishIdea[] = [
                 name: 'Tuna Salad',
                 key: AssetKey.SMALL_DISH_salad,
                 needs: [a.haven],
+                incomeRange: [a.poor, a.modest, a.wealthy],
             },
             firstSideDishes: [
                 {
                     name: 'Fish (Tuna) blended with Pickles, Onions and Hard-Boiled Egg',
+                    incomeRange: [a.poor, a.modest],
                 },
                 {
                     name: 'Fish (Tuna) blended with Pickles, Onions and Mayonnaise',
+                    incomeRange: [a.wealthy],
                 },
             ],
             secondSideDishes: [{ name: ', served on Lettuce' }],
@@ -360,7 +456,9 @@ export const salads: DishIdea[] = [
             mainIng: {
                 name: 'Seafood Salad',
                 key: AssetKey.SMALL_DISH_salad,
-                needs: [a.haven],
+                needsOne: [a.haven, a.wealthy, a.rich],
+                incomeRange: [a.modest, a.wealthy, a.rich],
+                misfits: [a.desert, a.tropical],
             },
             firstSideDishes: [
                 {
@@ -377,12 +475,19 @@ export const salads: DishIdea[] = [
             mainIng: {
                 name: 'Beetroot Salad',
                 key: AssetKey.SMALL_DISH_salad,
+                powerFits: [a.underdark, a.halfling, a.poor, a.elf],
+                misfits: [a.desert, a.tropical],
             },
             firstSideDishes: [
                 {
                     name: 'Beetroot with Apples and Onions, topped with Nuts in a Yoghurt-Honey Dressing',
+                    needsOne: [a.elf, a.rich, a.wealthy],
+                    incomeRange: [a.rich, a.wealthy],
                 },
-                { name: 'Beetroot with Onions, Oil and Vinegar' },
+                {
+                    name: 'Beetroot with Onions, Oil and Vinegar',
+                    incomeRange: [a.poor, a.modest],
+                },
             ],
         },
         'default',
@@ -394,11 +499,17 @@ export const salads: DishIdea[] = [
             mainIng: {
                 name: 'Mushroom & Spinach Salad',
                 key: AssetKey.SMALL_DISH_salad,
-                needs: [a.haven],
+                incomeRange: [a.modest, a.wealthy],
+                powerFits: [a.underdark, a.gnome, a.druid],
+                misfits: [a.tropical, a.desert, a.haven],
             },
             firstSideDishes: [
                 {
+                    name: 'Fresh Spinach with Brown and White Mushrooms, seasoned with Pepper and Lemon Juice',
+                },
+                {
                     name: 'Fresh Spinach with White Mushrooms and Bacon, seasoned with Pepper and Lemon Juice',
+                    misfits: [a.druid],
                 },
             ],
         },
@@ -469,6 +580,7 @@ export const salads: DishIdea[] = [
                 name: 'Pineapple-Coconut Salad',
                 key: AssetKey.SMALL_DISH_salad,
                 needs: [a.tropical],
+                misfits: [a.rich],
             },
             firstSideDishes: [
                 {
@@ -486,10 +598,14 @@ export const salads: DishIdea[] = [
                 name: 'Ceviche',
                 key: AssetKey.SMALL_DISH_salad,
                 needs: [a.tropical],
+                misfits: [a.rich],
             },
             firstSideDishes: [
                 {
                     name: 'Raw Fish Dices in Bitter Orange Juice, with Chopped Onions, Chili Peppers and Cilantro',
+                },
+                {
+                    name: 'Raw Fish Dices in Lime Juice, with Chopped Onions, Chili Peppers and Cilantro',
                 },
             ],
         },
@@ -502,7 +618,8 @@ export const salads: DishIdea[] = [
             mainIng: {
                 name: 'Poke Salad',
                 key: AssetKey.SMALL_DISH_salad,
-                needs: [a.tropical],
+                needsOne: [a.tropical, a.wealthy],
+                landRange: [a.tropical, a.haven],
             },
             firstSideDishes: [
                 {
