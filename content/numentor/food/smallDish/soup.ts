@@ -907,5 +907,35 @@ export const soups: DishIdea[] = [
         1.1,
         Eatable.sideDish
     ),
+    new DishIdea(
+        {
+            mainIng: {
+                name: 'Sweet Potato Soup',
+                key: AssetKey.SMALL_DISH_soup,
+                needs: [a.tropical],
+            },
+            firstSideDishes: [
+                {
+                    name: 'Vegetable Stock with Diced Sweet Potatoes, Okra and Coconut Milk',
+                },
+                {
+                    name: 'Vegetable Stock with Diced Sweet Potatoes, Gold Okra and Coconut Milk',
+                },
+            ],
+            secondSideDishes: [
+                {
+                    name: ', seasoned with Coriander and Turmeric',
+                    incomeRange: [a.modest, a.wealthy],
+                },
+                {
+                    name: ', seasoned with Coriander and Saffron',
+                    needs: [a.rich],
+                },
+                { name: '', needs: [a.poor] },
+            ],
+        },
+        'default',
+        Eatable.sideDish
+    ),
     // needs soups with coconut milk for a.tropical
 ];
