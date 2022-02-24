@@ -451,7 +451,14 @@ export const salads: DishIdea[] = [
                 needsOne: [a.rich, a.haven],
                 incomeRange: [a.rich, a.wealthy],
             },
-            firstSideDishes: [{ name: '' }],
+            firstSideDishes: [
+                {
+                    name: 'Prawns mixed with Mayonnaise, Sour Cream and Dill, garnished with Roe, served with Toasted Bread',
+                },
+                {
+                    name: 'Crab Meat mixed with Mayonnaise, Sour Cream and Dill, garnished with Roe, served with Toasted Bread',
+                },
+            ],
         },
         'default',
         Eatable.sideDish
@@ -459,11 +466,15 @@ export const salads: DishIdea[] = [
     new DishIdea(
         {
             mainIng: {
-                name: 'Papaya Salad',
+                name: 'Pineapple-Coconut Salad',
                 key: AssetKey.SMALL_DISH_salad,
                 needs: [a.tropical],
             },
-            firstSideDishes: [{ name: '' }],
+            firstSideDishes: [
+                {
+                    name: 'Grilled Pineapple Rings, Coconut Bits, Lettuce and Peppers, with a Fruity-Spicy Dressing',
+                },
+            ],
         },
         'default',
         Eatable.sideDish
@@ -472,11 +483,15 @@ export const salads: DishIdea[] = [
     new DishIdea(
         {
             mainIng: {
-                name: 'Ceviche Salad',
+                name: 'Ceviche',
                 key: AssetKey.SMALL_DISH_salad,
                 needs: [a.tropical],
             },
-            firstSideDishes: [{ name: '' }],
+            firstSideDishes: [
+                {
+                    name: 'Raw Fish Dices in Bitter Orange Juice, with Chopped Onions, Chili Peppers and Cilantro',
+                },
+            ],
         },
         'default',
         Eatable.sideDish
@@ -489,20 +504,17 @@ export const salads: DishIdea[] = [
                 key: AssetKey.SMALL_DISH_salad,
                 needs: [a.tropical],
             },
-            firstSideDishes: [{ name: '' }],
-        },
-        'default',
-        Eatable.sideDish
-    ),
-    // Indonesian Salad
-    new DishIdea(
-        {
-            mainIng: {
-                name: 'Pecel Salad',
-                key: AssetKey.SMALL_DISH_salad,
-                needs: [a.tropical],
-            },
-            firstSideDishes: [{ name: '' }],
+            firstSideDishes: [
+                {
+                    name: 'Raw Tuna Dices mixed with Sea Salt, Seaweed and Candlenut',
+                },
+                {
+                    name: 'Raw Squid Dices mixed with Sea Salt, Seaweed and Candlenut',
+                },
+                {
+                    name: 'Raw Salmon Dices mixed with Sea Salt, Seaweed and Candlenut',
+                },
+            ],
         },
         'default',
         Eatable.sideDish
@@ -513,8 +525,13 @@ export const salads: DishIdea[] = [
                 name: 'Caprese Salad',
                 key: AssetKey.SMALL_DISH_salad,
                 needsOne: [a.wealthy, a.rich],
+                misfits: [a.desert, a.tropical],
             },
-            firstSideDishes: [{ name: '' }],
+            firstSideDishes: [
+                {
+                    name: 'Slices Of Tomato and Mozarella, topped with Basil and sprinkled with Olive Oil',
+                },
+            ],
         },
         'default',
         Eatable.sideDish
