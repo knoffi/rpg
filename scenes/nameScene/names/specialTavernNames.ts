@@ -3,7 +3,7 @@ import { NameIdea } from '../../../classes/idea/NameIdea';
 
 const a = association;
 
-const VERY_SPECIAL_NAME_PROB = 0.2;
+const VERY_SPECIAL_NAME_PROB = 0.3;
 export const specialNames: NameIdea[] = [
     new NameIdea({
         name: 'Bloody Axe',
@@ -206,8 +206,9 @@ export const specialNames: NameIdea[] = [
     }),
     new NameIdea({
         name: 'Pillars of Wisdom',
-        needsOne: [a.cleric],
-        powerFits: [a.cleric],
+        needsOne: [a.cleric, a.desert],
+        classRange: [a.adventurer, a.cleric],
+        powerFits: [a.cleric, a.desert],
     }),
     new NameIdea({
         name: 'Nurturing Nun',
@@ -236,7 +237,7 @@ export const specialNames: NameIdea[] = [
         powerFits: [a.cleric],
     }),
     new NameIdea({
-        name: "Brother Pummelduff's Pub",
+        name: "Brother Pumbleduff's Pub",
         needsOne: [a.cleric],
         powerFits: [a.cleric],
         probability: VERY_SPECIAL_NAME_PROB,
@@ -261,6 +262,12 @@ export const specialNames: NameIdea[] = [
         name: 'Lousy Dog',
         needsOne: [a.thief, a.poor],
         incomeRange: [a.poor, a.modest],
+        powerFits: [a.thief],
+        worksForThiefs: true,
+    }),
+    new NameIdea({
+        name: 'Red Moon',
+        needsOne: [a.thief],
         powerFits: [a.thief],
         worksForThiefs: true,
     }),
@@ -392,6 +399,12 @@ export const specialNames: NameIdea[] = [
         name: 'Thirsty Tourist',
         needsOne: [a.desert],
         powerFits: [a.desert],
+    }),
+    new NameIdea({
+        name: 'Dune Palace',
+        needs: [a.desert],
+        incomeRange: [a.wealthy, a.rich],
+        powerFits: [a.desert, a.rich, a.wealthy],
     }),
     new NameIdea({
         name: 'Grinning Jakal',
@@ -1405,6 +1418,7 @@ export const specialNames: NameIdea[] = [
         name: 'Cashmere Cat',
         needs: [a.rich],
         powerFits: [a.rich],
+        worksForBrothel: true,
     }),
     new NameIdea({
         name: 'Lobster Palace',
@@ -1412,9 +1426,15 @@ export const specialNames: NameIdea[] = [
         powerFits: [a.rich],
     }),
     new NameIdea({
+        name: 'Bon Appétit',
+        needs: [a.rich],
+        powerFits: [a.rich],
+    }),
+    new NameIdea({
         name: 'Champagne & Caviar',
         needs: [a.rich],
         powerFits: [a.rich],
+        worksForBrothel: true,
     }),
     new NameIdea({
         name: 'Golden Oyster',

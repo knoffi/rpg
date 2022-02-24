@@ -9,7 +9,10 @@ import { fishAndChips } from './mainDish/fishAndChips';
 import { porkRoasts } from './mainDish/porkRoasts';
 import { leftoverStew } from './mainDish/simpleStews';
 import { steaks } from './mainDish/steaks';
+import { carbonStarter } from './smallDish/bread';
 import { dipAndCream } from './smallDish/dipAndCream';
+import { proteins } from './smallDish/protein';
+import { salads } from './smallDish/salad';
 import { soups } from './smallDish/soup';
 
 export const foodMenu: IDishMenu[] = [
@@ -28,5 +31,14 @@ export const foodMenu: IDishMenu[] = [
         category: Eatable.breakfast,
         ideas: [...porridges, ...mainBreads, ...breakfastPlates],
     },
-    { category: Eatable.sideDish, ideas: [...dipAndCream, ...soups] },
+    {
+        category: Eatable.sideDish,
+        ideas: [
+            ...dipAndCream,
+            ...soups,
+            ...salads,
+            ...proteins,
+            ...carbonStarter,
+        ],
+    },
 ];
