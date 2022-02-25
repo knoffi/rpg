@@ -6,7 +6,11 @@ const a = association;
 export const carbonStarter: DishIdea[] = [
     new DishIdea(
         {
-            mainIng: { name: 'Bruschetta', key: AssetKey.SMALL_DISH_carbon },
+            mainIng: {
+                name: 'Bruschetta',
+                key: AssetKey.SMALL_DISH_carbon,
+                misfits: [a.desert, a.tropical],
+            },
             firstSideDishes: [
                 {
                     name: 'Grilled Bread Slices, topped with Finely-Diced Onions, Garlic, Tomato and Basil',
@@ -21,6 +25,7 @@ export const carbonStarter: DishIdea[] = [
             mainIng: {
                 name: 'Bread with Ham & Ćwikla',
                 key: AssetKey.SMALL_DISH_carbon,
+                misfits: [a.desert, a.tropical],
             },
             firstSideDishes: [
                 {
