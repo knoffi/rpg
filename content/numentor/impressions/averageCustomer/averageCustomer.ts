@@ -123,6 +123,81 @@ export const averageCustomers: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
+            name: 'Complaining about the new commander of the city guard',
+            landRange: [a.city],
+            needs: [a.thief],
+            powerFits: [a.city, a.thief, a.soldier],
+            worksForAllCriminals: true,
+            key: AssetKey.AVERAGE_CUSTOMER_behavior,
+        },
+        [emptyDescriptionAsset],
+        Noticable.averageCustomer
+    ),
+    new ImpressionIdea(
+        {
+            name: 'Complaining about the cruel commander of the city guard',
+            landRange: [a.city],
+            incomeRange: [a.poor, a.modest],
+            needsOne: [a.thief, a.soldier],
+            powerFits: [a.city, a.thief, a.poor, a.soldier],
+            worksForAllCriminals: true,
+            key: AssetKey.AVERAGE_CUSTOMER_behavior,
+        },
+        [emptyDescriptionAsset],
+        Noticable.averageCustomer
+    ),
+    new ImpressionIdea(
+        {
+            name: 'Complaining about the cruel city guard of a nearby town',
+            misfits: [a.city, a.tropical, a.haven],
+            incomeRange: [a.poor, a.modest],
+            needs: [a.thief],
+            powerFits: [a.poor, a.thief],
+            key: AssetKey.AVERAGE_CUSTOMER_behavior,
+            worksForAllCriminals: true,
+        },
+        [emptyDescriptionAsset],
+        Noticable.averageCustomer
+    ),
+    new ImpressionIdea(
+        {
+            name: 'Complaining about the new city guard commander of a nearby town',
+            misfits: [a.city, a.tropical, a.haven],
+            needs: [a.thief],
+            powerFits: [a.wealthy, a.thief],
+            worksForAllCriminals: true,
+            key: AssetKey.AVERAGE_CUSTOMER_behavior,
+        },
+        [emptyDescriptionAsset],
+        Noticable.averageCustomer
+    ),
+    new ImpressionIdea(
+        {
+            name: 'Complaining about the new navy commander of a nearby port',
+            needsOne: [a.tropical, a.haven, a.thief],
+            landRange: [a.tropical, a.haven],
+            powerFits: [a.tropical, a.haven, a.thief],
+            worksForAllCriminals: true,
+            key: AssetKey.AVERAGE_CUSTOMER_behavior,
+        },
+        [emptyDescriptionAsset],
+        Noticable.averageCustomer
+    ),
+    new ImpressionIdea(
+        {
+            name: 'Complaining about the cruel navy commander of a nearby port',
+            needsOne: [a.tropical, a.haven, a.thief],
+            landRange: [a.tropical, a.haven],
+            incomeRange: [a.poor, a.modest],
+            powerFits: [a.tropical, a.haven, a.thief, a.poor],
+            worksForAllCriminals: true,
+            key: AssetKey.AVERAGE_CUSTOMER_behavior,
+        },
+        [emptyDescriptionAsset],
+        Noticable.averageCustomer
+    ),
+    new ImpressionIdea(
+        {
             name: 'Complaining about high taxes',
             landRange: [a.village, a.city, a.haven],
             misfits: [a.barbarian, a.adventurer, a.druid],
