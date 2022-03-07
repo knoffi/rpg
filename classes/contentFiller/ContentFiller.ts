@@ -4,7 +4,7 @@ import { Content } from '../../mainNavigator/Content';
 import { convertAdd } from '../../mainNavigator/convertAdd';
 import { getTavernHistoryInitializer } from '../../mainNavigator/mainNavigatorFunctions';
 import { iconicFittings } from '../../mainNavigator/randomTavern/iconicFittings';
-import { MinimalTavernData } from '../../mainNavigator/TavernData';
+import { Describable, MinimalTavernData } from '../../mainNavigator/TavernData';
 import { UniverseMap } from '../../mainNavigator/UniverseMap';
 import { BasePrice, standardBasePrice } from '../../scenes/menuScene/basePrice';
 import { Offer } from '../../scenes/menuScene/Offer';
@@ -32,7 +32,7 @@ import { Drinkable, Eatable } from '../TavernProduct';
 const CHANCE_FOR_ICONIC_FITTING = 0.8;
 const CHANCE_FOR_SPECIAL_FIT = 0.2;
 const CHANCE_FOR_ORDINARY_FIT = 0.625;
-const NO_IDEA_PROBABILITY = 0.1;
+const BARTENDER_NOTES = 4;
 const MAX_IDEA = 3;
 const MAX_PRICE_DERIVATION = 0.3;
 type ContentSum = {
@@ -52,9 +52,11 @@ type Page = (
 export class ContentFiller {
     private universe: UniverseMap;
     private creator: ContentCreator;
+    private sizes: ChapterSize;
     constructor(universe: UniverseMap) {
         this.universe = universe;
         this.creator = new ContentCreator(universe);
+        this.sizes = new ChapterSize();
     }
 
     public getRandomTavern = (): MinimalTavernData => {
@@ -185,7 +187,7 @@ export class ContentFiller {
             keys: keys.multiUpdateClone([]),
             patterns: patterns.multiUpdateClone([]),
         };
-        const page = this.getContentForCategory(
+        const page = this.fillCategory(
             fits,
             demand,
             this.creator,
@@ -223,7 +225,7 @@ export class ContentFiller {
         const patternHandler = new PatternHandler('noContent');
         const drinks = Object.values(Drinkable).reduce(
             (contentSum, category) =>
-                this.getContentForCategory(
+                this.fillCategory(
                     fits,
                     {
                         isAbout: WeServe.drinks,
@@ -240,7 +242,7 @@ export class ContentFiller {
         ).content as Offer[];
         const food = Object.values(Eatable).reduce(
             (contentSum, category) =>
-                this.getContentForCategory(
+                this.fillCategory(
                     fits,
                     {
                         isAbout: WeServe.food,
@@ -257,7 +259,7 @@ export class ContentFiller {
         ).content as Offer[];
         const impressions = Object.values(Noticable).reduce(
             (contentSum, category) =>
-                this.getContentForCategory(
+                this.fillCategory(
                     fits,
                     {
                         isAbout: WeServe.impressions,
@@ -289,18 +291,13 @@ export class ContentFiller {
         );
         return newName;
     }
-    private getContentForCategory(
+    private fillCategory(
         fits: StructuredTavernFits,
         demand: Demand,
         creator: ContentCreator,
         collection: ContentSum
     ): ContentSum {
-        const contentLength =
-            demand.category === Noticable.bartender
-                ? 4
-                : Math.floor(
-                      Math.random() * MAX_IDEA + (1 - NO_IDEA_PROBABILITY)
-                  );
+        const contentLength = this.sizes.roll(demand.category);
         const startAdd: Add = {
             ...demand,
             added: [],
@@ -348,5 +345,41 @@ export class ContentFiller {
                 creator
             );
         }
+    }
+}
+
+export class ChapterSize {
+    public static readonly MAX = 4;
+    public static readonly MIN = 1;
+    public static readonly MINIMAL_CONTENT_PROBABILITY = 0.1;
+    constructor() {}
+    public roll(category: Describable): number {
+        if (category === Noticable.bartender) {
+            return BARTENDER_NOTES;
+        } else {
+            const randomNumber = Math.random();
+
+            const lambda =
+                (randomNumber - ChapterSize.MINIMAL_CONTENT_PROBABILITY) /
+                (1 - ChapterSize.MINIMAL_CONTENT_PROBABILITY);
+            const convexSum =
+                ChapterSize.MAX * lambda + ChapterSize.MIN * (1 - lambda);
+            return Math.round(convexSum);
+        }
+    }
+    public static meanValueRoll(): number {
+        const sizeRange = ChapterSize.MAX - ChapterSize.MIN + 1;
+        const meanFactor = 1 / sizeRange;
+        const possibleSizes = new Array(ChapterSize.MAX - ChapterSize.MIN + 1)
+            .fill(0)
+            .map((undefined, index) => index + ChapterSize.MIN);
+        return possibleSizes.reduce(
+            (meanSum, size) =>
+                meanSum +
+                size *
+                    (size === ChapterSize.MAX || size === ChapterSize.MIN
+                        ? meanFactor / 2
+                        : meanFactor)
+        );
     }
 }
