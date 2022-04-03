@@ -62,6 +62,8 @@ export const getKeyBound = (key: AssetKey) => {
             return 1;
         case AssetKey.INDIVIDUALS_warriorGroup:
             return 1;
+        case AssetKey.INDIVIDUALS_playing:
+            return 1;
 
         case AssetKey.WINE_mead:
             return 1;
@@ -104,6 +106,6 @@ export const getKeyBound = (key: AssetKey) => {
 
         default:
             console.log('key is missing:' + key);
-            return 3.5;
+            return 1.5;
     }
 };
