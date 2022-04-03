@@ -897,7 +897,7 @@ export const individuals: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            landRange: [a.city, a.haven],
+            landRange: [a.city],
             name: 'A group of royal guards is ',
             worksForBrothel: true,
             powerFits: [a.wealthy, a.rich, a.soldier, a.city],
@@ -907,7 +907,8 @@ export const individuals: ImpressionIdea[] = [
     ),
     new ImpressionIdea(
         {
-            needsOne: [a.haven, a.tropical],
+            needsOne: [a.thief, a.tropical],
+            landRange: [a.haven, a.tropical],
             classRange: [a.adventurer, a.barbarian, a.bard],
             name: 'Some pirates are ',
             worksForAllCriminals: true,

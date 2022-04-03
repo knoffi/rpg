@@ -11,6 +11,7 @@ import { individuals } from './individuals/genericIndividuals';
 import { knightIndividuals } from './individuals/knights';
 import { soldierIndividuals } from './individuals/soldiers';
 import { specialIndividuals } from './individuals/specialPeople';
+import { thiefIndividuals } from './individuals/thieves';
 import { wizardIndividuals } from './individuals/wizards';
 import { furnitures } from './objects/furniture';
 import { stuffedAnimals } from './objects/stuffedAnimals';
@@ -41,6 +42,7 @@ export const impressionChapters = [
             ...wizardIndividuals,
             ...knightIndividuals,
             ...soldierIndividuals,
+            ...thiefIndividuals,
         ],
         category: Noticable.someCustomers,
     },

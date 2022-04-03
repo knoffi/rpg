@@ -227,7 +227,8 @@ export const bartenderOpinions: ImpressionIdea[] = [
             },
             {
                 name: 'sophisticated guests',
-                powerFits: [a.rich, a.wealthy, a.knight],
+                powerFits: [a.rich, a.wealthy, a.bard, a.elf],
+                misfits: [a.barbarian, a.soldier, a.dwarf],
                 worksForThiefs: true,
                 worksForBrothel: true,
             },
