@@ -29,7 +29,8 @@ describe('Content Filler', () => {
                 'failed for ' +
                     isAbout +
                     ' with fitting ' +
-                    randomTavern.fitting
+                    JSON.stringify(randomTavern.fitting) +
+                    " FAILED WITH " + randomTavern[isAbout].length
             )
                 .to.have.property(isAbout)
                 .to.have.length.greaterThanOrEqual(MIN_PAGE_SIZE);
@@ -38,7 +39,6 @@ describe('Content Filler', () => {
     it('random page is filled', () => {
         const universe = Constants.universe;
         const filler = new ContentFiller(universe);
-        const chaptersOfPage = Object.values(Drinkable).length;
         const page = filler.randomPage(
             {},
             { isAbout: WeServe.drinks, category: Drinkable.beer },
