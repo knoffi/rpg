@@ -9,6 +9,7 @@ import { bartenderOpinions } from './bartender/opinion';
 import { druidIndividuals } from './individuals/druids';
 import { individuals } from './individuals/genericIndividuals';
 import { knightIndividuals } from './individuals/knights';
+import { femaleProstituteIndividuals } from './individuals/prostitutes';
 import { soldierIndividuals } from './individuals/soldiers';
 import { specialIndividuals } from './individuals/specialPeople';
 import { thiefIndividuals } from './individuals/thieves';
@@ -43,6 +44,7 @@ export const impressionChapters = [
             ...knightIndividuals,
             ...soldierIndividuals,
             ...thiefIndividuals,
+            ...femaleProstituteIndividuals
         ],
         category: Noticable.someCustomers,
     },
