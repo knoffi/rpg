@@ -139,97 +139,96 @@ export const EditNavigator = (props: {
     };
     const getBannersByDelete = (
         deleted: Demand
-    ): Pick<ContentLeftTest, 'bannerData'> => {
+        ): Pick<ContentLeftTest, 'bannerData'> => {
         const olderBanner = contentLeft.bannerData[deleted.isAbout];
         const newEmptyCategories = olderBanner.emptyCategories.filter(
             (category) => category !== deleted.category
-        );
-        const newBannerData: BannerData = {
-            ...olderBanner,
-            emptyCategories: newEmptyCategories,
+            );
+            const newBannerData: BannerData = {
+                ...olderBanner,
+                emptyCategories: newEmptyCategories,
+            };
+            const newBanners = {
+                ...contentLeft.bannerData,
+                [deleted.isAbout]: newBannerData,
+            };
+            return { bannerData: newBanners };
         };
-        const newBanners = {
-            ...contentLeft.bannerData,
-            [deleted.isAbout]: newBannerData,
-        };
-        return { bannerData: newBanners };
-    };
-    const handleReduce = (
-        deletions: string[],
-        rerolls: string[],
-        demand: Demand,
-        removedUniverses: (FantasyKeys | 'isUserMade')[]
-    ) => {
-        const deletionTarget = getReduceTarget(props.tavern, demand);
-        const deletion = creator.multiDelete(
-            deletions,
-            deletionTarget,
-            props.tracker.keys,
-            props.tracker.pattern
-        );
-        const oldQuality = contentLeft.ideasLeft[demand.isAbout].get(
-            demand.category
-        );
-        if (!oldQuality) {
-            throw Error('CategoryQualityNotFound');
-        }
-        const qualityMightImprove = oldQuality !== CreationQuality.HIGH;
-
-        const contentNeedsUpdate =
-            qualityMightImprove &&
-            removedUniverses.includes(props.tavern.universe[demand.category]);
-        const bannerChanges = contentNeedsUpdate
-            ? getBannersByDelete(demand)
-            : {};
-        const ideaLeftChanges = contentNeedsUpdate
-            ? qualityChangesByDelete(deletion)
-            : {};
-        const remainingContent = getContentFromDeletion(props.tavern, deletion);
-        const rerollRequest = getMultiRerollRequest(remainingContent, demand, {
-            ...deletion,
-            dismiss: props.tracker.dismiss,
-        });
-        //TODO: do we use dismisses for reroll ?
-        const reroll = creator.multiReroll(
-            impliedFitting,
-            rerolls,
-            rerollRequest,
-            deletions,
-            rerolls
-        );
-        const dismissed: Dismiss = { unpleasant: rerolls, unwanted: deletions };
-        const contentChange: ContentChange = {
-            [reroll.isAbout]: reroll.rerolled,
-            newKeys: reroll.keys,
-            newPattern: reroll.pattern,
-            newDismiss: props.tracker.dismiss.updatedClone(
-                reroll.isAbout,
-                dismissed
-            ),
-        };
-        props.onDataChange(contentChange);
-        setContentLeft({
-            ...contentLeft,
-            ...bannerChanges,
-            ...ideaLeftChanges,
-        });
+        const handleReduce = (
+            deletions: string[],
+            rerolls: string[],
+            demand: Demand,
+            removedUniverses: (FantasyKeys | 'isUserMade')[]
+            ) => {
+                const deletionTarget = getReduceTarget(props.tavern, demand);
+                const deletion = creator.multiDelete(
+                    deletions,
+                    deletionTarget,
+                    props.tracker.keys,
+                    props.tracker.pattern
+                    );
+                    const oldQuality = contentLeft.ideasLeft[demand.isAbout].get(
+                        demand.category
+                        );
+                        if (!oldQuality) {
+                            throw Error('CategoryQualityNotFound');
+                        }
+                        const qualityMightImprove = oldQuality !== CreationQuality.HIGH;
+                        
+                        const contentNeedsUpdate =
+                        qualityMightImprove &&
+                        removedUniverses.includes(props.tavern.universe[demand.category]);
+                        const bannerChanges = contentNeedsUpdate
+                        ? getBannersByDelete(demand)
+                        : {};
+                        const ideaLeftChanges = contentNeedsUpdate
+                        ? qualityChangesByDelete(deletion)
+                        : {};
+                        const remainingContent = getContentFromDeletion(props.tavern, deletion);
+                        const rerollRequest = getMultiRerollRequest(remainingContent, demand, {
+                            ...deletion,
+                            dismiss: props.tracker.dismiss,
+                        });
+                        // newDismiss can be updated+cloned BEFORE we see the new additions by reroll!
+                        // This is completely different with newKeys and newPatterns, they depend on the reroll result and have to be updated step by step
+                        // Feel free to create updated newDismiss in .multiReroll (similar to newPatterns, newKeys), but remember that this is not necessary
+                        const newDismiss = props.tracker.dismiss.updatedClone(demand.isAbout,{ unpleasant: rerolls, unwanted: deletions })
+                        const reroll = creator.multiReroll(
+                            impliedFitting,
+                            rerolls,
+                            rerollRequest,
+                            newDismiss.getUnwanted(rerollRequest.isAbout),
+                            newDismiss.getUnpleasant(rerollRequest.isAbout)
+                            );
+                            const contentChange: ContentChange = {
+                                [reroll.isAbout]: reroll.rerolled,
+                                newKeys: reroll.keys,
+                                newPattern: reroll.pattern,
+                                newDismiss
+                                };
+                                props.onDataChange(contentChange);
+                                setContentLeft({
+                                    ...contentLeft,
+                                    ...bannerChanges,
+                                    ...ideaLeftChanges,
+                                });
     };
     const handleBasePrice = (newPrices: BasePrice) => {
         props.onDataChange({ prices: newPrices });
     };
-
+    
     const handleAdd = (
         add: Demand,
         mainFilter?: number,
         additionFilter?: number
-    ) => {
-        const request: CreationRequest = getCreationRequest(
-            add,
-            props.tavern,
-            props.tracker,
-            mainFilter,
-            additionFilter
-        );
+        ) => {
+            const request: CreationRequest = getCreationRequest(
+                add,
+                props.tavern,
+                props.tracker,
+                mainFilter,
+                additionFilter
+                );
         const creation = creator.addRandomCreation(impliedFitting, request);
         const qualityLeft = creator.contentQualityLeft(
             impliedFitting,
