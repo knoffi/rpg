@@ -771,6 +771,7 @@ export const specialNames: NameIdea[] = [
     new NameIdea({
         name: 'Baleful Broadswoad',
         needsOne: [a.assasine],
+        misfits: [a.desert],
         worksForAssasines: true,
     }),
     new NameIdea({
@@ -781,6 +782,17 @@ export const specialNames: NameIdea[] = [
     new NameIdea({
         name: 'Grim Wolf',
         needsOne: [a.assasine],
+        misfits: [a.desert, a.tropical],
+        worksForAssasines: true,
+    }),
+    new NameIdea({
+        name: 'Grim Panther',
+        needs: [a.assasine, a.tropical],
+        worksForAssasines: true,
+    }),
+    new NameIdea({
+        name: 'Grim Jakal',
+        needs: [a.assasine, a.desert],
         worksForAssasines: true,
     }),
     new NameIdea({
