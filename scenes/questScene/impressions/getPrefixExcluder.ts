@@ -19,11 +19,12 @@ export const getPrefixExcluder = (
     }
     if (isAbout === 'names') {
         return (newName: string) =>
-            names.some(
-                (name) =>
-                    name.slice(0, NAME_TEST_RANGE) ===
-                    newName.slice(0, NAME_TEST_RANGE)
-            );
+            names.some((name) => {
+                return (
+                    includesSlice(name, newName, NAME_TEST_RANGE) ||
+                    includesSlice(newName, name, NAME_TEST_RANGE)
+                );
+            });
     }
 
     //drinks and food should only depend on beginning. Otherwise, if we search for inclusion, then we could not have two Roast dishes with boiled potatoes as side dish. But that is not as redundant as   Bartender: "Unfriendly & stupid" and also "Lazy & stupid"...
@@ -39,4 +40,14 @@ export const getPrefixExcluder = (
 
             return nameIsDuplicate;
         });
+};
+
+const includesSlice = (
+    container: string,
+    included: string,
+    sliceSize: number
+): boolean => {
+    const containerSlize = container.slice(0, sliceSize);
+    const includedSlize = included.slice(0, sliceSize);
+    return containerSlize.includes(includedSlize);
 };
