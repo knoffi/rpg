@@ -29,26 +29,27 @@ export const breakfastPlates = [
             firstSideDishes: [
                 {
                     name: 'A big portion of Hummus, served with Pita Bread',
-                    incomeRange: [a.poor],
+                    needs: [a.poor],
                 },
                 {
                     name: 'Hummus made after a family recipe, served with Pita Bread fresh from the oven',
-                    incomeRange: [a.modest],
+                    needs: [a.modest],
                 },
                 { name: 'Delicate Hummus, ', incomeRange: [a.wealthy] },
                 {
                     name: '100 delicate hummus variants, ',
-                    incomeRange: [a.rich],
+                    needs: [a.rich],
                 },
             ],
             secondSideDishes: [
                 {
                     name: 'served on a silver plate with exquisite Pita Bread',
-                    incomeRange: [a.rich],
+                    needs: [a.rich],
                 },
                 {
                     name: 'served on a golden plate with exquisite Pita Bread',
-                    incomeRange: [a.rich],
+                    needs: [a.rich],
+                    priceFactor: 1.2,
                 },
                 {
                     name: 'garnished with Slices of Lamb, served with Pita Bread',
@@ -57,6 +58,7 @@ export const breakfastPlates = [
                 {
                     name: 'garnished with Parsley & Cilantro, served with Pita Bread',
                     incomeRange: [a.wealthy],
+                    priceFactor: 0.8,
                 },
                 {
                     name: 'garnished with Fried Liver, served with Pita Bread',
@@ -69,8 +71,9 @@ export const breakfastPlates = [
                 {
                     name: 'garnished with Fried Egplant, served with Pita Bread',
                     incomeRange: [a.wealthy],
+                    priceFactor: 0.9,
                 },
-                { name: '', incomeRange: [a.poor, a.modest] },
+                { name: '', needsOne: [a.poor, a.modest] },
             ],
         },
         BREAKFAST_PLATE_FACTOR,
