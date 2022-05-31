@@ -9,16 +9,25 @@ export const poorBases: DescriptionAsset[] = [
         landRange: [a.village, a.city, a.forest, a.haven],
     },
     {
-        name: 'Cereals (Millet)',
+        name: 'Cereals (Millet) in Hot Milk',
         incomeRange: [a.poor],
         landRange: [a.mountain, a.desert, a.underdark],
     },
-    { name: 'Cereals (Rice)', incomeRange: [a.poor], landRange: [a.tropical] },
+    {
+        name: 'Cereals (Rice) in Hot Milk',
+        incomeRange: [a.poor],
+        landRange: [a.tropical],
+    },
 ];
 
 export const workerBases: DescriptionAsset[] = [
     {
         name: 'Cereals (Brown Oat) in Hot Milk',
+        landRange: [a.village],
+        incomeRange: [a.modest],
+    },
+    {
+        name: 'Cereals (Brown Oat) in Goat Milk',
         landRange: [a.village],
         incomeRange: [a.modest],
     },
@@ -33,22 +42,28 @@ export const workerBases: DescriptionAsset[] = [
         incomeRange: [a.modest],
     },
     {
+        name: 'Cereals (Wild Oat) in Wolve Milk',
+        needsOne: [a.assasine, a.barbarian],
+        landRange: [a.forest],
+        incomeRange: [a.modest],
+    },
+    {
         name: 'Cereals (Buckwheat) in Hot Milk',
         landRange: [a.village],
         incomeRange: [a.modest],
     },
     {
-        name: 'Cereals (Millet) in Hot Milk',
+        name: 'Cereals (Millet) in Goat Milk',
         landRange: [a.desert, a.mountain],
         incomeRange: [a.modest],
     },
     {
-        name: 'Cereals (Maize) in Hot Milk',
+        name: 'Cereals (Maize) in Coconut Milk',
         landRange: [a.tropical],
         incomeRange: [a.modest],
     },
     {
-        name: 'Cereals (Rice) in Hot Milk',
+        name: 'Cereals (Rice) in Soy Milk',
         landRange: [a.tropical],
         incomeRange: [a.modest],
     },
