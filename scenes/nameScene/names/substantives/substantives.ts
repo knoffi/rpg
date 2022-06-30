@@ -1,3 +1,5 @@
+import { adventurers } from './adventurers';
+import { church } from './church';
 import { evilHumanoids } from './evilHumanoids';
 import { fruits, vegetables } from './fruitsVegetables';
 import { femaleGenitals, maleGenitals, sexyParts } from './genitals';
@@ -16,7 +18,9 @@ import {
 } from './predatorBeasts';
 import { preyNormalAnimals } from './preyNormalAnimals';
 import { preyTinyAnimals } from './preyTinyAnimals';
+import { races } from './races';
 import { tools } from './tools';
+import { warriors } from './warriors';
 
 export const substantives = {
     evilHumanoids: evilHumanoids,
@@ -37,4 +41,8 @@ export const substantives = {
     honorfulPredators: honorfulPredatorBeasts,
     tinyAnimals: preyTinyAnimals,
     normalAnimals: preyNormalAnimals,
+    adventurers: adventurers,
+    warriors: warriors,
+    church: church,
+    races: races,
 };

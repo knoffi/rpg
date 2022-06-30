@@ -29,8 +29,17 @@ export const NON_HUMAN_SUBSTANTIVES_FOR_GOLD: DescriptionAsset[] = [
     ...vegetables,
     ...evilHumanoids,
     { name: 'Temple', needsOne: [a.cleric] },
-    { name: 'Mine', needsOne: [a.dwarf, a.underdark] },
-    { name: 'Harem', needs: [a.prostitute], worksForBrothel: true },
+    {
+        name: 'Mine',
+        needsOne: [a.dwarf, a.underdark],
+        raceRange: [a.dwarf, a.gnome],
+    },
+    {
+        name: 'Harem',
+        needs: [a.prostitute],
+        needsOne: [a.desert, a.rich],
+        worksForBrothel: true,
+    },
     /*{ name: 'Temple', needsOne: [a.cleric] },
     { name: 'Mine', needsOne: [a.dwarf, a.underdark] },
     { name: 'Sun', needsOne: [a.knight, a.wealthy, a.cleric, a.elf] },
@@ -66,4 +75,8 @@ export const SUBSTANTIVES_FOR_GOLD: DescriptionAsset[] = [
     ...substantives.legsAssBreasts,
     ...substantives.femaleGenitals,
     ...substantives.maleGenitals,
+    ...substantives.church,
+    ...substantives.adventurers,
+    ...substantives.warriors,
+    ...substantives.races,
 ];

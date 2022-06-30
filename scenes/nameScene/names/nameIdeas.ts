@@ -457,6 +457,48 @@ const characteristics = [
         },
         [...substantives.allJobs]
     ),
+    new NameIdea({ name: 'Virtuous', needsOne: [a.knight, a.cleric] }, [
+        ...substantives.church,
+        ...substantives.warriors,
+    ]),
+    new NameIdea({ name: 'Praying', needsOne: [a.knight, a.cleric] }, [
+        ...substantives.church,
+        ...substantives.warriors,
+    ]),
+    new NameIdea({ name: 'Holy', needs: [a.knight, a.cleric] }, [
+        ...substantives.church,
+        ...substantives.warriors,
+    ]),
+    new NameIdea({ name: 'Lawful', needs: [a.knight] }, [
+        ...substantives.warriors,
+    ]),
+    new NameIdea({ name: 'Merciful', needs: [a.cleric] }, [
+        ...substantives.church,
+    ]),
+    new NameIdea({ name: 'Peaceful', needs: [a.cleric] }, [
+        ...substantives.church,
+    ]),
+    new NameIdea({ name: 'Rejoicing', needs: [a.cleric] }, [
+        ...substantives.church,
+    ]),
+    new NameIdea({ name: 'Virgin', needs: [a.cleric] }, [
+        ...substantives.church,
+    ]),
+    new NameIdea({ name: 'Divine', needs: [a.knight, a.cleric] }, [
+        ...substantives.warriors,
+        ...substantives.church,
+    ]),
+    new NameIdea({ name: 'Honorable', needs: [a.knight] }, [
+        ...substantives.warriors,
+    ]),
+    new NameIdea(
+        {
+            name: 'Vengeful',
+            needsOne: [a.knight, a.assasine],
+            worksForAssasines: true,
+        },
+        [...substantives.warriors]
+    ),
 ];
 
 // more ideas: Holy, Divine, Praying, Virtuous, Rightous, Honorable, Virtuous, Peaceful, Merciful, Rejoicing, Virgin, Decadent, Singing, Dancing, Joyful, Fierce, Ferocious, Vigorous, Enraged, Glowing, Shining, Glorious, Nonchalant, Dapper, Marmor?, Victorious?, Triumphant?, Sinister, Insidious?, Drunken, Gleeful, Spiteful, Malicious, Cursed,  Flaming, Fiery, Infernal, Horned, Macabre, Squinting, Whispering, Silent, Venomous, Wrathful, Patient, Lurking,  Decadent, Hungry, Starving, Sleepy, Salty, Fishy, Sailing, Dreaming, Rotten, Filthy, Savage, Gloomy, Feasting, Dining, Savoring, Chomping, Moaning, Moist, Flitrting, Lascivious, Salacious, Hammering, Forging, Weaving, Knitting,      Dried Out, Spicy, Silky, Cashmere, Velvet, Exhausted more oriental stuff... ,    Colorful, Fruity, Spicy,  more tropical stuff...
