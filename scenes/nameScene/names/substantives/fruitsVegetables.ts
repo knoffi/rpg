@@ -16,6 +16,12 @@ export const vegetables: DescriptionAsset[] = [
         powerFits: [a.village, a.modest, a.halfling],
     },
     {
+        name: 'Mushroom',
+        landRange: [a.underdark, a.forest, a.village],
+        needsOne: [a.underdark, a.druid, a.forest],
+        powerFits: [a.village, a.modest, a.halfling],
+    },
+    {
         name: 'Onion',
         landRange: [a.village, a.city],
         misfits: [a.rich, a.wealthy],

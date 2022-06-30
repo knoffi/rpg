@@ -82,7 +82,7 @@ export const tools: DescriptionAsset[] = [
         landRange: [a.city, a.village],
         needsOne: [a.dwarf, a.barbarian, a.modest],
         misfits: unproletarianGroups,
-        classRange: [a.barbarian, a.knight, a.soldier],
+        classRange: [a.barbarian, a.knight, a.soldier, a.assasine],
         worksForAssasines: true,
         powerFits: [a.modest, a.dwarf, a.barbarian, a.forest, a.village],
     },

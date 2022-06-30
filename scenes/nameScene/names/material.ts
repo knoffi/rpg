@@ -124,6 +124,7 @@ export const materials: NameIdea[] = [
             name: 'Rusty',
             misfits: moneyOrHonor,
             worksForThiefs: true,
+            worksForAssasines: true,
         },
         SUBSTANTIVES_FOR_GOLD
     ),
